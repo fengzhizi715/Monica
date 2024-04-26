@@ -142,7 +142,8 @@ fun ControlContent(
 
             dropdownFilterMenuForSelect()
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.padding(top = 10.dp),
+                verticalAlignment = Alignment.CenterVertically) {
                 Button(
                     modifier = Modifier.offset(x = 250.dp,y = 0.dp),
                     onClick = {
@@ -208,7 +209,7 @@ fun ControlContent(
                 Button(
                     onClick = {
                         state.isShowGuideLine = false
-//                        state.onClickBuildImg()
+                        state.onClickBuildImg()
                     },
                     enabled = state.rawImg != null
                 ) {

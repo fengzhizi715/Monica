@@ -1,11 +1,13 @@
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.MainScreen
+import cn.netdiscovery.monica.ui.ShowImgView
 
 const val previewWidth = 750
 
@@ -31,5 +33,20 @@ fun main() = application {
         applicationState.window = window
 
         MainScreen(applicationState)
+    }
+
+    if (applicationState.isShowPreviewWindow && applicationState.showImg != null) {
+        Window(
+            title = "预览",
+            onCloseRequest = {
+                applicationState.togglePreviewWindow(false)
+            },
+            state = rememberWindowState().apply {
+                position = WindowPosition(Alignment.Center)
+                placement = WindowPlacement.Fullscreen
+            }
+        ) {
+            ShowImgView(applicationState.showImg!!.toComposeImageBitmap())
+        }
     }
 }

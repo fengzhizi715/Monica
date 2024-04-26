@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.state
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
+import cn.netdiscovery.monica.imageprocess.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -76,6 +77,23 @@ class ApplicationState(val scope:CoroutineScope,
                 }
             }
         )
+    }
+
+    fun onClickBuildImg() {
+        scope.launch {
+            if (isFilterImg) {
+                showImg = hsl(rawImg!!, saturation, hue, luminance)
+            }
+
+//            if (isBlur) {
+//                if (isFilterImg) {
+//                    showImg = showImg!!.blur(blurRadius, topPercent, bottomPercent)
+//                }
+//                else {
+//                    showImg = rawImg!!.blur(blurRadius, topPercent, bottomPercent)
+//                }
+//            }
+        }
     }
 
     fun togglePreviewWindow(isShow: Boolean = true) {

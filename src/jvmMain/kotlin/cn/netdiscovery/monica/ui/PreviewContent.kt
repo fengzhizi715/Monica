@@ -48,8 +48,7 @@ fun PreviewContent(
     ) {
         if (state.rawImg == null) {
             chooseImg()
-        }
-        else {
+        } else {
             previewImage(state)
         }
     }
