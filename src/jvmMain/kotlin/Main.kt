@@ -5,6 +5,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.state.rememberApplicationState
+import cn.netdiscovery.monica.ui.MainScreen
 
 const val previewWidth = 600
 
@@ -27,6 +28,8 @@ fun main() = application {
         state = rememberWindowState(width = Dp(previewWidth * 2.toFloat()), height = 900.dp).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
+        applicationState.window = window
 
+        MainScreen(applicationState)
     }
 }
