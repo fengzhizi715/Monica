@@ -169,6 +169,24 @@ fun ControlContent(
                         state.outputPath = if (it) "原位置" else ""
                     }
                 )
+                Text("加载网络图片", fontSize = 20.sp)
+            }
+
+            Row {
+                Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Checkbox(
+                    checked = state.isUsingSourcePath,
+                    onCheckedChange = {
+                        state.isUsingSourcePath = it
+                        state.outputPath = if (it) "原位置" else ""
+                    }
+                )
                 Text("输出至原位置", fontSize = 20.sp)
             }
 
