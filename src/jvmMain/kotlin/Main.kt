@@ -7,7 +7,7 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.MainScreen
 
-const val previewWidth = 600
+const val previewWidth = 750
 
 fun main() = application {
 

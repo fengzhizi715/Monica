@@ -53,8 +53,8 @@ fun MainScreen(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            PreviewContent(state, Modifier.weight(1f))
-            ControlContent(state, Modifier.weight(1f))
+            PreviewContent(state, Modifier.weight(1.4f))
+            ControlContent(state, Modifier.weight(0.6f))
         }
 
 

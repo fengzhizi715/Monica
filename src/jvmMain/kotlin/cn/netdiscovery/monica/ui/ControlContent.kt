@@ -1,14 +1,10 @@
 package cn.netdiscovery.monica.ui
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
+import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.Checkbox
-import androidx.compose.material.Slider
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -129,6 +125,8 @@ fun ControlContent(
                 Text("滤镜效果：")
             }
 
+            dropdownMenuForSelect()
+
 //            Row(
 //                verticalAlignment = Alignment.CenterVertically,
 //                horizontalArrangement = Arrangement.SpaceBetween
@@ -189,6 +187,34 @@ fun ControlContent(
 //                    Text("保存")
 //                }
 //            }
+        }
+    }
+}
+
+@Preview
+@Composable
+fun dropdownMenuForSelect(){
+    var expanded by remember { mutableStateOf(false) }
+    val items= listOf("正面","背面")
+    var selectedIndex by remember{ mutableStateOf(0) }
+
+    Box(
+        Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
+    ) {
+        Button(modifier = Modifier.width(100.dp), onClick = { expanded =true}){
+            Text(text =items[selectedIndex])
+        }
+
+        DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
+            items.forEachIndexed{ index,label ->
+                DropdownMenuItem(onClick = {
+                    selectedIndex = index
+                    expanded = false
+//                    Store.engineerModeDevice.captureMode.value = if(selectedIndex==0) "front" else "back"
+                }){
+                    Text(text = label)
+                }
+            }
         }
     }
 }
