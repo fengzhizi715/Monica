@@ -8,7 +8,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.to2fStr
 
@@ -37,7 +39,7 @@ fun ControlContent(
                 Checkbox(state.isFilterImg, onCheckedChange = {
                     state.isFilterImg = it
                 })
-                Text("图像处理：")
+                Text("图像处理：", color = Color.Black, fontSize = 20.sp)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -81,7 +83,7 @@ fun ControlContent(
                             state.hue = it
                         },
                         enabled = state.isFilterImg,
-                        modifier = Modifier.weight(8f),
+                        modifier = Modifier.padding(start = 15.dp).weight(8f),
                         valueRange = -1f..1f
                     )
                     Text(
@@ -107,7 +109,7 @@ fun ControlContent(
                             state.luminance = it
                         },
                         enabled = state.isFilterImg,
-                        modifier = Modifier.weight(8f),
+                        modifier = Modifier.padding(start = 15.dp).weight(8f),
                         valueRange = -1f..1f
                     )
                     Text(
@@ -122,10 +124,21 @@ fun ControlContent(
                 Checkbox(state.isBlur, onCheckedChange = {
                     state.isBlur = it
                 })
-                Text("滤镜效果：")
+                Text("滤镜效果：", color = Color.Black, fontSize = 20.sp)
             }
 
-            dropdownMenuForSelect()
+            dropdownFilterMenuForSelect()
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Button(
+                    modifier = Modifier.offset(x = 250.dp,y = 0.dp),
+                    onClick = {
+                    },
+                    enabled = true
+                ) {
+                    Text("使用滤镜")
+                }
+            }
 
 //            Row(
 //                verticalAlignment = Alignment.CenterVertically,
@@ -193,16 +206,23 @@ fun ControlContent(
 
 @Preview
 @Composable
-fun dropdownMenuForSelect(){
+fun dropdownFilterMenuForSelect(){
     var expanded by remember { mutableStateOf(false) }
     val items= listOf("正面","背面")
-    var selectedIndex by remember{ mutableStateOf(0) }
+    var selectedIndex by remember{ mutableStateOf(-1) }
 
     Box(
         Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
-        Button(modifier = Modifier.width(100.dp), onClick = { expanded =true}){
-            Text(text =items[selectedIndex])
+        Button(modifier = Modifier.width(100.dp), onClick = {
+            expanded =true
+            // TODO filter:
+        }){
+            if (selectedIndex!=-1) {
+                Text(text =items[selectedIndex])
+            } else {
+                Text(text = "选择滤镜")
+            }
         }
 
         DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
