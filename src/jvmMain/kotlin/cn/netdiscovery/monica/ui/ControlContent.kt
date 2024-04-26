@@ -159,6 +159,20 @@ fun ControlContent(
             }
 
             Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Checkbox(
+                    checked = state.isUsingSourcePath,
+                    onCheckedChange = {
+                        state.isUsingSourcePath = it
+                        state.outputPath = if (it) "原位置" else ""
+                    }
+                )
+                Text("输出至原位置", fontSize = 20.sp)
+            }
+
+            Row(
                 modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -185,20 +199,6 @@ fun ControlContent(
                 ) {
                     Text("选择")
                 }
-            }
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Checkbox(
-                    checked = state.isUsingSourcePath,
-                    onCheckedChange = {
-                        state.isUsingSourcePath = it
-                        state.outputPath = if (it) "原位置" else ""
-                    }
-                )
-                Text("输出至原位置")
             }
 
             Row(
