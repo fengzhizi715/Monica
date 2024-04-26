@@ -49,6 +49,9 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowGuideLine by mutableStateOf(false)
 
+    var outputPath by mutableStateOf("")
+    var isUsingSourcePath by mutableStateOf(false)
+
     var dialogTitle by mutableStateOf("")
     var dialogMsg by mutableStateOf("")
     var dialogSureBtnText by mutableStateOf("")

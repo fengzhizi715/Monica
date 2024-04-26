@@ -1,18 +1,27 @@
 package cn.netdiscovery.monica.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.to2fStr
+import cn.netdiscovery.monica.utils.showFileSelector
+import java.awt.Image
+import javax.swing.JFileChooser
 
 /**
  *
@@ -120,6 +129,10 @@ fun ControlContent(
                 }
             }
 
+            Row {
+                Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
+            }
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isBlur, onCheckedChange = {
                     state.isBlur = it
@@ -140,66 +153,78 @@ fun ControlContent(
                 }
             }
 
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceBetween
-//            ) {
-//                Text("保存位置：")
-//                OutlinedTextField(
-//                    value = state.outputPath,
-//                    onValueChange = { state.outputPath = it },
-//                    enabled = !state.isUsingSourcePath,
-//                    modifier = Modifier.fillMaxWidth(0.5f)
-//                )
-//                Button(
-//                    onClick = {
-//                        showFileSelector(
-//                            isMultiSelection = false,
-//                            selectionMode = JFileChooser.DIRECTORIES_ONLY,
-//                            selectionFileFilter = null
-//                        ) {
-//                            state.outputPath = it[0].absolutePath
-//                        }
-//                    },
-//                    modifier = Modifier.padding(start = 8.dp),
+            Row {
+                Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
+            }
+
+            Row(
+                modifier = Modifier.padding(top = 10.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text("保存位置：")
+                OutlinedTextField(
+                    value = state.outputPath,
+                    onValueChange = { state.outputPath = it },
+                    enabled = !state.isUsingSourcePath,
+                    modifier = Modifier.fillMaxWidth(0.75f)
+                )
+                Button(
+                    onClick = {
+                        showFileSelector(
+                            isMultiSelection = false,
+                            selectionMode = JFileChooser.DIRECTORIES_ONLY,
+                            selectionFileFilter = null
+                        ) {
+                            state.outputPath = it[0].absolutePath
+                        }
+                    },
+                    modifier = Modifier.padding(start = 8.dp),
 //                    enabled = !state.isUsingSourcePath
-//                ) {
-//                    Text("选择")
-//                }
-//                Checkbox(
-//                    checked = state.isUsingSourcePath,
-//                    onCheckedChange = {
-//                        state.isUsingSourcePath = it
-//                        state.outputPath = if (it) "原位置" else ""
-//                    }
-//                )
-//                Text("输出至原位置", fontSize = 12.sp)
-//            }
-//            Row(
-//                verticalAlignment = Alignment.CenterVertically,
-//                horizontalArrangement = Arrangement.SpaceEvenly,
-//                modifier = Modifier.fillMaxWidth()
-//            ) {
-//                Button(
-//                    onClick = {
-//                        state.isShowGuideLine = false
+                ) {
+                    Text("选择")
+                }
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Checkbox(
+                    checked = state.isUsingSourcePath,
+                    onCheckedChange = {
+                        state.isUsingSourcePath = it
+                        state.outputPath = if (it) "原位置" else ""
+                    }
+                )
+                Text("输出至原位置")
+            }
+
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Button(
+                    onClick = {
+                        state.isShowGuideLine = false
 //                        state.onClickBuildImg()
-//                    },
-//                    enabled = state.rawImg != null
-//                ) {
-//                    Text("预览")
-//                }
-//
-//                Button(
-//                    onClick = {
-//                        state.isShowGuideLine = false
+                    },
+                    enabled = state.rawImg != null
+                ) {
+                    Text("预览")
+                }
+
+                Button(
+                    onClick = {
+                        state.isShowGuideLine = false
 //                        state.onClickSave()
-//                    },
-//                    enabled = state.rawImg != null
-//                ) {
-//                    Text("保存")
-//                }
-//            }
+                    },
+                    enabled = state.rawImg != null
+                ) {
+                    Text("保存")
+                }
+            }
         }
     }
 }
