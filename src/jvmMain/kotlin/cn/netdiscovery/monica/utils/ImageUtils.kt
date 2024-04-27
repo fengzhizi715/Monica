@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess
+package cn.netdiscovery.monica.utils
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -14,6 +14,13 @@ import java.awt.image.BufferedImage
  * @version: V1.0 <描述当前版本功能>
  */
 
+fun clamp(c: Int): Int {
+    return if (c > 255) 255 else if (c < 0) 0 else c
+}
+
+fun clamp(x: Int, a: Int, b: Int): Int {
+    return if (x < a) a else if (x > b) b else x
+}
 
 /**
  * 调整色相、饱和度、亮度

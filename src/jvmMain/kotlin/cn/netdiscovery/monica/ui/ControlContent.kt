@@ -209,7 +209,7 @@ fun ControlContent(
                         }
                     },
                     modifier = Modifier.padding(start = 8.dp),
-//                    enabled = !state.isUsingSourcePath
+                    enabled = !state.isUsingSourcePath
                 ) {
                     Text("选择")
                 }
@@ -248,14 +248,15 @@ fun ControlContent(
 @Composable
 fun dropdownFilterMenuForSelect(){
     var expanded by remember { mutableStateOf(false) }
-    val items= listOf("选择滤镜","正面","背面")
+    val items = mutableListOf("选择滤镜")
+    items.addAll(getFilterNames())
     var selectedIndex by remember{ mutableStateOf(0) }
 
     Row(
         modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
         Column {
-            Button(modifier = Modifier.width(100.dp), onClick = {
+            Button(modifier = Modifier.width(160.dp), onClick = {
                 expanded =true
                 // TODO filter:
             }){
@@ -280,8 +281,7 @@ fun dropdownFilterMenuForSelect(){
         ) {
             if (selectedIndex > 0) {
                 Text(text = "滤镜相关参数")
-
-                generateFilterParams(selectedIndex)
+                generateFilterParams(selectedIndex - 1)
             }
         }
     }
@@ -289,33 +289,23 @@ fun dropdownFilterMenuForSelect(){
 
 @Composable
 fun generateFilterParams(selectedIndex:Int) {
-    Row(
-        modifier = Modifier.padding(top = 20.dp)
-    ) {
-        Text(text = "参数1")
 
-        BasicTextField(
-            value = "",
-            onValueChange = {  },
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle.Default
-        )
-    }
+    val param:FilterParam = getFilterParam(selectedIndex)
 
-    Row(
-        modifier = Modifier.padding(top = 20.dp)
-    ) {
-        Text(text = "参数2")
+    param.params.forEach {param ->
+        Row(
+            modifier = Modifier.padding(top = 20.dp)
+        ) {
+            Text(text = param)
 
-        BasicTextField(
-            value = "",
-            onValueChange = {  },
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle.Default
-        )
+            BasicTextField(
+                value = "",
+                onValueChange = {  },
+                cursorBrush = SolidColor(Color.Gray),
+                singleLine = true,
+                modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                textStyle = TextStyle.Default
+            )
+        }
     }
 }

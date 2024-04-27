@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.state
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
-import cn.netdiscovery.monica.imageprocess.hsl
+import cn.netdiscovery.monica.utils.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
