@@ -1,26 +1,22 @@
 package cn.netdiscovery.monica.ui
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.PathEffect
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
-import java.awt.Image
 import javax.swing.JFileChooser
 
 /**
@@ -142,15 +138,15 @@ fun ControlContent(
 
             dropdownFilterMenuForSelect()
 
-            Row(modifier = Modifier.padding(top = 10.dp),
+            Row(modifier = Modifier.padding(top = 20.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 Button(
-                    modifier = Modifier.offset(x = 250.dp,y = 0.dp),
+                    modifier = Modifier.offset(x = 280.dp,y = 0.dp),
                     onClick = {
                     },
                     enabled = true
                 ) {
-                    Text("使用滤镜")
+                    Text("应用滤镜")
                 }
             }
 
@@ -252,33 +248,74 @@ fun ControlContent(
 @Composable
 fun dropdownFilterMenuForSelect(){
     var expanded by remember { mutableStateOf(false) }
-    val items= listOf("正面","背面")
-    var selectedIndex by remember{ mutableStateOf(-1) }
+    val items= listOf("选择滤镜","正面","背面")
+    var selectedIndex by remember{ mutableStateOf(0) }
 
-    Box(
-        Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
+    Row(
+        modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
-        Button(modifier = Modifier.width(100.dp), onClick = {
-            expanded =true
-            // TODO filter:
-        }){
-            if (selectedIndex!=-1) {
+        Column {
+            Button(modifier = Modifier.width(100.dp), onClick = {
+                expanded =true
+                // TODO filter:
+            }){
                 Text(text =items[selectedIndex])
-            } else {
-                Text(text = "选择滤镜")
             }
-        }
 
-        DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
-            items.forEachIndexed{ index,label ->
-                DropdownMenuItem(onClick = {
-                    selectedIndex = index
-                    expanded = false
+            DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
+                items.forEachIndexed{ index,label ->
+                    DropdownMenuItem(onClick = {
+                        selectedIndex = index
+                        expanded = false
 //                    Store.engineerModeDevice.captureMode.value = if(selectedIndex==0) "front" else "back"
-                }){
-                    Text(text = label)
+                    }){
+                        Text(text = label)
+                    }
                 }
             }
         }
+
+        Column(
+            modifier = Modifier.padding(top = 10.dp, start = 10.dp)
+        ) {
+            if (selectedIndex > 0) {
+                Text(text = "滤镜相关参数")
+
+                generateFilterParams(selectedIndex)
+            }
+        }
+    }
+}
+
+@Composable
+fun generateFilterParams(selectedIndex:Int) {
+    Row(
+        modifier = Modifier.padding(top = 20.dp)
+    ) {
+        Text(text = "参数1")
+
+        BasicTextField(
+            value = "",
+            onValueChange = {  },
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle.Default
+        )
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 20.dp)
+    ) {
+        Text(text = "参数2")
+
+        BasicTextField(
+            value = "",
+            onValueChange = {  },
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle.Default
+        )
     }
 }
