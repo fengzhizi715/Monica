@@ -15,6 +15,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
 import javax.swing.JFileChooser
@@ -143,6 +144,8 @@ fun ControlContent(
                 Button(
                     modifier = Modifier.offset(x = 280.dp,y = 0.dp),
                     onClick = {
+                        click {
+                        }
                     },
                     enabled = true
                 ) {
@@ -287,24 +290,45 @@ fun dropdownFilterMenuForSelect(){
     }
 }
 
+val map = mutableMapOf<String,Any>()
+
 @Composable
 fun generateFilterParams(selectedIndex:Int) {
 
     val param:FilterParam = getFilterParam(selectedIndex)
 
+    param.params
+
     param.params.forEach {param ->
+
+        val key = param.key
+        val type = param.value
+
+        map[key] = 0
+
+        val text = remember { map[key] }
+
         Row(
             modifier = Modifier.padding(top = 20.dp)
         ) {
-            Text(text = param)
+            Text(text = key)
 
             BasicTextField(
-                value = "",
-                onValueChange = {  },
+                value = text.toString(),
+                onValueChange = {
+                    try {
+                        when(type) {
+                            "Int" -> it.toInt()
+                            "Float" -> it.toFloat()
+                        }
+                    } catch (e:Exception) {
+
+                    }
+                },
                 cursorBrush = SolidColor(Color.Gray),
                 singleLine = true,
                 modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle.Default
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
             )
         }
     }

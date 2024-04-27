@@ -8,12 +8,19 @@ package cn.netdiscovery.monica.ui
  * @date: 2024/4/27 13:59
  * @version: V1.0 <描述当前版本功能>
  */
-data class FilterParam(val name:String,val params: List<String>)
+data class FilterParam(val name:String,val params: Map<String,String>)
 
 private val filterList by lazy {
     mutableListOf<FilterParam>().apply {
-        this.add(FilterParam("BoxBlurFilter", mutableListOf("hRadius","vRadius","iterations")))
-        this.add(FilterParam("ConBriFilter", mutableListOf("contrast","brightness")))
+        this.add(FilterParam("BoxBlurFilter", mutableMapOf<String, String>().apply {
+            this["hRadius"] = "Int"
+            this["vRadius"] = "Int"
+            this["iterations"] = "Int"
+        }))
+        this.add(FilterParam("ConBriFilter", mutableMapOf<String, String>().apply {
+            this["contrast"] = "Float"
+            this["brightness"] = "Float"
+        }))
     }
 }
 
