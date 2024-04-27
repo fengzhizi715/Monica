@@ -297,31 +297,25 @@ fun generateFilterParams(selectedIndex:Int) {
 
     val param:FilterParam = getFilterParam(selectedIndex)
 
-    param.params
+    param.params.forEach {
 
-    param.params.forEach {param ->
-
-        val key = param.key
-        val type = param.value
-
-        map[key] = 0
-
-        val text = remember { map[key] }
+        val paramName = it.first
+        val type = it.second
 
         Row(
             modifier = Modifier.padding(top = 20.dp)
         ) {
-            Text(text = key)
+            Text(text = paramName)
 
             BasicTextField(
-                value = text.toString(),
-                onValueChange = {
+                value = it.third.toString(),
+                onValueChange = { str ->
                     try {
                         when(type) {
-                            "Int" -> it.toInt()
-                            "Float" -> it.toFloat()
+                            "Int" -> str.toInt()
+                            "Float" -> str.toFloat()
                         }
-                    } catch (e:Exception) {
+                    } catch (_:Exception) {
 
                     }
                 },
