@@ -5,10 +5,10 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import cn.netdiscovery.monica.rxcache.getFilterNames
+import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
-import cn.netdiscovery.monica.ui.MainScreen
-import cn.netdiscovery.monica.ui.ShowImgView
-import cn.netdiscovery.monica.ui.getFilterNames
+import cn.netdiscovery.monica.ui.*
 
 const val previewWidth = 750
 
@@ -62,4 +62,6 @@ fun main() = application {
 private fun initData() {
 
     filterNames.addAll(getFilterNames())
+
+    saveFilterParams()
 }

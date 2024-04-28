@@ -14,6 +14,8 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.rxcache.FilterParam
+import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
@@ -284,7 +286,7 @@ fun dropdownFilterMenuForSelect(){
         ) {
             if (selectedIndex > 0) {
                 Text(text = "滤镜相关参数")
-                generateFilterParams(selectedIndex - 1)
+                generateFilterParams(selectedIndex )
             }
         }
     }
@@ -295,9 +297,11 @@ val map = mutableMapOf<String,Any>()
 @Composable
 fun generateFilterParams(selectedIndex:Int) {
 
-    val param:FilterParam = getFilterParam(selectedIndex)
+    val filterName = filterNames[selectedIndex]
 
-    param.params.forEach {
+    val param: FilterParam? = getFilterParam(filterName)
+
+    param?.params?.forEach {
 
         val paramName = it.first
         val type = it.second

@@ -1,4 +1,6 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.rxcache
+
+import com.safframework.rxcache.ext.get
 
 /**
  *
@@ -24,19 +26,16 @@ private val filters: MutableList<FilterParam> by lazy {
     }
 }
 
-fun filterParamMap(): MutableMap<String, Any> {
+fun saveFilterParams(){
 
-    val result = mutableMapOf<String,Any>()
-
-    filters.forEach {filterParam->
-        filterParam.params.forEach {
-            result["${filterParam.name}_${it.first}"] = it.third
-        }
+    filters.forEach {
+        rxCache.saveOrUpdate(it.name,it)
     }
-
-    return result
 }
 
 fun getFilterNames(): List<String> = filters.map { it.name }
 
-fun getFilterParam(index:Int):FilterParam = filters[index]
+fun getFilterParam(filterName:String): FilterParam? {
+
+    return rxCache.get<FilterParam>(filterName)?.data
+}
