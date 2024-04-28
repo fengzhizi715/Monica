@@ -37,8 +37,6 @@ fun filterParamMap(): MutableMap<String, Any> {
     return result
 }
 
-fun getFilterNames(): List<String> = filters.map {
-    it.name
-}
+fun getFilterNames(): List<String> = filters.map { it.name }
 
 fun getFilterParam(index:Int):FilterParam = filters[index]

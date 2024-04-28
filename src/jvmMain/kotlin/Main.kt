@@ -8,10 +8,15 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.MainScreen
 import cn.netdiscovery.monica.ui.ShowImgView
+import cn.netdiscovery.monica.ui.getFilterNames
 
 const val previewWidth = 750
 
+val filterNames = mutableListOf("选择滤镜")
+
 fun main() = application {
+
+    initData()
 
     val trayState = rememberTrayState()
 
@@ -49,4 +54,12 @@ fun main() = application {
             ShowImgView(applicationState.showImg!!.toComposeImageBitmap())
         }
     }
+}
+
+/**
+ * 初始化数据
+ */
+private fun initData() {
+
+    filterNames.addAll(getFilterNames())
 }

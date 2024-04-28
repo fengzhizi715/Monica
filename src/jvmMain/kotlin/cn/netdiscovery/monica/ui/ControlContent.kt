@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
+import filterNames
 import javax.swing.JFileChooser
 
 /**
@@ -251,8 +252,6 @@ fun ControlContent(
 @Composable
 fun dropdownFilterMenuForSelect(){
     var expanded by remember { mutableStateOf(false) }
-    val items = mutableListOf("选择滤镜")
-    items.addAll(getFilterNames())
     var selectedIndex by remember{ mutableStateOf(0) }
 
     Row(
@@ -263,11 +262,11 @@ fun dropdownFilterMenuForSelect(){
                 expanded =true
                 // TODO filter:
             }){
-                Text(text =items[selectedIndex])
+                Text(text = filterNames[selectedIndex])
             }
 
             DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
-                items.forEachIndexed{ index,label ->
+                filterNames.forEachIndexed{ index,label ->
                     DropdownMenuItem(onClick = {
                         selectedIndex = index
                         expanded = false
