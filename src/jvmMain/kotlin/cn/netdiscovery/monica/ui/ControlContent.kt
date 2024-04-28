@@ -146,6 +146,7 @@ fun ControlContent(
                     modifier = Modifier.offset(x = 280.dp,y = 0.dp),
                     onClick = {
                         click {
+
                         }
                     },
                     enabled = true

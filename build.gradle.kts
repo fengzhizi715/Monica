@@ -12,6 +12,7 @@ repositories {
     google()
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
+    maven( "https://jitpack.io" )
 }
 
 kotlin {
@@ -23,6 +24,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+                implementation("com.github.fengzhizi715.RxCache:core:${rootProject.extra["rxcache"]}")
+                implementation("com.github.fengzhizi715.RxCache:okio:${rootProject.extra["rxcache"]}")
+                implementation("com.github.fengzhizi715.RxCache:extension:${rootProject.extra["rxcache"]}")
             }
         }
         val jvmTest by getting
