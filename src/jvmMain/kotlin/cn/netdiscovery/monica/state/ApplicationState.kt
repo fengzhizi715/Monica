@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.state
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
+import cn.netdiscovery.monica.imageprocess.filter.BilateralFilter
 import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.filter.ConBriFilter
 import cn.netdiscovery.monica.imageprocess.filter.SpotlightFilter
@@ -94,6 +95,8 @@ class ApplicationState(val scope:CoroutineScope,
             if(isFilter) {
                 val filterName = filterNames[selectedIndex.value]
 
+                println("filterName = $filterName")
+
                 val params = getFilterParam(filterName)
 
                 val array = mutableListOf<Any>()
@@ -102,6 +105,9 @@ class ApplicationState(val scope:CoroutineScope,
                 }
 
                 when(filterName) {
+                    "BilateralFilter" -> {
+                        showImg = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImg!!)
+                    }
                     "BoxBlurFilter" -> {
                         showImg = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImg!!)
                     }
@@ -112,7 +118,6 @@ class ApplicationState(val scope:CoroutineScope,
                         showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
                     }
                 }
-                
             }
         }
     }

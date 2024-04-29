@@ -295,6 +295,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
                         val value = when(t.second) {
                             "Int" -> u.toInt()
                             "Float" -> u.toFloat()
+                            "Double" -> u.toDouble()
                             else -> u
                         }
 
