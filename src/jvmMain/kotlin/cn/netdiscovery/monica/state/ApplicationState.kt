@@ -3,8 +3,14 @@ package cn.netdiscovery.monica.state
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
+import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.ConBriFilter
+import cn.netdiscovery.monica.imageprocess.filter.SpotlightFilter
+import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
+import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -83,6 +89,30 @@ class ApplicationState(val scope:CoroutineScope,
         scope.launch {
             if (isHLS) {
                 showImg = hsl(rawImg!!, saturation, hue, luminance)
+            }
+
+            if(isFilter) {
+                val filterName = filterNames[selectedIndex.value]
+
+                val params = getFilterParam(filterName)
+
+                val array = mutableListOf<Any>()
+                params?.forEach {
+                    array.add(it.third)
+                }
+
+                when(filterName) {
+                    "BoxBlurFilter" -> {
+                        showImg = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImg!!)
+                    }
+                    "ConBriFilter" -> {
+                        showImg = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImg!!)
+                    }
+                    "SpotlightFilter" -> {
+                        showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
+                    }
+                }
+                
             }
         }
     }

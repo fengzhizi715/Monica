@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage
  * @date: 2024/4/27 13:36
  * @version: V1.0 <描述当前版本功能>
  */
-class BoxBlurFilter(private val hRadius:Int=5, private val vRadius:Int=5, private val iterations:Int=1): BaseFilter() {
+class BoxBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5, private val iterations:Int=1): BaseFilter() {
 
     override fun doFilter(image: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)

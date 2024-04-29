@@ -16,9 +16,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
-import cn.netdiscovery.monica.imageprocess.filter.ConBriFilter
-import cn.netdiscovery.monica.imageprocess.filter.SpotlightFilter
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
@@ -26,8 +23,6 @@ import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
 import filterNames
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import javax.swing.JFileChooser
 
 /**
@@ -40,6 +35,8 @@ import javax.swing.JFileChooser
  */
 
 val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
+
+var selectedIndex = mutableStateOf(0)
 
 @Composable
 fun ControlContent(
@@ -250,7 +247,7 @@ fun ControlContent(
 @Composable
 fun dropdownFilterMenuForSelect(state:ApplicationState){
     var expanded by remember { mutableStateOf(false) }
-    var selectedIndex by remember{ mutableStateOf(0) }
+
 
     Row(
         modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
@@ -259,13 +256,13 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
             Button(modifier = Modifier.width(160.dp), onClick = {
                 expanded =true
             }){
-                Text(text = filterNames[selectedIndex])
+                Text(text = filterNames[selectedIndex.value])
             }
 
             DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
                 filterNames.forEachIndexed{ index,label ->
                     DropdownMenuItem(onClick = {
-                        selectedIndex = index
+                        selectedIndex.value = index
                         expanded = false
                     }){
                         Text(text = label)
@@ -277,9 +274,9 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
         Column(
             modifier = Modifier.padding(top = 10.dp, start = 10.dp)
         ) {
-            if (selectedIndex > 0) {
+            if (selectedIndex.value > 0) {
                 Text(text = "滤镜相关参数")
-                generateFilterParams(selectedIndex)
+                generateFilterParams(selectedIndex.value)
             }
         }
     }
@@ -292,7 +289,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
                 click {
                     if (state.rawImgFile == null) return@click
 
-                    val filterName = filterNames[selectedIndex]
+                    val filterName = filterNames[selectedIndex.value]
                     val list = mutableListOf<Triple<String,String,Any>>()
                     tempMap.forEach { (t, u) ->
                         val value = when(t.second) {
@@ -304,7 +301,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
                         list.add(Triple(t.first, t.second, value))
                     }
 
-                    rxCache.saveOrUpdate(filterName,list)
+                    rxCache.saveOrUpdate(filterName, list)
                 }
             },
             enabled = true
@@ -320,7 +317,7 @@ fun generateFilterParams(selectedIndex:Int) {
     tempMap.clear()
 
     val filterName = filterNames[selectedIndex]
-    var params: List<Triple<String,String,Any>>? = getFilterParam(filterName)
+    val params: List<Triple<String,String,Any>>? = getFilterParam(filterName)
 
     params?.forEach {
 
