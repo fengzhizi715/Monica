@@ -6,6 +6,7 @@ import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
+import cn.netdiscovery.monica.utils.extension.writeImageFile
 import cn.netdiscovery.monica.utils.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
 import filterNames
@@ -113,6 +114,10 @@ class ApplicationState(val scope:CoroutineScope,
                     }
                     "GammaFilter" -> {
                         showImg = GammaFilter(array[0] as Double).transform(showImg!!)
+                    }
+                    "GaussianFilter" -> {
+                        showImg = GaussianFilter(array[0] as Float).transform(showImg!!)
+//                        writeImageFile(showImg!!)
                     }
                     "SpotlightFilter" -> {
                         showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
