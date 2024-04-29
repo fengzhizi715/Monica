@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.FilterParam
 import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
@@ -33,7 +34,8 @@ import javax.swing.JFileChooser
  * @date: 2024/4/26 11:10
  * @version: V1.0 <描述当前版本功能>
  */
-val tempMap = mutableMapOf<String,String>()
+
+val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
 
 @Composable
 fun ControlContent(
@@ -145,21 +147,6 @@ fun ControlContent(
             }
 
             dropdownFilterMenuForSelect()
-
-            Row(modifier = Modifier.padding(top = 20.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                Button(
-                    modifier = Modifier.offset(x = 280.dp,y = 0.dp),
-                    onClick = {
-                        click {
-                            println( tempMap )
-                        }
-                    },
-                    enabled = true
-                ) {
-                    Text("应用滤镜")
-                }
-            }
 
             Row {
                 Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
@@ -293,6 +280,33 @@ fun dropdownFilterMenuForSelect(){
             }
         }
     }
+
+    Row(modifier = Modifier.padding(top = 20.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Button(
+            modifier = Modifier.offset(x = 280.dp,y = 0.dp),
+            onClick = {
+                click {
+
+                    val filterName = filterNames[selectedIndex]
+                    val list = mutableListOf<Triple<String,String,Any>>()
+                    tempMap.forEach { (t, u) ->
+                        val value = when(t.second) {
+                            "Int" -> u.toInt()
+                            "Float" -> u.toFloat()
+                            else -> u
+                        }
+
+                        list.add(Triple(t.first, t.second, value))
+                    }
+                    rxCache.saveOrUpdate(filterName,list)
+                }
+            },
+            enabled = true
+        ) {
+            Text("应用滤镜")
+        }
+    }
 }
 
 @Composable
@@ -301,9 +315,9 @@ fun generateFilterParams(selectedIndex:Int) {
     tempMap.clear()
 
     val filterName = filterNames[selectedIndex]
-    var param: FilterParam? = getFilterParam(filterName)
+    var params: List<Triple<String,String,Any>>? = getFilterParam(filterName)
 
-    param?.params?.forEach {
+    params?.forEach {
 
         val paramName = it.first
         val type = it.second
@@ -311,7 +325,7 @@ fun generateFilterParams(selectedIndex:Int) {
             mutableStateOf(it.third.toString())
         }
 
-        tempMap[paramName] = text
+        tempMap[Pair(paramName, type)] = text
 
         Row(
             modifier = Modifier.padding(top = 20.dp)
@@ -322,7 +336,7 @@ fun generateFilterParams(selectedIndex:Int) {
                 value = text,
                 onValueChange = {
                     text = it
-                    tempMap[paramName] = it.toString()
+                    tempMap[Pair(paramName, type)] = it.toString()
                 },
                 keyboardOptions = KeyboardOptions.Default,
                 keyboardActions = KeyboardActions.Default,

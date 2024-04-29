@@ -28,4 +28,3 @@ val rxCache: RxCache by lazy {
 
     RxCache.getRxCache()
 }
-

@@ -29,13 +29,13 @@ private val filters: MutableList<FilterParam> by lazy {
 fun saveFilterParams(){
 
     filters.forEach {
-        rxCache.saveOrUpdate(it.name,it)
+        rxCache.saveOrUpdate(it.name, it.params)
     }
 }
 
 fun getFilterNames(): List<String> = filters.map { it.name }
 
-fun getFilterParam(filterName:String): FilterParam? {
+fun getFilterParam(filterName:String): List<Triple<String,String,Any>>? {
 
-    return rxCache.get<FilterParam>(filterName)?.data
+    return rxCache.get<List<Triple<String,String,Any>>>(filterName)?.data
 }
