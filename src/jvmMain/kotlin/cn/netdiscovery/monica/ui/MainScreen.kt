@@ -1,24 +1,16 @@
 package cn.netdiscovery.monica.ui
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Divider
 import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
+import cn.netdiscovery.monica.utils.loadingDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import loadingDisplay
 import java.io.File
 import javax.imageio.ImageIO
 
@@ -36,7 +28,7 @@ fun MainScreen(
 ) {
     state.window.contentPane.dropTarget = dropFileTarget {
         state.scope.launch(Dispatchers.IO) {
-            loadingDisplay{
+            loadingDisplay {
                 val filePath = it.getOrNull(0)
                 if (filePath != null) {
                     val file = File(filePath)
@@ -60,16 +52,4 @@ fun MainScreen(
             ControlContent(state, Modifier.weight(0.6f))
         }
     }
-}
-
-fun loadingDisplay(block:()->Unit) {
-    loadingDisplay = true
-    block.invoke()
-    loadingDisplay = false
-}
-
-suspend fun loadingDisplayWithSuspend(block:suspend ()->Unit) {
-    loadingDisplay = true
-    block.invoke()
-    loadingDisplay = false
 }

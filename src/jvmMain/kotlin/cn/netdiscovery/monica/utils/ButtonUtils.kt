@@ -1,5 +1,7 @@
 package cn.netdiscovery.monica.utils
 
+import loadingDisplay
+
 /**
  *
  * @FileName:
@@ -25,4 +27,17 @@ fun click(block:()->Unit) {
     }
 
     currentTime = systemTime
+}
+
+
+fun loadingDisplay(block:()->Unit) {
+    loadingDisplay = true
+    block.invoke()
+    loadingDisplay = false
+}
+
+suspend fun loadingDisplayWithSuspend(block:suspend ()->Unit) {
+    loadingDisplay = true
+    block.invoke()
+    loadingDisplay = false
 }

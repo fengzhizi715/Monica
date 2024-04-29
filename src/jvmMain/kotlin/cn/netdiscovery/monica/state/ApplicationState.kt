@@ -5,10 +5,10 @@ import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
-import cn.netdiscovery.monica.ui.loadingDisplay
-import cn.netdiscovery.monica.ui.loadingDisplayWithSuspend
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.hsl
+import cn.netdiscovery.monica.utils.loadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
 import cn.netdiscovery.monica.utils.showFileSelector
 import filterNames
 import kotlinx.coroutines.CoroutineScope
