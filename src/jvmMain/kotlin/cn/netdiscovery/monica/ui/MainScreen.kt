@@ -36,17 +36,17 @@ fun MainScreen(
 ) {
     state.window.contentPane.dropTarget = dropFileTarget {
         state.scope.launch(Dispatchers.IO) {
-            loadingDisplay = true
-            val filePath = it.getOrNull(0)
-            if (filePath != null) {
-                val file = File(filePath)
-                if (file.isFile && file.extension in legalSuffixList) {
-                    state.rawImg = ImageIO.read(file)
-                    state.showImg = state.rawImg
-                    state.rawImgFile = file
+            loadingDisplay{
+                val filePath = it.getOrNull(0)
+                if (filePath != null) {
+                    val file = File(filePath)
+                    if (file.isFile && file.extension in legalSuffixList) {
+                        state.rawImg = ImageIO.read(file)
+                        state.showImg = state.rawImg
+                        state.rawImgFile = file
+                    }
                 }
             }
-            loadingDisplay = false
         }
     }
 
@@ -60,4 +60,16 @@ fun MainScreen(
             ControlContent(state, Modifier.weight(0.6f))
         }
     }
+}
+
+fun loadingDisplay(block:()->Unit) {
+    loadingDisplay = true
+    block.invoke()
+    loadingDisplay = false
+}
+
+suspend fun loadingDisplayWithSuspend(block:suspend ()->Unit) {
+    loadingDisplay = true
+    block.invoke()
+    loadingDisplay = false
 }

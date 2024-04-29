@@ -5,6 +5,8 @@ import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.ui.loadingDisplay
+import cn.netdiscovery.monica.ui.loadingDisplayWithSuspend
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
@@ -12,7 +14,6 @@ import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import loadingDisplay
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -66,14 +67,14 @@ class ApplicationState(val scope:CoroutineScope,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 scope.launch(Dispatchers.IO) {
-                    loadingDisplay = true
-                    val file = it.getOrNull(0)
-                    if (file != null) {
-                        rawImg = ImageIO.read(file)
-                        showImg = rawImg
-                        rawImgFile = file
+                    loadingDisplay {
+                        val file = it.getOrNull(0)
+                        if (file != null) {
+                            rawImg = ImageIO.read(file)
+                            showImg = rawImg
+                            rawImgFile = file
+                        }
                     }
-                    loadingDisplay = false
                 }
             }
         )
@@ -81,45 +82,45 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun onClickBuildImg() {
         scope.launch {
-            loadingDisplay = true
-            if (isHLS) {
-                showImg = hsl(rawImg!!, saturation, hue, luminance)
-            }
-
-            if(isFilter) {
-                val filterName = filterNames[selectedIndex.value]
-
-                println("filterName = $filterName")
-
-                val params = getFilterParam(filterName)
-
-                val array = mutableListOf<Any>()
-                params?.forEach {
-                    array.add(it.third)
+            loadingDisplayWithSuspend {
+                if (isHLS) {
+                    showImg = hsl(rawImg!!, saturation, hue, luminance)
                 }
 
-                when(filterName) {
-                    "BilateralFilter" -> {
-                        showImg = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImg!!)
+                if(isFilter) {
+                    val filterName = filterNames[selectedIndex.value]
+
+                    println("filterName = $filterName")
+
+                    val params = getFilterParam(filterName)
+
+                    val array = mutableListOf<Any>()
+                    params?.forEach {
+                        array.add(it.third)
                     }
-                    "BoxBlurFilter" -> {
-                        showImg = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImg!!)
-                    }
-                    "ConBriFilter" -> {
-                        showImg = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImg!!)
-                    }
-                    "GammaFilter" -> {
-                        showImg = GammaFilter(array[0] as Double).transform(showImg!!)
-                    }
-                    "GaussianFilter" -> {
-                        showImg = GaussianFilter(array[0] as Float).transform(showImg!!)
-                    }
-                    "SpotlightFilter" -> {
-                        showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
+
+                    when(filterName) {
+                        "BilateralFilter" -> {
+                            showImg = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImg!!)
+                        }
+                        "BoxBlurFilter" -> {
+                            showImg = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImg!!)
+                        }
+                        "ConBriFilter" -> {
+                            showImg = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImg!!)
+                        }
+                        "GammaFilter" -> {
+                            showImg = GammaFilter(array[0] as Double).transform(showImg!!)
+                        }
+                        "GaussianFilter" -> {
+                            showImg = GaussianFilter(array[0] as Float).transform(showImg!!)
+                        }
+                        "SpotlightFilter" -> {
+                            showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
+                        }
                     }
                 }
             }
-            loadingDisplay = false
         }
     }
 
