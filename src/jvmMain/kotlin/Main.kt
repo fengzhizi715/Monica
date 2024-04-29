@@ -62,6 +62,5 @@ fun main() = application {
 private fun initData() {
 
     filterNames.addAll(getFilterNames())
-
     saveFilterParams()
 }

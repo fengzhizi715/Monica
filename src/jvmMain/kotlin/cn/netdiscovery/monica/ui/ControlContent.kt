@@ -5,6 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,6 +33,8 @@ import javax.swing.JFileChooser
  * @date: 2024/4/26 11:10
  * @version: V1.0 <描述当前版本功能>
  */
+val tempMap = mutableMapOf<String,String>()
+
 @Composable
 fun ControlContent(
     state: ApplicationState,
@@ -148,7 +152,7 @@ fun ControlContent(
                     modifier = Modifier.offset(x = 280.dp,y = 0.dp),
                     onClick = {
                         click {
-
+                            println( tempMap )
                         }
                     },
                     enabled = true
@@ -263,7 +267,6 @@ fun dropdownFilterMenuForSelect(){
         Column {
             Button(modifier = Modifier.width(160.dp), onClick = {
                 expanded =true
-                // TODO filter:
             }){
                 Text(text = filterNames[selectedIndex])
             }
@@ -286,25 +289,29 @@ fun dropdownFilterMenuForSelect(){
         ) {
             if (selectedIndex > 0) {
                 Text(text = "滤镜相关参数")
-                generateFilterParams(selectedIndex )
+                generateFilterParams(selectedIndex)
             }
         }
     }
 }
 
-val map = mutableMapOf<String,Any>()
-
 @Composable
 fun generateFilterParams(selectedIndex:Int) {
 
-    val filterName = filterNames[selectedIndex]
+    tempMap.clear()
 
-    val param: FilterParam? = getFilterParam(filterName)
+    val filterName = filterNames[selectedIndex]
+    var param: FilterParam? = getFilterParam(filterName)
 
     param?.params?.forEach {
 
         val paramName = it.first
         val type = it.second
+        var text by remember(filterName,paramName) {
+            mutableStateOf(it.third.toString())
+        }
+
+        tempMap[paramName] = text
 
         Row(
             modifier = Modifier.padding(top = 20.dp)
@@ -312,17 +319,13 @@ fun generateFilterParams(selectedIndex:Int) {
             Text(text = paramName)
 
             BasicTextField(
-                value = it.third.toString(),
-                onValueChange = { str ->
-                    try {
-                        when(type) {
-                            "Int" -> str.toInt()
-                            "Float" -> str.toFloat()
-                        }
-                    } catch (_:Exception) {
-
-                    }
+                value = text,
+                onValueChange = {
+                    text = it
+                    tempMap[paramName] = it.toString()
                 },
+                keyboardOptions = KeyboardOptions.Default,
+                keyboardActions = KeyboardActions.Default,
                 cursorBrush = SolidColor(Color.Gray),
                 singleLine = true,
                 modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),

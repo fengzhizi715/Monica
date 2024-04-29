@@ -10,7 +10,7 @@ import com.safframework.rxcache.ext.get
  * @date: 2024/4/27 13:59
  * @version: V1.0 <描述当前版本功能>
  */
-data class FilterParam(val name:String,val params: List<Triple<String,String,Any>>)
+data class FilterParam(var name:String,var params: List<Triple<String,String,Any>>)
 
 private val filters: MutableList<FilterParam> by lazy {
     mutableListOf<FilterParam>().apply {
