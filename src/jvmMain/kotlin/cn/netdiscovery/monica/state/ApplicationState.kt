@@ -6,13 +6,13 @@ import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
-import cn.netdiscovery.monica.utils.extension.writeImageFile
 import cn.netdiscovery.monica.utils.hsl
 import cn.netdiscovery.monica.utils.showFileSelector
 import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import loadingDisplay
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -58,13 +58,6 @@ class ApplicationState(val scope:CoroutineScope,
     var outputPath by mutableStateOf("")
     var isUsingSourcePath by mutableStateOf(false)
 
-    var dialogTitle by mutableStateOf("")
-    var dialogMsg by mutableStateOf("")
-    var dialogSureBtnText by mutableStateOf("")
-    var dialogCancelBtnText by mutableStateOf("")
-    var onDialogSure: (() -> Unit)? = null
-    var onDialogCloseRequest: (() -> Unit)? = null
-
     var isShowPreviewWindow by mutableStateOf(false)
 
     fun onClickImgChoose() {
@@ -73,12 +66,14 @@ class ApplicationState(val scope:CoroutineScope,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 scope.launch(Dispatchers.IO) {
+                    loadingDisplay = true
                     val file = it.getOrNull(0)
                     if (file != null) {
                         rawImg = ImageIO.read(file)
                         showImg = rawImg
                         rawImgFile = file
                     }
+                    loadingDisplay = false
                 }
             }
         )
@@ -86,6 +81,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun onClickBuildImg() {
         scope.launch {
+            loadingDisplay = true
             if (isHLS) {
                 showImg = hsl(rawImg!!, saturation, hue, luminance)
             }
@@ -123,6 +119,7 @@ class ApplicationState(val scope:CoroutineScope,
                     }
                 }
             }
+            loadingDisplay = false
         }
     }
 

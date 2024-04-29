@@ -1,5 +1,11 @@
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
@@ -16,6 +22,8 @@ const val previewWidth = 750
 val filterNames = mutableListOf("选择滤镜")
 
 val flag = AtomicBoolean(false)
+
+var loadingDisplay by mutableStateOf(false)
 
 fun main() = application {
 
@@ -41,6 +49,10 @@ fun main() = application {
         applicationState.window = window
 
         MainScreen(applicationState)
+
+        if (loadingDisplay) {
+            ThreeBallLoading(Modifier.width((previewWidth*2*0.7).dp).height(900.dp))
+        }
     }
 
     if (applicationState.isShowPreviewWindow && applicationState.showImg != null) {

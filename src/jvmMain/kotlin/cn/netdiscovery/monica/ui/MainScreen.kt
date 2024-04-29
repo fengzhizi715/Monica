@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import loadingDisplay
 import java.io.File
 import javax.imageio.ImageIO
 
@@ -35,6 +36,7 @@ fun MainScreen(
 ) {
     state.window.contentPane.dropTarget = dropFileTarget {
         state.scope.launch(Dispatchers.IO) {
+            loadingDisplay = true
             val filePath = it.getOrNull(0)
             if (filePath != null) {
                 val file = File(filePath)
@@ -44,6 +46,7 @@ fun MainScreen(
                     state.rawImgFile = file
                 }
             }
+            loadingDisplay = false
         }
     }
 
