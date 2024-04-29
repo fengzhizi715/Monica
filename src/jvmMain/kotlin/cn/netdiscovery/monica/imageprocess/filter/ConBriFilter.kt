@@ -74,7 +74,9 @@ class ConBriFilter(private val contrast:Float = 1.5f,private val brightness:Floa
                 outPixels[index] = ta shl 24 or (clamp(tr) shl 16) or (clamp(tg) shl 8) or clamp(tb)
             }
         }
-        setRGB(image, 0, 0, width, height, outPixels)
-        return image
+
+        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        setRGB(bufferedImage, 0, 0, width, height, outPixels)
+        return bufferedImage
     }
 }

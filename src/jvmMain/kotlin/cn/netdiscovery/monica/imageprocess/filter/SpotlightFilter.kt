@@ -43,8 +43,9 @@ class SpotlightFilter(private val factor:Int = 1):BaseFilter() {
             }
         }
 
-        setRGB(image, 0, 0, width, height, outPixels)
-        return image
+        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        setRGB(bufferedImage, 0, 0, width, height, outPixels)
+        return bufferedImage
     }
 
     private fun getDistance(centerX: Int, centerY: Int, px: Int, py: Int): Double {

@@ -23,8 +23,9 @@ class BoxBlurFilter(private val hRadius:Int=5, private val vRadius:Int=5, privat
             blur( outPixels, inPixels, height, width, vRadius )
         }
 
-        setRGB(image, 0, 0, width, height, inPixels)
-        return image
+        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        setRGB(bufferedImage, 0, 0, width, height, inPixels)
+        return bufferedImage
     }
 
     fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int) {
