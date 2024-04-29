@@ -55,8 +55,8 @@ fun ControlContent(
             modifier = Modifier.padding(16.dp)
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isFilterImg, onCheckedChange = {
-                    state.isFilterImg = it
+                Checkbox(state.isHLS, onCheckedChange = {
+                    state.isHLS = it
                 })
                 Text("图像处理：", color = Color.Black, fontSize = 20.sp)
             }
@@ -65,7 +65,7 @@ fun ControlContent(
             ) {
                 Text(
                     text = "饱和度增益：",
-                    color = if (state.isFilterImg) Color.Unspecified else Color.LightGray
+                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -75,13 +75,13 @@ fun ControlContent(
                         onValueChange = {
                             state.saturation = it
                         },
-                        enabled = state.isFilterImg,
+                        enabled = state.isHLS,
                         modifier = Modifier.weight(8f),
                         valueRange = -1f..1f
                     )
                     Text(
                         text = state.saturation.to2fStr(),
-                        color = if (state.isFilterImg) Color.Unspecified else Color.LightGray,
+                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                         modifier = Modifier.weight(2f)
                     )
                 }
@@ -91,7 +91,7 @@ fun ControlContent(
             ) {
                 Text(
                     text = "色相增益：",
-                    color = if (state.isFilterImg) Color.Unspecified else Color.LightGray
+                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -101,13 +101,13 @@ fun ControlContent(
                         onValueChange = {
                             state.hue = it
                         },
-                        enabled = state.isFilterImg,
+                        enabled = state.isHLS,
                         modifier = Modifier.padding(start = 15.dp).weight(8f),
                         valueRange = -1f..1f
                     )
                     Text(
                         text = state.hue.to2fStr(),
-                        color = if (state.isFilterImg) Color.Unspecified else Color.LightGray,
+                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                         modifier = Modifier.weight(2f)
                     )
                 }
@@ -117,7 +117,7 @@ fun ControlContent(
             ) {
                 Text(
                     text = "亮度增益：",
-                    color = if (state.isFilterImg) Color.Unspecified else Color.LightGray
+                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically
@@ -127,13 +127,13 @@ fun ControlContent(
                         onValueChange = {
                             state.luminance = it
                         },
-                        enabled = state.isFilterImg,
+                        enabled = state.isHLS,
                         modifier = Modifier.padding(start = 15.dp).weight(8f),
                         valueRange = -1f..1f
                     )
                     Text(
                         text = state.luminance.to2fStr(),
-                        color = if (state.isFilterImg) Color.Unspecified else Color.LightGray,
+                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                         modifier = Modifier.weight(2f)
                     )
                 }
@@ -144,8 +144,8 @@ fun ControlContent(
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isBlur, onCheckedChange = {
-                    state.isBlur = it
+                Checkbox(state.isFilter, onCheckedChange = {
+                    state.isFilter = it
                 })
                 Text("滤镜效果：", color = Color.Black, fontSize = 20.sp)
             }
@@ -339,8 +339,8 @@ fun generateFilterParams(selectedIndex:Int) {
 
             BasicTextField(
                 value = text,
-                onValueChange = {
-                    text = it
+                onValueChange = { str ->
+                    text = str
                     tempMap[Pair(paramName, type)] = text
                 },
                 keyboardOptions = KeyboardOptions.Default,

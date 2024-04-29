@@ -45,8 +45,8 @@ class ApplicationState(val scope:CoroutineScope,
     var topPercent by mutableStateOf(0.3f)
     var bottomPercent by mutableStateOf(0.3f)
 
-    var isFilterImg by mutableStateOf(true)
-    var isBlur by mutableStateOf(true)
+    var isHLS by mutableStateOf(true)
+    var isFilter by mutableStateOf(true)
 
     var isShowGuideLine by mutableStateOf(false)
 
@@ -81,18 +81,9 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun onClickBuildImg() {
         scope.launch {
-            if (isFilterImg) {
+            if (isHLS) {
                 showImg = hsl(rawImg!!, saturation, hue, luminance)
             }
-
-//            if (isBlur) {
-//                if (isFilterImg) {
-//                    showImg = showImg!!.blur(blurRadius, topPercent, bottomPercent)
-//                }
-//                else {
-//                    showImg = rawImg!!.blur(blurRadius, topPercent, bottomPercent)
-//                }
-//            }
         }
     }
 
