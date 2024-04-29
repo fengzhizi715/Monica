@@ -117,7 +117,6 @@ class ApplicationState(val scope:CoroutineScope,
                     }
                     "GaussianFilter" -> {
                         showImg = GaussianFilter(array[0] as Float).transform(showImg!!)
-//                        writeImageFile(showImg!!)
                     }
                     "SpotlightFilter" -> {
                         showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
