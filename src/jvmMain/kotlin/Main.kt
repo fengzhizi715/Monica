@@ -9,10 +9,13 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 const val previewWidth = 750
 
 val filterNames = mutableListOf("选择滤镜")
+
+val flag = AtomicBoolean(false)
 
 fun main() = application {
 
@@ -61,6 +64,9 @@ fun main() = application {
  */
 private fun initData() {
 
-    filterNames.addAll(getFilterNames())
-    saveFilterParams()
+    if (!flag.get()) { // 防止被多次初始化
+        filterNames.addAll(getFilterNames())
+        saveFilterParams()
+        flag.set(true)
+    }
 }

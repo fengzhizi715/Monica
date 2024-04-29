@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 
@@ -15,7 +13,7 @@ import java.awt.image.BufferedImage
  */
 class BoxBlurFilter(private val hRadius:Int=5, private val vRadius:Int=5, private val iterations:Int=1): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): ImageBitmap {
+    override fun doFilter(image: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -26,7 +24,7 @@ class BoxBlurFilter(private val hRadius:Int=5, private val vRadius:Int=5, privat
         }
 
         setRGB(image, 0, 0, width, height, inPixels)
-        return image.toComposeImageBitmap()
+        return image
     }
 
     fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int) {

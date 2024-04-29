@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 
@@ -15,7 +13,7 @@ import java.awt.image.BufferedImage
  */
 class ConBriFilter(private val contrast:Float = 1.5f,private val brightness:Float =1.0f): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): ImageBitmap {
+    override fun doFilter(image: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -77,6 +75,6 @@ class ConBriFilter(private val contrast:Float = 1.5f,private val brightness:Floa
             }
         }
         setRGB(image, 0, 0, width, height, outPixels)
-        return image.toComposeImageBitmap()
+        return image
     }
 }

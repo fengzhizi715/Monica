@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toAwtImage
 import cn.netdiscovery.monica.imageprocess.Transformer
 import java.awt.image.BufferedImage
 
@@ -17,13 +15,11 @@ abstract class BaseFilter: Transformer {
 
     protected var width = 0
     protected var height = 0
-    private lateinit var image: BufferedImage
 
-    override fun transform(imageBitmap: ImageBitmap): ImageBitmap {
-        width = imageBitmap.width
-        height = imageBitmap.height
+    override fun transform(image: BufferedImage): BufferedImage {
+        width = image.width
+        height = image.height
 
-        image = imageBitmap.toAwtImage()
         return doFilter(image)
     }
 
@@ -57,5 +53,5 @@ abstract class BaseFilter: Transformer {
         ) else image.setRGB(x, y, width, height, pixels, 0, width)
     }
 
-    abstract fun doFilter(image: BufferedImage): ImageBitmap
+    abstract fun doFilter(image: BufferedImage): BufferedImage
 }
