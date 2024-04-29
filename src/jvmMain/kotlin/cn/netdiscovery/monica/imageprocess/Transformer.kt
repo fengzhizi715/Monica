@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.imageprocess
 
-import androidx.compose.ui.graphics.ImageBitmap
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -12,5 +12,5 @@ import androidx.compose.ui.graphics.ImageBitmap
  */
 interface Transformer {
 
-    fun transform(imageBitmap: ImageBitmap): ImageBitmap
+    fun transform(image: BufferedImage): BufferedImage
 }
