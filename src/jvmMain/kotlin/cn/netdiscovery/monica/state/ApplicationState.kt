@@ -13,6 +13,7 @@ import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -82,44 +83,26 @@ class ApplicationState(val scope:CoroutineScope,
     fun onClickBuildImage() {
         scope.launch {
             loadingDisplayWithSuspend {
-                if (isHLS) {
-                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
-                }
+//                if (isHLS) {
+//                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
+//                }
 
                 if(isFilter) {
-                    val filterName = filterNames[selectedIndex.value]
+                    withContext(Dispatchers.IO) {
+                        val filterName = filterNames[selectedIndex.value]
 
-                    val params = getFilterParam(filterName)
+                        val params = getFilterParam(filterName)
 
-                    val array = mutableListOf<Any>()
-                    params?.forEach {
-                        array.add(it.third)
-                    }
+                        val array = mutableListOf<Any>()
+                        params?.forEach {
+                            array.add(it.third)
+                        }
 
-                    if (selectedIndex.value>0) {
-                        println("filterName: $filterName, params: $array")
-                    }
+                        if (selectedIndex.value>0) {
+                            println("filterName: $filterName, params: $array")
+                        }
 
-                    when(filterName) {
-                        "BilateralFilter" -> {
-                            currentImage = BilateralFilter(array[0] as Double,array[1] as Double).transform(currentImage!!)
-                        }
-                        "BoxBlurFilter" -> {
-                            currentImage = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(currentImage!!)
-                        }
-                        "ConBriFilter" -> {
-                            currentImage = ConBriFilter(array[0] as Float,array[1] as Float).transform(currentImage!!)
-                        }
-                        "GammaFilter" -> {
-                            currentImage = GammaFilter(array[0] as Double).transform(currentImage!!)
-                        }
-                        "GaussianFilter" -> {
-                            currentImage = GaussianFilter(array[0] as Float).transform(currentImage!!.toComposeImageBitmap().toAwtImage())
-                            writeImageFile(currentImage!!,"debug.png")
-                        }
-                        "SpotlightFilter" -> {
-                            currentImage = SpotlightFilter(array[0] as Int).transform(currentImage!!)
-                        }
+                        currentImage = doFilter(filterName,array,this@ApplicationState)
                     }
                 }
             }

@@ -1,5 +1,9 @@
 package cn.netdiscovery.monica.utils
 
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.graphics.toComposeImageBitmap
+import cn.netdiscovery.monica.imageprocess.filter.*
+import cn.netdiscovery.monica.state.ApplicationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.awt.Color
@@ -52,4 +56,35 @@ suspend fun hsl(image: BufferedImage, satuPer: Float, huePer: Float, lumPer: Flo
         }
         bufferedImage
     }
+}
+
+suspend fun doFilter(filterName:String, array:MutableList<Any>, state: ApplicationState):BufferedImage {
+
+    return withContext(Dispatchers.IO) {
+        when(filterName) {
+            "BilateralFilter" -> {
+                BilateralFilter(array[0] as Double,array[1] as Double).transform(state.currentImage!!)
+            }
+            "BoxBlurFilter" -> {
+                BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(state.currentImage!!)
+            }
+            "ConBriFilter" -> {
+                ConBriFilter(array[0] as Float,array[1] as Float).transform(state.currentImage!!)
+            }
+            "GammaFilter" -> {
+                GammaFilter(array[0] as Double).transform(state.currentImage!!)
+            }
+            "GaussianFilter" -> {
+                GaussianFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+            }
+            "SpotlightFilter" -> {
+                SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
+            }
+
+            else -> {
+                state.currentImage!!
+            }
+        }
+    }
+
 }
