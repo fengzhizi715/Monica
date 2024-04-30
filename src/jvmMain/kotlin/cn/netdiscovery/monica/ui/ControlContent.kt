@@ -11,7 +11,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
 import javax.swing.JFileChooser
 
@@ -47,90 +46,7 @@ fun ControlContent(
 
             divider()
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isHLS, onCheckedChange = {
-                    state.isHLS = it
-                })
-                Text("图像处理", color = Color.Black, fontSize = 20.sp)
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "饱和度增益：",
-                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Slider(
-                        value = state.saturation,
-                        onValueChange = {
-                            state.saturation = it
-                        },
-                        enabled = state.isHLS,
-                        modifier = Modifier.weight(8f),
-                        valueRange = -1f..1f
-                    )
-                    Text(
-                        text = state.saturation.to2fStr(),
-                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
-                        modifier = Modifier.weight(2f)
-                    )
-                }
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "色相增益：",
-                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Slider(
-                        value = state.hue,
-                        onValueChange = {
-                            state.hue = it
-                        },
-                        enabled = state.isHLS,
-                        modifier = Modifier.padding(start = 15.dp).weight(8f),
-                        valueRange = -1f..1f
-                    )
-                    Text(
-                        text = state.hue.to2fStr(),
-                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
-                        modifier = Modifier.weight(2f)
-                    )
-                }
-            }
-            Row(
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "亮度增益：",
-                    color = if (state.isHLS) Color.Unspecified else Color.LightGray
-                )
-                Row(
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Slider(
-                        value = state.luminance,
-                        onValueChange = {
-                            state.luminance = it
-                        },
-                        enabled = state.isHLS,
-                        modifier = Modifier.padding(start = 15.dp).weight(8f),
-                        valueRange = -1f..1f
-                    )
-                    Text(
-                        text = state.luminance.to2fStr(),
-                        color = if (state.isHLS) Color.Unspecified else Color.LightGray,
-                        modifier = Modifier.weight(2f)
-                    )
-                }
-            }
+            imageProcessContent(state)
 
             divider()
 
