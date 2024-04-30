@@ -34,8 +34,8 @@ fun MainScreen(
                     val file = File(filePath)
                     if (file.isFile && file.extension in legalSuffixList) {
                         state.rawImage = ImageIO.read(file)
-                        state.showImage = state.rawImage
-                        state.rawImgFile = file
+                        state.currentImage = state.rawImage
+                        state.rawImageFile = file
                     }
                 }
             }

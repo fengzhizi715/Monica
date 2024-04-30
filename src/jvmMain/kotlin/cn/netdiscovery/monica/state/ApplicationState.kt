@@ -8,10 +8,7 @@ import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
-import cn.netdiscovery.monica.utils.hsl
-import cn.netdiscovery.monica.utils.loadingDisplay
-import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
-import cn.netdiscovery.monica.utils.showFileSelector
+import cn.netdiscovery.monica.utils.*
 import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -43,8 +40,8 @@ class ApplicationState(val scope:CoroutineScope,
     lateinit var window: ComposeWindow
 
     var rawImage: BufferedImage? by mutableStateOf(null)
-    var showImage: BufferedImage? by mutableStateOf( rawImage )
-    var rawImgFile: File? = null
+    var currentImage: BufferedImage? by mutableStateOf( rawImage )
+    var rawImageFile: File? = null
 
     var saturation by mutableStateOf(0.8f )
     var luminance by mutableStateOf(0f )
@@ -73,8 +70,8 @@ class ApplicationState(val scope:CoroutineScope,
                         val file = it.getOrNull(0)
                         if (file != null) {
                             rawImage = ImageIO.read(file)
-                            showImage = rawImage
-                            rawImgFile = file
+                            currentImage = rawImage
+                            rawImageFile = file
                         }
                     }
                 }
@@ -82,11 +79,11 @@ class ApplicationState(val scope:CoroutineScope,
         )
     }
 
-    fun onClickBuildImg() {
+    fun onClickBuildImage() {
         scope.launch {
             loadingDisplayWithSuspend {
                 if (isHLS) {
-                    showImage = hsl(rawImage!!, saturation, hue, luminance)
+                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
                 }
 
                 if(isFilter) {
@@ -105,22 +102,23 @@ class ApplicationState(val scope:CoroutineScope,
 
                     when(filterName) {
                         "BilateralFilter" -> {
-                            showImage = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImage!!)
+                            currentImage = BilateralFilter(array[0] as Double,array[1] as Double).transform(currentImage!!)
                         }
                         "BoxBlurFilter" -> {
-                            showImage = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImage!!)
+                            currentImage = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(currentImage!!)
                         }
                         "ConBriFilter" -> {
-                            showImage = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImage!!)
+                            currentImage = ConBriFilter(array[0] as Float,array[1] as Float).transform(currentImage!!)
                         }
                         "GammaFilter" -> {
-                            showImage = GammaFilter(array[0] as Double).transform(showImage!!)
+                            currentImage = GammaFilter(array[0] as Double).transform(currentImage!!)
                         }
                         "GaussianFilter" -> {
-                            showImage = GaussianFilter(array[0] as Float).transform(showImage!!.toComposeImageBitmap().toAwtImage())
+                            currentImage = GaussianFilter(array[0] as Float).transform(currentImage!!.toComposeImageBitmap().toAwtImage())
+                            writeImageFile(currentImage!!,"debug.png")
                         }
                         "SpotlightFilter" -> {
-                            showImage = SpotlightFilter(array[0] as Int).transform(showImage!!)
+                            currentImage = SpotlightFilter(array[0] as Int).transform(currentImage!!)
                         }
                     }
                 }

@@ -222,7 +222,7 @@ fun ControlContent(
                 Button(
                     onClick = {
                         state.isShowGuideLine = false
-                        state.onClickBuildImg()
+                        state.onClickBuildImage()
                     },
                     enabled = state.rawImage != null
                 ) {
@@ -287,7 +287,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
             modifier = Modifier.offset(x = 280.dp,y = 0.dp),
             onClick = {
                 click {
-                    if (state.rawImgFile == null) return@click
+                    if (state.rawImageFile == null) return@click
 
                     val filterName = filterNames[selectedIndex.value]
                     val list = mutableListOf<Triple<String,String,Any>>()

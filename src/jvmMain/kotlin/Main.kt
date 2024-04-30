@@ -19,6 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 const val previewWidth = 750
 
+val width = (previewWidth * 2.toFloat()).dp
+val height = 900.dp
+val loadingWidth = (previewWidth*2*0.7).dp
+
 val filterNames = mutableListOf("选择滤镜")
 
 val flag = AtomicBoolean(false)
@@ -43,7 +47,7 @@ fun main() = application {
 
     Window(onCloseRequest = ::exitApplication,
         title = "Monica 图片编辑器",
-        state = rememberWindowState(width = Dp(previewWidth * 2.toFloat()), height = 900.dp).apply {
+        state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
         applicationState.window = window
@@ -51,11 +55,11 @@ fun main() = application {
         MainScreen(applicationState)
 
         if (loadingDisplay) {
-            ThreeBallLoading(Modifier.width((previewWidth*2*0.7).dp).height(900.dp))
+            ThreeBallLoading(Modifier.width(loadingWidth).height(height))
         }
     }
 
-    if (applicationState.isShowPreviewWindow && applicationState.showImage != null) {
+    if (applicationState.isShowPreviewWindow && applicationState.currentImage != null) {
         Window(
             title = "预览",
             onCloseRequest = {
@@ -66,7 +70,7 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            ShowImgView(applicationState.showImage!!.toComposeImageBitmap())
+            ShowImgView(applicationState.currentImage!!.toComposeImageBitmap())
         }
     }
 }
