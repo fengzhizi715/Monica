@@ -42,8 +42,8 @@ class ApplicationState(val scope:CoroutineScope,
 
     lateinit var window: ComposeWindow
 
-    var rawImg: BufferedImage? by mutableStateOf(null)
-    var showImg: BufferedImage? by mutableStateOf( rawImg )
+    var rawImage: BufferedImage? by mutableStateOf(null)
+    var showImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImgFile: File? = null
 
     var saturation by mutableStateOf(0.8f )
@@ -72,8 +72,8 @@ class ApplicationState(val scope:CoroutineScope,
                     loadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
-                            rawImg = ImageIO.read(file)
-                            showImg = rawImg
+                            rawImage = ImageIO.read(file)
+                            showImage = rawImage
                             rawImgFile = file
                         }
                     }
@@ -86,7 +86,7 @@ class ApplicationState(val scope:CoroutineScope,
         scope.launch {
             loadingDisplayWithSuspend {
                 if (isHLS) {
-                    showImg = hsl(rawImg!!, saturation, hue, luminance)
+                    showImage = hsl(rawImage!!, saturation, hue, luminance)
                 }
 
                 if(isFilter) {
@@ -105,22 +105,22 @@ class ApplicationState(val scope:CoroutineScope,
 
                     when(filterName) {
                         "BilateralFilter" -> {
-                            showImg = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImg!!)
+                            showImage = BilateralFilter(array[0] as Double,array[1] as Double).transform(showImage!!)
                         }
                         "BoxBlurFilter" -> {
-                            showImg = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImg!!)
+                            showImage = BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(showImage!!)
                         }
                         "ConBriFilter" -> {
-                            showImg = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImg!!)
+                            showImage = ConBriFilter(array[0] as Float,array[1] as Float).transform(showImage!!)
                         }
                         "GammaFilter" -> {
-                            showImg = GammaFilter(array[0] as Double).transform(showImg!!)
+                            showImage = GammaFilter(array[0] as Double).transform(showImage!!)
                         }
                         "GaussianFilter" -> {
-                            showImg = GaussianFilter(array[0] as Float).transform(showImg!!.toComposeImageBitmap().toAwtImage())
+                            showImage = GaussianFilter(array[0] as Float).transform(showImage!!.toComposeImageBitmap().toAwtImage())
                         }
                         "SpotlightFilter" -> {
-                            showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
+                            showImage = SpotlightFilter(array[0] as Int).transform(showImage!!)
                         }
                     }
                 }

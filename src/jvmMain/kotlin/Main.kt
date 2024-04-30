@@ -55,7 +55,7 @@ fun main() = application {
         }
     }
 
-    if (applicationState.isShowPreviewWindow && applicationState.showImg != null) {
+    if (applicationState.isShowPreviewWindow && applicationState.showImage != null) {
         Window(
             title = "预览",
             onCloseRequest = {
@@ -66,7 +66,7 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            ShowImgView(applicationState.showImg!!.toComposeImageBitmap())
+            ShowImgView(applicationState.showImage!!.toComposeImageBitmap())
         }
     }
 }

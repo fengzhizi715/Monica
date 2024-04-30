@@ -224,7 +224,7 @@ fun ControlContent(
                         state.isShowGuideLine = false
                         state.onClickBuildImg()
                     },
-                    enabled = state.rawImg != null
+                    enabled = state.rawImage != null
                 ) {
                     Text("预览")
                 }
@@ -234,7 +234,7 @@ fun ControlContent(
                         state.isShowGuideLine = false
 //                        state.onClickSave()
                     },
-                    enabled = state.rawImg != null
+                    enabled = state.rawImage != null
                 ) {
                     Text("保存")
                 }

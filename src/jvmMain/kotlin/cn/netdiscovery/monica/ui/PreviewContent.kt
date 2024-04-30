@@ -41,9 +41,9 @@ fun PreviewContent(
         onClick = {
             state.onClickImgChoose()
         },
-        enabled = state.rawImg == null
+        enabled = state.rawImage == null
     ) {
-        if (state.rawImg == null) {
+        if (state.rawImage == null) {
             chooseImg()
         } else {
             previewImage(state)
@@ -53,7 +53,7 @@ fun PreviewContent(
 
 @Composable
 private fun previewImage(state: ApplicationState) {
-    if (state.showImg == null) return
+    if (state.showImage == null) return
 
     Column(
         modifier = Modifier.fillMaxSize()
@@ -65,7 +65,7 @@ private fun previewImage(state: ApplicationState) {
         ) {
 
             Image(
-                bitmap = state.showImg!!.toComposeImageBitmap(),
+                bitmap = state.showImage!!.toComposeImageBitmap(),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.drawWithContent {
@@ -107,7 +107,7 @@ private fun previewImage(state: ApplicationState) {
         ) {
             OutlinedButton(
                 onClick = {
-                    state.showImg = state.rawImg
+                    state.showImage = state.rawImage
                 },
                 modifier = Modifier.padding(5.dp)
             ) {
@@ -116,8 +116,8 @@ private fun previewImage(state: ApplicationState) {
 
             OutlinedButton(
                 onClick = {
-                    state.rawImg = null
-                    state.showImg = null
+                    state.rawImage = null
+                    state.showImage = null
                     state.rawImgFile = null
                 },
                 modifier = Modifier.padding(5.dp)
