@@ -24,6 +24,13 @@ import javax.swing.JFileChooser
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
+fun divider() {
+    Row {
+        Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
+    }
+}
+
+@Composable
 fun ControlContent(
     state: ApplicationState,
     modifier: Modifier
@@ -36,6 +43,10 @@ fun ControlContent(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
+            basicContent(state)
+
+            divider()
+
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isHLS, onCheckedChange = {
                     state.isHLS = it
@@ -121,16 +132,12 @@ fun ControlContent(
                 }
             }
 
-            Row {
-                Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
-            }
+            divider()
 
             // 滤镜相关的内容
             filterContent(state)
 
-            Row {
-                Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
-            }
+            divider()
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,

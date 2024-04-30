@@ -120,7 +120,8 @@ private fun previewImage(state: ApplicationState) {
                 onClick = {
                     state.rawImage = null
                     state.currentImage = null
-                    state.rawImageFile = null }
+                    state.rawImageFile = null
+                }
             ) {
                 Icon(
                     painter = painterResource("delete.png"),

@@ -48,6 +48,7 @@ class ApplicationState(val scope:CoroutineScope,
     var topPercent by mutableStateOf(0.3f)
     var bottomPercent by mutableStateOf(0.3f)
 
+    var isBasic by mutableStateOf(false)
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
 
