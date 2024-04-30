@@ -4,18 +4,17 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
@@ -65,7 +64,7 @@ private fun previewImage(state: ApplicationState) {
         ) {
 
             Image(
-                bitmap = state.currentImage!!.toComposeImageBitmap(),
+                painter = state.currentImage!!.toPainter(),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.drawWithContent {
@@ -105,24 +104,29 @@ private fun previewImage(state: ApplicationState) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            OutlinedButton(
-                onClick = {
-                    state.currentImage = state.rawImage
-                },
-                modifier = Modifier.padding(5.dp)
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = { state.currentImage = state.rawImage }
             ) {
-                Text("还原")
+                Icon(
+                    painter = painterResource("reduction.png"),
+                    contentDescription = "还原",
+                    modifier = Modifier.size(36.dp)
+                )
             }
 
-            OutlinedButton(
+            IconButton(
+                modifier = Modifier.padding(5.dp),
                 onClick = {
                     state.rawImage = null
                     state.currentImage = null
-                    state.rawImageFile = null
-                },
-                modifier = Modifier.padding(5.dp)
+                    state.rawImageFile = null }
             ) {
-                Text("删除")
+                Icon(
+                    painter = painterResource("delete.png"),
+                    contentDescription = "删除",
+                    modifier = Modifier.size(36.dp)
+                )
             }
         }
     }
