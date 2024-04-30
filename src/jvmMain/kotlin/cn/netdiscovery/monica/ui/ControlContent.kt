@@ -140,14 +140,8 @@ fun ControlContent(
                 Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isFilter, onCheckedChange = {
-                    state.isFilter = it
-                })
-                Text("滤镜", color = Color.Black, fontSize = 20.sp)
-            }
-
-            dropdownFilterMenuForSelect(state)
+            // 滤镜相关的内容
+            filterContent(state)
 
             Row {
                 Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
@@ -239,117 +233,6 @@ fun ControlContent(
                     Text("保存")
                 }
             }
-        }
-    }
-}
-
-@Preview
-@Composable
-fun dropdownFilterMenuForSelect(state:ApplicationState){
-    var expanded by remember { mutableStateOf(false) }
-
-    Row(
-        modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
-    ) {
-        Column {
-            Button(modifier = Modifier.width(160.dp),
-                onClick = { expanded =true },
-                enabled = state.isFilter){
-
-                Text(text = filterNames[selectedIndex.value],
-                    color = if (state.isFilter) Color.Unspecified else Color.LightGray)
-            }
-
-            DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
-                filterNames.forEachIndexed{ index,label ->
-                    DropdownMenuItem(onClick = {
-                        selectedIndex.value = index
-                        expanded = false
-                    }){
-                        Text(text = label)
-                    }
-                }
-            }
-        }
-
-        Column(
-            modifier = Modifier.padding(top = 10.dp, start = 10.dp)
-        ) {
-            if (selectedIndex.value > 0) {
-                Text(text = "滤镜相关参数")
-                generateFilterParams(selectedIndex.value)
-            }
-        }
-    }
-
-    Row(modifier = Modifier.padding(top = 20.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Button(
-            modifier = Modifier.offset(x = 290.dp,y = 0.dp),
-            onClick = {
-                click {
-                    if (state.rawImageFile == null) return@click
-
-                    val filterName = filterNames[selectedIndex.value]
-                    val list = mutableListOf<Triple<String,String,Any>>()
-                    tempMap.forEach { (t, u) ->
-                        val value = when(t.second) {
-                            "Int" -> u.toInt()
-                            "Float" -> u.toFloat()
-                            "Double" -> u.toDouble()
-                            else -> u
-                        }
-
-                        list.add(Triple(t.first, t.second, value))
-                    }
-
-                    rxCache.saveOrUpdate(filterName, list)
-                }
-            },
-            enabled = state.isFilter && selectedIndex.value>0
-        ) {
-            Text(text = "保存参数",
-                color = if (state.isFilter) Color.Unspecified else Color.LightGray)
-        }
-    }
-}
-
-@Composable
-fun generateFilterParams(selectedIndex:Int) {
-
-    tempMap.clear()
-
-    val filterName = filterNames[selectedIndex]
-    val params: List<Triple<String,String,Any>>? = getFilterParam(filterName)
-
-    params?.forEach {
-
-        val paramName = it.first
-        val type = it.second
-        var text by remember(filterName, paramName) {
-            mutableStateOf(it.third.toString())
-        }
-
-        tempMap[Pair(paramName, type)] = text
-
-        Row(
-            modifier = Modifier.padding(top = 20.dp)
-        ) {
-            Text(text = paramName)
-
-            BasicTextField(
-                value = text,
-                onValueChange = { str ->
-                    text = str
-                    tempMap[Pair(paramName, type)] = text
-                },
-                keyboardOptions = KeyboardOptions.Default,
-                keyboardActions = KeyboardActions.Default,
-                cursorBrush = SolidColor(Color.Gray),
-                singleLine = true,
-                modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-            )
         }
     }
 }
