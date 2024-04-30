@@ -35,7 +35,7 @@ val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
 var selectedIndex = mutableStateOf(0)
 
 @Composable
-fun filterContent(state: ApplicationState,) {
+fun filterContent(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isFilter, onCheckedChange = {
@@ -45,6 +45,37 @@ fun filterContent(state: ApplicationState,) {
     }
 
     dropdownFilterMenuForSelect(state)
+
+    Row(modifier = Modifier.padding(top = 20.dp),
+        verticalAlignment = Alignment.CenterVertically) {
+        Button(
+            modifier = Modifier.offset(x = 290.dp,y = 0.dp),
+            onClick = {
+                click {
+                    if (state.rawImageFile == null) return@click
+
+                    val filterName = filterNames[selectedIndex.value]
+                    val list = mutableListOf<Triple<String,String,Any>>()
+                    tempMap.forEach { (t, u) ->
+                        val value = when(t.second) {
+                            "Int" -> u.toInt()
+                            "Float" -> u.toFloat()
+                            "Double" -> u.toDouble()
+                            else -> u
+                        }
+
+                        list.add(Triple(t.first, t.second, value))
+                    }
+
+                    rxCache.saveOrUpdate(filterName, list)
+                }
+            },
+            enabled = state.isFilter && selectedIndex.value>0
+        ) {
+            Text(text = "保存参数",
+                color = if (state.isFilter) Color.Unspecified else Color.LightGray)
+        }
+    }
 }
 
 
@@ -86,39 +117,11 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
             }
         }
     }
-
-    Row(modifier = Modifier.padding(top = 20.dp),
-        verticalAlignment = Alignment.CenterVertically) {
-        Button(
-            modifier = Modifier.offset(x = 290.dp,y = 0.dp),
-            onClick = {
-                click {
-                    if (state.rawImageFile == null) return@click
-
-                    val filterName = filterNames[selectedIndex.value]
-                    val list = mutableListOf<Triple<String,String,Any>>()
-                    tempMap.forEach { (t, u) ->
-                        val value = when(t.second) {
-                            "Int" -> u.toInt()
-                            "Float" -> u.toFloat()
-                            "Double" -> u.toDouble()
-                            else -> u
-                        }
-
-                        list.add(Triple(t.first, t.second, value))
-                    }
-
-                    rxCache.saveOrUpdate(filterName, list)
-                }
-            },
-            enabled = state.isFilter && selectedIndex.value>0
-        ) {
-            Text(text = "保存参数",
-                color = if (state.isFilter) Color.Unspecified else Color.LightGray)
-        }
-    }
 }
 
+/**
+ * 根据不同的滤镜，匹配不同的参数
+ */
 @Composable
 fun generateFilterParams(selectedIndex:Int) {
 
