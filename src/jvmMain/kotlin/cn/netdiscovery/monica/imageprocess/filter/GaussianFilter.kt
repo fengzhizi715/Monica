@@ -7,6 +7,7 @@ import kotlin.math.PI
 import kotlin.math.ceil
 import kotlin.math.exp
 
+
 /**
  *
  * @FileName:
@@ -57,8 +58,8 @@ open class GaussianFilter(open val radius:Float = 5.0f): BaseFilter() {
         getRGB(image, 0, 0, width, height, inPixels)
 
         if ( radius > 0 ) {
-            convolveAndTranspose(kernel, inPixels, outPixels, width, height, alpha, alpha && premultiplyAlpha, false, CLAMP_EDGES);
-            convolveAndTranspose(kernel, outPixels, inPixels, height, width, alpha, false, alpha && premultiplyAlpha, CLAMP_EDGES);
+            convolveAndTranspose(kernel, inPixels, outPixels, width, height, alpha, alpha && premultiplyAlpha, false, CLAMP_EDGES)
+            convolveAndTranspose(kernel, outPixels, inPixels, height, width, alpha, false, alpha && premultiplyAlpha, CLAMP_EDGES)
         }
 
         val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)

@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
@@ -113,7 +115,7 @@ class ApplicationState(val scope:CoroutineScope,
                             showImg = GammaFilter(array[0] as Double).transform(showImg!!)
                         }
                         "GaussianFilter" -> {
-                            showImg = GaussianFilter(array[0] as Float).transform(showImg!!)
+                            showImg = GaussianFilter(array[0] as Float).transform(showImg!!.toComposeImageBitmap().toAwtImage())
                         }
                         "SpotlightFilter" -> {
                             showImg = SpotlightFilter(array[0] as Int).transform(showImg!!)
