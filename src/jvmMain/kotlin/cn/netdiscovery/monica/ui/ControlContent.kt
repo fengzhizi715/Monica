@@ -55,7 +55,7 @@ fun ControlContent(
                 Checkbox(state.isHLS, onCheckedChange = {
                     state.isHLS = it
                 })
-                Text("图像处理：", color = Color.Black, fontSize = 20.sp)
+                Text("图像处理", color = Color.Black, fontSize = 20.sp)
             }
             Row(
                 verticalAlignment = Alignment.CenterVertically
@@ -144,7 +144,7 @@ fun ControlContent(
                 Checkbox(state.isFilter, onCheckedChange = {
                     state.isFilter = it
                 })
-                Text("滤镜效果：", color = Color.Black, fontSize = 20.sp)
+                Text("滤镜", color = Color.Black, fontSize = 20.sp)
             }
 
             dropdownFilterMenuForSelect(state)
@@ -248,15 +248,16 @@ fun ControlContent(
 fun dropdownFilterMenuForSelect(state:ApplicationState){
     var expanded by remember { mutableStateOf(false) }
 
-
     Row(
         modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
         Column {
-            Button(modifier = Modifier.width(160.dp), onClick = {
-                expanded =true
-            }){
-                Text(text = filterNames[selectedIndex.value])
+            Button(modifier = Modifier.width(160.dp),
+                onClick = { expanded =true },
+                enabled = state.isFilter){
+
+                Text(text = filterNames[selectedIndex.value],
+                    color = if (state.isFilter) Color.Unspecified else Color.LightGray)
             }
 
             DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
@@ -284,7 +285,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
     Row(modifier = Modifier.padding(top = 20.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Button(
-            modifier = Modifier.offset(x = 280.dp,y = 0.dp),
+            modifier = Modifier.offset(x = 260.dp,y = 0.dp),
             onClick = {
                 click {
                     if (state.rawImageFile == null) return@click
@@ -305,9 +306,10 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
                     rxCache.saveOrUpdate(filterName, list)
                 }
             },
-            enabled = true
+            enabled = state.isFilter
         ) {
-            Text("应用滤镜")
+            Text(text = "保存滤镜参数",
+                color = if (state.isFilter) Color.Unspecified else Color.LightGray)
         }
     }
 }
