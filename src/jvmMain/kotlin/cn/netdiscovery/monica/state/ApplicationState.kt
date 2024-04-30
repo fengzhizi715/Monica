@@ -2,10 +2,7 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
-import androidx.compose.ui.graphics.toAwtImage
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.window.TrayState
-import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*

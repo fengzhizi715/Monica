@@ -306,7 +306,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
                     rxCache.saveOrUpdate(filterName, list)
                 }
             },
-            enabled = state.isFilter
+            enabled = state.isFilter && selectedIndex.value>0
         ) {
             Text(text = "保存参数",
                 color = if (state.isFilter) Color.Unspecified else Color.LightGray)
