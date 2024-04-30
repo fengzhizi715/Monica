@@ -12,6 +12,10 @@ import java.text.DecimalFormat
  * @date: 2024/4/26 11:14
  * @version: V1.0 <描述当前版本功能>
  */
-fun Float.to2fStr(): String = DecimalFormat("#.##").format(this)
+val format by lazy {
+    DecimalFormat("#.##")
+}
+
+fun Float.to2fStr(): String = format.format(this)
 
 

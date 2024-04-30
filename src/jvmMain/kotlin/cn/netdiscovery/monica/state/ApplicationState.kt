@@ -92,13 +92,15 @@ class ApplicationState(val scope:CoroutineScope,
                 if(isFilter) {
                     val filterName = filterNames[selectedIndex.value]
 
-                    println("filterName = $filterName")
-
                     val params = getFilterParam(filterName)
 
                     val array = mutableListOf<Any>()
                     params?.forEach {
                         array.add(it.third)
+                    }
+
+                    if (selectedIndex.value>0) {
+                        println("filterName: $filterName, params: $array")
                     }
 
                     when(filterName) {
