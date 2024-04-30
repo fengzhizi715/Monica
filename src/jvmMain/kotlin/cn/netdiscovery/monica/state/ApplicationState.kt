@@ -51,8 +51,8 @@ class ApplicationState(val scope:CoroutineScope,
     var topPercent by mutableStateOf(0.3f)
     var bottomPercent by mutableStateOf(0.3f)
 
-    var isHLS by mutableStateOf(true)
-    var isFilter by mutableStateOf(true)
+    var isHLS by mutableStateOf(false)
+    var isFilter by mutableStateOf(false)
 
     var isShowGuideLine by mutableStateOf(false)
 
@@ -83,9 +83,9 @@ class ApplicationState(val scope:CoroutineScope,
     fun onClickBuildImage() {
         scope.launch {
             loadingDisplayWithSuspend {
-//                if (isHLS) {
-//                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
-//                }
+                if (isHLS) {
+                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
+                }
 
                 if(isFilter) {
                     withContext(Dispatchers.IO) {

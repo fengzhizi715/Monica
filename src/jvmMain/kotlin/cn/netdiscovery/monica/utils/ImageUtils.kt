@@ -35,6 +35,7 @@ fun clamp(x: Int, a: Int, b: Int): Int {
  * @param lumPer 亮度
  * */
 suspend fun hsl(image: BufferedImage, satuPer: Float, huePer: Float, lumPer: Float): BufferedImage {
+
     return withContext(Dispatchers.IO) {
         val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
         for (y in 0 until bufferedImage.height) {
