@@ -40,7 +40,6 @@ private val filters: MutableList<FilterParam> by lazy {
 }
 
 fun saveFilterParams(){
-
     filters.forEach {
         rxCache.saveOrUpdate(it.name, it.params)
     }
@@ -48,7 +47,5 @@ fun saveFilterParams(){
 
 fun getFilterNames(): List<String> = filters.map { it.name }
 
-fun getFilterParam(filterName:String): List<Triple<String,String,Any>>? {
-
-    return rxCache.get<List<Triple<String,String,Any>>>(filterName)?.data
-}
+fun getFilterParam(filterName:String): List<Triple<String,String,Any>>? =
+    rxCache.get<List<Triple<String,String,Any>>>(filterName)?.data

@@ -285,7 +285,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
     Row(modifier = Modifier.padding(top = 20.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Button(
-            modifier = Modifier.offset(x = 260.dp,y = 0.dp),
+            modifier = Modifier.offset(x = 290.dp,y = 0.dp),
             onClick = {
                 click {
                     if (state.rawImageFile == null) return@click
@@ -308,7 +308,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
             },
             enabled = state.isFilter
         ) {
-            Text(text = "保存滤镜参数",
+            Text(text = "保存参数",
                 color = if (state.isFilter) Color.Unspecified else Color.LightGray)
         }
     }
