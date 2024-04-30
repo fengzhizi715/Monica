@@ -39,6 +39,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var rawImage: BufferedImage? by mutableStateOf(null)
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
+    var lastImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
     var saturation by mutableStateOf(0.8f )
@@ -100,6 +101,7 @@ class ApplicationState(val scope:CoroutineScope,
                             println("filterName: $filterName, params: $array")
                         }
 
+                        lastImage = currentImage
                         currentImage = doFilter(filterName,array,this@ApplicationState)
                     }
                 }

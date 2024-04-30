@@ -109,8 +109,19 @@ private fun previewImage(state: ApplicationState) {
                 onClick = { state.currentImage = state.rawImage }
             ) {
                 Icon(
+                    painter = painterResource("initial_picture.png"),
+                    contentDescription = "最初",
+                    modifier = Modifier.size(30.dp)
+                )
+            }
+
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = { state.currentImage = state.lastImage }
+            ) {
+                Icon(
                     painter = painterResource("reduction.png"),
-                    contentDescription = "还原",
+                    contentDescription = "上一步",
                     modifier = Modifier.size(36.dp)
                 )
             }
