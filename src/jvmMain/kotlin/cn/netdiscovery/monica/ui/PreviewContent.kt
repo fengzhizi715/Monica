@@ -2,10 +2,7 @@ package cn.netdiscovery.monica.ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
@@ -103,17 +100,27 @@ private fun previewImage(state: ApplicationState) {
             )
         }
 
-        Column(
+        Row (
             modifier = Modifier.fillMaxSize().weight(1f),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically
         ) {
+            OutlinedButton(
+                onClick = {
+                    state.showImg = state.rawImg
+                },
+                modifier = Modifier.padding(5.dp)
+            ) {
+                Text("还原")
+            }
+
             OutlinedButton(
                 onClick = {
                     state.rawImg = null
                     state.showImg = null
                     state.rawImgFile = null
-                }
+                },
+                modifier = Modifier.padding(5.dp)
             ) {
                 Text("删除")
             }
