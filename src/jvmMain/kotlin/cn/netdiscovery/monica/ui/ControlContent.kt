@@ -1,28 +1,18 @@
 package cn.netdiscovery.monica.ui
 
-import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.rxcache.getFilterParam
-import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import cn.netdiscovery.monica.utils.showFileSelector
-import filterNames
 import javax.swing.JFileChooser
 
 /**
@@ -33,11 +23,6 @@ import javax.swing.JFileChooser
  * @date: 2024/4/26 11:10
  * @version: V1.0 <描述当前版本功能>
  */
-
-val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
-
-var selectedIndex = mutableStateOf(0)
-
 @Composable
 fun ControlContent(
     state: ApplicationState,
