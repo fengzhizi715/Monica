@@ -84,6 +84,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "GrayFilter" -> {
                 GrayFilter().transform(state.currentImage!!)
             }
+            "MotionFilter" -> {
+                MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
+            }
             "SpotlightFilter" -> {
                 SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
             }

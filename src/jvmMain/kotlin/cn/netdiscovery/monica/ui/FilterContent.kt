@@ -46,7 +46,7 @@ fun filterContent(state: ApplicationState) {
 
     dropdownFilterMenuForSelect(state)
 
-    Row(modifier = Modifier.padding(top = 20.dp),
+    Row(modifier = Modifier.padding(top = 10.dp),
         verticalAlignment = Alignment.CenterVertically) {
         Button(
             modifier = Modifier.offset(x = 290.dp,y = 0.dp),
@@ -141,7 +141,7 @@ fun generateFilterParams(selectedIndex:Int) {
         tempMap[Pair(paramName, type)] = text
 
         Row(
-            modifier = Modifier.padding(top = 20.dp)
+            modifier = Modifier.padding(top = 10.dp)
         ) {
             Text(text = paramName)
 
