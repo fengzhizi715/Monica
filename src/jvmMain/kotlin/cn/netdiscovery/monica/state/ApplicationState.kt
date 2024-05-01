@@ -10,7 +10,6 @@ import filterNames
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -87,23 +86,21 @@ class ApplicationState(val scope:CoroutineScope,
                 }
 
                 if(isFilter) {
-                    withContext(Dispatchers.IO) {
-                        val filterName = filterNames[selectedIndex.value]
+                    val filterName = filterNames[selectedIndex.value]
 
-                        val params = getFilterParam(filterName)
+                    val params = getFilterParam(filterName)
 
-                        val array = mutableListOf<Any>()
-                        params?.forEach {
-                            array.add(it.third)
-                        }
-
-                        if (selectedIndex.value>0) {
-                            println("filterName: $filterName, params: $array")
-                        }
-
-                        lastImage = currentImage
-                        currentImage = doFilter(filterName,array,this@ApplicationState)
+                    val array = mutableListOf<Any>()
+                    params?.forEach {
+                        array.add(it.third)
                     }
+
+                    if (selectedIndex.value>0) {
+                        println("filterName: $filterName, params: $array")
+                    }
+
+                    lastImage = currentImage
+                    currentImage = doFilter(filterName,array,this@ApplicationState)
                 }
             }
         }

@@ -94,7 +94,11 @@ private fun previewImage(state: ApplicationState) {
                         )
                     }
                 }.clickable {
-                    state.togglePreviewWindow(true)
+                    if (state.isBasic) {
+                        state.togglePreviewWindow(false)
+                    } else {
+                        state.togglePreviewWindow(true)
+                    }
                 },
             )
         }

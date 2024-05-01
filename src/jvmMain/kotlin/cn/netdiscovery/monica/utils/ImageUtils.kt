@@ -78,6 +78,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "GaussianFilter" -> {
                 GaussianFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
             }
+            "GradientFilter" -> {
+                GradientFilter().transform(state.currentImage!!)
+            }
             "SpotlightFilter" -> {
                 SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
             }
