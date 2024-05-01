@@ -5,13 +5,10 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.draw.paint
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -67,8 +64,13 @@ private fun previewImage(state: ApplicationState) {
                 painter = state.currentImage!!.toPainter(),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
-                modifier = Modifier.drawWithContent {
+                modifier = Modifier
+                    .drawWithContent {
                     drawContent()
+
+                    if (state.isBasic) {
+
+                    }
                 }.clickable {
                     if (state.isBasic) {
                         state.togglePreviewWindow(false)
@@ -109,14 +111,25 @@ private fun previewImage(state: ApplicationState) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    state.rawImage = null
-                    state.currentImage = null
-                    state.rawImageFile = null
+                    state.clearImage()
                 }
             ) {
                 Icon(
                     painter = painterResource("delete.png"),
                     contentDescription = "删除",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = {
+                    state.onClickPreviewImage()
+                }
+            ) {
+                Icon(
+                    painter = painterResource("preview.png"),
+                    contentDescription = "预览",
                     modifier = Modifier.size(36.dp)
                 )
             }

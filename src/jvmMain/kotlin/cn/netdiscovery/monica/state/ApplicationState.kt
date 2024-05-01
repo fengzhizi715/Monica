@@ -78,7 +78,7 @@ class ApplicationState(val scope:CoroutineScope,
         )
     }
 
-    fun onClickBuildImage() {
+    fun onClickPreviewImage() {
         scope.launch {
             loadingDisplayWithSuspend {
                 if (isHLS) {
@@ -104,6 +104,12 @@ class ApplicationState(val scope:CoroutineScope,
                 }
             }
         }
+    }
+
+    fun clearImage() {
+        this.rawImage = null
+        this.currentImage = null
+        this.rawImageFile = null
     }
 
     fun togglePreviewWindow(isShow: Boolean = true) {

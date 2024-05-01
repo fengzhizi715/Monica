@@ -116,29 +116,29 @@ fun ControlContent(
                 }
             }
 
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Button(
-                    onClick = {
-                        state.onClickBuildImage()
-                    },
-                    enabled = state.rawImage != null
-                ) {
-                    Text("预览")
-                }
-
-                Button(
-                    onClick = {
-//                        state.onClickSave()
-                    },
-                    enabled = state.rawImage != null
-                ) {
-                    Text("保存")
-                }
-            }
+//            Row(
+//                verticalAlignment = Alignment.CenterVertically,
+//                horizontalArrangement = Arrangement.SpaceEvenly,
+//                modifier = Modifier.fillMaxWidth()
+//            ) {
+//                Button(
+//                    onClick = {
+//                        state.onClickPreviewImage()
+//                    },
+//                    enabled = state.rawImage != null
+//                ) {
+//                    Text("预览")
+//                }
+//
+//                Button(
+//                    onClick = {
+////                        state.onClickSave()
+//                    },
+//                    enabled = state.rawImage != null
+//                ) {
+//                    Text("保存")
+//                }
+//            }
         }
     }
 }
