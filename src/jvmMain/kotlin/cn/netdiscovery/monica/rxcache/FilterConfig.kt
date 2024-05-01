@@ -45,6 +45,11 @@ private val filters: MutableList<FilterParam> by lazy {
         this.add(FilterParam("SpotlightFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("factor","Int",1))
         }))
+        this.add(FilterParam("USMFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("radius","Float",2.0f))
+            this.add(Triple("amount","Float",0.5f))
+            this.add(Triple("threshold","Int",1))
+        }))
     }
 }
 

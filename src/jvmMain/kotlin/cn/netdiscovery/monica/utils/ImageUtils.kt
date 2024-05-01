@@ -93,6 +93,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "SpotlightFilter" -> {
                 SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
             }
+            "USMFilter" -> {
+                USMFilter(array[0] as Float,array[1] as Float,array[2] as Int).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+            }
 
             else -> {
                 state.currentImage!!
