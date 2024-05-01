@@ -123,7 +123,6 @@ fun ControlContent(
             ) {
                 Button(
                     onClick = {
-                        state.isShowGuideLine = false
                         state.onClickBuildImage()
                     },
                     enabled = state.rawImage != null
@@ -133,7 +132,6 @@ fun ControlContent(
 
                 Button(
                     onClick = {
-                        state.isShowGuideLine = false
 //                        state.onClickSave()
                     },
                     enabled = state.rawImage != null

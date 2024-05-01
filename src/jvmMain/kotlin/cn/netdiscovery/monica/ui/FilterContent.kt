@@ -120,7 +120,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
 }
 
 /**
- * 根据不同的滤镜，匹配不同的参数
+ * 根据不同的滤镜，生成不同的参数
  */
 @Composable
 fun generateFilterParams(selectedIndex:Int) {

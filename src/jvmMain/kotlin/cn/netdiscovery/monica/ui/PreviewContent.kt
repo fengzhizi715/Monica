@@ -69,30 +69,6 @@ private fun previewImage(state: ApplicationState) {
                 contentScale = ContentScale.Fit,
                 modifier = Modifier.drawWithContent {
                     drawContent()
-                    if (state.isShowGuideLine) {
-                        drawLine(
-                            color = Color.LightGray,
-                            start = Offset(x = 0f, y = size.height * state.topPercent),
-                            end = Offset(x = size.width, y = size.height * state.topPercent),
-                            strokeWidth = 3f
-                        )
-                        drawLine(
-                            color = Color.Cyan,
-                            start = Offset(x = 0f, y = size.height * state.topPercent),
-                            end = Offset(x = size.width, y = size.height * state.topPercent)
-                        )
-                        drawLine(
-                            color = Color.LightGray,
-                            start = Offset(x = 0f, y = size.height * (1f - state.bottomPercent)),
-                            end = Offset(x = size.width, y = size.height * (1f - state.bottomPercent)),
-                            strokeWidth = 3f
-                        )
-                        drawLine(
-                            color = Color.Cyan,
-                            start = Offset(x = 0f, y = size.height * (1f - state.bottomPercent)),
-                            end = Offset(x = size.width, y = size.height * (1f - state.bottomPercent))
-                        )
-                    }
                 }.clickable {
                     if (state.isBasic) {
                         state.togglePreviewWindow(false)

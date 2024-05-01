@@ -100,7 +100,6 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 WhiteImageFilter(array[0] as Double).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
             }
 
-
             else -> {
                 state.currentImage!!
             }
