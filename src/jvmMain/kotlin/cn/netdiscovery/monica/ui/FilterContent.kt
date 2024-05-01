@@ -88,7 +88,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
         modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
         Column {
-            Button(modifier = Modifier.width(160.dp),
+            Button(modifier = Modifier.width(175.dp),
                 onClick = { expanded =true },
                 enabled = state.isFilter){
 
