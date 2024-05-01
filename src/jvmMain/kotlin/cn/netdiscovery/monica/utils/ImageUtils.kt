@@ -81,6 +81,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "GradientFilter" -> {
                 GradientFilter().transform(state.currentImage!!)
             }
+            "GrayFilter" -> {
+                GrayFilter().transform(state.currentImage!!)
+            }
             "SpotlightFilter" -> {
                 SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
             }
