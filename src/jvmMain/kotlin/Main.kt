@@ -16,6 +16,7 @@ import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
 import java.util.concurrent.atomic.AtomicBoolean
+import kotlin.random.Random
 
 const val previewWidth = 750
 
@@ -50,6 +51,31 @@ fun main() = application {
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
+        MenuBar{
+            Menu(text = "打开", mnemonic = 'O') {
+                Item(
+                    text = "本地图片",
+                    onClick = {
+                        applicationState.onClickImgChoose()
+                    },
+                )
+                Item(
+                    text = "网络图片",
+                    onClick = {
+
+                    },
+                )
+            }
+
+            Menu(text = "保存", mnemonic = 'S') {
+                Item(
+                    text = "随机显示图片",
+                    onClick = {
+
+                    },
+                )
+            }
+        }
         applicationState.window = window
 
         MainScreen(applicationState)
