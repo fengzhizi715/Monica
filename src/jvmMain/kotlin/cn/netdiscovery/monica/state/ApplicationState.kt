@@ -49,12 +49,9 @@ class ApplicationState(val scope:CoroutineScope,
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
 
-    var outputPath by mutableStateOf("")
-    var isUsingSourcePath by mutableStateOf(false)
-
     var isShowPreviewWindow by mutableStateOf(false)
 
-    fun onClickImgChoose() {
+    fun onClickImageChoose() {
         showFileSelector(
             isMultiSelection = false,
             selectionMode = JFileChooser.FILES_ONLY,

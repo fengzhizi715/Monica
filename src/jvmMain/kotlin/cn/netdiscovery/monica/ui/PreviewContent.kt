@@ -42,12 +42,12 @@ fun PreviewContent(
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
         onClick = {
-            state.onClickImgChoose()
+            state.onClickImageChoose()
         },
         enabled = state.rawImage == null
     ) {
         if (state.rawImage == null) {
-            chooseImg()
+            chooseImage()
         } else {
             previewImage(state)
         }
@@ -169,7 +169,7 @@ private fun previewImage(state: ApplicationState) {
 }
 
 @Composable
-private fun chooseImg() {
+private fun chooseImage() {
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
