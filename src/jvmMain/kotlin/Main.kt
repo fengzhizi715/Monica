@@ -61,7 +61,7 @@ fun main() = application {
         MenuBar{
             Menu(text = "文件", mnemonic = 'O') {
                 Item(
-                    text = "打卡本地图片",
+                    text = "打开本地图片",
                     onClick = {
                         applicationState.onClickImageChoose()
                     },
