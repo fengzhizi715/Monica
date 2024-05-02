@@ -1,11 +1,18 @@
 package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.awt.ComposeWindow
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
 import java.awt.dnd.DropTargetDropEvent
+import java.awt.image.BufferedImage
 import java.io.File
+import javax.imageio.IIOImage
+import javax.imageio.ImageIO
+import javax.imageio.ImageWriteParam
+import javax.imageio.ImageWriter
 import javax.swing.JFileChooser
 import javax.swing.SwingUtilities
 import javax.swing.UIManager
@@ -76,4 +83,36 @@ fun dropFileTarget(
             event.dropComplete(true)
         }
     }
+}
+
+suspend fun BufferedImage.saveImg(saveFile: File?, quality: Float = 0.8f) {
+    withContext(Dispatchers.IO) {
+        val outputStream = ImageIO.createImageOutputStream(saveFile)
+        val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
+        val jpgWriteParam: ImageWriteParam = jpgWriter.defaultWriteParam
+        jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
+        jpgWriteParam.compressionQuality = quality
+        jpgWriter.output = outputStream
+        val outputImage = IIOImage(this@saveImg, null, null)
+        jpgWriter.write(null, outputImage, jpgWriteParam)
+        jpgWriter.dispose()
+        outputStream.flush()
+        outputStream.close()
+    }
+}
+
+fun File.getUniqueFile(sourceFile: File = File("")): File {
+    var newFile = this
+
+    if (newFile.isDirectory) {
+        newFile = File(newFile, sourceFile.name)
+    }
+
+    var index = 1
+    while (newFile.exists()) {
+        newFile = File(newFile.parentFile, "${newFile.nameWithoutExtension}($index).${newFile.extension}")
+        index++
+    }
+
+    return newFile
 }

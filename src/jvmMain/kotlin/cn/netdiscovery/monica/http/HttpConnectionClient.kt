@@ -4,7 +4,6 @@ import cn.netdiscovery.monica.utils.extension.openConnection
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import java.awt.image.BufferedImage
-import java.io.InputStream
 import java.net.HttpURLConnection
 import javax.imageio.ImageIO
 

@@ -12,7 +12,13 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
+import cn.netdiscovery.monica.utils.getUniqueFile
+import cn.netdiscovery.monica.utils.saveImg
+import cn.netdiscovery.monica.utils.showFileSelector
+import kotlinx.coroutines.launch
+import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
+import javax.swing.JFileChooser
 
 const val previewWidth = 750
 
@@ -52,26 +58,36 @@ fun main() = application {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
         MenuBar{
-            Menu(text = "打开", mnemonic = 'O') {
+            Menu(text = "文件", mnemonic = 'O') {
                 Item(
-                    text = "本地图片",
+                    text = "打卡本地图片",
                     onClick = {
                         applicationState.onClickImgChoose()
                     },
                 )
                 Item(
-                    text = "网络图片",
+                    text = "加载网络图片",
                     onClick = {
                         openURLDialog = true
                     },
                 )
-            }
-
-            Menu(text = "保存", mnemonic = 'S') {
                 Item(
-                    text = "随机显示图片",
+                    text = "保存图像",
                     onClick = {
-
+                        showFileSelector(
+                            isMultiSelection = false,
+                            selectionMode = JFileChooser.DIRECTORIES_ONLY,
+                            selectionFileFilter = null
+                        ) {
+                            applicationState.scope.launch {
+                                val outputPath = it[0].absolutePath
+                                val saveFile = File(outputPath).getUniqueFile(applicationState.rawImageFile?:File("temp.jpg"))
+                                applicationState.currentImage!!.saveImg(saveFile, 0.8f)
+                                applicationState.showTray(
+                                    msg = "保存成功（${outputPath}）"
+                                )
+                            }
+                        }
                     },
                 )
             }

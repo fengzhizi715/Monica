@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import client
 import cn.netdiscovery.monica.rxcache.getFilterParam
@@ -116,5 +117,14 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
+    }
+
+    fun showTray(
+        msg: String,
+        title: String = "通知",
+        type: Notification.Type = Notification.Type.Info
+    ) {
+        val notification = Notification(title, msg, type)
+        trayState.sendNotification(notification)
     }
 }
