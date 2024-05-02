@@ -9,13 +9,19 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.currentTime
+import cn.netdiscovery.monica.utils.getUniqueFile
+import cn.netdiscovery.monica.utils.saveImage
+import cn.netdiscovery.monica.utils.showFileSelector
+import kotlinx.coroutines.launch
+import java.io.File
+import javax.swing.JFileChooser
 
 /**
  *
@@ -130,6 +136,30 @@ private fun previewImage(state: ApplicationState) {
                 Icon(
                     painter = painterResource("preview.png"),
                     contentDescription = "预览",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = {
+                    showFileSelector(
+                        isMultiSelection = false,
+                        selectionMode = JFileChooser.DIRECTORIES_ONLY,
+                        selectionFileFilter = null
+                    ) {
+                        state.scope.launch {
+                            val outputPath = it[0].absolutePath
+                            val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?:File("${currentTime()}.jpg"))
+                            state.currentImage!!.saveImage(saveFile, 0.8f)
+                            state.showTray(msg = "保存成功（${outputPath}）")
+                        }
+                    }
+                }
+            ) {
+                Icon(
+                    painter = painterResource("save.png"),
+                    contentDescription = "保存",
                     modifier = Modifier.size(36.dp)
                 )
             }
