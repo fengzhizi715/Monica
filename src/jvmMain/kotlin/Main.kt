@@ -83,9 +83,7 @@ fun main() = application {
                                 val outputPath = it[0].absolutePath
                                 val saveFile = File(outputPath).getUniqueFile(applicationState.rawImageFile?:File("temp.jpg"))
                                 applicationState.currentImage!!.saveImg(saveFile, 0.8f)
-                                applicationState.showTray(
-                                    msg = "保存成功（${outputPath}）"
-                                )
+                                applicationState.showTray(msg = "保存成功（${outputPath}）")
                             }
                         }
                     },

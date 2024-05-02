@@ -52,51 +52,6 @@ fun ControlContent(
 
             // 滤镜相关的内容
             filterContent(state)
-
-            divider()
-
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Checkbox(
-                    checked = state.isUsingSourcePath,
-                    onCheckedChange = {
-                        state.isUsingSourcePath = it
-                        state.outputPath = if (it) "原位置" else ""
-                    }
-                )
-                Text("输出至原位置", fontSize = 20.sp)
-            }
-
-            Row(
-                modifier = Modifier.padding(top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text("保存位置：")
-                OutlinedTextField(
-                    value = state.outputPath,
-                    onValueChange = { state.outputPath = it },
-                    enabled = !state.isUsingSourcePath,
-                    modifier = Modifier.fillMaxWidth(0.75f)
-                )
-                Button(
-                    onClick = {
-                        showFileSelector(
-                            isMultiSelection = false,
-                            selectionMode = JFileChooser.DIRECTORIES_ONLY,
-                            selectionFileFilter = null
-                        ) {
-                            state.outputPath = it[0].absolutePath
-                        }
-                    },
-                    modifier = Modifier.padding(start = 8.dp),
-                    enabled = !state.isUsingSourcePath
-                ) {
-                    Text("选择")
-                }
-            }
         }
     }
 }
