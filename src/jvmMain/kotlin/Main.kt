@@ -1,14 +1,10 @@
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.width
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.rxcache.getFilterNames
@@ -16,7 +12,6 @@ import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
 import java.util.concurrent.atomic.AtomicBoolean
-import kotlin.random.Random
 
 const val previewWidth = 750
 
@@ -29,7 +24,9 @@ val filterNames = mutableListOf("选择滤镜")
 val flag = AtomicBoolean(false)
 
 var loadingDisplay by mutableStateOf(false)
+var openURLDialog by mutableStateOf(false)
 
+@OptIn(ExperimentalMaterialApi::class)
 fun main() = application {
 
     initData()
@@ -62,7 +59,7 @@ fun main() = application {
                 Item(
                     text = "网络图片",
                     onClick = {
-
+                        openURLDialog = true
                     },
                 )
             }
@@ -82,6 +79,54 @@ fun main() = application {
 
         if (loadingDisplay) {
             ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+        }
+
+        var picUrl by remember { mutableStateOf("") }
+
+        if (openURLDialog) {
+            AlertDialog(
+                modifier = Modifier.width(600.dp).height(250.dp),
+                onDismissRequest = {
+                    openURLDialog = false
+                },
+                title = {
+                    Text(text = "加载网络图片地址")
+                },
+                text = {
+                    Column(
+                        verticalArrangement = Arrangement.Center
+                    ) {
+                        TextField(
+                            modifier = Modifier.fillMaxWidth(),
+                            value = picUrl,
+                            onValueChange = { picUrl = it }
+                        )
+                    }
+                },
+                buttons = {
+                    Row(
+                        modifier = Modifier.padding(all = 8.dp),
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        Button(
+                            modifier = Modifier.weight(1.0f).padding(5.dp),
+                            onClick = { openURLDialog = false }
+                        ) {
+                            Text("取消")
+                        }
+
+                        Button(
+                            modifier = Modifier.weight(1.0f).padding(5.dp),
+                            onClick = {
+                                picUrl = ""
+                                openURLDialog = false
+                            }
+                        ) {
+                            Text("确定")
+                        }
+                    }
+                }
+            )
         }
     }
 

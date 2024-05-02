@@ -41,18 +41,13 @@ class ApplicationState(val scope:CoroutineScope,
     var lastImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
-    var saturation by mutableStateOf(0.8f )
+    var saturation by mutableStateOf(0f )
     var luminance by mutableStateOf(0f )
     var hue by mutableStateOf(0f )
-
-    var topPercent by mutableStateOf(0.3f)
-    var bottomPercent by mutableStateOf(0.3f)
 
     var isBasic by mutableStateOf(false)
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
-
-    var isShowGuideLine by mutableStateOf(false)
 
     var outputPath by mutableStateOf("")
     var isUsingSourcePath by mutableStateOf(false)
