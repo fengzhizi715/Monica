@@ -12,6 +12,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
+import cn.netdiscovery.monica.utils.currentTime
 import cn.netdiscovery.monica.utils.getUniqueFile
 import cn.netdiscovery.monica.utils.saveImg
 import cn.netdiscovery.monica.utils.showFileSelector
@@ -81,7 +82,7 @@ fun main() = application {
                         ) {
                             applicationState.scope.launch {
                                 val outputPath = it[0].absolutePath
-                                val saveFile = File(outputPath).getUniqueFile(applicationState.rawImageFile?:File("temp.jpg"))
+                                val saveFile = File(outputPath).getUniqueFile(applicationState.rawImageFile?:File("${currentTime()}.jpg"))
                                 applicationState.currentImage!!.saveImg(saveFile, 0.8f)
                                 applicationState.showTray(msg = "保存成功（${outputPath}）")
                             }
