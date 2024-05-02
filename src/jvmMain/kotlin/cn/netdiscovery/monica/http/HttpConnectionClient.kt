@@ -21,7 +21,7 @@ class HttpConnectionClient(
 ) {
     fun dispatcher(): CoroutineDispatcher = dispatcher
 
-    suspend fun getImage(url: String, key: String, ua:String?=null): InputStream? {
+    suspend fun getImage(url: String, ua:String?=null): InputStream? {
         var conn: HttpURLConnection? = null
 
         try {

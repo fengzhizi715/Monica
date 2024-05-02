@@ -121,6 +121,8 @@ fun main() = application {
                         Button(
                             modifier = Modifier.weight(1.0f).padding(5.dp),
                             onClick = {
+
+                                applicationState.loadUlrImage(picUrl)
                                 picUrl = ""
                                 openURLDialog = false
                             }

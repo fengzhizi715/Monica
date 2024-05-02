@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.state
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.TrayState
+import client
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
@@ -96,6 +97,18 @@ class ApplicationState(val scope:CoroutineScope,
 
                     lastImage = currentImage
                     currentImage = doFilter(filterName,array,this@ApplicationState)
+                }
+            }
+        }
+    }
+
+    fun loadUlrImage(picUrl:String) {
+        scope.launch {
+            loadingDisplayWithSuspend {
+                val inputStream = client.getImage(url = picUrl)
+
+                if (inputStream!=null) {
+                    currentImage = ImageIO.read(inputStream)
                 }
             }
         }
