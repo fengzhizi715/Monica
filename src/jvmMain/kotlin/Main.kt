@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
@@ -25,6 +26,8 @@ val flag = AtomicBoolean(false)
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
+
+lateinit var client: HttpConnectionClient
 
 @OptIn(ExperimentalMaterialApi::class)
 fun main() = application {
@@ -154,6 +157,7 @@ private fun initData() {
     if (!flag.get()) { // 防止被多次初始化
         filterNames.addAll(getFilterNames())
         saveFilterParams()
+        client = HttpConnectionClient(timeout = 6000,retryNum = 3)
         flag.set(true)
     }
 }
