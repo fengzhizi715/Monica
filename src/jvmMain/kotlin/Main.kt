@@ -12,6 +12,8 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
+import cn.netdiscovery.monica.utils.loadingDisplay
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 const val previewWidth = 750
@@ -121,10 +123,12 @@ fun main() = application {
                         Button(
                             modifier = Modifier.weight(1.0f).padding(5.dp),
                             onClick = {
-
-                                applicationState.loadUlrImage(picUrl)
-                                picUrl = ""
                                 openURLDialog = false
+
+                                loadingDisplay{
+                                    applicationState.loadUlrImage(picUrl)
+                                    picUrl = ""
+                                }
                             }
                         ) {
                             Text("确定")

@@ -8,9 +8,7 @@ import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import filterNames
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -104,13 +102,11 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun loadUlrImage(picUrl:String) {
         scope.launch {
-            loadingDisplayWithSuspend {
-                val inputStream = client.getImage(url = picUrl)
-
-                if (inputStream!=null) {
-                    currentImage = ImageIO.read(inputStream)
-                }
-            }
+            rawImage = scope.async {
+                client.getImage(url = picUrl)
+            }.await()
+            
+            currentImage = rawImage
         }
     }
 

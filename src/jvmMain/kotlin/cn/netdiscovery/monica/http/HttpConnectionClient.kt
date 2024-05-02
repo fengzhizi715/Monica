@@ -3,8 +3,10 @@ package cn.netdiscovery.monica.http
 import cn.netdiscovery.monica.utils.extension.openConnection
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
+import java.awt.image.BufferedImage
 import java.io.InputStream
 import java.net.HttpURLConnection
+import javax.imageio.ImageIO
 
 /**
  *
@@ -21,7 +23,7 @@ class HttpConnectionClient(
 ) {
     fun dispatcher(): CoroutineDispatcher = dispatcher
 
-    suspend fun getImage(url: String, ua:String?=null): InputStream? {
+    suspend fun getImage(url: String, ua:String?=null): BufferedImage? {
         var conn: HttpURLConnection? = null
 
         try {
@@ -32,7 +34,7 @@ class HttpConnectionClient(
 
                 when (conn.responseCode) {
                     HttpURLConnection.HTTP_OK -> {
-//                        "Response status code is ${conn.responseCode}".logD()
+                        println("Response status code is ${conn.responseCode}")
                         break
                     }
 
@@ -51,24 +53,23 @@ class HttpConnectionClient(
             } while (retry < retryNum)
 
             if (conn?.responseCode != 200) {
-//                "Response status code is ${conn?.responseCode}".logE()
+                println("Response status code is ${conn?.responseCode}")
                 return null
             }
 
             val contentTypeString = conn.contentType
             if (contentTypeString == null) {
-//                "Content-type is null!".logE()
+                println("Content-type is null!")
                 return null
             }
 
             val contentLength = conn.contentLength
             if (contentLength <= 0) {
-//                "Content length is null!".logE()
+                println("Content length is null!")
                 return null
             }
 
-            return conn.inputStream
-
+            return ImageIO.read(conn.inputStream)
         } catch (error: Throwable) {
             error.printStackTrace()
             return null
