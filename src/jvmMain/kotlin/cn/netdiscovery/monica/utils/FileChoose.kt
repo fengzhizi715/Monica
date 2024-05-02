@@ -85,7 +85,7 @@ fun dropFileTarget(
     }
 }
 
-suspend fun BufferedImage.saveImg(saveFile: File?, quality: Float = 0.8f) {
+suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
     withContext(Dispatchers.IO) {
         val outputStream = ImageIO.createImageOutputStream(saveFile)
         val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
@@ -93,11 +93,12 @@ suspend fun BufferedImage.saveImg(saveFile: File?, quality: Float = 0.8f) {
         jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
         jpgWriteParam.compressionQuality = quality
         jpgWriter.output = outputStream
-        val outputImage = IIOImage(this@saveImg, null, null)
+        val outputImage = IIOImage(this@saveImage, null, null)
         jpgWriter.write(null, outputImage, jpgWriteParam)
         jpgWriter.dispose()
         outputStream.flush()
-        outputStream.close()
+
+        closeQuietly(outputStream)
     }
 }
 
