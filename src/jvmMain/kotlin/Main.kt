@@ -63,7 +63,7 @@ fun main() = application {
                 Item(
                     text = "打卡本地图片",
                     onClick = {
-                        applicationState.onClickImgChoose()
+                        applicationState.onClickImageChoose()
                     },
                 )
                 Item(
