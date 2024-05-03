@@ -2,24 +2,19 @@ package cn.netdiscovery.monica.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.graphicsLayer
-import androidx.compose.ui.input.pointer.PointerEventType
-import androidx.compose.ui.input.pointer.onPointerEvent
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.delay
 
 /**
  *
@@ -29,33 +24,19 @@ import kotlinx.coroutines.delay
  * @date: 2024/4/26 22:18
  * @version: V1.0 <描述当前版本功能>
  */
-@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun ShowImageView(
     image: ImageBitmap
 ) {
-
-    var scaleNumber by remember { mutableStateOf(1f) }
-    var offset by remember { mutableStateOf(Offset.Zero) }
-    var isShowScaleTip by remember { mutableStateOf(false) }
-
-    LaunchedEffect(isShowScaleTip) {
-        delay(2000)
-        isShowScaleTip = false
-    }
+    var angle by remember { mutableStateOf(0f) }//旋转角度
+    var scale by remember { mutableStateOf(1f) }//缩放
+    var offsetX by remember { mutableStateOf(0f) }//x偏移
+    var offsetY by remember { mutableStateOf(0f) }//y偏移
+    var matrix by remember { mutableStateOf(Matrix()) }//矩阵
 
     Box(
         Modifier
-            .fillMaxSize()
-            .onPointerEvent(PointerEventType.Scroll) {
-                scaleNumber = (scaleNumber - it.changes.first().scrollDelta.y).coerceIn(1f, 20f)
-                isShowScaleTip = true
-            }
-            .onPointerEvent(PointerEventType.Move) {
-                if (it.changes.first().pressed) {
-                    offset -= (it.changes.first().previousPosition - it.changes.first().position)
-                }
-            },
+            .fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -65,34 +46,38 @@ fun ShowImageView(
             modifier = Modifier
                 .fillMaxSize()
                 .graphicsLayer {
-                    scaleX = scaleNumber
-                    scaleY = scaleNumber
-
-                    translationX = offset.x
-                    translationY = offset.y
+                    scaleX = scale
+                    scaleY = scale
+                    rotationZ = angle
+                    translationX = offsetX
+                    translationY = offsetY
                 }
-            ,
+                .pointerInput(Unit) {
+                    detectTransformGestures { centroid, pan, zoom, rotation ->
+                        angle += rotation
+                        scale *= zoom
+
+                        matrix.translate(pan.x, pan.y)
+                        matrix.rotateZ(rotation)
+                        matrix.scale(zoom, zoom)
+
+                        matrix = Matrix(matrix.values)
+
+                        offsetX = matrix.values[Matrix.TranslateX]
+                        offsetY = matrix.values[Matrix.TranslateY]
+                    }
+                }
         )
 
         AnimatedVisibility(
-            visible = isShowScaleTip
-        ) {
-            Text(
-                "${scaleNumber}X",
-                modifier = Modifier.background(MaterialTheme.colors.surface),
-                color = MaterialTheme.colors.onSurface,
-                fontSize = 48.sp
-            )
-        }
-
-        AnimatedVisibility(
-            visible = offset != Offset.Zero || scaleNumber != 1f,
+            visible = offsetX!=0f && offsetY!=0f,
             modifier = Modifier.align(Alignment.BottomCenter)
         ) {
             OutlinedButton(
                 onClick = {
-                    offset = Offset.Zero
-                    scaleNumber = 1f
+                    offsetX = 0f
+                    offsetY = 0f
+                    scale = 1f
                 },
             ) {
                 Text("恢复")
