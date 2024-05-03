@@ -31,8 +31,8 @@ import kotlinx.coroutines.delay
  */
 @OptIn(ExperimentalComposeUiApi::class)
 @Composable
-fun ShowImgView(
-    img: ImageBitmap
+fun ShowImageView(
+    image: ImageBitmap
 ) {
 
     var scaleNumber by remember { mutableStateOf(1f) }
@@ -59,7 +59,7 @@ fun ShowImgView(
         contentAlignment = Alignment.Center
     ) {
         Image(
-            bitmap = img,
+            bitmap = image,
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier

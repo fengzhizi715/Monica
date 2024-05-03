@@ -161,7 +161,7 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            ShowImgView(applicationState.currentImage!!.toComposeImageBitmap())
+            ShowImageView(applicationState.currentImage!!.toComposeImageBitmap())
         }
     }
 }
