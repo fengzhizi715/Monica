@@ -35,8 +35,7 @@ fun ShowImageView(
     var matrix by remember { mutableStateOf(Matrix()) }//矩阵
 
     Box(
-        Modifier
-            .fillMaxSize(),
+        Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         Image(
@@ -75,9 +74,11 @@ fun ShowImageView(
         ) {
             OutlinedButton(
                 onClick = {
+                    angle = 0f
+                    scale = 1f
                     offsetX = 0f
                     offsetY = 0f
-                    scale = 1f
+                    matrix = Matrix()
                 },
             ) {
                 Text("恢复")
