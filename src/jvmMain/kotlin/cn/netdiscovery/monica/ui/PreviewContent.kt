@@ -1,7 +1,9 @@
 package cn.netdiscovery.monica.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -54,6 +56,7 @@ fun PreviewContent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun previewImage(state: ApplicationState) {
     if (state.currentImage == null) return
@@ -71,20 +74,23 @@ private fun previewImage(state: ApplicationState) {
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
+                    .combinedClickable(onLongClick = {
+                        // perform long click operations
+                        println("onLongClick")
+                    }, onDoubleClick = {
+                        // perform double click operations
+                        println("onDoubleClick")
+                    }, onClick = {
+                        if (state.isBasic) {
+                            state.togglePreviewWindow(false)
+                        } else {
+                            state.togglePreviewWindow(true)
+                        }
+                    })
                     .drawWithContent {
                     drawContent()
 
-                    if (state.isBasic) {
-
-                    }
-                }.clickable {
-                    if (state.isBasic) {
-                        state.togglePreviewWindow(false)
-                    } else {
-                        state.togglePreviewWindow(true)
-                    }
-                },
-            )
+                    })
         }
 
         Row (
