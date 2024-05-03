@@ -2,7 +2,6 @@ package cn.netdiscovery.monica.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -111,7 +110,10 @@ private fun previewImage(state: ApplicationState) {
 
             IconButton(
                 modifier = Modifier.padding(5.dp),
-                onClick = { state.currentImage = state.lastImage }
+                onClick = {
+                    if (state.lastImage!=null)
+                        state.currentImage = state.lastImage
+                }
             ) {
                 Icon(
                     painter = painterResource("reduction.png"),
