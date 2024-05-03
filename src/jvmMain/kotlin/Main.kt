@@ -108,7 +108,7 @@ fun main() = application {
                     openURLDialog = false
                 },
                 title = {
-                    Text(text = "加载网络图片地址")
+                    Text(text = "加载网络图片")
                 },
                 text = {
                     Column(

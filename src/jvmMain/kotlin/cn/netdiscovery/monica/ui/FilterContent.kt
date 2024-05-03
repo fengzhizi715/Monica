@@ -40,6 +40,10 @@ fun filterContent(state: ApplicationState) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isFilter, onCheckedChange = {
             state.isFilter = it
+
+            if (!state.isFilter) {
+                selectedIndex.value = 0
+            }
         })
         Text("滤镜", color = Color.Black, fontSize = 20.sp)
     }
