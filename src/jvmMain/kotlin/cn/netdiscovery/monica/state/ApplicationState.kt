@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import client
@@ -10,6 +11,8 @@ import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import filterNames
 import kotlinx.coroutines.*
+import java.awt.Color
+import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -46,10 +49,15 @@ class ApplicationState(val scope:CoroutineScope,
     var hue by mutableStateOf(0f )
 
     var isBasic by mutableStateOf(false)
+    var isMosaic by mutableStateOf(false)
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)
+
+    fun togglePreviewWindow(isShow: Boolean = true) {
+        isShowPreviewWindow = isShow
+    }
 
     fun onClickImageChoose() {
         showFileSelector(
@@ -98,6 +106,37 @@ class ApplicationState(val scope:CoroutineScope,
         }
     }
 
+    fun mosaic(width:Int, height:Int,offset: Offset) {
+        val bufferedImage = currentImage!!
+
+        val srcWidth = bufferedImage.width
+        val srcHeight = bufferedImage.height
+
+        val xScale = (srcWidth.toFloat()/width)
+        val yScale = (srcHeight.toFloat()/height)
+
+        // 创建与输入图像相同大小的新图像
+        val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+        // 创建画笔
+        val graphics: Graphics = outputImage.graphics
+        // 将原始图像绘制到新图像中
+        graphics.drawImage(bufferedImage, 0, 0, null)
+        // 打码区域左上角x坐标
+        val x = (offset.x*xScale).toInt()
+        // 打码区域左上角y坐标
+        val y = (offset.y*yScale).toInt()
+        // 打码区域宽度
+        val width = (50*xScale).toInt()
+        // 打码区域高度
+        val height = (50*yScale).toInt()
+        graphics.color = Color.GRAY
+        graphics.fillRect(x, y, width, height)
+        // 释放资源
+        graphics.dispose()
+
+        currentImage = outputImage
+    }
+
     fun loadUrl(picUrl:String) {
         scope.launch {
             rawImage = client.getImage(url = picUrl)
@@ -110,10 +149,6 @@ class ApplicationState(val scope:CoroutineScope,
         this.rawImage = null
         this.currentImage = null
         this.rawImageFile = null
-    }
-
-    fun togglePreviewWindow(isShow: Boolean = true) {
-        isShowPreviewWindow = isShow
     }
 
     fun showTray(

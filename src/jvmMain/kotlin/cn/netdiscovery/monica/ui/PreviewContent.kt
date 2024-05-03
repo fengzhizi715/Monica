@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -11,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.toPainter
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
@@ -21,8 +23,12 @@ import cn.netdiscovery.monica.utils.getUniqueFile
 import cn.netdiscovery.monica.utils.saveImage
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.launch
+import java.awt.Color
+import java.awt.Graphics
+import java.awt.image.BufferedImage
 import java.io.File
 import javax.swing.JFileChooser
+
 
 /**
  *
@@ -73,12 +79,21 @@ private fun previewImage(state: ApplicationState) {
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
+                    .pointerInput(Unit) {
+                        val width = this.size.width
+                        val height = this.size.height
+
+                        detectTapGestures(
+                            onPress = {
+                                if (state.isMosaic) {
+                                    state.mosaic(width,height, it)
+                                }
+                            })
+                    }
                     .combinedClickable(onLongClick = {
                         // perform long click operations
-                        println("onLongClick")
                     }, onDoubleClick = {
                         // perform double click operations
-                        println("onDoubleClick")
                     }, onClick = {
                         if (state.isBasic) {
                             state.togglePreviewWindow(false)

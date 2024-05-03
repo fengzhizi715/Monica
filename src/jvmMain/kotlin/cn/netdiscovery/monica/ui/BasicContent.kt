@@ -31,24 +31,28 @@ fun basicContent(state: ApplicationState) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isBasic, onCheckedChange = {
             state.isBasic = it
+
+            if (!state.isBasic) {
+                state.isMosaic = false
+            }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
     }
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            modifier = Modifier.padding(5.dp),
-            onClick = {
-            },
-            enabled = state.isBasic
-        ) {
-            Icon(
-                painter = painterResource("draw.png"),
-                contentDescription = "绘画",
-                modifier = Modifier.size(36.dp)
-            )
-        }
+//        IconButton(
+//            modifier = Modifier.padding(5.dp),
+//            onClick = {
+//            },
+//            enabled = state.isBasic
+//        ) {
+//            Icon(
+//                painter = painterResource("draw.png"),
+//                contentDescription = "绘画",
+//                modifier = Modifier.size(36.dp)
+//            )
+//        }
 
         IconButton(
             modifier = Modifier.padding(5.dp),
@@ -66,6 +70,7 @@ fun basicContent(state: ApplicationState) {
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
+                state.isMosaic = true
             },
             enabled = state.isBasic
         ) {
@@ -76,17 +81,17 @@ fun basicContent(state: ApplicationState) {
             )
         }
 
-        IconButton(
-            modifier = Modifier.padding(5.dp),
-            onClick = {
-            },
-            enabled = state.isBasic
-        ) {
-            Icon(
-                painter = painterResource("add_text.png"),
-                contentDescription = "添加文字",
-                modifier = Modifier.size(36.dp)
-            )
-        }
+//        IconButton(
+//            modifier = Modifier.padding(5.dp),
+//            onClick = {
+//            },
+//            enabled = state.isBasic
+//        ) {
+//            Icon(
+//                painter = painterResource("add_text.png"),
+//                contentDescription = "添加文字",
+//                modifier = Modifier.size(36.dp)
+//            )
+//        }
     }
 }
