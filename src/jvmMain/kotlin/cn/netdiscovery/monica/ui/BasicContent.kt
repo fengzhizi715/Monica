@@ -59,6 +59,7 @@ fun basicContent(state: ApplicationState) {
             modifier = Modifier.padding(5.dp),
             onClick = {
                 state.isBlur = true
+                state.isMosaic = false
             },
             enabled = state.isBasic
         ) {
@@ -73,6 +74,7 @@ fun basicContent(state: ApplicationState) {
             modifier = Modifier.padding(5.dp),
             onClick = {
                 state.isMosaic = true
+                state.isBlur = false
             },
             enabled = state.isBasic
         ) {

@@ -17,17 +17,11 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.*
 import kotlinx.coroutines.launch
-import java.awt.Color
-import java.awt.Graphics
-import java.awt.Graphics2D
-import java.awt.image.BufferedImage
 import java.io.File
 import javax.swing.JFileChooser
-import kotlin.math.roundToInt
 
 
 /**
@@ -87,9 +81,7 @@ private fun previewImage(state: ApplicationState) {
                             onPress = {
                                 if (state.isMosaic) {
                                     state.mosaic(width,height, it)
-                                }
-
-                                if (state.isBlur) {
+                                } else if (state.isBlur) {
                                     state.blur(width,height, it)
                                 }
                             })

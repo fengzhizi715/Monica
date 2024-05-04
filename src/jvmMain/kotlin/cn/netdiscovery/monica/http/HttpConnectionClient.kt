@@ -1,8 +1,6 @@
 package cn.netdiscovery.monica.http
 
 import cn.netdiscovery.monica.utils.extension.openConnection
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
 import java.awt.image.BufferedImage
 import java.net.HttpURLConnection
 import javax.imageio.ImageIO
@@ -16,13 +14,11 @@ import javax.imageio.ImageIO
  * @version: V1.0 <描述当前版本功能>
  */
 class HttpConnectionClient(
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
     private val timeout: Int,
     private val retryNum: Int,
 ) {
-    fun dispatcher(): CoroutineDispatcher = dispatcher
 
-    suspend fun getImage(url: String, ua:String?=null): BufferedImage? {
+    fun getImage(url: String, ua:String?=null): BufferedImage? {
         var conn: HttpURLConnection? = null
 
         try {
