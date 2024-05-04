@@ -30,13 +30,13 @@ fun click(block:()->Unit) {
 }
 
 
-fun loadingDisplay(block:()->Unit) {
+fun clickLoadingDisplay(block:()->Unit) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false
 }
 
-suspend fun loadingDisplayWithSuspend(block:suspend ()->Unit) {
+suspend fun clickLoadingDisplayWithSuspend(block:suspend ()->Unit) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false

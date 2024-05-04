@@ -70,7 +70,7 @@ class ApplicationState(val scope:CoroutineScope,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 scope.launch(Dispatchers.IO) {
-                    loadingDisplay {
+                    clickLoadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
                             rawImage = ImageIO.read(file)
@@ -85,7 +85,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun onClickPreviewImage() {
         scope.launch {
-            loadingDisplayWithSuspend {
+            clickLoadingDisplayWithSuspend {
                 if (isHLS) {
                     currentImage = hsl(rawImage!!, saturation, hue, luminance)
                 }

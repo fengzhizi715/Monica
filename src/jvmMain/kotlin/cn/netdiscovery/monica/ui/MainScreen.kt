@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
-import cn.netdiscovery.monica.utils.loadingDisplay
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -28,7 +28,7 @@ fun MainScreen(
 ) {
     state.window.contentPane.dropTarget = dropFileTarget {
         state.scope.launch(Dispatchers.IO) {
-            loadingDisplay {
+            clickLoadingDisplay {
                 val filePath = it.getOrNull(0)
                 if (filePath != null) {
                     val file = File(filePath)
