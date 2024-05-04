@@ -6,6 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import client
+import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
@@ -50,10 +51,14 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isBasic by mutableStateOf(false)
     var isMosaic by mutableStateOf(false)
+    var isBlur by mutableStateOf(false)
+
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)
+
+    val blurFilter = BoxBlurFilter(15,15,1)
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
@@ -135,6 +140,37 @@ class ApplicationState(val scope:CoroutineScope,
             // 释放资源
             graphics.dispose()
 
+            currentImage = outputImage
+        }
+    }
+
+    fun blur(width:Int, height:Int,offset: Offset) {
+        scope.launch(Dispatchers.IO) {
+            val bufferedImage = currentImage!!
+
+            val srcWidth = bufferedImage.width
+            val srcHeight = bufferedImage.height
+
+            val xScale = (srcWidth.toFloat()/width)
+            val yScale = (srcHeight.toFloat()/height)
+
+            // 打码区域左上角x坐标
+            val x = (offset.x*xScale).toInt()
+            // 打码区域左上角y坐标
+            val y = (offset.y*yScale).toInt()
+            // 打码区域宽度
+            val width = (100*xScale).toInt()
+            // 打码区域高度
+            val height = (100*yScale).toInt()
+
+            var tempImage = bufferedImage.getSubimage(x,y,width,height)
+            tempImage = blurFilter.transform(tempImage)
+
+            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+            val graphics2D = outputImage.createGraphics()
+            graphics2D.drawImage(bufferedImage, 0, 0, null)
+            graphics2D.drawImage(tempImage, x, y, width, height, null)
+            graphics2D.dispose()
             currentImage = outputImage
         }
     }

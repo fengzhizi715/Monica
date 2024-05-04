@@ -34,6 +34,7 @@ fun basicContent(state: ApplicationState) {
 
             if (!state.isBasic) {
                 state.isMosaic = false
+                state.isBlur = false
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
@@ -57,6 +58,7 @@ fun basicContent(state: ApplicationState) {
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
+                state.isBlur = true
             },
             enabled = state.isBasic
         ) {
