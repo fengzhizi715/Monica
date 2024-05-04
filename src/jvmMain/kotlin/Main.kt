@@ -36,7 +36,6 @@ var openURLDialog by mutableStateOf(false)
 
 lateinit var client: HttpConnectionClient
 
-@OptIn(ExperimentalMaterialApi::class)
 fun main() = application {
 
     initData()

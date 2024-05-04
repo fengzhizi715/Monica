@@ -22,4 +22,4 @@ private val formatterWithHorizontal by lazy {
 /**
  * 生成图片的名称
  */
-fun currentTime() = ZonedDateTime.now().format(formatterWithHorizontal)
+fun currentTime(): String = ZonedDateTime.now().format(formatterWithHorizontal)

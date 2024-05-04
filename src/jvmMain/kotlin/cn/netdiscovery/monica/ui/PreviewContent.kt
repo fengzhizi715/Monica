@@ -140,7 +140,20 @@ private fun previewImage(state: ApplicationState) {
             ) {
                 Icon(
                     painter = painterResource("preview.png"),
-                    contentDescription = "预览",
+                    contentDescription = "预览效果",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = {
+                    state.togglePreviewWindow(true)
+                }
+            ) {
+                Icon(
+                    painter = painterResource("zoom.png"),
+                    contentDescription = "放大预览",
                     modifier = Modifier.size(36.dp)
                 )
             }
