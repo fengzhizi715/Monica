@@ -107,34 +107,36 @@ class ApplicationState(val scope:CoroutineScope,
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset) {
-        val bufferedImage = currentImage!!
+        scope.launch(Dispatchers.IO) {
+            val bufferedImage = currentImage!!
 
-        val srcWidth = bufferedImage.width
-        val srcHeight = bufferedImage.height
+            val srcWidth = bufferedImage.width
+            val srcHeight = bufferedImage.height
 
-        val xScale = (srcWidth.toFloat()/width)
-        val yScale = (srcHeight.toFloat()/height)
+            val xScale = (srcWidth.toFloat()/width)
+            val yScale = (srcHeight.toFloat()/height)
 
-        // 创建与输入图像相同大小的新图像
-        val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
-        // 创建画笔
-        val graphics: Graphics = outputImage.graphics
-        // 将原始图像绘制到新图像中
-        graphics.drawImage(bufferedImage, 0, 0, null)
-        // 打码区域左上角x坐标
-        val x = (offset.x*xScale).toInt()
-        // 打码区域左上角y坐标
-        val y = (offset.y*yScale).toInt()
-        // 打码区域宽度
-        val width = (50*xScale).toInt()
-        // 打码区域高度
-        val height = (50*yScale).toInt()
-        graphics.color = Color.GRAY
-        graphics.fillRect(x, y, width, height)
-        // 释放资源
-        graphics.dispose()
+            // 创建与输入图像相同大小的新图像
+            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+            // 创建画笔
+            val graphics: Graphics = outputImage.graphics
+            // 将原始图像绘制到新图像中
+            graphics.drawImage(bufferedImage, 0, 0, null)
+            // 打码区域左上角x坐标
+            val x = (offset.x*xScale).toInt()
+            // 打码区域左上角y坐标
+            val y = (offset.y*yScale).toInt()
+            // 打码区域宽度
+            val width = (50*xScale).toInt()
+            // 打码区域高度
+            val height = (50*yScale).toInt()
+            graphics.color = Color.GRAY
+            graphics.fillRect(x, y, width, height)
+            // 释放资源
+            graphics.dispose()
 
-        currentImage = outputImage
+            currentImage = outputImage
+        }
     }
 
     fun loadUrl(picUrl:String) {

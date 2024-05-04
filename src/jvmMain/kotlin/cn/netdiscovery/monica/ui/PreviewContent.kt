@@ -23,9 +23,6 @@ import cn.netdiscovery.monica.utils.getUniqueFile
 import cn.netdiscovery.monica.utils.saveImage
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.launch
-import java.awt.Color
-import java.awt.Graphics
-import java.awt.image.BufferedImage
 import java.io.File
 import javax.swing.JFileChooser
 
