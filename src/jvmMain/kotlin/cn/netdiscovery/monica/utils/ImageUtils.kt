@@ -31,6 +31,46 @@ fun clamp(x: Int, a: Int, b: Int): Int {
     return if (x < a) a else if (x > b) b else x
 }
 
+fun premultiply(p: IntArray, offset: Int, length: Int) {
+    var length = length
+    length += offset
+    for (i in offset until length) {
+        val rgb = p[i]
+        val a = (rgb shr 24) and 0xff
+        var r = (rgb shr 16) and 0xff
+        var g = (rgb shr 8) and 0xff
+        var b = rgb and 0xff
+        val f = a * (1.0f / 255.0f)
+        r = (r * f).toInt()
+        g = (g * f).toInt()
+        b = (b * f).toInt()
+        p[i] = (a shl 24) or (r shl 16) or (g shl 8) or b
+    }
+}
+
+fun unpremultiply(p: IntArray, offset: Int, length: Int) {
+    var length = length
+    length += offset
+    for (i in offset until length) {
+        val rgb = p[i]
+        val a = (rgb shr 24) and 0xff
+        var r = (rgb shr 16) and 0xff
+        var g = (rgb shr 8) and 0xff
+        var b = rgb and 0xff
+        if (a != 0 && a != 255) {
+            val f = 255.0f / a
+            r = (r * f).toInt()
+            g = (g * f).toInt()
+            b = (b * f).toInt()
+            if (r > 255) r = 255
+            if (g > 255) g = 255
+            if (b > 255) b = 255
+            p[i] = (a shl 24) or (r shl 16) or (g shl 8) or b
+        }
+    }
+}
+
+
 suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
 
     withContext(Dispatchers.IO) {
@@ -118,6 +158,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
             "USMFilter" -> {
                 USMFilter(array[0] as Float,array[1] as Float,array[2] as Int).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+            }
+            "VariableBlurFilter"-> {
+                VariableBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(state.currentImage!!)
             }
             "WhiteImageFilter" -> {
                 WhiteImageFilter(array[0] as Double).transform(state.currentImage!!)

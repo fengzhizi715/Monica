@@ -49,6 +49,11 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("amount","Float",0.5f))
             this.add(Triple("threshold","Int",1))
         }))
+        this.add(FilterParam("VariableBlurFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("hRadius","Int",5))
+            this.add(Triple("vRadius","Int",5))
+            this.add(Triple("iterations","Int",1))
+        }))
         this.add(FilterParam("WhiteImageFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("beta","Double",1.1))
         }))

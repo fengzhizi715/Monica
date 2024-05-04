@@ -28,7 +28,7 @@ class BoxBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5, priv
         return bufferedImage
     }
 
-    fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int) {
+    private fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int) {
         val widthMinus1 = width - 1
         val tableSize = 2 * radius + 1
         val divide = IntArray(256 * tableSize)
