@@ -151,7 +151,7 @@ fun main() = application {
 
     if (applicationState.isShowPreviewWindow && applicationState.currentImage != null) {
         Window(
-            title = "预览",
+            title = "放大预览",
             onCloseRequest = {
                 applicationState.togglePreviewWindow(false)
             },

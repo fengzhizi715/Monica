@@ -18,6 +18,9 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("ds","Double",1.0))
             this.add(Triple("rs","Double",1.0))
         }))
+        this.add(FilterParam("BlockFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("blockSize","Int",2))
+        }))
         this.add(FilterParam("BoxBlurFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("hRadius","Int",5))
             this.add(Triple("vRadius","Int",5))

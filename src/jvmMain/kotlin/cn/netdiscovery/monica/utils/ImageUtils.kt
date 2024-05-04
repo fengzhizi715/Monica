@@ -132,6 +132,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "BilateralFilter" -> {
                 BilateralFilter(array[0] as Double,array[1] as Double).transform(state.currentImage!!)
             }
+            "BlockFilter" -> {
+                BlockFilter(array[0] as Int).transform(state.currentImage!!)
+            }
             "BoxBlurFilter" -> {
                 BoxBlurFilter(array[0] as Int,array[1] as Int,array[2] as Int).transform(state.currentImage!!)
             }
