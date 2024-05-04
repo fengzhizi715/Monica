@@ -143,19 +143,6 @@ private fun previewImage(state: ApplicationState) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    state.clearImage()
-                }
-            ) {
-                Icon(
-                    painter = painterResource("delete.png"),
-                    contentDescription = "删除",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
-
-            IconButton(
-                modifier = Modifier.padding(5.dp),
-                onClick = {
                     state.onClickPreviewImage()
                 }
             ) {
@@ -186,6 +173,19 @@ private fun previewImage(state: ApplicationState) {
                 Icon(
                     painter = painterResource("save.png"),
                     contentDescription = "保存",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
+            
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = {
+                    state.clearImage()
+                }
+            ) {
+                Icon(
+                    painter = painterResource("delete.png"),
+                    contentDescription = "删除",
                     modifier = Modifier.size(36.dp)
                 )
             }
