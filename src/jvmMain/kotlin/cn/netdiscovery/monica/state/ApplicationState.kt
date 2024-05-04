@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import client
-import cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*

@@ -1,5 +1,6 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.blur
 
+import cn.netdiscovery.monica.imageprocess.filter.BaseFilter
 import cn.netdiscovery.monica.utils.premultiply
 import cn.netdiscovery.monica.utils.unpremultiply
 import java.awt.image.BufferedImage
@@ -7,7 +8,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.VariableBlurFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
  * @author: Tony Shen
  * @date:  2024/5/4 15:04
  * @version: V1.0 <描述当前版本功能>

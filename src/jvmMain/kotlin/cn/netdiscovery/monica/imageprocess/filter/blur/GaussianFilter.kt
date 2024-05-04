@@ -1,5 +1,6 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.blur
 
+import cn.netdiscovery.monica.imageprocess.filter.BaseFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 import java.awt.image.Kernel
@@ -11,7 +12,7 @@ import kotlin.math.exp
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.GaussianFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
  * @author: Tony Shen
  * @date: 2024/4/29 17:40
  * @version: V1.0 <描述当前版本功能>

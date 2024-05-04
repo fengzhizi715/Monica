@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
+import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 
@@ -11,7 +12,8 @@ import java.awt.image.BufferedImage
  * @date: 2024/5/1 11:17
  * @version: V1.0 <描述当前版本功能>
  */
-class USMFilter(override val radius: Float =2f, private val amount: Float = 0.5f, private val threshold:Int =1) :GaussianFilter(radius) {
+class USMFilter(override val radius: Float =2f, private val amount: Float = 0.5f, private val threshold:Int =1) :
+    GaussianFilter(radius) {
 
     override fun doFilter(image: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)

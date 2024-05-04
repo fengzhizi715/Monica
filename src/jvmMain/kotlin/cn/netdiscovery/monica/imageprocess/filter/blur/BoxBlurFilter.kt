@@ -1,12 +1,13 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.blur
 
+import cn.netdiscovery.monica.imageprocess.filter.BaseFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.BoxBlurFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
  * @author: Tony Shen
  * @date: 2024/4/27 13:36
  * @version: V1.0 <描述当前版本功能>
