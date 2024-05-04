@@ -1,15 +1,13 @@
 package cn.netdiscovery.monica.utils.extension
 
-
 import java.text.DecimalFormat
-
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.extension.Extension
+ *          cn.netdiscovery.monica.utils.extension.`Number+Extension`
  * @author: Tony Shen
- * @date: 2024/4/26 11:14
+ * @date:  2024/5/4 14:30
  * @version: V1.0 <描述当前版本功能>
  */
 val format by lazy {
@@ -17,5 +15,3 @@ val format by lazy {
 }
 
 fun Float.to2fStr(): String = format.format(this)
-
-
