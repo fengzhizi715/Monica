@@ -74,9 +74,9 @@ fun filterContent(state: ApplicationState) {
                     rxCache.saveOrUpdate(filterName, list)
                 }
             },
-            enabled = state.isFilter && selectedIndex.value>0
+            enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0
         ) {
-            Text(text = "保存参数",
+            Text(text = "应用参数",
                 color = if (state.isFilter) Color.Unspecified else Color.LightGray)
         }
     }
