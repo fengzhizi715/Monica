@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.sharpen
 
 import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.utils.clamp
@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.USMFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
  * @author: Tony Shen
  * @date: 2024/5/1 11:17
  * @version: V1.0 <描述当前版本功能>

@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
+import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
 import cn.netdiscovery.monica.state.ApplicationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
