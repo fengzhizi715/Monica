@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.imageprocess.filter.blur.AverageFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.state.ApplicationState
 import kotlinx.coroutines.Dispatchers
@@ -142,6 +143,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
             "HighPassFilter" -> {
                 HighPassFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+            }
+            "LaplaceSharpenFilter" -> {
+                LaplaceSharpenFilter().transform(state.currentImage!!)
             }
             "MotionFilter" -> {
                 MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
