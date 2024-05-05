@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
+import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 

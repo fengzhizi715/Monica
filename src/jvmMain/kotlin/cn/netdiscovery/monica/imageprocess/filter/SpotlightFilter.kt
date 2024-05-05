@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
+import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import java.awt.image.BufferedImage
 import kotlin.math.sqrt
 
@@ -11,7 +12,7 @@ import kotlin.math.sqrt
  * @date: 2024/4/29 15:23
  * @version: V1.0 <描述当前版本功能>
  */
-class SpotlightFilter(private val factor:Int = 1):BaseFilter() {
+class SpotlightFilter(private val factor:Int = 1): BaseFilter() {
 
     override fun doFilter(image: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)

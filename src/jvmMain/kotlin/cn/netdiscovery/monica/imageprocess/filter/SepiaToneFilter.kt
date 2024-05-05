@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
+import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
 
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage
  * @date: 2024/5/1 11:09
  * @version: V1.0 SepiaTone 滤镜， 老照片特效
  */
-class SepiaToneFilter :BaseFilter() {
+class SepiaToneFilter : BaseFilter() {
 
     override fun doFilter(image: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)

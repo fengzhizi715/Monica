@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.base
 
 import cn.netdiscovery.monica.imageprocess.Transformer
 import java.awt.image.BufferedImage
@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.BaseFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
  * @author: Tony Shen
  * @date: 2024/4/27 13:32
  * @version: V1.0 <描述当前版本功能>

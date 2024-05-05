@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter.blur
 
-import cn.netdiscovery.monica.imageprocess.filter.BaseFilter
+import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import cn.netdiscovery.monica.utils.premultiply
 import cn.netdiscovery.monica.utils.unpremultiply
 import java.awt.image.BufferedImage
