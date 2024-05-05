@@ -14,7 +14,7 @@ import java.awt.image.Kernel
  * @date: 2024/5/5 17:54
  * @version: V1.0 <描述当前版本功能>
  */
-open class ConvolveFilter(private val matrix:FloatArray): BaseFilter() {
+open class ConvolveFilter(matrix:FloatArray): BaseFilter() {
 
     /**
      * Treat pixels off the edge as zero.

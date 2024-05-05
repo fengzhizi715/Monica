@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.utils
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.imageprocess.filter.*
+import cn.netdiscovery.monica.imageprocess.filter.blur.AverageFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
@@ -105,6 +106,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
 
     return withContext(Dispatchers.IO) {
         when(filterName) {
+            "AverageFilter" -> {
+                AverageFilter().transform(state.currentImage!!)
+            }
             "BilateralFilter" -> {
                 BilateralFilter(array[0] as Double,array[1] as Double).transform(state.currentImage!!)
             }

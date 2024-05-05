@@ -14,6 +14,7 @@ data class FilterParam(var name:String,var params: List<Triple<String,String,Any
 
 private val filters: MutableList<FilterParam> by lazy {
     mutableListOf<FilterParam>().apply {
+        this.add(FilterParam("AverageFilter", mutableListOf()))
         this.add(FilterParam("BilateralFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("ds","Double",1.0))
             this.add(Triple("rs","Double",1.0))
