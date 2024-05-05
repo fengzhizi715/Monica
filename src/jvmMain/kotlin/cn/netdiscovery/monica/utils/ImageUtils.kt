@@ -11,11 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.awt.Color
 import java.awt.image.BufferedImage
-import java.io.File
-import javax.imageio.IIOImage
-import javax.imageio.ImageIO
-import javax.imageio.ImageWriteParam
-import javax.imageio.ImageWriter
 
 /**
  *
@@ -70,25 +65,6 @@ fun unpremultiply(p: IntArray, offset: Int, length: Int) {
             if (b > 255) b = 255
             p[i] = (a shl 24) or (r shl 16) or (g shl 8) or b
         }
-    }
-}
-
-
-suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
-
-    withContext(Dispatchers.IO) {
-        val outputStream = ImageIO.createImageOutputStream(saveFile)
-        val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
-        val jpgWriteParam: ImageWriteParam = jpgWriter.defaultWriteParam
-        jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
-        jpgWriteParam.compressionQuality = quality
-        jpgWriter.output = outputStream
-        val outputImage = IIOImage(this@saveImage, null, null)
-        jpgWriter.write(null, outputImage, jpgWriteParam)
-        jpgWriter.dispose()
-        outputStream.flush()
-
-        closeQuietly(outputStream)
     }
 }
 
@@ -183,5 +159,4 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
         }
     }
-
 }
