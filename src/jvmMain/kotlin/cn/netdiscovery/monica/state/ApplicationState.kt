@@ -16,8 +16,11 @@ import java.awt.Color
 import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
+import java.text.Collator
+import java.util.*
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
+import kotlin.Comparator
 
 /**
  *
@@ -94,14 +97,18 @@ class ApplicationState(val scope:CoroutineScope,
                     val filterName = filterNames[selectedIndex.value]
 
                     val params = getFilterParam(filterName)
+                    // 按照参数名首字母进行排序
+                    Collections.sort(params) { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first) }
+                    println("sort params: $params")
 
                     val array = mutableListOf<Any>()
+
                     params?.forEach {
                         array.add(it.third)
                     }
 
                     if (selectedIndex.value>0) {
-                        println("filterName: $filterName, params: $array")
+                        println("filterName: $filterName, array: $array")
                     }
 
                     lastImage = currentImage

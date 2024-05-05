@@ -74,9 +74,10 @@ fun filterContent(state: ApplicationState) {
                         list.add(Triple(t.first, t.second, value))
                     }
 
+                    // 按照参数名首字母进行排序
                     list.sortWith(Comparator { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); })
 
-                    println("list = $list")
+                    println("sort params: $list")
                     rxCache.saveOrUpdate(filterName, list)
                 }
             },
