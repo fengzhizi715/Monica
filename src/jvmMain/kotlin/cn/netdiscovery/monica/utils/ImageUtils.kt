@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.imageprocess.filter.blur.AverageFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.state.ApplicationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -147,6 +148,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
             "SepiaToneFilter" -> {
                 SepiaToneFilter().transform(state.currentImage!!)
+            }
+            "SharpenFilter" -> {
+                SharpenFilter().transform(state.currentImage!!)
             }
             "SpotlightFilter" -> {
                 SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
