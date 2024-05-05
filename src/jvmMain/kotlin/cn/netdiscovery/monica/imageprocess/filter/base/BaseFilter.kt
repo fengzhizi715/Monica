@@ -15,11 +15,13 @@ abstract class BaseFilter: Transformer {
 
     protected var width = 0
     protected var height = 0
+    protected var type = 0
 
     override fun transform(image: BufferedImage): BufferedImage {
         width = image.width
         height = image.height
-        val dstImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        type = image.type
+        val dstImage = BufferedImage(image.width, image.height, type)
 
         return doFilter(image,dstImage)
     }
