@@ -30,7 +30,7 @@ abstract class BaseFilter: Transformer {
      * A convenience method for getting ARGB pixels from an image. This tries to avoid the performance
      * penalty of BufferedImage.getRGB unmanaging the image.
      */
-    fun getRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray?): IntArray? {
+    fun getRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray): IntArray {
         val type = image.type
         return if (type == BufferedImage.TYPE_INT_ARGB || type == BufferedImage.TYPE_INT_RGB) image.raster.getDataElements(
             x,
@@ -45,7 +45,7 @@ abstract class BaseFilter: Transformer {
      * A convenience method for setting ARGB pixels in an image. This tries to avoid the performance
      * penalty of BufferedImage.setRGB unmanaging the image.
      */
-    fun setRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray?) {
+    fun setRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray) {
         val type = image.type
         if (type == BufferedImage.TYPE_INT_ARGB || type == BufferedImage.TYPE_INT_RGB) image.raster.setDataElements(
             x,
