@@ -99,11 +99,12 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
         modifier = Modifier.wrapContentSize().offset(x = 15.dp,y = 0.dp)
     ) {
         Column {
-            Button(modifier = Modifier.width(175.dp),
+            Button(modifier = Modifier.width(180.dp),
                 onClick = { expanded =true },
                 enabled = state.isFilter){
 
                 Text(text = filterNames[selectedIndex.value],
+                    fontSize = 11.5.sp,
                     color = if (state.isFilter) Color.Unspecified else Color.LightGray)
             }
 
