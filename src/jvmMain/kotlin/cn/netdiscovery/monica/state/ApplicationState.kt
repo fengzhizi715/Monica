@@ -234,8 +234,10 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun loadUrl(picUrl:String) {
         scope.launch(Dispatchers.IO) {
-            rawImage = client.getImage(url = picUrl)
-            currentImage = rawImage
+            clickLoadingDisplay {
+                rawImage = client.getImage(url = picUrl)
+                currentImage = rawImage
+            }
         }
     }
 
