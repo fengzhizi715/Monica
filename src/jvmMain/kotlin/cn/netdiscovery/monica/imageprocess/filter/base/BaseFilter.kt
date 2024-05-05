@@ -24,7 +24,7 @@ abstract class BaseFilter: Transformer {
         return doFilter(image,dstImage)
     }
 
-    abstract fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage
+    abstract fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage
 
     /**
      * A convenience method for getting ARGB pixels from an image. This tries to avoid the performance

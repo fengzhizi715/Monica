@@ -14,10 +14,10 @@ import java.awt.image.BufferedImage
  */
 class SepiaToneFilter : BaseFilter() {
 
-    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
+    override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
-        getRGB(image, 0, 0, width, height, inPixels)
+        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         var index = 0
         for (row in 0 until height) {

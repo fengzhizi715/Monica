@@ -14,11 +14,11 @@ import java.awt.image.BufferedImage
  */
 class GrayFilter: BaseFilter() {
 
-    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
+    override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
         for (row in 0 until height) {
             for (col in 0 until width) {
-                val rgb = image.getRGB(col,row)
+                val rgb = srcImage.getRGB(col,row)
                 val r = rgb and (0x00ff0000 shr 16)
                 val g = rgb and (0x0000ff00 shr 8)
                 val b = rgb and 0x000000ff
