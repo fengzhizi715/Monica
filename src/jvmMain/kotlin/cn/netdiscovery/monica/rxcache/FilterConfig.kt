@@ -30,6 +30,12 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("contrast","Float",1.5f))
             this.add(Triple("brightness","Float",1.0f))
         }))
+        this.add(FilterParam("CropFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("x","Int",0))
+            this.add(Triple("y","Int",0))
+            this.add(Triple("w","Int",32))
+            this.add(Triple("h","Int",32))
+        }))
         this.add(FilterParam("GammaFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("gamma","Double",0.5))
         }))
