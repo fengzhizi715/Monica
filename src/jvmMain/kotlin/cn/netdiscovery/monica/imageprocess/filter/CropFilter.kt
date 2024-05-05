@@ -21,7 +21,7 @@ class CropFilter(private val x:Int = 0,
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        val dst = BufferedImage(w, h, BufferedImage.TYPE_INT_RGB)
+        val dst = BufferedImage(w, h, type)
         val g: Graphics2D = dst.createGraphics()
         g.drawRenderedImage(srcImage, AffineTransform.getTranslateInstance(-x.toDouble(), -y.toDouble()))
         g.dispose()
