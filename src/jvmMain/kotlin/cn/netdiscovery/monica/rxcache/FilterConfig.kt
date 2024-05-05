@@ -26,6 +26,7 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("vRadius","Int",5))
             this.add(Triple("iterations","Int",1))
         }))
+        this.add(FilterParam("BumpFilter", mutableListOf()))
         this.add(FilterParam("ConBriFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("contrast","Float",1.5f))
             this.add(Triple("brightness","Float",1.0f))

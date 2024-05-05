@@ -114,6 +114,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "BoxBlurFilter" -> {
                 BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int).transform(state.currentImage!!)
             }
+            "BumpFilter" -> {
+                BumpFilter().transform(state.currentImage!!)
+            }
             "ConBriFilter" -> {
                 ConBriFilter(array[0] as Float,array[1] as Float).transform(state.currentImage!!)
             }

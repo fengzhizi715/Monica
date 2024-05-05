@@ -97,9 +97,12 @@ class ApplicationState(val scope:CoroutineScope,
                     val filterName = filterNames[selectedIndex.value]
 
                     val params = getFilterParam(filterName)
-                    // 按照参数名首字母进行排序
-                    Collections.sort(params) { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first) }
-                    println("sort params: $params")
+
+                    if (params!=null) {
+                        // 按照参数名首字母进行排序
+                        Collections.sort(params) { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first) }
+                        println("sort params: $params")
+                    }
 
                     val array = mutableListOf<Any>()
 
