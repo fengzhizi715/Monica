@@ -20,7 +20,6 @@ import java.text.Collator
 import java.util.*
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
-import kotlin.Comparator
 
 /**
  *
@@ -61,7 +60,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
-    val blurFilter = BoxBlurFilter(15,15,1)
+    private val blurFilter = BoxBlurFilter(15,15,1)
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
