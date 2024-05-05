@@ -37,8 +37,7 @@ suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
     }
 }
 
-/** Boundary safe [getSubImage] */
-fun BufferedImage.subimage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
+fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
     if (w < 0 || h < 0)
         throw IllegalArgumentException("Width and height should be non-negative: ($w; $h)")
 

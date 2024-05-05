@@ -10,7 +10,7 @@ import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
-import cn.netdiscovery.monica.utils.extension.subimage
+import cn.netdiscovery.monica.utils.extension.subImage
 import filterNames
 import kotlinx.coroutines.*
 import java.awt.Color
@@ -173,7 +173,7 @@ class ApplicationState(val scope:CoroutineScope,
             // 打码区域高度
             val height = (100*yScale).toInt()
 
-            var tempImage = bufferedImage.subimage(x,y,width,height)
+            var tempImage = bufferedImage.subImage(x,y,width,height)
             tempImage = blurFilter.transform(tempImage)
 
             val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
