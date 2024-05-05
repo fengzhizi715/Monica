@@ -13,8 +13,8 @@ import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.*
 import cn.netdiscovery.monica.utils.currentTime
+import cn.netdiscovery.monica.utils.extension.saveImage
 import cn.netdiscovery.monica.utils.getUniqueFile
-import cn.netdiscovery.monica.utils.saveImage
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.launch
 import java.io.File

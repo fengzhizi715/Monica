@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.*
+import cn.netdiscovery.monica.utils.extension.saveImage
 import kotlinx.coroutines.launch
 import java.io.File
 import javax.swing.JFileChooser
