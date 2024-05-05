@@ -142,11 +142,59 @@ class ApplicationState(val scope:CoroutineScope,
             // 打码区域左上角y坐标
             val y = (offset.y*yScale).toInt()
             // 打码区域宽度
-            val width = (50*xScale).toInt()
+            val width = (60*xScale).toInt()
             // 打码区域高度
-            val height = (50*yScale).toInt()
-            graphics.color = Color.GRAY
-            graphics.fillRect(x, y, width, height)
+            val height = (60*yScale).toInt()
+
+            val mosaicSize = 40
+            //2. 设置各方向绘制的马赛克块个数
+            var xcount = 0 // 方向绘制个数
+            var ycount = 0 // y方向绘制个数
+            if (width % mosaicSize === 0) {
+                xcount = width / mosaicSize
+            } else {
+                xcount = width / mosaicSize + 1
+            }
+            if (height % mosaicSize === 0) {
+                ycount = height / mosaicSize
+            } else {
+                ycount = height / mosaicSize + 1
+            }
+
+            var xTmp = x
+            var yTmp = y
+            for (i in 0 until xcount) {
+                for (j in 0 until ycount) {
+                    //马赛克矩形格大小
+                    var mwidth = mosaicSize
+                    var mheight = mosaicSize
+                    if (i == xcount - 1) {   //横向最后一个比较特殊，可能不够一个size
+                        mwidth = width - xTmp
+                    }
+                    if (j == ycount - 1) {  //同理
+                        mheight = height - yTmp
+                    }
+                    //矩形颜色取中心像素点RGB值
+                    var centerX = xTmp
+                    var centerY = yTmp
+                    centerX += if (mwidth % 2 == 0) {
+                        mwidth / 2
+                    } else {
+                        (mwidth - 1) / 2
+                    }
+                    centerY += if (mheight % 2 == 0) {
+                        mheight / 2
+                    } else {
+                        (mheight - 1) / 2
+                    }
+                    val color: Color = Color(bufferedImage.getRGB(centerX, centerY))
+                    graphics.setColor(color)
+                    graphics.fillRect(xTmp, yTmp, mwidth, mheight)
+                    yTmp = yTmp + mosaicSize // 计算下一个矩形的y坐标
+                }
+                yTmp = y // 还原y坐标
+                xTmp = xTmp + mosaicSize // 计算x坐标
+            }
             // 释放资源
             graphics.dispose()
 
