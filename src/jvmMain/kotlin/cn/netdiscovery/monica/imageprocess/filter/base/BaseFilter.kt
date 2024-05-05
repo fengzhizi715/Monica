@@ -24,13 +24,13 @@ abstract class BaseFilter: Transformer {
         return doFilter(image,dstImage)
     }
 
-    abstract fun doFilter(image: BufferedImage,dstImage: BufferedImage): BufferedImage
+    abstract fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage
 
     /**
      * A convenience method for getting ARGB pixels from an image. This tries to avoid the performance
      * penalty of BufferedImage.getRGB unmanaging the image.
      */
-    fun getRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray): IntArray {
+    fun getRGB(image: BufferedImage, x: Int, y: Int, width: Int, height: Int, pixels: IntArray?): IntArray {
         val type = image.type
         return if (type == BufferedImage.TYPE_INT_ARGB || type == BufferedImage.TYPE_INT_RGB) image.raster.getDataElements(
             x,
