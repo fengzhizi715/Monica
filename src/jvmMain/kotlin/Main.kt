@@ -53,7 +53,7 @@ fun main() = application {
     )
 
     Window(onCloseRequest = ::exitApplication,
-        title = "Monica 图片编辑器",
+        title = "Monica 图片编辑器 V0.1",
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {

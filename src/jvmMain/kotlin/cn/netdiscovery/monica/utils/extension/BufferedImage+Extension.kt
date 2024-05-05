@@ -36,3 +36,24 @@ suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
         closeQuietly(outputStream)
     }
 }
+
+/** Boundary safe [getSubImage] */
+fun BufferedImage.subimage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
+    if (w < 0 || h < 0)
+        throw IllegalArgumentException("Width and height should be non-negative: ($w; $h)")
+
+    var x1 = x
+    var x2 = x + w     // w >= 0 => x1 <= x2
+    x1 = x1.coerceIn(0, width)
+    x2 = x2.coerceIn(0, width)
+
+    var y1 = y
+    var y2 = y + h     // h >= 0 => y1 <= y2
+    y1 = y1.coerceIn(0, height)
+    y2 = y2.coerceIn(0, height)
+
+    if (x2 - x1 == 0 || y2 - y1 == 0)
+       return BufferedImage(1, 1, this.type)
+
+    return getSubimage(x1, y1, x2 - x1, y2 - y1)
+}
