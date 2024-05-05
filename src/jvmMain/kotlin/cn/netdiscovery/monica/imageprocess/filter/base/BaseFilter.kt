@@ -19,9 +19,12 @@ abstract class BaseFilter: Transformer {
     override fun transform(image: BufferedImage): BufferedImage {
         width = image.width
         height = image.height
+        val dstImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
 
-        return doFilter(image)
+        return doFilter(image,dstImage)
     }
+
+    abstract fun doFilter(image: BufferedImage,dstImage: BufferedImage): BufferedImage
 
     /**
      * A convenience method for getting ARGB pixels from an image. This tries to avoid the performance
@@ -52,6 +55,4 @@ abstract class BaseFilter: Transformer {
             pixels
         ) else image.setRGB(x, y, width, height, pixels, 0, width)
     }
-
-    abstract fun doFilter(image: BufferedImage): BufferedImage
 }

@@ -14,7 +14,7 @@ import java.awt.image.BufferedImage
  */
 class BoxBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5, private val iterations:Int=1): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -24,9 +24,8 @@ class BoxBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5, priv
             blur( outPixels, inPixels, height, width, vRadius )
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, inPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, inPixels)
+        return dstImage
     }
 
     private fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int) {

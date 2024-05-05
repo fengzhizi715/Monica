@@ -53,7 +53,7 @@ open class GaussianFilter(open val radius:Float = 5.0f): BaseFilter() {
         kernel = makeKernel(radius)
     }
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -63,9 +63,8 @@ open class GaussianFilter(open val radius:Float = 5.0f): BaseFilter() {
             convolveAndTranspose(kernel, outPixels, inPixels, height, width, alpha, false, alpha && premultiplyAlpha, CLAMP_EDGES)
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, inPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, inPixels)
+        return dstImage
     }
 
     /**

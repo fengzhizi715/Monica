@@ -20,7 +20,7 @@ class VariableBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5,
             field = value
         }
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -34,9 +34,8 @@ class VariableBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5,
 
         if (premultiplyAlpha) unpremultiply(inPixels, 0, inPixels.size)
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, inPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, inPixels)
+        return dstImage
     }
 
     fun blur(`in`: IntArray, out: IntArray, width: Int, height: Int, radius: Int, pass: Int) {

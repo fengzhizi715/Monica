@@ -18,7 +18,7 @@ import kotlin.math.sqrt
  */
 class MotionFilter(private val distance:Float = 0f,private val angle:Float = 0f,private val zoom:Float = 0.4f): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
 
@@ -96,8 +96,7 @@ class MotionFilter(private val distance:Float = 0f,private val angle:Float = 0f,
             }
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, outPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, outPixels)
+        return dstImage
     }
 }

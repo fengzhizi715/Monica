@@ -15,9 +15,7 @@ import kotlin.math.ln
  */
 class WhiteImageFilter(private val beta:Double = 1.1): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         // make LUT
         val lut = IntArray(256)
         for (i in 0..255) {
@@ -35,11 +33,11 @@ class WhiteImageFilter(private val beta:Double = 1.1): BaseFilter() {
                 r = lut[r and 0xff]
                 g = lut[g and 0xff]
                 b = lut[b and 0xff]
-                bufferedImage.setRGB(col, row, Color(r, g, b).rgb)
+                dstImage.setRGB(col, row, Color(r, g, b).rgb)
             }
         }
 
-        return bufferedImage
+        return dstImage
     }
 
     private fun imageMath(gray: Int): Int {

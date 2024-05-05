@@ -20,7 +20,7 @@ class BilateralFilter(private val ds:Double = 1.0, private val rs:Double = 1.0):
     private lateinit var cWeightTable: Array<DoubleArray>
     private lateinit var sWeightTable: DoubleArray
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
         radius = Math.max(ds, rs).toInt()
         buildDistanceWeightTable()
@@ -108,9 +108,8 @@ class BilateralFilter(private val ds:Double = 1.0, private val rs:Double = 1.0):
             }
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, outPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, outPixels)
+        return dstImage
     }
 
     private fun buildDistanceWeightTable() {

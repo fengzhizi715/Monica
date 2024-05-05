@@ -14,7 +14,7 @@ import kotlin.math.sqrt
  */
 class SpotlightFilter(private val factor:Int = 1): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -44,9 +44,8 @@ class SpotlightFilter(private val factor:Int = 1): BaseFilter() {
             }
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, outPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, outPixels)
+        return dstImage
     }
 
     private fun getDistance(centerX: Int, centerY: Int, px: Int, py: Int): Double {

@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage
 class USMFilter(override val radius: Float =2f, private val amount: Float = 0.5f, private val threshold:Int =1) :
     GaussianFilter(radius) {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -48,8 +48,7 @@ class USMFilter(override val radius: Float =2f, private val amount: Float = 0.5f
             }
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, inPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, inPixels)
+        return dstImage
     }
 }

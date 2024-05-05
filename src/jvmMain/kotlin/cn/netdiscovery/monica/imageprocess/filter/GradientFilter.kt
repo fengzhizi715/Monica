@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import cn.netdiscovery.monica.utils.clamp
 import java.awt.image.BufferedImage
@@ -29,7 +27,7 @@ val XY_DIRECTION = 4
 
 class GradientFilter(val direction: Int = XY_DIRECTION, val isSobel:Boolean = true): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
         getRGB(image, 0, 0, width, height, inPixels)
@@ -111,8 +109,7 @@ class GradientFilter(val direction: Int = XY_DIRECTION, val isSobel:Boolean = tr
             }
         }
 
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        setRGB(bufferedImage, 0, 0, width, height, outPixels)
-        return bufferedImage
+        setRGB(dstImage, 0, 0, width, height, outPixels)
+        return dstImage
     }
 }

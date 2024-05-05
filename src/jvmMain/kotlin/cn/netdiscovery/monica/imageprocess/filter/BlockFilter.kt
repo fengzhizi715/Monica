@@ -14,9 +14,7 @@ import java.awt.image.BufferedImage
  */
 class BlockFilter(private val blockSize:Int =2): BaseFilter() {
 
-    override fun doFilter(image: BufferedImage): BufferedImage {
-        val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-
+    override fun doFilter(image: BufferedImage, dstImage: BufferedImage): BufferedImage {
         val pixels = IntArray(blockSize * blockSize)
 
         for (y in 0 until height step blockSize){
@@ -47,10 +45,10 @@ class BlockFilter(private val blockSize:Int =2): BaseFilter() {
                         i++
                     }
                 }
-                setRGB(bufferedImage, x, y, w, h, pixels)
+                setRGB(dstImage, x, y, w, h, pixels)
             }
         }
 
-        return bufferedImage
+        return dstImage
     }
 }
