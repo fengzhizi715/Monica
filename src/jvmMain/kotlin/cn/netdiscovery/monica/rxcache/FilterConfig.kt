@@ -44,6 +44,9 @@ private val filters: MutableList<FilterParam> by lazy {
         }))
         this.add(FilterParam("GradientFilter", mutableListOf()))
         this.add(FilterParam("GrayFilter", mutableListOf()))
+        this.add(FilterParam("HighPassFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("radius","Float",10f))
+        }))
         this.add(FilterParam("MotionFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("distance","Float",0f))
             this.add(Triple("angle","Float",0f))
