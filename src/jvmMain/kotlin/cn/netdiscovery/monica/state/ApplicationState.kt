@@ -147,7 +147,6 @@ class ApplicationState(val scope:CoroutineScope,
             val height = (60*yScale).toInt()
 
             val mosaicSize = 40
-            //2. 设置各方向绘制的马赛克块个数
             var xcount = 0 // 方向绘制个数
             var ycount = 0 // y方向绘制个数
             if (width % mosaicSize === 0) {
@@ -190,10 +189,10 @@ class ApplicationState(val scope:CoroutineScope,
                     val color: Color = Color(bufferedImage.getRGB(centerX, centerY))
                     graphics.setColor(color)
                     graphics.fillRect(xTmp, yTmp, mwidth, mheight)
-                    yTmp = yTmp + mosaicSize // 计算下一个矩形的y坐标
+                    yTmp += mosaicSize // 计算下一个矩形的y坐标
                 }
                 yTmp = y // 还原y坐标
-                xTmp = xTmp + mosaicSize // 计算x坐标
+                xTmp += mosaicSize // 计算x坐标
             }
             // 释放资源
             graphics.dispose()
