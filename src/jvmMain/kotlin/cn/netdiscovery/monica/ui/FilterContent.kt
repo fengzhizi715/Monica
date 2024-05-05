@@ -21,6 +21,9 @@ import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import filterNames
+import java.text.Collator
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
@@ -71,6 +74,9 @@ fun filterContent(state: ApplicationState) {
                         list.add(Triple(t.first, t.second, value))
                     }
 
+                    list.sortWith(Comparator { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); })
+
+                    println("list = $list")
                     rxCache.saveOrUpdate(filterName, list)
                 }
             },
