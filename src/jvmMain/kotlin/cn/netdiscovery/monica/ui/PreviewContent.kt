@@ -122,8 +122,9 @@ private fun previewImage(state: ApplicationState) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    if (state.lastImage!=null)
-                        state.currentImage = state.lastImage
+                    val lastImage = state.getLastImage()
+                    if (lastImage!=null)
+                        state.currentImage = lastImage
                 }
             ) {
                 Icon(

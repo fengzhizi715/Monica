@@ -19,6 +19,8 @@ import java.awt.image.BufferedImage
 import java.io.File
 import java.text.Collator
 import java.util.*
+import java.util.concurrent.LinkedBlockingQueue
+import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 
@@ -45,7 +47,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var rawImage: BufferedImage? by mutableStateOf(null)
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
-    var lastImage: BufferedImage? by mutableStateOf( rawImage )
+//    var lastImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
     var saturation by mutableStateOf(0f )
@@ -62,6 +64,10 @@ class ApplicationState(val scope:CoroutineScope,
     var isShowPreviewWindow by mutableStateOf(false)
 
     private val blurFilter = BoxBlurFilter(15,15,1)
+
+    private val queue: LinkedBlockingQueue<BufferedImage> = LinkedBlockingQueue(20)
+
+    fun getLastImage():BufferedImage? = queue.poll(3, TimeUnit.SECONDS)
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
@@ -114,7 +120,7 @@ class ApplicationState(val scope:CoroutineScope,
                         println("filterName: $filterName, array: $array")
                     }
 
-                    lastImage = currentImage
+                    queue.add(currentImage)
                     currentImage = doFilter(filterName,array,this@ApplicationState)
                 }
             }
