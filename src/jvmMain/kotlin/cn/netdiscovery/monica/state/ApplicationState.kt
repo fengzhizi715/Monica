@@ -20,7 +20,6 @@ import java.io.File
 import java.text.Collator
 import java.util.*
 import java.util.concurrent.LinkedBlockingDeque
-import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
@@ -53,6 +52,8 @@ class ApplicationState(val scope:CoroutineScope,
     var saturation by mutableStateOf(0f )
     var luminance by mutableStateOf(0f )
     var hue by mutableStateOf(0f )
+
+    var scale by mutableStateOf(1f )
 
     var isBasic by mutableStateOf(false)
     var isMosaic by mutableStateOf(false)

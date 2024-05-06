@@ -2,19 +2,22 @@ package cn.netdiscovery.monica.ui
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.Matrix
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.layout.layout
+import androidx.compose.ui.unit.Constraints
+import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extension.to2fStr
 
 /**
  *
@@ -26,6 +29,7 @@ import androidx.compose.ui.layout.ContentScale
  */
 @Composable
 fun ShowImageView(
+    state: ApplicationState,
     image: ImageBitmap
 ) {
     var angle by remember { mutableStateOf(0f) }//旋转角度
@@ -68,6 +72,30 @@ fun ShowImageView(
                 }
         )
 
+        Column(
+            modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp),
+            verticalArrangement = Arrangement.Center
+        ) {
+
+            Text(
+                text = state.scale.to2fStr(),
+                color = Color.Unspecified,
+                modifier = Modifier.align(Alignment.CenterHorizontally)
+            )
+            VerticalSlider(
+                value = state.scale,
+                onValueChange = {
+                    state.scale = it
+                    scale = it
+                },
+                modifier = Modifier
+                    .width(200.dp)
+                    .height(50.dp)
+                    .background(Color(0xffdedede)),
+                valueRange = 0.1f..5f
+            )
+        }
+
         AnimatedVisibility(
             visible = offsetX!=0f && offsetY!=0f,
             modifier = Modifier.align(Alignment.BottomCenter)
@@ -79,10 +107,56 @@ fun ShowImageView(
                     offsetX = 0f
                     offsetY = 0f
                     matrix = Matrix()
+
+                    state.scale = 1f
                 },
             ) {
                 Text("恢复")
             }
         }
     }
+}
+
+@Composable
+fun VerticalSlider(
+    value: Float,
+    onValueChange: (Float) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    valueRange: ClosedFloatingPointRange<Float> = 0f..1f,
+    /*@IntRange(from = 0)*/
+    steps: Int = 0,
+    onValueChangeFinished: (() -> Unit)? = null,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
+    colors: SliderColors = SliderDefaults.colors()
+){
+    Slider(
+        colors = colors,
+        interactionSource = interactionSource,
+        onValueChangeFinished = onValueChangeFinished,
+        steps = steps,
+        valueRange = valueRange,
+        enabled = enabled,
+        value = value,
+        onValueChange = onValueChange,
+        modifier = Modifier
+            .graphicsLayer {
+                rotationZ = 270f
+                transformOrigin = TransformOrigin(0f, 0f)
+            }
+            .layout { measurable, constraints ->
+                val placeable = measurable.measure(
+                    Constraints(
+                        minWidth = constraints.minHeight,
+                        maxWidth = constraints.maxHeight,
+                        minHeight = constraints.minWidth,
+                        maxHeight = constraints.maxHeight,
+                    )
+                )
+                layout(placeable.height, placeable.width) {
+                    placeable.place(-placeable.width, 0)
+                }
+            }
+            .then(modifier)
+    )
 }
