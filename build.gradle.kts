@@ -8,6 +8,8 @@ plugins {
 group = "cn.netdiscovery.monica"
 version = "1.0-SNAPSHOT"
 
+val mOutputDir = project.buildDir.resolve("output")
+
 repositories {
     google()
     mavenCentral()
@@ -37,9 +39,11 @@ compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
+            outputBaseDir.set(mOutputDir)   //build/output
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Monica"
             packageVersion = "1.0.0"
+            includeAllModules = true    //包含所有模块
         }
     }
 }
