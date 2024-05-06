@@ -67,7 +67,11 @@ class ApplicationState(val scope:CoroutineScope,
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
 
-    fun getLastImage():BufferedImage? = queue.pollFirst(3, TimeUnit.SECONDS)
+    fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
+
+    fun clearQueue() {
+        queue.clear()
+    }
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow

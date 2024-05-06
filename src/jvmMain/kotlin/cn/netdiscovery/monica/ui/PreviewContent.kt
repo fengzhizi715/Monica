@@ -110,7 +110,10 @@ private fun previewImage(state: ApplicationState) {
         ) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
-                onClick = { state.currentImage = state.rawImage }
+                onClick = {
+                    state.currentImage = state.rawImage
+                    state.clearQueue()
+                }
             ) {
                 Icon(
                     painter = painterResource("initial_picture.png"),
