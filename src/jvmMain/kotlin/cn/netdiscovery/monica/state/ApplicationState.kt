@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage
 import java.io.File
 import java.text.Collator
 import java.util.*
+import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.LinkedBlockingQueue
 import java.util.concurrent.TimeUnit
 import javax.imageio.ImageIO
@@ -47,7 +48,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     var rawImage: BufferedImage? by mutableStateOf(null)
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
-//    var lastImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
     var saturation by mutableStateOf(0f )
@@ -65,9 +65,9 @@ class ApplicationState(val scope:CoroutineScope,
 
     private val blurFilter = BoxBlurFilter(15,15,1)
 
-    private val queue: LinkedBlockingQueue<BufferedImage> = LinkedBlockingQueue(20)
+    private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
 
-    fun getLastImage():BufferedImage? = queue.poll(3, TimeUnit.SECONDS)
+    fun getLastImage():BufferedImage? = queue.pollFirst(3, TimeUnit.SECONDS)
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
@@ -120,7 +120,7 @@ class ApplicationState(val scope:CoroutineScope,
                         println("filterName: $filterName, array: $array")
                     }
 
-                    queue.add(currentImage)
+                    queue.putFirst(currentImage)
                     currentImage = doFilter(filterName,array,this@ApplicationState)
                 }
             }
@@ -203,6 +203,7 @@ class ApplicationState(val scope:CoroutineScope,
             // 释放资源
             graphics.dispose()
 
+            queue.putFirst(currentImage)
             currentImage = outputImage
         }
     }
@@ -234,6 +235,8 @@ class ApplicationState(val scope:CoroutineScope,
             graphics2D.drawImage(bufferedImage, 0, 0, null)
             graphics2D.drawImage(tempImage, x, y, width, height, null)
             graphics2D.dispose()
+
+            queue.putFirst(currentImage)
             currentImage = outputImage
         }
     }
