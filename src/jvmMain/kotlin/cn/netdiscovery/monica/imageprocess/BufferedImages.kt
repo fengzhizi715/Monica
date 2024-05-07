@@ -1,6 +1,10 @@
 package cn.netdiscovery.monica.imageprocess
 
+import client
 import java.awt.image.BufferedImage
+import java.io.File
+import java.io.InputStream
+import javax.imageio.ImageIO
 
 /**
  *
@@ -18,5 +22,13 @@ class BufferedImages {
                 if (width > 0) width else 1,
                 if (height > 0) height else 1,
                 type)
+
+        fun load(input: InputStream): BufferedImage = ImageIO.read(input)
+
+        fun load(file: File): BufferedImage = ImageIO.read(file)
+
+        fun load(path: String): BufferedImage = load(File(path))
+
+        fun loadUrl(url:String): BufferedImage? =  client.getImage(url)
     }
 }

@@ -6,13 +6,16 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import client
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.ui.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extension.subImage
 import filterNames
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.awt.Color
 import java.awt.Graphics
 import java.awt.image.BufferedImage
@@ -21,7 +24,6 @@ import java.text.Collator
 import java.util.*
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.TimeUnit
-import javax.imageio.ImageIO
 import javax.swing.JFileChooser
 
 /**
@@ -87,7 +89,7 @@ class ApplicationState(val scope:CoroutineScope,
                     clickLoadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
-                            rawImage = ImageIO.read(file)
+                            rawImage = BufferedImages.load(file)
                             currentImage = rawImage
                             rawImageFile = file
                         }
@@ -249,7 +251,7 @@ class ApplicationState(val scope:CoroutineScope,
     fun loadUrl(picUrl:String) {
         scope.launch(Dispatchers.IO) {
             clickLoadingDisplay {
-                rawImage = client.getImage(url = picUrl)
+                rawImage = BufferedImages.loadUrl(picUrl)
                 currentImage = rawImage
             }
         }
