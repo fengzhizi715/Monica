@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.flipHorizontally
+import cn.netdiscovery.monica.utils.extension.rotate
 
 /**
  *
@@ -57,6 +58,10 @@ fun CropContent(state: ApplicationState) {
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
+                if (state.currentImage!=null) {
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = state.currentImage!!.rotate(-90.0)
+                }
             },
             enabled = state.isCrop
         ) {

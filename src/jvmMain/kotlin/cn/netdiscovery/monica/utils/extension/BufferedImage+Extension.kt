@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.utils.extension
 import cn.netdiscovery.monica.utils.closeQuietly
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
@@ -10,6 +11,10 @@ import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
 import javax.imageio.ImageWriter
+import kotlin.math.abs
+import kotlin.math.cos
+import kotlin.math.floor
+import kotlin.math.sin
 
 
 /**
@@ -60,7 +65,6 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
 }
 
 fun BufferedImage.flipHorizontally(): BufferedImage? {
-    /* Create a new clean image of the same size/type */
     val flipped = BufferedImage(width, height, type)
     val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
     val flip = AffineTransform.getScaleInstance(-1.0, 1.0)
@@ -73,4 +77,24 @@ fun BufferedImage.flipHorizontally(): BufferedImage? {
     g.dispose()
 
     return flipped
+}
+
+fun BufferedImage.rotate(angle: Double): BufferedImage {
+    val radian = Math.toRadians(angle)
+    val sin = abs(sin(radian))
+    val cos = abs(cos(radian))
+    val newWidth = floor(width.toDouble() * cos + height.toDouble() * sin).toInt()
+    val newHeight = floor(height.toDouble() * cos + width.toDouble() * sin).toInt()
+    val rotatedImage = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
+    val graphics = rotatedImage.createGraphics()
+    graphics.setRenderingHint(
+        RenderingHints.KEY_INTERPOLATION,
+        RenderingHints.VALUE_INTERPOLATION_BICUBIC
+    )
+    graphics.translate((newWidth - width) / 2, (newHeight - height) / 2)
+    // rotation around the center point
+    graphics.rotate(radian, (width / 2).toDouble(), (height / 2).toDouble())
+    graphics.drawImage(this, 0, 0, null)
+    graphics.dispose()
+    return rotatedImage
 }
