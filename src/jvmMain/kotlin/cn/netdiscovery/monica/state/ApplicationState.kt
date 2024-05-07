@@ -5,14 +5,11 @@ import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import client
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
-import cn.netdiscovery.monica.rxcache.getFilterParam
-import cn.netdiscovery.monica.ui.selectedIndex
-import cn.netdiscovery.monica.utils.*
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.extension.subImage
-import filterNames
+import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -20,8 +17,6 @@ import java.awt.Color
 import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
-import java.text.Collator
-import java.util.*
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.TimeUnit
 import javax.swing.JFileChooser
@@ -103,41 +98,6 @@ class ApplicationState(val scope:CoroutineScope,
                 }
             }
         )
-    }
-
-    fun onClickPreviewImage() {
-        scope.launch {
-            clickLoadingDisplayWithSuspend {
-                if (isHLS) {
-                    currentImage = hsl(currentImage!!, saturation, hue, luminance)
-                }
-
-                if(isFilter) {
-                    if (selectedIndex.value == 0) return@clickLoadingDisplayWithSuspend
-
-                    val filterName = filterNames[selectedIndex.value]
-
-                    val params = getFilterParam(filterName)
-
-                    if (params!=null) {
-                        // 按照参数名首字母进行排序
-                        Collections.sort(params) { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first) }
-                        println("sort params: $params")
-                    }
-
-                    val array = mutableListOf<Any>()
-
-                    params?.forEach {
-                        array.add(it.third)
-                    }
-
-                    println("filterName: $filterName, array: $array")
-
-                    queue.putFirst(currentImage)
-                    currentImage = doFilter(filterName,array,this@ApplicationState)
-                }
-            }
-        }
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset) {

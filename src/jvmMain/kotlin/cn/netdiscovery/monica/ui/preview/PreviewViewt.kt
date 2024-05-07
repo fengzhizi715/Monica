@@ -140,7 +140,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    state.onClickPreviewImage()
+                    viewModel.previewImage(state)
                 }
             ) {
                 Icon(
