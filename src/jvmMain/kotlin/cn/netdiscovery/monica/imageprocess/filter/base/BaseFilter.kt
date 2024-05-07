@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter.base
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.Transformer
 import java.awt.image.BufferedImage
 
@@ -18,10 +19,10 @@ abstract class BaseFilter: Transformer {
     protected var type = 0
 
     override fun transform(image: BufferedImage): BufferedImage {
-        width = image.width
+        width  = image.width
         height = image.height
         type = image.type
-        val dstImage = BufferedImage(image.width, image.height, type)
+        val dstImage = BufferedImages.create(width,height,type)
 
         return doFilter(image,dstImage)
     }
