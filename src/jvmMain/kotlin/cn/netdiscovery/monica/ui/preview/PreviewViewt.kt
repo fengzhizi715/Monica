@@ -166,18 +166,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    showFileSelector(
-                        isMultiSelection = false,
-                        selectionMode = JFileChooser.DIRECTORIES_ONLY,
-                        selectionFileFilter = null
-                    ) {
-                        state.scope.launch {
-                            val outputPath = it[0].absolutePath
-                            val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?:File("${currentTime()}.jpg"))
-                            state.currentImage!!.saveImage(saveFile, 0.8f)
-                            state.showTray(msg = "保存成功（${outputPath}）")
-                        }
-                    }
+                    viewModel.saveImage(state)
                 }
             ) {
                 Icon(
@@ -190,7 +179,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    state.clearImage()
+                    viewModel.clearImage(state)
                 }
             ) {
                 Icon(

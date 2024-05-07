@@ -3,13 +3,14 @@ package cn.netdiscovery.monica.ui.preview
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.selectedIndex
-import cn.netdiscovery.monica.utils.clickLoadingDisplayWithSuspend
-import cn.netdiscovery.monica.utils.doFilter
-import cn.netdiscovery.monica.utils.hsl
+import cn.netdiscovery.monica.utils.*
+import cn.netdiscovery.monica.utils.extension.saveImage
 import filterNames
 import kotlinx.coroutines.launch
+import java.io.File
 import java.text.Collator
 import java.util.*
+import javax.swing.JFileChooser
 
 /**
  *
@@ -65,5 +66,24 @@ class PreviewViewModel {
                 }
             }
         }
+    }
+
+    fun saveImage(state: ApplicationState) {
+        showFileSelector(
+            isMultiSelection = false,
+            selectionMode = JFileChooser.DIRECTORIES_ONLY,
+            selectionFileFilter = null
+        ) {
+            state.scope.launch {
+                val outputPath = it[0].absolutePath
+                val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.jpg"))
+                state.currentImage!!.saveImage(saveFile, 0.8f)
+                state.showTray(msg = "保存成功（${outputPath}）")
+            }
+        }
+    }
+
+    fun clearImage(state: ApplicationState) {
+        state.clearImage()
     }
 }
