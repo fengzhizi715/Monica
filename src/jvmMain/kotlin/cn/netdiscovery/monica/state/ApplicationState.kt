@@ -101,10 +101,12 @@ class ApplicationState(val scope:CoroutineScope,
         scope.launch {
             clickLoadingDisplayWithSuspend {
                 if (isHLS) {
-                    currentImage = hsl(rawImage!!, saturation, hue, luminance)
+                    currentImage = hsl(currentImage!!, saturation, hue, luminance)
                 }
 
                 if(isFilter) {
+                    if (selectedIndex.value == 0) return@clickLoadingDisplayWithSuspend
+
                     val filterName = filterNames[selectedIndex.value]
 
                     val params = getFilterParam(filterName)
@@ -121,9 +123,7 @@ class ApplicationState(val scope:CoroutineScope,
                         array.add(it.third)
                     }
 
-                    if (selectedIndex.value>0) {
-                        println("filterName: $filterName, array: $array")
-                    }
+                    println("filterName: $filterName, array: $array")
 
                     queue.putFirst(currentImage)
                     currentImage = doFilter(filterName,array,this@ApplicationState)
