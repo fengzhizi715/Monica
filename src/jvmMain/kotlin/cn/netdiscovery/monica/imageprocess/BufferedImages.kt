@@ -32,3 +32,20 @@ class BufferedImages {
         fun loadUrl(url:String): BufferedImage? =  client.getImage(url)
     }
 }
+
+/**
+ * 按像素进行比较
+ */
+fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
+    if (width != image.width || height != image.height)
+        return false
+
+    for (y in 0 until height) {
+        for (x in 0 until width) {
+            if (getRGB(x, y) != image.getRGB(x, y))
+                return false
+        }
+    }
+
+    return true
+}
