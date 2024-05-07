@@ -14,7 +14,7 @@ import java.awt.image.Kernel
  * @date: 2024/5/5 17:54
  * @version: V1.0 <描述当前版本功能>
  */
-open class ConvolveFilter(matrix:FloatArray): BaseFilter() {
+open class ConvolveFilter(val kernel: Kernel): BaseFilter() {
 
     /**
      * Treat pixels off the edge as zero.
@@ -32,11 +32,6 @@ open class ConvolveFilter(matrix:FloatArray): BaseFilter() {
     var WRAP_EDGES = 2
 
     /**
-     * The convolution kernel.
-     */
-    protected var kernel: Kernel? = null
-
-    /**
      * Whether to convolve alpha.
      */
     protected var alpha = true
@@ -46,9 +41,13 @@ open class ConvolveFilter(matrix:FloatArray): BaseFilter() {
      */
     protected var premultiplyAlpha = true
 
-    init {
-        kernel = Kernel(3, 3, matrix)
+    constructor():this(FloatArray(9)) {
     }
+
+    constructor(matrix: FloatArray): this(Kernel(3, 3, matrix)) {
+    }
+
+    constructor(rows: Int, cols: Int, matrix: FloatArray) : this(Kernel(cols, rows, matrix))
 
     /**
      * What do do at the image edges.

@@ -7,10 +7,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
-import cn.netdiscovery.monica.config.appVersion
-import cn.netdiscovery.monica.config.height
-import cn.netdiscovery.monica.config.loadingWidth
-import cn.netdiscovery.monica.config.width
+import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
@@ -171,7 +168,7 @@ private fun initData() {
     if (!flag.get()) { // 防止被多次初始化
         filterNames.addAll(getFilterNames())
         saveFilterParams()
-        client = HttpConnectionClient(timeout = 6000,retryNum = 3)
+        client = HttpConnectionClient(timeout, retryNum)
         flag.set(true)
     }
 }

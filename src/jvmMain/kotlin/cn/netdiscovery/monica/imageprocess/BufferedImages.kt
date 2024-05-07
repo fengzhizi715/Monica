@@ -29,7 +29,7 @@ class BufferedImages {
 
         fun load(path: String): BufferedImage = load(File(path))
 
-        fun loadUrl(url:String): BufferedImage? =  client.getImage(url)
+        fun loadUrl(url:String): BufferedImage? = client.getImage(url)
     }
 }
 

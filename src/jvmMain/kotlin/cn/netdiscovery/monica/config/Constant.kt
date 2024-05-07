@@ -17,3 +17,6 @@ const val previewWidth = 750
 val width = (previewWidth * 2.toFloat()).dp
 val height = 1000.dp
 val loadingWidth = (previewWidth*2*0.7).dp
+
+const val timeout = 6000
+const val retryNum = 3
