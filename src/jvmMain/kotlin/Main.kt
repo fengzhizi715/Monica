@@ -1,5 +1,8 @@
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Text
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -13,17 +16,14 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
-import cn.netdiscovery.monica.ui.*
-import cn.netdiscovery.monica.utils.currentTime
-import cn.netdiscovery.monica.utils.extension.saveImage
-import cn.netdiscovery.monica.utils.getUniqueFile
-import cn.netdiscovery.monica.utils.showFileSelector
-import kotlinx.coroutines.launch
+import cn.netdiscovery.monica.ui.MainScreen
+import cn.netdiscovery.monica.ui.ShowImageView
+import cn.netdiscovery.monica.ui.ThreeBallLoading
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import org.koin.compose.KoinApplication
+import org.koin.compose.koinInject
 import org.koin.core.Koin
-import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
-import javax.swing.JFileChooser
 
 val filterNames = mutableListOf("选择滤镜")
 
@@ -62,6 +62,8 @@ fun main() = application {
             mAppKoin = koin
             modules(viewModelModule)
         }) {
+            val previewViewModel: PreviewViewModel = koinInject()
+
             MenuBar{
                 Menu(text = "文件", mnemonic = 'O') {
                     Item(
@@ -79,18 +81,7 @@ fun main() = application {
                     Item(
                         text = "保存图像",
                         onClick = {
-                            showFileSelector(
-                                isMultiSelection = false,
-                                selectionMode = JFileChooser.DIRECTORIES_ONLY,
-                                selectionFileFilter = null
-                            ) {
-                                applicationState.scope.launch {
-                                    val outputPath = it[0].absolutePath
-                                    val saveFile = File(outputPath).getUniqueFile(applicationState.rawImageFile?:File("${currentTime()}.jpg"))
-                                    applicationState.currentImage!!.saveImage(saveFile, 0.8f)
-                                    applicationState.showTray(msg = "保存成功（${outputPath}）")
-                                }
-                            }
+                            previewViewModel.saveImage(applicationState)
                         },
                     )
                 }
