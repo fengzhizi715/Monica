@@ -7,6 +7,10 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
+import cn.netdiscovery.monica.config.appVersion
+import cn.netdiscovery.monica.config.height
+import cn.netdiscovery.monica.config.loadingWidth
+import cn.netdiscovery.monica.config.width
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
@@ -20,12 +24,6 @@ import kotlinx.coroutines.launch
 import java.io.File
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.swing.JFileChooser
-
-const val previewWidth = 750
-
-val width = (previewWidth * 2.toFloat()).dp
-val height = 900.dp
-val loadingWidth = (previewWidth*2*0.7).dp
 
 val filterNames = mutableListOf("选择滤镜")
 
@@ -53,7 +51,7 @@ fun main() = application {
     )
 
     Window(onCloseRequest = ::exitApplication,
-        title = "Monica 图片编辑器 V0.1",
+        title = "Monica 图片编辑器 $appVersion",
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
