@@ -44,7 +44,7 @@ fun main() = application {
 
     Tray(
         state = trayState,
-        icon = painterResource("launcher.ico"),
+        icon = painterResource("images/launcher.ico"),
     )
 
     Window(onCloseRequest = ::exitApplication,

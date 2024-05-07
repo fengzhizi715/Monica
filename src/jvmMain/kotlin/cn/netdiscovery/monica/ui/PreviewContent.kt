@@ -116,7 +116,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("initial_picture.png"),
+                    painter = painterResource("images/initial_picture.png"),
                     contentDescription = "最初",
                     modifier = Modifier.size(30.dp)
                 )
@@ -131,7 +131,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("reduction.png"),
+                    painter = painterResource("images/reduction.png"),
                     contentDescription = "上一步",
                     modifier = Modifier.size(36.dp)
                 )
@@ -144,7 +144,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("preview.png"),
+                    painter = painterResource("images/preview.png"),
                     contentDescription = "预览效果",
                     modifier = Modifier.size(36.dp)
                 )
@@ -157,7 +157,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("zoom.png"),
+                    painter = painterResource("images/zoom.png"),
                     contentDescription = "放大预览",
                     modifier = Modifier.size(36.dp)
                 )
@@ -181,7 +181,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("save.png"),
+                    painter = painterResource("images/save.png"),
                     contentDescription = "保存",
                     modifier = Modifier.size(36.dp)
                 )
@@ -194,7 +194,7 @@ private fun previewImage(state: ApplicationState) {
                 }
             ) {
                 Icon(
-                    painter = painterResource("delete.png"),
+                    painter = painterResource("images/delete.png"),
                     contentDescription = "删除",
                     modifier = Modifier.size(36.dp)
                 )

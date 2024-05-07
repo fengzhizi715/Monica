@@ -49,7 +49,7 @@ fun CropContent(state: ApplicationState) {
             enabled = state.isCrop
         ) {
             Icon(
-                painter = painterResource("flip.png"),
+                painter = painterResource("images/flip.png"),
                 contentDescription = "翻转",
                 modifier = Modifier.size(36.dp)
             )
@@ -66,7 +66,7 @@ fun CropContent(state: ApplicationState) {
             enabled = state.isCrop
         ) {
             Icon(
-                painter = painterResource("rotate.png"),
+                painter = painterResource("images/rotate.png"),
                 contentDescription = "旋转",
                 modifier = Modifier.size(36.dp)
             )

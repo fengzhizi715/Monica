@@ -64,7 +64,7 @@ fun basicContent(state: ApplicationState) {
             enabled = state.isBasic
         ) {
             Icon(
-                painter = painterResource("blur.png"),
+                painter = painterResource("images/blur.png"),
                 contentDescription = "模糊",
                 modifier = Modifier.size(36.dp)
             )
@@ -79,7 +79,7 @@ fun basicContent(state: ApplicationState) {
             enabled = state.isBasic
         ) {
             Icon(
-                painter = painterResource("mosaic.png"),
+                painter = painterResource("images/mosaic.png"),
                 contentDescription = "马赛克",
                 modifier = Modifier.size(36.dp)
             )
