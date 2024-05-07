@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.preview.PreviewContent
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
