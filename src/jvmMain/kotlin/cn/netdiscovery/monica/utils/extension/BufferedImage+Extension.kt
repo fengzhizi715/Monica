@@ -3,12 +3,14 @@ package cn.netdiscovery.monica.utils.extension
 import cn.netdiscovery.monica.utils.closeQuietly
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
 import javax.imageio.ImageWriteParam
 import javax.imageio.ImageWriter
+
 
 /**
  *
@@ -55,4 +57,20 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
        return BufferedImage(1, 1, this.type)
 
     return getSubimage(x1, y1, x2 - x1, y2 - y1)
+}
+
+fun BufferedImage.flipHorizontally(): BufferedImage? {
+    /* Create a new clean image of the same size/type */
+    val flipped = BufferedImage(width, height, type)
+    val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
+    val flip = AffineTransform.getScaleInstance(-1.0, 1.0)
+
+    tran.concatenate(flip)
+
+    val g = flipped.createGraphics()
+    g.transform = tran
+    g.drawImage(this, 0, 0, null)
+    g.dispose()
+
+    return flipped
 }

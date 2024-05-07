@@ -16,14 +16,8 @@ import cn.netdiscovery.monica.state.ApplicationState
  *          cn.netdiscovery.monica.ui.ControlContent
  * @author: Tony Shen
  * @date: 2024/4/26 11:10
- * @version: V1.0 <描述当前版本功能>
+ * @version: V1.0 控制面板
  */
-@Composable
-fun divider() {
-    Row {
-        Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
-    }
-}
 
 @Composable
 fun ControlContent(
@@ -42,6 +36,10 @@ fun ControlContent(
 
             divider()
 
+            CropContent(state)
+
+            divider()
+
             imageProcessContent(state)
 
             divider()
@@ -49,5 +47,12 @@ fun ControlContent(
             // 滤镜相关的内容
             filterContent(state)
         }
+    }
+}
+
+@Composable
+fun divider() {
+    Row {
+        Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
     }
 }

@@ -61,6 +61,8 @@ class ApplicationState(val scope:CoroutineScope,
     var isMosaic by mutableStateOf(false)
     var isBlur by mutableStateOf(false)
 
+    var isCrop by mutableStateOf(false)
+
     var isHLS by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
 
@@ -71,6 +73,10 @@ class ApplicationState(val scope:CoroutineScope,
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
+
+    fun addQueue(bufferedImage: BufferedImage) {
+        queue.putFirst(bufferedImage)
+    }
 
     fun clearQueue() {
         queue.clear()
