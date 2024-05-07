@@ -6,6 +6,7 @@ import kotlinx.coroutines.withContext
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
+import java.awt.image.BufferedImage.TYPE_INT_RGB
 import java.io.File
 import javax.imageio.IIOImage
 import javax.imageio.ImageIO
@@ -65,7 +66,7 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
 }
 
 fun BufferedImage.flipHorizontally(): BufferedImage? {
-    val flipped = BufferedImage(width, height, type)
+    val flipped = BufferedImage(width, height, TYPE_INT_RGB)
     val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
     val flip = AffineTransform.getScaleInstance(-1.0, 1.0)
 
@@ -85,7 +86,7 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
     val cos = abs(cos(radian))
     val newWidth = floor(width.toDouble() * cos + height.toDouble() * sin).toInt()
     val newHeight = floor(height.toDouble() * cos + width.toDouble() * sin).toInt()
-    val rotatedImage = BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB)
+    val rotatedImage = BufferedImage(newWidth, newHeight, TYPE_INT_RGB)
     val graphics = rotatedImage.createGraphics()
     graphics.setRenderingHint(
         RenderingHints.KEY_INTERPOLATION,

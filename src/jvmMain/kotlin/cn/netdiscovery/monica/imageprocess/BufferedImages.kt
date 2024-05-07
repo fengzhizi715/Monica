@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.imageprocess
 
 import client
 import java.awt.image.BufferedImage
+import java.awt.image.BufferedImage.TYPE_INT_RGB
 import java.io.File
 import java.io.InputStream
 import javax.imageio.ImageIO
@@ -21,7 +22,7 @@ class BufferedImages {
             BufferedImage(
                 if (width > 0) width else 1,
                 if (height > 0) height else 1,
-                type)
+                TYPE_INT_RGB)
 
         fun load(input: InputStream): BufferedImage = ImageIO.read(input)
 
