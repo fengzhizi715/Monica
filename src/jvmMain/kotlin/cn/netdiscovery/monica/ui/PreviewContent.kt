@@ -18,9 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extension.saveImage
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import java.io.File
 import javax.swing.JFileChooser
 
@@ -39,6 +41,8 @@ fun PreviewContent(
     state: ApplicationState,
     modifier: Modifier
 ) {
+    val previewViewModel: PreviewViewModel = koinInject()
+
     Card(
         modifier = modifier.padding(16.dp),
         shape = RoundedCornerShape(8.dp),
@@ -51,14 +55,14 @@ fun PreviewContent(
         if (state.rawImage == null) {
             chooseImage()
         } else {
-            previewImage(state)
+            previewImage(state,previewViewModel)
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun previewImage(state: ApplicationState) {
+private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
     if (state.currentImage == null) return
 
     Column(
@@ -111,13 +115,12 @@ private fun previewImage(state: ApplicationState) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    state.currentImage = state.rawImage
-                    state.clearQueue()
+                    viewModel.recoverImage(state)
                 }
             ) {
                 Icon(
                     painter = painterResource("images/initial_picture.png"),
-                    contentDescription = "最初",
+                    contentDescription = "恢复最初",
                     modifier = Modifier.size(30.dp)
                 )
             }
@@ -125,9 +128,7 @@ private fun previewImage(state: ApplicationState) {
             IconButton(
                 modifier = Modifier.padding(5.dp),
                 onClick = {
-                    val lastImage = state.getLastImage()
-                    if (lastImage!=null)
-                        state.currentImage = lastImage
+                    viewModel.getLastImage(state)
                 }
             ) {
                 Icon(

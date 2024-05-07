@@ -29,6 +29,7 @@ kotlin {
                 implementation("com.github.fengzhizi715.RxCache:core:${rootProject.extra["rxcache"]}")
                 implementation("com.github.fengzhizi715.RxCache:okio:${rootProject.extra["rxcache"]}")
                 implementation("com.github.fengzhizi715.RxCache:extension:${rootProject.extra["rxcache"]}")
+                implementation("io.insert-koin:koin-compose:${rootProject.extra["koin.compose"]}")
             }
         }
         val jvmTest by getting
