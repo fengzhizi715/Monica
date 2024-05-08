@@ -19,14 +19,14 @@ import cn.netdiscovery.monica.state.ApplicationState
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.BasicContent
+ *          cn.netdiscovery.monica.ui.controlpanel.BasicView
  * @author: Tony Shen
  * @date: 2024/5/1 00:39
  * @version: V1.0 <描述当前版本功能>
  */
 
 @Composable
-fun basicContent(state: ApplicationState) {
+fun basicView(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isBasic, onCheckedChange = {

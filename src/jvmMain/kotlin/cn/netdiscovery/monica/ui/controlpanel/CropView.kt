@@ -21,13 +21,13 @@ import cn.netdiscovery.monica.utils.extension.rotate
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.CropContent
+ *          cn.netdiscovery.monica.ui.controlpanel.CropView
  * @author: Tony Shen
  * @date: 2024/5/7 13:56
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun CropContent(state: ApplicationState) {
+fun cropView(state: ApplicationState) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isCrop, onCheckedChange = {
             state.isCrop = it

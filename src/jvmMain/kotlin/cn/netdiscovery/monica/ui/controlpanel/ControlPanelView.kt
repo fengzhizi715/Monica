@@ -32,11 +32,11 @@ fun controlPanel(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            basicContent(state)
+            basicView(state)
 
             divider()
 
-            CropContent(state)
+            cropView(state)
 
             divider()
 
