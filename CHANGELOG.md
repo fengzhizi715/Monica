@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 0.1.1
+---
+2024-5-8
+* 增加图像的 flip、rotate 功能
+* 引入 koin 作为依赖注入的容器
+
 Version 0.1.0
 ---
 2024-5-6
