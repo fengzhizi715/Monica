@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -17,7 +17,7 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.ImageProcessContent
+ *          cn.netdiscovery.monica.ui.controlpanel.ImageProcessContent
  * @author: Tony Shen
  * @date: 2024/5/1 00:43
  * @version: V1.0 <描述当前版本功能>

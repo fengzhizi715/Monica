@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
@@ -28,7 +28,7 @@ import kotlin.collections.HashMap
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.FilterContent
+ *          cn.netdiscovery.monica.ui.controlpanel.FilterContent
  * @author: Tony Shen
  * @date: 2024/4/30 23:24
  * @version: V1.0 <描述当前版本功能>

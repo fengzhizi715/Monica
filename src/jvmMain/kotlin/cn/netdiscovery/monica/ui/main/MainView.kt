@@ -13,7 +13,7 @@ import org.koin.compose.koinInject
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.MainView
+ *          cn.netdiscovery.monica.ui.main.MainView
  * @author: Tony Shen
  * @date: 2024/4/26 10:54
  * @version: V1.0 <描述当前版本功能>

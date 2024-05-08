@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -19,7 +19,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.BasicContent
+ *          cn.netdiscovery.monica.ui.controlpanel.BasicContent
  * @author: Tony Shen
  * @date: 2024/5/1 00:39
  * @version: V1.0 <描述当前版本功能>

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -21,7 +21,7 @@ import cn.netdiscovery.monica.utils.extension.rotate
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.CropContent
+ *          cn.netdiscovery.monica.ui.controlpanel.CropContent
  * @author: Tony Shen
  * @date: 2024/5/7 13:56
  * @version: V1.0 <描述当前版本功能>
