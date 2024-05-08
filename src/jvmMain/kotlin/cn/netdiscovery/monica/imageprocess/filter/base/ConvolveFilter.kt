@@ -14,7 +14,7 @@ import java.awt.image.Kernel
  * @date: 2024/5/5 17:54
  * @version: V1.0 <描述当前版本功能>
  */
-open class ConvolveFilter(val kernel: Kernel): BaseFilter() {
+open class ConvolveFilter(private val kernel: Kernel): BaseFilter() {
 
     /**
      * Treat pixels off the edge as zero.
