@@ -45,7 +45,7 @@ fun controlPanel(
             divider()
 
             // 滤镜相关的内容
-            filterContent(state)
+            filterView(state)
         }
     }
 }

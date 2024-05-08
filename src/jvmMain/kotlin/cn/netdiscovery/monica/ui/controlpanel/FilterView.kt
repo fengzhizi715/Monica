@@ -28,7 +28,7 @@ import kotlin.collections.HashMap
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.FilterContent
+ *          cn.netdiscovery.monica.ui.controlpanel.FilterView
  * @author: Tony Shen
  * @date: 2024/4/30 23:24
  * @version: V1.0 <描述当前版本功能>
@@ -38,7 +38,7 @@ val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
 var selectedIndex = mutableStateOf(0)
 
 @Composable
-fun filterContent(state: ApplicationState) {
+fun filterView(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isFilter, onCheckedChange = {
