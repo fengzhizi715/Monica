@@ -40,7 +40,7 @@ fun controlPanel(
 
             divider()
 
-            imageProcessContent(state)
+            imageProcessView(state)
 
             divider()
 

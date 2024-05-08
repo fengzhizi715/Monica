@@ -17,13 +17,13 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ImageProcessContent
+ *          cn.netdiscovery.monica.ui.controlpanel.ImageProcessView
  * @author: Tony Shen
  * @date: 2024/5/1 00:43
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun imageProcessContent(state: ApplicationState) {
+fun imageProcessView(state: ApplicationState) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isHLS, onCheckedChange = {
             state.isHLS = it
