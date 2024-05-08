@@ -18,7 +18,7 @@ import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.showimage.showImage
-import cn.netdiscovery.monica.ui.ThreeBallLoading
+import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject

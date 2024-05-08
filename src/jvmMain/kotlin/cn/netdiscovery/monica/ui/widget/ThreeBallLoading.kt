@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.widget
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
