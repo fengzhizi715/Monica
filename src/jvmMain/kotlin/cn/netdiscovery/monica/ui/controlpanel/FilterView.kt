@@ -75,7 +75,7 @@ fun filterView(state: ApplicationState) {
                     }
 
                     // 按照参数名首字母进行排序
-                    list.sortWith(Comparator { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); })
+                    list.sortWith { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); }
 
                     println("sort params: $list")
                     rxCache.saveOrUpdate(filterName, list)
