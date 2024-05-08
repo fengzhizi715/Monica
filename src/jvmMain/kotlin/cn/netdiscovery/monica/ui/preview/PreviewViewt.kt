@@ -24,14 +24,14 @@ import org.koin.compose.koinInject
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.PreviewContent
+ *          cn.netdiscovery.monica.ui.PreviewView
  * @author: Tony Shen
  * @date: 2024/4/26 11:09
  * @version: V1.0 <描述当前版本功能>
  */
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun PreviewContent(
+fun preview(
     state: ApplicationState,
     modifier: Modifier
 ) {
