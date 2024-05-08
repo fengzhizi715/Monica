@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
@@ -6,12 +6,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.ControlContent
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.preview.preview
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import java.io.File
 import javax.imageio.ImageIO
 
@@ -27,21 +30,9 @@ import javax.imageio.ImageIO
 fun mainView(
     state: ApplicationState
 ) {
-    state.window.contentPane.dropTarget = dropFileTarget {
-        state.scope.launch(Dispatchers.IO) {
-            clickLoadingDisplay {
-                val filePath = it.getOrNull(0)
-                if (filePath != null) {
-                    val file = File(filePath)
-                    if (file.isFile && file.extension in legalSuffixList) {
-                        state.rawImage = ImageIO.read(file)
-                        state.currentImage = state.rawImage
-                        state.rawImageFile = file
-                    }
-                }
-            }
-        }
-    }
+    val viewModel: MainViewModel = koinInject()
+
+    viewModel.dropFile(state)
 
     MaterialTheme {
         Row (

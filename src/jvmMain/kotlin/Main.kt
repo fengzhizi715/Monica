@@ -16,7 +16,7 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
-import cn.netdiscovery.monica.ui.mainView
+import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.ShowImageView
 import cn.netdiscovery.monica.ui.ThreeBallLoading
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
