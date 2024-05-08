@@ -17,7 +17,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.main.mainView
-import cn.netdiscovery.monica.ui.ShowImageView
+import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.ThreeBallLoading
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import org.koin.compose.KoinApplication
@@ -157,7 +157,7 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            ShowImageView(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+            showImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
         }
     }
 }

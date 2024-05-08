@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.showimage
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
@@ -22,21 +22,21 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.ShowImgView
+ *          cn.netdiscovery.monica.ui.showimage.ShowImgView
  * @author: Tony Shen
  * @date: 2024/4/26 22:18
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun ShowImageView(
+fun showImage(
     state: ApplicationState,
     image: ImageBitmap
 ) {
-    var angle by remember { mutableStateOf(0f) }//旋转角度
-    var scale by remember { mutableStateOf(1f) }//缩放
+    var angle by remember { mutableStateOf(0f) }  //旋转角度
+    var scale by remember { mutableStateOf(1f) }  //缩放
     var offsetX by remember { mutableStateOf(0f) }//x偏移
     var offsetY by remember { mutableStateOf(0f) }//y偏移
-    var matrix by remember { mutableStateOf(Matrix()) }//矩阵
+    var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
     Box(
         Modifier.fillMaxSize(),
@@ -82,7 +82,8 @@ fun ShowImageView(
                 color = Color.Unspecified,
                 modifier = Modifier.align(Alignment.CenterHorizontally)
             )
-            VerticalSlider(
+
+            verticalSlider(
                 value = state.scale,
                 onValueChange = {
                     state.scale = it
@@ -118,7 +119,7 @@ fun ShowImageView(
 }
 
 @Composable
-fun VerticalSlider(
+fun verticalSlider(
     value: Float,
     onValueChange: (Float) -> Unit,
     modifier: Modifier = Modifier,
