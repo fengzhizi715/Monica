@@ -6,17 +6,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.ControlContent
-import cn.netdiscovery.monica.ui.preview.PreviewViewModel
+import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
-import cn.netdiscovery.monica.utils.dropFileTarget
-import cn.netdiscovery.monica.utils.legalSuffixList
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
-import java.io.File
-import javax.imageio.ImageIO
 
 /**
  *
@@ -41,7 +33,7 @@ fun mainView(
             horizontalArrangement = Arrangement.Center
         ) {
             preview(state, Modifier.weight(1.4f))
-            ControlContent(state, Modifier.weight(0.6f))
+            controlPanel(state, Modifier.weight(0.6f))
         }
     }
 }

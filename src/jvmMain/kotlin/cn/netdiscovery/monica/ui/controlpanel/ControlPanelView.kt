@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui
+package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,18 +9,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.CropContent
+import cn.netdiscovery.monica.ui.basicContent
+import cn.netdiscovery.monica.ui.filterContent
+import cn.netdiscovery.monica.ui.imageProcessContent
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.ControlContent
+ *          cn.netdiscovery.monica.ui.ControlPanelView
  * @author: Tony Shen
  * @date: 2024/4/26 11:10
  * @version: V1.0 控制面板
  */
 
 @Composable
-fun ControlContent(
+fun controlPanel(
     state: ApplicationState,
     modifier: Modifier
 ) {
