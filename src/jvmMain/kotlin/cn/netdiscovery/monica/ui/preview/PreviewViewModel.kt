@@ -36,13 +36,20 @@ class PreviewViewModel {
     fun previewImage(state: ApplicationState) {
         state.scope.launch {
             clickLoadingDisplayWithSuspend {
+                if (!state.isHLS && (!state.isFilter || ( state.isFilter && selectedIndex.value == 0)))  {
+                    return@clickLoadingDisplayWithSuspend
+                }
+
+                if (state.currentImage == null)
+                    return@clickLoadingDisplayWithSuspend
+
+                var tempImage = state.currentImage
+
                 if (state.isHLS) {
                     state.currentImage = hsl(state.currentImage!!, state.saturation, state.hue, state.luminance)
                 }
 
                 if(state.isFilter) {
-                    if (selectedIndex.value == 0) return@clickLoadingDisplayWithSuspend
-
                     val filterName = filterNames[selectedIndex.value]
 
                     val params = getFilterParam(filterName)
@@ -61,9 +68,10 @@ class PreviewViewModel {
 
                     println("filterName: $filterName, array: $array")
 
-                    state.addQueue(state.currentImage!!)
                     state.currentImage = doFilter(filterName,array,state)
                 }
+
+                state.addQueue(tempImage!!)
             }
         }
     }
