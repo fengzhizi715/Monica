@@ -1,8 +1,8 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
+import cn.netdiscovery.monica.imageprocess.flipHorizontally
+import cn.netdiscovery.monica.imageprocess.rotate
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extension.flipHorizontally
-import cn.netdiscovery.monica.utils.extension.rotate
 
 /**
  *

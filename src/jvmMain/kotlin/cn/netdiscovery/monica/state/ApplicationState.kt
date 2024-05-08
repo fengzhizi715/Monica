@@ -7,8 +7,8 @@ import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
+import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import cn.netdiscovery.monica.utils.extension.subImage
 import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
