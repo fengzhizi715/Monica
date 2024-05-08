@@ -15,8 +15,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extension.flipHorizontally
-import cn.netdiscovery.monica.utils.extension.rotate
+import org.koin.compose.koinInject
 
 /**
  *
@@ -28,6 +27,8 @@ import cn.netdiscovery.monica.utils.extension.rotate
  */
 @Composable
 fun cropView(state: ApplicationState) {
+    val viewModel:CropViewModel = koinInject()
+
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isCrop, onCheckedChange = {
             state.isCrop = it
@@ -41,10 +42,7 @@ fun cropView(state: ApplicationState) {
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                if (state.currentImage!=null) {
-                    state.addQueue(state.currentImage!!)
-                    state.currentImage = state.currentImage!!.flipHorizontally()
-                }
+                viewModel.flip(state)
             },
             enabled = state.isCrop
         ) {
@@ -58,10 +56,7 @@ fun cropView(state: ApplicationState) {
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                if (state.currentImage!=null) {
-                    state.addQueue(state.currentImage!!)
-                    state.currentImage = state.currentImage!!.rotate(-90.0)
-                }
+                viewModel.rotate(state)
             },
             enabled = state.isCrop
         ) {
