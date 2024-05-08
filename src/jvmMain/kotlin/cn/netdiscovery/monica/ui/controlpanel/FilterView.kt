@@ -17,13 +17,10 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.getFilterParam
-import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import filterNames
-import java.text.Collator
-import java.util.*
-import kotlin.collections.HashMap
+import org.koin.compose.koinInject
 
 /**
  *
@@ -39,6 +36,8 @@ var selectedIndex = mutableStateOf(0)
 
 @Composable
 fun filterView(state: ApplicationState) {
+
+    val viewModel:FilterViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isFilter, onCheckedChange = {
@@ -59,26 +58,7 @@ fun filterView(state: ApplicationState) {
             modifier = Modifier.offset(x = 290.dp,y = 0.dp),
             onClick = {
                 click {
-                    if (state.rawImageFile == null) return@click
-
-                    val filterName = filterNames[selectedIndex.value]
-                    val list = mutableListOf<Triple<String,String,Any>>()
-                    tempMap.forEach { (t, u) ->
-                        val value = when(t.second) {
-                            "Int" -> u.toInt()
-                            "Float" -> u.toFloat()
-                            "Double" -> u.toDouble()
-                            else -> u
-                        }
-
-                        list.add(Triple(t.first, t.second, value))
-                    }
-
-                    // 按照参数名首字母进行排序
-                    list.sortWith { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); }
-
-                    println("sort params: $list")
-                    rxCache.saveOrUpdate(filterName, list)
+                    viewModel.applyFilterParams(state)
                 }
             },
             enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0
