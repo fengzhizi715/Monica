@@ -21,11 +21,11 @@ class OilPaintFilter(private val ksize:Int = 10,private val intensity:Int = 40):
         getRGB(srcImage, 0, 0, width, height, inPixels)
         var index = 0
         val subradius: Int = this.ksize / 2
-        val intensityCount = IntArray((intensity + 1).toInt())
-        val ravg = IntArray((intensity + 1).toInt())
-        val gavg = IntArray((intensity + 1).toInt())
-        val bavg = IntArray((intensity + 1).toInt())
-        for (i in 0..intensity.toInt()) {
+        val intensityCount = IntArray((intensity + 1))
+        val ravg = IntArray((intensity + 1))
+        val gavg = IntArray((intensity + 1))
+        val bavg = IntArray((intensity + 1))
+        for (i in 0..intensity) {
             intensityCount[i] = 0
             ravg[i] = 0
             gavg[i] = 0
@@ -77,7 +77,7 @@ class OilPaintFilter(private val ksize:Int = 10,private val intensity:Int = 40):
                 outPixels[index] = ta shl 24 or (nr shl 16) or (ng shl 8) or nb
 
                 // post clear values for next pixel
-                for (i in 0..intensity.toInt()) {
+                for (i in 0..intensity) {
                     intensityCount[i] = 0
                     ravg[i] = 0
                     gavg[i] = 0
