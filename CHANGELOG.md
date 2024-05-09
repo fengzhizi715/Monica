@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 0.1.2
+---
+2024-5-9
+* 增加 EmbossFilter、OilPaintFilter
+* 修复某种情况下无法保存图像的 bug
+
 Version 0.1.1
 ---
 2024-5-8
