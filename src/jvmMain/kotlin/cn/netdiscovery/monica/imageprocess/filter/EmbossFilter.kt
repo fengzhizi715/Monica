@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage
  * @date: 2024/5/9 11:01
  * @version: V1.0 <描述当前版本功能>
  */
-class EmbossFilter(private val COLORCONSTANTS:Int = 100, private val out:Boolean = false): ColorProcessorFilter() {
+class EmbossFilter(private val colorConstant:Int = 100, private val out:Boolean = false): ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
         val outPixels = IntArray(width * height)
@@ -47,9 +47,9 @@ class EmbossFilter(private val COLORCONSTANTS:Int = 100, private val out:Boolean
                     g = g2 - g1
                     b = b2 - b1
                 }
-                r = clamp(r + COLORCONSTANTS)
-                g = clamp(g + COLORCONSTANTS)
-                b = clamp(b + COLORCONSTANTS)
+                r = clamp(r + colorConstant)
+                g = clamp(g + colorConstant)
+                b = clamp(b + colorConstant)
 
                 ta = inPixels[offset] shr 24 and 0xff
                 outPixels[offset] = ta shl 24 or (r shl 16) or (g shl 8) or b

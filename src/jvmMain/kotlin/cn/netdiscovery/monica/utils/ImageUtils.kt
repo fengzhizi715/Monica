@@ -130,6 +130,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "CropFilter" -> {
                 CropFilter(array[2] as Int,array[3] as Int,array[1] as Int,array[0] as Int).transform(state.currentImage!!)
             }
+            "EmbossFilter" -> {
+                EmbossFilter(array[0] as Int).transform(state.currentImage!!)
+            }
             "GammaFilter" -> {
                 GammaFilter(array[0] as Double).transform(state.currentImage!!)
             }
@@ -150,6 +153,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
             "MotionFilter" -> {
                 MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
+            }
+            "OilPaintFilter" -> {
+                OilPaintFilter(array[1] as Int,array[0] as Int).transform(state.currentImage!!)
             }
             "SepiaToneFilter" -> {
                 SepiaToneFilter().transform(state.currentImage!!)
