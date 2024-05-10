@@ -1,5 +1,8 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.TooltipArea
+import androidx.compose.foundation.TooltipPlacement
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,19 +13,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.graphics.toAwtImage
-import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import org.koin.compose.koinInject
-import java.awt.Image
-import java.awt.image.BufferedImage
 
 /**
  *
@@ -34,6 +35,7 @@ import java.awt.image.BufferedImage
  */
 var clickStatus = mutableStateOf(0)
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun cropView(state: ApplicationState) {
     val viewModel:CropViewModel = koinInject()
@@ -82,20 +84,40 @@ fun cropView(state: ApplicationState) {
             )
         }
 
-        IconButton(
-            modifier = Modifier.padding(5.dp),
-            onClick = {
-                clickStatus.value = 1
+        TooltipArea(
+            tooltip = {
+                // composable tooltip content
+                Surface(
+                    modifier = Modifier.shadow(4.dp),
+                    color = Color(255, 255, 210),
+                    shape = RoundedCornerShape(4.dp)
+                ) {
+                    Text(
+                        text = "图像缩放",
+                        modifier = Modifier.padding(10.dp)
+                    )
+                }
             },
-            enabled = state.isCrop
-        ) {
-            Icon(
-                painter = painterResource("images/resize.png"),
-                contentDescription = "缩放",
-                modifier = Modifier.size(36.dp)
+            delayMillis = 600, // in milliseconds
+            tooltipPlacement = TooltipPlacement.CursorPoint(
+                alignment = Alignment.BottomEnd,
+                offset = DpOffset(-16.dp, 0.dp)
             )
+        ) {
+            IconButton(
+                modifier = Modifier.padding(5.dp),
+                onClick = {
+                    clickStatus.value = 1
+                },
+                enabled = state.isCrop
+            ) {
+                Icon(
+                    painter = painterResource("images/resize.png"),
+                    contentDescription = "缩放",
+                    modifier = Modifier.size(36.dp)
+                )
+            }
         }
-
     }
 
     Column {
@@ -103,7 +125,6 @@ fun cropView(state: ApplicationState) {
             generateResizeParams(state,viewModel)
         }
     }
-
 }
 
 private fun clearClickStatus() {
@@ -172,7 +193,5 @@ fun generateResizeParams(state: ApplicationState,viewModel:CropViewModel) {
                 color = if (state.isCrop) Color.Unspecified else Color.LightGray)
             }
         }
-
     }
-
 }
