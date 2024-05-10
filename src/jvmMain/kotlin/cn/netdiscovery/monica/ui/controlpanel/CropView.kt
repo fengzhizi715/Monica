@@ -66,6 +66,21 @@ fun cropView(state: ApplicationState) {
                 modifier = Modifier.size(36.dp)
             )
         }
+
+        IconButton(
+            modifier = Modifier.padding(5.dp),
+            onClick = {
+
+            },
+            enabled = state.isCrop
+        ) {
+            Icon(
+                painter = painterResource("images/resize.png"),
+                contentDescription = "缩放",
+                modifier = Modifier.size(36.dp)
+            )
+        }
+
     }
 
 }

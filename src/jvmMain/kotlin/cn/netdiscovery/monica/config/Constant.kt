@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
  * @date: 2024/5/7 10:55
  * @version: V1.0 <描述当前版本功能>
  */
-const val appVersion = "v0.1.2"
+const val appVersion = "v0.1.3"
 
 const val previewWidth = 750
 
