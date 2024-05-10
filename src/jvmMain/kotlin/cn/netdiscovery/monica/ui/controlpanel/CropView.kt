@@ -12,6 +12,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.toAwtImage
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
@@ -19,6 +21,8 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import org.koin.compose.koinInject
+import java.awt.Image
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -96,7 +100,7 @@ fun cropView(state: ApplicationState) {
 
     Column {
         if (clickStatus.value == 1 && state.currentImage!=null) {
-            generateResizeParams(state)
+            generateResizeParams(state,viewModel)
         }
     }
 
@@ -107,7 +111,7 @@ private fun clearClickStatus() {
 }
 
 @Composable
-fun generateResizeParams(state: ApplicationState) {
+fun generateResizeParams(state: ApplicationState,viewModel:CropViewModel) {
 
     var widthText by remember {
         mutableStateOf("${state.currentImage?.width?:400}")
@@ -159,6 +163,7 @@ fun generateResizeParams(state: ApplicationState) {
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
                 onClick = {
                     click {
+                        viewModel.resize(widthText.toInt(),heightText.toInt(),state)
                     }
                 },
                 enabled = state.isCrop
