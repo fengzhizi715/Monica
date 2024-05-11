@@ -82,7 +82,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                                 if (state.isMosaic) {
                                     viewModel.mosaic(width, height, it, state)
                                 } else if (state.isBlur) {
-                                    state.blur(width,height, it)
+                                    viewModel.blur(width,height, it, state)
                                 }
                             })
                     }

@@ -2,7 +2,9 @@ package cn.netdiscovery.monica.ui.preview
 
 import androidx.compose.ui.geometry.Offset
 import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.saveImage
+import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
@@ -26,6 +28,8 @@ import javax.swing.JFileChooser
  * @version: V1.0 <描述当前版本功能>
  */
 class PreviewViewModel {
+
+    private val blurFilter = BoxBlurFilter(15,15,1)
 
     fun chooseImage(state: ApplicationState) {
         showFileSelector(
@@ -64,6 +68,39 @@ class PreviewViewModel {
         val lastImage = state.getLastImage()
         if (lastImage!=null)
             state.currentImage = lastImage
+    }
+
+    fun blur(width:Int, height:Int,offset: Offset,state: ApplicationState) {
+        state.scope.launch(Dispatchers.IO) {
+            val bufferedImage = state.currentImage!!
+
+            val srcWidth = bufferedImage.width
+            val srcHeight = bufferedImage.height
+
+            val xScale = (srcWidth.toFloat()/width)
+            val yScale = (srcHeight.toFloat()/height)
+
+            // 打码区域左上角x坐标
+            val x = (offset.x*xScale).toInt()
+            // 打码区域左上角y坐标
+            val y = (offset.y*yScale).toInt()
+            // 打码区域宽度
+            val width = (100*xScale).toInt()
+            // 打码区域高度
+            val height = (100*yScale).toInt()
+
+            var tempImage = bufferedImage.subImage(x,y,width,height)
+            tempImage = blurFilter.transform(tempImage)
+
+            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+            val graphics2D = outputImage.createGraphics()
+            graphics2D.drawImage(bufferedImage, 0, 0, null)
+            graphics2D.drawImage(tempImage, x, y, width, height, null)
+            graphics2D.dispose()
+
+            state.addQueue(state.currentImage!!)
+            state.currentImage = outputImage
+        }
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset,state: ApplicationState) {

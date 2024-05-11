@@ -2,16 +2,9 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
-import cn.netdiscovery.monica.imageprocess.subImage
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.awt.Color
-import java.awt.Graphics
 import java.awt.image.BufferedImage
 import java.io.File
 import java.util.concurrent.LinkedBlockingDeque
@@ -59,8 +52,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
-    private val blurFilter = BoxBlurFilter(15,15,1)
-
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
@@ -75,39 +66,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
-    }
-
-    fun blur(width:Int, height:Int,offset: Offset) {
-        scope.launch(Dispatchers.IO) {
-            val bufferedImage = currentImage!!
-
-            val srcWidth = bufferedImage.width
-            val srcHeight = bufferedImage.height
-
-            val xScale = (srcWidth.toFloat()/width)
-            val yScale = (srcHeight.toFloat()/height)
-
-            // 打码区域左上角x坐标
-            val x = (offset.x*xScale).toInt()
-            // 打码区域左上角y坐标
-            val y = (offset.y*yScale).toInt()
-            // 打码区域宽度
-            val width = (100*xScale).toInt()
-            // 打码区域高度
-            val height = (100*yScale).toInt()
-
-            var tempImage = bufferedImage.subImage(x,y,width,height)
-            tempImage = blurFilter.transform(tempImage)
-
-            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
-            val graphics2D = outputImage.createGraphics()
-            graphics2D.drawImage(bufferedImage, 0, 0, null)
-            graphics2D.drawImage(tempImage, x, y, width, height, null)
-            graphics2D.dispose()
-
-            queue.putFirst(currentImage)
-            currentImage = outputImage
-        }
     }
 
     fun clearImage() {
