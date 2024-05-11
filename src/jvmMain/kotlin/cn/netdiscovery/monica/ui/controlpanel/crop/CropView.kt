@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.DpOffset
@@ -35,7 +36,6 @@ import org.koin.compose.koinInject
  */
 var clickStatus = mutableStateOf(0)
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun cropView(state: ApplicationState) {
     val viewModel: CropViewModel = koinInject()
@@ -54,70 +54,28 @@ fun cropView(state: ApplicationState) {
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(
-            modifier = Modifier.padding(5.dp),
+        toolTipButton(text = "图像翻转",
+            painter = painterResource("images/flip.png"),
+            enable = { state.isCrop },
             onClick = {
                 clearClickStatus()
                 viewModel.flip(state)
-            },
-            enabled = state.isCrop
-        ) {
-            Icon(
-                painter = painterResource("images/flip.png"),
-                contentDescription = "翻转",
-                modifier = Modifier.size(36.dp)
-            )
-        }
+            })
 
-        IconButton(
-            modifier = Modifier.padding(5.dp),
+        toolTipButton(text = "图像旋转",
+            painter = painterResource("images/rotate.png"),
+            enable = { state.isCrop },
             onClick = {
                 clearClickStatus()
                 viewModel.rotate(state)
-            },
-            enabled = state.isCrop
-        ) {
-            Icon(
-                painter = painterResource("images/rotate.png"),
-                contentDescription = "旋转",
-                modifier = Modifier.size(36.dp)
-            )
-        }
+            })
 
-        TooltipArea(
-            tooltip = {
-                // composable tooltip content
-                Surface(
-                    modifier = Modifier.shadow(4.dp),
-                    color = Color(255, 255, 210),
-                    shape = RoundedCornerShape(4.dp)
-                ) {
-                    Text(
-                        text = "图像缩放",
-                        modifier = Modifier.padding(10.dp)
-                    )
-                }
-            },
-            delayMillis = 600, // in milliseconds
-            tooltipPlacement = TooltipPlacement.CursorPoint(
-                alignment = Alignment.BottomEnd,
-                offset = DpOffset(-16.dp, 0.dp)
-            )
-        ) {
-            IconButton(
-                modifier = Modifier.padding(5.dp),
-                onClick = {
-                    clickStatus.value = 1
-                },
-                enabled = state.isCrop
-            ) {
-                Icon(
-                    painter = painterResource("images/resize.png"),
-                    contentDescription = "缩放",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
-        }
+        toolTipButton(text = "图像缩放",
+            painter = painterResource("images/resize.png"),
+            enable = { state.isCrop },
+            onClick = {
+                clickStatus.value = 1
+            })
     }
 
     Column {
@@ -129,6 +87,51 @@ fun cropView(state: ApplicationState) {
 
 private fun clearClickStatus() {
     clickStatus.value = 0
+}
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun toolTipButton(
+    text:String,
+    painter: Painter,
+    enable: ()-> Boolean,
+    onClick: () -> Unit,
+) {
+    TooltipArea(
+        tooltip = {
+            // composable tooltip content
+            Surface(
+                modifier = Modifier.shadow(4.dp),
+                color = Color(255, 255, 210),
+                shape = RoundedCornerShape(4.dp)
+            ) {
+                Text(
+                    text = text,
+                    modifier = Modifier.padding(10.dp)
+                )
+            }
+        },
+        delayMillis = 600, // in milliseconds
+        tooltipPlacement = TooltipPlacement.CursorPoint(
+            alignment = Alignment.BottomEnd,
+            offset = DpOffset(-16.dp, 0.dp)
+        )
+    ) {
+        IconButton(
+            modifier = Modifier.padding(5.dp),
+            onClick = {
+                onClick()
+            },
+            enabled = enable()
+        ) {
+            Icon(
+                painter = painter,
+                contentDescription = text,
+                modifier = Modifier.size(36.dp)
+            )
+        }
+    }
 }
 
 @Composable

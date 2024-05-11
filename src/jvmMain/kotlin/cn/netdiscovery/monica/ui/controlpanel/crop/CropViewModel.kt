@@ -45,6 +45,7 @@ class CropViewModel {
             } finally {
                 g2d.dispose()
             }
+            state.addQueue(state.currentImage!!)
             state.currentImage = resizedImage
         }
     }
