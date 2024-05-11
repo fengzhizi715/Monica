@@ -1,20 +1,15 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Checkbox
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 
 /**
  *
@@ -42,60 +37,20 @@ fun basicView(state: ApplicationState) {
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
-//        IconButton(
-//            modifier = Modifier.padding(5.dp),
-//            onClick = {
-//            },
-//            enabled = state.isBasic
-//        ) {
-//            Icon(
-//                painter = painterResource("draw.png"),
-//                contentDescription = "绘画",
-//                modifier = Modifier.size(36.dp)
-//            )
-//        }
-
-        IconButton(
-            modifier = Modifier.padding(5.dp),
+        toolTipButton(text = "图像模糊",
+            painter = painterResource("images/blur.png"),
+            enable = { state.isBasic },
             onClick = {
                 state.isBlur = true
                 state.isMosaic = false
-            },
-            enabled = state.isBasic
-        ) {
-            Icon(
-                painter = painterResource("images/blur.png"),
-                contentDescription = "模糊",
-                modifier = Modifier.size(36.dp)
-            )
-        }
+            })
 
-        IconButton(
-            modifier = Modifier.padding(5.dp),
+        toolTipButton(text = "图像马赛克",
+            painter = painterResource("images/mosaic.png"),
+            enable = { state.isBasic },
             onClick = {
                 state.isMosaic = true
                 state.isBlur = false
-            },
-            enabled = state.isBasic
-        ) {
-            Icon(
-                painter = painterResource("images/mosaic.png"),
-                contentDescription = "马赛克",
-                modifier = Modifier.size(36.dp)
-            )
-        }
-
-//        IconButton(
-//            modifier = Modifier.padding(5.dp),
-//            onClick = {
-//            },
-//            enabled = state.isBasic
-//        ) {
-//            Icon(
-//                painter = painterResource("add_text.png"),
-//                contentDescription = "添加文字",
-//                modifier = Modifier.size(36.dp)
-//            )
-//        }
+            })
     }
 }
