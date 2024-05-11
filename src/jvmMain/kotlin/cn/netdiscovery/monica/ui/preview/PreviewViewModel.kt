@@ -91,8 +91,8 @@ class PreviewViewModel {
 
             var tempImage = bufferedImage.subImage(x,y,width,height)
             tempImage = blurFilter.transform(tempImage)
-
-            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+            
+            val outputImage = BufferedImages.create(srcWidth, srcHeight, state.currentImage!!.type)
             val graphics2D = outputImage.createGraphics()
             graphics2D.drawImage(bufferedImage, 0, 0, null)
             graphics2D.drawImage(tempImage, x, y, width, height, null)
@@ -114,7 +114,7 @@ class PreviewViewModel {
             val yScale = (srcHeight.toFloat()/height)
 
             // 创建与输入图像相同大小的新图像
-            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
+            val outputImage = BufferedImages.create(srcWidth, srcHeight, state.currentImage!!.type)
             // 创建画笔
             val graphics: Graphics = outputImage.graphics
             // 将原始图像绘制到新图像中
