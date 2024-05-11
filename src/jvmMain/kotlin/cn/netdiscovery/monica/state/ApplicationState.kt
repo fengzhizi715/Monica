@@ -5,10 +5,8 @@ import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.subImage
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,87 +77,6 @@ class ApplicationState(val scope:CoroutineScope,
         isShowPreviewWindow = isShow
     }
 
-    fun mosaic(width:Int, height:Int,offset: Offset) {
-        scope.launch(Dispatchers.IO) {
-            val bufferedImage = currentImage!!
-
-            val srcWidth = bufferedImage.width
-            val srcHeight = bufferedImage.height
-
-            val xScale = (srcWidth.toFloat()/width)
-            val yScale = (srcHeight.toFloat()/height)
-
-            // 创建与输入图像相同大小的新图像
-            val outputImage = BufferedImage(srcWidth, srcHeight, BufferedImage.TYPE_INT_RGB)
-            // 创建画笔
-            val graphics: Graphics = outputImage.graphics
-            // 将原始图像绘制到新图像中
-            graphics.drawImage(bufferedImage, 0, 0, null)
-            // 打码区域左上角x坐标
-            val x = (offset.x*xScale).toInt()
-            // 打码区域左上角y坐标
-            val y = (offset.y*yScale).toInt()
-            // 打码区域宽度
-            val width = (60*xScale).toInt()
-            // 打码区域高度
-            val height = (60*yScale).toInt()
-
-            val mosaicSize = 40
-            var xcount = 0 // 方向绘制个数
-            var ycount = 0 // y方向绘制个数
-            if (width % mosaicSize === 0) {
-                xcount = width / mosaicSize
-            } else {
-                xcount = width / mosaicSize + 1
-            }
-            if (height % mosaicSize === 0) {
-                ycount = height / mosaicSize
-            } else {
-                ycount = height / mosaicSize + 1
-            }
-
-            var xTmp = x
-            var yTmp = y
-            for (i in 0 until xcount) {
-                for (j in 0 until ycount) {
-                    //马赛克矩形格大小
-                    var mwidth = mosaicSize
-                    var mheight = mosaicSize
-                    if (i == xcount - 1) {   //横向最后一个比较特殊，可能不够一个size
-                        mwidth = width - xTmp
-                    }
-                    if (j == ycount - 1) {  //同理
-                        mheight = height - yTmp
-                    }
-                    //矩形颜色取中心像素点RGB值
-                    var centerX = xTmp
-                    var centerY = yTmp
-                    centerX += if (mwidth % 2 == 0) {
-                        mwidth / 2
-                    } else {
-                        (mwidth - 1) / 2
-                    }
-                    centerY += if (mheight % 2 == 0) {
-                        mheight / 2
-                    } else {
-                        (mheight - 1) / 2
-                    }
-                    val color: Color = Color(bufferedImage.getRGB(centerX, centerY))
-                    graphics.setColor(color)
-                    graphics.fillRect(xTmp, yTmp, mwidth, mheight)
-                    yTmp += mosaicSize // 计算下一个矩形的y坐标
-                }
-                yTmp = y // 还原y坐标
-                xTmp += mosaicSize // 计算x坐标
-            }
-            // 释放资源
-            graphics.dispose()
-
-            queue.putFirst(currentImage)
-            currentImage = outputImage
-        }
-    }
-
     fun blur(width:Int, height:Int,offset: Offset) {
         scope.launch(Dispatchers.IO) {
             val bufferedImage = currentImage!!
@@ -192,15 +109,6 @@ class ApplicationState(val scope:CoroutineScope,
             currentImage = outputImage
         }
     }
-
-//    fun loadUrl(picUrl:String) {
-//        scope.launch(Dispatchers.IO) {
-//            clickLoadingDisplay {
-//                rawImage = BufferedImages.loadUrl(picUrl)
-//                currentImage = rawImage
-//            }
-//        }
-//    }
 
     fun clearImage() {
         this.rawImage = null

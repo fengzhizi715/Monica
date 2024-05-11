@@ -80,7 +80,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                         detectTapGestures(
                             onPress = {
                                 if (state.isMosaic) {
-                                    state.mosaic(width,height, it)
+                                    viewModel.mosaic(width, height, it, state)
                                 } else if (state.isBlur) {
                                     state.blur(width,height, it)
                                 }
@@ -113,7 +113,6 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                 onClick = {
                     viewModel.recoverImage(state)
                 })
-
 
             toolTipButton(text = "上一步",
                 painter = painterResource("images/reduction.png"),
