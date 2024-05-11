@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 0.1.3
+---
+2024-5-11
+* 增加图像的 resize 功能
+* 增加带 tooltip
+
 Version 0.1.2
 ---
 2024-5-9
