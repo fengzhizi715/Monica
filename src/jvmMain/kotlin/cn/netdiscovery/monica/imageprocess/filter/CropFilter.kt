@@ -4,7 +4,6 @@ import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import java.awt.Graphics2D
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
-import java.awt.image.BufferedImage.TYPE_INT_RGB
 
 
 /**
@@ -22,7 +21,7 @@ class CropFilter(private val x:Int = 0,
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        val dst = BufferedImage(w, h, TYPE_INT_RGB)
+        val dst = BufferedImage(w, h, type)
         val g: Graphics2D = dst.createGraphics()
         g.drawRenderedImage(srcImage, AffineTransform.getTranslateInstance(-x.toDouble(), -y.toDouble()))
         g.dispose()

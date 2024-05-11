@@ -35,7 +35,7 @@ class BufferedImages {
             BufferedImage(
                 if (width > 0) width else 1,
                 if (height > 0) height else 1,
-                TYPE_INT_RGB)
+                type)
 
         fun load(input: InputStream): BufferedImage = ImageIO.read(input)
 
@@ -64,29 +64,31 @@ fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
     return true
 }
 
-suspend fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
+fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
 
-    withContext(Dispatchers.IO) {
+    writeImageFile(this@saveImage,saveFile!!.absolutePath)
 
-        try {
-            val outputStream = ImageIO.createImageOutputStream(saveFile)
-            val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
-            val jpgWriteParam: ImageWriteParam = jpgWriter.defaultWriteParam
-            jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
-            jpgWriteParam.compressionQuality = quality
-            jpgWriter.output = outputStream
-            val outputImage = IIOImage(this@saveImage, null, null)
-            jpgWriter.write(null, outputImage, jpgWriteParam)
-            jpgWriter.dispose()
-            outputStream.flush()
-
-            closeQuietly(outputStream)
-        } catch (e:Exception) {
-            e.printStackTrace()
-
-            writeImageFile(this@saveImage,saveFile!!.absolutePath)
-        }
-    }
+//    withContext(Dispatchers.IO) {
+//
+//        try {
+//            val outputStream = ImageIO.createImageOutputStream(saveFile)
+//            val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
+//            val jpgWriteParam: ImageWriteParam = jpgWriter.defaultWriteParam
+//            jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
+//            jpgWriteParam.compressionQuality = quality
+//            jpgWriter.output = outputStream
+//            val outputImage = IIOImage(this@saveImage, null, null)
+//            jpgWriter.write(null, outputImage, jpgWriteParam)
+//            jpgWriter.dispose()
+//            outputStream.flush()
+//
+//            closeQuietly(outputStream)
+//        } catch (e:Exception) {
+//            e.printStackTrace()
+//
+//            writeImageFile(this@saveImage,saveFile!!.absolutePath)
+//        }
+//    }
 }
 
 fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
