@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
@@ -37,7 +37,7 @@ var selectedIndex = mutableStateOf(0)
 @Composable
 fun filterView(state: ApplicationState) {
 
-    val viewModel:FilterViewModel = koinInject()
+    val viewModel: FilterViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isFilter, onCheckedChange = {

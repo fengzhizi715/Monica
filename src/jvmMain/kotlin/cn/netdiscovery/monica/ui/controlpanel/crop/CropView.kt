@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.crop
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
@@ -38,7 +38,7 @@ var clickStatus = mutableStateOf(0)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun cropView(state: ApplicationState) {
-    val viewModel:CropViewModel = koinInject()
+    val viewModel: CropViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isCrop, onCheckedChange = {
@@ -132,7 +132,7 @@ private fun clearClickStatus() {
 }
 
 @Composable
-fun generateResizeParams(state: ApplicationState,viewModel:CropViewModel) {
+fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
 
     var widthText by remember {
         mutableStateOf("${state.currentImage?.width?:400}")

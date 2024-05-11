@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.ui.preview
 import cn.netdiscovery.monica.imageprocess.saveImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.selectedIndex
+import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import filterNames
 import kotlinx.coroutines.launch

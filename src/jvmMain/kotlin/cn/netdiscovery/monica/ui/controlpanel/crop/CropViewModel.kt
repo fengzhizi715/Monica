@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.crop
 
 import cn.netdiscovery.monica.imageprocess.flipHorizontally
 import cn.netdiscovery.monica.imageprocess.rotate
@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.CropViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
  * @author: Tony Shen
  * @date: 2024/5/8 11:46
  * @version: V1.0 <描述当前版本功能>

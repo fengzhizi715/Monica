@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
@@ -9,7 +9,7 @@ import java.util.*
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.FilterViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
  * @author: Tony Shen
  * @date: 2024/5/8 12:09
  * @version: V1.0 <描述当前版本功能>
