@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.preview
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.saveImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
@@ -9,7 +10,6 @@ import filterNames
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
-import java.text.Collator
 import java.util.*
 import javax.swing.JFileChooser
 
@@ -22,6 +22,25 @@ import javax.swing.JFileChooser
  * @version: V1.0 <描述当前版本功能>
  */
 class PreviewViewModel {
+
+    fun chooseImage(state: ApplicationState) {
+        showFileSelector(
+            isMultiSelection = false,
+            selectionMode = JFileChooser.FILES_ONLY,
+            onFileSelected = {
+                state.scope.launch(Dispatchers.IO) {
+                    clickLoadingDisplay {
+                        val file = it.getOrNull(0)
+                        if (file != null) {
+                            state.rawImage = BufferedImages.load(file)
+                            state.currentImage = state.rawImage
+                            state.rawImageFile = file
+                        }
+                    }
+                }
+            }
+        )
+    }
 
     fun recoverImage(state: ApplicationState) {
         state.currentImage = state.rawImage

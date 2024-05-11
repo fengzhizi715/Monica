@@ -69,7 +69,7 @@ fun main() = application {
                     Item(
                         text = "打开本地图片",
                         onClick = {
-                            applicationState.onClickImageChoose()
+                            previewViewModel.chooseImage(applicationState)
                         },
                     )
                     Item(

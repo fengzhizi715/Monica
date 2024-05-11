@@ -43,7 +43,7 @@ fun preview(
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
         onClick = {
-            state.onClickImageChoose()
+            previewViewModel.chooseImage(state)
         },
         enabled = state.rawImage == null
     ) {

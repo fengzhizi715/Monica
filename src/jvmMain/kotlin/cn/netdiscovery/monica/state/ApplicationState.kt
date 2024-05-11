@@ -9,7 +9,6 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
 import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import cn.netdiscovery.monica.utils.showFileSelector
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -19,7 +18,6 @@ import java.awt.image.BufferedImage
 import java.io.File
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.concurrent.TimeUnit
-import javax.swing.JFileChooser
 
 /**
  *
@@ -79,25 +77,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
-    }
-
-    fun onClickImageChoose() {
-        showFileSelector(
-            isMultiSelection = false,
-            selectionMode = JFileChooser.FILES_ONLY,
-            onFileSelected = {
-                scope.launch(Dispatchers.IO) {
-                    clickLoadingDisplay {
-                        val file = it.getOrNull(0)
-                        if (file != null) {
-                            rawImage = BufferedImages.load(file)
-                            currentImage = rawImage
-                            rawImageFile = file
-                        }
-                    }
-                }
-            }
-        )
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset) {
