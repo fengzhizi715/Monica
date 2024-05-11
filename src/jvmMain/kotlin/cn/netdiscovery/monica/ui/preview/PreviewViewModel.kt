@@ -42,6 +42,15 @@ class PreviewViewModel {
         )
     }
 
+    fun loadUrl(picUrl:String, state: ApplicationState) {
+        state.scope.launch(Dispatchers.IO) {
+            clickLoadingDisplay {
+                state.rawImage = BufferedImages.loadUrl(picUrl)
+                state.currentImage = state.rawImage
+            }
+        }
+    }
+
     fun recoverImage(state: ApplicationState) {
         state.currentImage = state.rawImage
         state.clearQueue()

@@ -133,7 +133,8 @@ fun main() = application {
                                 onClick = {
                                     openURLDialog = false
 
-                                    applicationState.loadUrl(picUrl)
+                                    previewViewModel.loadUrl(picUrl,applicationState)
+
                                     picUrl = ""
                                 }
                             ) {

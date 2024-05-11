@@ -193,14 +193,14 @@ class ApplicationState(val scope:CoroutineScope,
         }
     }
 
-    fun loadUrl(picUrl:String) {
-        scope.launch(Dispatchers.IO) {
-            clickLoadingDisplay {
-                rawImage = BufferedImages.loadUrl(picUrl)
-                currentImage = rawImage
-            }
-        }
-    }
+//    fun loadUrl(picUrl:String) {
+//        scope.launch(Dispatchers.IO) {
+//            clickLoadingDisplay {
+//                rawImage = BufferedImages.loadUrl(picUrl)
+//                currentImage = rawImage
+//            }
+//        }
+//    }
 
     fun clearImage() {
         this.rawImage = null
