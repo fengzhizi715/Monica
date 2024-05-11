@@ -37,14 +37,14 @@ class PreviewViewModel {
     fun previewImage(state: ApplicationState) {
         state.scope.launch {
             clickLoadingDisplayWithSuspend {
-                if (!state.isHLS && (!state.isFilter || ( state.isFilter && selectedIndex.value == 0)))  {
-                    return@clickLoadingDisplayWithSuspend
-                }
-
                 if (state.currentImage == null)
                     return@clickLoadingDisplayWithSuspend
 
-                var tempImage = state.currentImage
+                if (!state.isHLS && (!state.isFilter || (state.isFilter && selectedIndex.value == 0)))  {
+                    return@clickLoadingDisplayWithSuspend
+                }
+
+                var tempImage = state.currentImage!!
 
                 if (state.isHLS) {
                     state.currentImage = hsl(state.currentImage!!, state.saturation, state.hue, state.luminance)
@@ -57,7 +57,7 @@ class PreviewViewModel {
 
                     if (params!=null) {
                         // 按照参数名首字母进行排序
-                        Collections.sort(params) { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first) }
+                        Collections.sort(params) { o1, o2 -> collator.compare(o1.first, o2.first) }
                         println("sort params: $params")
                     }
 
@@ -72,7 +72,7 @@ class PreviewViewModel {
                     state.currentImage = doFilter(filterName,array,state)
                 }
 
-                state.addQueue(tempImage!!)
+                state.addQueue(tempImage)
             }
         }
     }

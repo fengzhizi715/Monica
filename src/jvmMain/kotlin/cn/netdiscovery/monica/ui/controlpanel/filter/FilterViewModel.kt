@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.collator
 import filterNames
 import java.text.Collator
 import java.util.*
@@ -34,7 +35,7 @@ class FilterViewModel {
         }
 
         // 按照参数名首字母进行排序
-        list.sortWith { o1, o2 -> Collator.getInstance(Locale.UK).compare(o1.first, o2.first); }
+        list.sortWith { o1, o2 -> collator.compare(o1.first, o2.first); }
 
         println("sort params: $list")
         rxCache.saveOrUpdate(filterName, list)
