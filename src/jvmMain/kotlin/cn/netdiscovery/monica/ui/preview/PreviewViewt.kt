@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
 
@@ -106,83 +107,43 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+            toolTipButton(text = "恢复最初",
+                painter = painterResource("images/initial_picture.png"),
+                iconModifier = Modifier.size(30.dp),
                 onClick = {
                     viewModel.recoverImage(state)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/initial_picture.png"),
-                    contentDescription = "恢复最初",
-                    modifier = Modifier.size(30.dp)
-                )
-            }
+                })
 
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+
+            toolTipButton(text = "上一步",
+                painter = painterResource("images/reduction.png"),
                 onClick = {
                     viewModel.getLastImage(state)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/reduction.png"),
-                    contentDescription = "上一步",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+                })
 
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+            toolTipButton(text = "预览效果",
+                painter = painterResource("images/preview.png"),
                 onClick = {
                     viewModel.previewImage(state)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/preview.png"),
-                    contentDescription = "预览效果",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+                })
 
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+            toolTipButton(text = "放大预览",
+                painter = painterResource("images/zoom.png"),
                 onClick = {
                     state.togglePreviewWindow(true)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/zoom.png"),
-                    contentDescription = "放大预览",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+                })
 
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+            toolTipButton(text = "保存",
+                painter = painterResource("images/save.png"),
                 onClick = {
                     viewModel.saveImage(state)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/save.png"),
-                    contentDescription = "保存",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
-            
-            IconButton(
-                modifier = Modifier.padding(5.dp),
+                })
+
+            toolTipButton(text = "删除",
+                painter = painterResource("images/delete.png"),
                 onClick = {
                     viewModel.clearImage(state)
-                }
-            ) {
-                Icon(
-                    painter = painterResource("images/delete.png"),
-                    contentDescription = "删除",
-                    modifier = Modifier.size(36.dp)
-                )
-            }
+                })
         }
     }
 

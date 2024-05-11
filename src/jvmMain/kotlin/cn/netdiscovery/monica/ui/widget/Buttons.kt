@@ -32,7 +32,8 @@ import androidx.compose.ui.unit.dp
 fun toolTipButton(
     text:String,
     painter: Painter,
-    enable: ()-> Boolean,
+    iconModifier: Modifier = Modifier.size(36.dp),
+    enable: ()-> Boolean = { true },
     onClick: () -> Unit,
 ) {
     TooltipArea(
@@ -65,7 +66,7 @@ fun toolTipButton(
             Icon(
                 painter = painter,
                 contentDescription = text,
-                modifier = Modifier.size(36.dp)
+                modifier = iconModifier
             )
         }
     }
