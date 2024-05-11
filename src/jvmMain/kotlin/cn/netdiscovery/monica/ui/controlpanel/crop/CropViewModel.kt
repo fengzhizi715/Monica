@@ -1,10 +1,10 @@
 package cn.netdiscovery.monica.ui.controlpanel.crop
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.flipHorizontally
 import cn.netdiscovery.monica.imageprocess.rotate
 import cn.netdiscovery.monica.state.ApplicationState
 import java.awt.Image
-import java.awt.image.BufferedImage
 
 /**
  *
@@ -38,7 +38,7 @@ class CropViewModel {
             }
 
             val tmp = state.currentImage!!.getScaledInstance(width, height, Image.SCALE_SMOOTH)
-            val resizedImage = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+            val resizedImage = BufferedImages.create(width, height,state.currentImage!!.type)
             val g2d = resizedImage.createGraphics()
             try {
                 g2d.drawImage(tmp, 0, 0, null)

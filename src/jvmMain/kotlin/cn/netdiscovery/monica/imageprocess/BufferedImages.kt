@@ -1,20 +1,14 @@
 package cn.netdiscovery.monica.imageprocess
 
 import client
-import cn.netdiscovery.monica.utils.closeQuietly
 import cn.netdiscovery.monica.utils.writeImageFile
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.awt.image.BufferedImage.TYPE_INT_RGB
 import java.io.File
 import java.io.InputStream
-import javax.imageio.IIOImage
 import javax.imageio.ImageIO
-import javax.imageio.ImageWriteParam
-import javax.imageio.ImageWriter
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.floor
@@ -64,31 +58,8 @@ fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
     return true
 }
 
-fun BufferedImage.saveImage(saveFile: File?, quality: Float = 0.8f) {
-
-    writeImageFile(this@saveImage,saveFile!!.absolutePath)
-
-//    withContext(Dispatchers.IO) {
-//
-//        try {
-//            val outputStream = ImageIO.createImageOutputStream(saveFile)
-//            val jpgWriter: ImageWriter = ImageIO.getImageWritersByFormatName("jpg").next()
-//            val jpgWriteParam: ImageWriteParam = jpgWriter.defaultWriteParam
-//            jpgWriteParam.compressionMode = ImageWriteParam.MODE_EXPLICIT
-//            jpgWriteParam.compressionQuality = quality
-//            jpgWriter.output = outputStream
-//            val outputImage = IIOImage(this@saveImage, null, null)
-//            jpgWriter.write(null, outputImage, jpgWriteParam)
-//            jpgWriter.dispose()
-//            outputStream.flush()
-//
-//            closeQuietly(outputStream)
-//        } catch (e:Exception) {
-//            e.printStackTrace()
-//
-//            writeImageFile(this@saveImage,saveFile!!.absolutePath)
-//        }
-//    }
+fun BufferedImage.saveImage(saveFile: File) {
+    writeImageFile(this@saveImage,saveFile.absolutePath)
 }
 
 fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
