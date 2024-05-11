@@ -6,6 +6,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import filterNames
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
 import java.text.Collator
@@ -82,10 +83,10 @@ class PreviewViewModel {
             selectionMode = JFileChooser.DIRECTORIES_ONLY,
             selectionFileFilter = null
         ) {
-            state.scope.launch {
+            state.scope.launch(Dispatchers.IO) {
                 val outputPath = it[0].absolutePath
-                val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.jpg"))
-                state.currentImage!!.saveImage(saveFile, 0.8f)
+                val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
+                state.currentImage!!.saveImage(saveFile)
                 state.showTray(msg = "保存成功（${outputPath}）")
             }
         }
