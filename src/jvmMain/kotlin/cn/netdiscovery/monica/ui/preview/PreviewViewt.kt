@@ -18,6 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
@@ -37,6 +38,7 @@ fun preview(
     modifier: Modifier
 ) {
     val previewViewModel: PreviewViewModel = koinInject()
+    val cropViewModel: CropViewModel = koinInject()
 
     Card(
         modifier = modifier.padding(16.dp),
@@ -50,14 +52,14 @@ fun preview(
         if (state.rawImage == null) {
             chooseImage()
         } else {
-            previewImage(state,previewViewModel)
+            previewImage(state,previewViewModel,cropViewModel)
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
+private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewModel, cropViewModel:CropViewModel) {
     if (state.currentImage == null) return
 
     Column(
@@ -80,9 +82,11 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                         detectTapGestures(
                             onPress = {
                                 if (state.isMosaic) {
-                                    viewModel.mosaic(width, height, it, state)
+                                    previewViewModel.mosaic(width, height, it, state)
                                 } else if (state.isBlur) {
-                                    viewModel.blur(width,height, it, state)
+                                    previewViewModel.blur(width,height, it, state)
+                                } else if (state.isCropSize) {
+                                    cropViewModel.crop(width,height, it, state)
                                 }
                             })
                     }
@@ -91,7 +95,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                     }, onDoubleClick = {
                         // perform double click operations
                     }, onClick = {
-                        if (state.isBasic) {
+                        if (state.isBasic || state.isCropSize) {
                             state.togglePreviewWindow(false)
                         } else {
                             state.togglePreviewWindow(true)
@@ -111,19 +115,19 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                 painter = painterResource("images/initial_picture.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
-                    viewModel.recoverImage(state)
+                    previewViewModel.recoverImage(state)
                 })
 
             toolTipButton(text = "上一步",
                 painter = painterResource("images/reduction.png"),
                 onClick = {
-                    viewModel.getLastImage(state)
+                    previewViewModel.getLastImage(state)
                 })
 
             toolTipButton(text = "预览效果",
                 painter = painterResource("images/preview.png"),
                 onClick = {
-                    viewModel.previewImage(state)
+                    previewViewModel.previewImage(state)
                 })
 
             toolTipButton(text = "放大预览",
@@ -135,13 +139,13 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             toolTipButton(text = "保存",
                 painter = painterResource("images/save.png"),
                 onClick = {
-                    viewModel.saveImage(state)
+                    previewViewModel.saveImage(state)
                 })
 
             toolTipButton(text = "删除",
                 painter = painterResource("images/delete.png"),
                 onClick = {
-                    viewModel.clearImage(state)
+                    previewViewModel.clearImage(state)
                 })
         }
     }

@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.crop
 
+import androidx.compose.ui.geometry.Offset
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.flipHorizontally
 import cn.netdiscovery.monica.imageprocess.rotate
@@ -15,6 +16,8 @@ import java.awt.Image
  * @version: V1.0 <描述当前版本功能>
  */
 class CropViewModel {
+
+    private var offset:Offset = Offset.Zero
 
     fun flip(state: ApplicationState) {
         if (state.currentImage!=null) {
@@ -48,5 +51,19 @@ class CropViewModel {
             state.addQueue(state.currentImage!!)
             state.currentImage = resizedImage
         }
+    }
+
+    fun crop(width:Int, height:Int, offset: Offset, state: ApplicationState) {
+
+        if (this.offset == Offset.Zero) {
+            this.offset = offset
+            return
+        }
+
+        if (this.offset!=offset) {
+            this.offset = offset
+        }
+
+
     }
 }

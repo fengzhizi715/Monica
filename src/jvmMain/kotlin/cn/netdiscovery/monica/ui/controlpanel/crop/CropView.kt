@@ -73,6 +73,13 @@ fun cropView(state: ApplicationState) {
             onClick = {
                 clickStatus.value = 1
             })
+
+        toolTipButton(text = "图像裁剪",
+            painter = painterResource("images/crop.png"),
+            enable = { state.isCrop },
+            onClick = {
+                state.isCropSize = true
+            })
     }
 
     Column {
