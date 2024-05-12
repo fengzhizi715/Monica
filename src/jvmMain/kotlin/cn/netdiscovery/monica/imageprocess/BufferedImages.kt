@@ -82,7 +82,7 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
     return getSubimage(x1, y1, x2 - x1, y2 - y1)
 }
 
-fun BufferedImage.flipHorizontally(): BufferedImage? {
+fun BufferedImage.flipHorizontally(): BufferedImage {
     val flipped = BufferedImage(width, height, TYPE_INT_RGB)
     val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
     val flip = AffineTransform.getScaleInstance(-1.0, 1.0)

@@ -14,7 +14,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.awt.Color
 import java.awt.Graphics
-import java.awt.image.BufferedImage
 import java.io.File
 import java.util.*
 import javax.swing.JFileChooser
@@ -53,8 +52,10 @@ class PreviewViewModel {
     fun loadUrl(picUrl:String, state: ApplicationState) {
         state.scope.launch(Dispatchers.IO) {
             clickLoadingDisplay {
-                state.rawImage = BufferedImages.loadUrl(picUrl)
-                state.currentImage = state.rawImage
+                BufferedImages.loadUrl(picUrl)?.let {
+                    state.rawImage = it
+                    state.currentImage = state.rawImage
+                }
             }
         }
     }
@@ -65,9 +66,9 @@ class PreviewViewModel {
     }
 
     fun getLastImage(state: ApplicationState) {
-        val lastImage = state.getLastImage()
-        if (lastImage!=null)
-            state.currentImage = lastImage
+        state.getLastImage()?.let {
+            state.currentImage = it
+        }
     }
 
     fun blur(width:Int, height:Int,offset: Offset,state: ApplicationState) {
@@ -91,7 +92,7 @@ class PreviewViewModel {
 
             var tempImage = bufferedImage.subImage(x,y,width,height)
             tempImage = blurFilter.transform(tempImage)
-            
+
             val outputImage = BufferedImages.create(srcWidth, srcHeight, state.currentImage!!.type)
             val graphics2D = outputImage.createGraphics()
             graphics2D.drawImage(bufferedImage, 0, 0, null)
