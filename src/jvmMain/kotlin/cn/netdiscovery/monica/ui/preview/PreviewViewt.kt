@@ -1,17 +1,18 @@
 package cn.netdiscovery.monica.ui.preview
 
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
-import androidx.compose.ui.graphics.toPainter
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -19,6 +20,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
+import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
@@ -70,12 +72,13 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
-                painter = state.currentImage!!.toPainter(),
+            ImageWithConstraints(
+                imageBitmap = state.currentImage!!.toComposeImageBitmap(),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .pointerInput(Unit) {
+
                         val width = this.size.width
                         val height = this.size.height
 
@@ -103,7 +106,8 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                     })
                     .drawWithContent {
                     drawContent()
-                    })
+                    }) {
+            }
         }
 
         Row (
@@ -149,7 +153,6 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                 })
         }
     }
-
 }
 
 @Composable
