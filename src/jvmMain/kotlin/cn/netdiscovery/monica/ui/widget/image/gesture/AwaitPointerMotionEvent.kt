@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.image.gesture
+package cn.netdiscovery.monica.ui.widget.image.gesture
 
 import androidx.compose.foundation.gestures.awaitEachGesture
 import androidx.compose.foundation.gestures.awaitFirstDown
