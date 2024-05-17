@@ -1,7 +1,16 @@
 package cn.netdiscovery.monica.utils
 
+import androidx.compose.foundation.layout.size
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Surface
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.ImageComposeScene
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.AverageFilter
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
@@ -13,8 +22,11 @@ import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
 import cn.netdiscovery.monica.state.ApplicationState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import org.jetbrains.skia.Bitmap
+import org.jetbrains.skia.EncodedImageFormat
 import java.awt.Color
 import java.awt.image.BufferedImage
+import java.io.File
 
 /**
  *
@@ -181,4 +193,28 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
         }
     }
+}
+
+fun convertComposable2Image(width: Int,
+                            height: Int,
+                            density: Density = Density(1f),
+                            fileName:String, content: @Composable () -> Unit = {}) {
+    val scene = ImageComposeScene(
+        width = width,
+        height = height,
+        density = density,
+        coroutineContext = Dispatchers.IO
+    ) {
+        content.invoke()
+    }
+
+    val image = scene.render()
+
+    val bitmap = Bitmap.makeFromImage(image)
+    val data = org.jetbrains.skia.Image.makeFromBitmap(bitmap).use {
+        it.encodeToData(EncodedImageFormat.PNG)!!
+    }
+    val out = File(fileName)
+    out.delete()
+    out.writeBytes(data.bytes)
 }
