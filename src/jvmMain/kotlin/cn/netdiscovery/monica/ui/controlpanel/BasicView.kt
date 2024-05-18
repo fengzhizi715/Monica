@@ -52,5 +52,11 @@ fun basicView(state: ApplicationState) {
                 state.isMosaic = true
                 state.isBlur = false
             })
+
+        toolTipButton(text = "涂鸦",
+            painter = painterResource("images/doodle.png"),
+            enable = { state.isBasic },
+            onClick = {
+            })
     }
 }
