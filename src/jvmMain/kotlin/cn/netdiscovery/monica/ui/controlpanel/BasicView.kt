@@ -57,6 +57,8 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/doodle.png"),
             enable = { state.isBasic },
             onClick = {
+                state.isDoodle = true
+                state.togglePreviewWindow(true)
             })
     }
 }

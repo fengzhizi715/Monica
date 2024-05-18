@@ -151,6 +151,7 @@ fun main() = application {
         Window(
             title = "放大预览",
             onCloseRequest = {
+                applicationState.isDoodle = false
                 applicationState.togglePreviewWindow(false)
             },
             state = rememberWindowState().apply {
