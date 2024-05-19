@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -53,6 +52,7 @@ fun drawImage(
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
     var showColorDialog by remember { mutableStateOf(false) }
+    var showPropertiesDialog by remember { mutableStateOf(false) }
 
     val properties by rememberUpdatedState(newValue = currentPathProperty)
 
@@ -266,6 +266,14 @@ fun drawImage(
                 ) {
                     Text("画笔")
                 }
+
+                OutlinedButton(
+                    onClick = {
+                        showPropertiesDialog = true
+                    },
+                ) {
+                    Text("test")
+                }
             }
 
             Column(
@@ -302,6 +310,12 @@ fun drawImage(
                     properties.color = color
                 }
             )
+        }
+
+        if (showPropertiesDialog) {
+            PropertiesMenuDialog(properties) {
+                showPropertiesDialog = !showPropertiesDialog
+            }
         }
     }
 }
