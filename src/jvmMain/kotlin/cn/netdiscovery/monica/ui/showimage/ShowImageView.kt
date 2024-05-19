@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.ui.showimage
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -9,8 +9,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -18,7 +16,6 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.utils.extension.to2fStr
 
 /**
@@ -49,8 +46,8 @@ fun showImage(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        ImageWithConstraints(
-            imageBitmap = image,
+        Image(
+            bitmap = image,
             contentDescription = null,
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -77,8 +74,7 @@ fun showImage(
                         offsetY = matrix.values[Matrix.TranslateY]
                     }
                 }
-        ) {
-        }
+        )
 
         Row (modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)){
 
@@ -140,8 +136,6 @@ fun showImage(
     }
 }
 
-val focusRequester = FocusRequester()
-
 @Composable
 fun verticalSlider(
     value: Float,
@@ -182,12 +176,6 @@ fun verticalSlider(
                     placeable.place(-placeable.width, 0)
                 }
             }
-            .focusRequester(focusRequester)
-            .clickable {
-                if (!focusRequester.captureFocus()) {
-                    focusRequester.requestFocus()
-                }
-             }
             .then(modifier)
     )
 }
