@@ -13,6 +13,7 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -75,6 +76,7 @@ fun drawImage(
         ) {
             val imageWidth = this.imageWidth
             val imageHeight = this.imageHeight
+
             val modifier = Modifier.size(imageWidth, imageHeight)
 
             val transition: InfiniteTransition = rememberInfiniteTransition()
@@ -171,17 +173,6 @@ fun drawImage(
                     else -> Unit
                 }
 
-//                this.drawIntoCanvas {
-//
-//                    it.drawPath(path, paint)
-//
-//                    drawPath(
-//                        color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
-//                        path = path,
-//                        style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
-//                    )
-//                }
-
                 with(drawContext.canvas.nativeCanvas) {
 
                     val checkPoint = saveLayer(null, null)
@@ -193,7 +184,7 @@ fun drawImage(
 
                         if (!property.eraseMode) {
                             drawPath(
-                                color = property.color,
+                                color = property.color.copy((0.4f + phase).coerceAtMost(1f)),
                                 path = path,
                                 style = Stroke(
                                     width = property.strokeWidth,
@@ -221,7 +212,7 @@ fun drawImage(
 
                         if (!currentPathProperty.eraseMode) {
                             drawPath(
-                                color = currentPathProperty.color,
+                                color = currentPathProperty.color.copy((0.4f + phase).coerceAtMost(1f)),
                                 path = currentPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
@@ -231,7 +222,7 @@ fun drawImage(
                             )
                         } else {
                             drawPath(
-                                color = Color.Transparent,
+                                color = Color.Transparent.copy((0.4f + phase).coerceAtMost(1f)),
                                 path = currentPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
