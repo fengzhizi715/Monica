@@ -140,6 +140,8 @@ fun showImage(
     }
 }
 
+val focusRequester = FocusRequester()
+
 @Composable
 fun verticalSlider(
     value: Float,
@@ -153,8 +155,6 @@ fun verticalSlider(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: SliderColors = SliderDefaults.colors()
 ){
-    val focusRequester = remember { FocusRequester() }
-
     Slider(
         colors = colors,
         interactionSource = interactionSource,
