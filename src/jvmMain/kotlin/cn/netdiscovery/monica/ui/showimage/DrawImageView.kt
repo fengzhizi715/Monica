@@ -4,7 +4,8 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -35,6 +36,13 @@ fun drawImage(
     state: ApplicationState,
     image: ImageBitmap
 ) {
+
+    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+    // This is our motion event we get from touch motion
+    var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
+    // This is previous motion event before next touch is saved into this current position
+    var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+
     var angle by remember { mutableStateOf(0f) }  //旋转角度
     var scale by remember { mutableStateOf(1f) }  //缩放
     var offsetX by remember { mutableStateOf(0f) }//x偏移
@@ -42,7 +50,7 @@ fun drawImage(
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
     var showColorDialog by remember { mutableStateOf(false) }
-    var properties by remember { mutableStateOf(PathProperties()) }
+    val properties by remember { mutableStateOf(PathProperties()) }
 
     Box(
         Modifier.fillMaxSize(),
@@ -62,14 +70,109 @@ fun drawImage(
                     translationY = offsetY
                 }
         ) {
-            if (state.isDoodle) {
-                val imageWidth = this.imageWidth
-                val imageHeight = this.imageHeight
-                Drawing(modifier = Modifier.size(imageWidth, imageHeight), properties)
+            val imageWidth = this.imageWidth
+            val imageHeight = this.imageHeight
+            val modifier = Modifier.size(imageWidth, imageHeight)
+
+            val transition: InfiniteTransition = rememberInfiniteTransition()
+
+            val phase by transition.animateFloat(
+                initialValue = .9f,
+                targetValue = .3f,
+                animationSpec = infiniteRepeatable(
+                    animation = tween(
+                        durationMillis = 1000,
+                        easing = FastOutSlowInEasing
+                    ),
+                    repeatMode = RepeatMode.Reverse
+                )
+            )
+
+            val color = Color.Green
+
+            val paint = remember {
+                Paint().apply {
+                    style = PaintingStyle.Stroke
+                    strokeWidth = 15f
+                    strokeCap = StrokeCap.Round
+
+
+                    this.asFrameworkPaint().apply {
+                        val transparent = color
+                            .copy(alpha = 0f)
+                            .toArgb()
+
+                        this.color = transparent
+                    }
+                }
+            }
+
+            // Path is what is used for drawing line on Canvas
+            val path = remember(modifier) { Path() }
+
+            val drawModifier = modifier
+                .clipToBounds()
+                .pointerMotionEvents(
+                    onDown = { pointerInputChange: PointerInputChange ->
+                        currentPosition = pointerInputChange.position
+                        motionEvent = MotionEvent.Down
+                        pointerInputChange.consume()
+                    },
+                    onMove = { pointerInputChange: PointerInputChange ->
+                        currentPosition = pointerInputChange.position
+                        motionEvent = MotionEvent.Move
+                        pointerInputChange.consume()
+                    },
+                    onUp = { pointerInputChange: PointerInputChange ->
+                        motionEvent = MotionEvent.Up
+                        pointerInputChange.consume()
+                    },
+                    delayAfterDownInMillis = 25L
+                )
+
+            Canvas(modifier = drawModifier) {
+                when (motionEvent) {
+                    MotionEvent.Down -> {
+                        path.moveTo(currentPosition.x, currentPosition.y)
+                        previousPosition = currentPosition
+                    }
+
+                    MotionEvent.Move -> {
+                        path.quadraticBezierTo(
+                            previousPosition.x,
+                            previousPosition.y,
+                            (previousPosition.x + currentPosition.x) / 2,
+                            (previousPosition.y + currentPosition.y) / 2
+
+                        )
+
+                        previousPosition = currentPosition
+                    }
+
+                    MotionEvent.Up -> {
+                        path.lineTo(currentPosition.x, currentPosition.y)
+                        currentPosition = Offset.Unspecified
+                        previousPosition = currentPosition
+                        motionEvent = MotionEvent.Idle
+                    }
+
+                    else -> Unit
+                }
+
+                this.drawIntoCanvas {
+
+                    it.drawPath(path, paint)
+
+                    drawPath(
+                        color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
+                        path = path,
+                        style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+                    )
+                }
             }
         }
 
-        Row (modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)){
+        Row(modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)) {
 
             Column(
                 Modifier.padding(end = 10.dp),
@@ -122,127 +225,17 @@ fun drawImage(
                 )
             }
         }
-    }
 
-    if (showColorDialog) {
-        ColorSelectionDialog(
-            properties.color,
-            onDismiss = {  showColorDialog = !showColorDialog },
-            onNegativeClick = { showColorDialog = !showColorDialog },
-            onPositiveClick = { color: Color ->
-                showColorDialog = !showColorDialog
-                properties.color = color
-            }
-        )
-    }
-}
-
-@Composable
-private fun Drawing(modifier: Modifier, properties: PathProperties) {
-
-    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
-    // This is our motion event we get from touch motion
-    var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
-    // This is previous motion event before next touch is saved into this current position
-    var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
-
-
-    val transition: InfiniteTransition = rememberInfiniteTransition()
-
-    // Infinite phase animation for PathEffect
-    val phase by transition.animateFloat(
-        initialValue = .9f,
-        targetValue = .3f,
-        animationSpec = infiniteRepeatable(
-            animation = tween(
-                durationMillis = 1000,
-                easing = FastOutSlowInEasing
-            ),
-            repeatMode = RepeatMode.Reverse
-        )
-    )
-
-    val color = Color.Green
-
-    val paint = remember {
-        Paint().apply {
-            style = PaintingStyle.Stroke
-            strokeWidth = 15f
-            strokeCap = StrokeCap.Round
-
-
-            this.asFrameworkPaint().apply {
-                val transparent = color
-                    .copy(alpha = 0f)
-                    .toArgb()
-
-                this.color = transparent
-            }
-        }
-    }
-
-    // Path is what is used for drawing line on Canvas
-    val path = remember(modifier) { Path() }
-
-    val drawModifier = modifier
-        .clipToBounds()
-        .pointerMotionEvents(
-            onDown = { pointerInputChange: PointerInputChange ->
-                currentPosition = pointerInputChange.position
-                motionEvent = MotionEvent.Down
-                pointerInputChange.consume()
-            },
-            onMove = { pointerInputChange: PointerInputChange ->
-                currentPosition = pointerInputChange.position
-                motionEvent = MotionEvent.Move
-                pointerInputChange.consume()
-            },
-            onUp = { pointerInputChange: PointerInputChange ->
-                motionEvent = MotionEvent.Up
-                pointerInputChange.consume()
-            },
-            delayAfterDownInMillis = 25L
-        )
-
-    Canvas(modifier = drawModifier) {
-        when (motionEvent) {
-            MotionEvent.Down -> {
-                path.moveTo(currentPosition.x, currentPosition.y)
-                previousPosition = currentPosition
-            }
-
-            MotionEvent.Move -> {
-                path.quadraticBezierTo(
-                    previousPosition.x,
-                    previousPosition.y,
-                    (previousPosition.x + currentPosition.x) / 2,
-                    (previousPosition.y + currentPosition.y) / 2
-
-                )
-
-                previousPosition = currentPosition
-            }
-
-            MotionEvent.Up -> {
-                path.lineTo(currentPosition.x, currentPosition.y)
-                currentPosition = Offset.Unspecified
-                previousPosition = currentPosition
-                motionEvent = MotionEvent.Idle
-            }
-
-            else -> Unit
-        }
-
-        this.drawIntoCanvas {
-
-            it.drawPath(path, paint)
-
-            drawPath(
-                color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
-                path = path,
-                style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+        if (showColorDialog) {
+            ColorSelectionDialog(
+                properties.color,
+                onDismiss = { showColorDialog = !showColorDialog },
+                onNegativeClick = { showColorDialog = !showColorDialog },
+                onPositiveClick = { color: Color ->
+                    showColorDialog = !showColorDialog
+                    properties.color = color
+                }
             )
         }
-
     }
 }
