@@ -49,7 +49,7 @@ fun showImage(
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
     var showColorDialog by remember { mutableStateOf(false) }
-    var properties by remember { mutableStateOf(PathProperties()) }
+    var properties by remember {mutableStateOf(PathProperties())}
 
     Box(
         Modifier.fillMaxSize(),
@@ -89,7 +89,7 @@ fun showImage(
             if (state.isDoodle) {
                 val imageWidth = this.imageWidth
                 val imageHeight = this.imageHeight
-                Drawing(modifier = Modifier.size(imageWidth, imageHeight),properties)
+                Drawing(modifier = Modifier.size(imageWidth, imageHeight), properties)
             }
         }
 
@@ -249,15 +249,6 @@ private fun Drawing(modifier: Modifier,properties: PathProperties) {
         }
     }
 
-//    paint.asFrameworkPaint().setShadowLayer(
-//        30f * phase,
-//        0f,
-//        0f,
-//        color
-//            .copy(alpha = phase)
-//            .toArgb()
-//    )
-
     // Path is what is used for drawing line on Canvas
     val path = remember(modifier) { Path() }
 
@@ -320,5 +311,6 @@ private fun Drawing(modifier: Modifier,properties: PathProperties) {
                 style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
             )
         }
+
     }
 }
