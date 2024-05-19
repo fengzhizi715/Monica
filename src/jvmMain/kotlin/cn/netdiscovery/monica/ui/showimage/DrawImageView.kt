@@ -13,7 +13,6 @@ import androidx.compose.ui.draw.clipToBounds
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.graphics.drawscope.drawIntoCanvas
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
@@ -36,12 +35,15 @@ fun drawImage(
     state: ApplicationState,
     image: ImageBitmap
 ) {
+    val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
     // This is our motion event we get from touch motion
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     // This is previous motion event before next touch is saved into this current position
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+    var currentPath by remember { mutableStateOf(Path()) }
+    var currentPathProperty by remember { mutableStateOf(PathProperties()) }
 
     var angle by remember { mutableStateOf(0f) }  //旋转角度
     var scale by remember { mutableStateOf(1f) }  //缩放
@@ -50,7 +52,8 @@ fun drawImage(
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
     var showColorDialog by remember { mutableStateOf(false) }
-    val properties by remember { mutableStateOf(PathProperties()) }
+
+    val properties by rememberUpdatedState(newValue = currentPathProperty)
 
     Box(
         Modifier.fillMaxSize(),
@@ -133,7 +136,7 @@ fun drawImage(
             Canvas(modifier = drawModifier) {
                 when (motionEvent) {
                     MotionEvent.Down -> {
-                        path.moveTo(currentPosition.x, currentPosition.y)
+                        currentPath.moveTo(currentPosition.x, currentPosition.y)
                         previousPosition = currentPosition
                     }
 
@@ -150,7 +153,16 @@ fun drawImage(
                     }
 
                     MotionEvent.Up -> {
-                        path.lineTo(currentPosition.x, currentPosition.y)
+                        currentPath.lineTo(currentPosition.x, currentPosition.y)
+                        paths.add(Pair(currentPath, currentPathProperty))
+                        currentPath = Path()
+                        currentPathProperty = PathProperties(
+                            strokeWidth = currentPathProperty.strokeWidth,
+                            color = currentPathProperty.color,
+                            strokeCap = currentPathProperty.strokeCap,
+                            strokeJoin = currentPathProperty.strokeJoin,
+                            eraseMode = currentPathProperty.eraseMode
+                        )
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
@@ -159,15 +171,78 @@ fun drawImage(
                     else -> Unit
                 }
 
-                this.drawIntoCanvas {
+//                this.drawIntoCanvas {
+//
+//                    it.drawPath(path, paint)
+//
+//                    drawPath(
+//                        color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
+//                        path = path,
+//                        style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
+//                    )
+//                }
 
-                    it.drawPath(path, paint)
+                with(drawContext.canvas.nativeCanvas) {
 
-                    drawPath(
-                        color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
-                        path = path,
-                        style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
-                    )
+                    val checkPoint = saveLayer(null, null)
+
+                    paths.forEach {
+
+                        val path = it.first
+                        val property = it.second
+
+                        if (!property.eraseMode) {
+                            drawPath(
+                                color = property.color,
+                                path = path,
+                                style = Stroke(
+                                    width = property.strokeWidth,
+                                    cap = property.strokeCap,
+                                    join = property.strokeJoin
+                                )
+                            )
+                        } else {
+
+                            // Source
+                            drawPath(
+                                color = Color.Transparent,
+                                path = path,
+                                style = Stroke(
+                                    width = currentPathProperty.strokeWidth,
+                                    cap = currentPathProperty.strokeCap,
+                                    join = currentPathProperty.strokeJoin
+                                ),
+                                blendMode = BlendMode.Clear
+                            )
+                        }
+                    }
+
+                    if (motionEvent != MotionEvent.Idle) {
+
+                        if (!currentPathProperty.eraseMode) {
+                            drawPath(
+                                color = currentPathProperty.color,
+                                path = currentPath,
+                                style = Stroke(
+                                    width = currentPathProperty.strokeWidth,
+                                    cap = currentPathProperty.strokeCap,
+                                    join = currentPathProperty.strokeJoin
+                                )
+                            )
+                        } else {
+                            drawPath(
+                                color = Color.Transparent,
+                                path = currentPath,
+                                style = Stroke(
+                                    width = currentPathProperty.strokeWidth,
+                                    cap = currentPathProperty.strokeCap,
+                                    join = currentPathProperty.strokeJoin
+                                ),
+                                blendMode = BlendMode.Clear
+                            )
+                        }
+                    }
+                    restoreToCount(checkPoint)
                 }
             }
         }
