@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.showimage
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
@@ -8,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -150,6 +153,8 @@ fun verticalSlider(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: SliderColors = SliderDefaults.colors()
 ){
+    val focusRequester = remember { FocusRequester() }
+
     Slider(
         colors = colors,
         interactionSource = interactionSource,
@@ -177,6 +182,12 @@ fun verticalSlider(
                     placeable.place(-placeable.width, 0)
                 }
             }
+            .focusRequester(focusRequester)
+            .clickable {
+                if (!focusRequester.captureFocus()) {
+                    focusRequester.requestFocus()
+                }
+             }
             .then(modifier)
     )
 }
