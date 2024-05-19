@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
+import cn.netdiscovery.monica.ui.showimage.drawImage
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -159,7 +160,11 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            showImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+            if (applicationState.isDoodle) {
+                drawImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+            } else {
+                showImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+            }
         }
     }
 }
