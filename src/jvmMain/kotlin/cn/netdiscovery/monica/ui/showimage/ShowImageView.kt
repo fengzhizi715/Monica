@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.showimage
 
 import androidx.compose.animation.core.*
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTransformGestures
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -34,6 +35,8 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
  * @date: 2024/4/26 22:18
  * @version: V1.0 <描述当前版本功能>
  */
+
+
 @Composable
 fun showImage(
     state: ApplicationState,
@@ -44,6 +47,9 @@ fun showImage(
     var offsetX by remember { mutableStateOf(0f) }//x偏移
     var offsetY by remember { mutableStateOf(0f) }//y偏移
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
+
+    var showColorDialog by remember { mutableStateOf(false) }
+    var properties by remember { mutableStateOf(PathProperties()) }
 
     Box(
         Modifier.fillMaxSize(),
@@ -83,7 +89,7 @@ fun showImage(
             if (state.isDoodle) {
                 val imageWidth = this.imageWidth
                 val imageHeight = this.imageHeight
-                Drawing(modifier = Modifier.size(imageWidth, imageHeight))
+                Drawing(modifier = Modifier.size(imageWidth, imageHeight),properties)
             }
         }
 
@@ -110,6 +116,7 @@ fun showImage(
 
                 OutlinedButton(
                     onClick = {
+                        showColorDialog = true
                     },
                 ) {
                     Text("画笔")
@@ -139,6 +146,18 @@ fun showImage(
                 )
             }
         }
+    }
+
+    if (showColorDialog) {
+        ColorSelectionDialog(
+            properties.color,
+            onDismiss = {  showColorDialog = !showColorDialog },
+            onNegativeClick = { showColorDialog = !showColorDialog },
+            onPositiveClick = { color: Color ->
+                showColorDialog = !showColorDialog
+                properties.color = color
+            }
+        )
     }
 }
 
@@ -187,7 +206,7 @@ fun verticalSlider(
 }
 
 @Composable
-private fun Drawing(modifier: Modifier) {
+private fun Drawing(modifier: Modifier,properties: PathProperties) {
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
     // This is our motion event we get from touch motion
@@ -262,7 +281,7 @@ private fun Drawing(modifier: Modifier) {
             delayAfterDownInMillis = 25L
         )
 
-    androidx.compose.foundation.Canvas(modifier = drawModifier) {
+    Canvas(modifier = drawModifier) {
         when (motionEvent) {
             MotionEvent.Down -> {
                 path.moveTo(currentPosition.x, currentPosition.y)
@@ -296,7 +315,7 @@ private fun Drawing(modifier: Modifier) {
             it.drawPath(path, paint)
 
             drawPath(
-                color = Color.Green.copy((0.4f + phase).coerceAtMost(1f)),
+                color = properties.color.copy((0.4f + phase).coerceAtMost(1f)),
                 path = path,
                 style = Stroke(width = 4.dp.toPx(), cap = StrokeCap.Round, join = StrokeJoin.Round)
             )
