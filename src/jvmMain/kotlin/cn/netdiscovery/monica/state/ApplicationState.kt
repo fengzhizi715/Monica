@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.state
 
 import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
+import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import kotlinx.coroutines.CoroutineScope
@@ -55,6 +57,9 @@ class ApplicationState(val scope:CoroutineScope,
     var isShowPreviewWindow by mutableStateOf(false)
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
+
+    var imageWidth by mutableStateOf(0.dp)
+    var imageHeight by mutableStateOf(0.dp)
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
 

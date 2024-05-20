@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.ui.showimage
 
-import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -9,18 +8,17 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.PointerInputChange
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.input.pointer.consumeDownChange
+import androidx.compose.ui.input.pointer.consumePositionChange
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
-import cn.netdiscovery.monica.ui.widget.image.gesture.pointerMotionEvents
-import cn.netdiscovery.monica.utils.extension.to2fStr
+import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 
 /**
  *
@@ -45,12 +43,6 @@ fun drawImage(
     var currentPath by remember { mutableStateOf(Path()) }
     var currentPathProperty by remember { mutableStateOf(PathProperties()) }
 
-    var angle by remember { mutableStateOf(0f) }  //旋转角度
-    var scale by remember { mutableStateOf(1f) }  //缩放
-    var offsetX by remember { mutableStateOf(0f) }//x偏移
-    var offsetY by remember { mutableStateOf(0f) }//y偏移
-    var matrix by remember { mutableStateOf(Matrix()) } //矩阵
-
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
 
@@ -60,95 +52,61 @@ fun drawImage(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        ImageWithConstraints(
-            imageBitmap = image,
-            contentDescription = null,
-            contentScale = ContentScale.Fit,
-            modifier = Modifier
-                .fillMaxSize()
-                .graphicsLayer {
-                    scaleX = scale
-                    scaleY = scale
-                    rotationZ = angle
-                    translationX = offsetX
-                    translationY = offsetY
-                }
+        val bitmapWidth = image.width
+        val bitmapHeight = image.height
+
+        val scale:Float = bitmapWidth/state.imageWidth.value
+
+        val width = ((bitmapWidth/scale)*1.2).dp
+        val height = ((bitmapHeight/scale)*1.2).dp
+
+        Column(
+            modifier = Modifier.align(Alignment.Center).width(width).height(height),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val imageWidth = this.imageWidth
-            val imageHeight = this.imageHeight
-
-            val modifier = Modifier.size(imageWidth, imageHeight)
-
-            val transition: InfiniteTransition = rememberInfiniteTransition()
-
-            val phase by transition.animateFloat(
-                initialValue = .9f,
-                targetValue = .3f,
-                animationSpec = infiniteRepeatable(
-                    animation = tween(
-                        durationMillis = 1000,
-                        easing = FastOutSlowInEasing
-                    ),
-                    repeatMode = RepeatMode.Reverse
-                )
-            )
-
-//            val color = Color.Green
-//
-//            val paint = remember {
-//                Paint().apply {
-//                    style = PaintingStyle.Stroke
-//                    strokeWidth = 15f
-//                    strokeCap = StrokeCap.Round
-//
-//
-//                    this.asFrameworkPaint().apply {
-//                        val transparent = color
-//                            .copy(alpha = 0f)
-//                            .toArgb()
-//
-//                        this.color = transparent
-//                    }
-//                }
-//            }
-
-            // Path is what is used for drawing line on Canvas
-            val path = remember(modifier) { Path() }
-
-            val drawModifier = modifier
-                .clipToBounds()
-                .pointerMotionEvents(
-                    onDown = { pointerInputChange: PointerInputChange ->
-                        currentPosition = pointerInputChange.position
+            val drawModifier = Modifier
+                .padding(8.dp)
+                .shadow(1.dp)
+                .fillMaxWidth()
+                .weight(1f)
+                .background(Color.White)
+                .dragMotionEvent(
+                    onDragStart = { pointerInputChange ->
                         motionEvent = MotionEvent.Down
-                        pointerInputChange.consume()
-                    },
-                    onMove = { pointerInputChange: PointerInputChange ->
                         currentPosition = pointerInputChange.position
+                        pointerInputChange.consumeDownChange()
+
+                    },
+                    onDrag = { pointerInputChange ->
                         motionEvent = MotionEvent.Move
-                        pointerInputChange.consume()
+                        currentPosition = pointerInputChange.position
+                        pointerInputChange.consumePositionChange()
+
                     },
-                    onUp = { pointerInputChange: PointerInputChange ->
+                    onDragEnd = { pointerInputChange ->
                         motionEvent = MotionEvent.Up
-                        pointerInputChange.consume()
-                    },
-                    delayAfterDownInMillis = 25L
+                        pointerInputChange.consumeDownChange()
+                    }
                 )
 
             Canvas(modifier = drawModifier) {
+
+                this.drawImage(image = image,dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
+
                 when (motionEvent) {
+
                     MotionEvent.Down -> {
                         currentPath.moveTo(currentPosition.x, currentPosition.y)
                         previousPosition = currentPosition
-                    }
 
+                    }
                     MotionEvent.Move -> {
-                        path.quadraticBezierTo(
+                        currentPath.quadraticBezierTo(
                             previousPosition.x,
                             previousPosition.y,
                             (previousPosition.x + currentPosition.x) / 2,
                             (previousPosition.y + currentPosition.y) / 2
-
                         )
 
                         previousPosition = currentPosition
@@ -156,20 +114,20 @@ fun drawImage(
 
                     MotionEvent.Up -> {
                         currentPath.lineTo(currentPosition.x, currentPosition.y)
+
                         paths.add(Pair(currentPath, currentPathProperty))
                         currentPath = Path()
                         currentPathProperty = PathProperties(
-                            strokeWidth = currentPathProperty.strokeWidth,
-                            color = currentPathProperty.color,
-                            strokeCap = currentPathProperty.strokeCap,
-                            strokeJoin = currentPathProperty.strokeJoin,
-                            eraseMode = currentPathProperty.eraseMode
+                                strokeWidth = currentPathProperty.strokeWidth,
+                                color = currentPathProperty.color,
+                                strokeCap = currentPathProperty.strokeCap,
+                                strokeJoin = currentPathProperty.strokeJoin,
+                                eraseMode = currentPathProperty.eraseMode
                         )
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
                     }
-
                     else -> Unit
                 }
 
@@ -184,7 +142,7 @@ fun drawImage(
 
                         if (!property.eraseMode) {
                             drawPath(
-                                color = property.color.copy((0.4f + phase).coerceAtMost(1f)),
+                                color = property.color,
                                 path = path,
                                 style = Stroke(
                                     width = property.strokeWidth,
@@ -212,7 +170,7 @@ fun drawImage(
 
                         if (!currentPathProperty.eraseMode) {
                             drawPath(
-                                color = currentPathProperty.color.copy((0.4f + phase).coerceAtMost(1f)),
+                                color = currentPathProperty.color,
                                 path = currentPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
@@ -222,7 +180,7 @@ fun drawImage(
                             )
                         } else {
                             drawPath(
-                                color = Color.Transparent.copy((0.4f + phase).coerceAtMost(1f)),
+                                color = Color.Transparent,
                                 path = currentPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
@@ -247,20 +205,6 @@ fun drawImage(
 
                 OutlinedButton(
                     onClick = {
-                        angle = 0f
-                        scale = 1f
-                        offsetX = 0f
-                        offsetY = 0f
-                        matrix = Matrix()
-
-                        state.scale = 1f
-                    },
-                ) {
-                    Text("恢复")
-                }
-
-                OutlinedButton(
-                    onClick = {
                         showColorDialog = true
                     },
                 ) {
@@ -274,29 +218,6 @@ fun drawImage(
                 ) {
                     Text("test")
                 }
-            }
-
-            Column(
-                verticalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = state.scale.to2fStr(),
-                    color = Color.Unspecified,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
-                )
-
-                verticalSlider(
-                    value = state.scale,
-                    onValueChange = {
-                        state.scale = it
-                        scale = it
-                    },
-                    modifier = Modifier
-                        .width(200.dp)
-                        .height(50.dp)
-                        .background(Color(0xffdedede)),
-                    valueRange = 0.1f..5f
-                )
             }
         }
 
