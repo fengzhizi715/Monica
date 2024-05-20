@@ -208,7 +208,7 @@ fun drawImage(
                         showColorDialog = true
                     },
                 ) {
-                    Text("画笔")
+                    Text("颜色")
                 }
 
                 OutlinedButton(
@@ -216,7 +216,7 @@ fun drawImage(
                         showPropertiesDialog = true
                     },
                 ) {
-                    Text("test")
+                    Text("属性")
                 }
             }
         }
