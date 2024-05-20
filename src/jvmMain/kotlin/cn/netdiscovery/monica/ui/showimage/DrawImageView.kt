@@ -216,7 +216,7 @@ fun drawImage(
                         showPropertiesDialog = true
                     },
                 ) {
-                    Text("属性")
+                    Text("刷子")
                 }
             }
         }
