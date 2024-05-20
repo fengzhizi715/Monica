@@ -93,24 +93,24 @@ fun drawImage(
                 )
             )
 
-            val color = Color.Green
-
-            val paint = remember {
-                Paint().apply {
-                    style = PaintingStyle.Stroke
-                    strokeWidth = 15f
-                    strokeCap = StrokeCap.Round
-
-
-                    this.asFrameworkPaint().apply {
-                        val transparent = color
-                            .copy(alpha = 0f)
-                            .toArgb()
-
-                        this.color = transparent
-                    }
-                }
-            }
+//            val color = Color.Green
+//
+//            val paint = remember {
+//                Paint().apply {
+//                    style = PaintingStyle.Stroke
+//                    strokeWidth = 15f
+//                    strokeCap = StrokeCap.Round
+//
+//
+//                    this.asFrameworkPaint().apply {
+//                        val transparent = color
+//                            .copy(alpha = 0f)
+//                            .toArgb()
+//
+//                        this.color = transparent
+//                    }
+//                }
+//            }
 
             // Path is what is used for drawing line on Canvas
             val path = remember(modifier) { Path() }

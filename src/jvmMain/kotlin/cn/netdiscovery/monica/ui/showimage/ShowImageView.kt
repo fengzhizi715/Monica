@@ -39,9 +39,6 @@ fun showImage(
     var offsetY by remember { mutableStateOf(0f) }//y偏移
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
 
-    var showColorDialog by remember { mutableStateOf(false) }
-    var properties by remember {mutableStateOf(PathProperties())}
-
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -121,18 +118,6 @@ fun showImage(
                 )
             }
         }
-    }
-
-    if (showColorDialog) {
-        ColorSelectionDialog(
-            properties.color,
-            onDismiss = {  showColorDialog = !showColorDialog },
-            onNegativeClick = { showColorDialog = !showColorDialog },
-            onPositiveClick = { color: Color ->
-                showColorDialog = !showColorDialog
-                properties.color = color
-            }
-        )
     }
 }
 
