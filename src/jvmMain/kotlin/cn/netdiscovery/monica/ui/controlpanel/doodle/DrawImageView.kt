@@ -75,18 +75,17 @@ fun drawImage(
                     onDragStart = { pointerInputChange ->
                         motionEvent = MotionEvent.Down
                         currentPosition = pointerInputChange.position
-                        pointerInputChange.consumeDownChange()
-
+                        pointerInputChange.consume()
                     },
                     onDrag = { pointerInputChange ->
                         motionEvent = MotionEvent.Move
                         currentPosition = pointerInputChange.position
-                        pointerInputChange.consumePositionChange()
+                        pointerInputChange.consume()
 
                     },
                     onDragEnd = { pointerInputChange ->
                         motionEvent = MotionEvent.Up
-                        pointerInputChange.consumeDownChange()
+                        pointerInputChange.consume()
                     }
                 )
 
