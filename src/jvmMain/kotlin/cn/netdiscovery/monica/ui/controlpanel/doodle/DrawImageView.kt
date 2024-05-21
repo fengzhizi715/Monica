@@ -99,8 +99,8 @@ fun drawImage(
                     MotionEvent.Down -> {
                         currentPath.moveTo(currentPosition.x, currentPosition.y)
                         previousPosition = currentPosition
-
                     }
+
                     MotionEvent.Move -> {
                         currentPath.quadraticBezierTo(
                             previousPosition.x,
@@ -128,6 +128,7 @@ fun drawImage(
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
                     }
+
                     else -> Unit
                 }
 
@@ -151,7 +152,6 @@ fun drawImage(
                                 )
                             )
                         } else {
-
                             // Source
                             drawPath(
                                 color = Color.Transparent,

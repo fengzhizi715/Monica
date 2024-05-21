@@ -53,7 +53,7 @@ fun basicView(state: ApplicationState) {
                 state.isBlur = false
             })
 
-        toolTipButton(text = "涂鸦",
+        toolTipButton(text = "图像涂鸦",
             painter = painterResource("images/doodle.png"),
             enable = { state.isBasic },
             onClick = {
