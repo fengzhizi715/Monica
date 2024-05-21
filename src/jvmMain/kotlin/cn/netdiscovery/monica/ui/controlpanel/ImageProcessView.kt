@@ -27,6 +27,12 @@ fun imageProcessView(state: ApplicationState) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isHLS, onCheckedChange = {
             state.isHLS = it
+
+            if (!state.isHLS) {
+                state.saturation = 0f
+                state.hue = 0f
+                state.luminance = 0f
+            }
         })
         Text("图像处理", color = Color.Black, fontSize = 20.sp)
     }
