@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.showimage
+package cn.netdiscovery.monica.ui.controlpanel.doodle
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Row
