@@ -12,8 +12,6 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
-import androidx.compose.ui.input.pointer.consumeDownChange
-import androidx.compose.ui.input.pointer.consumePositionChange
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
@@ -203,19 +201,32 @@ fun drawImage(
             ) {
 
                 OutlinedButton(
+                    modifier = Modifier.width(80.dp),
                     onClick = {
                         showColorDialog = true
+                        currentPathProperty.eraseMode = false
                     },
                 ) {
                     Text("颜色")
                 }
 
                 OutlinedButton(
+                    modifier = Modifier.width(80.dp),
                     onClick = {
                         showPropertiesDialog = true
+                        currentPathProperty.eraseMode = false
                     },
                 ) {
                     Text("刷子")
+                }
+
+                OutlinedButton(
+                    modifier = Modifier.width(80.dp),
+                    onClick = {
+                        currentPathProperty.eraseMode = true
+                    },
+                ) {
+                    Text("橡皮擦")
                 }
             }
         }
