@@ -48,9 +48,31 @@ fun main() = application {
         trayState
     )
 
+    lateinit var previewViewModel: PreviewViewModel
+
     Tray(
         state = trayState,
         icon = painterResource("images/launcher.ico"),
+        menu = {
+            Item(
+                text = "打开本地图片",
+                onClick = {
+                    previewViewModel.chooseImage(applicationState)
+                },
+            )
+            Item(
+                text = "加载网络图片",
+                onClick = {
+                    openURLDialog = true
+                },
+            )
+            Item(
+                text = "保存图像",
+                onClick = {
+                    previewViewModel.saveImage(applicationState)
+                },
+            )
+        }
     )
 
     Window(onCloseRequest = ::exitApplication,
@@ -63,30 +85,8 @@ fun main() = application {
             mAppKoin = koin
             modules(viewModelModule)
         }) {
-            val previewViewModel: PreviewViewModel = koinInject()
+            previewViewModel = koinInject()
 
-            MenuBar{
-                Menu(text = "文件", mnemonic = 'O') {
-                    Item(
-                        text = "打开本地图片",
-                        onClick = {
-                            previewViewModel.chooseImage(applicationState)
-                        },
-                    )
-                    Item(
-                        text = "加载网络图片",
-                        onClick = {
-                            openURLDialog = true
-                        },
-                    )
-                    Item(
-                        text = "保存图像",
-                        onClick = {
-                            previewViewModel.saveImage(applicationState)
-                        },
-                    )
-                }
-            }
             applicationState.window = window
 
             mainView(applicationState)
