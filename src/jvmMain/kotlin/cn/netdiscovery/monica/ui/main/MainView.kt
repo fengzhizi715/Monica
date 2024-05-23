@@ -1,6 +1,8 @@
 package cn.netdiscovery.monica.ui.main
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -8,7 +10,6 @@ import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
-import org.koin.compose.koinInject
 
 /**
  *
@@ -22,10 +23,6 @@ import org.koin.compose.koinInject
 fun mainView(
     state: ApplicationState
 ) {
-    val viewModel: MainViewModel = koinInject()
-
-    viewModel.dropFile(state)
-
     MaterialTheme {
         Row (
             modifier = Modifier.fillMaxSize(),
