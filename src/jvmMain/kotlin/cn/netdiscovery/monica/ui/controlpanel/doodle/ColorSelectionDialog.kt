@@ -92,7 +92,6 @@ fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
                     onValueChangeFinished = {}
                 )
 
-
                 ExposedSelectionMenu(title = "Stroke Cap",
                     index = when (strokeCap) {
                         StrokeCap.Butt -> 0
@@ -225,6 +224,7 @@ fun ColorSelectionDialog(
                     }
                 )
                 Spacer(modifier = Modifier.height(4.dp))
+
                 ColorSlider(
                     modifier = Modifier
                         .padding(start = 12.dp, end = 12.dp)
@@ -249,7 +249,6 @@ fun ColorSelectionDialog(
                         blue = it
                     }
                 )
-
                 Spacer(modifier = Modifier.height(4.dp))
 
                 ColorSlider(
@@ -266,7 +265,6 @@ fun ColorSelectionDialog(
                 Spacer(modifier = Modifier.height(24.dp))
 
                 // Buttons
-
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -275,7 +273,6 @@ fun ColorSelectionDialog(
                     verticalAlignment = Alignment.CenterVertically
 
                 ) {
-
                     TextButton(
                         onClick = onNegativeClick,
                         modifier = Modifier
@@ -284,6 +281,7 @@ fun ColorSelectionDialog(
                     ) {
                         Text(text = "CANCEL")
                     }
+
                     TextButton(
                         modifier = Modifier
                             .weight(1f)

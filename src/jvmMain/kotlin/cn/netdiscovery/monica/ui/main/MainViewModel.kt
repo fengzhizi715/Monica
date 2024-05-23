@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.main
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.dropFileTarget
@@ -27,7 +28,7 @@ class MainViewModel {
                     if (filePath != null) {
                         val file = File(filePath)
                         if (file.isFile && file.extension in legalSuffixList) {
-                            state.rawImage = ImageIO.read(file)
+                            state.rawImage = BufferedImages.load(file)
                             state.currentImage = state.rawImage
                             state.rawImageFile = file
                         }

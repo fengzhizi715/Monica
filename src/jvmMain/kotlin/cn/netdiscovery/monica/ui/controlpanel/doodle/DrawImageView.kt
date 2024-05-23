@@ -89,7 +89,8 @@ fun drawImage(
 
             Canvas(modifier = drawModifier) {
 
-                this.drawImage(image = image,dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
+                this.drawImage(image = image,
+                    dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
 
                 when (motionEvent) {
 
@@ -149,7 +150,6 @@ fun drawImage(
                                 )
                             )
                         } else {
-                            // Source
                             drawPath(
                                 color = Color.Transparent,
                                 path = path,
