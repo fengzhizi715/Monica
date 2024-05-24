@@ -10,9 +10,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
@@ -227,6 +231,45 @@ fun drawImage(
                     },
                 ) {
                     Text("橡皮擦")
+                }
+
+                OutlinedButton(
+                    modifier = Modifier.width(80.dp),
+                    onClick = {
+                        val drawScope = CanvasDrawScope()
+                        val size = Size(width.value*2f, height.value*2f)
+                        val bitmap = state.currentImage!!.toComposeImageBitmap()
+                        val canvas = Canvas(bitmap)
+
+                        drawScope.draw(
+                            density = Density(2f),
+                            layoutDirection = LayoutDirection.Ltr,
+                            canvas = canvas,
+                            size = size,
+                        ) {
+                            // state.togglePreviewWindow(false)
+
+                            paths.forEach {
+
+                                val path = it.first
+                                val property = it.second
+
+                                drawPath(
+                                    color = property.color,
+                                    path = path,
+                                    style = Stroke(
+                                        width = property.strokeWidth,
+                                        cap = property.strokeCap,
+                                        join = property.strokeJoin
+                                    )
+                                )
+                            }
+                        }
+
+                        state.currentImage = bitmap.toAwtImage()
+                    },
+                ) {
+                    Text("保存")
                 }
             }
         }
