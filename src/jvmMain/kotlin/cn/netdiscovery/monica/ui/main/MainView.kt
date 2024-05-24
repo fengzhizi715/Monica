@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
+import org.koin.compose.koinInject
 
 /**
  *
@@ -23,6 +24,10 @@ import cn.netdiscovery.monica.ui.preview.preview
 fun mainView(
     state: ApplicationState
 ) {
+    val viewModel: MainViewModel = koinInject()
+
+    viewModel.dropFile(state)
+
     MaterialTheme {
         Row (
             modifier = Modifier.fillMaxSize(),
