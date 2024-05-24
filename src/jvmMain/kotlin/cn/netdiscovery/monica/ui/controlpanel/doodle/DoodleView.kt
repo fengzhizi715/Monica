@@ -22,7 +22,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.showimage.DrawImageView
+ *          cn.netdiscovery.monica.ui.showimage.DoodleView
  * @author: Tony Shen
  * @date:  2024/5/19 21:11
  * @version: V1.0 <描述当前版本功能>
@@ -50,8 +50,7 @@ fun drawImage(
     val properties by rememberUpdatedState(newValue = currentPathProperty)
 
     Box(
-        Modifier.fillMaxSize()
-            .verticalScroll(rememberScrollState()),
+        Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.Center
     ) {
         val bitmapWidth = image.width
