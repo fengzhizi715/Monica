@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.doodle
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
@@ -51,16 +50,15 @@ fun drawImage(
     val properties by rememberUpdatedState(newValue = currentPathProperty)
 
     Box(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.Center
     ) {
         val bitmapWidth = image.width
         val bitmapHeight = image.height
 
-        val scale:Float = bitmapWidth/state.imageWidth.value
-
-        val width = ((bitmapWidth/scale)*1.2).dp
-        val height = ((bitmapHeight/scale)*1.2).dp
+        val width = (bitmapWidth/density.density).dp
+        val height = (bitmapHeight/density.density).dp
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),
