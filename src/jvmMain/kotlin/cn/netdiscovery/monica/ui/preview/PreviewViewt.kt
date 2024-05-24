@@ -107,8 +107,6 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                     .drawWithContent {
                     drawContent()
                     }) {
-                state.imageWidth = this.imageWidth
-                state.imageHeight = this.imageHeight
             }
         }
 
