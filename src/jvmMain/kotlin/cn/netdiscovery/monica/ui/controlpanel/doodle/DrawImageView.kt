@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
@@ -32,6 +33,8 @@ fun drawImage(
     state: ApplicationState,
     image: ImageBitmap
 ) {
+    val density = LocalDensity.current
+
     val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -239,7 +242,7 @@ fun drawImage(
                         val canvas = Canvas(bitmap)
 
                         drawScope.draw(
-                            density = Density(2f),
+                            density = density,
                             layoutDirection = LayoutDirection.Ltr,
                             canvas = canvas,
                             size = size,
