@@ -236,8 +236,7 @@ fun drawImage(
                     onClick = {
                         val drawScope = CanvasDrawScope()
                         val size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
-                        val bitmap = state.currentImage!!.toComposeImageBitmap()
-                        val canvas = Canvas(bitmap)
+                        val canvas = Canvas(image)
 
                         drawScope.draw(
                             density = density,
@@ -264,7 +263,7 @@ fun drawImage(
                             }
                         }
 
-                        state.currentImage = bitmap.toAwtImage()
+                        state.currentImage = image.toAwtImage()
                     },
                 ) {
                     Text("保存")
