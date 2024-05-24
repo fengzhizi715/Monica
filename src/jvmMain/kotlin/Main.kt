@@ -152,7 +152,6 @@ fun main() = application {
         Window(
             title = "放大预览",
             onCloseRequest = {
-                applicationState.scale = 1f
                 applicationState.isDoodle = false
                 applicationState.togglePreviewWindow(false)
             },
@@ -164,7 +163,7 @@ fun main() = application {
             if (applicationState.isDoodle) {
                 drawImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
             } else {
-                showImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+                showImage(applicationState.currentImage!!.toComposeImageBitmap())
             }
         }
     }
