@@ -234,7 +234,7 @@ fun drawImage(
                     modifier = Modifier.width(80.dp),
                     onClick = {
                         val drawScope = CanvasDrawScope()
-                        val size = Size(width.value*2f, height.value*2f)
+                        val size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
                         val bitmap = state.currentImage!!.toComposeImageBitmap()
                         val canvas = Canvas(bitmap)
 
