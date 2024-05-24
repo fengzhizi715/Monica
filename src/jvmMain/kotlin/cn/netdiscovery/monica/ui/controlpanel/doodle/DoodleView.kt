@@ -262,6 +262,7 @@ fun drawImage(
                             }
                         }
 
+                        state.addQueue(state.currentImage!!)
                         state.currentImage = image.toAwtImage()
                     },
                 ) {
