@@ -3,7 +3,7 @@ Monica
 
 Version 0.1.5
 ---
-2024-5-24
+2024-5-25
 * 优化图像的涂鸦功能
 * 增加 StrokeAreaFilter
 
