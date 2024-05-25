@@ -30,14 +30,15 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
 
 @Composable
 fun showImage(
-    state: ApplicationState,
-    image: ImageBitmap
+    state: ApplicationState
 ) {
     var angle by remember { mutableStateOf(0f) }  //旋转角度
     var scale by remember { mutableStateOf(1f) }  //缩放
     var offsetX by remember { mutableStateOf(0f) }//x偏移
     var offsetY by remember { mutableStateOf(0f) }//y偏移
     var matrix by remember { mutableStateOf(Matrix()) } //矩阵
+
+    val image = state.currentImage!!.toComposeImageBitmap()
 
     Box(
         Modifier.fillMaxSize(),

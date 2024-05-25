@@ -161,9 +161,9 @@ fun main() = application {
             }
         ) {
             if (applicationState.isDoodle) {
-                drawImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+                drawImage(applicationState)
             } else {
-                showImage(applicationState, applicationState.currentImage!!.toComposeImageBitmap())
+                showImage(applicationState)
             }
         }
     }

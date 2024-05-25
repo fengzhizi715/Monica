@@ -16,8 +16,10 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
+import org.koin.compose.koinInject
 
 /**
  *
@@ -29,8 +31,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
  */
 @Composable
 fun drawImage(
-    state: ApplicationState,
-    image: ImageBitmap
+    state: ApplicationState
 ) {
     val density = LocalDensity.current
 
@@ -48,6 +49,8 @@ fun drawImage(
     var showPropertiesDialog by remember { mutableStateOf(false) }
 
     val properties by rememberUpdatedState(newValue = currentPathProperty)
+
+    val image = state.currentImage!!.toComposeImageBitmap()
 
     Box(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
