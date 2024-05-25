@@ -87,8 +87,6 @@ fun showImage(
                         offsetX = 0f
                         offsetY = 0f
                         matrix = Matrix()
-
-                        state.scale = 1f
                     },
                 ) {
                     Text("恢复")
@@ -99,15 +97,14 @@ fun showImage(
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    text = state.scale.to2fStr(),
+                    text = scale.to2fStr(),
                     color = Color.Unspecified,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
 
                 verticalSlider(
-                    value = state.scale,
+                    value = scale,
                     onValueChange = {
-                        state.scale = it
                         scale = it
                     },
                     modifier = Modifier

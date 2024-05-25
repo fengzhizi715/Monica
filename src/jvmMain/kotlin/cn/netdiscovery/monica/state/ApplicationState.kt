@@ -39,8 +39,6 @@ class ApplicationState(val scope:CoroutineScope,
     var luminance by mutableStateOf(0f )
     var hue by mutableStateOf(0f )
 
-    var scale by mutableStateOf(1f )
-
     var isBasic by mutableStateOf(false)
     var isMosaic by mutableStateOf(false)
     var isBlur by mutableStateOf(false)
