@@ -30,6 +30,7 @@ fun basicView(state: ApplicationState) {
             if (!state.isBasic) {
                 state.isMosaic = false
                 state.isBlur = false
+                state.isDoodle = false
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
