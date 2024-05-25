@@ -31,6 +31,15 @@ import kotlin.math.roundToInt
  */
 val Blue400 = Color(0xff42A5F5)
 
+class PathProperties(
+    var strokeWidth: Float = 10f,
+    var color: Color = Color.Black,
+    var alpha: Float = 1f,
+    var strokeCap: StrokeCap = StrokeCap.Round,
+    var strokeJoin: StrokeJoin = StrokeJoin.Round,
+    var eraseMode: Boolean = false
+)
+
 @Composable
 fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
 
