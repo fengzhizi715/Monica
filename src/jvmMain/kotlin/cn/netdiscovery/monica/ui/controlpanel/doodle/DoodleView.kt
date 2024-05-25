@@ -9,15 +9,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
+import org.koin.compose.koinInject
 
 /**
  *
@@ -31,6 +30,8 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 fun drawImage(
     state: ApplicationState
 ) {
+    val viewModel: DoodleViewModel = koinInject()
+
     val density = LocalDensity.current
 
     val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
@@ -234,37 +235,7 @@ fun drawImage(
                 OutlinedButton(
                     modifier = Modifier.width(80.dp),
                     onClick = {
-                        val drawScope = CanvasDrawScope()
-                        val size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
-                        val canvas = Canvas(image)
-
-                        drawScope.draw(
-                            density = density,
-                            layoutDirection = LayoutDirection.Ltr,
-                            canvas = canvas,
-                            size = size,
-                        ) {
-                            state.togglePreviewWindow(false)
-
-                            paths.forEach {
-
-                                val path = it.first
-                                val property = it.second
-
-                                drawPath(
-                                    color = property.color,
-                                    path = path,
-                                    style = Stroke(
-                                        width = property.strokeWidth,
-                                        cap = property.strokeCap,
-                                        join = property.strokeJoin
-                                    )
-                                )
-                            }
-                        }
-
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = image.toAwtImage()
+                        viewModel.saveCanvasToBitmap(density,paths,image, state)
                     },
                 ) {
                     Text("保存")
