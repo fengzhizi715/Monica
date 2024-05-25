@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 0.1.5
+---
+2024-5-24
+* 优化图像的涂鸦功能
+* 增加 StrokeAreaFilter
+
 Version 0.1.4
 ---
 2024-5-24

@@ -36,8 +36,7 @@ class StrokeAreaFilter(private val size:Double = 10.0):BaseFilter() {
             rgb[i] = rgb2[i]
         }
 
-        // start the algorithm process here!!
-        // start the algorithm process here!!
+        // start the algorithm process here
         for (row in 0 until height) {
             var ta = 0
             for (col in 0 until width) {
