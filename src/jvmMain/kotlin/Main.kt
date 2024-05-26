@@ -6,6 +6,7 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -199,11 +200,11 @@ fun main() = application {
                         cropProperties = cropProperties,
                         crop = crop,
                         onCropStart = {
-//                            isCropping = true
+                            isCropping = true
                         },
                         onCropSuccess = {
-//                            croppedImage = it
-//                            isCropping = false
+                            applicationState.currentImage = it.toAwtImage()
+                            isCropping = false
 //                            crop = false
 //                            showDialog = true
                         }
