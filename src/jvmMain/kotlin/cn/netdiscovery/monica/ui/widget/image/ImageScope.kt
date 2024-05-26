@@ -100,7 +100,10 @@ internal data class ImageScopeImpl(
 }
 
 @Composable
-internal fun ImageScope.getScaledImageBitmap(
+internal fun getScaledImageBitmap(
+    imageWidth: Dp,
+    imageHeight: Dp,
+    rect: IntRect,
     bitmap: ImageBitmap,
     contentScale: ContentScale
 ): ImageBitmap {
@@ -111,3 +114,16 @@ internal fun ImageScope.getScaledImageBitmap(
         }
     return scaledBitmap
 }
+
+//@Composable
+//internal fun ImageScope.getScaledImageBitmap(
+//    bitmap: ImageBitmap,
+//    contentScale: ContentScale
+//): ImageBitmap {
+//
+//    val scaledBitmap =
+//        remember(bitmap, rect, imageWidth, imageHeight, contentScale) {
+//            bitmap.toAwtImage().subImage(rect.left,rect.top,rect.width,rect.height).toComposeImageBitmap()
+//        }
+//    return scaledBitmap
+//}

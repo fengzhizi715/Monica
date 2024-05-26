@@ -7,6 +7,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
@@ -16,6 +17,11 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.crop.ImageCropper
+import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
+import cn.netdiscovery.monica.ui.controlpanel.crop.model.RectCropShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
+import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropOutlineProperty
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
@@ -162,6 +168,47 @@ fun main() = application {
         ) {
             if (applicationState.isDoodle) {
                 drawImage(applicationState)
+            } else if (applicationState.isCrop) {
+
+                val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
+                var crop by remember { mutableStateOf(false) }
+                var showDialog by remember { mutableStateOf(false) }
+                var isCropping by remember { mutableStateOf(false) }
+                var cropProperties by remember {
+                    mutableStateOf(
+                        CropDefaults.properties(
+                            cropOutlineProperty = CropOutlineProperty(
+                                OutlineType.Rect,
+                                RectCropShape(0, "Rect")
+                            ),
+                            handleSize = handleSize
+                        )
+                    )
+                }
+                var cropStyle by remember { mutableStateOf(CropDefaults.style()) }
+
+                Column(modifier = Modifier.fillMaxSize()) {
+
+                    ImageCropper(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f),
+                        imageBitmap = applicationState.currentImage!!.toComposeImageBitmap(),
+                        contentDescription = "Image Cropper",
+                        cropStyle = cropStyle,
+                        cropProperties = cropProperties,
+                        crop = crop,
+                        onCropStart = {
+//                            isCropping = true
+                        },
+                        onCropSuccess = {
+//                            croppedImage = it
+//                            isCropping = false
+//                            crop = false
+//                            showDialog = true
+                        }
+                    )
+                }
             } else {
                 showImage(applicationState)
             }

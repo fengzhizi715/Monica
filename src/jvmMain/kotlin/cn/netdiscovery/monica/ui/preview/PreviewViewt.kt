@@ -88,9 +88,10 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                                     previewViewModel.mosaic(width, height, it, state)
                                 } else if (state.isBlur) {
                                     previewViewModel.blur(width,height, it, state)
-                                } else if (state.isCropSize) {
-                                    cropViewModel.crop(width,height, it, state)
                                 }
+//                                else if (state.isCropSize) {
+//                                    cropViewModel.crop(width,height, it, state)
+//                                }
                             })
                     }
                     .combinedClickable(onLongClick = {
