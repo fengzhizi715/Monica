@@ -19,6 +19,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.ImageCropper
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
@@ -171,45 +172,8 @@ fun main() = application {
                 drawImage(applicationState)
             } else if (applicationState.isCrop) {
 
-                val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
-                var crop by remember { mutableStateOf(false) }
-                var showDialog by remember { mutableStateOf(false) }
-                var isCropping by remember { mutableStateOf(false) }
-                var cropProperties by remember {
-                    mutableStateOf(
-                        CropDefaults.properties(
-                            cropOutlineProperty = CropOutlineProperty(
-                                OutlineType.Rect,
-                                RectCropShape(0, "Rect")
-                            ),
-                            handleSize = handleSize
-                        )
-                    )
-                }
-                var cropStyle by remember { mutableStateOf(CropDefaults.style()) }
+                cropImage(applicationState)
 
-                Column(modifier = Modifier.fillMaxSize()) {
-
-                    ImageCropper(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .weight(1f),
-                        imageBitmap = applicationState.currentImage!!.toComposeImageBitmap(),
-                        contentDescription = "Image Cropper",
-                        cropStyle = cropStyle,
-                        cropProperties = cropProperties,
-                        crop = crop,
-                        onCropStart = {
-                            isCropping = true
-                        },
-                        onCropSuccess = {
-                            applicationState.currentImage = it.toAwtImage()
-                            isCropping = false
-//                            crop = false
-//                            showDialog = true
-                        }
-                    )
-                }
             } else {
                 showImage(applicationState)
             }
