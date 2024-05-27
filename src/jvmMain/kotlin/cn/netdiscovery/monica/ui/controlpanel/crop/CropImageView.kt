@@ -100,7 +100,7 @@ fun cropImage(state: ApplicationState) {
 
     if (showDialog) {
         croppedImage?.let {
-            ShowCroppedImageDialog(imageBitmap = it, onConfirm = {
+            showCroppedImageDialog(imageBitmap = it, onConfirm = {
                 showDialog = !showDialog
                 croppedImage = null
 
@@ -117,7 +117,7 @@ fun cropImage(state: ApplicationState) {
 }
 
 @Composable
-private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap,
+private fun showCroppedImageDialog(imageBitmap: ImageBitmap,
                                    onConfirm: () -> Unit,
                                    onDismiss: () -> Unit) {
     AlertDialog(
@@ -125,7 +125,6 @@ private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap,
         text = {
             Image(
                 modifier = Modifier
-                    //.drawChecker(RoundedCornerShape(8.dp))
                     .fillMaxWidth()
                     .aspectRatio(1f),
                 contentScale = ContentScale.Fit,
