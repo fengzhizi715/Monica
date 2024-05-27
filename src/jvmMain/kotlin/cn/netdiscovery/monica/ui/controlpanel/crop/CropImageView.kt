@@ -3,19 +3,18 @@ package cn.netdiscovery.monica.ui.controlpanel.crop
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.RectCropShape
@@ -104,6 +103,11 @@ fun cropImage(state: ApplicationState) {
             ShowCroppedImageDialog(imageBitmap = it) {
                 showDialog = !showDialog
                 croppedImage = null
+
+                cropFlag.set(false)
+                rxCache.remove("crop-first")
+                state.currentImage = it.toAwtImage()
+                state.togglePreviewWindow(false)
             }
         }
     }

@@ -24,6 +24,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.ui.controlpanel.crop.draw.DrawingOverlay
 import cn.netdiscovery.monica.ui.controlpanel.crop.draw.ImageDrawCanvas
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutline
@@ -31,13 +32,17 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropProperties
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropStyle
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropType
+import cn.netdiscovery.monica.ui.controlpanel.crop.state.CropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.state.DynamicCropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.state.rememberCropState
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
+import com.safframework.rxcache.domain.CacheStrategy
+import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  *
@@ -47,6 +52,8 @@ import kotlinx.coroutines.flow.*
  * @date: 2024/5/26 12:00
  * @version: V1.0 <描述当前版本功能>
  */
+val cropFlag:AtomicBoolean = AtomicBoolean(false)
+
 @Composable
 fun ImageCropper(
     modifier: Modifier = Modifier,
@@ -125,7 +132,7 @@ fun ImageCropper(
             containerSize = IntSize(containerWidthPx, containerHeightPx),
             drawAreaSize = IntSize(imageWidthPx, imageHeightPx),
             cropProperties = cropProperties,
-            keys = *arrayOf(resetKeys)
+            keys = resetKeys
         )
 
         val isHandleTouched by remember(cropState) {
@@ -144,11 +151,25 @@ fun ImageCropper(
             targetValue = if (isHandleTouched) pressedStateColor else cropStyle.backgroundColor
         )
 
+        if (!cropFlag.get()) {
+            rxCache.saveMemory("crop-first", cropState.cropRect)
+            cropFlag.set(true)
+        }
+
+        val cachedRect = rxCache.get<Rect>("crop-first", CacheStrategy.MEMORY)?.data
+
+        if (cachedRect?.left!=cropState.cropRect.left
+            && cachedRect?.right!=cropState.cropRect.right
+            && cachedRect?.top!=cropState.cropRect.top
+            && cachedRect?.bottom!=cropState.cropRect.bottom) {
+            rxCache.saveMemory("crop", cropState.cropRect)
+        }
+
         // Crops image when user invokes crop operation
         Crop(
             crop,
             scaledImageBitmap,
-            cropState.cropRect,
+            cropState,
             cropOutline,
             onCropStart,
             onCropSuccess,
@@ -240,23 +261,6 @@ private fun ImageCropper(
                 onDrawGrid = onDrawGrid,
             )
         }
-
-        // TODO Remove this text when cropper is complete. This is for debugging
-//            val rectCrop = cropState.cropRect
-//            val drawAreaRect = cropState.drawAreaRect
-//            val pan = cropState.pan
-//            val zoom = cropState.zoom
-//            Text(
-//                modifier = Modifier.align(Alignment.TopStart),
-//                color = Color.White,
-//                fontSize = 10.sp,
-//                text = "imageWidthInPx: $imageWidthPx, imageHeightInPx: $imageHeightPx\n" +
-//                        "bitmapWidth: $bitmapWidth, bitmapHeight: $bitmapHeight\n" +
-//                        "zoom: $zoom, pan: $pan\n" +
-//                        "drawAreaRect: $drawAreaRect, size: ${drawAreaRect.size}\n" +
-//                        "overlayRect: ${cropState.overlayRect}, size: ${cropState.overlayRect.size}\n" +
-//                        "cropRect: $rectCrop, size: ${rectCrop.size}"
-//            )
     }
 }
 
@@ -317,13 +321,13 @@ private fun ImageCropperImpl(
 private fun Crop(
     crop: Boolean,
     scaledImageBitmap: ImageBitmap,
-    cropRect: Rect,
+    cropState: CropState,
     cropOutline: CropOutline,
     onCropStart: () -> Unit,
     onCropSuccess: (ImageBitmap) -> Unit,
     requiredSize: IntSize?,
 ) {
-
+    val cropRect = rxCache.get<Rect>("crop", CacheStrategy.MEMORY)?.data?:cropState.cropRect
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
 

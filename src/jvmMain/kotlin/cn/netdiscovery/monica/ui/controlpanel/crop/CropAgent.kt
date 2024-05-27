@@ -11,10 +11,8 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropImageMask
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutline
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropPath
 import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropShape
-import org.jetbrains.skia.Bitmap
 import org.jetbrains.skia.Matrix33
 import java.awt.Image
-import java.awt.image.BufferedImage.TYPE_INT_RGB
 
 /**
  *
@@ -41,19 +39,7 @@ class CropAgent {
         density: Density,
     ): ImageBitmap {
 
-        // TODO pass mutable bitmap
-//        val croppedBitmap: Bitmap = Bitmap.createBitmap(
-//            imageBitmap.asAndroidBitmap(),
-//            cropRect.left.toInt(),
-//            cropRect.top.toInt(),
-//            cropRect.width.toInt(),
-//            cropRect.height.toInt(),
-//        )
-
-        val croppedBitmap = imageBitmap.toAwtImage().subImage(cropRect.left.toInt(),cropRect.top.toInt(),cropRect.width.toInt(),cropRect.height.toInt()).toComposeImageBitmap()
-
-
-        val imageToCrop = croppedBitmap
+        val imageToCrop = imageBitmap.toAwtImage().subImage(cropRect.left.toInt(),cropRect.top.toInt(),cropRect.width.toInt(),cropRect.height.toInt()).toComposeImageBitmap()
 
         drawCroppedImage(cropOutline, cropRect, layoutDirection, density, imageToCrop)
 
@@ -78,7 +64,7 @@ class CropAgent {
                 }
 
                 Canvas(image = imageToCrop).run {
-//                    saveLayer(nativeCanvas.clipBounds.toComposeRect(), imagePaint)
+                    saveLayer(cropRect, imagePaint)
 
                     // Destination
                     drawPath(path, paint)
