@@ -36,9 +36,9 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.state.DynamicCropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.state.rememberCropState
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
+import cn.netdiscovery.monica.utils.Default
 import com.safframework.rxcache.domain.CacheStrategy
 import com.safframework.rxcache.ext.get
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -354,7 +354,7 @@ private fun Crop(
                     emit(croppedImageBitmap)
                 }
             }
-                .flowOn(Dispatchers.Default)
+                .flowOn(Default)
                 .onStart {
                     onCropStart()
                     delay(400)
