@@ -99,7 +99,7 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                     }, onDoubleClick = {
                         // perform double click operations
                     }, onClick = {
-                        if (state.isBasic || state.isCropSize) {
+                        if (state.isBasic) {
                             state.togglePreviewWindow(false)
                         } else {
                             state.togglePreviewWindow(true)

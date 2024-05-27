@@ -161,6 +161,7 @@ fun main() = application {
             title = if (applicationState.isDoodle) "涂鸦图像" else if (applicationState.isCrop) "图像裁剪" else "放大预览",
             onCloseRequest = {
                 applicationState.isDoodle = false
+                applicationState.isCropSize = false
                 applicationState.togglePreviewWindow(false)
             },
             state = rememberWindowState().apply {
@@ -170,7 +171,7 @@ fun main() = application {
         ) {
             if (applicationState.isDoodle) {
                 drawImage(applicationState)
-            } else if (applicationState.isCrop) {
+            } else if (applicationState.isCropSize) {
                 cropImage(applicationState)
             } else {
                 showImage(applicationState)

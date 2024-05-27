@@ -159,8 +159,8 @@ fun ImageCropper(
         val cachedRect = rxCache.get<Rect>("crop-first", CacheStrategy.MEMORY)?.data
 
         if (cachedRect?.left!=cropState.cropRect.left
-            && cachedRect?.right!=cropState.cropRect.right
             && cachedRect?.top!=cropState.cropRect.top
+            && cachedRect?.right!=cropState.cropRect.right
             && cachedRect?.bottom!=cropState.cropRect.bottom) {
             rxCache.saveMemory("crop", cropState.cropRect)
         }
@@ -169,7 +169,7 @@ fun ImageCropper(
         Crop(
             crop,
             scaledImageBitmap,
-            cropState,
+            cropState.cropRect,
             cropOutline,
             onCropStart,
             onCropSuccess,
@@ -313,7 +313,6 @@ private fun ImageCropperImpl(
             transparentColor = transparentColor,
             onDrawGrid = onDrawGrid,
         )
-
     }
 }
 
@@ -321,13 +320,13 @@ private fun ImageCropperImpl(
 private fun Crop(
     crop: Boolean,
     scaledImageBitmap: ImageBitmap,
-    cropState: CropState,
+    rect: Rect,
     cropOutline: CropOutline,
     onCropStart: () -> Unit,
     onCropSuccess: (ImageBitmap) -> Unit,
     requiredSize: IntSize?,
 ) {
-    val cropRect = rxCache.get<Rect>("crop", CacheStrategy.MEMORY)?.data?:cropState.cropRect
+    val cropRect = rxCache.get<Rect>("crop", CacheStrategy.MEMORY)?.data?:rect
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
 

@@ -107,6 +107,7 @@ fun cropImage(state: ApplicationState) {
                 cropFlag.set(false)
                 rxCache.remove("crop-first")
                 state.currentImage = it.toAwtImage()
+                state.isCropSize = false
                 state.togglePreviewWindow(false)
             }, onDismiss = {
                 showDialog = !showDialog
