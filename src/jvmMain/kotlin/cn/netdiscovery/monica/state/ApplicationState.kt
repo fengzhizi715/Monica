@@ -48,7 +48,7 @@ class ApplicationState(val scope:CoroutineScope,
     var isCropSize by mutableStateOf(false)
 
     var isHLS by mutableStateOf(false)
-    
+
     var isFilter by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)
