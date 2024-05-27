@@ -158,7 +158,7 @@ fun main() = application {
 
     if (applicationState.isShowPreviewWindow && applicationState.currentImage != null) {
         Window(
-            title = "放大预览",
+            title = if (applicationState.isDoodle) "涂鸦图像" else if (applicationState.isCrop) "图像裁剪" else "放大预览",
             onCloseRequest = {
                 applicationState.isDoodle = false
                 applicationState.togglePreviewWindow(false)
@@ -171,9 +171,7 @@ fun main() = application {
             if (applicationState.isDoodle) {
                 drawImage(applicationState)
             } else if (applicationState.isCrop) {
-
                 cropImage(applicationState)
-
             } else {
                 showImage(applicationState)
             }

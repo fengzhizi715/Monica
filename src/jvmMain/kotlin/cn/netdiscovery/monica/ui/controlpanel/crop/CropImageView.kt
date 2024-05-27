@@ -100,7 +100,7 @@ fun cropImage(state: ApplicationState) {
 
     if (showDialog) {
         croppedImage?.let {
-            ShowCroppedImageDialog(imageBitmap = it) {
+            ShowCroppedImageDialog(imageBitmap = it, onConfirm = {
                 showDialog = !showDialog
                 croppedImage = null
 
@@ -108,15 +108,20 @@ fun cropImage(state: ApplicationState) {
                 rxCache.remove("crop-first")
                 state.currentImage = it.toAwtImage()
                 state.togglePreviewWindow(false)
-            }
+            }, onDismiss = {
+                showDialog = !showDialog
+                croppedImage = null
+            })
         }
     }
 }
 
 @Composable
-private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap, onDismissRequest: () -> Unit) {
+private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap,
+                                   onConfirm: () -> Unit,
+                                   onDismiss: () -> Unit) {
     AlertDialog(
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = onDismiss,
         text = {
             Image(
                 modifier = Modifier
@@ -131,7 +136,7 @@ private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap, onDismissRequest: (
         confirmButton = {
             TextButton(
                 onClick = {
-                    onDismissRequest()
+                    onConfirm()
                 }
             ) {
                 Text("Confirm")
@@ -140,7 +145,7 @@ private fun ShowCroppedImageDialog(imageBitmap: ImageBitmap, onDismissRequest: (
         dismissButton = {
             TextButton(
                 onClick = {
-                    onDismissRequest()
+                    onDismiss()
                 }
             ) {
                 Text("Dismiss")
