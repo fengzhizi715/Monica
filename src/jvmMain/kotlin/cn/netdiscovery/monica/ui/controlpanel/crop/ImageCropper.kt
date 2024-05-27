@@ -32,7 +32,6 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropProperties
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropStyle
 import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropType
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.CropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.state.DynamicCropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.state.rememberCropState
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints

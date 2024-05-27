@@ -58,8 +58,7 @@ class CropAgent {
             is CropShape -> {
 
                 val path = Path().apply {
-                    val outline =
-                        cropOutline.shape.createOutline(cropRect.size, layoutDirection, density)
+                    val outline = cropOutline.shape.createOutline(cropRect.size, layoutDirection, density)
                     addOutline(outline)
                 }
 
@@ -100,7 +99,7 @@ class CropAgent {
                 }
 
                 Canvas(image = imageToCrop).run {
-//                    saveLayer(nativeCanvas.clipBounds.toComposeRect(), imagePaint)
+                    saveLayer(cropRect, imagePaint)
 
                     // Destination
                     drawPath(path, paint)
@@ -115,7 +114,7 @@ class CropAgent {
                 val imageMask = cropOutline.image.toAwtImage().subImage(cropRect.left.toInt(),cropRect.top.toInt(),cropRect.width.toInt(),cropRect.height.toInt()).toComposeImageBitmap()
 
                 Canvas(image = imageToCrop).run {
-//                    saveLayer(nativeCanvas.clipBounds.toComposeRect(), imagePaint)
+                    saveLayer(cropRect, imagePaint)
 
                     // Destination
                     drawImage(imageMask, topLeftOffset = Offset.Zero, paint)
