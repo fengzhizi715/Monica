@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.model.CropFrame
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropFrame
  * @author: Tony Shen
  * @date: 2024/5/26 15:23
  * @version: V1.0 <描述当前版本功能>

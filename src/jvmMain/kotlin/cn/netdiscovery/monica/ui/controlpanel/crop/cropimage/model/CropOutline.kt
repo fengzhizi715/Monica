@@ -13,7 +13,7 @@ import cn.netdiscovery.monica.utils.createPolygonShape
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutline
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
  * @author: Tony Shen
  * @date: 2024/5/26 12:22
  * @version: V1.0 <描述当前版本功能>

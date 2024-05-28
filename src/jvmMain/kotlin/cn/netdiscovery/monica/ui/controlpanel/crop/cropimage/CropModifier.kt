@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.CropModifier
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropModifier
  * @author: Tony Shen
  * @date: 2024/5/26 15:29
  * @version: V1.0 <描述当前版本功能>

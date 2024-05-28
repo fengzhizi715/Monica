@@ -14,7 +14,7 @@ import kotlin.math.roundToInt
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.state.DynamicCropState
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.DynamicCropState
  * @author: Tony Shen
  * @date: 2024/5/26 15:26
  * @version: V1.0 <描述当前版本功能>

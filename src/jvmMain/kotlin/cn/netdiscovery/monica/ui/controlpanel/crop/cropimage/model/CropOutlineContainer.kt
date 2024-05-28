@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutlineContainer
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutlineContainer
  * @author: Tony Shen
  * @date: 2024/5/26 15:24
  * @version: V1.0 <描述当前版本功能>

@@ -24,7 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutline
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.CropImageView
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropImageView
  * @author: Tony Shen
  * @date: 2024/5/27 14:00
  * @version: V1.0 <描述当前版本功能>

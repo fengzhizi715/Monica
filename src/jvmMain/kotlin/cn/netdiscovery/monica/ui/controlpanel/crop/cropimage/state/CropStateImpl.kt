@@ -19,7 +19,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropPropert
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.state.CropStateImpl
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropStateImpl
  * @author: Tony Shen
  * @date: 2024/5/26 12:05
  * @version: V1.0 <描述当前版本功能>

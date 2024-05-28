@@ -46,7 +46,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.ImageCropper
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.ImageCropper
  * @author: Tony Shen
  * @date: 2024/5/26 12:00
  * @version: V1.0 <描述当前版本功能>

@@ -15,7 +15,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.aspectRatios
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
  * @author: Tony Shen
  * @date: 2024/5/26 12:20
  * @version: V1.0 <描述当前版本功能>
