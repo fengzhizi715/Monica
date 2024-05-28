@@ -1,10 +1,12 @@
-import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
@@ -14,11 +16,12 @@ import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
+import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.main.mainView
+import cn.netdiscovery.monica.ui.main.openURLDialog
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
-import cn.netdiscovery.monica.ui.preview.PreviewViewModel
-import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -95,7 +98,17 @@ fun main() = application {
             }
 
             if (openURLDialog) {
-                openURLDialog(previewViewModel, applicationState)
+                openURLDialog(
+                    onConfirm = {
+                        openURLDialog = false
+
+                        previewViewModel.loadUrl(picUrl, applicationState)
+
+                        picUrl = ""
+                    },
+                    onDismiss = {
+                        openURLDialog = false
+                    })
             }
         }
     }
@@ -135,55 +148,6 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
         flag.set(true)
     }
-}
-
-/**
- * 加载网络图片的对话框
- */
-@Composable
-private fun openURLDialog(previewViewModel:PreviewViewModel, state:ApplicationState) {
-    AlertDialog(
-        modifier = Modifier.width(600.dp).height(200.dp),
-        onDismissRequest = {
-            openURLDialog = false
-        },
-        title = {
-            Text(text = "加载网络图片")
-        },
-        text = {
-            Column(
-                verticalArrangement = Arrangement.Center
-            ) {
-                TextField(
-                    modifier = Modifier.fillMaxWidth(),
-                    value = picUrl,
-                    onValueChange = { picUrl = it }
-                )
-            }
-        },
-        confirmButton = {
-            TextButton(
-                onClick = {
-                    openURLDialog = false
-
-                    previewViewModel.loadUrl(picUrl, state)
-
-                    picUrl = ""
-                }
-            ) {
-                Text("确定")
-            }
-        },
-        dismissButton = {
-            TextButton(
-                onClick = {
-                    openURLDialog = false
-                }
-            ) {
-                Text("取消")
-            }
-        }
-    )
 }
 
 private fun getWindowsTitle(state: ApplicationState):String {
