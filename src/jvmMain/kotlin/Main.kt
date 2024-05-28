@@ -1,8 +1,5 @@
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -99,7 +96,7 @@ fun main() = application {
 
             if (openURLDialog) {
                 AlertDialog(
-                    modifier = Modifier.width(600.dp).height(250.dp),
+                    modifier = Modifier.width(600.dp).height(200.dp),
                     onDismissRequest = {
                         openURLDialog = false
                     },
@@ -117,30 +114,26 @@ fun main() = application {
                             )
                         }
                     },
-                    buttons = {
-                        Row(
-                            modifier = Modifier.padding(all = 8.dp),
-                            horizontalArrangement = Arrangement.Center,
+                    confirmButton = {
+                        TextButton(
+                            onClick = {
+                                openURLDialog = false
+
+                                previewViewModel.loadUrl(picUrl, applicationState)
+
+                                picUrl = ""
+                            }
                         ) {
-                            Button(
-                                modifier = Modifier.weight(1.0f).padding(5.dp),
-                                onClick = { openURLDialog = false }
-                            ) {
-                                Text("取消")
+                            Text("确定")
+                        }
+                    },
+                    dismissButton = {
+                        TextButton(
+                            onClick = {
+                                openURLDialog = false
                             }
-
-                            Button(
-                                modifier = Modifier.weight(1.0f).padding(5.dp),
-                                onClick = {
-                                    openURLDialog = false
-
-                                    previewViewModel.loadUrl(picUrl, applicationState)
-
-                                    picUrl = ""
-                                }
-                            ) {
-                                Text("确定")
-                            }
+                        ) {
+                            Text("取消")
                         }
                     }
                 )
