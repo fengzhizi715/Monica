@@ -78,6 +78,8 @@ fun cropView(state: ApplicationState) {
             painter = painterResource("images/crop.png"),
             enable = { state.isCrop },
             onClick = {
+                clearClickStatus()
+                
                 state.isCropSize = true
                 state.togglePreviewWindow(true)
             })

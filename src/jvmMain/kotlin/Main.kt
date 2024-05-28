@@ -32,6 +32,7 @@ val flag = AtomicBoolean(false)
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
+var picUrl by mutableStateOf("")
 
 lateinit var client: HttpConnectionClient
 
@@ -95,8 +96,6 @@ fun main() = application {
                 ThreeBallLoading(Modifier.width(loadingWidth).height(height))
             }
 
-            var picUrl by remember { mutableStateOf("") }
-
             if (openURLDialog) {
                 AlertDialog(
                     modifier = Modifier.width(600.dp).height(250.dp),
@@ -134,7 +133,7 @@ fun main() = application {
                                 onClick = {
                                     openURLDialog = false
 
-                                    previewViewModel.loadUrl(picUrl,applicationState)
+                                    previewViewModel.loadUrl(picUrl, applicationState)
 
                                     picUrl = ""
                                 }
