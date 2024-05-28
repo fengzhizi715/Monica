@@ -73,12 +73,12 @@ fun TopToast(
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
             showMessage = true
 
-            // Delay for 2 seconds before reverting to circle
-            delay(2000)
+            // Delay for 1 seconds before reverting to circle
+            delay(1000)
             hasTransitionStarted = false
             showMessage = false
 
-            // Delay for 0.33 seconds before sliding up
+            // Delay for 2.5 seconds before sliding up
             delay(2500)
             clipShape = CircleShape
             slideDownAnimation = true
