@@ -22,6 +22,7 @@ import cn.netdiscovery.monica.ui.main.openURLDialog
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
+import cn.netdiscovery.monica.ui.widget.TopToast
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -34,6 +35,8 @@ val flag = AtomicBoolean(false)
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
 var picUrl by mutableStateOf("")
+
+var showToast by mutableStateOf(false)
 
 lateinit var client: HttpConnectionClient
 
@@ -110,6 +113,12 @@ fun main() = application {
                         openURLDialog = false
                     })
             }
+
+            if (showToast) {
+                TopToast(Modifier,"想要保存涂鸦效果，需要点击保存按钮", onDismissCallback = {
+                    showToast = false
+                })
+            }
         }
     }
 
@@ -117,6 +126,10 @@ fun main() = application {
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
+                if (applicationState.isDoodle) {
+                    showToast = true
+                }
+
                 applicationState.isDoodle = false
                 applicationState.isCropSize = false
                 applicationState.togglePreviewWindow(false)
