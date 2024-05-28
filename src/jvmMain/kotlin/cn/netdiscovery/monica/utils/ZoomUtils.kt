@@ -16,15 +16,9 @@ enum class ZoomLevel {
 }
 
 internal fun getNextZoomLevel(zoomLevel: ZoomLevel): ZoomLevel = when (zoomLevel) {
-    ZoomLevel.Mid -> {
-        ZoomLevel.Max
-    }
-    ZoomLevel.Max -> {
-        ZoomLevel.Min
-    }
-    else -> {
-        ZoomLevel.Mid
-    }
+    ZoomLevel.Mid -> ZoomLevel.Max
+    ZoomLevel.Max -> ZoomLevel.Min
+    else          -> ZoomLevel.Mid
 }
 
 /**

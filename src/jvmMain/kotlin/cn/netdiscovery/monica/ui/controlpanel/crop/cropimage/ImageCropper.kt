@@ -24,6 +24,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
+import cn.netdiscovery.monica.config.KEY_CROP
+import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.DrawingOverlay
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.ImageDrawCanvas
@@ -151,17 +153,17 @@ fun ImageCropper(
         )
 
         if (!cropFlag.get()) {
-            rxCache.saveMemory("crop-first", cropState.cropRect)
+            rxCache.saveMemory(KEY_CROP_FIRST, cropState.cropRect)
             cropFlag.set(true)
         }
 
-        val cachedRect = rxCache.get<Rect>("crop-first", CacheStrategy.MEMORY)?.data
+        val cachedRect = rxCache.get<Rect>(KEY_CROP_FIRST, CacheStrategy.MEMORY)?.data
 
         if (cachedRect?.left!=cropState.cropRect.left
             && cachedRect?.top!=cropState.cropRect.top
             && cachedRect?.right!=cropState.cropRect.right
             && cachedRect?.bottom!=cropState.cropRect.bottom) {
-            rxCache.saveMemory("crop", cropState.cropRect)
+            rxCache.saveMemory(KEY_CROP, cropState.cropRect)
         }
 
         // Crops image when user invokes crop operation
@@ -325,7 +327,7 @@ private fun Crop(
     onCropSuccess: (ImageBitmap) -> Unit,
     requiredSize: IntSize?,
 ) {
-    val cropRect = rxCache.get<Rect>("crop", CacheStrategy.MEMORY)?.data?:rect
+    val cropRect = rxCache.get<Rect>(KEY_CROP, CacheStrategy.MEMORY)?.data ?: rect
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
 

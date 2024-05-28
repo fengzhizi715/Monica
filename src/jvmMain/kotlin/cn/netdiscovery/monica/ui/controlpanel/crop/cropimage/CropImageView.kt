@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
@@ -105,7 +106,7 @@ fun cropImage(state: ApplicationState) {
                 croppedImage = null
 
                 cropFlag.set(false)
-                rxCache.remove("crop-first")
+                rxCache.remove(KEY_CROP_FIRST)
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
                 state.isCropSize = false

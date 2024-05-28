@@ -95,48 +95,7 @@ fun main() = application {
             }
 
             if (openURLDialog) {
-                AlertDialog(
-                    modifier = Modifier.width(600.dp).height(200.dp),
-                    onDismissRequest = {
-                        openURLDialog = false
-                    },
-                    title = {
-                        Text(text = "加载网络图片")
-                    },
-                    text = {
-                        Column(
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            TextField(
-                                modifier = Modifier.fillMaxWidth(),
-                                value = picUrl,
-                                onValueChange = { picUrl = it }
-                            )
-                        }
-                    },
-                    confirmButton = {
-                        TextButton(
-                            onClick = {
-                                openURLDialog = false
-
-                                previewViewModel.loadUrl(picUrl, applicationState)
-
-                                picUrl = ""
-                            }
-                        ) {
-                            Text("确定")
-                        }
-                    },
-                    dismissButton = {
-                        TextButton(
-                            onClick = {
-                                openURLDialog = false
-                            }
-                        ) {
-                            Text("取消")
-                        }
-                    }
-                )
+                openURLDialog(previewViewModel, applicationState)
             }
         }
     }
@@ -176,6 +135,55 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
         flag.set(true)
     }
+}
+
+/**
+ * 加载网络图片的对话框
+ */
+@Composable
+private fun openURLDialog(previewViewModel:PreviewViewModel, state:ApplicationState) {
+    AlertDialog(
+        modifier = Modifier.width(600.dp).height(200.dp),
+        onDismissRequest = {
+            openURLDialog = false
+        },
+        title = {
+            Text(text = "加载网络图片")
+        },
+        text = {
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                TextField(
+                    modifier = Modifier.fillMaxWidth(),
+                    value = picUrl,
+                    onValueChange = { picUrl = it }
+                )
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    openURLDialog = false
+
+                    previewViewModel.loadUrl(picUrl, state)
+
+                    picUrl = ""
+                }
+            ) {
+                Text("确定")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    openURLDialog = false
+                }
+            ) {
+                Text("取消")
+            }
+        }
+    )
 }
 
 private fun getWindowsTitle(state: ApplicationState):String {

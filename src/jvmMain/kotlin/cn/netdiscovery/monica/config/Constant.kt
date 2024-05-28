@@ -20,3 +20,7 @@ val loadingWidth = (previewWidth*2*0.7).dp
 
 const val timeout = 6000
 const val retryNum = 3
+
+val KEY_CROP_FIRST = "key_crop_first"
+
+val KEY_CROP = "key_crop"
