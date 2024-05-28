@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,10 +16,10 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.RectCropShape
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropOutlineProperty
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
 
 /**
  *

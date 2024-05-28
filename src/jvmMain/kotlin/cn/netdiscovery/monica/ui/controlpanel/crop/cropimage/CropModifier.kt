@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.*
@@ -9,9 +9,9 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.debugInspectorInfo
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.CropData
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.CropState
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.cropData
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropData
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropState
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.cropData
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectMotionEventsAsList
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectTransformGestures
 import cn.netdiscovery.monica.utils.ZoomLevel

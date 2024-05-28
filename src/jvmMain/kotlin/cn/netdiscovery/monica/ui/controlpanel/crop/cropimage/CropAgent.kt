@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -7,17 +7,17 @@ import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.subImage
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropImageMask
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutline
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropPath
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropImageMask
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropPath
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropShape
 import org.jetbrains.skia.Matrix33
 import java.awt.Image
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.CropAgent
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropAgent
  * @author: Tony Shen
  * @date: 2024/5/26 15:45
  * @version: V1.0 <描述当前版本功能>

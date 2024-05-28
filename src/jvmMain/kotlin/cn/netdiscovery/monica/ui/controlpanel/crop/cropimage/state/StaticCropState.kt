@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.state
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputChange

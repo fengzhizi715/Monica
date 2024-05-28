@@ -6,9 +6,6 @@ import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.toAwtImage
-import androidx.compose.ui.graphics.toComposeImageBitmap
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
@@ -18,12 +15,7 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.rememberApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.crop.ImageCropper
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropImage
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.RectCropShape
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropDefaults
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropOutlineProperty
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.state
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -6,8 +6,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
 import androidx.compose.ui.unit.IntSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.TouchRegion
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.TouchRegion
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.roundToInt
 

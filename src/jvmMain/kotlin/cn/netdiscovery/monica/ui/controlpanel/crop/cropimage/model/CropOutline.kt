@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.model
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape

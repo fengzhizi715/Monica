@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.state
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec

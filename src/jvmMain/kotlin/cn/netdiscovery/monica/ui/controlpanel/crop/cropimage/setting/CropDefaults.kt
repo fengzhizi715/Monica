@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.setting
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.Modifier
@@ -7,10 +7,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.CropOutline
-import cn.netdiscovery.monica.ui.controlpanel.crop.model.OutlineType
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.AspectRatio
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.aspectRatios
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.aspectRatios
 
 /**
  *

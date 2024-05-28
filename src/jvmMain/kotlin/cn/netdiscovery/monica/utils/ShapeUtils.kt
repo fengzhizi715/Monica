@@ -7,7 +7,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cn.netdiscovery.monica.ui.controlpanel.crop.state.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.AspectRatio
 import org.jetbrains.skia.Matrix33
 import kotlin.math.cos
 import kotlin.math.sin

@@ -1,10 +1,10 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.state
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.unit.IntSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropProperties
-import cn.netdiscovery.monica.ui.controlpanel.crop.setting.CropType
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropType
 
 /**
  *
