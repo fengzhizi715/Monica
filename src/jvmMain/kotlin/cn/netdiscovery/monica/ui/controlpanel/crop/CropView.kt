@@ -79,7 +79,7 @@ fun cropView(state: ApplicationState) {
             enable = { state.isCrop },
             onClick = {
                 clearClickStatus()
-                
+
                 state.isCropSize = true
                 state.togglePreviewWindow(true)
             })

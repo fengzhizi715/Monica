@@ -14,6 +14,7 @@ import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
+import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.rememberApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
 import cn.netdiscovery.monica.ui.main.mainView
@@ -149,7 +150,7 @@ fun main() = application {
 
     if (applicationState.isShowPreviewWindow && applicationState.currentImage != null) {
         Window(
-            title = if (applicationState.isDoodle) "涂鸦图像" else if (applicationState.isCropSize) "图像裁剪" else "放大预览",
+            title = getWindowsTitle(applicationState),
             onCloseRequest = {
                 applicationState.isDoodle = false
                 applicationState.isCropSize = false
@@ -182,4 +183,9 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
         flag.set(true)
     }
+}
+
+private fun getWindowsTitle(state: ApplicationState):String {
+
+   return if (state.isDoodle) "涂鸦图像" else if (state.isCropSize) "图像裁剪" else "放大预览"
 }
