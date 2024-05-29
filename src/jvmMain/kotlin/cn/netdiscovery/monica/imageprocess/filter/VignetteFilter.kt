@@ -65,7 +65,7 @@ class VignetteFilter(
         return dstImage
     }
 
-    fun superpositionColor(
+    private fun superpositionColor(
         ta: Int,
         red: Int,
         green: Int,
@@ -80,5 +80,4 @@ class VignetteFilter(
         blue = (vignetteColor.blue * k + blue * (1.0 - k)).toInt()
         return ta shl 24 or (clamp(red) shl 16) or (clamp(green) shl 8) or clamp(blue)
     }
-
 }
