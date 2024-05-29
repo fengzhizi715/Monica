@@ -21,6 +21,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import filterNames
 import org.koin.compose.koinInject
+import showToast
+import toastMessage
 
 /**
  *
@@ -59,6 +61,9 @@ fun filterView(state: ApplicationState) {
             onClick = {
                 click {
                     viewModel.applyFilterParams(state)
+
+                    toastMessage = "滤镜修改参数生效"
+                    showToast = true
                 }
             },
             enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0

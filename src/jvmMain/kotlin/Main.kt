@@ -37,6 +37,7 @@ var openURLDialog by mutableStateOf(false)
 var picUrl by mutableStateOf("")
 
 var showToast by mutableStateOf(false)
+var toastMessage by mutableStateOf("")
 
 lateinit var client: HttpConnectionClient
 
@@ -115,7 +116,7 @@ fun main() = application {
             }
 
             if (showToast) {
-                TopToast(Modifier,"想要保存涂鸦效果，需要点击保存按钮", onDismissCallback = {
+                TopToast(Modifier,toastMessage, onDismissCallback = {
                     showToast = false
                 })
             }
@@ -127,6 +128,7 @@ fun main() = application {
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
                 if (applicationState.isDoodle) {
+                    toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
                     showToast = true
                 }
 
