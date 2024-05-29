@@ -3,7 +3,10 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.OutlinedButton
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,6 +40,14 @@ fun cropImage(state: ApplicationState) {
     var crop by remember { mutableStateOf(false) }
     var showDialog by remember { mutableStateOf(false) }
     var isCropping by remember { mutableStateOf(false) }
+
+//    val cropFrameFactory = remember {
+//        CropFrameFactory(
+//            listOf(
+//                state.currentImage!!.toComposeImageBitmap()
+//            )
+//        )
+//    }
 
     var cropProperties by remember {
         mutableStateOf(

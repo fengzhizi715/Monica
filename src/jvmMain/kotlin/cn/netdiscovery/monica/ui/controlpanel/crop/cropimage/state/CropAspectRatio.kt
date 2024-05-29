@@ -65,7 +65,7 @@ data class CropAspectRatio(
     val title: String,
     val shape: Shape,
     val aspectRatio: AspectRatio = AspectRatio.Original,
-    val icons: List<Int> = listOf()
+    val icons: List<String> = listOf()
 )
 
 /**
