@@ -175,6 +175,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "VariableBlurFilter"-> {
                 VariableBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int).transform(state.currentImage!!)
             }
+            "VignetteFilter"-> {
+                VignetteFilter(array[0] as Int,array[1] as Int).transform(state.currentImage!!)
+            }
             "WhiteImageFilter" -> {
                 WhiteImageFilter(array[0] as Double).transform(state.currentImage!!)
             }

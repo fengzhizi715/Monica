@@ -80,6 +80,10 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("vRadius","Int",5))
             this.add(Triple("iterations","Int",1))
         }))
+        this.add(FilterParam("VignetteFilter", mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("fade","Int",35))
+            this.add(Triple("vignetteWidth","Int",50))
+        }))
         this.add(FilterParam("WhiteImageFilter", mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("beta","Double",1.1))
         }))
