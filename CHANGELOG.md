@@ -1,6 +1,13 @@
 Monica
 ===
 
+Version 0.2.0
+---
+2024-5-29
+* 增加图像的裁剪功能
+* 增加 VignetteFilter
+* 增加 toast 提示
+
 Version 0.1.5
 ---
 2024-5-25
