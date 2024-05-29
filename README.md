@@ -13,10 +13,12 @@ Monica 是一款跨平台的桌面图像编辑器，使用 Kotlin Compose Deskto
 * 对修改的图像进行保存。
 
 具体详情可以先看：
+
 https://juejin.cn/post/7365711904159612954
 
-后续抽空补上
+https://juejin.cn/post/7374238968685920282
 
+后续抽空补上
 
 ## TODO List：
 
