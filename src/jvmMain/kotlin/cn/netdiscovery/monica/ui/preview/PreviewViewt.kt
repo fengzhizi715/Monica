@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.preview
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawWithContent
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -72,8 +74,8 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            ImageWithConstraints(
-                imageBitmap = state.currentImage!!.toComposeImageBitmap(),
+            Image(
+                painter = state.currentImage!!.toPainter(),
                 contentDescription = null,
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -104,8 +106,7 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                     })
                     .drawWithContent {
                     drawContent()
-                    }) {
-            }
+                    })
         }
 
         Row (
