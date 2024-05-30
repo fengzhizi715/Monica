@@ -35,6 +35,7 @@ fun drawImage(
     val density = LocalDensity.current
 
     val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
+    val pathsUndone = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
     // This is our motion event we get from touch motion
@@ -125,6 +126,9 @@ fun drawImage(
                                 strokeJoin = currentPathProperty.strokeJoin,
                                 eraseMode = currentPathProperty.eraseMode
                         )
+
+                        pathsUndone.clear()
+
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
@@ -230,6 +234,35 @@ fun drawImage(
                     },
                 ) {
                     Text("橡皮擦")
+                }
+
+                OutlinedButton(
+                    modifier = Modifier.width(80.dp),
+                    onClick = {
+                        val lastItem = paths.last()
+                        val lastPath = lastItem.first
+                        val lastPathProperty = lastItem.second
+                        paths.remove(lastItem)
+
+                        pathsUndone.add(Pair(lastPath, lastPathProperty))
+                    },
+                ) {
+                    Text("上一步")
+                }
+
+                OutlinedButton(
+                    modifier = Modifier.width(80.dp),
+                    onClick = {
+                        if (pathsUndone.isNotEmpty()) {
+
+                            val lastPath = pathsUndone.last().first
+                            val lastPathProperty = pathsUndone.last().second
+                            pathsUndone.removeLast()
+                            paths.add(Pair(lastPath, lastPathProperty))
+                        }
+                    },
+                ) {
+                    Text("撤回")
                 }
 
                 OutlinedButton(
