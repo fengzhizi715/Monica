@@ -12,10 +12,12 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
 /**
@@ -207,34 +209,25 @@ fun drawImage(
                 verticalArrangement = Arrangement.Center
             ) {
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "选择颜色",
+                    painter = painterResource("images/doodle/color.png"),
                     onClick = {
                         showColorDialog = true
                         currentPathProperty.eraseMode = false
-                    },
-                ) {
-                    Text("颜色")
-                }
+                    })
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "刷子",
+                    painter = painterResource("images/doodle/brush.png"),
                     onClick = {
                         showPropertiesDialog = true
                         currentPathProperty.eraseMode = false
-                    },
-                ) {
-                    Text("刷子")
-                }
+                    })
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "橡皮擦",
+                    painter = painterResource("images/doodle/eraser.png"),
                     onClick = {
                         currentPathProperty.eraseMode = true
-                    },
-                ) {
-                    Text("橡皮擦")
-                }
+                    })
 
                 OutlinedButton(
                     modifier = Modifier.width(80.dp),
