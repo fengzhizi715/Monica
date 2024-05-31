@@ -229,8 +229,8 @@ fun drawImage(
                         currentPathProperty.eraseMode = true
                     })
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "上一步",
+                    painter = painterResource("images/doodle/previous_step.png"),
                     onClick = {
                         val lastItem = paths.last()
                         val lastPath = lastItem.first
@@ -238,13 +238,10 @@ fun drawImage(
                         paths.remove(lastItem)
 
                         pathsUndone.add(Pair(lastPath, lastPathProperty))
-                    },
-                ) {
-                    Text("上一步")
-                }
+                    })
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "撤回",
+                    painter = painterResource("images/doodle/revoke.png"),
                     onClick = {
                         if (pathsUndone.isNotEmpty()) {
 
@@ -253,19 +250,13 @@ fun drawImage(
                             pathsUndone.removeLast()
                             paths.add(Pair(lastPath, lastPathProperty))
                         }
-                    },
-                ) {
-                    Text("撤回")
-                }
+                    })
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "保存",
+                    painter = painterResource("images/doodle/save.png"),
                     onClick = {
                         viewModel.saveCanvasToBitmap(density,paths,image, state)
-                    },
-                ) {
-                    Text("保存")
-                }
+                    })
             }
         }
 
