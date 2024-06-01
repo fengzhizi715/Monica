@@ -29,13 +29,18 @@ fun click(block:()->Unit) {
     currentTime = systemTime
 }
 
-
+/**
+ * 点击按钮后，会带有 loading 的效果
+ */
 fun clickLoadingDisplay(block:()->Unit) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false
 }
 
+/**
+ * 点击按钮后，会带有 loading 的效果
+ */
 suspend fun clickLoadingDisplayWithSuspend(block:suspend ()->Unit) {
     loadingDisplay = true
     block.invoke()
