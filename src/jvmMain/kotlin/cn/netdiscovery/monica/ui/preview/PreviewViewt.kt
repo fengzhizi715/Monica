@@ -115,38 +115,38 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
             verticalAlignment = Alignment.CenterVertically
         ) {
             toolTipButton(text = "恢复最初",
-                painter = painterResource("images/initial_picture.png"),
+                painter = painterResource("images/preview/initial_picture.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     previewViewModel.recoverImage(state)
                 })
 
             toolTipButton(text = "上一步",
-                painter = painterResource("images/reduction.png"),
+                painter = painterResource("images/preview/reduction.png"),
                 onClick = {
                     previewViewModel.getLastImage(state)
                 })
 
             toolTipButton(text = "预览效果",
-                painter = painterResource("images/preview.png"),
+                painter = painterResource("images/preview/preview.png"),
                 onClick = {
                     previewViewModel.previewImage(state)
                 })
 
             toolTipButton(text = "放大预览",
-                painter = painterResource("images/zoom.png"),
+                painter = painterResource("images/preview/zoom.png"),
                 onClick = {
                     state.togglePreviewWindow(true)
                 })
 
             toolTipButton(text = "保存",
-                painter = painterResource("images/save.png"),
+                painter = painterResource("images/preview/save.png"),
                 onClick = {
                     previewViewModel.saveImage(state)
                 })
 
             toolTipButton(text = "删除",
-                painter = painterResource("images/delete.png"),
+                painter = painterResource("images/preview/delete.png"),
                 onClick = {
                     previewViewModel.clearImage(state)
                 })

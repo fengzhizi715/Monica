@@ -72,7 +72,7 @@ class PreviewViewModel {
     }
 
     fun blur(width:Int, height:Int,offset: Offset,state: ApplicationState) {
-        state.scope.launch(Dispatchers.IO) {
+        state.scope.launch(IO) {
             val bufferedImage = state.currentImage!!
 
             val srcWidth = bufferedImage.width
@@ -234,7 +234,7 @@ class PreviewViewModel {
             selectionMode = JFileChooser.DIRECTORIES_ONLY,
             selectionFileFilter = null
         ) {
-            state.scope.launch(Dispatchers.IO) {
+            state.scope.launch(IO) {
                 val outputPath = it[0].absolutePath
                 val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
                 state.currentImage!!.saveImage(saveFile)
