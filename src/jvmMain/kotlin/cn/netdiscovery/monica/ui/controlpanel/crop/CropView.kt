@@ -52,7 +52,7 @@ fun cropView(state: ApplicationState) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         toolTipButton(text = "图像翻转",
-            painter = painterResource("images/flip.png"),
+            painter = painterResource("images/controlpanel/flip.png"),
             enable = { state.isCrop },
             onClick = {
                 clearClickStatus()
@@ -60,7 +60,7 @@ fun cropView(state: ApplicationState) {
             })
 
         toolTipButton(text = "图像旋转",
-            painter = painterResource("images/rotate.png"),
+            painter = painterResource("images/controlpanel/rotate.png"),
             enable = { state.isCrop },
             onClick = {
                 clearClickStatus()
@@ -68,14 +68,14 @@ fun cropView(state: ApplicationState) {
             })
 
         toolTipButton(text = "图像缩放",
-            painter = painterResource("images/resize.png"),
+            painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isCrop },
             onClick = {
                 clickStatus.value = 1
             })
 
         toolTipButton(text = "图像裁剪",
-            painter = painterResource("images/crop.png"),
+            painter = painterResource("images/controlpanel/crop.png"),
             enable = { state.isCrop },
             onClick = {
                 clearClickStatus()

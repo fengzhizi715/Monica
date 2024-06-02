@@ -39,7 +39,7 @@ fun basicView(state: ApplicationState) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         toolTipButton(text = "图像模糊",
-            painter = painterResource("images/blur.png"),
+            painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
             onClick = {
                 state.isBlur = true
@@ -47,7 +47,7 @@ fun basicView(state: ApplicationState) {
             })
 
         toolTipButton(text = "图像马赛克",
-            painter = painterResource("images/mosaic.png"),
+            painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
             onClick = {
                 state.isMosaic = true
@@ -55,7 +55,7 @@ fun basicView(state: ApplicationState) {
             })
 
         toolTipButton(text = "图像涂鸦",
-            painter = painterResource("images/doodle.png"),
+            painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
                 state.isDoodle = true
