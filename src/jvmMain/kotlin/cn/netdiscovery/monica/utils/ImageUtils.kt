@@ -107,7 +107,7 @@ suspend fun hsl(image: BufferedImage, satuPer: Float, huePer: Float, lumPer: Flo
 
 suspend fun doFilter(filterName:String, array:MutableList<Any>, state: ApplicationState):BufferedImage {
 
-    return withContext(Dispatchers.IO) {
+    return withContext(IO) {
         when(filterName) {
             "AverageFilter" -> {
                 AverageFilter().transform(state.currentImage!!)
