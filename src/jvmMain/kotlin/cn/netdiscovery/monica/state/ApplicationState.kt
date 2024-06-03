@@ -35,10 +35,6 @@ class ApplicationState(val scope:CoroutineScope,
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
-    var saturation by mutableStateOf(0f )
-    var luminance by mutableStateOf(0f )
-    var hue by mutableStateOf(0f )
-
     var isBasic by mutableStateOf(false)
     var isMosaic by mutableStateOf(false)
     var isBlur by mutableStateOf(false)
@@ -53,7 +49,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
-    private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(20)
+    private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
 

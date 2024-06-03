@@ -12,7 +12,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.extension.to2fStr
+import org.koin.compose.koinInject
 
 /**
  *
@@ -24,14 +26,16 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
  */
 @Composable
 fun imageProcessView(state: ApplicationState) {
+    val viewModel: PreviewViewModel = koinInject()
+
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isHLS, onCheckedChange = {
             state.isHLS = it
 
             if (!state.isHLS) {
-                state.saturation = 0f
-                state.hue = 0f
-                state.luminance = 0f
+                viewModel.saturation = 0f
+                viewModel.hue = 0f
+                viewModel.luminance = 0f
             }
         })
         Text("图像处理", color = Color.Black, fontSize = 20.sp)
@@ -47,16 +51,16 @@ fun imageProcessView(state: ApplicationState) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Slider(
-                value = state.saturation,
+                value = viewModel.saturation,
                 onValueChange = {
-                    state.saturation = it
+                    viewModel.saturation = it
                 },
                 enabled = state.isHLS,
                 modifier = Modifier.weight(8f),
                 valueRange = -1f..1f
             )
             Text(
-                text = state.saturation.to2fStr(),
+                text = viewModel.saturation.to2fStr(),
                 color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                 modifier = Modifier.weight(2f)
             )
@@ -73,16 +77,16 @@ fun imageProcessView(state: ApplicationState) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Slider(
-                value = state.hue,
+                value = viewModel.hue,
                 onValueChange = {
-                    state.hue = it
+                    viewModel.hue = it
                 },
                 enabled = state.isHLS,
                 modifier = Modifier.padding(start = 15.dp).weight(8f),
                 valueRange = -1f..1f
             )
             Text(
-                text = state.hue.to2fStr(),
+                text = viewModel.hue.to2fStr(),
                 color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                 modifier = Modifier.weight(2f)
             )
@@ -99,16 +103,16 @@ fun imageProcessView(state: ApplicationState) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Slider(
-                value = state.luminance,
+                value = viewModel.luminance,
                 onValueChange = {
-                    state.luminance = it
+                    viewModel.luminance = it
                 },
                 enabled = state.isHLS,
                 modifier = Modifier.padding(start = 15.dp).weight(8f),
                 valueRange = -1f..1f
             )
             Text(
-                text = state.luminance.to2fStr(),
+                text = viewModel.luminance.to2fStr(),
                 color = if (state.isHLS) Color.Unspecified else Color.LightGray,
                 modifier = Modifier.weight(2f)
             )

@@ -1,5 +1,8 @@
 package cn.netdiscovery.monica.ui.preview
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
@@ -29,6 +32,10 @@ import javax.swing.JFileChooser
 class PreviewViewModel {
 
     private val blurFilter = BoxBlurFilter(15,15,1)
+
+    var saturation by mutableStateOf(0f )
+    var luminance by mutableStateOf(0f )
+    var hue by mutableStateOf(0f )
 
     fun chooseImage(state: ApplicationState) {
         showFileSelector(
@@ -198,7 +205,7 @@ class PreviewViewModel {
                 var tempImage = state.currentImage!!
 
                 if (state.isHLS) {
-                    state.currentImage = hsl(state.currentImage!!, state.saturation, state.hue, state.luminance)
+                    state.currentImage = hsl(state.currentImage!!, saturation, hue, luminance)
                 }
 
                 if(state.isFilter) {
