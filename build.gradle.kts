@@ -26,9 +26,13 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+
+                // 缓存
                 implementation("com.github.fengzhizi715.RxCache:core:${rootProject.extra["rxcache"]}")
                 implementation("com.github.fengzhizi715.RxCache:okio:${rootProject.extra["rxcache"]}")
                 implementation("com.github.fengzhizi715.RxCache:extension:${rootProject.extra["rxcache"]}")
+
+                // di
                 implementation("io.insert-koin:koin-compose:${rootProject.extra["koin.compose"]}")
             }
         }

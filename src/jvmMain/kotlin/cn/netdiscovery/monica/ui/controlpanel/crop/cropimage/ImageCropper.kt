@@ -41,6 +41,7 @@ import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
 import cn.netdiscovery.monica.utils.Default
 import com.safframework.rxcache.domain.CacheStrategy
 import com.safframework.rxcache.ext.get
+import com.safframework.rxcache.ext.saveMemoryFunc
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.*
 import java.util.concurrent.atomic.AtomicBoolean
@@ -153,8 +154,10 @@ fun ImageCropper(
         )
 
         if (!cropFlag.get()) {
-            rxCache.saveMemory(KEY_CROP_FIRST, cropState.cropRect)
-            cropFlag.set(true)
+            rxCache.saveMemoryFunc(KEY_CROP_FIRST) {
+                cropFlag.set(true)
+                cropState.cropRect
+            }
         }
 
         val cachedRect = rxCache.get<Rect>(KEY_CROP_FIRST, CacheStrategy.MEMORY)?.data
