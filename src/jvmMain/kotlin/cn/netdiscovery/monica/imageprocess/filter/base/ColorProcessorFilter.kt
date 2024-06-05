@@ -55,4 +55,9 @@ open abstract class ColorProcessorFilter:BaseFilter() {
             B[i] = b.toByte()
         }
     }
+
+    fun setRGB(width: Int, height: Int, pixels: IntArray, R: ByteArray, G: ByteArray, B: ByteArray) {
+        for (i in 0 until width * height)
+            pixels[i] = -0x1000000 or (R[i].toInt() and 0xff shl 16) or (G[i].toInt() and 0xff shl 8) or (B[i].toInt() and 0xff)
+    }
 }
