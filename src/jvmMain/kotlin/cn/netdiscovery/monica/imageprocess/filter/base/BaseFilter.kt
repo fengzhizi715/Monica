@@ -18,10 +18,17 @@ abstract class BaseFilter: Transformer {
     protected var height = 0
     protected var type = 0
 
+    protected lateinit var inPixels: IntArray
+
     override fun transform(image: BufferedImage): BufferedImage {
         width  = image.width
         height = image.height
         type = image.type
+
+        val size = width * height
+        inPixels = IntArray(size)
+        getRGB(image, 0, 0, width, height, inPixels)
+
         val dstImage = BufferedImages.create(width,height,type)
 
         return doFilter(image,dstImage)

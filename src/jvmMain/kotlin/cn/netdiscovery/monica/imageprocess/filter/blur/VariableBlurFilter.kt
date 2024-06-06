@@ -21,9 +21,7 @@ class VariableBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5,
         }
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         if (premultiplyAlpha) premultiply(inPixels, 0, inPixels.size)
 

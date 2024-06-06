@@ -15,13 +15,10 @@ open abstract class ColorProcessorFilter:BaseFilter() {
     protected lateinit var R: ByteArray
     protected lateinit var G: ByteArray
     protected lateinit var B: ByteArray
-    protected lateinit var inPixels: IntArray
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
         val size = width * height
-        inPixels = IntArray(size)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         R = ByteArray(size)
         G = ByteArray(size)
@@ -57,8 +54,8 @@ open abstract class ColorProcessorFilter:BaseFilter() {
     }
 
     fun setRGB(width: Int, height: Int, pixels: IntArray, R: ByteArray, G: ByteArray, B: ByteArray) {
-        val length = width * height
-        for (i in 0 until length)
+        val size = width * height
+        for (i in 0 until size)
             pixels[i] = -0x1000000 or (R[i].toInt() and 0xff shl 16) or (G[i].toInt() and 0xff shl 8) or (B[i].toInt() and 0xff)
     }
 }
