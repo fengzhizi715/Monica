@@ -16,9 +16,7 @@ class USMFilter(override val radius: Float =2f, private val amount: Float = 0.5f
     GaussianFilter(radius) {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        var inPixels = IntArray(width * height)
         var outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         if ( radius > 0 ) {
             convolveAndTranspose(kernel, inPixels, outPixels, width, height, alpha, alpha && premultiplyAlpha, false, CLAMP_EDGES)

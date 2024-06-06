@@ -15,9 +15,8 @@ import java.awt.image.BufferedImage
 class ConBriFilter(private val contrast:Float = 1.5f,private val brightness:Float =1.0f): BaseFilter() {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        val inPixels = IntArray(width * height)
+
         val outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         // calculate RED, GREEN, BLUE means of pixel
         var index = 0

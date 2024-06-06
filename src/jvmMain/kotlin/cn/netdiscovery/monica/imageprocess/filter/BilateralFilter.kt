@@ -26,10 +26,7 @@ class BilateralFilter(private val ds:Double = 1.0, private val rs:Double = 1.0):
         buildDistanceWeightTable()
         buildSimilarityWeightTable()
 
-        val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
-
-        getRGB(srcImage, 0, 0, width, height, inPixels)
 
         var index = 0
         var redSum = 0.0
