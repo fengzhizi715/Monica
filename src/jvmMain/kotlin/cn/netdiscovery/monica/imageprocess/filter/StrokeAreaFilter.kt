@@ -18,9 +18,8 @@ class StrokeAreaFilter(private val size:Double = 10.0):BaseFilter() {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
+
         var index = 0
         var index2 = 0
         val semiRow = (size / 2).toInt()

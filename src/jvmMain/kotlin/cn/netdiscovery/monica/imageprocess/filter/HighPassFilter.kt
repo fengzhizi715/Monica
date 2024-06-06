@@ -14,14 +14,12 @@ import java.awt.image.BufferedImage
 class HighPassFilter(override val radius: Float =10f): GaussianFilter(radius) {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        val inPixels = IntArray(width * height)
+
         val outPixels = IntArray(width * height)
-        srcImage.getRGB(0, 0, width, height, inPixels, 0, width)
 
         if (radius > 0) {
             convolveAndTranspose(kernel, inPixels, outPixels, width, height, alpha, alpha && premultiplyAlpha, false, CLAMP_EDGES)
             convolveAndTranspose(kernel, outPixels, inPixels, height, width, alpha, false, alpha && premultiplyAlpha, CLAMP_EDGES)
-
         }
 
         srcImage.getRGB(0, 0, width, height, outPixels, 0, width)

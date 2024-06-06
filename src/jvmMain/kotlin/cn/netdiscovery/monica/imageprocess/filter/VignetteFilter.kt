@@ -21,9 +21,9 @@ class VignetteFilter(
     private val vignetteColor: Color = Color.Black
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        val inPixels = IntArray(width * height)
+
         val outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
+
         var index = 0
         for (row in 0 until height) {
             var ta = 0

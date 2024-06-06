@@ -28,9 +28,9 @@ val XY_DIRECTION = 4
 class GradientFilter(val direction: Int = XY_DIRECTION, val isSobel:Boolean = true): BaseFilter() {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
-        val inPixels = IntArray(width * height)
+
         val outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
+
         var index = 0
         var index2 = 0
         var xred = 0.0

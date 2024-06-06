@@ -16,9 +16,8 @@ class OilPaintFilter(private val ksize:Int = 10,private val intensity:Int = 40):
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        val inPixels = IntArray(width * height)
         val outPixels = IntArray(width * height)
-        getRGB(srcImage, 0, 0, width, height, inPixels)
+
         var index = 0
         val subradius: Int = this.ksize / 2
         val intensityCount = IntArray((intensity + 1))
