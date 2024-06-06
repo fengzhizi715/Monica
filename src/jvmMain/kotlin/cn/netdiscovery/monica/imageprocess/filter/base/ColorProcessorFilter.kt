@@ -30,12 +30,6 @@ open abstract class ColorProcessorFilter:BaseFilter() {
 
     abstract fun doColorProcessor(dstImage: BufferedImage):BufferedImage
 
-    fun getRed() = R
-
-    fun getGreen() = G
-
-    fun getBlue() = B
-
     private fun backFillData(input: IntArray) {
         var c = 0
         var r = 0
