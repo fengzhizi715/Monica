@@ -202,7 +202,7 @@ class PreviewViewModel {
                     return@clickLoadingDisplayWithSuspend
                 }
 
-                var tempImage = state.currentImage!!
+                val tempImage = state.currentImage!!
 
                 if (state.isHLS) {
                     state.currentImage = hsl(state.currentImage!!, saturation, hue, luminance)

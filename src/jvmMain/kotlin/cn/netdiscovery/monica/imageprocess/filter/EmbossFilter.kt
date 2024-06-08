@@ -15,8 +15,6 @@ import java.awt.image.BufferedImage
 class EmbossFilter(private val colorConstant:Int = 100, private val out:Boolean = false): ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
-        val outPixels = IntArray(width * height)
-
         var offset = 0
         var r1 = 0
         var g1 = 0
