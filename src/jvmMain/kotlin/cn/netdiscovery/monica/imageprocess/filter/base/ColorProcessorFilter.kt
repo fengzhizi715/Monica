@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage
  * @date: 2024/5/8 19:57
  * @version: V1.0 <描述当前版本功能>
  */
-open abstract class ColorProcessorFilter:BaseFilter() {
+abstract class ColorProcessorFilter:BaseFilter() {
 
     protected lateinit var R: ByteArray
     protected lateinit var G: ByteArray
@@ -58,7 +58,7 @@ open abstract class ColorProcessorFilter:BaseFilter() {
         var pixels:IntArray? = IntArray(width * height)
         val dst = bitmap ?: BufferedImages.create(width,height,type)
         setRGB(width, height, pixels!!, R, G, B)
-        setRGB(dst, 0, 0, width, height, pixels!!)
+        setRGB(dst, 0, 0, width, height, pixels)
         pixels = null
         return dst
     }
