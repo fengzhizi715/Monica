@@ -2,8 +2,7 @@ package cn.netdiscovery.monica.ui.controlpanel.doodle
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -202,10 +201,12 @@ fun drawImage(
             }
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)) {
+        Row(modifier = Modifier.align(Alignment.CenterEnd)
+            .padding(start =10.dp, end = 10.dp)
+            .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
 
             Column(
-                Modifier.padding(end = 10.dp),
+                Modifier.padding(start =10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                 verticalArrangement = Arrangement.Center
             ) {
 
