@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.OutlinedButton
 import androidx.compose.material.Text
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.rxcache.rxCache
@@ -24,6 +26,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 
 /**
  *
@@ -91,21 +94,26 @@ fun cropImage(state: ApplicationState) {
             )
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterEnd).padding(end = 10.dp)) {
+        Row(modifier = Modifier.align(Alignment.CenterEnd)
+            .padding(start =10.dp, end = 10.dp)
+            .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
 
             Column(
-                Modifier.padding(end = 10.dp),
+                Modifier.padding(start =10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                 verticalArrangement = Arrangement.Center
             ) {
 
-                OutlinedButton(
-                    modifier = Modifier.width(80.dp),
+                toolTipButton(text = "settings",
+                    painter = painterResource("images/cropimage/settings.png"),
+                    onClick = {
+
+                    })
+
+                toolTipButton(text = "crop",
+                    painter = painterResource("images/cropimage/crop.png"),
                     onClick = {
                         crop = true
-                    },
-                ) {
-                    Text("crop")
-                }
+                    })
             }
         }
     }
