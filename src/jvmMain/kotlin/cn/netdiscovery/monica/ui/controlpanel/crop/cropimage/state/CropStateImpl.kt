@@ -14,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.TouchRegion
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
 
 /**

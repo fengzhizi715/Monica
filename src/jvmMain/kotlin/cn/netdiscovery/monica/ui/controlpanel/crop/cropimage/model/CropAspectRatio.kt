@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
@@ -7,9 +7,9 @@ import cn.netdiscovery.monica.utils.createRectShape
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropAspectRatio
+ *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropAspectRatio
  * @author: Tony Shen
- * @date: 2024/5/26 12:11
+ * @date: 2024/6/10 17:29
  * @version: V1.0 <描述当前版本功能>
  */
 val aspectRatios = listOf(
@@ -65,7 +65,7 @@ data class CropAspectRatio(
     val title: String,
     val shape: Shape,
     val aspectRatio: AspectRatio = AspectRatio.Original,
-    val icons: List<String> = listOf()
+    val icons: List<Int> = listOf()
 )
 
 /**

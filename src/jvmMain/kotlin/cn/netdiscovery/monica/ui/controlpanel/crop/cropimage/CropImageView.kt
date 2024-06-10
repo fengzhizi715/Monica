@@ -241,6 +241,8 @@ private fun showSettingDialog(cropProperties:CropProperties,
                         }
                     }
                 }
+
+                title("Aspect Ratio")
             }
         },
         confirmButton = {

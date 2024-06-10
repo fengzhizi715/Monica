@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
 import kotlinx.coroutines.coroutineScope
 
 /**
