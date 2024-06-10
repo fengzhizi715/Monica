@@ -15,10 +15,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
@@ -132,10 +129,11 @@ fun cropImage(state: ApplicationState) {
     }
 
     if (showSettingDialog) {
-        showSettingDialog(
+        showCroppedImageSettingDialog(
             cropProperties,
             onConfirm = {
                 cropProperties = it
+
                 showSettingDialog = false
             },
             onDismiss = {
@@ -149,6 +147,10 @@ fun cropImage(state: ApplicationState) {
             showCroppedImageDialog(imageBitmap = it, onConfirm = {
                 showCropDialog = !showCropDialog
                 croppedImage = null
+
+                cropTypesIndex.value = 0
+                contentScalesIndex.value = 1
+                aspectRatiosIndex.value = 2
 
                 cropFlag.set(false)
                 rxCache.remove(KEY_CROP_FIRST)
@@ -165,9 +167,9 @@ fun cropImage(state: ApplicationState) {
 }
 
 @Composable
-private fun showSettingDialog(cropProperties:CropProperties,
-                              onConfirm: (cropProperties:CropProperties) -> Unit,
-                              onDismiss: () -> Unit) {
+private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
+                                          onConfirm: (cropProperties:CropProperties) -> Unit,
+                                          onDismiss: () -> Unit) {
 
     var tempProperties:CropProperties = cropProperties
 
@@ -177,101 +179,16 @@ private fun showSettingDialog(cropProperties:CropProperties,
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
-                title("Crop Type")
-
-                var cropTypeExpanded by remember { mutableStateOf(false) }
-
-                Column {
-                    Button(modifier = Modifier.width(180.dp),
-                        onClick = { cropTypeExpanded = true },
-                        enabled = true){
-
-                        Text(text = cropTypes[cropTypesIndex.value].name,
-                            fontSize = 11.5.sp,
-                            color = Color.LightGray)
-                    }
-
-                    DropdownMenu(expanded= cropTypeExpanded, onDismissRequest = {cropTypeExpanded =false}){
-                        cropTypes.forEachIndexed{ index,label ->
-                            DropdownMenuItem(onClick = {
-                                cropTypesIndex.value = index
-
-                                tempProperties = tempProperties.copy(cropType = cropTypes[cropTypesIndex.value])
-
-                                cropTypeExpanded = false
-                            }){
-                                Text(text = label.name)
-                            }
-                        }
-                    }
+                cropTypeSelect(tempProperties) {
+                    tempProperties = it
                 }
 
-                title("Content Scale")
-
-                var contentScaleExpanded by remember { mutableStateOf(false) }
-
-                Column {
-                    Button(modifier = Modifier.width(180.dp),
-                        onClick = { contentScaleExpanded = true },
-                        enabled = true){
-
-                        Text(text = contentScales[contentScalesIndex.value],
-                            fontSize = 11.5.sp,
-                            color = Color.LightGray)
-                    }
-
-                    DropdownMenu(expanded= contentScaleExpanded, onDismissRequest = {contentScaleExpanded =false}){
-                        contentScales.forEachIndexed{ index,label ->
-                            DropdownMenuItem(onClick = {
-                                contentScalesIndex.value = index
-
-                                val scale = when (index) {
-                                    0 -> ContentScale.None
-                                    1 -> ContentScale.Fit
-                                    2 -> ContentScale.Crop
-                                    3 -> ContentScale.FillBounds
-                                    4 -> ContentScale.FillWidth
-                                    5 -> ContentScale.FillHeight
-                                    else -> ContentScale.Inside
-                                }
-
-                                tempProperties = tempProperties.copy(contentScale = scale)
-
-                                contentScaleExpanded = false
-                            }){
-                                Text(text = label)
-                            }
-                        }
-                    }
+                contentScaleSelect(tempProperties) {
+                    tempProperties = it
                 }
 
-                title("Aspect Ratio")
-
-                var aspectRatioExpanded by remember { mutableStateOf(false) }
-
-                Column {
-                    Button(modifier = Modifier.width(180.dp),
-                        onClick = { aspectRatioExpanded = true },
-                        enabled = true){
-
-                        Text(text = aspectRatios[aspectRatiosIndex.value],
-                            fontSize = 11.5.sp,
-                            color = Color.LightGray)
-                    }
-
-                    DropdownMenu(expanded= aspectRatioExpanded, onDismissRequest = {aspectRatioExpanded =false}){
-                        aspectRatios.forEachIndexed{ index,label ->
-                            DropdownMenuItem(onClick = {
-                                aspectRatiosIndex.value = index
-
-                                tempProperties = tempProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[index].aspectRatio)
-
-                                aspectRatioExpanded = false
-                            }){
-                                Text(text = label)
-                            }
-                        }
-                    }
+                aspectRatioSelect(tempProperties) {
+                    tempProperties = it
                 }
             }
         },
@@ -293,20 +210,6 @@ private fun showSettingDialog(cropProperties:CropProperties,
                 Text("Dismiss")
             }
         }
-    )
-}
-
-@Composable
-internal fun title(
-    text: String,
-    fontSize: TextUnit = 20.sp
-) {
-    Text(
-        modifier = Modifier.padding(vertical = 1.dp),
-        text = text,
-        color = MaterialTheme.colors.primary,
-        fontSize = fontSize,
-        fontWeight = FontWeight.Bold
     )
 }
 
