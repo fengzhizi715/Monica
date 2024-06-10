@@ -41,6 +41,9 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 val cropTypes = mutableListOf(CropType.Dynamic, CropType.Static)
 var cropTypesIndex = mutableStateOf(0)
 
+val contentScales = listOf("None", "Fit", "Crop", "FillBounds", "FillWidth", "FillHeight", "Inside")
+var contentScalesIndex = mutableStateOf(1)
+
 @Composable
 fun cropImage(state: ApplicationState) {
     val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
@@ -173,11 +176,11 @@ private fun showSettingDialog(cropProperties:CropProperties,
             ) {
                 title("Crop Type")
 
-                var expanded by remember { mutableStateOf(false) }
+                var cropTypeExpanded by remember { mutableStateOf(false) }
 
                 Column {
                     Button(modifier = Modifier.width(180.dp),
-                        onClick = { expanded =true },
+                        onClick = { cropTypeExpanded = true },
                         enabled = true){
 
                         Text(text = cropTypes[cropTypesIndex.value].name,
@@ -185,16 +188,55 @@ private fun showSettingDialog(cropProperties:CropProperties,
                             color = Color.LightGray)
                     }
 
-                    DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
+                    DropdownMenu(expanded= cropTypeExpanded, onDismissRequest = {cropTypeExpanded =false}){
                         cropTypes.forEachIndexed{ index,label ->
                             DropdownMenuItem(onClick = {
                                 cropTypesIndex.value = index
 
-                                tempProperties = cropProperties.copy(cropType = cropTypes[cropTypesIndex.value])
+                                tempProperties = tempProperties.copy(cropType = cropTypes[cropTypesIndex.value])
 
-                                expanded = false
+                                cropTypeExpanded = false
                             }){
                                 Text(text = label.name)
+                            }
+                        }
+                    }
+                }
+
+                title("Content Scale")
+
+                var contentScaleExpanded by remember { mutableStateOf(false) }
+
+                Column {
+                    Button(modifier = Modifier.width(180.dp),
+                        onClick = { contentScaleExpanded = true },
+                        enabled = true){
+
+                        Text(text = contentScales[contentScalesIndex.value],
+                            fontSize = 11.5.sp,
+                            color = Color.LightGray)
+                    }
+
+                    DropdownMenu(expanded= contentScaleExpanded, onDismissRequest = {contentScaleExpanded =false}){
+                        contentScales.forEachIndexed{ index,label ->
+                            DropdownMenuItem(onClick = {
+                                contentScalesIndex.value = index
+
+                                val scale = when (index) {
+                                    0 -> ContentScale.None
+                                    1 -> ContentScale.Fit
+                                    2 -> ContentScale.Crop
+                                    3 -> ContentScale.FillBounds
+                                    4 -> ContentScale.FillWidth
+                                    5 -> ContentScale.FillHeight
+                                    else -> ContentScale.Inside
+                                }
+
+                                tempProperties = tempProperties.copy(contentScale = scale)
+
+                                contentScaleExpanded = false
+                            }){
+                                Text(text = label)
                             }
                         }
                     }
