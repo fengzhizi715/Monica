@@ -4,10 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.OutlinedButton
-import androidx.compose.material.Text
-import androidx.compose.material.TextButton
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,7 +15,10 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
@@ -26,6 +26,8 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropType
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 
 /**
@@ -36,21 +38,18 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
  * @date: 2024/5/27 14:00
  * @version: V1.0 <描述当前版本功能>
  */
+val cropTypes = mutableListOf(CropType.Dynamic, CropType.Static)
+var cropTypesIndex = mutableStateOf(0)
+
 @Composable
 fun cropImage(state: ApplicationState) {
     val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
     var croppedImage by remember { mutableStateOf<ImageBitmap?>(null) }
     var crop by remember { mutableStateOf(false) }
-    var showDialog by remember { mutableStateOf(false) }
-    var isCropping by remember { mutableStateOf(false) }
 
-//    val cropFrameFactory = remember {
-//        CropFrameFactory(
-//            listOf(
-//                state.currentImage!!.toComposeImageBitmap()
-//            )
-//        )
-//    }
+    var showSettingDialog by remember { mutableStateOf(false) }
+    var showCropDialog by remember { mutableStateOf(false) }
+    var isCropping by remember { mutableStateOf(false) }
 
     var cropProperties by remember {
         mutableStateOf(
@@ -64,6 +63,14 @@ fun cropImage(state: ApplicationState) {
         )
     }
     var cropStyle by remember { mutableStateOf(CropDefaults.style()) }
+
+//    val cropFrameFactory = remember {
+//        CropFrameFactory(
+//            listOf(
+//                state.currentImage!!.toComposeImageBitmap()
+//            )
+//        )
+//    }
 
     Box(
         modifier = Modifier
@@ -89,7 +96,7 @@ fun cropImage(state: ApplicationState) {
                     croppedImage = it
                     isCropping = false
                     crop = false
-                    showDialog = true
+                    showCropDialog = true
                 }
             )
         }
@@ -106,7 +113,7 @@ fun cropImage(state: ApplicationState) {
                 toolTipButton(text = "settings",
                     painter = painterResource("images/cropimage/settings.png"),
                     onClick = {
-
+                        showSettingDialog = true
                     })
 
                 toolTipButton(text = "crop",
@@ -118,10 +125,23 @@ fun cropImage(state: ApplicationState) {
         }
     }
 
-    if (showDialog) {
+    if (showSettingDialog) {
+        showSettingDialog(
+            cropProperties,
+            onConfirm = {
+                cropProperties = it
+                showSettingDialog = false
+            },
+            onDismiss = {
+                showSettingDialog = false
+            }
+        )
+    }
+
+    if (showCropDialog) {
         croppedImage?.let {
             showCroppedImageDialog(imageBitmap = it, onConfirm = {
-                showDialog = !showDialog
+                showCropDialog = !showCropDialog
                 croppedImage = null
 
                 cropFlag.set(false)
@@ -131,11 +151,89 @@ fun cropImage(state: ApplicationState) {
                 state.isCropSize = false
                 state.togglePreviewWindow(false)
             }, onDismiss = {
-                showDialog = !showDialog
+                showCropDialog = !showCropDialog
                 croppedImage = null
             })
         }
     }
+}
+
+@Composable
+private fun showSettingDialog(cropProperties:CropProperties,
+                              onConfirm: (cropProperties:CropProperties) -> Unit,
+                              onDismiss: () -> Unit) {
+
+    var tempProperties:CropProperties = cropProperties
+
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        text = {
+            Column(
+                verticalArrangement = Arrangement.Center
+            ) {
+                title("Crop Type")
+
+                var expanded by remember { mutableStateOf(false) }
+
+                Column {
+                    Button(modifier = Modifier.width(180.dp),
+                        onClick = { expanded =true },
+                        enabled = true){
+
+                        Text(text = cropTypes[cropTypesIndex.value].name,
+                            fontSize = 11.5.sp,
+                            color = Color.LightGray)
+                    }
+
+                    DropdownMenu(expanded=expanded, onDismissRequest = {expanded =false}){
+                        cropTypes.forEachIndexed{ index,label ->
+                            DropdownMenuItem(onClick = {
+                                cropTypesIndex.value = index
+
+                                tempProperties = cropProperties.copy(cropType = cropTypes[cropTypesIndex.value])
+
+                                expanded = false
+                            }){
+                                Text(text = label.name)
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            TextButton(
+                onClick = {
+                    onConfirm(tempProperties)
+                }
+            ) {
+                Text("Confirm")
+            }
+        },
+        dismissButton = {
+            TextButton(
+                onClick = {
+                    onDismiss()
+                }
+            ) {
+                Text("Dismiss")
+            }
+        }
+    )
+}
+
+@Composable
+internal fun title(
+    text: String,
+    fontSize: TextUnit = 20.sp
+) {
+    Text(
+        modifier = Modifier.padding(vertical = 1.dp),
+        text = text,
+        color = MaterialTheme.colors.primary,
+        fontSize = fontSize,
+        fontWeight = FontWeight.Bold
+    )
 }
 
 @Composable
