@@ -44,6 +44,9 @@ var cropTypesIndex = mutableStateOf(0)
 val contentScales = listOf("None", "Fit", "Crop", "FillBounds", "FillWidth", "FillHeight", "Inside")
 var contentScalesIndex = mutableStateOf(1)
 
+val aspectRatios = listOf("9:16", "2:3", "Original", "1:1", "16:9", "1.91:1", "3:2", "3:4", "3:5")
+var aspectRatiosIndex = mutableStateOf(2)
+
 @Composable
 fun cropImage(state: ApplicationState) {
     val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
@@ -243,6 +246,33 @@ private fun showSettingDialog(cropProperties:CropProperties,
                 }
 
                 title("Aspect Ratio")
+
+                var aspectRatioExpanded by remember { mutableStateOf(false) }
+
+                Column {
+                    Button(modifier = Modifier.width(180.dp),
+                        onClick = { aspectRatioExpanded = true },
+                        enabled = true){
+
+                        Text(text = aspectRatios[aspectRatiosIndex.value],
+                            fontSize = 11.5.sp,
+                            color = Color.LightGray)
+                    }
+
+                    DropdownMenu(expanded= aspectRatioExpanded, onDismissRequest = {aspectRatioExpanded =false}){
+                        aspectRatios.forEachIndexed{ index,label ->
+                            DropdownMenuItem(onClick = {
+                                aspectRatiosIndex.value = index
+
+                                tempProperties = tempProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[index].aspectRatio)
+
+                                aspectRatioExpanded = false
+                            }){
+                                Text(text = label)
+                            }
+                        }
+                    }
+                }
             }
         },
         confirmButton = {
