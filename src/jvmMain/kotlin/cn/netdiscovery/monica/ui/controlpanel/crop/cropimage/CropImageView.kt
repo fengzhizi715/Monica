@@ -111,11 +111,11 @@ fun cropImage(state: ApplicationState) {
                 verticalArrangement = Arrangement.Center
             ) {
 
-//                toolTipButton(text = "settings",
-//                    painter = painterResource("images/cropimage/settings.png"),
-//                    onClick = {
-//                        showSettingDialog = true
-//                    })
+                toolTipButton(text = "settings",
+                    painter = painterResource("images/cropimage/settings.png"),
+                    onClick = {
+                        showSettingDialog = true
+                    })
 
                 toolTipButton(text = "crop",
                     painter = painterResource("images/cropimage/crop.png"),
