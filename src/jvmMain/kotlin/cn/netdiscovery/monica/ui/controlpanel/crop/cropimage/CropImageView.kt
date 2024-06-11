@@ -23,10 +23,7 @@ import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropType
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 
 /**
@@ -68,13 +65,13 @@ fun cropImage(state: ApplicationState) {
     }
     var cropStyle by remember { mutableStateOf(CropDefaults.style()) }
 
-//    val cropFrameFactory = remember {
-//        CropFrameFactory(
-//            listOf(
-//                state.currentImage!!.toComposeImageBitmap()
-//            )
-//        )
-//    }
+    val cropFrameFactory = remember {
+        CropFrameFactory(
+            listOf(
+                state.currentImage!!.toComposeImageBitmap()
+            )
+        )
+    }
 
     Box(
         modifier = Modifier
@@ -114,11 +111,11 @@ fun cropImage(state: ApplicationState) {
                 verticalArrangement = Arrangement.Center
             ) {
 
-                toolTipButton(text = "settings",
-                    painter = painterResource("images/cropimage/settings.png"),
-                    onClick = {
-                        showSettingDialog = true
-                    })
+//                toolTipButton(text = "settings",
+//                    painter = painterResource("images/cropimage/settings.png"),
+//                    onClick = {
+//                        showSettingDialog = true
+//                    })
 
                 toolTipButton(text = "crop",
                     painter = painterResource("images/cropimage/crop.png"),
@@ -131,7 +128,7 @@ fun cropImage(state: ApplicationState) {
 
     if (showSettingDialog) {
         showCroppedImageSettingDialog(
-            cropProperties,
+            cropProperties, cropFrameFactory,
             onConfirm = {
                 cropProperties = it
 
@@ -168,6 +165,7 @@ fun cropImage(state: ApplicationState) {
 
 @Composable
 private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
+                                          cropFrameFactory:CropFrameFactory,
                                           onConfirm: OnCropPropertiesChange,
                                           onDismiss: () -> Unit) {
 
@@ -183,11 +181,21 @@ private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
                     tempProperties = it
                 }
 
+                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+
                 contentScaleSelect(tempProperties) {
                     tempProperties = it
                 }
 
+                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+
                 aspectRatioScrollableRow(tempProperties) {
+                    tempProperties = it
+                }
+
+                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+
+                cropFrameScrollableRow(tempProperties,cropFrameFactory) {
                     tempProperties = it
                 }
             }
