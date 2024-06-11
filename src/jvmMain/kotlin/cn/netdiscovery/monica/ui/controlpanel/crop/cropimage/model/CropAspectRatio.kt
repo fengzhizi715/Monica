@@ -14,6 +14,11 @@ import cn.netdiscovery.monica.utils.createRectShape
  */
 val aspectRatios = listOf(
     CropAspectRatio(
+        title = "Original",
+        shape = createRectShape(AspectRatio.Original),
+        aspectRatio = AspectRatio.Original
+    ),
+    CropAspectRatio(
         title = "9:16",
         shape = createRectShape(AspectRatio(9 / 16f)),
         aspectRatio = AspectRatio(9 / 16f)
@@ -22,11 +27,6 @@ val aspectRatios = listOf(
         title = "2:3",
         shape = createRectShape(AspectRatio(2 / 3f)),
         aspectRatio = AspectRatio(2 / 3f)
-    ),
-    CropAspectRatio(
-        title = "Original",
-        shape = createRectShape(AspectRatio.Original),
-        aspectRatio = AspectRatio.Original
     ),
     CropAspectRatio(
         title = "1:1",

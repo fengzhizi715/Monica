@@ -4,7 +4,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Text
+import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -40,9 +42,6 @@ var cropTypesIndex = mutableStateOf(0)
 
 val contentScales = listOf("None", "Fit", "Crop", "FillBounds", "FillWidth", "FillHeight", "Inside")
 var contentScalesIndex = mutableStateOf(1)
-
-val aspectRatios = listOf("9:16", "2:3", "Original", "1:1", "16:9", "1.91:1", "3:2", "3:4", "3:5")
-var aspectRatiosIndex = mutableStateOf(2)
 
 typealias OnCropPropertiesChange = (cropProperties:CropProperties) -> Unit
 
@@ -152,7 +151,6 @@ fun cropImage(state: ApplicationState) {
 
                 cropTypesIndex.value = 0
                 contentScalesIndex.value = 1
-                aspectRatiosIndex.value = 2
 
                 cropFlag.set(false)
                 rxCache.remove(KEY_CROP_FIRST)
@@ -189,7 +187,7 @@ private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
                     tempProperties = it
                 }
 
-                aspectRatioSelect(tempProperties) {
+                aspectRatioScrollableRow(tempProperties) {
                     tempProperties = it
                 }
             }
