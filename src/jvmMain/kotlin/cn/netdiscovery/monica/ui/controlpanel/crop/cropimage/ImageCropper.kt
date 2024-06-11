@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntSize
 import cn.netdiscovery.monica.config.KEY_CROP
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
+import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.DrawingOverlay
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.ImageDrawCanvas
@@ -54,7 +55,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  * @date: 2024/5/26 12:00
  * @version: V1.0 <描述当前版本功能>
  */
-val cropFlag:AtomicBoolean = AtomicBoolean(false)
+val cropFlag1:AtomicBoolean = AtomicBoolean(false)
+val cropFlag2:AtomicBoolean = AtomicBoolean(false)
 
 @Composable
 fun ImageCropper(
@@ -153,20 +155,25 @@ fun ImageCropper(
             targetValue = if (isHandleTouched) pressedStateColor else cropStyle.backgroundColor
         )
 
-        if (!cropFlag.get()) {
+        if (!cropFlag1.get()) {
             rxCache.saveMemoryFunc(KEY_CROP_FIRST) {
-                cropFlag.set(true)
+                cropFlag1.set(true)
                 cropState.cropRect
             }
         }
 
-        val cachedRect = rxCache.get<Rect>(KEY_CROP_FIRST, CacheStrategy.MEMORY)?.data
+        val cachedRect = rxCache.get<Rect>(KEY_CROP_SECOND, CacheStrategy.MEMORY)?.data?:
+        rxCache.get<Rect>(KEY_CROP_FIRST, CacheStrategy.MEMORY)?.data
 
-        if (cachedRect?.left!=cropState.cropRect.left
-            && cachedRect?.top!=cropState.cropRect.top
-            && cachedRect?.right!=cropState.cropRect.right
-            && cachedRect?.bottom!=cropState.cropRect.bottom) {
-            rxCache.saveMemory(KEY_CROP, cropState.cropRect)
+        if (cachedRect != cropState.cropRect) {
+            if (!cropFlag2.get()) {
+                rxCache.saveMemoryFunc(KEY_CROP_SECOND) {
+                    cropFlag2.set(true)
+                    cropState.cropRect
+                }
+            } else {
+                rxCache.saveMemory(KEY_CROP, cropState.cropRect)
+            }
         }
 
         // Crops image when user invokes crop operation

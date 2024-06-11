@@ -19,6 +19,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
+import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
@@ -149,8 +150,10 @@ fun cropImage(state: ApplicationState) {
                 cropTypesIndex.value = 0
                 contentScalesIndex.value = 1
 
-                cropFlag.set(false)
+                cropFlag1.set(false)
+                cropFlag2.set(false)
                 rxCache.remove(KEY_CROP_FIRST)
+                rxCache.remove(KEY_CROP_SECOND)
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
                 state.isCropSize = false
