@@ -188,7 +188,7 @@ fun ImageCropper(
             )
 
         LaunchedEffect(key1 = cropProperties) {
-            cropState.updateProperties(cropProperties,true)
+            cropState.updateProperties(cropProperties)
         }
 
         /// Create a MutableTransitionState<Boolean> for the AnimatedVisibility.
@@ -332,7 +332,6 @@ private fun Crop(
 ) {
     val cropRect = rxCache.get<Rect>(KEY_CROP, CacheStrategy.MEMORY)?.data ?: rect
 
-    println("cropRect = $cropRect")
     val density = LocalDensity.current
     val layoutDirection = LocalLayoutDirection.current
 
