@@ -44,6 +44,8 @@ var contentScalesIndex = mutableStateOf(1)
 val aspectRatios = listOf("9:16", "2:3", "Original", "1:1", "16:9", "1.91:1", "3:2", "3:4", "3:5")
 var aspectRatiosIndex = mutableStateOf(2)
 
+typealias OnCropPropertiesChange = (cropProperties:CropProperties) -> Unit
+
 @Composable
 fun cropImage(state: ApplicationState) {
     val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
@@ -168,7 +170,7 @@ fun cropImage(state: ApplicationState) {
 
 @Composable
 private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
-                                          onConfirm: (cropProperties:CropProperties) -> Unit,
+                                          onConfirm: OnCropPropertiesChange,
                                           onDismiss: () -> Unit) {
 
     var tempProperties:CropProperties = cropProperties

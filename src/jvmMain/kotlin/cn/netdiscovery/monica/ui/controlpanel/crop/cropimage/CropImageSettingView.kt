@@ -25,7 +25,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropPropert
 
 @Composable
 fun cropTypeSelect(cropProperties: CropProperties,
-                   onCropPropertiesChange: (CropProperties) -> Unit) {
+                   onCropPropertiesChange: OnCropPropertiesChange) {
     title("Crop Type")
 
     var cropTypeExpanded by remember { mutableStateOf(false) }
@@ -58,7 +58,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
 
 @Composable
 fun contentScaleSelect(cropProperties: CropProperties,
-                       onCropPropertiesChange: (CropProperties) -> Unit) {
+                       onCropPropertiesChange: OnCropPropertiesChange) {
     title("Content Scale")
 
     var contentScaleExpanded by remember { mutableStateOf(false) }
@@ -101,7 +101,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
 
 @Composable
 fun aspectRatioSelect(cropProperties: CropProperties,
-                      onCropPropertiesChange: (CropProperties) -> Unit) {
+                      onCropPropertiesChange: OnCropPropertiesChange) {
     title("Aspect Ratio")
 
     var aspectRatioExpanded by remember { mutableStateOf(false) }
