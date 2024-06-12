@@ -53,7 +53,7 @@ fun controlPanel(
 }
 
 @Composable
-fun divider() {
+private fun divider() {
     Row {
         Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
     }

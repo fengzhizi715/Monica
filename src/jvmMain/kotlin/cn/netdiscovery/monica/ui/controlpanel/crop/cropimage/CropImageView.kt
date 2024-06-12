@@ -191,25 +191,25 @@ private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
                     fontWeight = FontWeight.Bold
                 )
 
-                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+                divider()
 
                 cropTypeSelect(tempProperties) {
                     tempProperties = it
                 }
 
-                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+                divider()
 
                 contentScaleSelect(tempProperties) {
                     tempProperties = it
                 }
 
-                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+                divider()
 
                 aspectRatioScrollableRow(tempProperties) {
                     tempProperties = it
                 }
 
-                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
+                divider()
 
                 cropFrameScrollableRow(tempProperties,cropFrameFactory) {
                     tempProperties = it
@@ -272,4 +272,9 @@ private fun showCroppedImageDialog(imageBitmap: ImageBitmap,
             }
         }
     )
+}
+
+@Composable
+private fun divider() {
+    Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 }
