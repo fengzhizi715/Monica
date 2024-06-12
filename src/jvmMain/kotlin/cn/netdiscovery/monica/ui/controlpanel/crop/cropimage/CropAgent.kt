@@ -6,6 +6,7 @@ import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.resize
 import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropImageMask
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
@@ -132,17 +133,5 @@ class CropAgent {
         croppedImageBitmap: ImageBitmap,
         requiredWidth: Int,
         requiredHeight: Int
-    ): ImageBitmap {
-        val bufferedImage = croppedImageBitmap.toAwtImage()
-        val tmp = bufferedImage.getScaledInstance(requiredWidth, requiredHeight, Image.SCALE_SMOOTH)
-        val resizedImage = BufferedImages.create(requiredWidth, requiredHeight, bufferedImage.type)
-        val g2d = resizedImage.createGraphics()
-        try {
-            g2d.drawImage(tmp, 0, 0, null)
-        } finally {
-            g2d.dispose()
-        }
-
-        return resizedImage.toComposeImageBitmap()
-    }
+    ): ImageBitmap = croppedImageBitmap.toAwtImage().resize(requiredWidth,requiredHeight).toComposeImageBitmap()
 }

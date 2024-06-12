@@ -1,10 +1,7 @@
 package cn.netdiscovery.monica.ui.controlpanel.crop
 
 import androidx.compose.ui.geometry.Offset
-import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.flipHorizontally
-import cn.netdiscovery.monica.imageprocess.rotate
-import cn.netdiscovery.monica.imageprocess.subImage
+import cn.netdiscovery.monica.imageprocess.*
 import cn.netdiscovery.monica.state.ApplicationState
 import java.awt.Image
 import kotlin.math.abs
@@ -42,14 +39,7 @@ class CropViewModel {
                 return
             }
 
-            val tmp = state.currentImage!!.getScaledInstance(width, height, Image.SCALE_SMOOTH)
-            val resizedImage = BufferedImages.create(width, height,state.currentImage!!.type)
-            val g2d = resizedImage.createGraphics()
-            try {
-                g2d.drawImage(tmp, 0, 0, null)
-            } finally {
-                g2d.dispose()
-            }
+            val resizedImage = state.currentImage!!.resize(width, height)
             state.addQueue(state.currentImage!!)
             state.currentImage = resizedImage
         }

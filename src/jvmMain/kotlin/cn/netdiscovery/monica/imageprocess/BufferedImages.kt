@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.imageprocess
 
 import client
 import cn.netdiscovery.monica.utils.writeImageFile
+import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
@@ -121,4 +122,17 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
     graphics.drawImage(this, 0, 0, null)
     graphics.dispose()
     return rotatedImage
+}
+
+fun BufferedImage.resize(width:Int, height:Int): BufferedImage {
+
+    val tmp = this.getScaledInstance(width, height, Image.SCALE_SMOOTH)
+    val resizedImage = BufferedImage(width, height, TYPE_INT_RGB)
+    val g2d = resizedImage.createGraphics()
+    try {
+        g2d.drawImage(tmp, 0, 0, null)
+    } finally {
+        g2d.dispose()
+    }
+    return resizedImage
 }
