@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
@@ -17,7 +18,9 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.rxcache.rxCache
@@ -180,6 +183,14 @@ private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
             Column(
                 verticalArrangement = Arrangement.Center
             ) {
+                Text(
+                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 20.dp),
+                    text = "Crop Properties Settings",
+                    color = MaterialTheme.colors.primary,
+                    fontSize = 32.sp,
+                    fontWeight = FontWeight.Bold
+                )
+
                 cropTypeSelect(tempProperties) {
                     tempProperties = it
                 }
