@@ -48,7 +48,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
             enabled = true){
 
             Text(text = cropTypes[cropTypesIndex.value].name,
-                fontSize = 11.5.sp,
+                fontSize = 22.sp,
                 color = Color.LightGray)
         }
 
@@ -81,7 +81,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
             enabled = true){
 
             Text(text = contentScales[contentScalesIndex.value],
-                fontSize = 11.5.sp,
+                fontSize = 22.sp,
                 color = Color.LightGray)
         }
 

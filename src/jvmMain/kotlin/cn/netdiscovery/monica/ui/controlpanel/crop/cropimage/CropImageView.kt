@@ -184,12 +184,14 @@ private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
                 verticalArrangement = Arrangement.Center
             ) {
                 Text(
-                    modifier = Modifier.align(Alignment.CenterHorizontally).padding(bottom = 20.dp),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                     text = "Crop Properties Settings",
                     color = MaterialTheme.colors.primary,
                     fontSize = 32.sp,
                     fontWeight = FontWeight.Bold
                 )
+
+                Spacer(modifier = Modifier.padding(top = 15.dp, bottom = 15.dp))
 
                 cropTypeSelect(tempProperties) {
                     tempProperties = it
