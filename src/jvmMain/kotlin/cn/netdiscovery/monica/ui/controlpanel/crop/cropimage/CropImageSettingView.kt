@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
@@ -110,181 +111,167 @@ fun contentScaleSelect(cropProperties: CropProperties,
     }
 }
 
+
 @Composable
 fun aspectRatioScrollableRow(cropProperties: CropProperties,
                              onCropPropertiesChange: OnCropPropertiesChange) {
 
     var selectRadio  = remember { mutableStateOf("Original") }
-    val scrollState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
 
     subTitle("Aspect Ratio (${selectRadio.value})")
 
-    LazyRow(
-        state = scrollState,
-        modifier = Modifier
-            .draggable(
-                orientation = Orientation.Horizontal,
-                state = rememberDraggableState { delta ->
-                    coroutineScope.launch {
-                        scrollState.scrollBy(-delta)
-                    }
-                },
+    desktopLazyRow {
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(start = 5.dp, top = 16.dp,end = 16.dp,bottom = 16.dp).clickable{
+                selectRadio.value = "Original"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[0].aspectRatio))
+            }
+        ) {
+            Text(
+                text = "Original",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
             )
-    ) {
-        item {
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(start = 5.dp, top = 16.dp,end = 16.dp,bottom = 16.dp).clickable{
-                    selectRadio.value = "Original"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[0].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "Original",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
-            }
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "9:16"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[1].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "9:16",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "9:16"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[1].aspectRatio))
             }
+        ) {
+            Text(
+                text = "9:16",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "2:3"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[2].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "2:3",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "2:3"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[2].aspectRatio))
             }
+        ) {
+            Text(
+                text = "2:3",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "1:1"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[3].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "1:1",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "1:1"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[3].aspectRatio))
             }
+        ) {
+            Text(
+                text = "1:1",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "16:9"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[4].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "16:9",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "16:9"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[4].aspectRatio))
             }
+        ) {
+            Text(
+                text = "16:9",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "1.91:1"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[5].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "1.91:1",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "1.91:1"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[5].aspectRatio))
             }
+        ) {
+            Text(
+                text = "1.91:1",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "3:2"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[6].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "3:2",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "3:2"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[6].aspectRatio))
             }
+        ) {
+            Text(
+                text = "3:2",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "3:4"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[7].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "3:4",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "3:4"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[7].aspectRatio))
             }
+        ) {
+            Text(
+                text = "3:4",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable {
-                    selectRadio.value = "3:5"
-                    onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[8].aspectRatio))
-                }
-            ) {
-                Text(
-                    text = "3:5",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectRadio.value = "3:5"
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[8].aspectRatio))
             }
+        ) {
+            Text(
+                text = "3:5",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
         }
     }
 }
@@ -295,139 +282,129 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
     var selectCropFrame  = remember { mutableStateOf("Rect") }
 
-    val scrollState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
-
     val cropFrames = cropFrameFactory.getCropFrames()
 
     subTitle("Crop Frame (${selectCropFrame.value})")
 
-    LazyRow(
-        state = scrollState,
-        modifier = Modifier
-            .draggable(
-                orientation = Orientation.Horizontal,
-                state = rememberDraggableState { delta ->
-                    coroutineScope.launch {
-                        scrollState.scrollBy(-delta)
-                    }
-                },
+    desktopLazyRow {
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(start = 5.dp, top = 16.dp, end = 16.dp, bottom = 16.dp).clickable {
+                selectCropFrame.value = "Rect"
+                val cropFrame = cropFrames[0]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
+            }
+        ) {
+            Text(
+                text = "Rect",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
             )
-    ) {
-        item {
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(start = 5.dp, top = 16.dp,end = 16.dp,bottom = 16.dp).clickable{
-                    selectCropFrame.value = "Rect"
-                    val cropFrame = cropFrames[0]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "Rect",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
-            }
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable{
-                    selectCropFrame.value = "RoundedRect"
-                    val cropFrame = cropFrames[1]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "RoundedRect",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "RoundedRect"
+                val cropFrame = cropFrames[1]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
             }
+        ) {
+            Text(
+                text = "RoundedRect",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable{
-                    selectCropFrame.value = "CutCorner"
-                    val cropFrame = cropFrames[2]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "CutCorner",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "CutCorner"
+                val cropFrame = cropFrames[2]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
             }
+        ) {
+            Text(
+                text = "CutCorner",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable{
-                    selectCropFrame.value = "Oval"
-                    val cropFrame = cropFrames[3]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "Oval",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "Oval"
+                val cropFrame = cropFrames[3]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
             }
+        ) {
+            Text(
+                text = "Oval",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable{
-                    selectCropFrame.value = "Polygon"
-                    val cropFrame = cropFrames[4]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "Polygon",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "Polygon"
+                val cropFrame = cropFrames[4]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
             }
+        ) {
+            Text(
+                text = "Polygon",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
 
-            Card(
-                elevation = 16.dp,
-                modifier = Modifier.padding(16.dp).clickable{
-                    selectCropFrame.value = "Custom"
-                    val cropFrame = cropFrames[5]
-                    val cropOutlineProperty = CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
-                    onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
-                }
-            ) {
-                Text(
-                    text = "Custom",
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth()
-                )
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "Custom"
+                val cropFrame = cropFrames[5]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
             }
+        ) {
+            Text(
+                text = "Custom",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
         }
     }
 }
@@ -445,4 +422,27 @@ internal fun subTitle(
         fontSize = fontSize,
         fontWeight = FontWeight.Bold
     )
+}
+
+@Composable
+internal fun desktopLazyRow(content: @Composable () -> Unit) {
+    val scrollState = rememberLazyListState()
+    val coroutineScope = rememberCoroutineScope()
+
+    LazyRow(
+        state = scrollState,
+        modifier = Modifier
+            .draggable(
+                orientation = Orientation.Horizontal,
+                state = rememberDraggableState { delta ->
+                    coroutineScope.launch {
+                        scrollState.scrollBy(-delta)
+                    }
+                },
+            )
+    ) {
+        item {
+            content.invoke()
+        }
+    }
 }
