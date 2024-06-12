@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.rememberApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.main.mainView
@@ -55,6 +56,7 @@ fun main() = application {
     )
 
     lateinit var previewViewModel: PreviewViewModel
+    lateinit var cropViewModel: CropViewModel
 
     Tray(
         state = trayState,
@@ -92,6 +94,7 @@ fun main() = application {
             modules(viewModelModule)
         }) {
             previewViewModel = koinInject()
+            cropViewModel    = koinInject()
 
             applicationState.window = window
 
@@ -130,6 +133,8 @@ fun main() = application {
                 if (applicationState.isDoodle) {
                     toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
                     showToast = true
+                } else if (applicationState.isCropSize) {
+                    cropViewModel.clearCropImageView()
                 }
 
                 applicationState.isDoodle = false

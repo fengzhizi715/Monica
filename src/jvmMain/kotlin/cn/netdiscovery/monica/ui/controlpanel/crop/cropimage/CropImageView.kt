@@ -25,10 +25,12 @@ import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import org.koin.compose.koinInject
 
 /**
  *
@@ -48,6 +50,9 @@ typealias OnCropPropertiesChange = (cropProperties:CropProperties) -> Unit
 
 @Composable
 fun cropImage(state: ApplicationState) {
+
+    val cropViewModel: CropViewModel = koinInject()
+
     val handleSize: Float = LocalDensity.current.run { 20.dp.toPx() }
     var croppedImage by remember { mutableStateOf<ImageBitmap?>(null) }
     var crop by remember { mutableStateOf(false) }
@@ -150,13 +155,8 @@ fun cropImage(state: ApplicationState) {
                 showCropDialog = !showCropDialog
                 croppedImage = null
 
-                cropTypesIndex.value = 0
-                contentScalesIndex.value = 1
+                cropViewModel.clearCropImageView()
 
-                cropFlag1.set(false)
-                cropFlag2.set(false)
-                rxCache.remove(KEY_CROP_FIRST)
-                rxCache.remove(KEY_CROP_SECOND)
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
                 state.isCropSize = false

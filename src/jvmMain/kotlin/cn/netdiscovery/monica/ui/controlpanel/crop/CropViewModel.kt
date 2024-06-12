@@ -1,9 +1,15 @@
 package cn.netdiscovery.monica.ui.controlpanel.crop
 
 import androidx.compose.ui.geometry.Offset
+import cn.netdiscovery.monica.config.KEY_CROP_FIRST
+import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.imageprocess.*
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
-import java.awt.Image
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.contentScalesIndex
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag1
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag2
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropTypesIndex
 import kotlin.math.abs
 
 /**
@@ -72,5 +78,15 @@ class CropViewModel {
             state.currentImage = state.currentImage!!.subImage(x,y,w.toInt(),h.toInt())
             this.offset = Offset.Zero
         }
+    }
+
+    fun clearCropImageView() {
+        cropTypesIndex.value = 0
+        contentScalesIndex.value = 1
+
+        cropFlag1.set(false)
+        cropFlag2.set(false)
+        rxCache.remove(KEY_CROP_FIRST)
+        rxCache.remove(KEY_CROP_SECOND)
     }
 }

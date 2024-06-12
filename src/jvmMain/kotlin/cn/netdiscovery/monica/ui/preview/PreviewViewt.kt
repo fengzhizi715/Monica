@@ -42,7 +42,6 @@ fun preview(
     modifier: Modifier
 ) {
     val previewViewModel: PreviewViewModel = koinInject()
-    val cropViewModel: CropViewModel = koinInject()
 
     Card(
         modifier = modifier.padding(16.dp),
@@ -56,14 +55,14 @@ fun preview(
         if (state.rawImage == null) {
             chooseImage()
         } else {
-            previewImage(state,previewViewModel,cropViewModel)
+            previewImage(state,previewViewModel)
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewModel, cropViewModel:CropViewModel) {
+private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewModel) {
     if (state.currentImage == null) return
 
     Column(

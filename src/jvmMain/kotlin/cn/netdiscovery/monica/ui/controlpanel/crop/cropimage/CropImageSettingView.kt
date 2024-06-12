@@ -410,7 +410,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
 
 @Composable
-internal fun subTitle(
+private fun subTitle(
     text: String,
     fontSize: TextUnit = 20.sp
 ) {
@@ -424,7 +424,7 @@ internal fun subTitle(
 }
 
 @Composable
-internal fun desktopLazyRow(content: @Composable () -> Unit) {
+private fun desktopLazyRow(content: @Composable () -> Unit) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
