@@ -37,13 +37,13 @@ import kotlinx.coroutines.launch
 @Composable
 fun cropTypeSelect(cropProperties: CropProperties,
                    onCropPropertiesChange: OnCropPropertiesChange) {
-    title("Crop Type")
+    subTitle("Crop Type")
 
-    var cropTypeExpanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
 
     Column {
         Button(modifier = Modifier.width(180.dp),
-            onClick = { cropTypeExpanded = true },
+            onClick = { expanded = true },
             enabled = true){
 
             Text(text = cropTypes[cropTypesIndex.value].name,
@@ -51,14 +51,14 @@ fun cropTypeSelect(cropProperties: CropProperties,
                 color = Color.LightGray)
         }
 
-        DropdownMenu(expanded= cropTypeExpanded, onDismissRequest = {cropTypeExpanded =false}){
+        DropdownMenu(expanded= expanded, onDismissRequest = {expanded =false}){
             cropTypes.forEachIndexed{ index,label ->
                 DropdownMenuItem(onClick = {
                     cropTypesIndex.value = index
 
                     onCropPropertiesChange.invoke(cropProperties.copy(cropType = cropTypes[cropTypesIndex.value]))
 
-                    cropTypeExpanded = false
+                    expanded = false
                 }){
                     Text(text = label.name)
                 }
@@ -70,13 +70,13 @@ fun cropTypeSelect(cropProperties: CropProperties,
 @Composable
 fun contentScaleSelect(cropProperties: CropProperties,
                        onCropPropertiesChange: OnCropPropertiesChange) {
-    title("Content Scale")
+    subTitle("Content Scale")
 
-    var contentScaleExpanded by remember { mutableStateOf(false) }
+    var expanded by remember { mutableStateOf(false) }
 
     Column {
         Button(modifier = Modifier.width(180.dp),
-            onClick = { contentScaleExpanded = true },
+            onClick = { expanded = true },
             enabled = true){
 
             Text(text = contentScales[contentScalesIndex.value],
@@ -84,7 +84,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
                 color = Color.LightGray)
         }
 
-        DropdownMenu(expanded= contentScaleExpanded, onDismissRequest = {contentScaleExpanded =false}){
+        DropdownMenu(expanded= expanded, onDismissRequest = {expanded =false}){
             contentScales.forEachIndexed{ index,label ->
                 DropdownMenuItem(onClick = {
                     contentScalesIndex.value = index
@@ -101,7 +101,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
 
                     onCropPropertiesChange.invoke(cropProperties.copy(contentScale = scale))
 
-                    contentScaleExpanded = false
+                    expanded = false
                 }){
                     Text(text = label)
                 }
@@ -118,7 +118,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
-    title("Aspect Ratio (${selectRadio.value})")
+    subTitle("Aspect Ratio (${selectRadio.value})")
 
     LazyRow(
         state = scrollState,
@@ -300,7 +300,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
     val cropFrames = cropFrameFactory.getCropFrames()
 
-    title("Crop Frame (${selectCropFrame.value})")
+    subTitle("Crop Frame (${selectCropFrame.value})")
 
     LazyRow(
         state = scrollState,
@@ -434,7 +434,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
 
 @Composable
-internal fun title(
+internal fun subTitle(
     text: String,
     fontSize: TextUnit = 20.sp
 ) {
