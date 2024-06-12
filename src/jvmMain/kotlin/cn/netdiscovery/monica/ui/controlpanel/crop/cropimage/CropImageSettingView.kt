@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
@@ -43,7 +42,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
     var expanded by remember { mutableStateOf(false) }
 
     Column {
-        Button(modifier = Modifier.width(180.dp),
+        Button(modifier = Modifier.width(180.dp).padding(top = 16.dp),
             onClick = { expanded = true },
             enabled = true){
 
@@ -76,7 +75,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
     var expanded by remember { mutableStateOf(false) }
 
     Column {
-        Button(modifier = Modifier.width(180.dp),
+        Button(modifier = Modifier.width(180.dp).padding(top = 16.dp),
             onClick = { expanded = true },
             enabled = true){
 
