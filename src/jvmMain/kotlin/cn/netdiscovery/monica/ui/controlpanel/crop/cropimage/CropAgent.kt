@@ -133,8 +133,9 @@ class CropAgent {
         requiredWidth: Int,
         requiredHeight: Int
     ): ImageBitmap {
-        val tmp = croppedImageBitmap.toAwtImage().getScaledInstance(requiredWidth, requiredHeight, Image.SCALE_SMOOTH)
-        val resizedImage = BufferedImages.create(requiredWidth, requiredHeight,croppedImageBitmap.toAwtImage().type)
+        val bufferedImage = croppedImageBitmap.toAwtImage()
+        val tmp = bufferedImage.getScaledInstance(requiredWidth, requiredHeight, Image.SCALE_SMOOTH)
+        val resizedImage = BufferedImages.create(requiredWidth, requiredHeight, bufferedImage.type)
         val g2d = resizedImage.createGraphics()
         try {
             g2d.drawImage(tmp, 0, 0, null)
