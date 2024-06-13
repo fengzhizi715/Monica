@@ -34,6 +34,9 @@ kotlin {
 
                 // di
                 implementation("io.insert-koin:koin-compose:${rootProject.extra["koin.compose"]}")
+
+                // color math
+                implementation("com.github.ajalt.colormath:colormath-ext-jetpack-compose:3.5.0")
             }
         }
         val jvmTest by getting

@@ -31,6 +31,7 @@ fun basicView(state: ApplicationState) {
                 state.isMosaic = false
                 state.isBlur = false
                 state.isDoodle = false
+                state.isColorPick = false
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
@@ -59,6 +60,14 @@ fun basicView(state: ApplicationState) {
             enable = { state.isBasic },
             onClick = {
                 state.isDoodle = true
+                state.togglePreviewWindow(true)
+            })
+
+        toolTipButton(text = "图像取色",
+            painter = painterResource("images/controlpanel/color-picker.png"),
+            enable = { state.isBasic },
+            onClick = {
+                state.isColorPick = true
                 state.togglePreviewWindow(true)
             })
     }

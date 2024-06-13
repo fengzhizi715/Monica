@@ -39,6 +39,7 @@ class ApplicationState(val scope:CoroutineScope,
     var isMosaic by mutableStateOf(false)
     var isBlur by mutableStateOf(false)
     var isDoodle by mutableStateOf(false)
+    var isColorPick by mutableStateOf(false)
 
     var isCrop by mutableStateOf(false)
     var isCropSize by mutableStateOf(false)
