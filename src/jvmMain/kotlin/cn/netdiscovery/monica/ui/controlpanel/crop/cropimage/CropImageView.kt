@@ -21,9 +21,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.KEY_CROP_FIRST
-import cn.netdiscovery.monica.config.KEY_CROP_SECOND
-import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
@@ -74,11 +71,11 @@ fun cropImage(state: ApplicationState) {
     }
     var cropStyle by remember { mutableStateOf(CropDefaults.style()) }
 
+    val imageBitmap = state.currentImage!!.toComposeImageBitmap()
+
     val cropFrameFactory = remember {
         CropFrameFactory(
-            listOf(
-                state.currentImage!!.toComposeImageBitmap()
-            )
+            listOf(imageBitmap)
         )
     }
 
@@ -94,7 +91,7 @@ fun cropImage(state: ApplicationState) {
                 modifier = Modifier
                     .fillMaxWidth()
                     .weight(1f),
-                imageBitmap = state.currentImage!!.toComposeImageBitmap(),
+                imageBitmap = imageBitmap,
                 contentDescription = "Image Cropper",
                 cropStyle = cropStyle,
                 cropProperties = cropProperties,
@@ -151,7 +148,8 @@ fun cropImage(state: ApplicationState) {
 
     if (showCropDialog) {
         croppedImage?.let {
-            showCroppedImageDialog(imageBitmap = it, onConfirm = {
+            showCroppedImageDialog(imageBitmap = it,
+            onConfirm = {
                 showCropDialog = !showCropDialog
                 croppedImage = null
 
