@@ -49,7 +49,7 @@ class BufferedImages {
 }
 
 /**
- * 按像素进行比较
+ * 对两个图像按像素进行比较
  */
 fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
     if (width != image.width || height != image.height)
@@ -69,6 +69,9 @@ fun BufferedImage.saveImage(saveFile: File) {
     writeImageFile(this@saveImage,saveFile.absolutePath)
 }
 
+/**
+ * 对图像裁剪 ROI 区域
+ */
 fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
     if (w < 0 || h < 0)
         throw IllegalArgumentException("Width and height should be non-negative: ($w; $h)")
@@ -89,6 +92,9 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
     return getSubimage(x1, y1, x2 - x1, y2 - y1)
 }
 
+/**
+ * 对图像水平翻转
+ */
 fun BufferedImage.flipHorizontally(): BufferedImage {
     val flipped = BufferedImage(width, height, TYPE_INT_RGB)
     val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
@@ -104,6 +110,9 @@ fun BufferedImage.flipHorizontally(): BufferedImage {
     return flipped
 }
 
+/**
+ * 图像旋转
+ */
 fun BufferedImage.rotate(angle: Double): BufferedImage {
     val radian = Math.toRadians(angle)
     val sin = abs(sin(radian))
@@ -124,6 +133,9 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
     return rotatedImage
 }
 
+/**
+ * 对图像进行缩放
+ */
 fun BufferedImage.resize(width:Int, height:Int): BufferedImage {
 
     val tmp = this.getScaledInstance(width, height, Image.SCALE_SMOOTH)
