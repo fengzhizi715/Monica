@@ -25,16 +25,24 @@ data class ColorData(val color: Color, val name: String) {
     val hslString: String
         get() {
             val arr: FloatArray = colorToHSL(color)
-            return "H: ${arr[0].roundToInt()}° " +
-                    "S: ${arr[1].fractionToIntPercent()}% L: ${arr[2].fractionToIntPercent()}%"
+            return try {
+                "H: ${arr[0].roundToInt()}° " +
+                        "S: ${arr[1].fractionToIntPercent()}% L: ${arr[2].fractionToIntPercent()}%"
+            } catch (e:Exception) {
+                ""
+            }
         }
 
     @Stable
     val hsvString: String
         get() {
             val arr: FloatArray = colorToHSV(color)
-            return "H: ${arr[0].roundToInt()}° " +
-                    "S: ${arr[1].fractionToIntPercent()}% V: ${arr[2].fractionToIntPercent()}%"
+            return try {
+                "H: ${arr[0].roundToInt()}° " +
+                        "S: ${arr[1].fractionToIntPercent()}% V: ${arr[2].fractionToIntPercent()}%"
+            } catch (e:Exception) {
+                ""
+            }
         }
 
     @Stable

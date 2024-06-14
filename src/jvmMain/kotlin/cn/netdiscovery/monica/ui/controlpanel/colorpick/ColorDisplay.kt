@@ -35,7 +35,7 @@ fun ColorDisplay(
     val hexText = colorData.hexText
     Column(
         modifier = modifier
-            .shadow(2.dp, RoundedCornerShape(25))
+            .shadow(2.dp, RoundedCornerShape(10))
             .width(170.dp)
             .background(color = color)
             .padding(start = 16.dp, end = 2.dp, top = 2.dp, bottom = 2.dp),
@@ -43,7 +43,7 @@ fun ColorDisplay(
 
         Row {
             Column {
-                Text(text = colorName, fontSize = 10.sp, color = textColor)
+//                Text(text = colorName, fontSize = 10.sp, color = textColor)
                 Text(text = hexText, fontSize = 20.sp, color = textColor)
             }
         }

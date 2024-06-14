@@ -72,7 +72,7 @@ internal fun ColorSelectionDrawing(
 
             drawCircle(
                 color = color,
-                radius = imageThumbSize / 10f,
+                radius = imageThumbSize / 20f,
                 center = thumbnailCenter,
             )
         }
