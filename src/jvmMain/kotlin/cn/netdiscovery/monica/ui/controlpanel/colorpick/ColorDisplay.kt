@@ -28,7 +28,7 @@ fun ColorDisplay(
     val color = colorData.color
     val colorName = colorData.name
 
-    val lightness = colorToHSL(color)[2]
+    val lightness = color.toHSL()[2]
     val textColor = if (lightness < .6f) Color.White else Color.Black
 
     val hexText = colorData.hexText

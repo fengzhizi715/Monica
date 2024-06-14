@@ -20,23 +20,11 @@ fun hexToRGB(colorString: String): IntArray {
     return intArrayOf(rgb.redInt,rgb.greenInt, rgb.blueInt)
 }
 
-fun colorToHex(color: Color): String {
+fun Color.toHex():String = RGBInt(this.toArgb().toUInt()).toSRGB().toHex()
 
-    val rgb = RGBInt(color.toArgb().toUInt()).toSRGB()
-    return rgb.toHex()
-}
+fun Color.toHSL():FloatArray = RGBInt(this.toArgb().toUInt()).toSRGB().toHSL().toArray()
 
-fun colorToHSL(color: Color): FloatArray {
-
-    val rgb = RGBInt(color.toArgb().toUInt()).toSRGB()
-    return rgb.toHSL().toArray()
-}
-
-fun colorToHSV(color: Color): FloatArray {
-
-    val rgb = RGBInt(color.toArgb().toUInt()).toSRGB()
-    return rgb.toHSV().toArray()
-}
+fun Color.toHSV():FloatArray = RGBInt(this.toArgb().toUInt()).toSRGB().toHSV().toArray()
 
 fun colorToRGBArray(color: Color): IntArray {
 
