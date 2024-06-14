@@ -211,60 +211,60 @@ private fun ThumbnailLayoutImpl(
         val centerY: Float = thumbnailOffset.y + imageThumbnailHeight / 2f
         onThumbnailCenterChange?.invoke(Offset(centerX, centerY))
 
-//        Canvas(modifier = Modifier
-//            .offset {
-//                thumbnailOffset
-//            }
-//            .then(
-//                thumbnailState.shadow?.let { shadow: MaterialShadow ->
-//                    Modifier.shadow(
-//                        elevation = shadow.elevation,
-//                        shape = thumbnailState.shape,
-//                        ambientColor = shadow.ambientShadowColor,
-//                        spotColor = shadow.spotColor
-//                    )
-//                } ?: Modifier
-//            )
-//            .then(
-//                thumbnailState.border?.let { border: Border ->
-//                    Modifier.border(
-//                        width = border.strokeWidth,
-//                        shape = thumbnailState.shape,
-//                        brush = border.color
-//                    )
-//                } ?: Modifier
-//            )
-//            .size(thumbnailSize)
-//        ) {
-//
-//            val zoom = thumbnailZoom.coerceAtLeast(100)
-//            val zoomScale = zoom / 100f
-//
-//            val srcOffset = if (offset.isSpecified && offset.isFinite) {
-//                getSrcOffset(
-//                    offset = offset,
-//                    imageBitmap = imageBitmap,
-//                    zoomScale = zoomScale,
-//                    size = Size(canvasWidth, canvasHeight),
-//                    imageThumbnailSize = imageThumbnailWidth
-//                )
-//            } else {
-//                IntOffset.Zero
-//            }
-//
-//            drawImage(
-//                image = imageBitmap,
-//                srcOffset = srcOffset,
-//                srcSize = IntSize(
-//                    width = (imageThumbnailWidth / zoomScale).toInt(),
-//                    height = (imageThumbnailWidth / zoomScale).toInt()
-//                ),
-//                dstSize = IntSize(imageThumbnailWidth, imageThumbnailWidth),
-//                alpha = alpha,
-//                colorFilter = colorFilter,
-//                filterQuality = filterQuality,
-//            )
-//        }
+        Canvas(modifier = Modifier
+            .offset {
+                thumbnailOffset
+            }
+            .then(
+                thumbnailState.shadow?.let { shadow: MaterialShadow ->
+                    Modifier.shadow(
+                        elevation = shadow.elevation,
+                        shape = thumbnailState.shape,
+                        ambientColor = shadow.ambientShadowColor,
+                        spotColor = shadow.spotColor
+                    )
+                } ?: Modifier
+            )
+            .then(
+                thumbnailState.border?.let { border: Border ->
+                    Modifier.border(
+                        width = border.strokeWidth,
+                        shape = thumbnailState.shape,
+                        brush = border.color
+                    )
+                } ?: Modifier
+            )
+            .size(thumbnailSize)
+        ) {
+
+            val zoom = thumbnailZoom.coerceAtLeast(100)
+            val zoomScale = zoom / 100f
+
+            val srcOffset = if (offset.isSpecified && offset.isFinite) {
+                getSrcOffset(
+                    offset = offset,
+                    imageBitmap = imageBitmap,
+                    zoomScale = zoomScale,
+                    size = Size(canvasWidth, canvasHeight),
+                    imageThumbnailSize = imageThumbnailWidth
+                )
+            } else {
+                IntOffset.Zero
+            }
+
+            drawImage(
+                image = imageBitmap,
+                srcOffset = srcOffset,
+                srcSize = IntSize(
+                    width = (imageThumbnailWidth / zoomScale).toInt(),
+                    height = (imageThumbnailWidth / zoomScale).toInt()
+                ),
+                dstSize = IntSize(imageThumbnailWidth, imageThumbnailWidth),
+                alpha = alpha,
+                colorFilter = colorFilter,
+                filterQuality = filterQuality,
+            )
+        }
 
     }
 }

@@ -25,6 +25,8 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
 
 val colorNameParser = ColorNameParser()
 
+val defaultThumbnailSize = 150.dp
+
 typealias OnColorChange = (ColorData) -> Unit
 
 @Composable
@@ -43,14 +45,14 @@ fun colorPick(state: ApplicationState) {
             contentScale = ContentScale.Fit,
             colorNameParser = colorNameParser,
             imageBitmap = image,
-            thumbnailSize = 150.dp
+            thumbnailSize = defaultThumbnailSize
         ) {
             colorData = it
         }
 
         if (colorData.color != Color.Unspecified) {
             ColorDisplay(
-                modifier = Modifier.align(Alignment.CenterEnd),
+                modifier = Modifier.align(Alignment.CenterEnd).padding(end = 20.dp),
                 colorData = colorData
             )
         }

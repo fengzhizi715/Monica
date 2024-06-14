@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
+import cn.netdiscovery.monica.utils.IO
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
@@ -38,8 +39,8 @@ fun ImageColorDetector(
     contentScale: ContentScale = ContentScale.FillBounds,
     alignment: Alignment = Alignment.Center,
     colorNameParser: ColorNameParser,
-    thumbnailSize: Dp = 150.dp,
-    thumbnailZoom: Int = 250,
+    thumbnailSize: Dp = defaultThumbnailSize,
+    thumbnailZoom: Int = 200,
     onColorChange: OnColorChange
 ) {
 
@@ -60,7 +61,7 @@ fun ImageColorDetector(
             .mapLatest { color: Color ->
                 colorNameParser.parseColorName(color)
             }
-            .flowOn(Dispatchers.IO)
+            .flowOn(IO)
             .collect { name: String ->
                 onColorChange(ColorData(color, name))
             }

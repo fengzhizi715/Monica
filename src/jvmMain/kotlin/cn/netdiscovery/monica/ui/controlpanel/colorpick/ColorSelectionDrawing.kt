@@ -23,7 +23,7 @@ import kotlin.math.roundToInt
 @Composable
 internal fun ColorSelectionDrawing(
     modifier: Modifier,
-    thumbnailSize: Dp = 80.dp,
+    thumbnailSize: Dp = defaultThumbnailSize,
     offset: Offset,
     thumbnailCenter: Offset,
     color: Color
@@ -56,25 +56,25 @@ internal fun ColorSelectionDrawing(
                 style = Stroke(radius * 0.4f)
             )
 
-//            // Draw thumbnail center circle
-//            drawCircle(
-//                color = Color.Black,
-//                radius = radius,
-//                center = thumbnailCenter,
-//                style = Stroke(radius * .5f)
-//            )
-//            drawCircle(
-//                color = Color.White,
-//                radius = radius,
-//                center = thumbnailCenter,
-//                style = Stroke(radius * .2f)
-//            )
-//
-//            drawCircle(
-//                color = color,
-//                radius = imageThumbSize / 10f,
-//                center = thumbnailCenter,
-//            )
+            // Draw thumbnail center circle
+            drawCircle(
+                color = Color.Black,
+                radius = radius,
+                center = thumbnailCenter,
+                style = Stroke(radius * .5f)
+            )
+            drawCircle(
+                color = Color.White,
+                radius = radius,
+                center = thumbnailCenter,
+                style = Stroke(radius * .2f)
+            )
+
+            drawCircle(
+                color = color,
+                radius = imageThumbSize / 10f,
+                center = thumbnailCenter,
+            )
         }
     }
 }
