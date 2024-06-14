@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.rememberApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
@@ -137,6 +138,7 @@ fun main() = application {
                     cropViewModel.clearCropImageView()
                 }
 
+                applicationState.isColorPick = false
                 applicationState.isDoodle = false
                 applicationState.isCropSize = false
                 applicationState.togglePreviewWindow(false)
@@ -146,7 +148,9 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            if (applicationState.isDoodle) {
+            if (applicationState.isColorPick) {
+                colorPick(applicationState)
+            } else if (applicationState.isDoodle) {
                 drawImage(applicationState)
             } else if (applicationState.isCropSize) {
                 cropImage(applicationState)
