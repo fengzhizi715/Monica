@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.widget.image
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.border
@@ -18,16 +18,13 @@ import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.*
-import cn.netdiscovery.monica.ui.widget.image.ImageScope
-import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.gesture.pointerMotionEvents
-import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
 import kotlin.math.roundToInt
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.colorpick.ImageWithThumbnail
+ *          cn.netdiscovery.monica.ui.widget.image.ImageWithThumbnail
  * @author: Tony Shen
  * @date: 2024/6/13 21:52
  * @version: V1.0 <描述当前版本功能>
