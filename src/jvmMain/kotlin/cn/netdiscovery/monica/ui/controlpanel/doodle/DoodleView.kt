@@ -106,14 +106,17 @@ fun drawImage(
                     }
 
                     MotionEvent.Move -> {
-                        currentPath.quadraticBezierTo(
-                            previousPosition.x,
-                            previousPosition.y,
-                            (previousPosition.x + currentPosition.x) / 2,
-                            (previousPosition.y + currentPosition.y) / 2
-                        )
 
-                        previousPosition = currentPosition
+                        if (previousPosition != Offset.Unspecified) {
+                            currentPath.quadraticBezierTo(
+                                previousPosition.x,
+                                previousPosition.y,
+                                (previousPosition.x + currentPosition.x) / 2,
+                                (previousPosition.y + currentPosition.y) / 2
+                            )
+
+                            previousPosition = currentPosition
+                        }
                     }
 
                     MotionEvent.Up -> {
@@ -122,11 +125,11 @@ fun drawImage(
                         paths.add(Pair(currentPath, currentPathProperty))
                         currentPath = Path()
                         currentPathProperty = PathProperties(
-                                strokeWidth = currentPathProperty.strokeWidth,
-                                color = currentPathProperty.color,
-                                strokeCap = currentPathProperty.strokeCap,
-                                strokeJoin = currentPathProperty.strokeJoin,
-                                eraseMode = currentPathProperty.eraseMode
+                            strokeWidth = currentPathProperty.strokeWidth,
+                            color = currentPathProperty.color,
+                            strokeCap = currentPathProperty.strokeCap,
+                            strokeJoin = currentPathProperty.strokeJoin,
+                            eraseMode = currentPathProperty.eraseMode
                         )
 
                         pathsUndone.clear()
