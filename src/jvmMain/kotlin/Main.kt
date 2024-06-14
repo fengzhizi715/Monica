@@ -176,5 +176,8 @@ private fun initData() {
 
 private fun getWindowsTitle(state: ApplicationState):String {
 
-   return if (state.isDoodle) "涂鸦图像" else if (state.isCropSize) "图像裁剪" else "放大预览"
+   return if (state.isColorPick) "图像取色"
+          else if (state.isDoodle) "涂鸦图像"
+          else if (state.isCropSize) "图像裁剪"
+          else "放大预览"
 }
