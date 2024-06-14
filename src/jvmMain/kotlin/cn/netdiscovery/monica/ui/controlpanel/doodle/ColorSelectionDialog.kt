@@ -19,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
+import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import kotlin.math.roundToInt
 
 /**
@@ -30,15 +31,6 @@ import kotlin.math.roundToInt
  * @version: V1.0 <描述当前版本功能>
  */
 val Blue400 = Color(0xff42A5F5)
-
-class PathProperties(
-    var strokeWidth: Float = 10f,
-    var color: Color = Color.Black,
-    var alpha: Float = 1f,
-    var strokeCap: StrokeCap = StrokeCap.Round,
-    var strokeJoin: StrokeJoin = StrokeJoin.Round,
-    var eraseMode: Boolean = false
-)
 
 @Composable
 fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {

@@ -14,7 +14,7 @@ import kotlin.math.sqrt
  * @date: 2024/6/13 17:04
  * @version: V1.0 <描述当前版本功能>
  */
-val Unspecified = "?????"
+const val Unspecified = "?????"
 
 internal data class RGBData(val x: Int, val y: Int, val z: Int, val label: String)
 
