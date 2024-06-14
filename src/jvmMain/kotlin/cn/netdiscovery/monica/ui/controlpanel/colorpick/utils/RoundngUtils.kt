@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.controlpanel.colorpick.utils
 
 import kotlin.math.roundToInt
 

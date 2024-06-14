@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.controlpanel.colorpick.utils
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.IntRect

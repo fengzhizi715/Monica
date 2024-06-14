@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.calculateColorInPixel
 import cn.netdiscovery.monica.ui.widget.image.ImageWithThumbnail
 import cn.netdiscovery.monica.ui.widget.image.rememberThumbnailState
 import cn.netdiscovery.monica.utils.IO
