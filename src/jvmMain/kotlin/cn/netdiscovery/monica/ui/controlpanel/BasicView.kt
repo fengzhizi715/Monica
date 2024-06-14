@@ -28,10 +28,7 @@ fun basicView(state: ApplicationState) {
             state.isBasic = it
 
             if (!state.isBasic) {
-                state.isMosaic = false
-                state.isBlur = false
-                state.isDoodle = false
-                state.isColorPick = false
+                clear(state)
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
@@ -43,22 +40,23 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
             onClick = {
+                clear(state)
                 state.isBlur = true
-                state.isMosaic = false
             })
 
         toolTipButton(text = "图像马赛克",
             painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
             onClick = {
+                clear(state)
                 state.isMosaic = true
-                state.isBlur = false
             })
 
         toolTipButton(text = "图像涂鸦",
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
+                clear(state)
                 state.isDoodle = true
                 state.togglePreviewWindow(true)
             })
@@ -67,8 +65,16 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/color-picker.png"),
             enable = { state.isBasic },
             onClick = {
+                clear(state)
                 state.isColorPick = true
                 state.togglePreviewWindow(true)
             })
     }
+}
+
+private fun clear(state:ApplicationState) {
+    state.isMosaic = false
+    state.isBlur = false
+    state.isDoodle = false
+    state.isColorPick = false
 }
