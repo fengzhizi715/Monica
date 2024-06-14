@@ -1,9 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorpick
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
@@ -25,20 +22,15 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
  * @date: 2024/6/13 16:29
  * @version: V1.0 <描述当前版本功能>
  */
-@Composable
-fun rememberColorParser(): ColorNameParser {
-    return remember {
-        ColorNameParser()
-    }
-}
+
+val colorNameParser = ColorNameParser()
+
+typealias OnColorChange = (ColorData) -> Unit
 
 @Composable
 fun colorPick(state: ApplicationState) {
 
-    val colorNameParser = rememberColorParser()
-
-    var currentColor by remember { mutableStateOf(Color.Unspecified) }
-    var colorName by remember { mutableStateOf("") }
+    var colorData by remember { mutableStateOf(ColorData(color = Color.Unspecified, name = ""))  }
 
     val image = state.currentImage!!.toComposeImageBitmap()
 
@@ -52,11 +44,15 @@ fun colorPick(state: ApplicationState) {
             colorNameParser = colorNameParser,
             imageBitmap = image,
             thumbnailSize = 150.dp
-        ) { colorData: ColorData ->
-            currentColor = colorData.color
-            colorName = colorData.name
+        ) {
+            colorData = it
+        }
 
-            println("colorData = ${colorData.hexText}")
+        if (colorData.color != Color.Unspecified) {
+            ColorDisplay(
+                modifier = Modifier.align(Alignment.CenterEnd),
+                colorData = colorData
+            )
         }
     }
 }

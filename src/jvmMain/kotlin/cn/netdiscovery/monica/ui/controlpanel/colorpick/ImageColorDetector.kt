@@ -37,10 +37,10 @@ fun ImageColorDetector(
     imageBitmap: ImageBitmap,
     contentScale: ContentScale = ContentScale.FillBounds,
     alignment: Alignment = Alignment.Center,
-    colorNameParser: ColorNameParser = rememberColorParser(),
-    thumbnailSize: Dp = 70.dp,
-    thumbnailZoom: Int = 200,
-    onColorChange: (ColorData) -> Unit
+    colorNameParser: ColorNameParser,
+    thumbnailSize: Dp = 150.dp,
+    thumbnailZoom: Int = 250,
+    onColorChange: OnColorChange
 ) {
 
     var offset by remember(imageBitmap, contentScale) {
@@ -60,7 +60,7 @@ fun ImageColorDetector(
             .mapLatest { color: Color ->
                 colorNameParser.parseColorName(color)
             }
-            .flowOn(Dispatchers.Default)
+            .flowOn(Dispatchers.IO)
             .collect { name: String ->
                 onColorChange(ColorData(color, name))
             }
