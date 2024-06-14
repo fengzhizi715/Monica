@@ -20,7 +20,6 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
  * @date: 2024/6/14 11:58
  * @version: V1.0 <描述当前版本功能>
  */
-
 @Composable
 fun ColorDisplay(
     modifier: Modifier = Modifier,

@@ -7,7 +7,7 @@ import org.jetbrains.skia.Bitmap
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.colorpick.ColorDetectionUtil
+ *          cn.netdiscovery.monica.ui.controlpanel.colorpick.ColorDetection
  * @author: Tony Shen
  * @date: 2024/6/13 22:03
  * @version: V1.0 <描述当前版本功能>
@@ -58,13 +58,15 @@ fun calculateColorInPixel(
     return Color(red, green, blue)
 }
 
+/**
+ * 线性插值
+ */
 private fun lerp(start: Float, end: Float, amount: Float): Float {
     return (1 - amount) * start + amount * end
 }
 
 /**
  * Scale x1 from start1..end1 range to start2..end2 range
-
  */
 private fun scale(start1: Float, end1: Float, pos: Float, start2: Float, end2: Float) =
     lerp(start2, end2, calculateFraction(start1, end1, pos))
