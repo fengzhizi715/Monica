@@ -2,8 +2,8 @@ package cn.netdiscovery.monica.ui.controlpanel.colorpick.model
 
 import androidx.compose.ui.graphics.Color
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorNameMap
-import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorToRGBArray
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.hexToRGB
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.toRGBArray
 import kotlin.math.sqrt
 
 /**
@@ -37,7 +37,7 @@ class ColorNameParser internal constructor() {
      * Parse name of [Color]
      */
     fun parseColorName(color: Color): String {
-        val rgbArray = colorToRGBArray(color)
+        val rgbArray = color.toRGBArray()
 
         val red: Int = rgbArray[0]
         val green: Int = rgbArray[1]

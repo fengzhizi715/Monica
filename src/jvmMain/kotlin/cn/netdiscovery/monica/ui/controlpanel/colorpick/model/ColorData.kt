@@ -48,7 +48,7 @@ data class ColorData(val color: Color, val name: String) {
     @Stable
     val rgb: String
         get() {
-            val rgb = colorToRGBArray(color)
+            val rgb = color.toRGBArray()
             return "R: ${rgb[0]}, G: ${rgb[1]}, B: ${rgb[2]}"
         }
 }

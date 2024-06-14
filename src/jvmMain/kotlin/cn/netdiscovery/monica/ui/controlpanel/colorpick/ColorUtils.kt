@@ -26,8 +26,7 @@ fun Color.toHSL():FloatArray = RGBInt(this.toArgb().toUInt()).toSRGB().toHSL().t
 
 fun Color.toHSV():FloatArray = RGBInt(this.toArgb().toUInt()).toSRGB().toHSV().toArray()
 
-fun colorToRGBArray(color: Color): IntArray {
-
-    val rgb = RGBInt(color.toArgb().toUInt()).toSRGB()
+fun Color.toRGBArray(): IntArray {
+    val rgb = RGBInt(this.toArgb().toUInt()).toSRGB()
     return intArrayOf(rgb.redInt,rgb.greenInt, rgb.blueInt)
 }
