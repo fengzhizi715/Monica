@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorpick.model
 
 import androidx.compose.ui.graphics.Color
-import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorNameMap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.hexToRGB
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.toRGBArray
 import kotlin.math.sqrt
