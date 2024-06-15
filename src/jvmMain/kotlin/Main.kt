@@ -145,14 +145,11 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            if (applicationState.currentStatus == ColorPickStatus) {
-                colorPick(applicationState)
-            } else if (applicationState.currentStatus == DoodleStatus) {
-                drawImage(applicationState)
-            } else if (applicationState.currentStatus == CropSizeStatus) {
-                cropImage(applicationState)
-            } else {
-                showImage(applicationState)
+            when(applicationState.currentStatus) {
+                ColorPickStatus -> colorPick(applicationState)
+                DoodleStatus    -> drawImage(applicationState)
+                CropSizeStatus  -> cropImage(applicationState)
+                else            -> showImage(applicationState)
             }
         }
     }
@@ -173,8 +170,10 @@ private fun initData() {
 
 private fun getWindowsTitle(state: ApplicationState):String {
 
-   return if (state.currentStatus == ColorPickStatus) "图像取色"
-          else if (state.currentStatus == DoodleStatus) "涂鸦图像"
-          else if (state.currentStatus == CropSizeStatus) "图像裁剪"
-          else "放大预览"
+    return when(state.currentStatus) {
+        ColorPickStatus -> "图像取色"
+        DoodleStatus    -> "涂鸦图像"
+        CropSizeStatus  -> "图像裁剪"
+        else            -> "放大预览"
+    }
 }
