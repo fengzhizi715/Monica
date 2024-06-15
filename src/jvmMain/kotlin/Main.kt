@@ -137,7 +137,7 @@ fun main() = application {
                     cropViewModel.clearCropImageView()
                 }
 
-                applicationState.currentStatus = 0
+                applicationState.resetCurrentStatus()
                 applicationState.togglePreviewWindow(false)
             },
             state = rememberWindowState().apply {

@@ -157,7 +157,7 @@ fun cropImage(state: ApplicationState) {
 
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
-                state.currentStatus = 0
+                state.resetCurrentStatus()
                 state.togglePreviewWindow(false)
             }, onDismiss = {
                 showCropDialog = !showCropDialog

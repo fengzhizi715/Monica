@@ -40,7 +40,7 @@ fun cropView(state: ApplicationState) {
             state.isCrop = it
 
             if (!state.isCrop) {
-                state.currentStatus = 0
+                state.resetCurrentStatus()
             }
         })
         Text("裁剪", color = Color.Black, fontSize = 20.sp)

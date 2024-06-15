@@ -28,7 +28,7 @@ fun basicView(state: ApplicationState) {
             state.isBasic = it
 
             if (!state.isBasic) {
-                state.currentStatus = 0
+                state.resetCurrentStatus()
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)

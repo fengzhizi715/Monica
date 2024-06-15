@@ -51,7 +51,6 @@ class ApplicationState(val scope:CoroutineScope,
     var isBasic by mutableStateOf(false)
 
     var isCrop by mutableStateOf(false)
-//    var isCropSize by mutableStateOf(false)
 
     var isHLS by mutableStateOf(false)
 
@@ -73,6 +72,10 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun togglePreviewWindow(isShow: Boolean = true) {
         isShowPreviewWindow = isShow
+    }
+
+    fun resetCurrentStatus() {
+        currentStatus = 0
     }
 
     fun clearImage() {
