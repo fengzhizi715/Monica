@@ -18,6 +18,17 @@ import java.util.concurrent.TimeUnit
  * @date: 2024/4/26 10:42
  * @version: V1.0 <描述当前版本功能>
  */
+val BlurStatus: Int = 1 shl 0       // 1
+val MosaicStatus: Int = 1 shl 1     // 2
+val DoodleStatus: Int = 1 shl 2     // 4
+val ColorPickStatus: Int = 1 shl 3  // 8
+
+val FlipStatus: Int = 1 shl 4       // 16
+val RotateStatus: Int = 1 shl 5     // 32
+val ResizeStatus: Int = 1 shl 6     // 64
+val CropSizeStatus: Int = 1 shl 7   // 128
+
+
 @Composable
 fun rememberApplicationState(
     scope: CoroutineScope,
@@ -35,14 +46,12 @@ class ApplicationState(val scope:CoroutineScope,
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
+    var currentStatus by mutableStateOf(0)
+
     var isBasic by mutableStateOf(false)
-    var isMosaic by mutableStateOf(false)
-    var isBlur by mutableStateOf(false)
-    var isDoodle by mutableStateOf(false)
-    var isColorPick by mutableStateOf(false)
 
     var isCrop by mutableStateOf(false)
-    var isCropSize by mutableStateOf(false)
+//    var isCropSize by mutableStateOf(false)
 
     var isHLS by mutableStateOf(false)
 

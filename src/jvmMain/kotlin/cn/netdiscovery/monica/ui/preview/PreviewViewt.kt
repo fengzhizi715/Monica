@@ -21,6 +21,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.state.BlurStatus
+import cn.netdiscovery.monica.state.MosaicStatus
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -85,9 +87,9 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
 
                         detectTapGestures(
                             onPress = {
-                                if (state.isMosaic) {
+                                if (state.currentStatus == MosaicStatus) {
                                     previewViewModel.mosaic(width, height, it, state)
-                                } else if (state.isBlur) {
+                                } else if (state.currentStatus == BlurStatus) {
                                     previewViewModel.blur(width,height, it, state)
                                 }
                             })

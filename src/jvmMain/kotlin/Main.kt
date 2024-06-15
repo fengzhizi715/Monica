@@ -13,8 +13,7 @@ import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
-import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.state.rememberApplicationState
+import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
@@ -131,16 +130,14 @@ fun main() = application {
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
-                if (applicationState.isDoodle) {
+                if (applicationState.currentStatus == DoodleStatus) {
                     toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
                     showToast = true
-                } else if (applicationState.isCropSize) {
+                } else if (applicationState.currentStatus == CropSizeStatus) {
                     cropViewModel.clearCropImageView()
                 }
 
-                applicationState.isColorPick = false
-                applicationState.isDoodle = false
-                applicationState.isCropSize = false
+                applicationState.currentStatus = 0
                 applicationState.togglePreviewWindow(false)
             },
             state = rememberWindowState().apply {
@@ -148,11 +145,11 @@ fun main() = application {
                 placement = WindowPlacement.Fullscreen
             }
         ) {
-            if (applicationState.isColorPick) {
+            if (applicationState.currentStatus == ColorPickStatus) {
                 colorPick(applicationState)
-            } else if (applicationState.isDoodle) {
+            } else if (applicationState.currentStatus == DoodleStatus) {
                 drawImage(applicationState)
-            } else if (applicationState.isCropSize) {
+            } else if (applicationState.currentStatus == CropSizeStatus) {
                 cropImage(applicationState)
             } else {
                 showImage(applicationState)
@@ -176,8 +173,8 @@ private fun initData() {
 
 private fun getWindowsTitle(state: ApplicationState):String {
 
-   return if (state.isColorPick) "图像取色"
-          else if (state.isDoodle) "涂鸦图像"
-          else if (state.isCropSize) "图像裁剪"
+   return if (state.currentStatus == ColorPickStatus) "图像取色"
+          else if (state.currentStatus == DoodleStatus) "涂鸦图像"
+          else if (state.currentStatus == CropSizeStatus) "图像裁剪"
           else "放大预览"
 }

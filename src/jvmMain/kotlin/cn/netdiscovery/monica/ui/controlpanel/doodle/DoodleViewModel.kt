@@ -34,7 +34,8 @@ class DoodleViewModel {
             canvas = canvas,
             size = size,
         ) {
-            state.isDoodle = false
+//            state.isDoodle = false
+            state.currentStatus = 0
             state.togglePreviewWindow(false)
 
             paths.forEach {

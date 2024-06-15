@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 
 /**
@@ -28,7 +28,7 @@ fun basicView(state: ApplicationState) {
             state.isBasic = it
 
             if (!state.isBasic) {
-                clear(state)
+                state.currentStatus = 0
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)
@@ -40,24 +40,21 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
             onClick = {
-                clear(state)
-                state.isBlur = true
+                state.currentStatus = BlurStatus
             })
 
         toolTipButton(text = "图像马赛克",
             painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
             onClick = {
-                clear(state)
-                state.isMosaic = true
+                state.currentStatus = MosaicStatus
             })
 
         toolTipButton(text = "图像涂鸦",
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
-                clear(state)
-                state.isDoodle = true
+                state.currentStatus = DoodleStatus
                 state.togglePreviewWindow(true)
             })
 
@@ -65,16 +62,8 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/color-picker.png"),
             enable = { state.isBasic },
             onClick = {
-                clear(state)
-                state.isColorPick = true
+                state.currentStatus = ColorPickStatus
                 state.togglePreviewWindow(true)
             })
     }
-}
-
-private fun clear(state:ApplicationState) {
-    state.isMosaic = false
-    state.isBlur = false
-    state.isDoodle = false
-    state.isColorPick = false
 }

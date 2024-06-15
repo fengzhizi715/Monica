@@ -18,7 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.click
 import org.koin.compose.koinInject
@@ -31,8 +31,6 @@ import org.koin.compose.koinInject
  * @date: 2024/5/7 13:56
  * @version: V1.0 <描述当前版本功能>
  */
-var clickStatus = mutableStateOf(0)
-
 @Composable
 fun cropView(state: ApplicationState) {
     val viewModel: CropViewModel = koinInject()
@@ -42,7 +40,7 @@ fun cropView(state: ApplicationState) {
             state.isCrop = it
 
             if (!state.isCrop) {
-                clearClickStatus()
+                state.currentStatus = 0
             }
         })
         Text("裁剪", color = Color.Black, fontSize = 20.sp)
@@ -55,7 +53,7 @@ fun cropView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/flip.png"),
             enable = { state.isCrop },
             onClick = {
-                clearClickStatus()
+                state.currentStatus = FlipStatus
                 viewModel.flip(state)
             })
 
@@ -63,7 +61,7 @@ fun cropView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/rotate.png"),
             enable = { state.isCrop },
             onClick = {
-                clearClickStatus()
+                state.currentStatus = RotateStatus
                 viewModel.rotate(state)
             })
 
@@ -71,29 +69,23 @@ fun cropView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isCrop },
             onClick = {
-                clickStatus.value = 1
+                state.currentStatus = ResizeStatus
             })
 
         toolTipButton(text = "图像裁剪",
             painter = painterResource("images/controlpanel/crop.png"),
             enable = { state.isCrop },
             onClick = {
-                clearClickStatus()
-
-                state.isCropSize = true
+                state.currentStatus = CropSizeStatus
                 state.togglePreviewWindow(true)
             })
     }
 
     Column {
-        if (clickStatus.value == 1 && state.currentImage!=null) {
+        if (state.currentStatus == ResizeStatus && state.currentImage!=null) {
             generateResizeParams(state,viewModel)
         }
     }
-}
-
-private fun clearClickStatus() {
-    clickStatus.value = 0
 }
 
 @Composable
