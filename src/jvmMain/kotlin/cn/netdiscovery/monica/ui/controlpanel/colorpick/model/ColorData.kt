@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorpick.model
 
-import androidx.compose.runtime.Immutable
-import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.*
 import kotlin.math.roundToInt
@@ -14,14 +12,11 @@ import kotlin.math.roundToInt
  * @date: 2024/6/13 20:27
  * @version: V1.0 <描述当前版本功能>
  */
-@Immutable
 data class ColorData(val color: Color, val name: String) {
 
-    @Stable
     val hexText: String
         get() = color.toHex()
 
-    @Stable
     val hslString: String
         get() {
             val arr: FloatArray = color.toHSL()
@@ -33,7 +28,6 @@ data class ColorData(val color: Color, val name: String) {
             }
         }
 
-    @Stable
     val hsvString: String
         get() {
             val arr: FloatArray = color.toHSV()
@@ -45,7 +39,6 @@ data class ColorData(val color: Color, val name: String) {
             }
         }
 
-    @Stable
     val rgb: String
         get() {
             val rgb = color.toRGBArray()
