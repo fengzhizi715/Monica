@@ -96,7 +96,7 @@ fun BufferedImage.subImage(x: Int, y: Int, w: Int, h: Int): BufferedImage {
  * 对图像水平翻转
  */
 fun BufferedImage.flipHorizontally(): BufferedImage {
-    val flipped = BufferedImage(width, height, TYPE_INT_RGB)
+    val flipped = BufferedImage(width, height, type)
     val tran = AffineTransform.getTranslateInstance(width.toDouble(), 0.0)
     val flip = AffineTransform.getScaleInstance(-1.0, 1.0)
 
@@ -119,7 +119,7 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
     val cos = abs(cos(radian))
     val newWidth = floor(width.toDouble() * cos + height.toDouble() * sin).toInt()
     val newHeight = floor(height.toDouble() * cos + width.toDouble() * sin).toInt()
-    val rotatedImage = BufferedImage(newWidth, newHeight, TYPE_INT_RGB)
+    val rotatedImage = BufferedImage(newWidth, newHeight, type)
     val graphics = rotatedImage.createGraphics()
     graphics.setRenderingHint(
         RenderingHints.KEY_INTERPOLATION,
@@ -139,7 +139,7 @@ fun BufferedImage.rotate(angle: Double): BufferedImage {
 fun BufferedImage.resize(width:Int, height:Int): BufferedImage {
 
     val tmp = this.getScaledInstance(width, height, Image.SCALE_SMOOTH)
-    val resizedImage = BufferedImage(width, height, TYPE_INT_RGB)
+    val resizedImage = BufferedImage(width, height, type)
     val g2d = resizedImage.createGraphics()
     try {
         g2d.drawImage(tmp, 0, 0, null)
