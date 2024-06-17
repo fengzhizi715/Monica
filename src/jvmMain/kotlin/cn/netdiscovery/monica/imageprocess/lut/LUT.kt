@@ -24,18 +24,18 @@ const val WINTER_STYLE = 11
 fun getColorFilterLUT(style: Int): Array<IntArray> {
 
     return when (style) {
-        AUTUMN_STYLE -> AutumnLUT.AUTUMN_LUT
-        BONE_STYLE -> BoneLUT.BONE_LUT
-        COOL_STYLE -> CoolLUT.COOL_LUT
-        HOT_STYLE -> HotLUT.HOT_LUT
-        HSV_STYLE -> HsvLUT.HSV_LUT
-        JET_STYLE -> JetLUT.JET_LUT
-//        OCEAN_STYLE -> OCEAN_LUT
-//        PINK_STYLE -> PINK_LUT
-//        RAINBOW_STYLE -> RAINBOW_LUT
-//        SPRING_STYLE -> SPRING_LUT
-//        SUMMER_STYLE -> SUMMER_LUT
-//        WINTER_STYLE -> WINTER_LUT
+        AUTUMN_STYLE  -> AutumnLUT.AUTUMN_LUT
+        BONE_STYLE    -> BoneLUT.BONE_LUT
+        COOL_STYLE    -> CoolLUT.COOL_LUT
+        HOT_STYLE     -> HotLUT.HOT_LUT
+        HSV_STYLE     -> HsvLUT.HSV_LUT
+        JET_STYLE     -> JetLUT.JET_LUT
+        OCEAN_STYLE   -> OceanLUT.OCEAN_LUT
+        PINK_STYLE    -> PinkLUT.PINK_LUT
+        RAINBOW_STYLE -> RainbowLUT.RAINBOW_LUT
+        SPRING_STYLE  -> SpringLUT.SPRING_LUT
+        SUMMER_STYLE  -> SummerLUT.SUMMER_LUT
+        WINTER_STYLE  -> WinterLUT.WINTER_LUT
         else -> AutumnLUT.AUTUMN_LUT
     }
 }
