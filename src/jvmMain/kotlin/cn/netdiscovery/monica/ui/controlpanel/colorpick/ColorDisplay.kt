@@ -43,7 +43,6 @@ fun ColorDisplay(
 
         Row {
             Column {
-//                Text(text = colorName, fontSize = 10.sp, color = textColor)
                 Text(text = hexText, fontSize = 20.sp, color = textColor)
             }
         }
