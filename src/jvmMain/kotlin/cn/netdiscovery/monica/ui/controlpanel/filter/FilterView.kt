@@ -17,6 +17,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import filterNames
@@ -72,6 +73,8 @@ fun filterView(state: ApplicationState) {
                 color = if (state.isFilter) Color.Unspecified else Color.LightGray)
         }
     }
+
+    generateFilterRemark(selectedIndex.value)
 }
 
 
@@ -156,5 +159,17 @@ fun generateFilterParams(selectedIndex:Int) {
                 textStyle = TextStyle(Color.Black, fontSize = 12.sp)
             )
         }
+    }
+}
+
+@Composable
+fun generateFilterRemark(selectedIndex:Int) {
+    val filterName = filterNames[selectedIndex]
+
+
+    val remark = getFilterRemark(filterName)
+
+    if (!remark.isNullOrEmpty()) {
+        Text(remark, color = Color.Black, fontSize = 12.sp)
     }
 }

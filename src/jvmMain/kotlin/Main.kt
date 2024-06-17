@@ -13,6 +13,7 @@ import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
+import cn.netdiscovery.monica.rxcache.saveFilterRemark
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
@@ -163,6 +164,7 @@ private fun initData() {
     if (!flag.get()) { // 防止被多次初始化
         filterNames.addAll(getFilterNames())
         saveFilterParams()
+        saveFilterRemark()
         client = HttpConnectionClient(timeout, retryNum)
         flag.set(true)
     }

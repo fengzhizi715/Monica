@@ -211,7 +211,7 @@ class PreviewViewModel {
                 if(state.isFilter) {
                     val filterName = filterNames[selectedIndex.value]
 
-                    val params = getFilterParam(filterName)
+                    val params = getFilterParam(filterName) // 从缓存中获取滤镜的参数信息
 
                     if (params!=null) {
                         // 按照参数名首字母进行排序

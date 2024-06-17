@@ -36,6 +36,6 @@ fun getColorFilterLUT(style: Int): Array<IntArray> {
         SPRING_STYLE  -> SpringLUT.SPRING_LUT
         SUMMER_STYLE  -> SummerLUT.SUMMER_LUT
         WINTER_STYLE  -> WinterLUT.WINTER_LUT
-        else -> AutumnLUT.AUTUMN_LUT
+        else          -> AutumnLUT.AUTUMN_LUT
     }
 }
