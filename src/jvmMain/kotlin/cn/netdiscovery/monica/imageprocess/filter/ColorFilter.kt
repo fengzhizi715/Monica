@@ -2,7 +2,6 @@ package cn.netdiscovery.monica.imageprocess.filter
 
 import cn.netdiscovery.monica.imageprocess.filter.base.ColorProcessorFilter
 import cn.netdiscovery.monica.imageprocess.lut.*
-import cn.netdiscovery.monica.imageprocess.lut.SummerLUT.SUMMER_LUT
 import java.awt.image.BufferedImage
 
 
@@ -15,13 +14,7 @@ import java.awt.image.BufferedImage
  * @version: V1.0 <描述当前版本功能>
  */
 
-class ColorFilter : ColorProcessorFilter() {
-
-    private var style: Int
-
-    init {
-        style = SUMMER_STYLE
-    }
+class ColorFilter(val style: Int = 0) : ColorProcessorFilter() {
 
     private fun getStyleLUT(style: Int): Array<IntArray> = getColorFilterLUT(style)
 
