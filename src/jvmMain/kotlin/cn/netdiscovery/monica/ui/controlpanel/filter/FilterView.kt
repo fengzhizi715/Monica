@@ -165,11 +165,15 @@ fun generateFilterParams(selectedIndex:Int) {
 @Composable
 fun generateFilterRemark(selectedIndex:Int) {
     val filterName = filterNames[selectedIndex]
-
-
     val remark = getFilterRemark(filterName)
 
     if (!remark.isNullOrEmpty()) {
-        Text(remark, color = Color.Black, fontSize = 12.sp)
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            shape = RoundedCornerShape(16.dp),
+            elevation = 4.dp,
+        ) {
+            Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(start = 10.dp))
+        }
     }
 }

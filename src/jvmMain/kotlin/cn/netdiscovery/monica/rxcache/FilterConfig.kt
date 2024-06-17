@@ -30,9 +30,8 @@ private val filters: MutableList<FilterParam> by lazy {
         }))
         this.add(FilterParam("BumpFilter", params = mutableListOf()))
         this.add(FilterParam("ColorFilter", remark = "ColorFilter 支持选择0-11，共12种风格。\n" +
-                "0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV\n" +
-                "5:JET,6:OCEAN,7:PINK,8:RAINBOW\n" +
-                "9:SPRING,10:SUMMER,11:WINTER",
+                "0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n" +
+                "7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
         params = mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("style","Int",0))
         }))
