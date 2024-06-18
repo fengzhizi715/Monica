@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
  * @date: 2024/5/7 10:55
  * @version: V1.0 <描述当前版本功能>
  */
-const val appVersion = "v0.2.3"
+const val appVersion = "v0.2.4"
 
 const val previewWidth = 750
 
@@ -25,4 +25,4 @@ const val retryNum = 3
 const val KEY_CROP_FIRST = "key_crop_first"
 const val KEY_CROP_SECOND = "key_crop_second"
 const val KEY_CROP = "key_crop"
-val KEY_FILTER_REMARK = "key_filter_remark_"
+const val KEY_FILTER_REMARK = "key_filter_remark_"
