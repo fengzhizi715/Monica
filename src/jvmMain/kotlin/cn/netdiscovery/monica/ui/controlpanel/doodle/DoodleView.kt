@@ -237,21 +237,22 @@ fun drawImage(
                 toolTipButton(text = "上一步",
                     painter = painterResource("images/doodle/previous_step.png"),
                     onClick = {
-                        val lastItem = paths.last()
-                        val lastPath = lastItem.first
-                        val lastPathProperty = lastItem.second
-                        paths.remove(lastItem)
-
-                        pathsUndone.add(Pair(lastPath, lastPathProperty))
+                        val lastItem = paths.lastOrNull()
+                        lastItem?.let {
+                            val lastPath = it.first
+                            val lastPathProperty = it.second
+                            paths.removeLast()
+                            pathsUndone.add(Pair(lastPath, lastPathProperty))
+                        }
                     })
 
                 toolTipButton(text = "撤回",
                     painter = painterResource("images/doodle/revoke.png"),
                     onClick = {
-                        if (pathsUndone.isNotEmpty()) {
-
-                            val lastPath = pathsUndone.last().first
-                            val lastPathProperty = pathsUndone.last().second
+                        val lastUndoPath = pathsUndone.lastOrNull()
+                        lastUndoPath?.let {
+                            val lastPath = it.first
+                            val lastPathProperty = it.second
                             pathsUndone.removeLast()
                             paths.add(Pair(lastPath, lastPathProperty))
                         }
