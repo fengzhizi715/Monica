@@ -123,7 +123,7 @@ class VariableBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5,
      * @param height the height of the image
      * @return the blur radius
      */
-    protected fun blurRadiusAt(x: Int, y: Int, width: Int, height: Int): Float {
+    private fun blurRadiusAt(x: Int, y: Int, width: Int, height: Int): Float {
         return x.toFloat() / width
     }
 }
