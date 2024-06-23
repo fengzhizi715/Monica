@@ -3,10 +3,7 @@ package cn.netdiscovery.monica.utils
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.imageprocess.filter.*
-import cn.netdiscovery.monica.imageprocess.filter.blur.AverageFilter
-import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
-import cn.netdiscovery.monica.imageprocess.filter.blur.GaussianFilter
-import cn.netdiscovery.monica.imageprocess.filter.blur.VariableBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.blur.*
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
