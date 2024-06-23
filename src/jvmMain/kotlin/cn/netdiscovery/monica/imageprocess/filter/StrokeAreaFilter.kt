@@ -12,7 +12,7 @@ import java.awt.image.BufferedImage
  * @date: 2024/5/25 22:00
  * @version: V1.0 <描述当前版本功能>
  */
-class StrokeAreaFilter(private val size:Double = 10.0):BaseFilter() {
+class StrokeAreaFilter(private val ksize:Double = 10.0):BaseFilter() {
 
     private val d02 = (150 * 150).toDouble()
 
@@ -22,8 +22,8 @@ class StrokeAreaFilter(private val size:Double = 10.0):BaseFilter() {
 
         var index = 0
         var index2 = 0
-        val semiRow = (size / 2).toInt()
-        val semiCol = (size / 2).toInt()
+        val semiRow = (ksize / 2).toInt()
+        val semiCol = (ksize / 2).toInt()
         var newX: Int
         var newY: Int
 
@@ -72,7 +72,7 @@ class StrokeAreaFilter(private val size:Double = 10.0):BaseFilter() {
                     }
                 }
                 // calculate the output pixel value.
-                val outPixelValue: Int = clamp((255.0 * moment / (size * size)).toInt())
+                val outPixelValue: Int = clamp((255.0 * moment / (ksize * ksize)).toInt())
                 outPixels[index] = ta shl 24 or (outPixelValue shl 16) or (outPixelValue shl 8) or outPixelValue
             }
         }

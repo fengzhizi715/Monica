@@ -78,7 +78,7 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("factor","Int",1))
         }))
         this.add(FilterParam("StrokeAreaFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("size","Double",10.0))
+            this.add(Triple("ksize","Double",10.0))
         }))
         this.add(FilterParam("USMFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("radius","Float",2.0f))
