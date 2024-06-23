@@ -136,6 +136,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "GammaFilter" -> {
                 GammaFilter(array[0] as Double).transform(state.currentImage!!)
             }
+            "FastBlur2D" -> {
+                FastBlur2D(array[0] as Int).transform(state.currentImage!!)
+            }
             "GaussianFilter" -> {
                 GaussianFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
             }
