@@ -17,6 +17,7 @@ abstract class BaseFilter: Transformer {
     protected var width = 0
     protected var height = 0
     protected var type = 0
+    protected var size = 0
 
     protected lateinit var inPixels: IntArray
 
@@ -25,7 +26,7 @@ abstract class BaseFilter: Transformer {
         height = image.height
         type = image.type
 
-        val size = width * height
+        size = width * height
         inPixels = IntArray(size)
         getRGB(image, 0, 0, width, height, inPixels)
 

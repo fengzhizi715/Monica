@@ -17,7 +17,6 @@ import java.awt.image.BufferedImage
 class FastBlur2D(private val ksize:Int = 5) : ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
-        val size = width * height
         var output:ByteArray? = ByteArray(size)
         val ii = IntIntegralImage()
         val radius = ksize / 2

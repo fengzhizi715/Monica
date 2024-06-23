@@ -19,8 +19,6 @@ abstract class ColorProcessorFilter:BaseFilter() {
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        val size = width * height
-
         R = ByteArray(size)
         G = ByteArray(size)
         B = ByteArray(size)

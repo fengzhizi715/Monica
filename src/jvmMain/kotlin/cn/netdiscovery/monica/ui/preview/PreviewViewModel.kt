@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.filter.blur.BoxBlurFilter
+import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
 import cn.netdiscovery.monica.imageprocess.saveImage
 import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
@@ -31,7 +31,7 @@ import javax.swing.JFileChooser
  */
 class PreviewViewModel {
 
-    private val blurFilter = BoxBlurFilter(15,15,1)
+    private val blurFilter = FastBlur2D(15)
 
     var saturation by mutableStateOf(0f )
     var luminance by mutableStateOf(0f )
@@ -112,7 +112,7 @@ class PreviewViewModel {
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset,state: ApplicationState) {
-        state.scope.launch(Dispatchers.IO) {
+        state.scope.launch(IO) {
             val bufferedImage = state.currentImage!!
 
             val srcWidth = bufferedImage.width
