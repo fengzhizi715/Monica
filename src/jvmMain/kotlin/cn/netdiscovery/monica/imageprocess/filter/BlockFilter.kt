@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.imageprocess.filter
 
 import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import java.awt.image.BufferedImage
+import kotlin.math.min
 
 
 /**
@@ -19,8 +20,8 @@ class BlockFilter(private val blockSize:Int =2): BaseFilter() {
 
         for (y in 0 until height step blockSize){
             for (x in 0 until width step blockSize){
-                val w = Math.min(blockSize, width - x)
-                val h = Math.min(blockSize, height - y)
+                val w = min(blockSize, width - x)
+                val h = min(blockSize, height - y)
                 val t = w * h
                 getRGB(srcImage, x, y, w, h, pixels)
                 var r = 0

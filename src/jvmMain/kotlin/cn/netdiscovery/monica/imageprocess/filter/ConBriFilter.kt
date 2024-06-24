@@ -21,7 +21,7 @@ class ConBriFilter(private val contrast:Float = 1.5f,private val brightness:Floa
         var redSum = 0.0
         var greenSum = 0.0
         var blueSum = 0.0
-        val total = (height * width).toDouble()
+        val total = size.toDouble()
         for (row in 0 until height) {
             var tr = 0
             var tg = 0
