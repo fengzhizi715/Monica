@@ -16,7 +16,7 @@ class BoxBlurFilter(private val hRadius: Int =5, private val vRadius:Int=5, priv
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        var outPixels = IntArray(width * height)
+        var outPixels = IntArray(size)
 
         for (i in 0 until iterations) {
             blur( inPixels, outPixels, width, height, hRadius )
