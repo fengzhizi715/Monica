@@ -34,20 +34,19 @@ fun controlPanel(
         Column(
             modifier = Modifier.padding(16.dp)
         ) {
-            basicView(state)
+            basicView(state) // 基础功能
 
             divider()
 
-            cropView(state)
+            cropView(state)  // 图像裁剪
 
             divider()
 
-            imageProcessView(state)
+            imageProcessView(state)  // HSL 色彩空间调色
 
             divider()
 
-            // 滤镜相关的内容
-            filterView(state)
+            filterView(state) // 滤镜相关的内容
         }
     }
 }

@@ -53,7 +53,7 @@ fun toolTipButton(
         delayMillis = 600, // in milliseconds
         tooltipPlacement = TooltipPlacement.CursorPoint(
             alignment = Alignment.BottomEnd,
-            offset = DpOffset(-16.dp, 0.dp)
+            offset = DpOffset((-16).dp, 0.dp)
         )
     ) {
         IconButton(
