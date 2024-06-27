@@ -22,21 +22,22 @@ abstract class ColorProcessorFilter:BaseFilter() {
         R = ByteArray(size)
         G = ByteArray(size)
         B = ByteArray(size)
-        backFillData(inPixels)
+        getRGB(inPixels,R,G,B)
 
         return doColorProcessor(dstImage)
     }
 
     abstract fun doColorProcessor(dstImage: BufferedImage):BufferedImage
 
-    private fun backFillData(input: IntArray) {
-        var c = 0
-        var r = 0
-        var g = 0
-        var b = 0
-        val length = input.size
+    /** Returns the red, green and blue planes as 3 byte arrays.  */
+    fun getRGB(pixels: IntArray, R: ByteArray, G: ByteArray, B: ByteArray) {
+        var c: Int
+        var r: Int
+        var g: Int
+        var b: Int
+        val length = pixels.size
         for (i in 0 until length) {
-            c = input[i]
+            c = pixels[i]
             r = c and 0xff0000 shr 16
             g = c and 0xff00 shr 8
             b = c and 0xff
