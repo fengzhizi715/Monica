@@ -37,6 +37,9 @@ kotlin {
 
                 // color math
                 implementation("com.github.ajalt.colormath:colormath-ext-jetpack-compose:3.5.0")
+
+                // coroutines utils
+                implementation ("com.github.fengzhizi715.Kotlin-Coroutines-Utils:common:v1.1.8")
             }
         }
         val jvmTest by getting

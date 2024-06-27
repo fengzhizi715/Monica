@@ -3,6 +3,9 @@ package cn.netdiscovery.monica.imageprocess.filter.blur
 import cn.netdiscovery.monica.imageprocess.IntIntegralImage
 import cn.netdiscovery.monica.imageprocess.filter.base.ColorProcessorFilter
 import cn.netdiscovery.monica.utils.clamp
+import com.safframework.kotlin.coroutines.asyncInBackground
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.runBlocking
 import java.awt.image.BufferedImage
 
 /**
@@ -17,29 +20,44 @@ import java.awt.image.BufferedImage
 class FastBlur2D(private val ksize:Int = 5) : ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
-        var output:ByteArray? = ByteArray(size)
-        val ii = IntIntegralImage()
+
         val radius = ksize / 2
 
-        System.arraycopy(R, 0, output, 0, size)
-        ii.setImage(R)
-        ii.calculate(width, height)
-        processSingleChannel(width, height,radius, ii, output!!)
-        System.arraycopy(output, 0, R, 0, size)
+        runBlocking {
+            listOf(
+                asyncInBackground {
+                    var output:ByteArray? = ByteArray(size)
+                    val ii = IntIntegralImage()
+                    System.arraycopy(R, 0, output, 0, size)
+                    ii.setImage(R)
+                    ii.calculate(width, height)
+                    processSingleChannel(width, height,radius, ii, output!!)
+                    System.arraycopy(output, 0, R, 0, size)
+                    output = null
+                },
+                asyncInBackground {
+                    var output:ByteArray? = ByteArray(size)
+                    val ii = IntIntegralImage()
+                    System.arraycopy(G, 0, output, 0, size)
+                    ii.setImage(G)
+                    ii.calculate(width, height)
+                    processSingleChannel(width, height,radius, ii, output!!)
+                    System.arraycopy(output, 0, G, 0, size)
+                    output = null
+                },
+                asyncInBackground {
+                    var output:ByteArray? = ByteArray(size)
+                    val ii = IntIntegralImage()
+                    System.arraycopy(B, 0, output, 0, size)
+                    ii.setImage(B)
+                    ii.calculate(width, height)
+                    processSingleChannel(width, height,radius, ii, output!!)
+                    System.arraycopy(output, 0, B, 0, size)
+                    output = null
+                }
+            ).awaitAll()
+        }
 
-        System.arraycopy(G, 0, output, 0, size)
-        ii.setImage(G)
-        ii.calculate(width, height)
-        processSingleChannel(width, height,radius, ii, output!!)
-        System.arraycopy(output, 0, G, 0, size)
-
-        System.arraycopy(B, 0, output, 0, size)
-        ii.setImage(B)
-        ii.calculate(width, height)
-        processSingleChannel(width, height,radius, ii, output!!)
-        System.arraycopy(output, 0, B, 0, size)
-
-        output = null
         return toBufferedImage(dstImage)
     }
 
