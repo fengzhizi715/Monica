@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
-import cn.netdiscovery.monica.utils.createRectShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createRectShape
 
 /**
  *

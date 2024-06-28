@@ -25,7 +25,7 @@ fun writeImageFile(bi: BufferedImage, fileName:String) {
 }
 
 /**
- * 统计耗时任务的时间
+ * 统计耗时任务的时间，便于调试时使用
  */
 fun measure(block: () -> Unit):Long {
 
@@ -37,7 +37,7 @@ fun measure(block: () -> Unit):Long {
 }
 
 /**
- * 统计耗时任务的时间
+ * 统计耗时任务的时间，便于调试时使用
  */
 suspend fun measureWithSuspend(block: suspend() -> Unit):Long {
 

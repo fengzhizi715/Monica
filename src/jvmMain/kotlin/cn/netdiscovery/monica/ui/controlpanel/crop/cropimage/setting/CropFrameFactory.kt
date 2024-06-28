@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.*
-import cn.netdiscovery.monica.utils.createPolygonShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
 
 /**
  *

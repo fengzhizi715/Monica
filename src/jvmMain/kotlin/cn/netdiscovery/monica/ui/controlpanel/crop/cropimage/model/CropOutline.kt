@@ -8,7 +8,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import cn.netdiscovery.monica.utils.createPolygonShape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
 
 /**
  *

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.utils
+package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect

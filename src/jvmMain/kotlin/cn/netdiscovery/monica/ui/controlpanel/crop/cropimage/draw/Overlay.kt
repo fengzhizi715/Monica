@@ -18,9 +18,9 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropImageMask
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropPath
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropShape
-import cn.netdiscovery.monica.utils.drawGrid
-import cn.netdiscovery.monica.utils.drawWithLayer
-import cn.netdiscovery.monica.utils.scaleAndTranslatePath
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.drawGrid
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.drawWithLayer
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.scaleAndTranslatePath
 
 /**
  *
