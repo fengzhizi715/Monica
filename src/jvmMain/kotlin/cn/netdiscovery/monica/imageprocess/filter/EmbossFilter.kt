@@ -45,12 +45,6 @@ class EmbossFilter(private val colorConstant:Int = 100, private val out:Boolean 
                     g = g2 - g1
                     b = b2 - b1
                 }
-//                r = clamp(r + colorConstant)
-//                g = clamp(g + colorConstant)
-//                b = clamp(b + colorConstant)
-//
-//                ta = inPixels[offset] shr 24 and 0xff
-//                outPixels[offset] = ta shl 24 or (r shl 16) or (g shl 8) or b
 
                 R[offset] = clamp(r + colorConstant).toByte()
                 G[offset] = clamp(g + colorConstant).toByte()
