@@ -19,7 +19,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.calculateColorInPixel
 import cn.netdiscovery.monica.ui.widget.image.ImageWithThumbnail
 import cn.netdiscovery.monica.ui.widget.image.rememberThumbnailState
-import cn.netdiscovery.monica.utils.IO
+import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.mapLatest

@@ -39,7 +39,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.DynamicCropSt
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.rememberCropState
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
-import cn.netdiscovery.monica.utils.Default
+import com.safframework.kotlin.coroutines.Default
 import com.safframework.rxcache.domain.CacheStrategy
 import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.ext.saveMemoryFunc
