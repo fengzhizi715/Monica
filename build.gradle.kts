@@ -27,8 +27,6 @@ kotlin {
             dependencies {
                 implementation(compose.desktop.currentOs)
 
-                implementation ("androidx.graphics:graphics-shapes:1.0.0-alpha05")
-
                 // 缓存
                 implementation("com.github.fengzhizi715.RxCache:core:${rootProject.extra["rxcache"]}")
                 implementation("com.github.fengzhizi715.RxCache:okio:${rootProject.extra["rxcache"]}")
