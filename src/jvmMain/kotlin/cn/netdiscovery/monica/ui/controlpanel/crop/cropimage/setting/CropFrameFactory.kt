@@ -131,18 +131,24 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
                         ),
                         PolygonCropShape(
                             id = 1,
+                            title = "Triangle",
+                            polygonProperties = PolygonProperties(sides = 3, 0f),
+                            shape = createPolygonShape(3, 30f)
+                        ),
+                        PolygonCropShape(
+                            id = 2,
                             title = "Pentagon",
                             polygonProperties = PolygonProperties(sides = 5, 0f),
                             shape = createPolygonShape(5, 0f)
                         ),
                         PolygonCropShape(
-                            id = 2,
+                            id = 3,
                             title = "Heptagon",
                             polygonProperties = PolygonProperties(sides = 7, 0f),
                             shape = createPolygonShape(7, 0f)
                         ),
                         PolygonCropShape(
-                            id = 3,
+                            id = 4,
                             title = "Octagon",
                             polygonProperties = PolygonProperties(sides = 8, 0f),
                             shape = createPolygonShape(8, 0f)

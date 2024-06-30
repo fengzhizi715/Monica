@@ -369,6 +369,26 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
         Card(
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
+                selectCropFrame.value = "Triangle"
+                val cropFrame = cropFrames[4]
+                val cropOutlineProperty =
+                    CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.outlines[1])
+                onCropPropertiesChange.invoke(cropProperties.copy(cropOutlineProperty = cropOutlineProperty))
+            }
+        ) {
+            Text(
+                text = "Triangle",
+                fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth()
+            )
+        }
+
+        Card(
+            elevation = 16.dp,
+            modifier = Modifier.padding(16.dp).clickable {
                 selectCropFrame.value = "Polygon"
                 val cropFrame = cropFrames[4]
                 val cropOutlineProperty =
