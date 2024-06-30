@@ -11,6 +11,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
 import org.jetbrains.skia.Matrix33
 import kotlin.math.cos
 import kotlin.math.sin
+import kotlin.math.tan
 
 /**
  *
@@ -57,6 +58,7 @@ fun createPolygonShape(sides: Int, degrees: Float = 0f): GenericShape {
         this.asSkiaPath().transform(matrix)
     }
 }
+
 
 /**
  * Creates a [Rect] shape with given aspect ratio.
@@ -151,4 +153,25 @@ fun calculateSizeAndOffsetFromAspectRatio(
     val top = (height - newSize.height) / 2
 
     return Pair(newSize, Offset(left, top))
+}
+
+class Parallelogram(private val angle: Float) : Shape {
+    override fun createOutline(
+        size: Size,
+        layoutDirection: LayoutDirection,
+        density: Density
+    ): Outline {
+        return Outline.Generic(
+
+            Path().apply {
+                val radian = (90 - angle) * Math.PI / 180
+                val xOnOpposite = (size.height * tan(radian)).toFloat()
+                moveTo(0f, size.height)
+                lineTo(x = xOnOpposite, y = 0f)
+                lineTo(x = size.width, y = 0f)
+                lineTo(x = size.width - xOnOpposite, y = size.height)
+                lineTo(x = xOnOpposite, y = size.height)
+            }
+        )
+    }
 }

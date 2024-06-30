@@ -75,6 +75,14 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
                 )
             }
 
+            OutlineType.Parallelogram -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
 
             OutlineType.Custom -> {
                 CropFrame(
@@ -154,6 +162,12 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
                             shape = createPolygonShape(8, 0f)
                         )
                     )
+                )
+            }
+
+            OutlineType.Parallelogram -> {
+                ParallelogramOutlineContainer(
+                    outlines = listOf(ParallelogramShape(id = 0, title = "Parallelogram"))
                 )
             }
 

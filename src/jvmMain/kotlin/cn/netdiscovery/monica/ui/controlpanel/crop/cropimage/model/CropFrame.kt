@@ -92,5 +92,5 @@ fun getOutlineContainer(
 
 
 enum class OutlineType {
-    Rect, RoundedRect, CutCorner, Oval, Polygon, Custom, ImageMask
+    Rect, RoundedRect, CutCorner, Oval, Polygon, Parallelogram, Custom, ImageMask
 }

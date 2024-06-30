@@ -49,6 +49,16 @@ data class OvalOutlineContainer(
     override val outlines: List<OvalCropShape>
 ) : CropOutlineContainer<OvalCropShape>
 
+
+/**
+ * Container for [OvalCropShape]s
+ */
+data class ParallelogramOutlineContainer(
+    override var selectedIndex: Int = 0,
+    override val outlines: List<ParallelogramShape>
+) : CropOutlineContainer<ParallelogramShape>
+
+
 /**
  * Container for [PolygonCropShape]s
  */

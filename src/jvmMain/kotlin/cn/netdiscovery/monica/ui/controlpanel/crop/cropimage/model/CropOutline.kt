@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Parallelogram
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
 
 /**
@@ -115,6 +116,13 @@ data class PolygonCropShape(
     val polygonProperties: PolygonProperties = PolygonProperties(),
     override val shape: Shape = createPolygonShape(polygonProperties.sides, polygonProperties.angle)
 ) : CropShape
+
+@Immutable
+data class ParallelogramShape(
+    override val id: Int,
+    override val title: String,
+    override val shape: Shape = Parallelogram(70f)
+): CropShape
 
 /**
  * Wrapper class that implements [CropOutline] and is a [Path] wrapper to crop using drawable
