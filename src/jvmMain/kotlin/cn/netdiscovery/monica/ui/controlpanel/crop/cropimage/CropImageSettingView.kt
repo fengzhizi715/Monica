@@ -429,7 +429,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
         Card(
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
-                selectCropFrame.value = "Love"
+                selectCropFrame.value = "Heart"
                 val cropFrame = cropFrames[6]
                 val cropOutlineProperty =
                     CropOutlineProperty(cropFrame.outlineType, cropFrame.cropOutlineContainer.selectedItem)
@@ -437,7 +437,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
             }
         ) {
             Text(
-                text = "Love",
+                text = "Heart",
                 fontSize = 22.sp,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier
