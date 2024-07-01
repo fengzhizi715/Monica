@@ -51,7 +51,15 @@ data class OvalOutlineContainer(
 
 
 /**
- * Container for [OvalCropShape]s
+ * Container for [PolygonCropShape]s
+ */
+data class PolygonOutlineContainer(
+    override var selectedIndex: Int = 0,
+    override val outlines: List<PolygonCropShape>
+) : CropOutlineContainer<PolygonCropShape>
+
+/**
+ * Container for [ParallelogramShape]s
  */
 data class ParallelogramOutlineContainer(
     override var selectedIndex: Int = 0,
@@ -60,12 +68,12 @@ data class ParallelogramOutlineContainer(
 
 
 /**
- * Container for [PolygonCropShape]s
+ * Container for [DiamondShape]s
  */
-data class PolygonOutlineContainer(
+data class DiamondOutlineContainer(
     override var selectedIndex: Int = 0,
-    override val outlines: List<PolygonCropShape>
-) : CropOutlineContainer<PolygonCropShape>
+    override val outlines: List<DiamondShape>
+) : CropOutlineContainer<DiamondShape>
 
 /**
  * Container for [CustomPathOutline]s

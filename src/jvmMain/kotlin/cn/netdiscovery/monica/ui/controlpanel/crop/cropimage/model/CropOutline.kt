@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Diamond
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Parallelogram
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
 
@@ -122,6 +123,13 @@ data class ParallelogramShape(
     override val id: Int,
     override val title: String,
     override val shape: Shape = Parallelogram(70f)
+): CropShape
+
+@Immutable
+data class DiamondShape(
+    override val id: Int,
+    override val title: String,
+    override val shape: Shape = Diamond()
 ): CropShape
 
 /**

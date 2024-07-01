@@ -83,6 +83,13 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
                 )
             }
 
+            OutlineType.Diamond -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
 
             OutlineType.Custom -> {
                 CropFrame(
@@ -168,6 +175,12 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
             OutlineType.Parallelogram -> {
                 ParallelogramOutlineContainer(
                     outlines = listOf(ParallelogramShape(id = 0, title = "Parallelogram"))
+                )
+            }
+
+            OutlineType.Diamond -> {
+                DiamondOutlineContainer(
+                    outlines = listOf(DiamondShape(id = 0, title = "Diamond"))
                 )
             }
 
