@@ -91,6 +91,14 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
                 )
             }
 
+            OutlineType.Ticket -> {
+                CropFrame(
+                    outlineType = outlineType,
+                    editable = true,
+                    cropOutlineContainer = createCropOutlineContainer(outlineType)
+                )
+            }
+
             OutlineType.Custom -> {
                 CropFrame(
                     outlineType = outlineType,
@@ -181,6 +189,12 @@ class CropFrameFactory(private val defaultImages: List<ImageBitmap>) {
             OutlineType.Diamond -> {
                 DiamondOutlineContainer(
                     outlines = listOf(DiamondShape(id = 0, title = "Diamond"))
+                )
+            }
+
+            OutlineType.Ticket -> {
+                TicketOutlineContainer(
+                    outlines = listOf(TicketShape(id = 0, title = "Ticket"))
                 )
             }
 

@@ -69,9 +69,16 @@ fun getOutlineContainer(
         }
 
         OutlineType.Diamond -> {
-            CustomOutlineContainer(
+            DiamondOutlineContainer(
                 selectedIndex = index,
-                outlines = outlines as List<CustomPathOutline>
+                outlines = outlines as List<DiamondShape>
+            )
+        }
+
+        OutlineType.Ticket -> {
+            TicketOutlineContainer(
+                selectedIndex = index,
+                outlines = outlines as List<TicketShape>
             )
         }
 
@@ -99,5 +106,5 @@ fun getOutlineContainer(
 
 
 enum class OutlineType {
-    Rect, RoundedRect, CutCorner, Oval, Polygon, Parallelogram, Diamond, Custom, ImageMask
+    Rect, RoundedRect, CutCorner, Oval, Polygon, Parallelogram, Diamond, Ticket, Custom, ImageMask
 }

@@ -75,6 +75,15 @@ data class DiamondOutlineContainer(
     override val outlines: List<DiamondShape>
 ) : CropOutlineContainer<DiamondShape>
 
+
+/**
+ * Container for [TicketShape]s
+ */
+data class TicketOutlineContainer(
+    override var selectedIndex: Int = 0,
+    override val outlines: List<TicketShape>
+) : CropOutlineContainer<TicketShape>
+
 /**
  * Container for [CustomPathOutline]s
  */

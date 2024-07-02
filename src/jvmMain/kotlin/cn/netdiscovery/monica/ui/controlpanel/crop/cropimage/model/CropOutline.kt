@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Diamond
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Parallelogram
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Ticket
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
 
 /**
@@ -130,6 +131,13 @@ data class DiamondShape(
     override val id: Int,
     override val title: String,
     override val shape: Shape = Diamond()
+): CropShape
+
+@Immutable
+data class TicketShape(
+    override val id: Int,
+    override val title: String,
+    override val shape: Shape = Ticket()
 ): CropShape
 
 /**
