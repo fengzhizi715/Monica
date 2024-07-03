@@ -13,11 +13,11 @@ import kotlin.system.measureTimeMillis
  *          cn.netdiscovery.monica.utils.DebugUtils
  * @author: Tony Shen
  * @date: 2024/4/30 12:43
- * @version: V1.0 <描述当前版本功能>
+ * @version: V1.0 方便调试时，使用的工具类
  */
 
 /**
- * 把 BufferedImage 转换成 文件，便于调试时使用
+ * 把 BufferedImage 转换成文件，便于调试时使用
  */
 @Throws(IOException::class)
 fun writeImageFile(bi: BufferedImage, fileName:String) {

@@ -14,9 +14,9 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.cropData
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectMotionEventsAsList
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectTransformGestures
-import cn.netdiscovery.monica.utils.ZoomLevel
-import cn.netdiscovery.monica.utils.getNextZoomLevel
-import cn.netdiscovery.monica.utils.update
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.ZoomLevel
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.getNextZoomLevel
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.update
 import kotlinx.coroutines.launch
 
 /**
