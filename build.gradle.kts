@@ -36,7 +36,7 @@ kotlin {
                 implementation("io.insert-koin:koin-compose:${rootProject.extra["koin.compose"]}")
 
                 // color math
-                implementation("com.github.ajalt.colormath:colormath-ext-jetpack-compose:3.5.0")
+                implementation("com.github.ajalt.colormath:colormath-ext-jetpack-compose:${rootProject.extra["colormath"]}")
 
                 // coroutines utils
                 implementation ("com.github.fengzhizi715.Kotlin-Coroutines-Utils:common:${rootProject.extra["coroutines.utils"]}")
