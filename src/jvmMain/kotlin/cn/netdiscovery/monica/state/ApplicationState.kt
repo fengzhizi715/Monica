@@ -46,6 +46,7 @@ class ApplicationState(val scope:CoroutineScope,
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
 
+    // 表示用于点击了哪个功能
     var currentStatus by mutableStateOf(0)
 
     var isBasic by mutableStateOf(false)

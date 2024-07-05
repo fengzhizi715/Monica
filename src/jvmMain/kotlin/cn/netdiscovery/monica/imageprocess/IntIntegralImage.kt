@@ -21,9 +21,7 @@ class IntIntegralImage {
     private var width = 0
     private var height = 0
 
-    fun getImage(): ByteArray {
-        return image
-    }
+    fun getImage(): ByteArray = image
 
     fun setImage(image: ByteArray) {
         this.image = image
