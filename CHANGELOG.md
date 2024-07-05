@@ -4,8 +4,8 @@ Monica
 Version 0.2.4
 ---
 2024-6-30
-* 增加 FastBlur2D
-* 增加图像裁剪的熟悉
+* 增加 FastBlur2D 滤镜
+* 增加图像裁剪的属性
 
 Version 0.2.3
 ---
