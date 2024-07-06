@@ -53,6 +53,14 @@ abstract class ColorProcessorFilter:BaseFilter() {
             pixels[i] = -0x1000000 or (R[i].toInt() and 0xff shl 16) or (G[i].toInt() and 0xff shl 8) or (B[i].toInt() and 0xff)
     }
 
+    fun setRGB(image: BufferedImage, width: Int, height: Int, pixels: IntArray, R: ByteArray, G: ByteArray, B: ByteArray) {
+        val size = width * height
+        for (i in 0 until size)
+            pixels[i] = -0x1000000 or (R[i].toInt() and 0xff shl 16) or (G[i].toInt() and 0xff shl 8) or (B[i].toInt() and 0xff)
+
+        setRGB(image, 0, 0, width, height, pixels)
+    }
+
     fun toBufferedImage(bitmap:BufferedImage ?= null): BufferedImage {
         var pixels:IntArray? = IntArray(width * height)
         val dst = bitmap ?: BufferedImages.create(width,height,type)

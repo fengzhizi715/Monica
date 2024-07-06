@@ -61,10 +61,10 @@ class MosaicFilter(val r:Int=1): ColorProcessorFilter() {
             }
         }
 
-        setRGB(width,height, inPixels, output?.get(0)!!, output[1], output[2])
+        setRGB(dstImage, width,height, inPixels, output?.get(0)!!, output[1], output[2])
+
         output = null
 
-        setRGB(dstImage, 0, 0, width, height, inPixels)
         return dstImage
     }
 
