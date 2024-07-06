@@ -155,6 +155,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "LaplaceSharpenFilter" -> {
                 LaplaceSharpenFilter().transform(state.currentImage!!)
             }
+            "MosaicFilter" -> {
+                MosaicFilter(array[0] as Int).transform(state.currentImage!!)
+            }
             "MotionFilter" -> {
                 MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
             }

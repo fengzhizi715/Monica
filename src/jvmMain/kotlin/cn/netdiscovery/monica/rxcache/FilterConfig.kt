@@ -63,6 +63,9 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("radius","Float",10f))
         }))
         this.add(FilterParam("LaplaceSharpenFilter", params = mutableListOf()))
+        this.add(FilterParam("MosaicFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("r","Int",3))
+        }))
         this.add(FilterParam("MotionFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("angle","Float",0f))
             this.add(Triple("distance","Float",0f))

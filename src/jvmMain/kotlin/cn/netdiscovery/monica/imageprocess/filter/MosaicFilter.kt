@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage
  * @date:  2024/7/6 14:51
  * @version: V1.0 <描述当前版本功能>
  */
-class MosaicFilter(val r:Int=1): ColorProcessorFilter() {
+class MosaicFilter(val r:Int=3): ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
         val size = (r * 2 + 1) * (r * 2 + 1)
