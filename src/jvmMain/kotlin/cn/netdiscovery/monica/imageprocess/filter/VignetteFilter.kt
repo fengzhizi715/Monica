@@ -67,14 +67,14 @@ class VignetteFilter(
 
     private fun superpositionColor(
         ta: Int,
-        red: Int,
-        green: Int,
-        blue: Int,
+        tr: Int,
+        tg: Int,
+        tb: Int,
         k: Double
     ): Int {
-        var red = red
-        var green = green
-        var blue = blue
+        var red = tr
+        var green = tg
+        var blue = tb
         red = (vignetteColor.red * k + red * (1.0 - k)).toInt()
         green = (vignetteColor.green * k + green * (1.0 - k)).toInt()
         blue = (vignetteColor.blue * k + blue * (1.0 - k)).toInt()

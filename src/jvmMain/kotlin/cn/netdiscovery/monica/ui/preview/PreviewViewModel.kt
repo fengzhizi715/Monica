@@ -58,7 +58,7 @@ class PreviewViewModel {
     }
 
     fun loadUrl(picUrl:String, state: ApplicationState) {
-        state.scope.launch(Dispatchers.IO) {
+        state.scope.launch(IO) {
             clickLoadingDisplay {
                 BufferedImages.loadUrl(picUrl)?.let {
                     state.rawImage = it
