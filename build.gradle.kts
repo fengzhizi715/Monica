@@ -40,6 +40,11 @@ kotlin {
 
                 // coroutines utils
                 implementation ("com.github.fengzhizi715.Kotlin-Coroutines-Utils:common:${rootProject.extra["coroutines.utils"]}")
+
+                //log config
+                implementation("ch.qos.logback:logback-classic:${rootProject.extra["logback"]}")
+                implementation("ch.qos.logback:logback-core:${rootProject.extra["logback"]}")
+                implementation("ch.qos.logback:logback-access:${rootProject.extra["logback"]}")
             }
         }
         val jvmTest by getting
