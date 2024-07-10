@@ -10,12 +10,14 @@ import cn.netdiscovery.monica.imageprocess.saveImage
 import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.IO
 import filterNames
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.slf4j.Logger
 import java.awt.Color
 import java.awt.Graphics
 import java.io.File
@@ -31,6 +33,8 @@ import javax.swing.JFileChooser
  * @version: V1.0 <描述当前版本功能>
  */
 class PreviewViewModel {
+
+    private val logger: Logger = logger<PreviewViewModel>()
 
     private val blurFilter = FastBlur2D(15)
 
@@ -217,7 +221,7 @@ class PreviewViewModel {
                     if (params!=null) {
                         // 按照参数名首字母进行排序
                         Collections.sort(params) { o1, o2 -> collator.compare(o1.first, o2.first) }
-                        println("sort params: $params")
+                        logger.info("sort params: $params")
                     }
 
                     val array = mutableListOf<Any>()
@@ -226,7 +230,7 @@ class PreviewViewModel {
                         array.add(it.third)
                     }
 
-                    println("filterName: $filterName, array: $array")
+                    logger.info("filterName: $filterName, array: $array")
 
                     state.currentImage = doFilter(filterName,array,state)
                 }

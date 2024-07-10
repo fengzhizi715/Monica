@@ -1,6 +1,9 @@
 package cn.netdiscovery.monica.http
 
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.extension.openConnection
+import cn.netdiscovery.monica.utils.logger
+import org.slf4j.Logger
 import java.awt.image.BufferedImage
 import java.net.HttpURLConnection
 import javax.imageio.ImageIO
@@ -17,6 +20,7 @@ class HttpConnectionClient(
     private val timeout: Int,
     private val retryNum: Int,
 ) {
+    private val logger: Logger = logger<HttpConnectionClient>()
 
     fun getImage(url: String, ua:String?=null): BufferedImage? {
         var conn: HttpURLConnection? = null
@@ -29,7 +33,7 @@ class HttpConnectionClient(
 
                 when (conn.responseCode) {
                     HttpURLConnection.HTTP_OK -> {
-                        println("Response status code is ${conn.responseCode}")
+                        logger.info("Response status code is ${conn.responseCode}")
                         break
                     }
 
@@ -48,7 +52,7 @@ class HttpConnectionClient(
             } while (retry < retryNum)
 
             if (conn?.responseCode != 200) {
-                println("Response status code is ${conn?.responseCode}")
+                logger.info("Response status code is ${conn?.responseCode}")
                 return null
             }
 
