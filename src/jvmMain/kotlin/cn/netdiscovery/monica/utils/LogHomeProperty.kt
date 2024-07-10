@@ -14,7 +14,6 @@ import java.io.File
 class LogHomeProperty : PropertyDefinerBase() {
 
     private val LOG_HOME: String by lazy {
-//        File("").absolutePath + File.separator + "log"
         val dirPath = System.getProperty("user.dir") + File.separator + "log"
         val dir = File(dirPath)
 
@@ -22,7 +21,7 @@ class LogHomeProperty : PropertyDefinerBase() {
             dir.mkdirs()
         }
 
-        dirPath
+        dirPath + File.separator
     }
 
     override fun getPropertyValue(): String {
