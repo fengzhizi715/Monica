@@ -4,8 +4,8 @@ import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.collator
 import filterNames
-import java.text.Collator
-import java.util.*
+import org.slf4j.Logger
+import cn.netdiscovery.monica.utils.logger
 
 /**
  *
@@ -15,7 +15,10 @@ import java.util.*
  * @date: 2024/5/8 12:09
  * @version: V1.0 <描述当前版本功能>
  */
+
 class FilterViewModel {
+
+    private val logger: Logger = logger<FilterViewModel>()
 
     fun applyFilterParams(state: ApplicationState) {
         if (state.rawImageFile == null)
@@ -37,7 +40,7 @@ class FilterViewModel {
         // 按照参数名首字母进行排序
         list.sortWith { o1, o2 -> collator.compare(o1.first, o2.first); }
 
-        println("sort params: $list")
+        logger.info("sort params: $list")
         rxCache.saveOrUpdate(filterName, list)
     }
 }
