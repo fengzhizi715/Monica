@@ -71,6 +71,13 @@ private val filters: MutableList<FilterParam> by lazy {
             this.add(Triple("distance","Float",0f))
             this.add(Triple("zoom","Float",0.4f))
         }))
+        this.add(FilterParam("NatureFilter", remark = "NatureFilter 支持选择1-8，共8种风格。\n" +
+                "1:ATMOSPHERE STYLE,2:BURN STYLE,3:FOG STYLE,\n"+
+                "4:FREEZE STYLE,5:LAVA STYLE,6:METAL STYLE,\n" +
+                "7:OCEAN STYLE,8:WATER STYLE",
+        params = mutableListOf<Triple<String,String,Any>>().apply {
+            this.add(Triple("style","Int",1))
+        }))
         this.add(FilterParam("OilPaintFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
             this.add(Triple("intensity","Int",40))
             this.add(Triple("ksize","Int",10))

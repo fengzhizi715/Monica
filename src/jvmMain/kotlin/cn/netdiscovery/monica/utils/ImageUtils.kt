@@ -161,6 +161,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "MotionFilter" -> {
                 MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
             }
+            "NatureFilter" -> {
+                NatureFilter(array[0] as Int).transform(state.currentImage!!)
+            }
             "OilPaintFilter" -> {
                 OilPaintFilter(array[1] as Int,array[0] as Int).transform(state.currentImage!!)
             }
