@@ -51,6 +51,7 @@ class PreviewViewModel {
                     clickLoadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
+                            logger.info("load file: ${file.absolutePath}")
                             state.rawImage = BufferedImages.load(file)
                             state.currentImage = state.rawImage
                             state.rawImageFile = file
