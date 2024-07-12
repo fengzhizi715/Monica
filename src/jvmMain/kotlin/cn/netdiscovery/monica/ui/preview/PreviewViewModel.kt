@@ -47,7 +47,7 @@ class PreviewViewModel {
             isMultiSelection = false,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
-                state.scope.launch(Dispatchers.IO) {
+                state.scope.launch(IO) {
                     clickLoadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
