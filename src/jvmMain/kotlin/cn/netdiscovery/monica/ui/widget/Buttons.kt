@@ -19,6 +19,8 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.utils.click
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -28,6 +30,8 @@ import cn.netdiscovery.monica.utils.click
  * @date: 2024/5/11 10:46
  * @version: V1.0 <描述当前版本功能>
  */
+val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun toolTipButton(
@@ -60,7 +64,9 @@ fun toolTipButton(
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                click {
+                click { // 防止重复点击，1秒内只有1次点击是有效的
+
+                    logger.info("点击了\"$text\"按钮")
                     onClick()
                 }
             },
