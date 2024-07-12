@@ -25,9 +25,12 @@ import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
+import cn.netdiscovery.monica.utils.logger
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.concurrent.atomic.AtomicBoolean
 
 val filterNames = mutableListOf("选择滤镜")
@@ -44,6 +47,8 @@ var toastMessage by mutableStateOf("")
 lateinit var client: HttpConnectionClient
 
 lateinit var mAppKoin: Koin
+
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 fun main() = application {
 
@@ -147,10 +152,23 @@ fun main() = application {
             }
         ) {
             when(applicationState.currentStatus) {
-                ColorPickStatus -> colorPick(applicationState)
-                DoodleStatus    -> drawImage(applicationState)
-                CropSizeStatus  -> cropImage(applicationState)
-                else            -> showImage(applicationState)
+                ColorPickStatus -> {
+                    logger.info("enter ColorPickView")
+                    colorPick(applicationState)
+                }
+                DoodleStatus    -> {
+                    logger.info("enter DoodleView")
+                    drawImage(applicationState)
+                }
+                CropSizeStatus  -> {
+                    logger.info("enter CropImageView")
+                    cropImage(applicationState)
+                }
+                else            -> {
+                    logger.info("enter ShowImgView")
+                    showImage(applicationState)
+                }
+
             }
         }
     }

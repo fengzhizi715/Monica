@@ -26,8 +26,6 @@ import cn.netdiscovery.monica.utils.extension.to2fStr
  * @date: 2024/4/26 22:18
  * @version: V1.0 <描述当前版本功能>
  */
-
-
 @Composable
 fun showImage(
     state: ApplicationState
