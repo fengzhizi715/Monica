@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.utils.click
 
 /**
  *
@@ -59,7 +60,9 @@ fun toolTipButton(
         IconButton(
             modifier = Modifier.padding(5.dp),
             onClick = {
-                onClick()
+                click {
+                    onClick()
+                }
             },
             enabled = enable()
         ) {
