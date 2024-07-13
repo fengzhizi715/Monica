@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 0.2.5
+---
+2024-7-13
+* 增加 NatureFilter 滤镜
+* 增加 logback 作为日志框架
+
 Version 0.2.4
 ---
 2024-6-30
