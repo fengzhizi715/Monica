@@ -213,6 +213,7 @@ class PreviewViewModel {
                 val tempImage = state.currentImage!!
 
                 if (state.isHLS) {
+                    logger.info("saturation = $saturation, hue = $hue, luminance = $luminance ")
                     state.currentImage = hsl(state.currentImage!!, saturation, hue, luminance)
                 }
 
@@ -224,7 +225,7 @@ class PreviewViewModel {
                     if (params!=null) {
                         // 按照参数名首字母进行排序
                         Collections.sort(params) { o1, o2 -> collator.compare(o1.first, o2.first) }
-                        logger.info("sort params: $params")
+                        logger.info("filterName: $filterName, sort params: $params")
                     }
 
                     val array = mutableListOf<Any>()
