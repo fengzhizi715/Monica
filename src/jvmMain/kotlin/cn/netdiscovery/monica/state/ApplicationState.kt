@@ -55,6 +55,8 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isHLS by mutableStateOf(false)
 
+    var isEnhance by mutableStateOf(false)
+
     var isFilter by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)

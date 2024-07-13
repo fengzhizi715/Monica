@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
+import cn.netdiscovery.monica.utils.isMac
 
 /**
  *
@@ -45,6 +46,12 @@ fun controlPanel(
             imageProcessView(state)  // HSL 色彩空间调色
 
             divider()
+
+            if(isMac) {
+                imageEnhanceView(state)
+
+                divider()
+            }
 
             filterView(state) // 滤镜相关的内容
         }
