@@ -167,7 +167,6 @@ fun main() = application {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)
                 }
-
             }
         }
     }

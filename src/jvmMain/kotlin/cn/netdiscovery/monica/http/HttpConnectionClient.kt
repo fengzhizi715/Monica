@@ -52,7 +52,7 @@ class HttpConnectionClient(
             } while (retry < retryNum)
 
             if (conn?.responseCode != 200) {
-                logger.info("Response status code is ${conn?.responseCode}")
+                logger.debug("Response status code is ${conn?.responseCode}")
                 return null
             }
 
