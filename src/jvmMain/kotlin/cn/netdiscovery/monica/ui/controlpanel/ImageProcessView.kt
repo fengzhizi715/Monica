@@ -15,6 +15,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -24,6 +26,8 @@ import org.koin.compose.koinInject
  * @date: 2024/5/1 00:43
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @Composable
 fun imageProcessView(state: ApplicationState) {
     val viewModel: PreviewViewModel = koinInject()
@@ -36,6 +40,10 @@ fun imageProcessView(state: ApplicationState) {
                 viewModel.saturation = 0f
                 viewModel.hue = 0f
                 viewModel.luminance = 0f
+
+                logger.info("取消了图像处理")
+            } else {
+                logger.info("勾选了图像处理")
             }
         })
         Text("图像处理", color = Color.Black, fontSize = 20.sp)

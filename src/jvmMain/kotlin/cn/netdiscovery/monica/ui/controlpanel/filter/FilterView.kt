@@ -22,6 +22,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.click
 import filterNames
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import showToast
 import toastMessage
 
@@ -37,6 +39,8 @@ val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
 
 var selectedIndex = mutableStateOf(0)
 
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @Composable
 fun filterView(state: ApplicationState) {
 
@@ -48,6 +52,9 @@ fun filterView(state: ApplicationState) {
 
             if (!state.isFilter) {
                 selectedIndex.value = 0
+                logger.info("取消了滤镜")
+            } else {
+                logger.info("勾选了滤镜")
             }
         })
         Text("滤镜", color = Color.Black, fontSize = 20.sp)
