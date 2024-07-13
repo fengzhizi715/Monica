@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.state.EqualizeHistStatus
+import cn.netdiscovery.monica.state.GammaStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -49,6 +50,13 @@ fun imageEnhanceView(state: ApplicationState) {
             enable = { state.isEnhance },
             onClick = {
                 state.currentStatus = EqualizeHistStatus
+            })
+
+        toolTipButton(text = "gamma 变换",
+            painter = painterResource("images/imageenhance/gamma.png"),
+            enable = { state.isEnhance },
+            onClick = {
+                state.currentStatus = GammaStatus
             })
     }
 }

@@ -22,13 +22,13 @@ val BlurStatus: Int = 1 shl 0       // 1
 val MosaicStatus: Int = 1 shl 1     // 2
 val DoodleStatus: Int = 1 shl 2     // 4
 val ColorPickStatus: Int = 1 shl 3  // 8
-
 val FlipStatus: Int = 1 shl 4       // 16
 val RotateStatus: Int = 1 shl 5     // 32
 val ResizeStatus: Int = 1 shl 6     // 64
 val CropSizeStatus: Int = 1 shl 7   // 128
 
 val EqualizeHistStatus: Int = 1 shl 8   // 256
+val GammaStatus: Int = 1 shl 8   // 512
 
 
 @Composable
