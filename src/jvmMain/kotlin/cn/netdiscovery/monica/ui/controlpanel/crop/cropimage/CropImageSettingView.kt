@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFactory
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import kotlinx.coroutines.launch
 
 /**
@@ -521,27 +522,4 @@ private fun subTitle(
         fontSize = fontSize,
         fontWeight = FontWeight.Bold
     )
-}
-
-@Composable
-private fun desktopLazyRow(content: @Composable () -> Unit) {
-    val scrollState = rememberLazyListState()
-    val coroutineScope = rememberCoroutineScope()
-
-    LazyRow(
-        state = scrollState,
-        modifier = Modifier
-            .draggable(
-                orientation = Orientation.Horizontal,
-                state = rememberDraggableState { delta ->
-                    coroutineScope.launch {
-                        scrollState.scrollBy(-delta)
-                    }
-                },
-            )
-    ) {
-        item {
-            content.invoke()
-        }
-    }
 }

@@ -28,7 +28,7 @@ val ResizeStatus: Int = 1 shl 6     // 64
 val CropSizeStatus: Int = 1 shl 7   // 128
 
 val EqualizeHistStatus: Int = 1 shl 8   // 256
-val GammaStatus: Int = 1 shl 8   // 512
+val GammaStatus: Int = 1 shl 8          // 512
 
 
 @Composable
