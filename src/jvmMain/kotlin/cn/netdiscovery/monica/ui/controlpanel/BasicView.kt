@@ -10,6 +10,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -19,6 +21,7 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
  * @date: 2024/5/1 00:39
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 @Composable
 fun basicView(state: ApplicationState) {
@@ -29,6 +32,9 @@ fun basicView(state: ApplicationState) {
 
             if (!state.isBasic) {
                 state.resetCurrentStatus()
+                logger.info("取消了基础功能")
+            } else {
+                logger.info("勾选了基础功能")
             }
         })
         Text("基础功能", color = Color.Black, fontSize = 20.sp)

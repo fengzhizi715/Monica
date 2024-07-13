@@ -22,6 +22,8 @@ import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.click
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -31,6 +33,8 @@ import org.koin.compose.koinInject
  * @date: 2024/5/7 13:56
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @Composable
 fun cropView(state: ApplicationState) {
     val viewModel: CropViewModel = koinInject()
@@ -41,6 +45,9 @@ fun cropView(state: ApplicationState) {
 
             if (!state.isCrop) {
                 state.resetCurrentStatus()
+                logger.info("取消了裁剪")
+            } else {
+                logger.info("勾选了裁剪")
             }
         })
         Text("裁剪", color = Color.Black, fontSize = 20.sp)
