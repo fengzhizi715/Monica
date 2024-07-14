@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.http
 
-import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.extension.openConnection
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger

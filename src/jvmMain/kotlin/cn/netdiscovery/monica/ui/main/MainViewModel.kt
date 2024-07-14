@@ -5,8 +5,10 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
+import cn.netdiscovery.monica.utils.logger
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
+import org.slf4j.Logger
 import java.io.File
 
 /**
@@ -18,6 +20,7 @@ import java.io.File
  * @version: V1.0 <描述当前版本功能>
  */
 class MainViewModel {
+    private val logger: Logger = logger<MainViewModel>()
 
     fun dropFile(state: ApplicationState) {
         state.window.contentPane.dropTarget = dropFileTarget {
@@ -27,6 +30,7 @@ class MainViewModel {
                     if (filePath != null) {
                         val file = File(filePath)
                         if (file.isFile && file.extension in legalSuffixList) {
+                            logger.info("load file: ${file.absolutePath}")
                             state.rawImage = BufferedImages.load(file)
                             state.currentImage = state.rawImage
                             state.rawImageFile = file
