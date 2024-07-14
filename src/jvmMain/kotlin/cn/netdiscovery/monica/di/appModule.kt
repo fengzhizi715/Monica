@@ -5,7 +5,6 @@ import org.koin.dsl.module
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
-import cn.netdiscovery.monica.ui.main.MainViewModel
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 
 /**
@@ -18,7 +17,6 @@ import cn.netdiscovery.monica.ui.preview.PreviewViewModel
  */
 val viewModelModule = module {
 
-    singleOf(::MainViewModel)
     singleOf(::PreviewViewModel)
     singleOf(::DoodleViewModel)
     singleOf(::CropViewModel)
