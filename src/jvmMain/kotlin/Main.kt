@@ -175,7 +175,8 @@ fun main() = application {
 }
 
 /**
- * 初始化数据
+ * 初始化数据，只初始一次
+ * 包括：加载滤镜的配置、初始化 HttpConnectionClient、加载 opencv 的图像处理库
  */
 private fun initData() {
 
@@ -186,7 +187,8 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
 
         FileUtil.copy()
-        logger.info("MonicaImageProcess version = ${ImageProcess.getVersion()}, opencv version = ${ImageProcess.getOpenCVVersion()}")
+        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+
         flag.set(true)
     }
 }
