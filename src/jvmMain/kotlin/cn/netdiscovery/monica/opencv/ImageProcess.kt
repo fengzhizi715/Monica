@@ -17,5 +17,7 @@ object ImageProcess {
             System.load("${FileUtil.loadPath}libMonicaImageProcess.dylib")
         }
     }
+
+    external fun getVersion():String
     external fun getOpenCVVersion():String
 }

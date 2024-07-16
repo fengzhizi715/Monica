@@ -186,7 +186,7 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
 
         FileUtil.copy()
-        println("opencv version = "+ImageProcess.getOpenCVVersion())
+        logger.info("MonicaImageProcess version = ${ImageProcess.getVersion()}, opencv version = ${ImageProcess.getOpenCVVersion()}")
         flag.set(true)
     }
 }
