@@ -1,5 +1,7 @@
 package cn.netdiscovery.monica.opencv
 
+import cn.netdiscovery.monica.utils.isMac
+
 /**
  *
  * @FileName:
@@ -10,6 +12,10 @@ package cn.netdiscovery.monica.opencv
  */
 object ImageProcess {
 
-
-    external fun getOpenCVVersion()
+    init {
+        if (isMac) {
+            System.load("${FileUtil.loadPath}libMonicaImageProcess.dylib")
+        }
+    }
+    external fun getOpenCVVersion():String
 }

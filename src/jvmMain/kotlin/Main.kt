@@ -11,6 +11,8 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
+import cn.netdiscovery.monica.opencv.FileUtil
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.rxcache.saveFilterRemark
@@ -182,6 +184,9 @@ private fun initData() {
         saveFilterParams()
         saveFilterRemark()
         client = HttpConnectionClient(timeout, retryNum)
+
+        FileUtil.copy()
+        println("opencv version = "+ImageProcess.getOpenCVVersion())
         flag.set(true)
     }
 }
