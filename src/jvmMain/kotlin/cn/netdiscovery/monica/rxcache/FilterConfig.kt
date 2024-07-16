@@ -110,14 +110,9 @@ private val filters: MutableList<FilterParam> by lazy {
     }
 }
 
-fun saveFilterParams(){
+fun saveFilterParamsAndRemark(){
     filters.forEach {
         rxCache.saveOrUpdate(it.name, it.params)
-    }
-}
-
-fun saveFilterRemark(){
-    filters.forEach {
         rxCache.saveOrUpdate(KEY_FILTER_REMARK + it.name, it.remark)
     }
 }
