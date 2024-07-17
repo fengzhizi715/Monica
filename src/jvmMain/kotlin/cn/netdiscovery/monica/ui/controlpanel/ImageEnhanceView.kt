@@ -8,8 +8,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.image2ByteArray
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.state.EqualizeHistStatus
 import cn.netdiscovery.monica.state.GammaStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -50,6 +52,14 @@ fun imageEnhanceView(state: ApplicationState) {
             enable = { state.isEnhance },
             onClick = {
                 state.currentStatus = EqualizeHistStatus
+
+                val width = state.currentImage!!.width
+                val height = state.currentImage!!.height
+                val byteArray = state.currentImage!!.image2ByteArray()
+
+                val result = ImageProcess.equalizeHist(byteArray,width,height)
+
+                state.currentImage = BufferedImages.toBufferedImage(result,width,height)
             })
 
         toolTipButton(text = "gamma 变换",

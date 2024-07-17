@@ -20,4 +20,6 @@ object ImageProcess {
 
     external fun getVersion():String
     external fun getOpenCVVersion():String
+
+    external fun equalizeHist(src: ByteArray,width:Int,height:Int):IntArray
 }
