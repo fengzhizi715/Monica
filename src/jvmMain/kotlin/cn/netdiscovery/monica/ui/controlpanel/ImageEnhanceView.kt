@@ -15,6 +15,9 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.EqualizeHistStatus
 import cn.netdiscovery.monica.state.GammaStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import com.safframework.kotlin.coroutines.IO
+import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -57,9 +60,12 @@ fun imageEnhanceView(state: ApplicationState) {
                 val height = state.currentImage!!.height
                 val byteArray = state.currentImage!!.image2ByteArray()
 
-                val result = ImageProcess.equalizeHist(byteArray,width,height)
-
-                state.currentImage = BufferedImages.toBufferedImage(result,width,height)
+                state.scope.launch(IO) {
+                    clickLoadingDisplay {
+                        val result = ImageProcess.equalizeHist(byteArray,width,height)
+                        state.currentImage = BufferedImages.toBufferedImage(result,width,height)
+                    }
+                }
             })
 
         toolTipButton(text = "gamma 变换",
