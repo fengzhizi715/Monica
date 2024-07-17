@@ -29,6 +29,8 @@ val CropSizeStatus: Int = 1 shl 7   // 128
 
 val EqualizeHistStatus: Int = 1 shl 8   // 256
 val GammaStatus: Int = 1 shl 9          // 512
+val LaplaceStatus: Int = 1 shl 10          // 1024
+val USMStatus: Int = 1 shl 11          // 1024
 
 
 @Composable
