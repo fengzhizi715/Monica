@@ -34,4 +34,45 @@ class ImageEnhanceViewModel {
             }
         }
     }
+
+    fun gammaCorrection(state: ApplicationState, gamma:Float) {
+        val width = state.currentImage!!.width
+        val height = state.currentImage!!.height
+        val byteArray = state.currentImage!!.image2ByteArray()
+        state.scope.launch(IO) {
+            clickLoadingDisplay {
+                val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
+                state.addQueue(state.currentImage!!)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+            }
+        }
+    }
+
+    fun laplace(state: ApplicationState) {
+        val width = state.currentImage!!.width
+        val height = state.currentImage!!.height
+        val byteArray = state.currentImage!!.image2ByteArray()
+
+        state.scope.launch(IO) {
+            clickLoadingDisplay {
+                val outPixels = ImageProcess.laplace(byteArray)
+                state.addQueue(state.currentImage!!)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+            }
+        }
+    }
+
+    fun unsharpMask(state: ApplicationState,radius:Int,threshold:Int,amount:Int) {
+        val width = state.currentImage!!.width
+        val height = state.currentImage!!.height
+        val byteArray = state.currentImage!!.image2ByteArray()
+
+        state.scope.launch(IO) {
+            clickLoadingDisplay {
+                val outPixels = ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
+                state.addQueue(state.currentImage!!)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+            }
+        }
+    }
 }

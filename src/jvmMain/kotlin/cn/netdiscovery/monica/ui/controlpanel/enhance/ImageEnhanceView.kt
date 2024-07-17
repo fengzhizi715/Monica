@@ -85,17 +85,7 @@ fun imageEnhanceView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = LaplaceStatus
 
-                val width = state.currentImage!!.width
-                val height = state.currentImage!!.height
-                val byteArray = state.currentImage!!.image2ByteArray()
-
-                state.scope.launch(IO) {
-                    clickLoadingDisplay {
-                        val outPixels = ImageProcess.laplace(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    }
-                }
+                viewModel.laplace(state)
             })
 
         toolTipButton(text = "USM 锐化",
@@ -110,18 +100,18 @@ fun imageEnhanceView(state: ApplicationState) {
 
         when(state.currentStatus) {
             GammaStatus -> {
-                generateGammaParams(state)
+                generateGammaParams(state,viewModel)
             }
 
             USMStatus -> {
-                generateUSMParams(state)
+                generateUSMParams(state,viewModel)
             }
         }
     }
 }
 
 @Composable
-private fun generateGammaParams(state: ApplicationState) {
+private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhanceViewModel) {
 
     var gammaText by remember {
         mutableStateOf("1.0")
@@ -150,16 +140,7 @@ private fun generateGammaParams(state: ApplicationState) {
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
                 onClick = {
                     click {
-                        val width = state.currentImage!!.width
-                        val height = state.currentImage!!.height
-                        val byteArray = state.currentImage!!.image2ByteArray()
-                        state.scope.launch(IO) {
-                           clickLoadingDisplay {
-                               val outPixels = ImageProcess.gammaCorrection(byteArray,gammaText.toFloat())
-                               state.addQueue(state.currentImage!!)
-                               state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                           }
-                        }
+                        viewModel.gammaCorrection(state, gammaText.toFloat())
                     }
                 },
                 enabled = state.isEnhance
@@ -172,7 +153,7 @@ private fun generateGammaParams(state: ApplicationState) {
 }
 
 @Composable
-private fun generateUSMParams(state: ApplicationState) {
+private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceViewModel) {
 
     var amountText by remember {
         mutableStateOf("25")
@@ -247,17 +228,7 @@ private fun generateUSMParams(state: ApplicationState) {
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
                 onClick = {
                     click {
-                        val width = state.currentImage!!.width
-                        val height = state.currentImage!!.height
-                        val byteArray = state.currentImage!!.image2ByteArray()
-
-                        state.scope.launch(IO) {
-                            clickLoadingDisplay {
-                                val outPixels = ImageProcess.unsharpMask(byteArray,radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
-                                state.addQueue(state.currentImage!!)
-                                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                            }
-                        }
+                        viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
                     }
                 },
                 enabled = state.isEnhance
