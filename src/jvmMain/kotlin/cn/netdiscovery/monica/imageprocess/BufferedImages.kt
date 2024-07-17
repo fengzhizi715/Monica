@@ -6,7 +6,7 @@ import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
-import java.awt.image.BufferedImage.TYPE_INT_RGB
+import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.InputStream
 import javax.imageio.ImageIO
@@ -14,6 +14,7 @@ import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.floor
 import kotlin.math.sin
+
 
 /**
  *
@@ -46,6 +47,13 @@ class BufferedImages {
 
         fun loadUrl(url:String): BufferedImage? = client.getImage(url)
     }
+}
+
+
+fun BufferedImage.image2ByteArray() : ByteArray {
+    val outStream = ByteArrayOutputStream()
+    ImageIO.write(this, "png", outStream)
+    return outStream.toByteArray()
 }
 
 /**
