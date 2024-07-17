@@ -62,8 +62,9 @@ fun imageEnhanceView(state: ApplicationState) {
 
                 state.scope.launch(IO) {
                     clickLoadingDisplay {
-                        val result = ImageProcess.equalizeHist(byteArray)
-                        state.currentImage = BufferedImages.toBufferedImage(result,width,height)
+                        val outPixels = ImageProcess.equalizeHist(byteArray)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
                     }
                 }
             })
@@ -80,8 +81,9 @@ fun imageEnhanceView(state: ApplicationState) {
 
                 state.scope.launch(IO) {
                     clickLoadingDisplay {
-                        val result = ImageProcess.gammaCorrection(byteArray,2.0f)
-                        state.currentImage = BufferedImages.toBufferedImage(result,width,height)
+                        val outPixels = ImageProcess.gammaCorrection(byteArray,2.0f)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
                     }
                 }
             })
