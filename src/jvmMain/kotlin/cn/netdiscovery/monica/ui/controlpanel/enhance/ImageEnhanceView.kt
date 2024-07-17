@@ -69,17 +69,7 @@ fun imageEnhanceView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = EqualizeHistStatus
 
-                val width = state.currentImage!!.width
-                val height = state.currentImage!!.height
-                val byteArray = state.currentImage!!.image2ByteArray()
-
-                state.scope.launch(IO) {
-                    clickLoadingDisplay {
-                        val outPixels = ImageProcess.equalizeHist(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    }
-                }
+                viewModel.equalizeHist(state)
             })
 
         toolTipButton(text = "gamma 变换",
