@@ -24,4 +24,8 @@ object ImageProcess {
     external fun equalizeHist(src: ByteArray):IntArray
 
     external fun gammaCorrection(src: ByteArray,k:Float):IntArray
+
+    external fun laplace(src: ByteArray):IntArray
+
+    external fun unsharpMask(src: ByteArray, radius:Int, threshold:Int, amount:Int):IntArray
 }

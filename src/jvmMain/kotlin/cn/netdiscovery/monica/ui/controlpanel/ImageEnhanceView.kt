@@ -87,5 +87,43 @@ fun imageEnhanceView(state: ApplicationState) {
                     }
                 }
             })
+
+        toolTipButton(text = "Laplace",
+            painter = painterResource("images/imageenhance/laplace.png"),
+            enable = { state.isEnhance },
+            onClick = {
+                state.currentStatus = GammaStatus
+
+                val width = state.currentImage!!.width
+                val height = state.currentImage!!.height
+                val byteArray = state.currentImage!!.image2ByteArray()
+
+                state.scope.launch(IO) {
+                    clickLoadingDisplay {
+                        val outPixels = ImageProcess.laplace(byteArray)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    }
+                }
+            })
+
+        toolTipButton(text = "USM",
+            painter = painterResource("images/imageenhance/usm.png"),
+            enable = { state.isEnhance },
+            onClick = {
+                state.currentStatus = GammaStatus
+
+                val width = state.currentImage!!.width
+                val height = state.currentImage!!.height
+                val byteArray = state.currentImage!!.image2ByteArray()
+
+                state.scope.launch(IO) {
+                    clickLoadingDisplay {
+                        val outPixels = ImageProcess.unsharpMask(byteArray,181,0,90)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    }
+                }
+            })
     }
 }
