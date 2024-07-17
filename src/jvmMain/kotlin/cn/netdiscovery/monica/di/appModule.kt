@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.main.MainViewModel
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
+import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
 
 /**
  *
@@ -23,4 +24,5 @@ val viewModelModule = module {
     singleOf(::DoodleViewModel)
     singleOf(::CropViewModel)
     singleOf(::FilterViewModel)
+    singleOf(::ImageEnhanceViewModel)
 }

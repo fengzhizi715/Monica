@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.enhance
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -22,11 +22,13 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.click
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -42,6 +44,8 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun imageEnhanceView(state: ApplicationState) {
+
+    val viewModel: ImageEnhanceViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isEnhance, onCheckedChange = {
