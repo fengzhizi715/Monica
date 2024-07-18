@@ -28,9 +28,13 @@ class ImageEnhanceViewModel {
 
         state.scope.launch(IO) {
             clickLoadingDisplay {
-                val outPixels = ImageProcess.equalizeHist(byteArray)
-                state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                try {
+                    val outPixels = ImageProcess.equalizeHist(byteArray)
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                } catch (e:Exception) {
+                    logger.error("equalizeHist is failed", e)
+                }
             }
         }
     }
@@ -39,6 +43,7 @@ class ImageEnhanceViewModel {
         val width = state.currentImage!!.width
         val height = state.currentImage!!.height
         val byteArray = state.currentImage!!.image2ByteArray()
+        
         state.scope.launch(IO) {
             clickLoadingDisplay {
                 val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
