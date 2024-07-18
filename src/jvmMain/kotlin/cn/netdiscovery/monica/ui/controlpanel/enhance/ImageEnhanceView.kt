@@ -96,7 +96,7 @@ fun imageEnhanceView(state: ApplicationState) {
             })
 
         toolTipButton(text = "自动色彩均衡",
-            painter = painterResource("images/imageenhance/usm.png"),
+            painter = painterResource("images/imageenhance/ace.png"),
             enable = { state.isEnhance },
             onClick = {
                 state.currentStatus = ACEStatus
