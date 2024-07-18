@@ -1,6 +1,11 @@
 Monica
 ===
 
+Version 0.2.6
+---
+2024-7-18
+* 在 MacOS(只针对Intel 芯片）增加多种图像增强的算法，通过 OpenCV C++ 实现
+
 Version 0.2.5
 ---
 2024-7-13
