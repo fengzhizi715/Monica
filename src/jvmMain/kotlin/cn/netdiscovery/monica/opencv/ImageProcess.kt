@@ -47,4 +47,9 @@ object ImageProcess {
      * USM 锐化
      */
     external fun unsharpMask(src: ByteArray, radius:Int, threshold:Int, amount:Int):IntArray
+
+    /**
+     * 自动色彩均衡
+     */
+    external fun ace(src: ByteArray, ratio:Int, radius:Int):IntArray
 }

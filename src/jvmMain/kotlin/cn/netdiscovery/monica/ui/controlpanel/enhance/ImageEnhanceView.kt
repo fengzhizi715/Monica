@@ -94,10 +94,16 @@ fun imageEnhanceView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = USMStatus
             })
+
+        toolTipButton(text = "自动色彩均衡",
+            painter = painterResource("images/imageenhance/usm.png"),
+            enable = { state.isEnhance },
+            onClick = {
+                state.currentStatus = ACEStatus
+            })
     }
 
     Column {
-
         when(state.currentStatus) {
             GammaStatus -> {
                 generateGammaParams(state,viewModel)
@@ -105,6 +111,10 @@ fun imageEnhanceView(state: ApplicationState) {
 
             USMStatus -> {
                 generateUSMParams(state,viewModel)
+            }
+
+            ACEStatus -> {
+                generateACEParams(state,viewModel)
             }
         }
     }
@@ -229,6 +239,71 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
                 onClick = {
                     click {
                         viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
+                    }
+                },
+                enabled = state.isEnhance
+            ) {
+                Text(text = "确定",
+                    color = if (state.isEnhance) Color.Unspecified else Color.LightGray)
+            }
+        }
+    }
+}
+
+@Composable
+private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceViewModel) {
+
+    var ratioText by remember {
+        mutableStateOf("4")
+    }
+
+    var radiusText by remember {
+        mutableStateOf("1")
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "Ratio")
+
+        BasicTextField(
+            value = ratioText,
+            onValueChange = { str ->
+                ratioText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "Radius")
+
+        BasicTextField(
+            value = radiusText,
+            onValueChange = { str ->
+                radiusText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+
+        Row {
+            Button(
+                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
+                onClick = {
+                    click {
+                        viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
                     }
                 },
                 enabled = state.isEnhance

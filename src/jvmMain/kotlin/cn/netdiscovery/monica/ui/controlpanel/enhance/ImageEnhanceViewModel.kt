@@ -75,4 +75,18 @@ class ImageEnhanceViewModel {
             }
         }
     }
+
+    fun ace(state: ApplicationState, ratio:Int, radius:Int) {
+        val width = state.currentImage!!.width
+        val height = state.currentImage!!.height
+        val byteArray = state.currentImage!!.image2ByteArray()
+
+        state.scope.launch(IO) {
+            clickLoadingDisplay {
+                val outPixels = ImageProcess.ace(byteArray,ratio,radius)
+                state.addQueue(state.currentImage!!)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+            }
+        }
+    }
 }
