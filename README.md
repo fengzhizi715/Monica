@@ -89,7 +89,12 @@ Monica 支持多达 20 多款滤镜，大多数可以自行调整参数。
 
 各种滤镜效果可以不断叠加，也可以跟 HSL 调色以及基础功能等一起使用。
 
-# 三. 更多详情
+# 三. 本地的 CV 算法
+https://github.com/fengzhizi715/MonicaImageProcess
+
+目前是在 Mac 环境下编译的。
+
+# 四. 更多详情
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使用，也欢迎提意见。
 
@@ -103,7 +108,7 @@ https://juejin.cn/post/7374238968685920282
 
 https://juejin.cn/post/7365711904159612954
 
-# 四. TODO List：
+# 五. TODO List：
 
 * 针对不同的平台打不同的包
 * 增加对图像添加文字的功能。
