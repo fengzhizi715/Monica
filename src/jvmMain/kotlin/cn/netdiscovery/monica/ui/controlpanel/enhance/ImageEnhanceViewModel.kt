@@ -43,12 +43,16 @@ class ImageEnhanceViewModel {
         val width = state.currentImage!!.width
         val height = state.currentImage!!.height
         val byteArray = state.currentImage!!.image2ByteArray()
-        
+
         state.scope.launch(IO) {
             clickLoadingDisplay {
-                val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
-                state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                try {
+                    val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                } catch (e:Exception) {
+                    logger.error("gammaCorrection is failed", e)
+                }
             }
         }
     }
@@ -60,9 +64,13 @@ class ImageEnhanceViewModel {
 
         state.scope.launch(IO) {
             clickLoadingDisplay {
-                val outPixels = ImageProcess.laplace(byteArray)
-                state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                try {
+                    val outPixels = ImageProcess.laplace(byteArray)
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                } catch (e:Exception) {
+                    logger.error("laplace is failed", e)
+                }
             }
         }
     }
@@ -74,9 +82,13 @@ class ImageEnhanceViewModel {
 
         state.scope.launch(IO) {
             clickLoadingDisplay {
-                val outPixels = ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
-                state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                try {
+                    val outPixels = ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                } catch (e:Exception) {
+                    logger.error("unsharpMask is failed", e)
+                }
             }
         }
     }
@@ -88,9 +100,13 @@ class ImageEnhanceViewModel {
 
         state.scope.launch(IO) {
             clickLoadingDisplay {
-                val outPixels = ImageProcess.ace(byteArray,ratio,radius)
-                state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                try {
+                    val outPixels = ImageProcess.ace(byteArray,ratio,radius)
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                } catch (e:Exception) {
+                    logger.error("ace is failed", e)
+                }
             }
         }
     }
