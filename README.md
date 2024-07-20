@@ -96,7 +96,7 @@ Monica 支持多达 20 多款滤镜，大多数可以自行调整参数。
 OpenCV 使用的算法在：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前是在 Mac(只针对Intel 芯片）环境下编译的，Kotlin 通过 jni 来调用 OpenCV 的算法。
+目前是在 Mac 环境下编译的，Kotlin 通过 jni 来调用 OpenCV 的算法。
 
 # 四. 更多详情
 

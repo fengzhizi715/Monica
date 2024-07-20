@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.logger
+import org.slf4j.Logger
 import java.io.File
 import java.io.FileOutputStream
 
@@ -14,10 +16,12 @@ import java.io.FileOutputStream
  * @version: V1.0 <描述当前版本功能>
  */
 object FileUtil {
+    private val logger: Logger = logger<FileUtil>()
+
     val loadPath = File("").absolutePath + File.separator
 
     fun copy() {
-        println("loadPath: $loadPath")
+        logger.info("loadPath: $loadPath")
 
         if (isMac) {
             if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
