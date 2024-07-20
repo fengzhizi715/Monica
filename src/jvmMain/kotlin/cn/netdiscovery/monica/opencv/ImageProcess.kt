@@ -2,7 +2,6 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isMacM
 
 /**
  *
@@ -15,10 +14,12 @@ import cn.netdiscovery.monica.utils.isMacM
 object ImageProcess {
 
     init { // 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
-        if (isMacM) { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
-            System.load("${FileUtil.loadPath}libMonicaImageProcess_aarch64.dylib")
-        } else if (isMac) {
-            System.load("${FileUtil.loadPath}libMonicaImageProcess.dylib")
+        if (isMac) {
+            if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
+                System.load("${FileUtil.loadPath}libMonicaImageProcess_aarch64.dylib")
+            } else {
+                System.load("${FileUtil.loadPath}libMonicaImageProcess.dylib")
+            }
         }
     }
 
