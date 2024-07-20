@@ -1,5 +1,7 @@
 package cn.netdiscovery.monica.opencv
 
+import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.isMacM
 import java.io.File
 import java.io.FileOutputStream
 
@@ -16,7 +18,12 @@ object FileUtil {
 
     fun copy() {
         println("loadPath: $loadPath")
-        copyLibrary("libMonicaImageProcess.dylib")
+
+        if (isMacM) { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
+            copyLibrary("libMonicaImageProcess_aarch64.dylib")
+        } else if (isMac) {
+            copyLibrary("libMonicaImageProcess.dylib")
+        }
     }
 
     private fun copyLibrary(libName: String) {
