@@ -27,7 +27,9 @@ import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
 import cn.netdiscovery.monica.utils.arch
+import cn.netdiscovery.monica.utils.javaVersion
 import cn.netdiscovery.monica.utils.os
+import cn.netdiscovery.monica.utils.osVersion
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -182,7 +184,7 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
-        logger.info("os = $os, arch = $arch")
+        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion")
 
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()

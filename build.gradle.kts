@@ -1,12 +1,21 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import java.io.FileInputStream
+import java.util.*
 
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
 }
 
+val appVersion = Properties().apply {
+    val dir =
+        project.projectDir.absolutePath + File.separator + "src" + File.separator + "jvmMain" + File.separator + "resources"
+
+    load(FileInputStream(File(dir, "config.properties")))
+}.getProperty("app_version") ?: "1.0.0"
+
 group = "cn.netdiscovery.monica"
-version = "1.0-SNAPSHOT"
+version = appVersion
 
 val mOutputDir = project.buildDir.resolve("output")
 
@@ -58,7 +67,7 @@ compose.desktop {
             outputBaseDir.set(mOutputDir)   //build/output
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
             packageName = "Monica"
-            packageVersion = "1.0.0"
+            packageVersion = appVersion
             includeAllModules = true    //包含所有模块
         }
     }

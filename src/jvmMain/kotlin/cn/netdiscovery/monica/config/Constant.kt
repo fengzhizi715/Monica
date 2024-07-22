@@ -1,6 +1,9 @@
 package cn.netdiscovery.monica.config
 
 import androidx.compose.ui.unit.dp
+import java.io.File
+import java.io.FileInputStream
+import java.util.*
 
 /**
  *
@@ -10,7 +13,15 @@ import androidx.compose.ui.unit.dp
  * @date: 2024/5/7 10:55
  * @version: V1.0 <描述当前版本功能>
  */
-const val appVersion = "v0.2.6.1"
+val appVersion by lazy {
+    val dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "jvmMain" + File.separator + "resources"
+
+    val properties = Properties().apply {
+        load(FileInputStream(File(dir, "config.properties")))
+    }
+
+    "v"+properties.getProperty("app_version")
+}
 
 const val previewWidth = 750
 
