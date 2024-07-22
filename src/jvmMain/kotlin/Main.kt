@@ -184,7 +184,7 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
-        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion")
+        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion，appVersion = $appVersion")
 
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()

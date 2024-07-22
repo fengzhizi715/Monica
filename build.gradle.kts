@@ -28,7 +28,7 @@ repositories {
 
 kotlin {
     jvm {
-        jvmToolchain(11)
+        jvmToolchain(17)
         withJava()
     }
     sourceSets {
@@ -60,15 +60,29 @@ kotlin {
     }
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
+
 compose.desktop {
     application {
         mainClass = "MainKt"
         nativeDistributions {
             outputBaseDir.set(mOutputDir)   //build/output
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
             packageName = "Monica"
             packageVersion = appVersion
+
+            jvmArgs += listOf("-Xmx2G")
             includeAllModules = true    //包含所有模块
+
+            macOS {
+                bundleID = "cn.netdiscovery.monica"
+
+                dockName = "monica"
+            }
         }
     }
 }
