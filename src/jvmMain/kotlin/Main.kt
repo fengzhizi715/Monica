@@ -26,6 +26,8 @@ import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
+import cn.netdiscovery.monica.utils.arch
+import cn.netdiscovery.monica.utils.os
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -180,6 +182,8 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
+        logger.info("os = $os, arch = $arch")
+
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()
         client = HttpConnectionClient(timeout, retryNum)
