@@ -11,7 +11,7 @@ import loadingDisplay
  * @date: 2024/4/27 17:16
  * @version: V1.0 <描述当前版本功能>
  */
-const val VIEW_CLICK_INTERVAL_TIME = 800 //View的click方法的两次点击间隔时间
+const val VIEW_CLICK_INTERVAL_TIME = 1000 // View的click方法的两次点击间隔时间
 
 @Composable
 inline fun composeClick(
