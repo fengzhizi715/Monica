@@ -16,11 +16,15 @@ import java.util.*
 val appVersion by lazy {
     val dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "jvmMain" + File.separator + "resources"
 
-    val properties = Properties().apply {
-        load(FileInputStream(File(dir, "config.properties")))
-    }
+    try {
+        val properties = Properties().apply {
+            load(FileInputStream(File(dir, "config.properties")))
+        }
 
-    "v"+properties.getProperty("app_version")
+        "v"+properties.getProperty("app_version")
+    } catch (e:Exception) {
+        "v1.0.0"
+    }
 }
 
 const val previewWidth = 750
