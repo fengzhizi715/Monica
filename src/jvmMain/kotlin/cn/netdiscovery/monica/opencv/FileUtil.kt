@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.isWindows
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import java.io.File
@@ -29,6 +30,9 @@ object FileUtil {
             } else {
                 copyLibrary("libMonicaImageProcess.dylib")
             }
+        } else if (isWindows) {
+            copyLibrary("MonicaImageProcess.dll")
+            copyLibrary("opencv_world481.dll")
         }
     }
 

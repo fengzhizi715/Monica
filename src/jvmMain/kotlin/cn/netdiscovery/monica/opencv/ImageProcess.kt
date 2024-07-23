@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.isWindows
 
 /**
  *
@@ -20,6 +21,8 @@ object ImageProcess {
             } else {
                 System.load("${FileUtil.loadPath}libMonicaImageProcess.dylib")
             }
+        } else if (isWindows) {
+            System.load("${FileUtil.loadPath}MonicaImageProcess.dll")
         }
     }
 

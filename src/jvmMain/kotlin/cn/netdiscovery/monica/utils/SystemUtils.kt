@@ -18,3 +18,7 @@ val javaVersion = System.getProperty("java.version")
 val isMac by lazy {
     os.contains("Mac")
 }
+
+val isWindows by lazy {
+    os.startsWith("Win")
+}
