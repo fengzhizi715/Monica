@@ -26,6 +26,24 @@ repositories {
     maven( "https://jitpack.io" )
 }
 
+val osName = System.getProperty("os.name")
+val targetOs = when {
+    osName == "Mac OS X" -> "macos"
+    osName.startsWith("Win") -> "windows"
+    osName.startsWith("Linux") -> "linux"
+    else -> error("Unsupported OS: $osName")
+}
+
+val osArch = System.getProperty("os.arch")
+var targetArch = when (osArch) {
+    "x86_64", "amd64" -> "x64"
+    "aarch64" -> "arm64"
+    else -> error("Unsupported arch: $osArch")
+}
+
+val skikoVersion = "0.7.77"
+val target = "${targetOs}-${targetArch}"
+
 kotlin {
     jvm {
         jvmToolchain(17)
@@ -35,6 +53,9 @@ kotlin {
         val jvmMain by getting {
             dependencies {
                 implementation(compose.desktop.currentOs)
+
+                // skiko
+                implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$skikoVersion")
 
                 // 缓存
                 implementation("com.github.fengzhizi715.RxCache:core:${rootProject.extra["rxcache"]}")
@@ -80,14 +101,13 @@ compose.desktop {
 
             macOS {
                 bundleID = "cn.netdiscovery.monica"
-
                 dockName = "monica"
             }
 
             windows {
-                console = true  //为应用程序添加一个控制台启动器
-                shortcut = true // 桌面快捷方式
-                dirChooser = true  //允许在安装过程中自定义安装路径
+                console = true     // 为应用程序添加一个控制台启动器
+                shortcut = true    // 桌面快捷方式
+                dirChooser = true  // 允许在安装过程中自定义安装路径
                 perUserInstall = false   //允许在每个用户的基础上安装应用程序
                 menuGroup = "start-menu-group"
                 upgradeUuid = "b329caf3-6681-49b9-98d0-adb34d32e130"
