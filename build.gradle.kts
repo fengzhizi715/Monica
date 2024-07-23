@@ -90,9 +90,13 @@ java {
 compose.desktop {
     application {
         mainClass = "MainKt"
+        buildTypes.release.proguard {
+            configurationFiles.from(project.file("compose-desktop.pro"))
+        }
         nativeDistributions {
             outputBaseDir.set(mOutputDir)   //build/output
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
+            appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
             packageName = "Monica"
             packageVersion = appVersion
 
