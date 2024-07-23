@@ -12,6 +12,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
 import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.isWindows
 
 /**
  *
@@ -43,7 +44,7 @@ fun controlPanel(
 
             divider()
 
-            if(isMac) {
+            if(isMac || isWindows) {
                 imageEnhanceView(state) // 图像增强
 
                 divider()
