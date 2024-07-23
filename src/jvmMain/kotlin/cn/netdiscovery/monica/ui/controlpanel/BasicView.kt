@@ -22,7 +22,7 @@ import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.click
+import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -177,10 +177,8 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
         Row {
             Button(
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick = {
-                    click {
-                        viewModel.resize(widthText.toInt(),heightText.toInt(),state)
-                    }
+                onClick =  composeClick {
+                    viewModel.resize(widthText.toInt(),heightText.toInt(),state)
                 },
                 enabled = state.isBasic
             ) {

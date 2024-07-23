@@ -18,7 +18,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.utils.click
+import cn.netdiscovery.monica.utils.composeClick
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -63,12 +63,10 @@ fun toolTipButton(
     ) {
         IconButton(
             modifier = Modifier.padding(5.dp),
-            onClick = {
-                click { // 防止重复点击，1秒内只有1次点击是有效的
+            onClick =  composeClick { // 防止重复点击，1秒内只有1次点击是有效的
 
-                    logger.info("点击了\"$text\"按钮")
-                    onClick()
-                }
+                logger.info("点击了\"$text\"按钮")
+                onClick()
             },
             enabled = enable()
         ) {

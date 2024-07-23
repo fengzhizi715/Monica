@@ -18,16 +18,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.image2ByteArray
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.click
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.launch
+import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -148,10 +141,8 @@ private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhance
         Row {
             Button(
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick = {
-                    click {
-                        viewModel.gammaCorrection(state, gammaText.toFloat())
-                    }
+                onClick =  composeClick {
+                    viewModel.gammaCorrection(state, gammaText.toFloat())
                 },
                 enabled = state.isEnhance
             ) {
@@ -236,10 +227,8 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
         Row {
             Button(
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick = {
-                    click {
-                        viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
-                    }
+                onClick =  composeClick {
+                    viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
                 },
                 enabled = state.isEnhance
             ) {
@@ -301,10 +290,8 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
         Row {
             Button(
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick = {
-                    click {
-                        viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
-                    }
+                onClick = composeClick {
+                    viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
                 },
                 enabled = state.isEnhance
             ) {

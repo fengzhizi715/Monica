@@ -56,8 +56,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isBasic by mutableStateOf(false)
 
-    var isCrop by mutableStateOf(false)
-
     var isHLS by mutableStateOf(false)
 
     var isEnhance by mutableStateOf(false)

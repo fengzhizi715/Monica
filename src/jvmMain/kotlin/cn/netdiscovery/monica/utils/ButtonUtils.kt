@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.utils
 
+import androidx.compose.runtime.*
 import loadingDisplay
 
 /**
@@ -10,23 +11,21 @@ import loadingDisplay
  * @date: 2024/4/27 17:16
  * @version: V1.0 <描述当前版本功能>
  */
-private var currentTime = 0L
+const val VIEW_CLICK_INTERVAL_TIME = 800 //View的click方法的两次点击间隔时间
 
-/**
- * 防止重复点击
- */
-fun click(block:()->Unit) {
-
-    val systemTime: Long = System.currentTimeMillis()
-
-    if(systemTime - currentTime > 1000){
-        // 与上次点击时间超过1000毫秒，则按钮可以点击
-        block.invoke()
-    } else {
-        // 与上次点击的时间少于1000毫秒，则按钮不能被点击
+@Composable
+inline fun composeClick(
+    time: Int = VIEW_CLICK_INTERVAL_TIME,
+    crossinline onClick: () -> Unit
+): () -> Unit {
+    var lastClickTime by remember { mutableStateOf(value = 0L) } // 使用remember函数记录上次点击的时间
+    return {
+        val currentTimeMillis = System.currentTimeMillis()
+        if (currentTimeMillis - time >= lastClickTime) {          // 判断点击间隔,如果在间隔内则不回调
+            onClick()
+            lastClickTime = currentTimeMillis
+        }
     }
-
-    currentTime = systemTime
 }
 
 /**

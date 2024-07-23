@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.click
+import cn.netdiscovery.monica.utils.composeClick
 import filterNames
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -66,13 +66,11 @@ fun filterView(state: ApplicationState) {
         verticalAlignment = Alignment.CenterVertically) {
         Button(
             modifier = Modifier.offset(x = 290.dp,y = 0.dp),
-            onClick = {
-                click {
-                    viewModel.applyFilterParams(state)
+            onClick =  composeClick {
+                viewModel.applyFilterParams(state)
 
-                    toastMessage = "滤镜修改参数生效"
-                    showToast = true
-                }
+                toastMessage = "滤镜修改参数生效"
+                showToast = true
             },
             enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0
         ) {
