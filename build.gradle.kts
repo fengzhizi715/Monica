@@ -105,7 +105,7 @@ compose.desktop {
             }
 
             windows {
-                console = true     // 为应用程序添加一个控制台启动器
+                console = false    // 为应用程序添加一个控制台启动器
                 shortcut = true    // 桌面快捷方式
                 dirChooser = true  // 允许在安装过程中自定义安装路径
                 perUserInstall = false   //允许在每个用户的基础上安装应用程序
