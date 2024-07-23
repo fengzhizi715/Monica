@@ -98,6 +98,15 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。
 
+其中
+
+| 库名        | 描述                           |
+|-----------|------------------------------|
+| libMonicaImageProcess.dylib | 基于 intel 芯片的 Mac OS 下编译好的算法库 |
+| libMonicaImageProcess_aarch64.dylib | 基于 m 芯片的 Mac OS 下编译好的算法库     |
+| MonicaImageProcess.dll | Windows 下编译好的算法库             |
+| opencv_world481.dll | Windows 下基于源码编译的 OpenCV 库    |
+
 # 四. 更多详情
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使用，也欢迎提意见。
