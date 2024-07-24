@@ -100,18 +100,18 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 其中
 
-| 库名        | 描述                           |
-|-----------|------------------------------|
-| libMonicaImageProcess.dylib | 基于 intel 芯片的 Mac OS 下编译好的算法库 |
-| libMonicaImageProcess_aarch64.dylib | 基于 m 芯片的 Mac OS 下编译好的算法库     |
-| MonicaImageProcess.dll | Windows 下编译好的算法库             |
-| opencv_world481.dll | Windows 下基于源码编译的 OpenCV 库    |
+| 库名        | 描述                                      |
+|-----------|-----------------------------------------|
+| libMonicaImageProcess.dylib | 基于 intel 芯片的 Mac OS 下编译好的算法库            |
+| libMonicaImageProcess_aarch64.dylib | 基于 m 芯片的 Mac OS 下编译好的算法库                |
+| MonicaImageProcess.dll | Windows 下编译好的算法库                        |
+| opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
 # 四. 更多详情
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使用，也欢迎提意见。
 
-目前，暂时还不提供安装包不过可自行编译。等版本相对稳定后，会提供 Windows/Linux/MacOS 的安装包。
+目前，暂时还不提供安装包不过可自行编译。稍后会提供各个平台的安装包。
 
 之前介绍的文章：
 
