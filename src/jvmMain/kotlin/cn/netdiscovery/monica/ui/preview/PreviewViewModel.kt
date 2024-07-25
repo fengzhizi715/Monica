@@ -10,12 +10,10 @@ import cn.netdiscovery.monica.imageprocess.saveImage
 import cn.netdiscovery.monica.imageprocess.subImage
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.IO
 import filterNames
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import java.awt.Color

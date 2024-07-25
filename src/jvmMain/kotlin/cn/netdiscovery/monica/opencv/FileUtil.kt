@@ -48,11 +48,11 @@ object FileUtil {
 
                 val inputStream = resource.openStream()
 
-                println("file compare: ${inputStream.available()} / ${dir.length()}")
+                logger.info("file compare: ${inputStream.available()} / ${dir.length()}")
 
 //                if (inputStream.available().toLong() == dir.length()) return
 
-                println("copyPath: $dir")
+                logger.info("copyPath: $dir")
                 if (dir.parentFile != null && !dir.parentFile.exists()) {
                     dir.parentFile.mkdirs()
                 }
@@ -71,7 +71,7 @@ object FileUtil {
             }
         } catch (e: Exception) {
             e.printStackTrace()
-            println("load jni error: ${e.message}")
+            logger.info("load jni error: ${e.message}")
         }
     }
 }
