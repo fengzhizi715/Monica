@@ -1,9 +1,6 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.utils.arch
-import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isWindows
-import cn.netdiscovery.monica.utils.logger
+import cn.netdiscovery.monica.utils.*
 import org.slf4j.Logger
 import java.io.File
 import java.io.FileOutputStream
@@ -65,8 +62,7 @@ object FileUtil {
                         out.write(buf, 0, i)
                     }
                 } finally {
-                    inputStream.close()
-                    out.close()
+                    closeQuietly(inputStream,out)
                 }
             }
         } catch (e: Exception) {
