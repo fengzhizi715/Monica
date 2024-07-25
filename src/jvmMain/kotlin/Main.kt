@@ -27,6 +27,7 @@ import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
 import cn.netdiscovery.monica.utils.*
+import com.safframework.kotlin.coroutines.runInBackground
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -181,16 +182,18 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
-        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion，javaVendor = $javaVendor, monicaVersion = $appVersion")
+        runInBackground {
+            logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion，javaVendor = $javaVendor, monicaVersion = $appVersion")
 
-        filterNames.addAll(getFilterNames())
-        saveFilterParamsAndRemark()
-        client = HttpConnectionClient(timeout, retryNum)
+            filterNames.addAll(getFilterNames())
+            saveFilterParamsAndRemark()
+            client = HttpConnectionClient(timeout, retryNum)
 
-        FileUtil.copy()
-        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+            FileUtil.copy()
+            logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
 
-        flag.set(true)
+            flag.set(true)
+        }
     }
 }
 
