@@ -183,7 +183,7 @@ private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
         runInBackground {
-            logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion，javaVendor = $javaVendor, monicaVersion = $appVersion")
+            logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
 
             filterNames.addAll(getFilterNames())
             saveFilterParamsAndRemark()

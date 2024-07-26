@@ -65,7 +65,7 @@ fun toolTipButton(
             modifier = Modifier.padding(5.dp),
             onClick =  composeClick { // 防止重复点击，1秒内只有1次点击是有效的
 
-                logger.info("点击了\"$text\"按钮")
+                logger.info("点击了 $text 按钮")
                 onClick()
             },
             enabled = enable()
