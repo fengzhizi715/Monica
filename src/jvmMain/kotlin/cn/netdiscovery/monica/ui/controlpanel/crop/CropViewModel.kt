@@ -57,6 +57,10 @@ class CropViewModel {
 
     fun shearing(x:Float, y:Float, state: ApplicationState) {
         if (state.currentImage!=null) {
+            if (x == 0f && y == 0f) {
+                return
+            }
+
             val width = state.currentImage!!.width
             val height = state.currentImage!!.height
             val byteArray = state.currentImage!!.image2ByteArray()
