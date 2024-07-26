@@ -37,6 +37,13 @@ object ImageProcess {
     external fun getOpenCVVersion():String
 
     /**
+     * 图像错切
+     * @param 沿 x 方向
+     * @param 沿 y 方向
+     */
+    external fun shearing(src: ByteArray, x:Float, y:Float):IntArray
+
+    /**
      * 直方图均衡化
      */
     external fun equalizeHist(src: ByteArray):IntArray
