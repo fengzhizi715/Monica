@@ -26,12 +26,13 @@ val FlipStatus: Int = 1 shl 4       // 16
 val RotateStatus: Int = 1 shl 5     // 32
 val ResizeStatus: Int = 1 shl 6     // 64
 val CropSizeStatus: Int = 1 shl 7   // 128
+val ShearingStatus: Int = 1 shl 8
 
-val EqualizeHistStatus: Int = 1 shl 8   // 256
-val GammaStatus: Int = 1 shl 9          // 512
-val LaplaceStatus: Int = 1 shl 10          // 1024
-val USMStatus: Int = 1 shl 11
-val ACEStatus: Int = 1 shl 12
+val EqualizeHistStatus: Int = 1 shl 9
+val GammaStatus: Int = 1 shl 10
+val LaplaceStatus: Int = 1 shl 11
+val USMStatus: Int = 1 shl 12
+val ACEStatus: Int = 1 shl 13
 
 
 @Composable

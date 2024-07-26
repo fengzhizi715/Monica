@@ -116,11 +116,24 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = CropSizeStatus
                 state.togglePreviewWindow(true)
             })
+
+        toolTipButton(text = "图像错切",
+            painter = painterResource("images/controlpanel/shearing.png"),
+            enable = { state.isBasic },
+            onClick = {
+                state.currentStatus = ShearingStatus
+            })
     }
 
     Column {
-        if (state.currentStatus == ResizeStatus && state.currentImage!=null) {
-            generateResizeParams(state,viewModel)
+        when(state.currentStatus) {
+            ResizeStatus -> {
+                generateResizeParams(state,viewModel)
+            }
+
+            ShearingStatus -> {
+                generateShearingParams(state,viewModel)
+            }
         }
     }
 }
@@ -179,6 +192,70 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
                 modifier = Modifier.offset(x = 140.dp,y = 0.dp),
                 onClick =  composeClick {
                     viewModel.resize(widthText.toInt(),heightText.toInt(),state)
+                },
+                enabled = state.isBasic
+            ) {
+                Text(text = "确定",
+                    color = if (state.isBasic) Color.Unspecified else Color.LightGray)
+            }
+        }
+    }
+}
+
+
+@Composable
+fun generateShearingParams(state: ApplicationState,viewModel: CropViewModel) {
+
+    var xText by remember {
+        mutableStateOf("${0}")
+    }
+
+    var yText by remember {
+        mutableStateOf("${0}")
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "x 方向")
+
+        BasicTextField(
+            value = xText,
+            onValueChange = { str ->
+                xText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "y 方向")
+
+        BasicTextField(
+            value = yText,
+            onValueChange = { str ->
+                yText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+
+        Row {
+            Button(
+                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
+                onClick =  composeClick {
+                    viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
                 },
                 enabled = state.isBasic
             ) {

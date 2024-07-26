@@ -2,15 +2,20 @@ package cn.netdiscovery.monica.ui.controlpanel.crop
 
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.config.KEY_CROP_SECOND
-import cn.netdiscovery.monica.imageprocess.flipHorizontally
-import cn.netdiscovery.monica.imageprocess.resize
-import cn.netdiscovery.monica.imageprocess.rotate
+import cn.netdiscovery.monica.imageprocess.*
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.contentScalesIndex
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag1
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag2
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropTypesIndex
+import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.logger
+import com.safframework.kotlin.coroutines.IO
+import kotlinx.coroutines.launch
+import org.slf4j.Logger
 
 /**
  *
@@ -21,6 +26,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropTypesIndex
  * @version: V1.0 <描述当前版本功能>
  */
 class CropViewModel {
+    private val logger: Logger = logger<CropViewModel>()
 
     fun flip(state: ApplicationState) {
         if (state.currentImage!=null) {
@@ -46,6 +52,26 @@ class CropViewModel {
             val resizedImage = state.currentImage!!.resize(width, height)
             state.addQueue(state.currentImage!!)
             state.currentImage = resizedImage
+        }
+    }
+
+    fun shearing(x:Float, y:Float, state: ApplicationState) {
+        if (state.currentImage!=null) {
+            val width = state.currentImage!!.width
+            val height = state.currentImage!!.height
+            val byteArray = state.currentImage!!.image2ByteArray()
+
+            state.scope.launch(IO) {
+                clickLoadingDisplay {
+                    try {
+                        val outPixels = ImageProcess.shearing(byteArray, x, y)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    } catch (e:Exception) {
+                        logger.error("shearing is failed", e)
+                    }
+                }
+            }
         }
     }
 
