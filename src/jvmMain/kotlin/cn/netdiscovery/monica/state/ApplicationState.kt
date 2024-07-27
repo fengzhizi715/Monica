@@ -63,6 +63,8 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isFilter by mutableStateOf(false)
 
+    var isAI by mutableStateOf(false)
+
     var isShowPreviewWindow by mutableStateOf(false)
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)

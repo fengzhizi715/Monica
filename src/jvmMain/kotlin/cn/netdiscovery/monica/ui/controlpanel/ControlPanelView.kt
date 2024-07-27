@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
 import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
 import cn.netdiscovery.monica.utils.isMac
@@ -51,6 +52,12 @@ fun controlPanel(
             }
 
             filterView(state) // 滤镜相关的内容
+
+            if(isMac) {
+                divider()
+
+                aiView(state) // 图像增强
+            }
         }
     }
 }
