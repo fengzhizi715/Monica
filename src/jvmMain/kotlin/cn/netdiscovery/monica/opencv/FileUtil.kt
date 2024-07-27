@@ -33,6 +33,15 @@ object FileUtil {
         }
     }
 
+    fun copyFaceDetectModels() {
+        copyLibrary("age_deploy.prototxt")
+        copyLibrary("age_net.caffemodel")
+        copyLibrary("gender_deploy.prototxt")
+        copyLibrary("gender_net.caffemodel")
+        copyLibrary("opencv_face_detector.pbtxt")
+        copyLibrary("opencv_face_detector_uint8.pb")
+    }
+
     private fun copyLibrary(libName: String) {
 
         try {

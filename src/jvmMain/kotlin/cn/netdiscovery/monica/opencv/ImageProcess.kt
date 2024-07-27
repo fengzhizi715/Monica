@@ -67,4 +67,13 @@ object ImageProcess {
      * 自动色彩均衡
      */
     external fun ace(src: ByteArray, ratio:Int, radius:Int):IntArray
+
+    external fun initFaceDetect(faceProto:String,faceModel:String,
+                                ageProto:String, ageModel:String,
+                                genderProto:String,genderModel:String)
+
+    /**
+     * 人脸检测
+     */
+    external fun faceDetect(src: ByteArray):IntArray
 }
