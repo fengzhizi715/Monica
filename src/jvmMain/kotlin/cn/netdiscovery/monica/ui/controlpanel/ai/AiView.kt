@@ -9,9 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.enhance.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -27,8 +25,6 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun aiView(state: ApplicationState) {
-
-    val viewModel: ImageEnhanceViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isAI, onCheckedChange = {

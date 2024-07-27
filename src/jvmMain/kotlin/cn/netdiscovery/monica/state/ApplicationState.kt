@@ -18,23 +18,23 @@ import java.util.concurrent.TimeUnit
  * @date: 2024/4/26 10:42
  * @version: V1.0 <描述当前版本功能>
  */
-val BlurStatus: Int = 1 shl 0       // 1
-val MosaicStatus: Int = 1 shl 1     // 2
-val DoodleStatus: Int = 1 shl 2     // 4
-val ColorPickStatus: Int = 1 shl 3  // 8
-val FlipStatus: Int = 1 shl 4       // 16
-val RotateStatus: Int = 1 shl 5     // 32
-val ResizeStatus: Int = 1 shl 6     // 64
-val CropSizeStatus: Int = 1 shl 7   // 128
-val ShearingStatus: Int = 1 shl 8
+val BlurStatus: Int = 1
+val MosaicStatus: Int = 2
+val DoodleStatus: Int = 3
+val ColorPickStatus: Int = 4
+val FlipStatus: Int = 5
+val RotateStatus: Int = 6
+val ResizeStatus: Int = 7
+val CropSizeStatus: Int = 8
+val ShearingStatus: Int = 9
 
-val EqualizeHistStatus: Int = 1 shl 9
-val GammaStatus: Int = 1 shl 10
-val LaplaceStatus: Int = 1 shl 11
-val USMStatus: Int = 1 shl 12
-val ACEStatus: Int = 1 shl 13
+val EqualizeHistStatus: Int = 10
+val GammaStatus: Int = 11
+val LaplaceStatus: Int = 12
+val USMStatus: Int = 13
+val ACEStatus: Int = 14
 
-val FaceDetectStatus: Int = 1 shl 14
+val FaceDetectStatus: Int =15
 
 
 @Composable
