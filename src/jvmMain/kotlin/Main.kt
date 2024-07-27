@@ -54,7 +54,9 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 fun main() = application {
 
-    initData()
+    runInBackground {
+        initData()
+    }
 
     val trayState = rememberTrayState()
 
@@ -182,18 +184,20 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
-        runInBackground {
-            logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
+//        runInBackground {
+//
+//        }
 
-            filterNames.addAll(getFilterNames())
-            saveFilterParamsAndRemark()
-            client = HttpConnectionClient(timeout, retryNum)
+        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
 
-            FileUtil.copy()
-            logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+        filterNames.addAll(getFilterNames())
+        saveFilterParamsAndRemark()
+        client = HttpConnectionClient(timeout, retryNum)
 
-            flag.set(true)
-        }
+        FileUtil.copy()
+        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+
+        flag.set(true)
     }
 }
 
