@@ -34,6 +34,8 @@ val LaplaceStatus: Int = 1 shl 11
 val USMStatus: Int = 1 shl 12
 val ACEStatus: Int = 1 shl 13
 
+val FaceDetectStatus: Int = 1 shl 14
+
 
 @Composable
 fun rememberApplicationState(

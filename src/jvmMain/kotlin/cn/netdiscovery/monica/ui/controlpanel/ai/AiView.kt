@@ -47,12 +47,10 @@ fun aiView(state: ApplicationState) {
         verticalAlignment = Alignment.CenterVertically
     ) {
         toolTipButton(text = "人脸检测",
-            painter = painterResource("images/imageenhance/histogram.png"),
-            enable = { state.isEnhance },
+            painter = painterResource("images/ai/face_detect.png"),
+            enable = { state.isAI },
             onClick = {
-                state.currentStatus = EqualizeHistStatus
-
-                viewModel.equalizeHist(state)
+                state.currentStatus = FaceDetectStatus
             })
     }
 }
