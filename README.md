@@ -44,15 +44,9 @@ Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使�
 
 目前，暂时还不提供安装包不过可自行编译，稍后会提供各个平台的安装包。
 
-之前介绍的文章：
+相关的文章：
 
-https://juejin.cn/post/7393189744330014758
-
-https://juejin.cn/post/7381652250815086643
-
-https://juejin.cn/post/7374238968685920282
-
-https://juejin.cn/post/7365711904159612954
+https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
