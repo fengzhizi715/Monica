@@ -23,12 +23,12 @@ class ImageEnhanceViewModel {
 
     fun equalizeHist(state: ApplicationState) {
         if (state.currentImage!=null) {
-            val width = state.currentImage!!.width
-            val height = state.currentImage!!.height
-            val byteArray = state.currentImage!!.image2ByteArray()
-
             state.scope.launch(IO) {
                 clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
                     try {
                         val outPixels = ImageProcess.equalizeHist(byteArray)
                         state.addQueue(state.currentImage!!)
@@ -43,12 +43,12 @@ class ImageEnhanceViewModel {
 
     fun gammaCorrection(state: ApplicationState, gamma:Float) {
         if (state.currentImage!=null) {
-            val width = state.currentImage!!.width
-            val height = state.currentImage!!.height
-            val byteArray = state.currentImage!!.image2ByteArray()
-
             state.scope.launch(IO) {
                 clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
                     try {
                         val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
                         state.addQueue(state.currentImage!!)
@@ -63,12 +63,12 @@ class ImageEnhanceViewModel {
 
     fun laplace(state: ApplicationState) {
         if (state.currentImage!=null) {
-            val width = state.currentImage!!.width
-            val height = state.currentImage!!.height
-            val byteArray = state.currentImage!!.image2ByteArray()
-
             state.scope.launch(IO) {
                 clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
                     try {
                         val outPixels = ImageProcess.laplace(byteArray)
                         state.addQueue(state.currentImage!!)
@@ -83,12 +83,12 @@ class ImageEnhanceViewModel {
 
     fun unsharpMask(state: ApplicationState,radius:Int,threshold:Int,amount:Int) {
         if (state.currentImage!=null) {
-            val width = state.currentImage!!.width
-            val height = state.currentImage!!.height
-            val byteArray = state.currentImage!!.image2ByteArray()
-
             state.scope.launch(IO) {
                 clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
                     try {
                         val outPixels = ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
                         state.addQueue(state.currentImage!!)
@@ -103,12 +103,12 @@ class ImageEnhanceViewModel {
 
     fun ace(state: ApplicationState, ratio:Int, radius:Int) {
         if (state.currentImage!=null) {
-            val width = state.currentImage!!.width
-            val height = state.currentImage!!.height
-            val byteArray = state.currentImage!!.image2ByteArray()
-
             state.scope.launch(IO) {
                 clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
                     try {
                         val outPixels = ImageProcess.ace(byteArray,ratio,radius)
                         state.addQueue(state.currentImage!!)
