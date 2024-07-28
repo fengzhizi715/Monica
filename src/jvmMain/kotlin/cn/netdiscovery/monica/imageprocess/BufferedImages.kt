@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.imageprocess
 
 import client
+import cn.netdiscovery.monica.model.ImageInfo
 import cn.netdiscovery.monica.utils.writeImageFile
 import java.awt.Image
 import java.awt.RenderingHints
@@ -54,6 +55,15 @@ fun BufferedImage.image2ByteArray() : ByteArray {
     val outStream = ByteArrayOutputStream()
     ImageIO.write(this, "png", outStream)
     return outStream.toByteArray()
+}
+
+fun BufferedImage.getImageInfo(): ImageInfo {
+
+    val width = this.width
+    val height = this.height
+    val byteArray = this.image2ByteArray()
+
+    return ImageInfo(width,height,byteArray)
 }
 
 /**

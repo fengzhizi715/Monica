@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
@@ -25,9 +26,7 @@ class AIViewMode {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val width = state.currentImage!!.width
-                    val height = state.currentImage!!.height
-                    val byteArray = state.currentImage!!.image2ByteArray()
+                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
 
                     try {
                         val outPixels = ImageProcess.faceDetect(byteArray)
