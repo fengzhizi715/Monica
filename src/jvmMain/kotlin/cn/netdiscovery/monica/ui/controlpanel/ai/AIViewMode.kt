@@ -1,5 +1,15 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.image2ByteArray
+import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.logger
+import com.safframework.kotlin.coroutines.IO
+import kotlinx.coroutines.launch
+import org.slf4j.Logger
+
 /**
  *
  * @FileName:
@@ -9,4 +19,25 @@ package cn.netdiscovery.monica.ui.controlpanel.ai
  * @version: V1.0 <描述当前版本功能>
  */
 class AIViewMode {
+    private val logger: Logger = logger<AIViewMode>()
+
+    fun faceDetect(state: ApplicationState) {
+        if (state.currentImage!=null) {
+            state.scope.launch(IO) {
+                clickLoadingDisplay {
+                    val width = state.currentImage!!.width
+                    val height = state.currentImage!!.height
+                    val byteArray = state.currentImage!!.image2ByteArray()
+
+                    try {
+                        val outPixels = ImageProcess.faceDetect(byteArray)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    } catch (e:Exception) {
+                        logger.error("faceDetect is failed", e)
+                    }
+                }
+            }
+        }
+    }
 }

@@ -12,10 +12,12 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -31,6 +33,8 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun aiView(state: ApplicationState) {
+
+    val viewModel: AIViewMode = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isAI, onCheckedChange = {
@@ -53,24 +57,7 @@ fun aiView(state: ApplicationState) {
             enable = { state.isAI },
             onClick = {
                 state.currentStatus = FaceDetectStatus
-
-                if (state.currentImage!=null) {
-                    state.scope.launch(IO) {
-                        clickLoadingDisplay {
-                            val width = state.currentImage!!.width
-                            val height = state.currentImage!!.height
-                            val byteArray = state.currentImage!!.image2ByteArray()
-
-                            try {
-                                val outPixels = ImageProcess.faceDetect(byteArray)
-                                state.addQueue(state.currentImage!!)
-                                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                            } catch (e:Exception) {
-                                logger.error("faceDetect is failed", e)
-                            }
-                        }
-                    }
-                }
+                viewModel.faceDetect(state)
             })
     }
 }
