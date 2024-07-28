@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -139,17 +137,8 @@ private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhance
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
 
-        Row {
-            Button(
-                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick =  composeClick {
-                    viewModel.gammaCorrection(state, gammaText.toFloat())
-                },
-                enabled = state.isEnhance
-            ) {
-                Text(text = "确定",
-                    color = if (state.isEnhance) Color.Unspecified else Color.LightGray)
-            }
+        confirmButton(state.isEnhance) {
+            viewModel.gammaCorrection(state, gammaText.toFloat())
         }
     }
 }

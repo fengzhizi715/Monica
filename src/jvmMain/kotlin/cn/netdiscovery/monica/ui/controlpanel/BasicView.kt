@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.composeClick
@@ -187,17 +188,8 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
 
-        Row {
-            Button(
-                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick =  composeClick {
-                    viewModel.resize(widthText.toInt(),heightText.toInt(),state)
-                },
-                enabled = state.isBasic
-            ) {
-                Text(text = "确定",
-                    color = if (state.isBasic) Color.Unspecified else Color.LightGray)
-            }
+        confirmButton(state.isBasic) {
+            viewModel.resize(widthText.toInt(),heightText.toInt(),state)
         }
     }
 }
@@ -251,17 +243,8 @@ fun generateShearingParams(state: ApplicationState,viewModel: CropViewModel) {
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
 
-        Row {
-            Button(
-                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick =  composeClick {
-                    viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
-                },
-                enabled = state.isBasic
-            ) {
-                Text(text = "确定",
-                    color = if (state.isBasic) Color.Unspecified else Color.LightGray)
-            }
+        confirmButton(state.isBasic) {
+            viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
         }
     }
 }
