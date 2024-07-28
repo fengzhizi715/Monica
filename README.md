@@ -38,18 +38,20 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | MonicaImageProcess.dll | Windows 下编译好的算法库                        |
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
+
 # 四. 更多详情
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使用，更欢迎提意见。
 
 目前，暂时还不提供安装包不过可自行编译，稍后会提供各个平台的安装包。
 
-相关的文章：
+相关的文章在如下的专栏：
 
 https://juejin.cn/column/7396157773312065574
 
+
 # 五. TODO List：
 
-* 考虑增加人脸美颜的算法。
+* 增加人脸美颜的算法。
 * 增加对图像添加文字的功能。
 * 考虑多种格式的导入。
