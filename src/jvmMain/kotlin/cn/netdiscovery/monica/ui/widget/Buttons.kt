@@ -3,13 +3,12 @@ package cn.netdiscovery.monica.ui.widget
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.TooltipPlacement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -76,5 +75,19 @@ fun toolTipButton(
                 modifier = iconModifier
             )
         }
+    }
+}
+
+@Composable
+fun confirmButton(enabled:Boolean, onClick: () -> Unit) {
+    Button(
+        modifier = Modifier.offset(x = 140.dp,y = 0.dp),
+        onClick = composeClick {
+            onClick.invoke()
+        },
+        enabled = enabled
+    ) {
+        Text(text = "确定",
+            color = if (enabled) Color.Unspecified else Color.LightGray)
     }
 }

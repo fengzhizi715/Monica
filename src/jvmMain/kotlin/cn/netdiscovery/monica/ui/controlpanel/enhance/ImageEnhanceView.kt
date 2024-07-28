@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
@@ -224,17 +225,8 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
 
-        Row {
-            Button(
-                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick =  composeClick {
-                    viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
-                },
-                enabled = state.isEnhance
-            ) {
-                Text(text = "确定",
-                    color = if (state.isEnhance) Color.Unspecified else Color.LightGray)
-            }
+        confirmButton(state.isEnhance) {
+            viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
         }
     }
 }
@@ -287,17 +279,8 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
 
-        Row {
-            Button(
-                modifier = Modifier.offset(x = 140.dp,y = 0.dp),
-                onClick = composeClick {
-                    viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
-                },
-                enabled = state.isEnhance
-            ) {
-                Text(text = "确定",
-                    color = if (state.isEnhance) Color.Unspecified else Color.LightGray)
-            }
+        confirmButton(state.isEnhance) {
+            viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
         }
     }
 }
