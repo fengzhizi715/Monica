@@ -55,12 +55,12 @@ fun aiView(state: ApplicationState) {
                 state.currentStatus = FaceDetectStatus
 
                 if (state.currentImage!=null) {
-                    val width = state.currentImage!!.width
-                    val height = state.currentImage!!.height
-                    val byteArray = state.currentImage!!.image2ByteArray()
-
                     state.scope.launch(IO) {
                         clickLoadingDisplay {
+                            val width = state.currentImage!!.width
+                            val height = state.currentImage!!.height
+                            val byteArray = state.currentImage!!.image2ByteArray()
+
                             try {
                                 val outPixels = ImageProcess.faceDetect(byteArray)
                                 state.addQueue(state.currentImage!!)
