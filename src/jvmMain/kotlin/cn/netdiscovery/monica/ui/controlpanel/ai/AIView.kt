@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.AiView
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.AIView
  * @author: Tony Shen
  * @date: 2024/7/27 11:13
  * @version: V1.0 <描述当前版本功能>
