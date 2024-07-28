@@ -43,9 +43,7 @@ object FileUtil {
     }
 
     private fun copyLibrary(libName: String) {
-
         try {
-
             val resource = this.javaClass.classLoader.getResource(libName)
 
             resource?.apply {

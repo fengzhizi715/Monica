@@ -68,6 +68,9 @@ object ImageProcess {
      */
     external fun ace(src: ByteArray, ratio:Int, radius:Int):IntArray
 
+    /**
+     * 初始化人脸检测模块
+     */
     external fun initFaceDetect(faceProto:String,faceModel:String,
                                 ageProto:String, ageModel:String,
                                 genderProto:String,genderModel:String)
