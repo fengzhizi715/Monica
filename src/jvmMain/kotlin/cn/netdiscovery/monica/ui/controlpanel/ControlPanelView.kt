@@ -53,7 +53,7 @@ fun controlPanel(
 
             filterView(state) // 滤镜相关的内容
 
-            if(isMac) {
+            if(isMac || isWindows) {
                 divider()
 
                 aiView(state) // 图像增强
