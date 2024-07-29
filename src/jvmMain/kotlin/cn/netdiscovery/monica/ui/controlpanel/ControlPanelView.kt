@@ -56,7 +56,7 @@ fun controlPanel(
             if(isMac || isWindows) {
                 divider()
 
-                aiView(state) // 图像增强
+                aiView(state) // AI 实验室
             }
         }
     }
