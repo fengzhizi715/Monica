@@ -99,6 +99,8 @@ compose.desktop {
             appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
             packageName = "Monica"
             packageVersion = appVersion
+            description = "Monica is a cross-platform image editor"
+            copyright = "© 2024 Tony Shen. All rights reserved."
 
             jvmArgs += listOf("-Xmx2G")
             includeAllModules = true    //包含所有模块
