@@ -16,7 +16,7 @@ import java.io.FileOutputStream
 object FileUtil {
     private val logger: Logger = logger<FileUtil>()
 
-    val loadPath = File("").absolutePath + File.separator + "resources" + File.separator + if (isMac) ("macos" + File.separator) else if(isWindows) ("windows" + File.separator) else ("linux" + File.separator)
+    private val loadPath = File("").absolutePath + File.separator + "resources" + File.separator + if (isMac) ("macos" + File.separator) else if(isWindows) ("windows" + File.separator) else ("linux" + File.separator)
 
     fun copy() {
         logger.info("loadPath: $loadPath")

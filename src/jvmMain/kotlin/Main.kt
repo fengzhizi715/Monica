@@ -195,12 +195,12 @@ private fun initData() {
 
         FileUtil.copyFaceDetectModels()
 
-        val faceProto = "${FileUtil.loadPath}opencv_face_detector.pbtxt"
-        val faceModel = "${FileUtil.loadPath}opencv_face_detector_uint8.pb"
-        val ageProto = "${FileUtil.loadPath}age_deploy.prototxt"
-        val ageModel = "${FileUtil.loadPath}age_net.caffemodel"
-        val genderProto = "${FileUtil.loadPath}gender_deploy.prototxt"
-        val genderModel = "${FileUtil.loadPath}gender_net.caffemodel"
+        val faceProto = "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
+        val faceModel = "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
+        val ageProto = "${ImageProcess.loadPath}age_deploy.prototxt"
+        val ageModel = "${ImageProcess.loadPath}age_net.caffemodel"
+        val genderProto = "${ImageProcess.loadPath}gender_deploy.prototxt"
+        val genderModel = "${ImageProcess.loadPath}gender_net.caffemodel"
 
         ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
 
