@@ -43,5 +43,6 @@ bin/
 
 .idea
 
+resources/
 rxcache/
 log/
