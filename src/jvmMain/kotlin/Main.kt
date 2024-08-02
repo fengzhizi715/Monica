@@ -195,12 +195,12 @@ private fun initData() {
 
         FileUtil.copyFaceDetectModels()
 
-        val faceProto = "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
-        val faceModel = "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
-        val ageProto = "${ImageProcess.loadPath}age_deploy.prototxt"
-        val ageModel = "${ImageProcess.loadPath}age_net.caffemodel"
-        val genderProto = "${ImageProcess.loadPath}gender_deploy.prototxt"
-        val genderModel = "${ImageProcess.loadPath}gender_net.caffemodel"
+        val faceProto = if (isWindows) "${FileUtil.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
+        val faceModel = if (isWindows) "${FileUtil.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
+        val ageProto = if (isWindows) "${FileUtil.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
+        val ageModel = if (isWindows) "${FileUtil.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
+        val genderProto = if (isWindows) "${FileUtil.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
+        val genderModel = if (isWindows) "${FileUtil.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
 
         ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
 

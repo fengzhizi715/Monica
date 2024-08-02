@@ -25,7 +25,7 @@ object ImageProcess {
                 System.load("${loadPath}libMonicaImageProcess.dylib")
             }
         } else if (isWindows) {
-            System.load("${loadPath}MonicaImageProcess.dll")
+            System.load("${FileUtil.loadPath}MonicaImageProcess.dll")
         }
     }
 
