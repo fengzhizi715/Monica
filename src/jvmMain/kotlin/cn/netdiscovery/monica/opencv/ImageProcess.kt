@@ -52,6 +52,11 @@ object ImageProcess {
     external fun equalizeHist(src: ByteArray):IntArray
 
     /**
+     * 限制对比度自适应直方图均衡
+     */
+    external fun clahe(src: ByteArray, clipLimit:Double, size:Int):IntArray
+
+    /**
      * gamma 校正
      */
     external fun gammaCorrection(src: ByteArray,k:Float):IntArray
