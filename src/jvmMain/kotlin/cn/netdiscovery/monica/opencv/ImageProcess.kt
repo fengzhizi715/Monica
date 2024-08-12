@@ -17,16 +17,8 @@ object ImageProcess {
 
     val loadPath = System.getProperty("compose.application.resources.dir") + File.separator
 
-    init { // 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
-        if (isMac) {
-            if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
-                System.load("${loadPath}libMonicaImageProcess_aarch64.dylib")
-            } else {
-                System.load("${loadPath}libMonicaImageProcess.dylib")
-            }
-        } else if (isWindows) {
-            System.load("${FileUtil.loadPath}MonicaImageProcess.dll")
-        }
+    init {
+        FileUtil.load()
     }
 
     /**
