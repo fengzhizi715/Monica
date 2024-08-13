@@ -191,7 +191,7 @@ private fun initData() {
 
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()
-        
+
         client = HttpConnectionClient(timeout, retryNum)
 
         LoadManager.copy()

@@ -30,8 +30,8 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 | 库名        | 描述                                       |
 |-----------|------------------------------------------|
-| libMonicaImageProcess.dylib | 基于 intel 芯片的 Mac OS 下编译好的算法库             |
-| libMonicaImageProcess_aarch64.dylib | 基于 m 芯片的 Mac OS 下编译好的算法库                 |
+| libMonicaImageProcess.dylib | 基于 intel 芯片的 Mac OS 下编译好的算法库 |
+| libMonicaImageProcess_aarch64.dylib | 基于 m 芯片的 Mac OS 下编译好的算法库 |
 | MonicaImageProcess.dll | Windows 下编译好的算法库需要依赖 opencv_world481.dll |
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库  |
 
@@ -49,7 +49,7 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
+* 重新规划架构
 * 增加人脸美颜的算法。
-* 引入各种深度学习的模型
 * 增加对图像添加文字的功能。
 * 考虑多种格式的导入。
