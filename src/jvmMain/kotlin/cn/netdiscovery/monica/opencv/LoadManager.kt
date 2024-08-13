@@ -8,13 +8,13 @@ import java.io.FileOutputStream
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.opencv.FileUtil
+ *          cn.netdiscovery.monica.opencv.LoadManager
  * @author: Tony Shen
  * @date: 2024/7/16 14:06
  * @version: V1.0 <描述当前版本功能>
  */
-object FileUtil {
-    private val logger: Logger = logger<FileUtil>()
+object LoadManager {
+    private val logger: Logger = logger<LoadManager>()
 
     val loadPath by lazy {
         if (isMac) {
@@ -37,7 +37,7 @@ object FileUtil {
                 System.load("${ImageProcess.loadPath}libMonicaImageProcess.dylib")
             }
         } else if (isWindows) {
-            System.load("${FileUtil.loadPath}MonicaImageProcess.dll")
+            System.load("${LoadManager.loadPath}MonicaImageProcess.dll")
         }
     }
 
@@ -59,6 +59,9 @@ object FileUtil {
         }
     }
 
+    /**
+     * 拷贝人脸检测模块所需要的模型
+     */
     fun copyFaceDetectModels() {
         copyLibrary("age_deploy.prototxt")
         copyLibrary("age_net.caffemodel")

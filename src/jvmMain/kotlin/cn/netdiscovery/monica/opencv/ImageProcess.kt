@@ -15,7 +15,8 @@ object ImageProcess {
     val loadPath = System.getProperty("compose.application.resources.dir") + File.separator
 
     init {
-        FileUtil.load()
+        // 需要先加载图像处理库，否则无法通过 jni 调用算法
+        LoadManager.load()
     }
 
     /**

@@ -11,7 +11,7 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.FileUtil
+import cn.netdiscovery.monica.opencv.LoadManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
@@ -190,17 +190,17 @@ private fun initData() {
         saveFilterParamsAndRemark()
         client = HttpConnectionClient(timeout, retryNum)
 
-        FileUtil.copy()
+        LoadManager.copy()
         logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
 
-        FileUtil.copyFaceDetectModels()
+        LoadManager.copyFaceDetectModels()
 
-        val faceProto = if (isWindows) "${FileUtil.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
-        val faceModel = if (isWindows) "${FileUtil.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
-        val ageProto = if (isWindows) "${FileUtil.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
-        val ageModel = if (isWindows) "${FileUtil.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
-        val genderProto = if (isWindows) "${FileUtil.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
-        val genderModel = if (isWindows) "${FileUtil.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
+        val faceProto = if (isWindows) "${LoadManager.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
+        val faceModel = if (isWindows) "${LoadManager.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
+        val ageProto = if (isWindows) "${LoadManager.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
+        val ageModel = if (isWindows) "${LoadManager.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
+        val genderProto = if (isWindows) "${LoadManager.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
+        val genderModel = if (isWindows) "${LoadManager.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
 
         ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
 
