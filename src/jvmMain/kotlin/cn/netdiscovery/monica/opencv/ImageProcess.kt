@@ -1,8 +1,5 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.utils.arch
-import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isWindows
 import java.io.File
 
 /**

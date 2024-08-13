@@ -41,6 +41,9 @@ object FileUtil {
         }
     }
 
+    /**
+     * 拷贝各个平台所必须的图像处理库
+     */
     fun copy() {
         logger.info("loadPath: $loadPath")
 
