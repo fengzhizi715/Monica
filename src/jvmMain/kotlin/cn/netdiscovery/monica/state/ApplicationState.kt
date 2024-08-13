@@ -34,7 +34,8 @@ val LaplaceStatus: Int = 12
 val USMStatus: Int = 13
 val ACEStatus: Int = 14
 
-val FaceDetectStatus: Int =15
+val FaceDetectStatus: Int = 15
+val SketchDrawingStatus: Int = 16
 
 
 @Composable

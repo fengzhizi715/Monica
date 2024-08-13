@@ -59,5 +59,12 @@ fun aiView(state: ApplicationState) {
                 state.currentStatus = FaceDetectStatus
                 viewModel.faceDetect(state)
             })
+
+        toolTipButton(text = "生成素描画",
+            painter = painterResource("images/ai/sketch_drawing.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = SketchDrawingStatus
+            })
     }
 }
