@@ -181,7 +181,7 @@ fun main() = application {
  * 初始化数据，只初始一次
  * 包括：加载滤镜的配置、初始化 HttpConnectionClient、加载 opencv 的图像处理库
  */
-private fun initData() = runBlocking {
+private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
         logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
@@ -190,12 +190,8 @@ private fun initData() = runBlocking {
         saveFilterParamsAndRemark()
         client = HttpConnectionClient(timeout, retryNum)
 
-        val job = runInBackground { // 初始化图像处理的算法库
-            LoadManager.copy()
-            logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
-        }
-
-        job.join()
+        LoadManager.copy()
+        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
 
         runInBackground { // 初始化人脸检测模块
             DLManager.initFaceDetectModule()
