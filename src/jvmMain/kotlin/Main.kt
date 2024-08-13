@@ -178,8 +178,11 @@ fun main() = application {
 }
 
 /**
- * 初始化数据，只初始一次
- * 包括：加载滤镜的配置、初始化 HttpConnectionClient、加载 opencv 的图像处理库
+ * 初始化数据，只初始一次，包括：
+ * 1. 加载滤镜的配置
+ * 2. 初始化 HttpConnectionClient
+ * 3. 加载 opencv 的图像处理库
+ * 4. 加载深度学习相关的模型
  */
 private fun initData() {
 
@@ -188,6 +191,7 @@ private fun initData() {
 
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()
+        
         client = HttpConnectionClient(timeout, retryNum)
 
         LoadManager.copy()
