@@ -28,6 +28,7 @@ import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.runInBackground
+import kotlinx.coroutines.runBlocking
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -54,9 +55,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 fun main() = application {
 
-    runInBackground {
-        initData()
-    }
+    initData()
 
     val trayState = rememberTrayState()
 
@@ -181,7 +180,7 @@ fun main() = application {
  * 初始化数据，只初始一次
  * 包括：加载滤镜的配置、初始化 HttpConnectionClient、加载 opencv 的图像处理库
  */
-private fun initData() {
+private fun initData() = runBlocking {
 
     if (!flag.get()) { // 防止被多次初始化
         logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
@@ -190,19 +189,25 @@ private fun initData() {
         saveFilterParamsAndRemark()
         client = HttpConnectionClient(timeout, retryNum)
 
-        LoadManager.copy()
-        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+        val job = runInBackground { // 初始化图像处理的算法库
+            LoadManager.copy()
+            logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+        }
 
-        LoadManager.copyFaceDetectModels()
+        job.join()
 
-        val faceProto = if (isWindows) "${LoadManager.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
-        val faceModel = if (isWindows) "${LoadManager.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
-        val ageProto = if (isWindows) "${LoadManager.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
-        val ageModel = if (isWindows) "${LoadManager.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
-        val genderProto = if (isWindows) "${LoadManager.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
-        val genderModel = if (isWindows) "${LoadManager.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
+        runInBackground { // 初始化人脸检测模块
+            LoadManager.copyFaceDetectModels()
 
-        ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
+            val faceProto = if (isWindows) "${LoadManager.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
+            val faceModel = if (isWindows) "${LoadManager.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
+            val ageProto = if (isWindows) "${LoadManager.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
+            val ageModel = if (isWindows) "${LoadManager.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
+            val genderProto = if (isWindows) "${LoadManager.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
+            val genderModel = if (isWindows) "${LoadManager.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
+
+            ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
+        }
 
         flag.set(true)
     }
