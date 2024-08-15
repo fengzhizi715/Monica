@@ -24,7 +24,7 @@ Monica 目前还处于开发阶段，当前版本的功能包括：
 OpenCV 使用的算法在：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。
+目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境在 MacOS)
 
 其中
 

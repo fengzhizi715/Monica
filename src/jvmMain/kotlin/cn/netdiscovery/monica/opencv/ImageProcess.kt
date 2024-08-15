@@ -78,8 +78,13 @@ object ImageProcess {
      */
     external fun faceDetect(src: ByteArray):IntArray
 
+    /**
+     * 初始化生成素描画模块
+     */
     external fun initSketchDrawing(modelPath:String)
 
-
+    /**
+     * 生成素描画
+     */
     external fun sketchDrawing(src: ByteArray):IntArray
 }
