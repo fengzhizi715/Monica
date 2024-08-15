@@ -161,12 +161,12 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
     Row(
         modifier = Modifier.padding(top = 10.dp)
     ) {
-        Text(text = "Amount")
+        Text(text = "Radius")
 
         BasicTextField(
-            value = amountText,
+            value = radiusText,
             onValueChange = { str ->
-                amountText = str
+                radiusText = str
             },
             keyboardOptions = KeyboardOptions.Default,
             keyboardActions = KeyboardActions.Default,
@@ -199,12 +199,12 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
     Row(
         modifier = Modifier.padding(top = 10.dp)
     ) {
-        Text(text = "Radius")
+        Text(text = "Amount")
 
         BasicTextField(
-            value = radiusText,
+            value = amountText,
             onValueChange = { str ->
-                radiusText = str
+                amountText = str
             },
             keyboardOptions = KeyboardOptions.Default,
             keyboardActions = KeyboardActions.Default,
