@@ -65,7 +65,7 @@ fun aiView(state: ApplicationState) {
             enable = { state.isAI },
             onClick = {
                 state.currentStatus = SketchDrawingStatus
-
+                viewModel.sketchDrawing(state)
             })
     }
 }

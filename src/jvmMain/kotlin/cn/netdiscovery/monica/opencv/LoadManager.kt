@@ -71,6 +71,10 @@ object LoadManager {
         copyLibrary("opencv_face_detector_uint8.pb")
     }
 
+    fun copySketchDrawingModel() {
+        copyLibrary("opensketch_style_512x512.onnx")
+    }
+
     private fun copyLibrary(libName: String) {
         try {
             val resource = this.javaClass.classLoader.getResource(libName)

@@ -39,4 +39,22 @@ class AIViewMode {
             }
         }
     }
+
+    fun sketchDrawing(state: ApplicationState) {
+        if (state.currentImage!=null) {
+            state.scope.launch(IO) {
+                clickLoadingDisplay {
+                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
+
+                    try {
+                        val outPixels = ImageProcess.sketchDrawing(byteArray)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    } catch (e:Exception) {
+                        logger.error("faceDetect is failed", e)
+                    }
+                }
+            }
+        }
+    }
 }

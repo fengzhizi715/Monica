@@ -197,8 +197,12 @@ private fun initData() {
         LoadManager.copy()
         logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
 
-        runInBackground { // 初始化人脸检测模块
+        runInBackground { // 初始化人脸检测的模块
             DLManager.initFaceDetectModule()
+        }
+
+        runInBackground { // 初始化生成素描画的模块
+            DLManager.initSketchDrawingModule()
         }
 
         flag.set(true)

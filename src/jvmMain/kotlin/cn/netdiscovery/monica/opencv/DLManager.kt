@@ -24,4 +24,13 @@ object DLManager {
 
         ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
     }
+
+    fun initSketchDrawingModule() {
+
+        LoadManager.copySketchDrawingModel()
+
+        val modelPath = if (isWindows) "${LoadManager.loadPath}opensketch_style_512x512.onnx" else "${ImageProcess.loadPath}opensketch_style_512x512.onnx"
+
+        ImageProcess.initSketchDrawing(modelPath)
+    }
 }

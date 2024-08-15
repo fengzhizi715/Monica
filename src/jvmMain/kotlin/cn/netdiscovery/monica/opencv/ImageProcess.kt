@@ -77,4 +77,9 @@ object ImageProcess {
      * 人脸检测
      */
     external fun faceDetect(src: ByteArray):IntArray
+
+    external fun initSketchDrawing(modelPath:String)
+
+
+    external fun sketchDrawing(src: ByteArray):IntArray
 }
