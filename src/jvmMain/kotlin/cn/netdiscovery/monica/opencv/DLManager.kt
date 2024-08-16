@@ -22,11 +22,10 @@ object DLManager {
         val genderProto = if (isWindows) "${LoadManager.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
         val genderModel = if (isWindows) "${LoadManager.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
 
-        ImageProcess.initFaceDetect(faceProto,faceModel, ageProto,ageModel, genderProto,genderModel)
+        ImageProcess.initFaceDetect(faceProto, faceModel, ageProto, ageModel, genderProto, genderModel)
     }
 
     fun initSketchDrawingModule() {
-
         LoadManager.copySketchDrawingModel()
 
         val modelPath = if (isWindows) "${LoadManager.loadPath}opensketch_style_512x512.onnx" else "${ImageProcess.loadPath}opensketch_style_512x512.onnx"
