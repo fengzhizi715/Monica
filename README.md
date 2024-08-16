@@ -25,8 +25,8 @@ Monica 目前还处于开发阶段，当前提供的基础功能包括：
 # 二. 功能
 截图较多，详细的功能跳转到单独的页面。[功能详见](FUNCTION.md)
 
-# 三. 本地的 CV 算法
-OpenCV 使用的算法在：
+# 三. 本地的 CV 算法 && 调用深度学习的模型
+本地的算法库：
 https://github.com/fengzhizi715/MonicaImageProcess
 
 目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境在 MacOS)
