@@ -31,7 +31,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能包括：
 本地的算法库：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境在 MacOS)
+目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境是在 MacOS 下)
 
 其中
 
@@ -45,9 +45,9 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 # 四. 更多详情
 
-Monica 还有很多有意思的功能没有来得及介绍，欢迎体验和使用以及提意见。
+Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见。
 
-暂时还不提供安装包不过可自行编译，稍后会提供各个平台的安装包。
+暂时还不提供安装包不过可自行编译，稍后会提供 Windows、Linux、MasOS 各个平台的安装包。
 
 相关文章的介绍，在如下的专栏：
 
