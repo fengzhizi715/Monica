@@ -47,7 +47,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见。
 
-暂时还不提供安装包不过可自行编译，稍后会提供 Windows、Linux、MasOS 各个平台的安装包。
+暂时还不提供安装包不过可自行编译，稍后会提供 Windows、Linux、MasOS 各个平台对应的安装包。
 
 相关文章的介绍，在如下的专栏：
 
@@ -57,5 +57,5 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * 重新规划架构
-* 增加人脸美颜的算法。
-* 增加对图像添加文字的功能。
+* 增加人脸美颜的算法
+* 增加对图像添加文字的功能
