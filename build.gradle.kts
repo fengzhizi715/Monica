@@ -102,7 +102,7 @@ compose.desktop {
             description = "Monica is a cross-platform image editor"
             copyright = "© 2024 Tony Shen. All rights reserved."
 
-            jvmArgs += listOf("-Xmx2G")
+            jvmArgs += listOf("-Xms2G","-Xmx4G")
             includeAllModules = true    //包含所有模块
 
             macOS {
