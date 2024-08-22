@@ -87,4 +87,14 @@ object ImageProcess {
      * 生成素描画
      */
     external fun sketchDrawing(src: ByteArray):IntArray
+
+    /**
+     * 初始化换脸模块
+     */
+    external fun initFaceSwap(yolov8FaceModelPath:String, face68LandmarksModePath:String)
+
+    /**
+     * 人脸 landmark 提取
+     */
+    external fun faceLandMark(src: ByteArray):IntArray
 }
