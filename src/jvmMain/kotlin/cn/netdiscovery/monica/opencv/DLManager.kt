@@ -32,4 +32,13 @@ object DLManager {
 
         ImageProcess.initSketchDrawing(modelPath)
     }
+
+    fun initFaceSwapModule() {
+        LoadManager.copyFaceSwapModel()
+
+        val yolov8FaceModelPath = if (isWindows) "${LoadManager.loadPath}yoloface_8n.onnx" else "${ImageProcess.loadPath}yoloface_8n.onnx"
+        val face68LandmarksModePath = if (isWindows) "${LoadManager.loadPath}2dfan4.onnx" else "${ImageProcess.loadPath}2dfan4.onnx"
+
+        ImageProcess.initFaceSwap(yolov8FaceModelPath, face68LandmarksModePath)
+    }
 }

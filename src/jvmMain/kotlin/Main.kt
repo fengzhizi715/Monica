@@ -204,6 +204,10 @@ private fun initData() {
             DLManager.initSketchDrawingModule()
         }
 
+        runInBackground { // 初始化换脸的模块
+            DLManager.initFaceSwapModule()
+        }
+
         flag.set(true)
     }
 }

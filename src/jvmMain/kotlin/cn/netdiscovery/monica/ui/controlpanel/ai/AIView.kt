@@ -49,6 +49,7 @@ fun aiView(state: ApplicationState) {
         })
         Text("AI 实验室", color = Color.Black, fontSize = 20.sp)
     }
+
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -66,6 +67,14 @@ fun aiView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = SketchDrawingStatus
                 viewModel.sketchDrawing(state)
+            })
+
+        toolTipButton(text = "人脸 landmark 提取",
+            painter = painterResource("images/ai/face_landmark.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = FaceLandMarkStatus
+                viewModel.faceLandMark(state)
             })
     }
 }

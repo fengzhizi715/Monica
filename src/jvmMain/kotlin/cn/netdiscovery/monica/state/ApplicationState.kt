@@ -36,6 +36,7 @@ val ACEStatus: Int = 14
 
 val FaceDetectStatus: Int = 15
 val SketchDrawingStatus: Int = 16
+val FaceLandMarkStatus: Int = 17
 
 
 @Composable

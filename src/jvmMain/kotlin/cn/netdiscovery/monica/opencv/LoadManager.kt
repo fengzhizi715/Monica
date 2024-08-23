@@ -75,6 +75,11 @@ object LoadManager {
         copyLibrary("opensketch_style_512x512.onnx")
     }
 
+    fun copyFaceSwapModel() {
+        copyLibrary("yoloface_8n.onnx")
+        copyLibrary("2dfan4.onnx")
+    }
+
     private fun copyLibrary(libName: String) {
         try {
             val resource = this.javaClass.classLoader.getResource(libName)
@@ -86,16 +91,13 @@ object LoadManager {
                 val inputStream = resource.openStream()
 
                 logger.info("file compare: ${inputStream.available()} / ${dir.length()}")
-
-//                if (inputStream.available().toLong() == dir.length()) return
-
                 logger.info("copyPath: $dir")
                 if (dir.parentFile != null && !dir.parentFile.exists()) {
                     dir.parentFile.mkdirs()
                 }
                 val out = FileOutputStream(dir) //缓存dll位置
                 var i: Int
-                val buf = ByteArray(1024)
+                val buf = ByteArray(10240)
 
                 try {
                     while (inputStream.read(buf).also { i = it } != -1) {
