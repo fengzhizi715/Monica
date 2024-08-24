@@ -76,5 +76,13 @@ fun aiView(state: ApplicationState) {
                 state.currentStatus = FaceLandMarkStatus
                 viewModel.faceLandMark(state)
             })
+
+        toolTipButton(text = "换脸",
+            painter = painterResource("images/ai/face_swap.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = FaceSwapStatus
+                state.togglePreviewWindow(true)
+            })
     }
 }

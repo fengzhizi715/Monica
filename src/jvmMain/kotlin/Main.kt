@@ -167,6 +167,9 @@ fun main() = application {
                     logger.info("enter CropImageView")
                     cropImage(applicationState)
                 }
+                FaceSwapStatus -> {
+                    logger.info("enter FaceSwapView")
+                }
                 else            -> {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)
