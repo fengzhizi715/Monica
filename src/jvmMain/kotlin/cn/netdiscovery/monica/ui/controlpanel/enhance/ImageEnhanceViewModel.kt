@@ -39,6 +39,24 @@ class ImageEnhanceViewModel {
         }
     }
 
+    fun clahe(state: ApplicationState, clipLimit:Double, size:Int) {
+        if (state.currentImage!=null) {
+            state.scope.launch(IO) {
+                clickLoadingDisplay {
+                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
+
+                    try {
+                        val outPixels = ImageProcess.clahe(byteArray, clipLimit, size)
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                    } catch (e:Exception) {
+                        logger.error("equalizeHist is failed", e)
+                    }
+                }
+            }
+        }
+    }
+
     fun gammaCorrection(state: ApplicationState, gamma:Float) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {

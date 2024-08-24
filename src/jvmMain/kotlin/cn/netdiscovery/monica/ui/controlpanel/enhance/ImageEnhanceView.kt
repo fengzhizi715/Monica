@@ -64,6 +64,13 @@ fun imageEnhanceView(state: ApplicationState) {
                 viewModel.equalizeHist(state)
             })
 
+        toolTipButton(text = "限制对比度自适应直方图均衡(clahe)",
+            painter = painterResource("images/imageenhance/clahe.png"),
+            enable = { state.isEnhance },
+            onClick = {
+                state.currentStatus = ClaheStatus
+            })
+
         toolTipButton(text = "gamma 变换",
             painter = painterResource("images/imageenhance/gamma.png"),
             enable = { state.isEnhance },
@@ -97,6 +104,10 @@ fun imageEnhanceView(state: ApplicationState) {
 
     Column {
         when(state.currentStatus) {
+            ClaheStatus -> {
+                generateClaheParams(state,viewModel)
+            }
+
             GammaStatus -> {
                 generateGammaParams(state,viewModel)
             }
@@ -108,6 +119,60 @@ fun imageEnhanceView(state: ApplicationState) {
             ACEStatus -> {
                 generateACEParams(state,viewModel)
             }
+        }
+    }
+}
+
+@Composable
+private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhanceViewModel) {
+
+    var clipLimitText by remember {
+        mutableStateOf("4")
+    }
+
+    var sizeText by remember {
+        mutableStateOf("1")
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "ClipLimit")
+
+        BasicTextField(
+            value = clipLimitText,
+            onValueChange = { str ->
+                clipLimitText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+    }
+
+    Row(
+        modifier = Modifier.padding(top = 10.dp)
+    ) {
+        Text(text = "Size")
+
+        BasicTextField(
+            value = sizeText,
+            onValueChange = { str ->
+                sizeText = str
+            },
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
+
+        confirmButton(state.isEnhance) {
+            viewModel.clahe(state,clipLimitText.toDouble(), sizeText.toInt())
         }
     }
 }

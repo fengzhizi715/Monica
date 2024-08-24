@@ -29,14 +29,15 @@ val CropSizeStatus: Int = 8
 val ShearingStatus: Int = 9
 
 val EqualizeHistStatus: Int = 10
-val GammaStatus: Int = 11
-val LaplaceStatus: Int = 12
-val USMStatus: Int = 13
-val ACEStatus: Int = 14
+val ClaheStatus: Int = 11
+val GammaStatus: Int = 12
+val LaplaceStatus: Int = 13
+val USMStatus: Int = 14
+val ACEStatus: Int = 15
 
-val FaceDetectStatus: Int = 15
-val SketchDrawingStatus: Int = 16
-val FaceLandMarkStatus: Int = 17
+val FaceDetectStatus: Int = 16
+val SketchDrawingStatus: Int = 17
+val FaceLandMarkStatus: Int = 18
 
 
 @Composable
