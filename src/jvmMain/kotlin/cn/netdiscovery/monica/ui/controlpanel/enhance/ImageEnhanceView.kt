@@ -131,13 +131,13 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
     }
 
     var sizeText by remember {
-        mutableStateOf("1")
+        mutableStateOf("10")
     }
 
     Row(
         modifier = Modifier.padding(top = 10.dp)
     ) {
-        Text(text = "ClipLimit")
+        Text(text = "clipLimit")
 
         BasicTextField(
             value = clipLimitText,
@@ -156,7 +156,7 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
     Row(
         modifier = Modifier.padding(top = 10.dp)
     ) {
-        Text(text = "Size")
+        Text(text = "size")
 
         BasicTextField(
             value = sizeText,
