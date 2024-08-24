@@ -95,7 +95,7 @@ object LoadManager {
                 if (dir.parentFile != null && !dir.parentFile.exists()) {
                     dir.parentFile.mkdirs()
                 }
-                val out = FileOutputStream(dir) //缓存dll位置
+                val out = FileOutputStream(dir)
                 var i: Int
                 val buf = ByteArray(10240)
 
