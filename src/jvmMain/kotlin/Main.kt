@@ -154,12 +154,10 @@ fun main() = application {
                     }
 
                     FaceSwapStatus -> {
-                        faceSwapModel.clear()
+                        faceSwapModel.clearTargetImage()
                     }
 
-                    else -> {
-
-                    }
+                    else -> {}
                 }
 
                 applicationState.resetCurrentStatus()

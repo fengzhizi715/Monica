@@ -28,7 +28,7 @@ class FaceSwapModel {
 
     var targetImage: BufferedImage? by mutableStateOf(null)
 
-    fun clear() {
+    fun clearTargetImage() {
         targetImage = null
     }
 
