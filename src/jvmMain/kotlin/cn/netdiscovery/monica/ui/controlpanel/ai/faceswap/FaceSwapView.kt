@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.composeClick
+import org.koin.compose.koinInject
 
 /**
  *
@@ -28,6 +29,8 @@ import cn.netdiscovery.monica.utils.composeClick
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
+
+    val viewModel: FaceSwapModel = koinInject()
 
     Column (modifier = Modifier.fillMaxSize()){
         Row (
@@ -79,7 +82,7 @@ fun faceSwap(state: ApplicationState) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Text(
-                        text = "请点击选择图像或拖拽图像至此",
+                        text = "请点击选择图像",
                         textAlign = TextAlign.Center
                     )
                 }
