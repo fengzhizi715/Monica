@@ -14,9 +14,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.composeClick
+import cn.netdiscovery.monica.utils.showFileSelector
+import com.safframework.kotlin.coroutines.IO
+import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
+import javax.swing.JFileChooser
 
 /**
  *
@@ -43,7 +49,11 @@ fun faceSwap(state: ApplicationState) {
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
-//            previewViewModel.chooseImage(state)
+                    viewModel.chooseImage(state) { file ->
+                        state.rawImage = BufferedImages.load(file)
+                        state.currentImage = state.rawImage
+                        state.rawImageFile = file
+                    }
                 },
                 enabled = state.rawImage == null
             ) {
@@ -73,7 +83,9 @@ fun faceSwap(state: ApplicationState) {
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
-                    viewModel.chooseImage(state)
+                    viewModel.chooseImage(state) { file ->
+                        viewModel.targetImage = BufferedImages.load(file)
+                    }
                 },
                 enabled = viewModel.targetImage == null
             ) {

@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
@@ -67,6 +68,7 @@ fun main() = application {
 
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
+    lateinit var faceSwapModel: FaceSwapModel
 
     Tray(
         state = trayState,
@@ -105,6 +107,7 @@ fun main() = application {
         }) {
             previewViewModel = koinInject()
             cropViewModel    = koinInject()
+            faceSwapModel    = koinInject()
 
             applicationState.window = window
 
@@ -140,11 +143,23 @@ fun main() = application {
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
-                if (applicationState.currentStatus == DoodleStatus) {
-                    toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
-                    showToast = true
-                } else if (applicationState.currentStatus == CropSizeStatus) {
-                    cropViewModel.clearCropImageView()
+                when(applicationState.currentStatus) {
+                    DoodleStatus -> {
+                        toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
+                        showToast = true
+                    }
+
+                    CropSizeStatus -> {
+                        cropViewModel.clearCropImageView()
+                    }
+
+                    FaceSwapStatus -> {
+                        faceSwapModel.targetImage = null
+                    }
+
+                    else -> {
+
+                    }
                 }
 
                 applicationState.resetCurrentStatus()

@@ -12,6 +12,7 @@ import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import java.io.File
 import javax.swing.JFileChooser
 
 /**
@@ -27,7 +28,11 @@ class FaceSwapModel {
 
     var targetImage: BufferedImage? by mutableStateOf(null)
 
-    fun chooseImage(state: ApplicationState) {
+    fun clear() {
+        targetImage = null
+    }
+
+    fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
         showFileSelector(
             isMultiSelection = false,
             selectionMode = JFileChooser.FILES_ONLY,
@@ -37,7 +42,7 @@ class FaceSwapModel {
                         val file = it.getOrNull(0)
                         if (file != null) {
                             logger.info("load file: ${file.absolutePath}")
-                            targetImage = BufferedImages.load(file)
+                            block.invoke(file)
                         }
                     }
                 }
