@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
@@ -169,6 +170,7 @@ fun main() = application {
                 }
                 FaceSwapStatus -> {
                     logger.info("enter FaceSwapView")
+                    faceSwap(applicationState)
                 }
                 else            -> {
                     logger.info("enter ShowImgView")
