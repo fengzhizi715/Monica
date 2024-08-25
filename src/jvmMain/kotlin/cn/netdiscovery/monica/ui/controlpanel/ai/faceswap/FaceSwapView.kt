@@ -7,22 +7,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import cn.netdiscovery.monica.utils.composeClick
-import cn.netdiscovery.monica.utils.showFileSelector
-import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.launch
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
-import javax.swing.JFileChooser
 
 /**
  *
@@ -55,26 +50,39 @@ fun faceSwap(state: ApplicationState) {
                         state.rawImageFile = file
                     }
                 },
-                enabled = state.rawImage == null
+                enabled = state.currentImage == null
             ) {
                 Column(
-                    modifier = Modifier,
+                    modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        modifier = Modifier,
-                        text = "source",
-                        color = MaterialTheme.colors.primary,
-                        fontSize = 24.sp,
-                        fontWeight = FontWeight.Bold
-                    )
+                    if (state.currentImage == null) {
+                        Text(
+                            text = "请点击选择图像",
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Column(
+                            modifier = Modifier,
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                modifier = Modifier,
+                                text = "source",
+                                color = MaterialTheme.colors.primary,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                    Image(
-                        painter = state.currentImage!!.toPainter(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier)
+                            Image(
+                                painter = state.currentImage!!.toPainter(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier)
+                        }
+                    }
                 }
             }
 
@@ -122,15 +130,19 @@ fun faceSwap(state: ApplicationState) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Button(
-                modifier = Modifier.width(100.dp),
-                onClick = composeClick {
-                },
-                enabled = true
-            ) {
-                Text(text = "确定",
-                    color = if (true) Color.Unspecified else Color.LightGray)
-            }
+            toolTipButton(text = "删除 source 的图",
+                painter = painterResource("images/preview/initial_picture.png"),
+                iconModifier = Modifier.size(30.dp),
+                onClick = {
+                    state.clearImage()
+                })
+
+            toolTipButton(text = "删除 target 的图",
+                painter = painterResource("images/preview/initial_picture.png"),
+                iconModifier = Modifier.size(30.dp),
+                onClick = {
+                    viewModel.clearTargetImage()
+                })
         }
     }
 }

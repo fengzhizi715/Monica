@@ -139,7 +139,8 @@ fun main() = application {
         }
     }
 
-    if (applicationState.isShowPreviewWindow && applicationState.currentImage != null) {
+    if (applicationState.isShowPreviewWindow &&
+        (applicationState.currentImage != null || applicationState.currentStatus == FaceSwapStatus)) {
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {

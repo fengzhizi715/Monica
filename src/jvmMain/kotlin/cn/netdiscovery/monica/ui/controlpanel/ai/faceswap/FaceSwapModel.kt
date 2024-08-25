@@ -29,7 +29,9 @@ class FaceSwapModel {
     var targetImage: BufferedImage? by mutableStateOf(null)
 
     fun clearTargetImage() {
-        targetImage = null
+        if (targetImage!=null) {
+            targetImage = null
+        }
     }
 
     fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
