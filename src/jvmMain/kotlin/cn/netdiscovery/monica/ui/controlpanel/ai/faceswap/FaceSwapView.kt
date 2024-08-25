@@ -74,17 +74,23 @@ fun faceSwap(state: ApplicationState) {
                 elevation = 4.dp,
                 onClick = {
                 },
-                enabled = state.rawImage == null
+                enabled = viewModel.targetImage == null
             ) {
                 Column(
                     modifier = Modifier.fillMaxSize(),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(
-                        text = "请点击选择图像",
-                        textAlign = TextAlign.Center
-                    )
+
+
+                    if (viewModel.targetImage == null) {
+                        Text(
+                            text = "请点击选择图像",
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+//                        previewImage(state,previewViewModel)
+                    }
                 }
             }
         }

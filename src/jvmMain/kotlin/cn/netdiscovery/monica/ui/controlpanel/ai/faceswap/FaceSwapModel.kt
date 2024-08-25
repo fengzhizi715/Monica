@@ -1,7 +1,11 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.faceswap
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -14,5 +18,6 @@ import org.slf4j.Logger
 class FaceSwapModel {
     private val logger: Logger = logger<FaceSwapModel>()
 
+    var targetImage: BufferedImage? by mutableStateOf(null)
 
 }
