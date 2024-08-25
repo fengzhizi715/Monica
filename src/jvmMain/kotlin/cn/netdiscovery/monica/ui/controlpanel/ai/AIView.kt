@@ -8,15 +8,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.image2ByteArray
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
-import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.launch
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -34,7 +27,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun aiView(state: ApplicationState) {
 
-    val viewModel: AIViewMode = koinInject()
+    val viewModel: AIViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isAI, onCheckedChange = {

@@ -13,13 +13,13 @@ import org.slf4j.Logger
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.AIViewMode
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.AIViewModel
  * @author: Tony Shen
  * @date: 2024/7/28 11:21
  * @version: V1.0 <描述当前版本功能>
  */
-class AIViewMode {
-    private val logger: Logger = logger<AIViewMode>()
+class AIViewModel {
+    private val logger: Logger = logger<AIViewModel>()
 
     fun faceDetect(state: ApplicationState) {
         if (state.currentImage!=null) {

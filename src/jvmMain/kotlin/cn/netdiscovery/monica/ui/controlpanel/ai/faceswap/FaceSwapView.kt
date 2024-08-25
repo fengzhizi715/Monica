@@ -20,7 +20,7 @@ import cn.netdiscovery.monica.utils.composeClick
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwap
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapView
  * @author: Tony Shen
  * @date: 2024/8/25 13:02
  * @version: V1.0 <描述当前版本功能>
