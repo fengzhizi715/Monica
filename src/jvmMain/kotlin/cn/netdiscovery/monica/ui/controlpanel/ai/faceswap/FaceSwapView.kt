@@ -73,6 +73,7 @@ fun faceSwap(state: ApplicationState) {
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
+                    viewModel.chooseImage(state)
                 },
                 enabled = viewModel.targetImage == null
             ) {
@@ -81,15 +82,25 @@ fun faceSwap(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-
-
                     if (viewModel.targetImage == null) {
                         Text(
                             text = "请点击选择图像",
                             textAlign = TextAlign.Center
                         )
                     } else {
-//                        previewImage(state,previewViewModel)
+                        Text(
+                            modifier = Modifier,
+                            text = "target",
+                            color = MaterialTheme.colors.primary,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Image(
+                            painter = viewModel.targetImage!!.toPainter(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier)
                     }
                 }
             }
