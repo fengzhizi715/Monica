@@ -223,6 +223,7 @@ private fun getWindowsTitle(state: ApplicationState):String {
         ColorPickStatus -> "图像取色"
         DoodleStatus    -> "涂鸦图像"
         CropSizeStatus  -> "图像裁剪"
+        FaceSwapStatus  -> "人脸替换"
         else            -> "放大预览"
     }
 }

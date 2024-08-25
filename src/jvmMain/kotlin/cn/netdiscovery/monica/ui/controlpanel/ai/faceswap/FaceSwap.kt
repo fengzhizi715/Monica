@@ -5,14 +5,17 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 
 /**
@@ -28,7 +31,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 fun faceSwap(state: ApplicationState) {
 
     Row (
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().padding(top = 50.dp, bottom = 80.dp, start = 20.dp, end = 20.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Center
     ) {
@@ -41,6 +44,14 @@ fun faceSwap(state: ApplicationState) {
             },
             enabled = state.rawImage == null
         ) {
+//            Text(
+//                modifier = Modifier.padding(vertical = 1.dp),
+//                text = "source",
+//                color = MaterialTheme.colors.primary,
+//                fontSize = 20.sp,
+//                fontWeight = FontWeight.Bold
+//            )
+
             Column(
                 modifier = Modifier,
                 verticalArrangement = Arrangement.Center,
