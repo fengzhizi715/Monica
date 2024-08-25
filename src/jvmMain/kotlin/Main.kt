@@ -154,7 +154,7 @@ fun main() = application {
                     }
 
                     FaceSwapStatus -> {
-                        faceSwapModel.targetImage = null
+                        faceSwapModel.clear()
                     }
 
                     else -> {
