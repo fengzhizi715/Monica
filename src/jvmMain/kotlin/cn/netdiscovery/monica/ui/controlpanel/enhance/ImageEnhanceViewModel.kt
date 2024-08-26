@@ -50,7 +50,7 @@ class ImageEnhanceViewModel {
                         state.addQueue(state.currentImage!!)
                         state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
                     } catch (e:Exception) {
-                        logger.error("equalizeHist is failed", e)
+                        logger.error("clahe is failed", e)
                     }
                 }
             }

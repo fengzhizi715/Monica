@@ -1,16 +1,36 @@
 package cn.netdiscovery.monica.opencv
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.getImageInfo
+import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
 import cn.netdiscovery.monica.utils.isWindows
+import cn.netdiscovery.monica.utils.logger
+import org.slf4j.Logger
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.opencv.DLManager
+ *          cn.netdiscovery.monica.opencv.OpenCVManager
  * @author: Tony Shen
  * @date: 2024/8/13 19:54
- * @version: V1.0 深度学习的管理类
+ * @version: V1.0
  */
-object DLManager {
+object OpenCVManager {
+
+    private val logger: Logger = logger<OpenCVManager>()
+
+    fun invokeCV(state: ApplicationState, block:(byteArray:ByteArray) -> IntArray, failure: ()-> Unit) {
+        val (width,height,byteArray) = state.currentImage!!.getImageInfo()
+
+        try {
+            val outPixels = block.invoke(byteArray)
+            state.addQueue(state.currentImage!!)
+            state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+        } catch (e:Exception) {
+            failure.invoke()
+        }
+    }
 
     fun initFaceDetectModule() {
         LoadManager.copyFaceDetectModels()

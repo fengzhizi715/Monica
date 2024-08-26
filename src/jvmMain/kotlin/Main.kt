@@ -11,7 +11,7 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.DLManager
+import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.opencv.LoadManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.getFilterNames
@@ -216,15 +216,15 @@ private fun initData() {
         logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
 
         runInBackground { // 初始化人脸检测的模块
-            DLManager.initFaceDetectModule()
+            OpenCVManager.initFaceDetectModule()
         }
 
         runInBackground { // 初始化生成素描画的模块
-            DLManager.initSketchDrawingModule()
+            OpenCVManager.initSketchDrawingModule()
         }
 
         runInBackground { // 初始化换脸的模块
-            DLManager.initFaceSwapModule()
+            OpenCVManager.initFaceSwapModule()
         }
 
         flag.set(true)
