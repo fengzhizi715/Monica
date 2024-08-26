@@ -3,10 +3,7 @@ package cn.netdiscovery.monica.opencv
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
 import cn.netdiscovery.monica.utils.isWindows
-import cn.netdiscovery.monica.utils.logger
-import org.slf4j.Logger
 
 /**
  *
@@ -18,9 +15,7 @@ import org.slf4j.Logger
  */
 object OpenCVManager {
 
-    private val logger: Logger = logger<OpenCVManager>()
-
-    fun invokeCV(state: ApplicationState, block:(byteArray:ByteArray) -> IntArray, failure: ()-> Unit) {
+    fun invokeCV(state: ApplicationState, block: (byteArray:ByteArray) -> IntArray, failure: (e:Exception) -> Unit) {
         val (width,height,byteArray) = state.currentImage!!.getImageInfo()
 
         try {
@@ -28,7 +23,7 @@ object OpenCVManager {
             state.addQueue(state.currentImage!!)
             state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
         } catch (e:Exception) {
-            failure.invoke()
+            failure.invoke(e)
         }
     }
 
