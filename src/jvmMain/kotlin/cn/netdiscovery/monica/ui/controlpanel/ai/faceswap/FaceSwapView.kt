@@ -55,36 +55,31 @@ fun faceSwap(state: ApplicationState) {
                 },
                 enabled = state.currentImage == null
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (state.currentImage == null) {
+                if (state.currentImage == null) {
+                    Text(
+                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                        text = "请点击选择图像",
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         Text(
-                            text = "请点击选择图像",
-                            textAlign = TextAlign.Center
+                            text = "source",
+                            textAlign = TextAlign.Center,
+                            color = MaterialTheme.colors.primary,
+                            fontSize = 24.sp,
+                            fontWeight = FontWeight.Bold
                         )
-                    } else {
-                        Column(
-                            modifier = Modifier,
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                modifier = Modifier,
-                                text = "source",
-                                color = MaterialTheme.colors.primary,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
 
-                            Image(
-                                painter = state.currentImage!!.toPainter(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier)
-                        }
+                        Image(
+                            painter = state.currentImage!!.toPainter(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier)
                     }
                 }
             }
@@ -100,31 +95,26 @@ fun faceSwap(state: ApplicationState) {
                 },
                 enabled = viewModel.targetImage == null
             ) {
-                Column(
-                    modifier = Modifier.fillMaxSize(),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    if (viewModel.targetImage == null) {
-                        Text(
-                            text = "请点击选择图像",
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        Text(
-                            modifier = Modifier,
-                            text = "target",
-                            color = MaterialTheme.colors.primary,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                if (viewModel.targetImage == null) {
+                    Text(
+                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                        text = "请点击选择图像",
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    Text(
+                        modifier = Modifier.fillMaxSize(),
+                        text = "target",
+                        color = MaterialTheme.colors.primary,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
+                    )
 
-                        Image(
-                            painter = viewModel.targetImage!!.toPainter(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier)
-                    }
+                    Image(
+                        painter = viewModel.targetImage!!.toPainter(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier)
                 }
             }
         }
