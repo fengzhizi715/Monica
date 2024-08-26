@@ -131,14 +131,14 @@ fun faceSwap(state: ApplicationState) {
             horizontalArrangement = Arrangement.Center
         ) {
             toolTipButton(text = "删除 source 的图",
-                painter = painterResource("images/preview/initial_picture.png"),
+                painter = painterResource("images/preview/delete.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     state.clearImage()
                 })
 
             toolTipButton(text = "删除 target 的图",
-                painter = painterResource("images/preview/initial_picture.png"),
+                painter = painterResource("images/preview/delete.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     viewModel.clearTargetImage()
