@@ -160,7 +160,9 @@ fun faceSwap(state: ApplicationState) {
                 painter = painterResource("images/ai/face_landmark.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
-
+                    viewModel.faceLandMark(state, viewModel.targetImage) {
+                        viewModel.targetImage = it
+                    }
                 })
         }
     }
