@@ -4,6 +4,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.getImageInfo
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.logger
@@ -50,5 +52,23 @@ class FaceSwapModel {
                 }
             }
         )
+    }
+
+    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, onImageChange:OnImageChange) {
+
+        if (image!=null) {
+            state.scope.launch(IO) {
+                clickLoadingDisplay {
+                    val (width,height,byteArray) = image.getImageInfo()
+
+                    try {
+                        val outPixels = ImageProcess.faceLandMark(byteArray)
+                        onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
+                    } catch (e:Exception) {
+                        logger.error("faceDetect is failed", e)
+                    }
+                }
+            }
+        }
     }
 }

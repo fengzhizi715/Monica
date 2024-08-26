@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -27,6 +28,8 @@ import org.koin.compose.koinInject
  * @date: 2024/8/25 13:02
  * @version: V1.0 <描述当前版本功能>
  */
+typealias OnImageChange = (image: BufferedImage) -> Unit
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
@@ -137,11 +140,27 @@ fun faceSwap(state: ApplicationState) {
                     state.clearImage()
                 })
 
+            toolTipButton(text = "检测 source 图中的人脸",
+                painter = painterResource("images/ai/face_landmark.png"),
+                iconModifier = Modifier.size(30.dp),
+                onClick = {
+                    viewModel.faceLandMark(state, state.currentImage) {
+                        state.currentImage = it
+                    }
+                })
+
             toolTipButton(text = "删除 target 的图",
                 painter = painterResource("images/preview/delete.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     viewModel.clearTargetImage()
+                })
+
+            toolTipButton(text = "检测 target 图中的人脸",
+                painter = painterResource("images/ai/face_landmark.png"),
+                iconModifier = Modifier.size(30.dp),
+                onClick = {
+
                 })
         }
     }
