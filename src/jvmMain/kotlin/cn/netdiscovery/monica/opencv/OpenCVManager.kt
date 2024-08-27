@@ -15,7 +15,16 @@ import cn.netdiscovery.monica.utils.isWindows
  */
 object OpenCVManager {
 
-    fun invokeCV(state: ApplicationState, action: (byteArray:ByteArray) -> IntArray, failure: (e:Exception) -> Unit) {
+    /**
+     * 封装调用 OpenCV 的方法
+     *
+     * @param state
+     * @param action 通过 jni 调用 OpenCV 的方法
+     * @param failure 失败的记录
+     */
+    fun invokeCV(state: ApplicationState,
+                 action: (byteArray:ByteArray) -> IntArray,
+                 failure: (e:Exception) -> Unit) {
         val (width,height,byteArray) = state.currentImage!!.getImageInfo()
 
         try {

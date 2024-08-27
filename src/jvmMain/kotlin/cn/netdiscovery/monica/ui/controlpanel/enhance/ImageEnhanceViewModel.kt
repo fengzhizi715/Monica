@@ -54,15 +54,11 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.gammaCorrection(byteArray, gamma)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.gammaCorrection(byteArray, gamma)
+                    }, failure = { e ->
                         logger.error("gammaCorrection is failed", e)
-                    }
+                    })
                 }
             }
         }
@@ -72,15 +68,11 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.laplace(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.laplace(byteArray)
+                    }, failure = { e ->
                         logger.error("laplace is failed", e)
-                    }
+                    })
                 }
             }
         }
