@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.clickLoadingDisplay
 import cn.netdiscovery.monica.utils.logger
@@ -25,15 +26,11 @@ class AIViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.faceDetect(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.faceDetect(byteArray)
+                    }, failure = { e ->
                         logger.error("faceDetect is failed", e)
-                    }
+                    })
                 }
             }
         }
@@ -43,15 +40,11 @@ class AIViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.sketchDrawing(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
-                        logger.error("faceDetect is failed", e)
-                    }
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.sketchDrawing(byteArray)
+                    }, failure = { e ->
+                        logger.error("sketchDrawing is failed", e)
+                    })
                 }
             }
         }
@@ -61,15 +54,11 @@ class AIViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.faceLandMark(byteArray)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
-                        logger.error("faceDetect is failed", e)
-                    }
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.faceLandMark(byteArray)
+                    }, failure = { e ->
+                        logger.error("faceLandMark is failed", e)
+                    })
                 }
             }
         }
