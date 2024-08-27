@@ -15,11 +15,11 @@ import cn.netdiscovery.monica.utils.isWindows
  */
 object OpenCVManager {
 
-    fun invokeCV(state: ApplicationState, block: (byteArray:ByteArray) -> IntArray, failure: (e:Exception) -> Unit) {
+    fun invokeCV(state: ApplicationState, action: (byteArray:ByteArray) -> IntArray, failure: (e:Exception) -> Unit) {
         val (width,height,byteArray) = state.currentImage!!.getImageInfo()
 
         try {
-            val outPixels = block.invoke(byteArray)
+            val outPixels = action.invoke(byteArray)
             state.addQueue(state.currentImage!!)
             state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
         } catch (e:Exception) {
@@ -27,6 +27,9 @@ object OpenCVManager {
         }
     }
 
+    /**
+     * 初始化人脸检测的模块
+     */
     fun initFaceDetectModule() {
         LoadManager.copyFaceDetectModels()
 
@@ -40,6 +43,9 @@ object OpenCVManager {
         ImageProcess.initFaceDetect(faceProto, faceModel, ageProto, ageModel, genderProto, genderModel)
     }
 
+    /**
+     * 初始化生成素描画的模块
+     */
     fun initSketchDrawingModule() {
         LoadManager.copySketchDrawingModel()
 
@@ -48,6 +54,9 @@ object OpenCVManager {
         ImageProcess.initSketchDrawing(modelPath)
     }
 
+    /**
+     * 初始化换脸的模块
+     */
     fun initFaceSwapModule() {
         LoadManager.copyFaceSwapModel()
 

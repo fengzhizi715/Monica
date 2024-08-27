@@ -26,7 +26,7 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    OpenCVManager.invokeCV(state, block = { byteArray ->
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.equalizeHist(byteArray)
                     }, failure = { e ->
                         logger.error("equalizeHist is failed", e)
@@ -40,15 +40,11 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.clahe(byteArray, clipLimit, size)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.clahe(byteArray, clipLimit, size)
+                    }, failure = { e ->
                         logger.error("clahe is failed", e)
-                    }
+                    })
                 }
             }
         }
