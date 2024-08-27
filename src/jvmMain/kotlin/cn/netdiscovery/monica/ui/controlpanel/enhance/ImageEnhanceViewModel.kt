@@ -82,15 +82,11 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
+                    }, failure = { e ->
                         logger.error("unsharpMask is failed", e)
-                    }
+                    })
                 }
             }
         }
@@ -100,15 +96,11 @@ class ImageEnhanceViewModel {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
                 clickLoadingDisplay {
-                    val (width,height,byteArray) = state.currentImage!!.getImageInfo()
-
-                    try {
-                        val outPixels = ImageProcess.ace(byteArray,ratio,radius)
-                        state.addQueue(state.currentImage!!)
-                        state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-                    } catch (e:Exception) {
+                    OpenCVManager.invokeCV(state, action = { byteArray ->
+                        ImageProcess.ace(byteArray,ratio,radius)
+                    }, failure = { e ->
                         logger.error("ace is failed", e)
-                    }
+                    })
                 }
             }
         }
