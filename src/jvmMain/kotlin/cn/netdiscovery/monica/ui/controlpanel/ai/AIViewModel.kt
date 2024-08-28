@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.kotlin.coroutines.IO
@@ -22,42 +23,39 @@ class AIViewModel {
 
     fun faceDetect(state: ApplicationState) {
         if (state.currentImage!=null) {
-            state.scope.launch(IO) {
-                loadingDisplay {
-                    OpenCVManager.invokeCV(state, action = { byteArray ->
-                        ImageProcess.faceDetect(byteArray)
-                    }, failure = { e ->
-                        logger.error("faceDetect is failed", e)
-                    })
-                }
+            state.scope.launchWithLoading {
+
+                OpenCVManager.invokeCV(state, action = { byteArray ->
+                    ImageProcess.faceDetect(byteArray)
+                }, failure = { e ->
+                    logger.error("faceDetect is failed", e)
+                })
             }
         }
     }
 
     fun sketchDrawing(state: ApplicationState) {
         if (state.currentImage!=null) {
-            state.scope.launch(IO) {
-                loadingDisplay {
-                    OpenCVManager.invokeCV(state, action = { byteArray ->
-                        ImageProcess.sketchDrawing(byteArray)
-                    }, failure = { e ->
-                        logger.error("sketchDrawing is failed", e)
-                    })
-                }
+            state.scope.launchWithLoading {
+
+                OpenCVManager.invokeCV(state, action = { byteArray ->
+                    ImageProcess.sketchDrawing(byteArray)
+                }, failure = { e ->
+                    logger.error("sketchDrawing is failed", e)
+                })
             }
         }
     }
 
     fun faceLandMark(state: ApplicationState) {
         if (state.currentImage!=null) {
-            state.scope.launch(IO) {
-                loadingDisplay {
-                    OpenCVManager.invokeCV(state, action = { byteArray ->
-                        ImageProcess.faceLandMark(byteArray)
-                    }, failure = { e ->
-                        logger.error("faceLandMark is failed", e)
-                    })
-                }
+            state.scope.launchWithLoading {
+
+                OpenCVManager.invokeCV(state, action = { byteArray ->
+                    ImageProcess.faceLandMark(byteArray)
+                }, failure = { e ->
+                    logger.error("faceLandMark is failed", e)
+                })
             }
         }
     }
