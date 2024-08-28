@@ -40,7 +40,7 @@ fun loadingDisplay(block:()->Unit) {
 /**
  * 点击按钮后，会带有 loading 的效果
  */
-suspend fun clickLoadingDisplayWithSuspend(block:suspend ()->Unit) {
+suspend fun loadingDisplayWithSuspend(block:suspend ()->Unit) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false

@@ -200,12 +200,12 @@ class PreviewViewModel {
 
     fun previewImage(state: ApplicationState) {
         state.scope.launch {
-            clickLoadingDisplayWithSuspend {
+            loadingDisplayWithSuspend {
                 if (state.currentImage == null)
-                    return@clickLoadingDisplayWithSuspend
+                    return@loadingDisplayWithSuspend
 
                 if (!state.isHLS && (!state.isFilter || (state.isFilter && selectedIndex.value == 0)))  {
-                    return@clickLoadingDisplayWithSuspend
+                    return@loadingDisplayWithSuspend
                 }
 
                 val tempImage = state.currentImage!!
