@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.enhance
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
@@ -23,7 +23,7 @@ class ImageEnhanceViewModel {
     fun equalizeHist(state: ApplicationState) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.equalizeHist(byteArray)
                     }, failure = { e ->
@@ -37,7 +37,7 @@ class ImageEnhanceViewModel {
     fun clahe(state: ApplicationState, clipLimit:Double, size:Int) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.clahe(byteArray, clipLimit, size)
                     }, failure = { e ->
@@ -51,7 +51,7 @@ class ImageEnhanceViewModel {
     fun gammaCorrection(state: ApplicationState, gamma:Float) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.gammaCorrection(byteArray, gamma)
                     }, failure = { e ->
@@ -65,7 +65,7 @@ class ImageEnhanceViewModel {
     fun laplace(state: ApplicationState) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.laplace(byteArray)
                     }, failure = { e ->
@@ -79,7 +79,7 @@ class ImageEnhanceViewModel {
     fun unsharpMask(state: ApplicationState,radius:Int,threshold:Int,amount:Int) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
                     }, failure = { e ->
@@ -93,7 +93,7 @@ class ImageEnhanceViewModel {
     fun ace(state: ApplicationState, ratio:Int, radius:Int) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.ace(byteArray,ratio,radius)
                     }, failure = { e ->

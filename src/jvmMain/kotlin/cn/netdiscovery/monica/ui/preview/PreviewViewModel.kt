@@ -46,7 +46,7 @@ class PreviewViewModel {
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 state.scope.launch(IO) {
-                    clickLoadingDisplay {
+                    loadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
                             logger.info("load file: ${file.absolutePath}")
@@ -64,7 +64,7 @@ class PreviewViewModel {
         logger.info("load picUrl: $picUrl")
 
         state.scope.launch(IO) {
-            clickLoadingDisplay {
+            loadingDisplay {
                 BufferedImages.loadUrl(picUrl)?.let {
                     state.rawImage = it
                     state.currentImage = state.rawImage

@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.ui.main
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.legalSuffixList
 import com.safframework.kotlin.coroutines.IO
@@ -22,7 +22,7 @@ class MainViewModel {
     fun dropFile(state: ApplicationState) {
         state.window.contentPane.dropTarget = dropFileTarget {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     val filePath = it.getOrNull(0)
                     if (filePath != null) {
                         val file = File(filePath)

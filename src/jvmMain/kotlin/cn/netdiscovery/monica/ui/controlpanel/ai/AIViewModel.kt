@@ -1,11 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
-import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
@@ -25,7 +23,7 @@ class AIViewModel {
     fun faceDetect(state: ApplicationState) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.faceDetect(byteArray)
                     }, failure = { e ->
@@ -39,7 +37,7 @@ class AIViewModel {
     fun sketchDrawing(state: ApplicationState) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.sketchDrawing(byteArray)
                     }, failure = { e ->
@@ -53,7 +51,7 @@ class AIViewModel {
     fun faceLandMark(state: ApplicationState) {
         if (state.currentImage!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     OpenCVManager.invokeCV(state, action = { byteArray ->
                         ImageProcess.faceLandMark(byteArray)
                     }, failure = { e ->

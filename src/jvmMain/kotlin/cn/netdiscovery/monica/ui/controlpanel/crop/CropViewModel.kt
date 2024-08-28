@@ -10,8 +10,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.contentScalesIndex
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag1
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropFlag2
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropTypesIndex
-import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.launch
@@ -66,7 +65,7 @@ class CropViewModel {
             val byteArray = state.currentImage!!.image2ByteArray()
 
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     try {
                         val outPixels = ImageProcess.shearing(byteArray, x, y)
                         state.addQueue(state.currentImage!!)

@@ -31,7 +31,7 @@ inline fun composeClick(
 /**
  * 点击按钮后，会带有 loading 的效果
  */
-fun clickLoadingDisplay(block:()->Unit) {
+fun loadingDisplay(block:()->Unit) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false

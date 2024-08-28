@@ -7,7 +7,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.clickLoadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.kotlin.coroutines.IO
@@ -42,7 +42,7 @@ class FaceSwapModel {
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 state.scope.launch(IO) {
-                    clickLoadingDisplay {
+                    loadingDisplay {
                         val file = it.getOrNull(0)
                         if (file != null) {
                             logger.info("load file: ${file.absolutePath}")
@@ -58,7 +58,7 @@ class FaceSwapModel {
 
         if (image!=null) {
             state.scope.launch(IO) {
-                clickLoadingDisplay {
+                loadingDisplay {
                     val (width,height,byteArray) = image.getImageInfo()
 
                     try {
