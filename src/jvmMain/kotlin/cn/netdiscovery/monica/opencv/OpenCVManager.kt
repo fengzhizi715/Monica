@@ -25,14 +25,17 @@ object OpenCVManager {
     fun invokeCV(state: ApplicationState,
                  action: (byteArray:ByteArray) -> IntArray,
                  failure: (e:Exception) -> Unit) {
-        val (width,height,byteArray) = state.currentImage!!.getImageInfo()
 
-        try {
-            val outPixels = action.invoke(byteArray)
-            state.addQueue(state.currentImage!!)
-            state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
-        } catch (e:Exception) {
-            failure.invoke(e)
+        if (state.currentImage!=null) {
+            val (width,height,byteArray) = state.currentImage!!.getImageInfo()
+
+            try {
+                val outPixels = action.invoke(byteArray)
+                state.addQueue(state.currentImage!!)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+            } catch (e:Exception) {
+                failure.invoke(e)
+            }
         }
     }
 

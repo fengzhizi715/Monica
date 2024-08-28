@@ -12,6 +12,7 @@ import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import com.safframework.kotlin.coroutines.IO
 import filterNames
 import kotlinx.coroutines.launch
@@ -45,15 +46,13 @@ class PreviewViewModel {
             isMultiSelection = false,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
-                state.scope.launch(IO) {
-                    loadingDisplay {
-                        val file = it.getOrNull(0)
-                        if (file != null) {
-                            logger.info("load file: ${file.absolutePath}")
-                            state.rawImage = BufferedImages.load(file)
-                            state.currentImage = state.rawImage
-                            state.rawImageFile = file
-                        }
+                state.scope.launchWithLoading {
+                    val file = it.getOrNull(0)
+                    if (file != null) {
+                        logger.info("load file: ${file.absolutePath}")
+                        state.rawImage = BufferedImages.load(file)
+                        state.currentImage = state.rawImage
+                        state.rawImageFile = file
                     }
                 }
             }
@@ -63,12 +62,10 @@ class PreviewViewModel {
     fun loadUrl(picUrl:String, state: ApplicationState) {
         logger.info("load picUrl: $picUrl")
 
-        state.scope.launch(IO) {
-            loadingDisplay {
-                BufferedImages.loadUrl(picUrl)?.let {
-                    state.rawImage = it
-                    state.currentImage = state.rawImage
-                }
+        state.scope.launchWithLoading {
+            BufferedImages.loadUrl(picUrl)?.let {
+                state.rawImage = it
+                state.currentImage = state.rawImage
             }
         }
     }
