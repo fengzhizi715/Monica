@@ -16,9 +16,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.height
+import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import loadingDisplay
 import org.koin.compose.koinInject
 import java.awt.image.BufferedImage
 
@@ -46,12 +50,12 @@ fun faceSwap(state: ApplicationState) {
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally) {
             Row (
-                modifier = Modifier.fillMaxSize().padding(top= 20.dp, start = 20.dp, end = 90.dp),
+                modifier = Modifier.fillMaxSize().padding(top= 20.dp, bottom = 20.dp, end = 90.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.Center
             ) {
                 Card(
-                    modifier = Modifier.padding(16.dp).weight(1.0f),
+                    modifier = Modifier.padding(10.dp).weight(1.0f),
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
@@ -93,7 +97,7 @@ fun faceSwap(state: ApplicationState) {
                 }
 
                 Card(
-                    modifier = Modifier.padding(16.dp).weight(1.0f),
+                    modifier = Modifier.padding(10.dp).weight(1.0f),
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
@@ -110,29 +114,35 @@ fun faceSwap(state: ApplicationState) {
                             textAlign = TextAlign.Center
                         )
                     } else {
-                        Text(
+                        Column(
                             modifier = Modifier.fillMaxSize(),
-                            text = "target",
-                            color = MaterialTheme.colors.primary,
-                            fontSize = 24.sp,
-                            fontWeight = FontWeight.Bold
-                        )
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Text(
+                                text = "target",
+                                textAlign = TextAlign.Center,
+                                color = MaterialTheme.colors.primary,
+                                fontSize = 24.sp,
+                                fontWeight = FontWeight.Bold
+                            )
 
-                        Image(
-                            painter = viewModel.targetImage!!.toPainter(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier)
+                            Image(
+                                painter = viewModel.targetImage!!.toPainter(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier)
+                        }
                     }
                 }
             }
         }
 
         Row(modifier = Modifier.align(Alignment.CenterEnd)
-            .padding(start =10.dp, end = 10.dp)
+            .padding(start = 10.dp, end = 10.dp)
             .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
             Column(
-                Modifier.padding(start =10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
+                Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                 verticalArrangement = Arrangement.Center
             ) {
                 toolTipButton(text = "删除 source 的图",

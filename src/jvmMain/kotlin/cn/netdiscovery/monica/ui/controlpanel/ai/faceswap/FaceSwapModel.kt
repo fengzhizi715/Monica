@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
@@ -42,12 +43,10 @@ class FaceSwapModel {
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
                 state.scope.launch(IO) {
-                    loadingDisplay {
-                        val file = it.getOrNull(0)
-                        if (file != null) {
-                            logger.info("load file: ${file.absolutePath}")
-                            block.invoke(file)
-                        }
+                    val file = it.getOrNull(0)
+                    if (file != null) {
+                        logger.info("load file: ${file.absolutePath}")
+                        block.invoke(file)
                     }
                 }
             }
@@ -58,15 +57,13 @@ class FaceSwapModel {
 
         if (image!=null) {
             state.scope.launch(IO) {
-                loadingDisplay {
-                    val (width,height,byteArray) = image.getImageInfo()
+                val (width,height,byteArray) = image.getImageInfo()
 
-                    try {
-                        val outPixels = ImageProcess.faceLandMark(byteArray)
-                        onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
-                    } catch (e:Exception) {
-                        logger.error("faceDetect is failed", e)
-                    }
+                try {
+                    val outPixels = ImageProcess.faceLandMark(byteArray)
+                    onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
+                } catch (e:Exception) {
+                    logger.error("faceDetect is failed", e)
                 }
             }
         }
