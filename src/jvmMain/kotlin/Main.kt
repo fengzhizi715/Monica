@@ -1,9 +1,5 @@
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -15,9 +11,9 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.OpenCVManager
-import cn.netdiscovery.monica.opencv.LoadManager
 import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.opencv.LoadManager
+import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
@@ -29,6 +25,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog
+import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
@@ -148,29 +145,10 @@ fun main() = application {
                 })
             }
 
-
             if (showVersion) {
-                AlertDialog(onDismissRequest = {},
-                    title = {
-                        Text("Monica 软件版本信息")
-                    },
-                    text = {
-                        Column {
-                            Text("Monica 软件版本: $appVersion")
-                            Text("操作系统信息: $os, $osVersion, $arch")
-                            Text("本地算法库: ${ImageProcess.getVersion()}")
-                            Text("OpenCV 版本: ${ImageProcess.getOpenCVVersion()}")
-                            Text("版权信息: Copyright 2024 Tony Shen")
-                            Text("Wechat: fengzhizi715")
-                        }
-                    },
-                    confirmButton = {
-                        Button(onClick = {
-                            showVersion = false
-                        }) {
-                            Text("关闭")
-                        }
-                    })
+                showVersionInfo {
+                    showVersion = false
+                }
             }
         }
     }

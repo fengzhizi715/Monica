@@ -6,9 +6,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.appVersion
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
+import cn.netdiscovery.monica.utils.arch
+import cn.netdiscovery.monica.utils.os
+import cn.netdiscovery.monica.utils.osVersion
 import org.koin.compose.koinInject
 import picUrl
 
@@ -81,4 +86,29 @@ fun openURLDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
             }
         }
     )
+}
+
+@Composable
+fun showVersionInfo(onClick: () -> Unit,) {
+    AlertDialog(onDismissRequest = {},
+        title = {
+            Text("Monica 软件信息")
+        },
+        text = {
+            Column {
+                Text("Monica 软件版本: $appVersion")
+                Text("操作系统信息: $os, $osVersion, $arch")
+                Text("本地算法库: ${ImageProcess.getVersion()}")
+                Text("OpenCV 版本: ${ImageProcess.getOpenCVVersion()}")
+                Text("版权信息: Copyright 2024 Tony Shen")
+                Text("Wechat: fengzhizi715")
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                onClick.invoke()
+            }) {
+                Text("关闭")
+            }
+        })
 }
