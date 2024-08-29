@@ -2,12 +2,9 @@ package cn.netdiscovery.monica.ui.main
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.legalSuffixList
-import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.launch
 import java.io.File
 
 /**
