@@ -11,9 +11,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
-import cn.netdiscovery.monica.utils.arch
-import cn.netdiscovery.monica.utils.os
-import cn.netdiscovery.monica.utils.osVersion
+import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
 
@@ -96,12 +94,14 @@ fun showVersionInfo(onClick: () -> Unit,) {
         },
         text = {
             Column {
-                Text("Monica 软件版本: $appVersion")
-                Text("操作系统信息: $os, $osVersion, $arch")
+                Text("Monica 版本: $appVersion")
+                Text("OS: $os, $osVersion, $arch")
+                Text("JDK: $javaVersion, $javaVendor")
                 Text("本地算法库: ${ImageProcess.getVersion()}")
                 Text("OpenCV 版本: ${ImageProcess.getOpenCVVersion()}")
                 Text("版权信息: Copyright 2024 Tony Shen")
                 Text("Wechat: fengzhizi715")
+                Text("Github 地址: https://github.com/fengzhizi715/Monica")
             }
         },
         confirmButton = {
