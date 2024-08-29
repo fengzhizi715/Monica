@@ -1,5 +1,9 @@
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
@@ -42,6 +46,7 @@ val filterNames = mutableListOf("选择滤镜")
 
 val flag = AtomicBoolean(false)
 
+var showVersion by mutableStateOf(false)
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
 var picUrl by mutableStateOf("")
@@ -74,6 +79,12 @@ fun main() = application {
         state = trayState,
         icon = painterResource("images/launcher.ico"),
         menu = {
+            Item(
+                text = "软件版本信息",
+                onClick = {
+                    showVersion = true
+                },
+            )
             Item(
                 text = "打开本地图片",
                 onClick = {
@@ -112,6 +123,30 @@ fun main() = application {
             applicationState.window = window
 
             mainView(applicationState)
+
+            if (showVersion) {
+                AlertDialog(onDismissRequest = {},
+                    title = {
+                        Text("Monica 软件版本信息")
+                    },
+                    text = {
+                        Column {
+                            Text("Monica 软件版本: ${appVersion}")
+                            Text("操作系统信息: $os, $osVersion, $arch")
+                            Text("本地算法库: ${ImageProcess.getVersion()}")
+                            Text("OpenCV 版本: ${ImageProcess.getOpenCVVersion()}")
+                            Text("版权信息: Copyright 2024 Tony Shen")
+                            Text("Wechat: fengzhizi715")
+                        }
+                    },
+                    confirmButton = {
+                        Button(onClick = {
+                            showVersion = false
+                        }) {
+                            Text("关闭")
+                        }
+                    })
+            }
 
             if (loadingDisplay) {
                 ThreeBallLoading(Modifier.width(loadingWidth).height(height))
@@ -231,13 +266,10 @@ private fun initData() {
     }
 }
 
-private fun getWindowsTitle(state: ApplicationState):String {
-
-    return when(state.currentStatus) {
-        ColorPickStatus -> "图像取色"
-        DoodleStatus    -> "涂鸦图像"
-        CropSizeStatus  -> "图像裁剪"
-        FaceSwapStatus  -> "人脸替换"
-        else            -> "放大预览"
-    }
+private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
+    ColorPickStatus -> "图像取色"
+    DoodleStatus    -> "涂鸦图像"
+    CropSizeStatus  -> "图像裁剪"
+    FaceSwapStatus  -> "人脸替换"
+    else            -> "放大预览"
 }
