@@ -16,13 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.height
-import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import loadingDisplay
 import org.koin.compose.koinInject
 import java.awt.image.BufferedImage
 
