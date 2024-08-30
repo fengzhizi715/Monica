@@ -204,7 +204,12 @@ fun faceSwap(state: ApplicationState) {
                     painter = painterResource("images/doodle/save.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-
+                        if (viewModel.targetImage!=null) {
+                            state.addQueue(state.currentImage!!)
+                            state.currentImage = viewModel.targetImage
+                            viewModel.clearTargetImage()
+                        }
+                        state.togglePreviewWindow(false)
                     })
             }
         }
