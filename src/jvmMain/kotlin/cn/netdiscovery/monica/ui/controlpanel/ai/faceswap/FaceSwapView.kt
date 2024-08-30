@@ -183,7 +183,21 @@ fun faceSwap(state: ApplicationState) {
                 Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                 verticalArrangement = Arrangement.Center
             ) {
+                toolTipButton(text = "人脸替换",
+                    painter = painterResource("images/ai/face_swap2.png"),
+                    iconModifier = Modifier.size(36.dp),
+                    onClick = {
+                        viewModel.faceLandMark(state, viewModel.targetImage) {
+                            viewModel.targetImage = it
+                        }
+                    })
 
+                toolTipButton(text = "设置",
+                    painter = painterResource("images/cropimage/settings.png"),
+                    iconModifier = Modifier.size(36.dp),
+                    onClick = {
+                        viewModel.clearTargetImage()
+                    })
             }
         }
     }
