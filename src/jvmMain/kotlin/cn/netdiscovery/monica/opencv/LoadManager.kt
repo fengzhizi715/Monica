@@ -1,8 +1,8 @@
 package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.*
-import com.safframework.kotlin.coroutines.runInBackground
-import kotlinx.coroutines.launch
+import com.safframework.kotlin.coroutines.asyncInBackground
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import java.io.File
@@ -79,26 +79,32 @@ object LoadManager {
     }
 
     fun copyFaceSwapModel() = runBlocking {
-
-        runInBackground {
-            copyLibrary("yoloface_8n.onnx")
-        }
-        runInBackground {
-            copyLibrary("2dfan4.onnx")
-        }
-        runInBackground {
-            copyLibrary("model_matrix.bin")
-        }
-        runInBackground {
-            copyLibrary("arcface_w600k_r50.onnx")
-        }
-        runInBackground {
-            copyLibrary("inswapper_128.onnx")
-        }
-
-        runInBackground {
-            copyLibrary("gfpgan_1.4.onnx")
-        }
+        listOf(
+            asyncInBackground {
+                copyLibrary("yoloface_8n.onnx")
+                "true"
+            },
+            asyncInBackground {
+                copyLibrary("2dfan4.onnx")
+                "true"
+            },
+            asyncInBackground {
+                copyLibrary("model_matrix.bin")
+                "true"
+            },
+            asyncInBackground {
+                copyLibrary("arcface_w600k_r50.onnx")
+                "true"
+            },
+            asyncInBackground {
+                copyLibrary("inswapper_128.onnx")
+                "true"
+            },
+            asyncInBackground {
+                copyLibrary("gfpgan_1.4.onnx")
+                "true"
+            }
+        ).awaitAll()
     }
 
     private fun copyLibrary(libName: String) {
