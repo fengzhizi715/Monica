@@ -190,16 +190,14 @@ fun faceSwap(state: ApplicationState) {
                     painter = painterResource("images/cropimage/settings.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-                        viewModel.clearTargetImage()
+
                     })
 
                 toolTipButton(text = "人脸替换",
                     painter = painterResource("images/ai/face_swap2.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-                        viewModel.faceLandMark(state, viewModel.targetImage) {
-                            viewModel.targetImage = it
-                        }
+
                     })
 
                 toolTipButton(text = "保存结果",
