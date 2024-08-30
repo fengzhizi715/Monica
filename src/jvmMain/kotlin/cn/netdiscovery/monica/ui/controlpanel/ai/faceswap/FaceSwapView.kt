@@ -70,24 +70,46 @@ fun faceSwap(state: ApplicationState) {
                             textAlign = TextAlign.Center
                         )
                     } else {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "source",
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colors.primary,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                        Box {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "source",
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colors.primary,
+                                    fontSize = 36.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
 
-                            Image(
-                                painter = state.currentImage!!.toPainter(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier)
+                                Image(
+                                    painter = state.currentImage!!.toPainter(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier
+                                )
+                            }
+
+                            Row(modifier = Modifier.align(Alignment.TopEnd)) {
+                                toolTipButton(text = "检测 source 图中的人脸",
+                                    painter = painterResource("images/ai/face_landmark.png"),
+                                    iconModifier = Modifier.size(20.dp),
+                                    onClick = {
+                                        viewModel.faceLandMark(state, state.currentImage) {
+                                            state.currentImage = it
+                                        }
+                                    })
+
+                                toolTipButton(text = "删除 source 的图",
+                                    painter = painterResource("images/preview/delete.png"),
+                                    buttonModifier = Modifier,
+                                    iconModifier = Modifier.size(20.dp),
+                                    onClick = {
+                                        state.clearImage()
+                                    })
+                            }
                         }
                     }
                 }
@@ -110,24 +132,44 @@ fun faceSwap(state: ApplicationState) {
                             textAlign = TextAlign.Center
                         )
                     } else {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "target",
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colors.primary,
-                                fontSize = 24.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                        Box {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "target",
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colors.primary,
+                                    fontSize = 36.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
 
-                            Image(
-                                painter = viewModel.targetImage!!.toPainter(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier)
+                                Image(
+                                    painter = viewModel.targetImage!!.toPainter(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier)
+                            }
+
+                            Row(modifier = Modifier.align(Alignment.TopEnd)) {
+                                toolTipButton(text = "检测 target 图中的人脸",
+                                    painter = painterResource("images/ai/face_landmark.png"),
+                                    iconModifier = Modifier.size(20.dp),
+                                    onClick = {
+                                        viewModel.faceLandMark(state, viewModel.targetImage) {
+                                            viewModel.targetImage = it
+                                        }
+                                    })
+
+                                toolTipButton(text = "删除 target 的图",
+                                    painter = painterResource("images/preview/delete.png"),
+                                    iconModifier = Modifier.size(20.dp),
+                                    onClick = {
+                                        viewModel.clearTargetImage()
+                                    })
+                            }
                         }
                     }
                 }
@@ -141,37 +183,7 @@ fun faceSwap(state: ApplicationState) {
                 Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
                 verticalArrangement = Arrangement.Center
             ) {
-                toolTipButton(text = "删除 source 的图",
-                    painter = painterResource("images/preview/delete.png"),
-                    iconModifier = Modifier.size(30.dp),
-                    onClick = {
-                        state.clearImage()
-                    })
 
-                toolTipButton(text = "检测 source 图中的人脸",
-                    painter = painterResource("images/ai/face_landmark.png"),
-                    iconModifier = Modifier.size(30.dp),
-                    onClick = {
-                        viewModel.faceLandMark(state, state.currentImage) {
-                            state.currentImage = it
-                        }
-                    })
-
-                toolTipButton(text = "删除 target 的图",
-                    painter = painterResource("images/preview/delete.png"),
-                    iconModifier = Modifier.size(30.dp),
-                    onClick = {
-                        viewModel.clearTargetImage()
-                    })
-
-                toolTipButton(text = "检测 target 图中的人脸",
-                    painter = painterResource("images/ai/face_landmark.png"),
-                    iconModifier = Modifier.size(30.dp),
-                    onClick = {
-                        viewModel.faceLandMark(state, viewModel.targetImage) {
-                            viewModel.targetImage = it
-                        }
-                    })
             }
         }
     }

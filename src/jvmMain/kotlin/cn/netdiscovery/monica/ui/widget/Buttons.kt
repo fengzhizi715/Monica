@@ -3,7 +3,6 @@ package cn.netdiscovery.monica.ui.widget
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.TooltipArea
 import androidx.compose.foundation.TooltipPlacement
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -36,6 +35,7 @@ val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosi
 fun toolTipButton(
     text:String,
     painter: Painter,
+    buttonModifier: Modifier = Modifier.padding(5.dp),
     iconModifier: Modifier = Modifier.size(36.dp),
     enable: ()-> Boolean = { true },
     onClick: () -> Unit,
@@ -61,7 +61,7 @@ fun toolTipButton(
         )
     ) {
         IconButton(
-            modifier = Modifier.padding(5.dp),
+            modifier = buttonModifier,
             onClick =  composeClick { // 防止重复点击，1秒内只有1次点击是有效的
 
                 logger.info("点击了 $text 按钮")
