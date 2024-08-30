@@ -227,7 +227,7 @@ private fun initData() {
         client = HttpConnectionClient(timeout, retryNum)
 
         LoadManager.copy()
-        logger.info("MonicaImageProcess Version = ${ImageProcess.getVersion()}, OpenCV Version = ${ImageProcess.getOpenCVVersion()}")
+        logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
         runInBackground { // 初始化人脸检测的模块
             OpenCVManager.initFaceDetectModule()

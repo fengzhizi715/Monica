@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.config
 
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.opencv.ImageProcess
 import java.io.File
 import java.io.FileInputStream
 import java.util.*
@@ -25,6 +26,18 @@ val appVersion by lazy {
     } catch (e:Exception) {
         "v1.0.0"
     }
+}
+
+val imageProcessVersion by lazy {
+    ImageProcess.getVersion()
+}
+
+val openCVVersion by lazy {
+    ImageProcess.getOpenCVVersion()
+}
+
+val onnxRuntimeVersion by lazy {
+    ImageProcess.getONNXRuntimeVersion()
 }
 
 const val previewWidth = 750

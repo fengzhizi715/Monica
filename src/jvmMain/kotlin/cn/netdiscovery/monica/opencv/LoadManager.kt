@@ -1,6 +1,9 @@
 package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.utils.*
+import com.safframework.kotlin.coroutines.runInBackground
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.slf4j.Logger
 import java.io.File
 import java.io.FileOutputStream
@@ -75,9 +78,27 @@ object LoadManager {
         copyLibrary("opensketch_style_512x512.onnx")
     }
 
-    fun copyFaceSwapModel() {
-        copyLibrary("yoloface_8n.onnx")
-        copyLibrary("2dfan4.onnx")
+    fun copyFaceSwapModel() = runBlocking {
+
+        runInBackground {
+            copyLibrary("yoloface_8n.onnx")
+        }
+        runInBackground {
+            copyLibrary("2dfan4.onnx")
+        }
+        runInBackground {
+            copyLibrary("model_matrix.bin")
+        }
+        runInBackground {
+            copyLibrary("arcface_w600k_r50.onnx")
+        }
+        runInBackground {
+            copyLibrary("inswapper_128.onnx")
+        }
+
+        runInBackground {
+            copyLibrary("gfpgan_1.4.onnx")
+        }
     }
 
     private fun copyLibrary(libName: String) {

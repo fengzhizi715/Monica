@@ -30,6 +30,11 @@ object ImageProcess {
     external fun getOpenCVVersion():String
 
     /**
+     * 当前使用的 ONNXRuntime 的版本号
+     */
+    external fun getONNXRuntimeVersion():String
+
+    /**
      * 图像错切
      * @param 沿 x 方向
      * @param 沿 y 方向
@@ -91,10 +96,13 @@ object ImageProcess {
     /**
      * 初始化换脸模块
      */
-    external fun initFaceSwap(yolov8FaceModelPath:String, face68LandmarksModePath:String)
+    external fun initFaceSwap(yolov8FaceModelPath:String, face68LandmarksModePath:String,
+                              faceEmbddingModePath:String, faceSwapModePath:String, faceSwapModePath2:String, faceEnhanceModePath:String)
 
     /**
      * 人脸 landmark 提取
      */
     external fun faceLandMark(src: ByteArray):IntArray
+
+    external fun faceSwap(src: ByteArray, target: ByteArray):IntArray
 }
