@@ -82,27 +82,21 @@ object LoadManager {
         listOf(
             asyncInBackground {
                 copyLibrary("yoloface_8n.onnx")
-                "true"
             },
             asyncInBackground {
                 copyLibrary("2dfan4.onnx")
-                "true"
             },
             asyncInBackground {
                 copyLibrary("model_matrix.bin")
-                "true"
             },
             asyncInBackground {
                 copyLibrary("arcface_w600k_r50.onnx")
-                "true"
             },
             asyncInBackground {
                 copyLibrary("inswapper_128.onnx")
-                "true"
             },
             asyncInBackground {
                 copyLibrary("gfpgan_1.4.onnx")
-                "true"
             }
         ).awaitAll()
     }
