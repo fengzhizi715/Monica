@@ -59,14 +59,14 @@ class FaceSwapModel {
     fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, onImageChange:OnImageChange) {
 
         if (image!=null) {
-            state.scope.launch(IO) {
+            state.scope.launchWithLoading {
                 val (width,height,byteArray) = image.getImageInfo()
 
                 try {
                     val outPixels = ImageProcess.faceLandMark(byteArray)
                     onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
                 } catch (e:Exception) {
-                    logger.error("faceDetect is failed", e)
+                    logger.error("faceLandMark is failed", e)
                 }
             }
         }
@@ -75,7 +75,7 @@ class FaceSwapModel {
     fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, onImageChange:OnImageChange) {
 
         if (image!=null && target!=null) {
-            state.scope.async(IO) {
+            state.scope.launchWithLoading {
 
                 val srcByteArray = image.image2ByteArray()
 
