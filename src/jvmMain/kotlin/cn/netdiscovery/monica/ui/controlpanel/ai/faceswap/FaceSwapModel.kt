@@ -45,7 +45,7 @@ class FaceSwapModel {
             isMultiSelection = false,
             selectionMode = JFileChooser.FILES_ONLY,
             onFileSelected = {
-                state.scope.launch(IO) {
+                state.scope.launchWithLoading {
                     val file = it.getOrNull(0)
                     if (file != null) {
                         logger.info("load file: ${file.absolutePath}")
