@@ -97,6 +97,14 @@ fun faceSwap(state: ApplicationState) {
                             }
 
                             Row(modifier = Modifier.align(Alignment.TopEnd)) {
+                                toolTipButton(text = "上一步",
+                                    buttonModifier = Modifier,
+                                    iconModifier = Modifier.size(20.dp),
+                                    painter = painterResource("images/doodle/previous_step.png"),
+                                    onClick = {
+
+                                    })
+
                                 toolTipButton(text = "检测 source 图中的人脸",
                                     painter = painterResource("images/ai/face_landmark.png"),
                                     buttonModifier = Modifier,
@@ -159,6 +167,14 @@ fun faceSwap(state: ApplicationState) {
                             }
 
                             Row(modifier = Modifier.align(Alignment.TopEnd)) {
+                                toolTipButton(text = "上一步",
+                                    buttonModifier = Modifier,
+                                    iconModifier = Modifier.size(20.dp),
+                                    painter = painterResource("images/doodle/previous_step.png"),
+                                    onClick = {
+                                        
+                                    })
+
                                 toolTipButton(text = "检测 target 图中的人脸",
                                     painter = painterResource("images/ai/face_landmark.png"),
                                     buttonModifier = Modifier,
