@@ -39,15 +39,4 @@ class AIViewModel {
             })
         }
     }
-
-    fun faceLandMark(state: ApplicationState) {
-        state.scope.launchWithLoading {
-
-            OpenCVManager.invokeCV(state, action = { byteArray ->
-                ImageProcess.faceLandMark(byteArray)
-            }, failure = { e ->
-                logger.error("faceLandMark is failed", e)
-            })
-        }
-    }
 }

@@ -62,14 +62,6 @@ fun aiView(state: ApplicationState) {
                 viewModel.sketchDrawing(state)
             })
 
-        toolTipButton(text = "人脸 landmark 提取",
-            painter = painterResource("images/ai/face_landmark.png"),
-            enable = { state.isAI },
-            onClick = {
-                state.currentStatus = FaceLandMarkStatus
-                viewModel.faceLandMark(state)
-            })
-
         toolTipButton(text = "人脸替换",
             painter = painterResource("images/ai/face_swap.png"),
             enable = { state.isAI },
