@@ -102,7 +102,7 @@ fun faceSwap(state: ApplicationState) {
                                     iconModifier = Modifier.size(20.dp),
                                     painter = painterResource("images/doodle/previous_step.png"),
                                     onClick = {
-
+                                        viewModel.getLastSourceImage(state)
                                     })
 
                                 toolTipButton(text = "检测 source 图中的人脸",
@@ -111,6 +111,7 @@ fun faceSwap(state: ApplicationState) {
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
                                         viewModel.faceLandMark(state, state.currentImage) {
+                                            state.addQueue(state.currentImage!!)
                                             state.currentImage = it
                                         }
                                     })

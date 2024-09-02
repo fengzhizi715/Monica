@@ -7,15 +7,10 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
-import cn.netdiscovery.monica.utils.loadingDisplay
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
-import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
 import java.io.File
@@ -84,6 +79,12 @@ class FaceSwapModel {
                 val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray)
                 onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
             }
+        }
+    }
+
+    fun getLastSourceImage(state: ApplicationState) {
+        state.getLastImage()?.let {
+            state.currentImage = it
         }
     }
 }
