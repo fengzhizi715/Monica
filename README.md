@@ -62,6 +62,6 @@ https://juejin.cn/column/7396157773312065574
 * 增加对图像添加文字的功能
 
 
-## Star History
+# 六. Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)
