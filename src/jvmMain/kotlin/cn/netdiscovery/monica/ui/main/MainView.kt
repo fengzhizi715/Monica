@@ -10,7 +10,6 @@ import cn.netdiscovery.monica.config.appVersion
 import cn.netdiscovery.monica.config.imageProcessVersion
 import cn.netdiscovery.monica.config.onnxRuntimeVersion
 import cn.netdiscovery.monica.config.openCVVersion
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
