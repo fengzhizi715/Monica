@@ -218,8 +218,11 @@ fun faceSwap(state: ApplicationState) {
                     painter = painterResource("images/ai/face_swap2.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-                        viewModel.faceSwap(state, state.currentImage, viewModel.targetImage) {
-                            viewModel.targetImage = it
+
+                        if (state.currentImage!=null && viewModel.targetImage!=null) {
+                            viewModel.faceSwap(state, state.currentImage, viewModel.targetImage) {
+                                viewModel.targetImage = it
+                            }
                         }
                     })
 

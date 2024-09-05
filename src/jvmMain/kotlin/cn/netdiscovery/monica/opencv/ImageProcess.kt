@@ -104,5 +104,8 @@ object ImageProcess {
      */
     external fun faceLandMark(src: ByteArray):IntArray
 
+    /**
+     * 替换人脸，将 src 中的人脸替换到 target 中，并展示 target 的图片。
+     */
     external fun faceSwap(src: ByteArray, target: ByteArray, status: Boolean):IntArray
 }
