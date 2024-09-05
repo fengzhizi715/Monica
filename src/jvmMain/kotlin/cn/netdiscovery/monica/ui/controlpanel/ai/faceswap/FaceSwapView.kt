@@ -35,15 +35,14 @@ import java.awt.image.BufferedImage
  */
 typealias OnImageChange = (image: BufferedImage) -> Unit
 
-var show by mutableStateOf(false)
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
 
     val viewModel: FaceSwapModel = koinInject()
 
-    val selectedOption = mutableStateOf(false)
+    val showSwapFaceSettings = remember { mutableStateOf(false) }
+    val selectedOption = remember { mutableStateOf(false) }
 
     Box(
         Modifier.fillMaxSize(),
@@ -214,7 +213,7 @@ fun faceSwap(state: ApplicationState) {
                     painter = painterResource("images/cropimage/settings.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-                        show = true
+                        showSwapFaceSettings.value = true
                     })
 
                 toolTipButton(text = "人脸替换",
@@ -247,11 +246,10 @@ fun faceSwap(state: ApplicationState) {
             ThreeBallLoading(Modifier.width(loadingWidth).height(height))
         }
 
-        if (show) {
-
+        if (showSwapFaceSettings.value) {
             AlertDialog(onDismissRequest = {},
                 title = {
-                    Text("替换人脸的类型")
+                    Text("替换人脸的数量")
                 },
                 text = {
                     Column {
@@ -260,7 +258,7 @@ fun faceSwap(state: ApplicationState) {
                                 selected = !selectedOption.value,
                                 onClick = { selectedOption.value = false }
                             )
-                            Text("替换1个", modifier = Modifier.align(Alignment.CenterVertically))
+                            Text("替换1个人脸", modifier = Modifier.align(Alignment.CenterVertically))
                         }
 
                         Row {
@@ -268,13 +266,13 @@ fun faceSwap(state: ApplicationState) {
                                 selected = selectedOption.value,
                                 onClick = { selectedOption.value = true }
                             )
-                            Text("替换全部", modifier = Modifier.align(Alignment.CenterVertically))
+                            Text("替换全部人脸", modifier = Modifier.align(Alignment.CenterVertically))
                         }
                     }
                 },
                 confirmButton = {
                     Button(onClick = {
-                        show = false
+                        showSwapFaceSettings.value = false
                     }) {
                         Text("关闭")
                     }
