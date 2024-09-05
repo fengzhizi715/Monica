@@ -104,5 +104,5 @@ object ImageProcess {
      */
     external fun faceLandMark(src: ByteArray):IntArray
 
-    external fun faceSwap(src: ByteArray, target: ByteArray):IntArray
+    external fun faceSwap(src: ByteArray, target: ByteArray, status: Boolean):IntArray
 }

@@ -76,7 +76,7 @@ class FaceSwapModel {
 
                 val (width,height,targetByteArray) = target.getImageInfo()
 
-                val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray)
+                val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray, true)
                 onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
             }
         }
