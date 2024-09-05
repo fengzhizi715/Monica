@@ -67,7 +67,7 @@ class FaceSwapModel {
         }
     }
 
-    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, onImageChange:OnImageChange) {
+    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean, onImageChange:OnImageChange) {
 
         if (image!=null && target!=null) {
             state.scope.launchWithLoading {
@@ -76,7 +76,7 @@ class FaceSwapModel {
 
                 val (width,height,targetByteArray) = target.getImageInfo()
 
-                val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray, true)
+                val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray, status)
                 onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
             }
         }

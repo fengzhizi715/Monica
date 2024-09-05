@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -16,8 +16,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.height
-import cn.netdiscovery.monica.config.loadingWidth
+import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
@@ -36,11 +35,15 @@ import java.awt.image.BufferedImage
  */
 typealias OnImageChange = (image: BufferedImage) -> Unit
 
+var show by mutableStateOf(false)
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
 
     val viewModel: FaceSwapModel = koinInject()
+
+    val selectedOption = mutableStateOf(false)
 
     Box(
         Modifier.fillMaxSize(),
@@ -173,7 +176,7 @@ fun faceSwap(state: ApplicationState) {
                                     iconModifier = Modifier.size(20.dp),
                                     painter = painterResource("images/doodle/previous_step.png"),
                                     onClick = {
-                                        
+
                                     })
 
                                 toolTipButton(text = "检测 target 图中的人脸",
@@ -211,7 +214,7 @@ fun faceSwap(state: ApplicationState) {
                     painter = painterResource("images/cropimage/settings.png"),
                     iconModifier = Modifier.size(36.dp),
                     onClick = {
-
+                        show = true
                     })
 
                 toolTipButton(text = "人脸替换",
@@ -220,7 +223,7 @@ fun faceSwap(state: ApplicationState) {
                     onClick = {
 
                         if (state.currentImage!=null && viewModel.targetImage!=null) {
-                            viewModel.faceSwap(state, state.currentImage, viewModel.targetImage) {
+                            viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value) {
                                 viewModel.targetImage = it
                             }
                         }
@@ -242,6 +245,40 @@ fun faceSwap(state: ApplicationState) {
 
         if (loadingDisplay) {
             ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+        }
+
+        if (show) {
+
+            AlertDialog(onDismissRequest = {},
+                title = {
+                    Text("替换人脸的类型")
+                },
+                text = {
+                    Column {
+                        Row {
+                            RadioButton(
+                                selected = !selectedOption.value,
+                                onClick = { selectedOption.value = false }
+                            )
+                            Text("替换1个", modifier = Modifier.align(Alignment.CenterVertically))
+                        }
+
+                        Row {
+                            RadioButton(
+                                selected = selectedOption.value,
+                                onClick = { selectedOption.value = true }
+                            )
+                            Text("替换全部", modifier = Modifier.align(Alignment.CenterVertically))
+                        }
+                    }
+                },
+                confirmButton = {
+                    Button(onClick = {
+                        show = false
+                    }) {
+                        Text("关闭")
+                    }
+                })
         }
     }
 }
