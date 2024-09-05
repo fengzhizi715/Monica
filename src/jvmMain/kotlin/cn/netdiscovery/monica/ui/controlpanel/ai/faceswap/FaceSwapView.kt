@@ -176,6 +176,9 @@ fun faceSwap(state: ApplicationState) {
                                     painter = painterResource("images/doodle/previous_step.png"),
                                     onClick = {
 
+                                        if (viewModel.lastTargetImage!=null) {
+                                            viewModel.targetImage = viewModel.lastTargetImage
+                                        }
                                     })
 
                                 toolTipButton(text = "检测 target 图中的人脸",
@@ -223,6 +226,7 @@ fun faceSwap(state: ApplicationState) {
 
                         if (state.currentImage!=null && viewModel.targetImage!=null) {
                             viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value) {
+                                viewModel.lastTargetImage = viewModel.targetImage
                                 viewModel.targetImage = it
                             }
                         }

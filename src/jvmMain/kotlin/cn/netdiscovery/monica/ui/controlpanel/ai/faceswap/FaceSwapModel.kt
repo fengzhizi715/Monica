@@ -28,10 +28,15 @@ class FaceSwapModel {
     private val logger: Logger = logger<FaceSwapModel>()
 
     var targetImage: BufferedImage? by mutableStateOf(null)
+    var lastTargetImage: BufferedImage? by mutableStateOf(null)
 
     fun clearTargetImage() {
         if (targetImage!=null) {
             targetImage = null
+        }
+
+        if (lastTargetImage!=null) {
+            lastTargetImage = null
         }
     }
 
