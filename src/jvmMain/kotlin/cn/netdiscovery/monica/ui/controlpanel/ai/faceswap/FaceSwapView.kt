@@ -270,7 +270,7 @@ fun faceSwap(state: ApplicationState) {
                                 selected = selectedOption.value,
                                 onClick = { selectedOption.value = true }
                             )
-                            Text("替换全部人脸", modifier = Modifier.align(Alignment.CenterVertically))
+                            Text("替换全部的人脸", modifier = Modifier.align(Alignment.CenterVertically))
                         }
                     }
                 },
