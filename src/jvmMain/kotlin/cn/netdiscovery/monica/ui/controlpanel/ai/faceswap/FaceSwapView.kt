@@ -187,6 +187,7 @@ fun faceSwap(state: ApplicationState) {
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
                                         viewModel.faceLandMark(state, viewModel.targetImage) {
+                                            viewModel.lastTargetImage = viewModel.targetImage
                                             viewModel.targetImage = it
                                         }
                                     })
