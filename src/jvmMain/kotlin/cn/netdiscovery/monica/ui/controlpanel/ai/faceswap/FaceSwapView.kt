@@ -254,7 +254,7 @@ fun faceSwap(state: ApplicationState) {
         if (showSwapFaceSettings.value) {
             AlertDialog(onDismissRequest = {},
                 title = {
-                    Text("替换人脸的数量")
+                    Text("替换 target 中人脸的数量")
                 },
                 text = {
                     Column {
