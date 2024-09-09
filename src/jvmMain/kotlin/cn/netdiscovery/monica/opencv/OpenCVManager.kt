@@ -74,13 +74,13 @@ object OpenCVManager {
 
         val yolov8FaceModelPath = if (isWindows) "${LoadManager.loadPath}yoloface_8n.onnx" else "${ImageProcess.loadPath}yoloface_8n.onnx"
         val face68LandmarksModePath = if (isWindows) "${LoadManager.loadPath}2dfan4.onnx" else "${ImageProcess.loadPath}2dfan4.onnx"
-        val faceEmbddingModePath = if (isWindows) "${LoadManager.loadPath}arcface_w600k_r50.onnx" else "${ImageProcess.loadPath}arcface_w600k_r50.onnx"
+        val faceEmbeddingModePath = if (isWindows) "${LoadManager.loadPath}arcface_w600k_r50.onnx" else "${ImageProcess.loadPath}arcface_w600k_r50.onnx"
         val faceSwapModePath = if (isWindows) "${LoadManager.loadPath}inswapper_128.onnx" else "${ImageProcess.loadPath}inswapper_128.onnx"
         val faceSwapModePath2 = if (isWindows) "${LoadManager.loadPath}model_matrix.bin" else "${ImageProcess.loadPath}model_matrix.bin"
         val faceEnhanceModePath = if (isWindows) "${LoadManager.loadPath}gfpgan_1.4.onnx" else "${ImageProcess.loadPath}gfpgan_1.4.onnx"
 
         ImageProcess.initFaceSwap(yolov8FaceModelPath, face68LandmarksModePath,
-            faceEmbddingModePath, faceSwapModePath,
+            faceEmbeddingModePath, faceSwapModePath,
             faceSwapModePath2, faceEnhanceModePath)
     }
 }

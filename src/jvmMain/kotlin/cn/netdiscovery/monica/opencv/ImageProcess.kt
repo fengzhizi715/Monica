@@ -97,7 +97,7 @@ object ImageProcess {
      * 初始化换脸模块
      */
     external fun initFaceSwap(yolov8FaceModelPath:String, face68LandmarksModePath:String,
-                              faceEmbddingModePath:String, faceSwapModePath:String, faceSwapModePath2:String, faceEnhanceModePath:String)
+                              faceEmbeddingModePath:String, faceSwapModePath:String, faceSwapModePath2:String, faceEnhanceModePath:String)
 
     /**
      * 人脸 landmark 提取
