@@ -45,6 +45,8 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | MonicaImageProcess.dll | Windows 下编译好的算法库需要依赖 opencv_world481.dll |
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
+> 目前，有三个模型没有提交，主要是太大了超过了 100m 。后续我看是存放在百度网盘还是什么地方
+
 
 # 四. 更多详情
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见。
