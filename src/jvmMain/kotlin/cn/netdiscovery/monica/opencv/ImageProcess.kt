@@ -16,7 +16,7 @@ object ImageProcess {
 
     init {
         // 需要先加载图像处理库，否则无法通过 jni 调用算法
-        LoadManager.load()
+        LoadManager.loadMonicaImageProcess()
     }
 
     /**

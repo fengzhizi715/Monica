@@ -19,7 +19,7 @@ import java.io.FileOutputStream
 object LoadManager {
     private val logger: Logger = logger<LoadManager>()
 
-    val loadPath by lazy {
+    val loadPath by lazy { // 拷贝算法库、模型等到相应的路径
         if (isMac) {
             File("").absolutePath + File.separator + "resources" + File.separator + "macos" + File.separator
         } else if (isWindows) {
@@ -32,7 +32,7 @@ object LoadManager {
     /**
      * 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
      */
-    fun load() {
+    fun loadMonicaImageProcess() {
         if (isMac) {
             if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
                 System.load("${ImageProcess.loadPath}libMonicaImageProcess_aarch64.dylib")
@@ -47,9 +47,7 @@ object LoadManager {
     /**
      * 拷贝各个平台所必须的图像处理库
      */
-    fun copy() {
-        logger.info("loadPath: $loadPath")
-
+    fun copyMonicaImageProcess() {
         if (isMac) {
             if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
                 copyLibrary("libMonicaImageProcess_aarch64.dylib")
