@@ -63,19 +63,39 @@ object LoadManager {
     /**
      * 拷贝人脸检测模块所需要的模型
      */
-    fun copyFaceDetectModels() {
-        copyLibrary("age_deploy.prototxt")
-        copyLibrary("age_net.caffemodel")
-        copyLibrary("gender_deploy.prototxt")
-        copyLibrary("gender_net.caffemodel")
-        copyLibrary("opencv_face_detector.pbtxt")
-        copyLibrary("opencv_face_detector_uint8.pb")
+    fun copyFaceDetectModels() = runBlocking {
+        listOf(
+            asyncInBackground {
+                copyLibrary("age_deploy.prototxt")
+            },
+            asyncInBackground {
+                copyLibrary("age_net.caffemodel")
+            },
+            asyncInBackground {
+                copyLibrary("gender_deploy.prototxt")
+            },
+            asyncInBackground {
+                copyLibrary("gender_net.caffemodel")
+            },
+            asyncInBackground {
+                copyLibrary("opencv_face_detector.pbtxt")
+            },
+            asyncInBackground {
+                copyLibrary("opencv_face_detector_uint8.pb")
+            }
+        ).awaitAll()
     }
 
+    /**
+     * 拷贝生成素描画的模型
+     */
     fun copySketchDrawingModel() {
         copyLibrary("opensketch_style_512x512.onnx")
     }
 
+    /**
+     * 拷贝换脸的模型
+     */
     fun copyFaceSwapModel() = runBlocking {
         listOf(
             asyncInBackground {
