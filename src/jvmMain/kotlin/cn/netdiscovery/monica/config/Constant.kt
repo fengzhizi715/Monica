@@ -2,8 +2,10 @@ package cn.netdiscovery.monica.config
 
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.utils.closeQuietly
 import java.io.File
 import java.io.FileInputStream
+import java.io.InputStream
 import java.util.*
 
 /**
@@ -25,6 +27,19 @@ val appVersion by lazy {
         "v"+properties.getProperty("app_version")
     } catch (e:Exception) {
         "v1.0.0"
+    }
+}
+
+val kotlinVersion by lazy {
+    try {
+        val inputStream: InputStream = FileInputStream("config.properties")
+        val properties = Properties()
+        properties.load(inputStream)
+        val kotlinVersion = properties.getProperty("kotlinVersion")
+        closeQuietly(inputStream)
+        kotlinVersion
+    } catch (e:Exception) {
+        ""
     }
 }
 

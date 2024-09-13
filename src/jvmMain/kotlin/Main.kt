@@ -11,7 +11,6 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.LoadManager
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
@@ -37,7 +36,11 @@ import org.koin.compose.koinInject
 import org.koin.core.Koin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.io.FileInputStream
+import java.io.InputStream
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
+
 
 val filterNames = mutableListOf("选择滤镜")
 
@@ -219,7 +222,7 @@ fun main() = application {
 private fun initData() {
 
     if (!flag.get()) { // 防止被多次初始化
-        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion")
+        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
 
         filterNames.addAll(getFilterNames())
         saveFilterParamsAndRemark()

@@ -1,5 +1,6 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import java.io.FileInputStream
+import java.io.FileOutputStream
 import java.util.*
 
 plugins {
@@ -45,9 +46,18 @@ var targetArch = when (osArch) {
 val skikoVersion = "0.8.4"
 val target = "${targetOs}-${targetArch}"
 
+tasks.withType<JavaCompile> {
+    val properties = Properties()
+    properties.setProperty("kotlinVersion", "${rootProject.extra["kotlin.version"]}")
+    val fileName = "config.properties"
+    val f = file(fileName)
+    if (!f.exists()) {
+        properties.store(FileOutputStream(fileName),"")
+    }
+}
+
 kotlin {
     jvm {
-//        jvmToolchain(17)
         withJava()
     }
     sourceSets {
