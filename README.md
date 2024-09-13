@@ -45,7 +45,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | MonicaImageProcess.dll | Windows 下编译好的算法库需要依赖 opencv_world481.dll |
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
-> 目前，有三个模型没有提交，主要是太大了超过了 100m 。后续我看是存放在百度网盘还是什么地方
+> 目前，有三个模型没有提交，主要是太大了超过了 100m。后续我看是存放在百度网盘还是什么地方
 
 
 # 四. 更多详情
@@ -62,7 +62,7 @@ https://juejin.cn/column/7396157773312065574
 
 * 重新规划架构
 * Kotlin 版本升级到 2.0.0+
-* 考虑增加普通版本(不带有AI 实验室的功能)，普通版本体积就会小很多方便打包
+* 考虑增加普通版本(不带有AI 实验室的功能)，普通版本体积就会小很多，便于打包
 * 增加 OpenCV 算法的调试模块，方便快速验证算法
 * 增加人脸美颜的算法
 * 增加对图像添加文字的功能
