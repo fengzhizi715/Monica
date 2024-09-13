@@ -17,30 +17,12 @@ import java.util.*
  * @version: V1.0 <描述当前版本功能>
  */
 val appVersion by lazy {
-    val dir = System.getProperty("user.dir") + File.separator + "src" + File.separator + "jvmMain" + File.separator + "resources"
-
-    try {
-        val properties = Properties().apply {
-            load(FileInputStream(File(dir, "config.properties")))
-        }
-
-        "v"+properties.getProperty("app_version")
-    } catch (e:Exception) {
-        "v1.0.0"
-    }
+    cn.netdiscovery.monica.Monica.BuildConfig.APP_VERSION
 }
 
+
 val kotlinVersion by lazy {
-    try {
-        val inputStream: InputStream = FileInputStream("config.properties")
-        val properties = Properties()
-        properties.load(inputStream)
-        val kotlinVersion = properties.getProperty("kotlinVersion")
-        closeQuietly(inputStream)
-        kotlinVersion
-    } catch (e:Exception) {
-        ""
-    }
+    cn.netdiscovery.monica.Monica.BuildConfig.KOTLIN_VERSION
 }
 
 val imageProcessVersion by lazy {

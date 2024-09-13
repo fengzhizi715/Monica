@@ -6,10 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.config.appVersion
-import cn.netdiscovery.monica.config.imageProcessVersion
-import cn.netdiscovery.monica.config.onnxRuntimeVersion
-import cn.netdiscovery.monica.config.openCVVersion
+import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
@@ -99,6 +96,7 @@ fun showVersionInfo(onClick: () -> Unit,) {
                 Text("Monica 版本: $appVersion")
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
+                Text("Kotlin: $kotlinVersion")
                 Text("本地算法库: $imageProcessVersion")
                 Text("OpenCV 版本: $openCVVersion")
                 Text("ONNXRuntime 版本: $onnxRuntimeVersion")
