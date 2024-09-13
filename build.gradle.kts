@@ -42,7 +42,7 @@ var targetArch = when (osArch) {
     else -> error("Unsupported arch: $osArch")
 }
 
-val skikoVersion = "0.7.77"
+val skikoVersion = "0.8.4"
 val target = "${targetOs}-${targetArch}"
 
 kotlin {
