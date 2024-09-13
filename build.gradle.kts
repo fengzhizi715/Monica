@@ -5,6 +5,7 @@ import java.util.*
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
+    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
 }
 
 val appVersion = Properties().apply {
@@ -46,7 +47,7 @@ val target = "${targetOs}-${targetArch}"
 
 kotlin {
     jvm {
-        jvmToolchain(17)
+//        jvmToolchain(17)
         withJava()
     }
     sourceSets {
