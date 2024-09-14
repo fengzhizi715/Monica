@@ -26,6 +26,10 @@ val composeVersion by lazy {
     cn.netdiscovery.monica.Monica.BuildConfig.COMPOSE_VERSION
 }
 
+val isProVersion by lazy {
+    cn.netdiscovery.monica.Monica.BuildConfig.IS_PRO_VERSION
+}
+
 val buildTime by lazy {
    val time = cn.netdiscovery.monica.Monica.BuildConfig.BUILD_TIME
 

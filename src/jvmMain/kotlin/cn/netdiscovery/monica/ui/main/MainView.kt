@@ -93,7 +93,12 @@ fun showVersionInfo(onClick: () -> Unit,) {
         },
         text = {
             Column {
-                Text("Monica 版本: $appVersion, 编译时间: $buildTime")
+                val versionInfo = if (isProVersion) {
+                    "Pro 版本"
+                } else {
+                    "普通版本"
+                }
+                Text("Monica 版本: $appVersion, $versionInfo, 编译时间: $buildTime")
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
                 Text("Kotlin: $kotlinVersion, Compose Desktop: $composeVersion")

@@ -1,6 +1,4 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.util.*
 
 plugins {
@@ -11,6 +9,7 @@ plugins {
 }
 
 val appVersion = "1.0.0"
+val isProVersion = false
 
 group = "cn.netdiscovery.monica"
 version = appVersion
@@ -50,6 +49,7 @@ buildConfig {
     buildConfigField("APP_VERSION", appVersion)
     buildConfigField("KOTLIN_VERSION", "${rootProject.extra["kotlin.version"]}")
     buildConfigField("COMPOSE_VERSION", "${rootProject.extra["compose.version"]}")
+    buildConfigField("IS_PRO_VERSION", isProVersion)
     buildConfigField("BUILD_TIME", System.currentTimeMillis())
 }
 
