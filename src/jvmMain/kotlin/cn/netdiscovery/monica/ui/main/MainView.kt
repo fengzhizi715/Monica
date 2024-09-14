@@ -93,13 +93,12 @@ fun showVersionInfo(onClick: () -> Unit,) {
         },
         text = {
             Column {
-                Text("Monica 版本: $appVersion")
+                Text("Monica 版本: $appVersion, 编译时间: $buildTime")
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
-                Text("Kotlin: $kotlinVersion")
+                Text("Kotlin: $kotlinVersion, Compose Desktop: $composeVersion")
                 Text("本地算法库: $imageProcessVersion")
-                Text("OpenCV 版本: $openCVVersion")
-                Text("ONNXRuntime 版本: $onnxRuntimeVersion")
+                Text("OpenCV 版本: $openCVVersion, ONNXRuntime 版本: $onnxRuntimeVersion")
                 Text("版权信息: Copyright 2024 Tony Shen")
                 Text("Wechat: fengzhizi715")
                 Text("Github 地址: https://github.com/fengzhizi715/Monica")

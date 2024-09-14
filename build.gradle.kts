@@ -49,6 +49,8 @@ buildConfig {
     buildConfigField("APP_NAME", project.name)
     buildConfigField("APP_VERSION", appVersion)
     buildConfigField("KOTLIN_VERSION", "${rootProject.extra["kotlin.version"]}")
+    buildConfigField("COMPOSE_VERSION", "${rootProject.extra["compose.version"]}")
+    buildConfigField("BUILD_TIME", System.currentTimeMillis())
 }
 
 kotlin {

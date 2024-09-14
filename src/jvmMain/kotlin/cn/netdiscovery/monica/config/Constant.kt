@@ -2,11 +2,9 @@ package cn.netdiscovery.monica.config
 
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.utils.closeQuietly
-import java.io.File
-import java.io.FileInputStream
-import java.io.InputStream
+import java.text.SimpleDateFormat
 import java.util.*
+
 
 /**
  *
@@ -20,9 +18,19 @@ val appVersion by lazy {
     cn.netdiscovery.monica.Monica.BuildConfig.APP_VERSION
 }
 
-
 val kotlinVersion by lazy {
     cn.netdiscovery.monica.Monica.BuildConfig.KOTLIN_VERSION
+}
+
+val composeVersion by lazy {
+    cn.netdiscovery.monica.Monica.BuildConfig.COMPOSE_VERSION
+}
+
+val buildTime by lazy {
+   val time = cn.netdiscovery.monica.Monica.BuildConfig.BUILD_TIME
+
+    val dateformat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+    dateformat.format(time)
 }
 
 val imageProcessVersion by lazy {
