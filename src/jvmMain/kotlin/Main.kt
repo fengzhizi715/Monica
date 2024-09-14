@@ -232,16 +232,18 @@ private fun initData() {
         LoadManager.copyMonicaImageProcess()
         logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
-        runInBackground { // 初始化人脸检测的模块
-            OpenCVManager.initFaceDetectModule()
-        }
+        if (isProVersion) {
+            runInBackground { // 初始化人脸检测的模块
+                OpenCVManager.initFaceDetectModule()
+            }
 
-        runInBackground { // 初始化生成素描画的模块
-            OpenCVManager.initSketchDrawingModule()
-        }
+            runInBackground { // 初始化生成素描画的模块
+                OpenCVManager.initSketchDrawingModule()
+            }
 
-        runInBackground { // 初始化换脸的模块
-            OpenCVManager.initFaceSwapModule()
+            runInBackground { // 初始化换脸的模块
+                OpenCVManager.initFaceSwapModule()
+            }
         }
 
         flag.set(true)
