@@ -29,6 +29,8 @@ object LoadManager {
         }
     }
 
+    val weights = System.getProperty("user.dir") + File.separator + "weights" + File.separator
+
     /**
      * 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
      */
@@ -66,22 +68,22 @@ object LoadManager {
     fun copyFaceDetectModels() = runBlocking {
         listOf(
             asyncInBackground {
-                copyLibrary("age_deploy.prototxt")
+                copyLibrary2("age_deploy.prototxt")
             },
             asyncInBackground {
-                copyLibrary("age_net.caffemodel")
+                copyLibrary2("age_net.caffemodel")
             },
             asyncInBackground {
-                copyLibrary("gender_deploy.prototxt")
+                copyLibrary2("gender_deploy.prototxt")
             },
             asyncInBackground {
-                copyLibrary("gender_net.caffemodel")
+                copyLibrary2("gender_net.caffemodel")
             },
             asyncInBackground {
-                copyLibrary("opencv_face_detector.pbtxt")
+                copyLibrary2("opencv_face_detector.pbtxt")
             },
             asyncInBackground {
-                copyLibrary("opencv_face_detector_uint8.pb")
+                copyLibrary2("opencv_face_detector_uint8.pb")
             }
         ).awaitAll()
     }
@@ -90,7 +92,7 @@ object LoadManager {
      * 拷贝生成素描画的模型
      */
     fun copySketchDrawingModel() {
-        copyLibrary("opensketch_style_512x512.onnx")
+        copyLibrary2("opensketch_style_512x512.onnx")
     }
 
     /**
@@ -99,24 +101,58 @@ object LoadManager {
     fun copyFaceSwapModel() = runBlocking {
         listOf(
             asyncInBackground {
-                copyLibrary("yoloface_8n.onnx")
+                copyLibrary2("yoloface_8n.onnx")
             },
             asyncInBackground {
-                copyLibrary("2dfan4.onnx")
+                copyLibrary2("2dfan4.onnx")
             },
             asyncInBackground {
-                copyLibrary("model_matrix.bin")
+                copyLibrary2("model_matrix.bin")
             },
             asyncInBackground {
-                copyLibrary("arcface_w600k_r50.onnx")
+                copyLibrary2("arcface_w600k_r50.onnx")
             },
             asyncInBackground {
-                copyLibrary("inswapper_128.onnx")
+                copyLibrary2("inswapper_128.onnx")
             },
             asyncInBackground {
-                copyLibrary("gfpgan_1.4.onnx")
+                copyLibrary2("gfpgan_1.4.onnx")
             }
         ).awaitAll()
+    }
+
+    private fun copyLibrary2(libName: String) {
+        try {
+            val weightsDir = File(weights)
+
+            if (!weightsDir.exists()) return
+
+            val resource = weightsDir.resolve(libName)
+
+            val dir = File(loadPath + libName)
+
+            val inputStream = resource.inputStream()
+
+            logger.info("file compare: ${inputStream.available()} / ${dir.length()}")
+            logger.info("copyPath: $dir")
+            if (dir.parentFile != null && !dir.parentFile.exists()) {
+                dir.parentFile.mkdirs()
+            }
+            val out = FileOutputStream(dir)
+            var i: Int
+            val buf = ByteArray(10240)
+
+            try {
+                while (inputStream.read(buf).also { i = it } != -1) {
+                    out.write(buf, 0, i)
+                }
+            } finally {
+                closeQuietly(inputStream,out)
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            logger.info("load jni error: ${e.message}")
+        }
     }
 
     private fun copyLibrary(libName: String) {
