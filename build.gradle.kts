@@ -9,7 +9,7 @@ plugins {
 }
 
 val appVersion = "1.0.0"
-val isProVersion = false
+val isProVersion = true
 
 group = "cn.netdiscovery.monica"
 version = appVersion
