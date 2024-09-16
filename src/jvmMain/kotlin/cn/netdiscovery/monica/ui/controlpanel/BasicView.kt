@@ -6,7 +6,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -23,7 +22,6 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
