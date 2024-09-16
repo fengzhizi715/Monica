@@ -229,7 +229,7 @@ private fun initData() {
 
         client = HttpConnectionClient(timeout, retryNum)
 
-        LoadManager.copyMonicaImageProcess()
+//        LoadManager.copyMonicaImageProcess()
         logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
         if (isProVersion) {

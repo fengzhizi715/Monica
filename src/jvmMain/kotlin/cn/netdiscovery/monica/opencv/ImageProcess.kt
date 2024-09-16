@@ -1,7 +1,5 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isWindows
 import java.io.File
 
 /**
@@ -15,17 +13,7 @@ import java.io.File
 object ImageProcess {
 
     val loadPath by lazy{
-        if (System.getProperty("compose.application.resources.dir")!=null)
-            System.getProperty("compose.application.resources.dir") + File.separator
-        else {
-            if (isMac) {
-                System.getProperty("user.dir") + File.separator+ "resources" + File.separator + "macos" + File.separator
-            } else if (isWindows) {
-                System.getProperty("user.dir") + File.separator
-            } else {
-                System.getProperty("user.dir") + File.separator + "resources" + File.separator + "linux" + File.separator
-            }
-        }
+        System.getProperty("compose.application.resources.dir") + File.separator
     }
 
     init {
