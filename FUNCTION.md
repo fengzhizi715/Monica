@@ -53,17 +53,25 @@ Monica 支持调整图像的饱和度、色相、亮度，也就是在 HSL 色�
 ![](images/3-1.png)
 ![](images/3-2.png)
 
-## 2.4 滤镜
-Monica 支持多达 20 多款滤镜，大多数可以自行调整参数。
-![](images/4-1.png)
+## 2.4 图像增强
+Monica 支持多种增强算法
 
-如果需要修改滤镜的默认参数，修改完之后需要点击“应用参数”这个按钮，否则无法生效。
+![](images/4-1.png)
 ![](images/4-2.png)
 ![](images/4-3.png)
 ![](images/4-4.png)
-![](images/4-5.png)
-![](images/4-6.png)
-![](images/4-7.png)
-![](images/4-8.png)
+
+## 2.4 滤镜
+Monica 支持多达 20 多款滤镜，大多数可以自行调整参数。
+![](images/5-1.png)
+
+如果需要修改滤镜的默认参数，修改完之后需要点击“应用参数”这个按钮，否则无法生效。
+![](images/5-2.png)
+![](images/5-3.png)
+![](images/5-4.png)
+![](images/5-5.png)
+![](images/5-6.png)
+![](images/5-7.png)
+![](images/5-8.png)
 
 各种滤镜效果可以不断叠加，也可以跟 HSL 调色以及基础功能等一起使用。
