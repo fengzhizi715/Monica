@@ -3,9 +3,6 @@ package cn.netdiscovery.monica.opencv
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isWindows
-import java.io.File
 
 /**
  *
@@ -46,12 +43,12 @@ object OpenCVManager {
      */
     fun initFaceDetectModule() {
 
-        val faceProto = LoadManager.resourcesDir.resolve("opencv_face_detector.pbtxt").absolutePath
-        val faceModel = LoadManager.resourcesDir.resolve("opencv_face_detector_uint8.pb").absolutePath
-        val ageProto  = LoadManager.resourcesDir.resolve("age_deploy.prototxt").absolutePath
-        val ageModel  = LoadManager.resourcesDir.resolve("age_net.caffemodel").absolutePath
-        val genderProto = LoadManager.resourcesDir.resolve("gender_deploy.prototxt").absolutePath
-        val genderModel = LoadManager.resourcesDir.resolve("gender_net.caffemodel").absolutePath
+        val faceProto = ImageProcess.resourcesDir.resolve("opencv_face_detector.pbtxt").absolutePath
+        val faceModel = ImageProcess.resourcesDir.resolve("opencv_face_detector_uint8.pb").absolutePath
+        val ageProto  = ImageProcess.resourcesDir.resolve("age_deploy.prototxt").absolutePath
+        val ageModel  = ImageProcess.resourcesDir.resolve("age_net.caffemodel").absolutePath
+        val genderProto = ImageProcess.resourcesDir.resolve("gender_deploy.prototxt").absolutePath
+        val genderModel = ImageProcess.resourcesDir.resolve("gender_net.caffemodel").absolutePath
 
         ImageProcess.initFaceDetect(faceProto, faceModel, ageProto, ageModel, genderProto, genderModel)
     }
@@ -61,7 +58,7 @@ object OpenCVManager {
      */
     fun initSketchDrawingModule() {
 
-        val modelPath = LoadManager.resourcesDir.resolve("opensketch_style_512x512.onnx").absolutePath
+        val modelPath = ImageProcess.resourcesDir.resolve("opensketch_style_512x512.onnx").absolutePath
 
         ImageProcess.initSketchDrawing(modelPath)
     }
@@ -71,12 +68,12 @@ object OpenCVManager {
      */
     fun initFaceSwapModule() {
 
-        val yolov8FaceModelPath = LoadManager.resourcesDir.resolve("yoloface_8n.onnx").absolutePath
-        val face68LandmarksModePath = LoadManager.resourcesDir.resolve("2dfan4.onnx").absolutePath
-        val faceEmbeddingModePath = LoadManager.resourcesDir.resolve("arcface_w600k_r50.onnx").absolutePath
-        val faceSwapModePath = LoadManager.resourcesDir.resolve("inswapper_128.onnx").absolutePath
-        val faceSwapModePath2 = LoadManager.resourcesDir.resolve("model_matrix.bin").absolutePath
-        val faceEnhanceModePath = LoadManager.resourcesDir.resolve("gfpgan_1.4.onnx").absolutePath
+        val yolov8FaceModelPath = ImageProcess.resourcesDir.resolve("yoloface_8n.onnx").absolutePath
+        val face68LandmarksModePath = ImageProcess.resourcesDir.resolve("2dfan4.onnx").absolutePath
+        val faceEmbeddingModePath = ImageProcess.resourcesDir.resolve("arcface_w600k_r50.onnx").absolutePath
+        val faceSwapModePath = ImageProcess.resourcesDir.resolve("inswapper_128.onnx").absolutePath
+        val faceSwapModePath2 = ImageProcess.resourcesDir.resolve("model_matrix.bin").absolutePath
+        val faceEnhanceModePath = ImageProcess.resourcesDir.resolve("gfpgan_1.4.onnx").absolutePath
 
         ImageProcess.initFaceSwap(yolov8FaceModelPath, face68LandmarksModePath,
             faceEmbeddingModePath, faceSwapModePath,

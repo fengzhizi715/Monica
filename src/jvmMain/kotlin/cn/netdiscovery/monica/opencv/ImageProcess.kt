@@ -1,5 +1,8 @@
 package cn.netdiscovery.monica.opencv
 
+import cn.netdiscovery.monica.utils.arch
+import cn.netdiscovery.monica.utils.isMac
+import cn.netdiscovery.monica.utils.isWindows
 import java.io.File
 
 /**
@@ -12,13 +15,32 @@ import java.io.File
  */
 object ImageProcess {
 
-    val loadPath by lazy{
+    private val loadPath by lazy{
         System.getProperty("compose.application.resources.dir") + File.separator
+    }
+
+    val resourcesDir by lazy {
+        File(loadPath)
     }
 
     init {
         // 需要先加载图像处理库，否则无法通过 jni 调用算法
-        LoadManager.loadMonicaImageProcess()
+        loadMonicaImageProcess()
+    }
+
+    /**
+     * 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
+     */
+    private fun loadMonicaImageProcess() {
+        if (isMac) {
+            if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
+                System.load("${ImageProcess.loadPath}libMonicaImageProcess_aarch64.dylib")
+            } else {
+                System.load("${ImageProcess.loadPath}libMonicaImageProcess.dylib")
+            }
+        } else if (isWindows) {
+            System.load("${ImageProcess.loadPath}MonicaImageProcess.dll")
+        }
     }
 
     /**
