@@ -11,7 +11,6 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.LoadManager
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
@@ -229,7 +228,6 @@ private fun initData() {
 
         client = HttpConnectionClient(timeout, retryNum)
 
-//        LoadManager.copyMonicaImageProcess()
         logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
         if (isProVersion) {
