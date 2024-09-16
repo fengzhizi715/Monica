@@ -110,19 +110,20 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = ResizeStatus
             })
 
-        toolTipButton(text = "图像裁剪",
-            painter = painterResource("images/controlpanel/crop.png"),
-            enable = { state.isBasic },
-            onClick = {
-                state.currentStatus = CropSizeStatus
-                state.togglePreviewWindow(true)
-            })
 
         toolTipButton(text = "图像错切",
             painter = painterResource("images/controlpanel/shearing.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = ShearingStatus
+            })
+
+        toolTipButton(text = "图像裁剪",
+            painter = painterResource("images/controlpanel/crop.png"),
+            enable = { state.isBasic },
+            onClick = {
+                state.currentStatus = CropSizeStatus
+                state.togglePreviewWindow(true)
             })
     }
 

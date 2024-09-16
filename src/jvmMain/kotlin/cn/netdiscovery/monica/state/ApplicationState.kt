@@ -25,8 +25,9 @@ val ColorPickStatus: Int = 4
 val FlipStatus: Int = 5
 val RotateStatus: Int = 6
 val ResizeStatus: Int = 7
-val CropSizeStatus: Int = 8
-val ShearingStatus: Int = 9
+val ShearingStatus: Int = 8
+val CropSizeStatus: Int = 9
+
 
 val EqualizeHistStatus: Int = 10
 val ClaheStatus: Int = 11
