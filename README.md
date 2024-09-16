@@ -60,12 +60,19 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
-* 重新规划架构
 * 增加 OpenCV 算法的调试模块，方便快速验证算法
-* 增加人脸美颜的算法
+* 重新规划架构
 * 增加对图像添加文字的功能
+* 增加人脸美颜的算法
 
 
-# 六. Star History
+# 六. 联系方式：
+
+wechat：fengzhizi715
+
+Email：fengzhizi715@126.com
+
+
+# 七. Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)

@@ -3,7 +3,9 @@ package cn.netdiscovery.monica.opencv
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows
+import java.io.File
 
 /**
  *
@@ -43,14 +45,13 @@ object OpenCVManager {
      * 初始化人脸检测的模块
      */
     fun initFaceDetectModule() {
-        LoadManager.copyFaceDetectModels()
 
-        val faceProto = if (isWindows) "${LoadManager.loadPath}opencv_face_detector.pbtxt" else "${ImageProcess.loadPath}opencv_face_detector.pbtxt"
-        val faceModel = if (isWindows) "${LoadManager.loadPath}opencv_face_detector_uint8.pb" else "${ImageProcess.loadPath}opencv_face_detector_uint8.pb"
-        val ageProto = if (isWindows) "${LoadManager.loadPath}age_deploy.prototxt" else "${ImageProcess.loadPath}age_deploy.prototxt"
-        val ageModel = if (isWindows) "${LoadManager.loadPath}age_net.caffemodel" else "${ImageProcess.loadPath}age_net.caffemodel"
-        val genderProto = if (isWindows) "${LoadManager.loadPath}gender_deploy.prototxt" else "${ImageProcess.loadPath}gender_deploy.prototxt"
-        val genderModel = if (isWindows) "${LoadManager.loadPath}gender_net.caffemodel" else "${ImageProcess.loadPath}gender_net.caffemodel"
+        val faceProto = LoadManager.resourcesDir.resolve("opencv_face_detector.pbtxt").absolutePath
+        val faceModel = LoadManager.resourcesDir.resolve("opencv_face_detector_uint8.pb").absolutePath
+        val ageProto  = LoadManager.resourcesDir.resolve("age_deploy.prototxt").absolutePath
+        val ageModel  = LoadManager.resourcesDir.resolve("age_net.caffemodel").absolutePath
+        val genderProto = LoadManager.resourcesDir.resolve("gender_deploy.prototxt").absolutePath
+        val genderModel = LoadManager.resourcesDir.resolve("gender_net.caffemodel").absolutePath
 
         ImageProcess.initFaceDetect(faceProto, faceModel, ageProto, ageModel, genderProto, genderModel)
     }
@@ -59,9 +60,8 @@ object OpenCVManager {
      * 初始化生成素描画的模块
      */
     fun initSketchDrawingModule() {
-        LoadManager.copySketchDrawingModel()
 
-        val modelPath = if (isWindows) "${LoadManager.loadPath}opensketch_style_512x512.onnx" else "${ImageProcess.loadPath}opensketch_style_512x512.onnx"
+        val modelPath = LoadManager.resourcesDir.resolve("opensketch_style_512x512.onnx").absolutePath
 
         ImageProcess.initSketchDrawing(modelPath)
     }
@@ -70,14 +70,13 @@ object OpenCVManager {
      * 初始化换脸的模块
      */
     fun initFaceSwapModule() {
-        LoadManager.copyFaceSwapModel()
 
-        val yolov8FaceModelPath = if (isWindows) "${LoadManager.loadPath}yoloface_8n.onnx" else "${ImageProcess.loadPath}yoloface_8n.onnx"
-        val face68LandmarksModePath = if (isWindows) "${LoadManager.loadPath}2dfan4.onnx" else "${ImageProcess.loadPath}2dfan4.onnx"
-        val faceEmbeddingModePath = if (isWindows) "${LoadManager.loadPath}arcface_w600k_r50.onnx" else "${ImageProcess.loadPath}arcface_w600k_r50.onnx"
-        val faceSwapModePath = if (isWindows) "${LoadManager.loadPath}inswapper_128.onnx" else "${ImageProcess.loadPath}inswapper_128.onnx"
-        val faceSwapModePath2 = if (isWindows) "${LoadManager.loadPath}model_matrix.bin" else "${ImageProcess.loadPath}model_matrix.bin"
-        val faceEnhanceModePath = if (isWindows) "${LoadManager.loadPath}gfpgan_1.4.onnx" else "${ImageProcess.loadPath}gfpgan_1.4.onnx"
+        val yolov8FaceModelPath = LoadManager.resourcesDir.resolve("yoloface_8n.onnx").absolutePath
+        val face68LandmarksModePath = LoadManager.resourcesDir.resolve("2dfan4.onnx").absolutePath
+        val faceEmbeddingModePath = LoadManager.resourcesDir.resolve("arcface_w600k_r50.onnx").absolutePath
+        val faceSwapModePath = LoadManager.resourcesDir.resolve("inswapper_128.onnx").absolutePath
+        val faceSwapModePath2 = LoadManager.resourcesDir.resolve("model_matrix.bin").absolutePath
+        val faceEnhanceModePath = LoadManager.resourcesDir.resolve("gfpgan_1.4.onnx").absolutePath
 
         ImageProcess.initFaceSwap(yolov8FaceModelPath, face68LandmarksModePath,
             faceEmbeddingModePath, faceSwapModePath,
