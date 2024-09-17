@@ -57,8 +57,12 @@ Monica 支持调整图像的饱和度、色相、亮度，也就是在 HSL 色�
 Monica 支持多种增强算法对图像进行增强。
 
 ![](images/4-1.png)
+
+直方图均衡化的效果
 ![](images/4-2.png)
 ![](images/4-3.png)
+
+Gamma 变换的效果
 ![](images/4-4.png)
 
 ## 2.5 滤镜
