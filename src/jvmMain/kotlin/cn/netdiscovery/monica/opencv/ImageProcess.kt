@@ -34,12 +34,13 @@ object ImageProcess {
     private fun loadMonicaImageProcess() {
         if (isMac) {
             if (arch == "aarch64") { // 即使是 mac 系统，针对不同的芯片 也需要加载不同的 dylib 库
-                System.load("${ImageProcess.loadPath}libMonicaImageProcess_aarch64.dylib")
+                System.load("${loadPath}libMonicaImageProcess_aarch64.dylib")
             } else {
-                System.load("${ImageProcess.loadPath}libMonicaImageProcess.dylib")
+                System.load("${loadPath}libMonicaImageProcess.dylib")
             }
         } else if (isWindows) {
-            System.load("${ImageProcess.loadPath}MonicaImageProcess.dll")
+            System.load("${loadPath}opencv_world481.dll")
+            System.load("${loadPath}MonicaImageProcess.dll")
         }
     }
 
