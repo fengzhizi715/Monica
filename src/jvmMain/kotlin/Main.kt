@@ -228,8 +228,6 @@ private fun initData() {
 
         logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
-        println("ImageProcess.resourcesDir = ${ImageProcess.resourcesDir.absolutePath}")
-
         if (isProVersion) {
             runInBackground { // 初始化人脸检测的模块
                 OpenCVManager.initFaceDetectModule()
