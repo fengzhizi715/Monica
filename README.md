@@ -60,7 +60,7 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
-* 尝试引入 PreCompose 
+* 尝试引入 PreCompose 实现页面导航
 * 增加 OpenCV 算法的调试模块，方便快速验证算法
 * 重新规划架构
 * 增加对图像添加文字的功能
