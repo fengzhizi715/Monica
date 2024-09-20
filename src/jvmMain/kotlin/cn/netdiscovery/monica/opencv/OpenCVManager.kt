@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.opencv
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -16,6 +17,7 @@ object OpenCVManager {
 
     /**
      * 封装调用 OpenCV 的方法
+     * 便于当前的图像进行调用 OpenCV 的方法，以及对返回的 IntArray 进行处理返回成 BufferedImage
      *
      * @param state
      * @param action 通过 jni 调用 OpenCV 的方法
@@ -35,6 +37,20 @@ object OpenCVManager {
             } catch (e:Exception) {
                 failure.invoke(e)
             }
+        }
+    }
+
+    fun invokeCV(image: BufferedImage,
+                 action: (byteArray:ByteArray) -> IntArray,
+                 success:(image:BufferedImage)->Unit,
+                 failure: (e:Exception) -> Unit) {
+        val (width,height,byteArray) = image.getImageInfo()
+
+        try {
+            val outPixels = action.invoke(byteArray)
+            success.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
+        } catch (e:Exception) {
+            failure.invoke(e)
         }
     }
 

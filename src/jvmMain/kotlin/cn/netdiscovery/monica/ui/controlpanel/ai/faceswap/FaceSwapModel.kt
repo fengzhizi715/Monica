@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
@@ -60,14 +61,12 @@ class FaceSwapModel {
 
         if (image!=null) {
             state.scope.launchWithLoading {
-                val (width,height,byteArray) = image.getImageInfo()
-
-                try {
-                    val outPixels = ImageProcess.faceLandMark(byteArray)
-                    onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
-                } catch (e:Exception) {
-                    logger.error("faceLandMark is failed", e)
-                }
+                OpenCVManager.invokeCV(image,
+                    action = { ImageProcess.faceLandMark(it) },
+                    success = { onImageChange.invoke(it) },
+                    failure = { e->
+                        logger.error("faceLandMark is failed", e)
+                    })
             }
         }
     }
@@ -76,13 +75,14 @@ class FaceSwapModel {
 
         if (image!=null && target!=null) {
             state.scope.launchWithLoading {
-
                 val srcByteArray = image.image2ByteArray()
 
-                val (width,height,targetByteArray) = target.getImageInfo()
-
-                val outPixels = ImageProcess.faceSwap(srcByteArray, targetByteArray, status)
-                onImageChange.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
+                OpenCVManager.invokeCV(target,
+                    action = { ImageProcess.faceSwap(srcByteArray, it, status) },
+                    success = { onImageChange.invoke(it) },
+                    failure = { e->
+                        logger.error("faceSwap is failed", e)
+                    })
             }
         }
     }
