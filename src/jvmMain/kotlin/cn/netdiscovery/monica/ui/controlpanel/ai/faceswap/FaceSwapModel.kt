@@ -3,12 +3,11 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.faceswap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
@@ -57,13 +56,13 @@ class FaceSwapModel {
         )
     }
 
-    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, onImageChange:OnImageChange) {
+    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, success:CVSuccess) {
 
         if (image!=null) {
             state.scope.launchWithLoading {
                 OpenCVManager.invokeCV(image,
                     action = { ImageProcess.faceLandMark(it) },
-                    success = { onImageChange.invoke(it) },
+                    success = { success.invoke(it) },
                     failure = { e->
                         logger.error("faceLandMark is failed", e)
                     })
@@ -71,7 +70,7 @@ class FaceSwapModel {
         }
     }
 
-    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean, onImageChange:OnImageChange) {
+    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean, success:CVSuccess) {
 
         if (image!=null && target!=null) {
             state.scope.launchWithLoading {
@@ -79,7 +78,7 @@ class FaceSwapModel {
 
                 OpenCVManager.invokeCV(target,
                     action = { ImageProcess.faceSwap(srcByteArray, it, status) },
-                    success = { onImageChange.invoke(it) },
+                    success = { success.invoke(it) },
                     failure = { e->
                         logger.error("faceSwap is failed", e)
                     })

@@ -23,7 +23,6 @@ import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import loadingDisplay
 import org.koin.compose.koinInject
-import java.awt.image.BufferedImage
 
 /**
  *
@@ -33,8 +32,6 @@ import java.awt.image.BufferedImage
  * @date: 2024/8/25 13:02
  * @version: V1.0 <描述当前版本功能>
  */
-typealias OnImageChange = (image: BufferedImage) -> Unit
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
