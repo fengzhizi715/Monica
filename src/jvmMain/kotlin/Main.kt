@@ -11,7 +11,6 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
@@ -31,6 +30,7 @@ import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.runInBackground
+import moe.tlaster.precompose.PreComposeWindow
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -103,12 +103,11 @@ fun main() = application {
         }
     )
 
-    Window(onCloseRequest = ::exitApplication,
+    PreComposeWindow(onCloseRequest = ::exitApplication,
         title = "Monica 图片编辑器 $appVersion",
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
-
         KoinApplication(application = {
             mAppKoin = koin
             modules(viewModelModule)
