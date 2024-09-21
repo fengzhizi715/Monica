@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.utils
 
+import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
 import java.awt.image.BufferedImage
 
 /**
@@ -15,3 +16,5 @@ typealias CVAction = (byteArray:ByteArray) -> IntArray
 typealias CVSuccess = (image: BufferedImage)->Unit
 
 typealias CVFailure = (e:Exception) -> Unit
+
+typealias OnCropPropertiesChange = (cropProperties: CropProperties) -> Unit

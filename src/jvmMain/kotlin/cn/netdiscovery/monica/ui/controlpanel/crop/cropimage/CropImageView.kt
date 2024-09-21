@@ -27,6 +27,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.*
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.OnCropPropertiesChange
 import org.koin.compose.koinInject
 
 /**
@@ -42,8 +43,6 @@ var cropTypesIndex = mutableStateOf(0)
 
 val contentScales = listOf("None", "Fit", "Crop", "FillBounds", "FillWidth", "FillHeight", "Inside")
 var contentScalesIndex = mutableStateOf(1)
-
-typealias OnCropPropertiesChange = (cropProperties:CropProperties) -> Unit
 
 @Composable
 fun cropImage(state: ApplicationState) {

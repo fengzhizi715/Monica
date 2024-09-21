@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFa
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
+import cn.netdiscovery.monica.utils.OnCropPropertiesChange
 import kotlinx.coroutines.launch
 
 /**
