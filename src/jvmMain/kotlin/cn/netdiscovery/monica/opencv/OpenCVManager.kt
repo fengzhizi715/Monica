@@ -13,6 +13,12 @@ import java.awt.image.BufferedImage
  * @date: 2024/8/13 19:54
  * @version: V1.0
  */
+typealias CVAction = (byteArray:ByteArray) -> IntArray
+
+typealias CVSucc = (image:BufferedImage)->Unit
+
+typealias CVFailure = (e:Exception) -> Unit
+
 object OpenCVManager {
 
     /**
@@ -21,11 +27,11 @@ object OpenCVManager {
      *
      * @param state
      * @param action 通过 jni 调用 OpenCV 的方法
-     * @param failure 失败的记录
+     * @param failure 失败的回调
      */
     fun invokeCV(state: ApplicationState,
-                 action: (byteArray:ByteArray) -> IntArray,
-                 failure: (e:Exception) -> Unit) {
+                 action: CVAction,
+                 failure: CVFailure) {
 
         if (state.currentImage!=null) {
             val (width,height,byteArray) = state.currentImage!!.getImageInfo()
@@ -40,10 +46,18 @@ object OpenCVManager {
         }
     }
 
+    /**
+     * 封装调用 OpenCV 的方法
+     *
+     * @param image 对该图片进行处理
+     * @param action 通过 jni 调用 OpenCV 的方法
+     * @param success 成功的回调
+     * @param failure 失败的回调
+     */
     fun invokeCV(image: BufferedImage,
-                 action: (byteArray:ByteArray) -> IntArray,
-                 success:(image:BufferedImage)->Unit,
-                 failure: (e:Exception) -> Unit) {
+                 action: CVAction,
+                 success: CVSucc,
+                 failure: CVFailure) {
         val (width,height,byteArray) = image.getImageInfo()
 
         try {
