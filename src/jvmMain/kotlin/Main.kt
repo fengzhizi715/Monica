@@ -199,6 +199,9 @@ fun main() = application {
                     logger.info("enter FaceSwapView")
                     faceSwap(applicationState)
                 }
+                OpenCVDebugStatus -> {
+                    logger.info("enter OpenCVDebugView")
+                }
                 else            -> {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)

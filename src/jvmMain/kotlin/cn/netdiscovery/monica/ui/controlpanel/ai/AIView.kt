@@ -46,6 +46,14 @@ fun aiView(state: ApplicationState) {
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
+        toolTipButton(text = "简单 CV 算法的快速验证",
+            painter = painterResource("images/ai/experiment.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = OpenCVDebugStatus
+                state.togglePreviewWindow(true)
+            })
+
         toolTipButton(text = "人脸检测",
             painter = painterResource("images/ai/face_detect.png"),
             enable = { state.isAI },
