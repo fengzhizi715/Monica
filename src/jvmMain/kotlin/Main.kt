@@ -249,9 +249,10 @@ private fun initData() {
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
-    ColorPickStatus -> "图像取色"
-    DoodleStatus    -> "涂鸦图像"
-    CropSizeStatus  -> "图像裁剪"
-    FaceSwapStatus  -> "人脸替换"
-    else            -> "放大预览"
+    ColorPickStatus   -> "图像取色"
+    DoodleStatus      -> "涂鸦图像"
+    CropSizeStatus    -> "图像裁剪"
+    FaceSwapStatus    -> "人脸替换"
+    OpenCVDebugStatus -> "简单 CV 算法的快速验证"
+    else              -> "放大预览"
 }
