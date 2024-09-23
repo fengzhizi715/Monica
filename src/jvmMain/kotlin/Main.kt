@@ -153,7 +153,9 @@ fun main() = application {
     }
 
     if (applicationState.isShowPreviewWindow &&
-        (applicationState.currentImage != null || applicationState.currentStatus == FaceSwapStatus)) {
+        (applicationState.currentImage != null
+                || applicationState.currentStatus == FaceSwapStatus
+                || applicationState.currentStatus == OpenCVDebugStatus)) {
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
