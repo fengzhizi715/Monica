@@ -4,7 +4,7 @@ Monica 是一款跨平台的桌面图像编辑软件，使用 Kotlin Compose Des
 ![](images/screenshot.png)
 ![](images/screenshot-version.png)
 
-Monica 用到的技术栈：
+Monica 的技术栈：
 * Kotlin 编写 UI 和大部分算法(软件使用 JDK 17 进行编译)，
 * 其余的算法使用 OpenCV C++ 来实现，Kotlin 通过 jni 来调用。
 * 大部分深度学习的模型的使用 ONNXRuntime 进行部署和推理
@@ -49,6 +49,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | MonicaImageProcess.dll | Windows 下编译好的算法库需要依赖 opencv_world481.dll |
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
+
 > 目前，有三个模型没有提交，主要是太大了超过了 100m。后续我看是存放在百度网盘还是什么地方
 
 
@@ -64,7 +65,7 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
-* 尝试引入 PreCompose 实现页面导航
+* 引入 PreCompose 实现页面导航
 * 增加 OpenCV 算法的调试模块，方便快速验证算法
 * 模型部署到云端
 * 增加对图像添加文字的功能
