@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
@@ -30,7 +31,6 @@ import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.TopToast
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.runInBackground
-import moe.tlaster.precompose.PreComposeWindow
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -103,7 +103,7 @@ fun main() = application {
         }
     )
 
-    PreComposeWindow(onCloseRequest = ::exitApplication,
+    Window(onCloseRequest = ::exitApplication,
         title = "Monica 图片编辑器 $appVersion",
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
@@ -183,26 +183,27 @@ fun main() = application {
             }
         ) {
             when(applicationState.currentStatus) {
-                ColorPickStatus -> {
+                ColorPickStatus   -> {
                     logger.info("enter ColorPickView")
                     colorPick(applicationState)
                 }
-                DoodleStatus    -> {
+                DoodleStatus      -> {
                     logger.info("enter DoodleView")
                     drawImage(applicationState)
                 }
-                CropSizeStatus  -> {
+                CropSizeStatus    -> {
                     logger.info("enter CropImageView")
                     cropImage(applicationState)
                 }
-                FaceSwapStatus -> {
+                FaceSwapStatus    -> {
                     logger.info("enter FaceSwapView")
                     faceSwap(applicationState)
                 }
                 OpenCVDebugStatus -> {
                     logger.info("enter OpenCVDebugView")
+                    experiment(applicationState)
                 }
-                else            -> {
+                else              -> {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)
                 }
