@@ -36,6 +36,7 @@ val LaplaceStatus: Int = 13
 val USMStatus: Int = 14
 val ACEStatus: Int = 15
 
+
 val OpenCVDebugStatus: Int = 16
 val FaceDetectStatus: Int = 17
 val SketchDrawingStatus: Int = 18
