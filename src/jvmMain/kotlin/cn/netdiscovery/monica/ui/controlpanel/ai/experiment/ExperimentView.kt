@@ -1,10 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Icon
-import androidx.compose.material.NavigationRail
-import androidx.compose.material.NavigationRailItem
-import androidx.compose.material.Text
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Notifications
@@ -14,8 +13,12 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 
 /**
@@ -75,6 +78,7 @@ fun CustomNavigationHost(
     }.build()
 }
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun experiment(state: ApplicationState) {
 
@@ -88,35 +92,68 @@ fun experiment(state: ApplicationState) {
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-
-        NavigationRail(
-            modifier = Modifier.align(Alignment.CenterStart).fillMaxHeight().width(80.dp)
+        Row (
+            modifier = Modifier.fillMaxSize(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
-            screens.forEach {
-                NavigationRailItem(
-                    selected = currentScreen == it.name,
-                    icon = {
-                        Icon(
-                            imageVector = it.icon,
-                            contentDescription = it.label
-                        )
-                    },
-                    label = {
-                        Text(it.label)
-                    },
-                    modifier = Modifier.width(100.dp),
-                    alwaysShowLabel = true,
-                    onClick = {
-                        navController.navigate(it.name)
-                    }
-                )
+            NavigationRail(
+                modifier = Modifier.fillMaxHeight().width(100.dp).weight(0.5f)
+            ) {
+                screens.forEach {
+                    NavigationRailItem(
+                        selected = currentScreen == it.name,
+                        icon = {
+                            Icon(
+                                imageVector = it.icon,
+                                contentDescription = it.label
+                            )
+                        },
+                        label = {
+                            Text(it.label)
+                        },
+                        modifier = Modifier.width(100.dp),
+                        alwaysShowLabel = true,
+                        onClick = {
+                            navController.navigate(it.name)
+                        }
+                    )
+                }
             }
-        }
 
-        Column (modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            CustomNavigationHost(navController = navController)
+            Row (modifier = Modifier.fillMaxSize().weight(9.5f),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.Center) {
+
+                Column (modifier = Modifier.fillMaxSize().weight(1.0f),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally) {
+                    CustomNavigationHost(navController = navController)
+                }
+
+                Card(
+                    modifier = Modifier.padding(10.dp).weight(1.0f),
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = 4.dp,
+                    onClick = {
+                    }
+                ) {
+                    if (state.currentImage == null) {
+                        Text(
+                            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                            text = "请点击选择图像",
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Image(
+                            painter = state.currentImage!!.toPainter(),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                        )
+                    }
+                }
+            }
         }
     }
 }
