@@ -15,6 +15,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 
 /**
@@ -32,16 +33,24 @@ enum class Screen(
     val label: String,
     val icon: ImageVector
 ) {
-    HomeScreen(
-        label = "Home",
+    BinaryImageAnalysis(
+        label = "二值图像分析",
         icon = Icons.Filled.Home
     ),
-    NotificationsScreen(
-        label = "Notifications",
+    ContourAnalysis(
+        label = "轮廓分析",
         icon = Icons.Filled.Notifications
     ),
-    SettingsScreen(
-        label = "Settings",
+    ImageConvolution(
+        label = "图像卷积",
+        icon = Icons.Filled.Settings
+    ),
+    MorphologicalOperations(
+        label = "形态学操作",
+        icon = Icons.Filled.Settings
+    ),
+    TemplateMatching(
+        label = "模版匹配",
         icon = Icons.Filled.Settings
     )
 }
@@ -51,15 +60,15 @@ fun CustomNavigationHost(
     navController: NavController
 ) {
     NavigationHost(navController) {
-        composable(Screen.HomeScreen.name) {
+        composable(Screen.BinaryImageAnalysis.name) {
 //            HomeScreen(navController)
         }
 
-        composable(Screen.NotificationsScreen.name) {
+        composable(Screen.ContourAnalysis.name) {
 //            NotificationScreen(navController)
         }
 
-        composable(Screen.SettingsScreen.name) {
+        composable(Screen.ImageConvolution.name) {
 //            SettingScreen(navController)
         }
 
@@ -70,7 +79,7 @@ fun CustomNavigationHost(
 fun experiment(state: ApplicationState) {
 
     val screens = Screen.values().toList()
-    val navController by rememberNavController(Screen.HomeScreen.name)
+    val navController by rememberNavController(Screen.BinaryImageAnalysis.name)
     val currentScreen by remember {
         navController.currentScreen
     }
@@ -81,7 +90,7 @@ fun experiment(state: ApplicationState) {
     ) {
 
         NavigationRail(
-            modifier = Modifier.align(Alignment.CenterStart).fillMaxHeight()
+            modifier = Modifier.align(Alignment.CenterStart).fillMaxHeight().width(80.dp)
         ) {
             screens.forEach {
                 NavigationRailItem(
@@ -95,14 +104,14 @@ fun experiment(state: ApplicationState) {
                     label = {
                         Text(it.label)
                     },
-                    alwaysShowLabel = false,
+                    modifier = Modifier.width(100.dp),
+                    alwaysShowLabel = true,
                     onClick = {
                         navController.navigate(it.name)
                     }
                 )
             }
         }
-
 
         Column (modifier = Modifier.fillMaxSize(),
             verticalArrangement = Arrangement.Center,
