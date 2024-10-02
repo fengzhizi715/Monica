@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.state.ApplicationState
  * @date: 2024/9/23 19:37
  * @version: V1.0 <描述当前版本功能>
  */
+
 /**
  * Screens
  */
@@ -59,6 +60,7 @@ fun customNavigationHost(
 ) {
     NavigationHost(navController) {
         composable(Screen.BinaryImageAnalysis.name) {
+            binaryImageAnalysis()
         }
 
         composable(Screen.ContourAnalysis.name) {
@@ -134,7 +136,7 @@ fun experiment(state: ApplicationState) {
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
-                        
+
                     }
                 ) {
                     if (state.currentImage == null) {
