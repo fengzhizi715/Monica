@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -9,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.DragData
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 
 /**
  *
@@ -25,5 +27,12 @@ fun binaryImageAnalysis() {
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
+
+        Text("灰度图像" , modifier = Modifier.align(Alignment.TopStart).padding(40.dp))
+
+
+        Text("阈值分割", modifier = Modifier.align(Alignment.TopStart).padding(start = 40.dp, top = 200.dp))
+
+        Text("边缘检测算子", modifier = Modifier.align(Alignment.TopStart).padding(start = 40.dp, top = 400.dp))
     }
 }
