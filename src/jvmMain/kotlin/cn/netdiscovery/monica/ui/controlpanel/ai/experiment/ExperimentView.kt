@@ -14,7 +14,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
+import org.koin.compose.koinInject
 
 /**
  *
@@ -81,6 +84,8 @@ fun customNavigationHost(
 @Composable
 fun experiment(state: ApplicationState) {
 
+    val viewModel: ExperimentViewModel = koinInject()
+
     val screens = Screen.entries
     val navController by rememberNavController(Screen.BinaryImageAnalysis.name)
     val currentScreen by remember {
@@ -136,8 +141,13 @@ fun experiment(state: ApplicationState) {
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
-
-                    }
+                        viewModel.chooseImage(state) { file ->
+                            state.rawImage = BufferedImages.load(file)
+                            state.currentImage = state.rawImage
+                            state.rawImageFile = file
+                        }
+                    },
+                    enabled = state.currentImage == null
                 ) {
                     if (state.currentImage == null) {
                         Text(
