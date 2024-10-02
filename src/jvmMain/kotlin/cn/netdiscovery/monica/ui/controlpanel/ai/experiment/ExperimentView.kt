@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
@@ -34,27 +35,27 @@ import cn.netdiscovery.monica.state.ApplicationState
  */
 enum class Screen(
     val label: String,
-    val icon: ImageVector
+    val resourcePath: String
 ) {
     BinaryImageAnalysis(
         label = "二值图像分析",
-        icon = Icons.Filled.Home
+        resourcePath = "images/ai/binary_image_analysis.png"
     ),
     ContourAnalysis(
         label = "轮廓分析",
-        icon = Icons.Filled.Notifications
+        resourcePath = "images/ai/contour_analysis.png"
     ),
     ImageConvolution(
         label = "图像卷积",
-        icon = Icons.Filled.Settings
+        resourcePath = "images/ai/binary_image_analysis.png"
     ),
     MorphologicalOperations(
         label = "形态学操作",
-        icon = Icons.Filled.Settings
+        resourcePath = "images/ai/binary_image_analysis.png"
     ),
     TemplateMatching(
         label = "模版匹配",
-        icon = Icons.Filled.Settings
+        resourcePath = "images/ai/binary_image_analysis.png"
     )
 }
 
@@ -105,7 +106,8 @@ fun experiment(state: ApplicationState) {
                         selected = currentScreen == it.name,
                         icon = {
                             Icon(
-                                imageVector = it.icon,
+                                painter = painterResource(it.resourcePath),
+                                modifier = Modifier.width(25.dp).height(25.dp),
                                 contentDescription = it.label
                             )
                         },
