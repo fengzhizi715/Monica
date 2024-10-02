@@ -24,8 +24,8 @@ import javax.swing.JFileChooser
  * @date: 2024/8/25 14:55
  * @version: V1.0 <描述当前版本功能>
  */
-class FaceSwapModel {
-    private val logger: Logger = logger<FaceSwapModel>()
+class FaceSwapViewModel {
+    private val logger: Logger = logger<FaceSwapViewModel>()
 
     var targetImage: BufferedImage? by mutableStateOf(null)
     var lastTargetImage: BufferedImage? by mutableStateOf(null)

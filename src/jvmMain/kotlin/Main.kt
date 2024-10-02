@@ -16,7 +16,7 @@ import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
-import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
@@ -70,7 +70,7 @@ fun main() = application {
 
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
-    lateinit var faceSwapModel: FaceSwapModel
+    lateinit var faceSwapModel: FaceSwapViewModel
 
     Tray(
         state = trayState,

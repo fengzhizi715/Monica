@@ -36,7 +36,7 @@ import org.koin.compose.koinInject
 @Composable
 fun faceSwap(state: ApplicationState) {
 
-    val viewModel: FaceSwapModel = koinInject()
+    val viewModel: FaceSwapViewModel = koinInject()
 
     val showSwapFaceSettings = remember { mutableStateOf(false) }
     val selectedOption = remember { mutableStateOf(false) }

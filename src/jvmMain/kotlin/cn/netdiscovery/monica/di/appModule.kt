@@ -3,7 +3,8 @@ package cn.netdiscovery.monica.di
 import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import cn.netdiscovery.monica.ui.controlpanel.ai.AIViewModel
-import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ExperimentViewModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
 import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
@@ -27,6 +28,7 @@ val viewModelModule = module {
     singleOf(::CropViewModel)
     singleOf(::FilterViewModel)
     singleOf(::AIViewModel)
-    singleOf(::FaceSwapModel)
+    singleOf(::FaceSwapViewModel)
+    singleOf(::ExperimentViewModel)
     singleOf(::ImageEnhanceViewModel)
 }
