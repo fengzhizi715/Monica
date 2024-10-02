@@ -47,15 +47,15 @@ enum class Screen(
     ),
     ImageConvolution(
         label = "图像卷积",
-        resourcePath = "images/ai/binary_image_analysis.png"
+        resourcePath = "images/ai/image_convolution.png"
     ),
     MorphologicalOperations(
         label = "形态学操作",
-        resourcePath = "images/ai/binary_image_analysis.png"
+        resourcePath = "images/ai/morphological_operations.png"
     ),
     TemplateMatching(
         label = "模版匹配",
-        resourcePath = "images/ai/binary_image_analysis.png"
+        resourcePath = "images/ai/template_matching.png"
     )
 }
 
@@ -83,7 +83,7 @@ fun CustomNavigationHost(
 @Composable
 fun experiment(state: ApplicationState) {
 
-    val screens = Screen.values().toList()
+    val screens = Screen.entries
     val navController by rememberNavController(Screen.BinaryImageAnalysis.name)
     val currentScreen by remember {
         navController.currentScreen
