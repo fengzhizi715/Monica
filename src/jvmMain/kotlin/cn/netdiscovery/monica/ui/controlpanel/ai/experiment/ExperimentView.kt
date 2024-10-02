@@ -4,22 +4,16 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toPainter
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 
 /**
@@ -60,22 +54,24 @@ enum class Screen(
 }
 
 @Composable
-fun CustomNavigationHost(
+fun customNavigationHost(
     navController: NavController
 ) {
     NavigationHost(navController) {
         composable(Screen.BinaryImageAnalysis.name) {
-//            HomeScreen(navController)
         }
 
         composable(Screen.ContourAnalysis.name) {
-//            NotificationScreen(navController)
         }
 
         composable(Screen.ImageConvolution.name) {
-//            SettingScreen(navController)
         }
 
+        composable(Screen.MorphologicalOperations.name) {
+        }
+
+        composable(Screen.TemplateMatching.name) {
+        }
     }.build()
 }
 
@@ -130,7 +126,7 @@ fun experiment(state: ApplicationState) {
                 Column (modifier = Modifier.fillMaxSize().weight(1.0f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    CustomNavigationHost(navController = navController)
+                    customNavigationHost(navController = navController)
                 }
 
                 Card(
@@ -138,6 +134,7 @@ fun experiment(state: ApplicationState) {
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
+                        
                     }
                 ) {
                     if (state.currentImage == null) {
