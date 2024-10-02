@@ -2,8 +2,12 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
+import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -45,6 +49,41 @@ fun binaryImageAnalysis() {
         Column(modifier = Modifier.weight(0.35f)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
+            val typeSelectedOption = remember { mutableStateOf(false) }
+            val thresholdSelectedOption = remember { mutableStateOf(false) }
+
+            Row {
+                Text("阈值化类型: ", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = !typeSelectedOption.value,
+                    onClick = { typeSelectedOption.value = false }
+                )
+                Text("THRESH_BINARY", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = typeSelectedOption.value,
+                    onClick = { typeSelectedOption.value = true }
+                )
+
+                Text("THRESH_BINARY_INV", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+
+            Row {
+                Text("全局阈值分割: ", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = !thresholdSelectedOption.value,
+                    onClick = { thresholdSelectedOption.value = false }
+                )
+                Text("THRESH_OTSU", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = thresholdSelectedOption.value,
+                    onClick = { thresholdSelectedOption.value = true }
+                )
+                Text("THRESH_TRIANGLE", modifier = Modifier.align(Alignment.CenterVertically))
+            }
         }
 
         Column(modifier = Modifier.weight(0.5f)) {
