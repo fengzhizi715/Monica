@@ -35,6 +35,10 @@ enum class Screen(
     val label: String,
     val resourcePath: String
 ) {
+    Home(
+        label = "首页",
+        resourcePath = "images/ai/binary_image_analysis.png"
+    ),
     BinaryImageAnalysis(
         label = "二值图像分析",
         resourcePath = "images/ai/binary_image_analysis.png"
@@ -62,6 +66,9 @@ fun customNavigationHost(
     navController: NavController
 ) {
     NavigationHost(navController) {
+        composable(Screen.Home.name) {
+        }
+
         composable(Screen.BinaryImageAnalysis.name) {
             binaryImageAnalysis()
         }
@@ -87,7 +94,7 @@ fun experiment(state: ApplicationState) {
     val viewModel: ExperimentViewModel = koinInject()
 
     val screens = Screen.entries
-    val navController by rememberNavController(Screen.BinaryImageAnalysis.name)
+    val navController by rememberNavController(Screen.Home.name)
     val currentScreen by remember {
         navController.currentScreen
     }
