@@ -25,6 +25,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFa
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
+import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.OnCropPropertiesChange
 import kotlinx.coroutines.launch
 
@@ -40,7 +41,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun cropTypeSelect(cropProperties: CropProperties,
                    onCropPropertiesChange: OnCropPropertiesChange) {
-    subTitle("Crop Type")
+    subTitle(text = "Crop Type")
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -73,7 +74,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
 @Composable
 fun contentScaleSelect(cropProperties: CropProperties,
                        onCropPropertiesChange: OnCropPropertiesChange) {
-    subTitle("Content Scale")
+    subTitle(text = "Content Scale")
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -120,7 +121,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
 
     var selectRadio  = remember { mutableStateOf("Original") }
 
-    subTitle("Aspect Ratio (${selectRadio.value})")
+    subTitle(text = "Aspect Ratio (${selectRadio.value})")
 
     desktopLazyRow {
         Card(
@@ -286,7 +287,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
     val cropFrames = cropFrameFactory.getCropFrames()
 
-    subTitle("Crop Frame (${selectCropFrame.value})")
+    subTitle(text = "Crop Frame (${selectCropFrame.value})")
 
     desktopLazyRow {
         Card(
@@ -509,19 +510,4 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
             )
         }
     }
-}
-
-
-@Composable
-private fun subTitle(
-    text: String,
-    fontSize: TextUnit = subTitleTextSize
-) {
-    Text(
-        modifier = Modifier.padding(vertical = 1.dp),
-        text = text,
-        color = MaterialTheme.colors.primary,
-        fontSize = fontSize,
-        fontWeight = FontWeight.Bold
-    )
 }
