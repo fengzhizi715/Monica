@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFactory
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
@@ -514,7 +515,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 @Composable
 private fun subTitle(
     text: String,
-    fontSize: TextUnit = 20.sp
+    fontSize: TextUnit = subTitleTextSize
 ) {
     Text(
         modifier = Modifier.padding(vertical = 1.dp),

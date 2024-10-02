@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.config
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.opencv.ImageProcess
 import java.text.SimpleDateFormat
 
@@ -53,6 +54,8 @@ const val previewWidth = 750
 val width = (previewWidth * 2.toFloat()).dp
 val height = 1000.dp
 val loadingWidth = (previewWidth*2*0.7).dp
+
+val subTitleTextSize = 20.sp
 
 const val timeout = 6000
 const val retryNum = 3

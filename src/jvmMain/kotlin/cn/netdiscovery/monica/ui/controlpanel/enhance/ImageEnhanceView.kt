@@ -17,6 +17,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -50,7 +51,7 @@ fun imageEnhanceView(state: ApplicationState) {
                 logger.info("勾选了图像增强")
             }
         })
-        Text("图像增强", color = Color.Black, fontSize = 20.sp)
+        Text("图像增强", color = Color.Black, fontSize = subTitleTextSize)
     }
     Row (
         verticalAlignment = Alignment.CenterVertically

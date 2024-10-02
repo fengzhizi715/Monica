@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.utils.extension.to2fStr
@@ -46,7 +47,7 @@ fun imageProcessView(state: ApplicationState) {
                 logger.info("勾选了图像处理")
             }
         })
-        Text("图像处理", color = Color.Black, fontSize = 20.sp)
+        Text("图像处理", color = Color.Black, fontSize = subTitleTextSize)
     }
     Row(
         verticalAlignment = Alignment.CenterVertically

@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
@@ -57,7 +58,7 @@ fun filterView(state: ApplicationState) {
                 logger.info("勾选了滤镜")
             }
         })
-        Text("滤镜", color = Color.Black, fontSize = 20.sp)
+        Text("滤镜", color = Color.Black, fontSize = subTitleTextSize)
     }
 
     dropdownFilterMenuForSelect(state)

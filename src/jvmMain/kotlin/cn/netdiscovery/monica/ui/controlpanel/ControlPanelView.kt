@@ -13,6 +13,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
 import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
+import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows
 
@@ -63,9 +64,4 @@ fun controlPanel(
     }
 }
 
-@Composable
-fun divider() {
-    Row {
-        Spacer(modifier = Modifier.padding(top = 10.dp, bottom = 10.dp).height(1.dp).weight(1.0f).background(color = Color.LightGray))
-    }
-}
+
