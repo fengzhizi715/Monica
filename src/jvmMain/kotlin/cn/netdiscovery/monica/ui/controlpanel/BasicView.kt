@@ -22,6 +22,7 @@ import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
+import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -53,7 +54,7 @@ fun basicView(state: ApplicationState) {
                 logger.info("勾选了基础功能")
             }
         })
-        Text("基础功能", color = Color.Black, fontSize = subTitleTextSize)
+        subTitle(text = "基础功能", color = Color.Black)
     }
     desktopLazyRow {
         toolTipButton(text = "图像模糊",

@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
 import filterNames
 import org.koin.compose.koinInject
@@ -58,7 +59,7 @@ fun filterView(state: ApplicationState) {
                 logger.info("勾选了滤镜")
             }
         })
-        Text("滤镜", color = Color.Black, fontSize = subTitleTextSize)
+        subTitle(text = "滤镜", color = Color.Black)
     }
 
     dropdownFilterMenuForSelect(state)

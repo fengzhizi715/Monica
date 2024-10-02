@@ -10,6 +10,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -41,7 +42,7 @@ fun aiView(state: ApplicationState) {
                 logger.info("勾选了 AI 实验室")
             }
         })
-        Text("AI 实验室", color = Color.Black, fontSize = subTitleTextSize)
+        subTitle(text = "AI 实验室", color = Color.Black)
     }
 
     Row (

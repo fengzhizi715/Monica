@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.ui.widget.divider
+import cn.netdiscovery.monica.ui.widget.subTitle
 
 /**
  *
@@ -22,17 +24,17 @@ fun binaryImageAnalysis() {
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 20.dp).weight(0.2f)) {
-            Text("灰度图像",fontSize = subTitleTextSize)
+            subTitle(text = "灰度图像", color = Color.Black)
             divider()
         }
 
         Column(modifier = Modifier.weight(0.3f)) {
-            Text("阈值分割", fontSize = subTitleTextSize)
+            subTitle(text = "阈值分割", color = Color.Black)
             divider()
         }
 
         Column(modifier = Modifier.weight(0.5f)) {
-            Text("边缘检测算子", fontSize = subTitleTextSize)
+            subTitle(text = "边缘检测算子", color = Color.Black)
             divider()
         }
     }
