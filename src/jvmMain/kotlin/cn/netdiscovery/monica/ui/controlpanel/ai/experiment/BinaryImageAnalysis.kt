@@ -1,16 +1,12 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.DragData
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.ui.controlpanel.divider
 
 /**
  *
@@ -23,16 +19,20 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun binaryImageAnalysis() {
 
-    Box(
-        Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
+        Column(modifier = Modifier.padding(top = 20.dp).weight(0.2f)) {
+            Text("灰度图像",fontSize = 24.sp)
+            divider()
+        }
 
-        Text("灰度图像" , modifier = Modifier.align(Alignment.TopStart).padding(40.dp))
+        Column(modifier = Modifier.weight(0.3f)) {
+            Text("阈值分割", fontSize = 20.sp)
+            divider()
+        }
 
-
-        Text("阈值分割", modifier = Modifier.align(Alignment.TopStart).padding(start = 40.dp, top = 200.dp))
-
-        Text("边缘检测算子", modifier = Modifier.align(Alignment.TopStart).padding(start = 40.dp, top = 400.dp))
+        Column(modifier = Modifier.weight(0.5f)) {
+            Text("边缘检测算子", fontSize = 20.sp)
+            divider()
+        }
     }
 }
