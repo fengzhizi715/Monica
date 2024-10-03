@@ -37,7 +37,7 @@ enum class Screen(
 ) {
     Home(
         label = "首页",
-        resourcePath = "images/ai/binary_image_analysis.png"
+        resourcePath = "images/ai/home.png"
     ),
     BinaryImageAnalysis(
         label = "二值图像分析",
