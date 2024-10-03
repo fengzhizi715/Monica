@@ -63,6 +63,7 @@ enum class Screen(
 
 @Composable
 fun customNavigationHost(
+    state: ApplicationState,
     navController: NavController
 ) {
     NavigationHost(navController) {
@@ -70,7 +71,7 @@ fun customNavigationHost(
         }
 
         composable(Screen.BinaryImageAnalysis.name) {
-            binaryImageAnalysis()
+            binaryImageAnalysis(state)
         }
 
         composable(Screen.ContourAnalysis.name) {
@@ -140,7 +141,7 @@ fun experiment(state: ApplicationState) {
                 Column (modifier = Modifier.fillMaxSize().weight(1.0f),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally) {
-                    customNavigationHost(navController = navController)
+                    customNavigationHost(state, navController)
                 }
 
                 Card(

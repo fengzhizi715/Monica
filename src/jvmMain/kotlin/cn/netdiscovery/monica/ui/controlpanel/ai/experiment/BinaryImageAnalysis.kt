@@ -12,6 +12,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
@@ -25,7 +26,7 @@ import cn.netdiscovery.monica.utils.composeClick
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun binaryImageAnalysis() {
+fun binaryImageAnalysis(state: ApplicationState) {
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 20.dp).weight(0.15f)) {
@@ -47,9 +48,12 @@ fun binaryImageAnalysis() {
             divider()
             val typeSelectedOption = remember { mutableStateOf(false) }
             val thresholdSelectedOption = remember { mutableStateOf(false) }
+            val adaptiveMethodSelectedOption = remember { mutableStateOf(false) }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(true, onCheckedChange = {
+                Checkbox(state.isThreshType, onCheckedChange = {
+                    state.isThreshType = it
+
                 })
                 Text("阈值化类型", modifier = Modifier.align(Alignment.CenterVertically))
             }
@@ -70,7 +74,9 @@ fun binaryImageAnalysis() {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(true, onCheckedChange = {
+                Checkbox(state.isThreshSegment, onCheckedChange = {
+                    state.isThreshSegment = it
+
                 })
                 Text("全局阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
@@ -90,9 +96,27 @@ fun binaryImageAnalysis() {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(true, onCheckedChange = {
+                Checkbox(state.isAdaptiveThresh, onCheckedChange = {
+                    state.isAdaptiveThresh = it
+
                 })
                 Text("自适应阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+
+            Row {
+                Text("自适应阈值算法", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = !adaptiveMethodSelectedOption.value,
+                    onClick = { adaptiveMethodSelectedOption.value = false }
+                )
+                Text("ADAPTIVE_THRESH_MEAN_C", modifier = Modifier.align(Alignment.CenterVertically))
+
+                RadioButton(
+                    selected = adaptiveMethodSelectedOption.value,
+                    onClick = { adaptiveMethodSelectedOption.value = true }
+                )
+                Text("ADAPTIVE_THRESH_GAUSSIAN_C", modifier = Modifier.align(Alignment.CenterVertically))
             }
         }
 
