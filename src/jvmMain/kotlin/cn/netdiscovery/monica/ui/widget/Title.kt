@@ -22,13 +22,14 @@ fun subTitle(
     modifier: Modifier = Modifier,
     text: String,
     color: Color = MaterialTheme.colors.primary,
-    fontSize: TextUnit = subTitleTextSize
+    fontSize: TextUnit = subTitleTextSize,
+    fontWeight: FontWeight? = null
 ) {
     Text(
         modifier = modifier,
         text = text,
         color = color,
         fontSize = fontSize,
-        fontWeight = FontWeight.Bold
+        fontWeight = fontWeight
     )
 }

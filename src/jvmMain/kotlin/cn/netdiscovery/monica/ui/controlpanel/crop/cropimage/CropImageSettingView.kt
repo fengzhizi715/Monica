@@ -41,7 +41,7 @@ import kotlinx.coroutines.launch
 @Composable
 fun cropTypeSelect(cropProperties: CropProperties,
                    onCropPropertiesChange: OnCropPropertiesChange) {
-    subTitle(text = "Crop Type")
+    subTitle(text = "Crop Type", fontWeight = FontWeight.Bold)
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -74,7 +74,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
 @Composable
 fun contentScaleSelect(cropProperties: CropProperties,
                        onCropPropertiesChange: OnCropPropertiesChange) {
-    subTitle(text = "Content Scale")
+    subTitle(text = "Content Scale", fontWeight = FontWeight.Bold)
 
     var expanded by remember { mutableStateOf(false) }
 
@@ -121,7 +121,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
 
     var selectRadio  = remember { mutableStateOf("Original") }
 
-    subTitle(text = "Aspect Ratio (${selectRadio.value})")
+    subTitle(text = "Aspect Ratio (${selectRadio.value})", fontWeight = FontWeight.Bold)
 
     desktopLazyRow {
         Card(
@@ -287,7 +287,7 @@ fun cropFrameScrollableRow(cropProperties: CropProperties, cropFrameFactory: Cro
 
     val cropFrames = cropFrameFactory.getCropFrames()
 
-    subTitle(text = "Crop Frame (${selectCropFrame.value})")
+    subTitle(text = "Crop Frame (${selectCropFrame.value})", fontWeight = FontWeight.Bold)
 
     desktopLazyRow {
         Card(
