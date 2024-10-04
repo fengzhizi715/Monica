@@ -33,10 +33,13 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 fun binaryImageAnalysis(state: ApplicationState) {
 
     val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
-    var typeSelectedOption = remember { mutableStateOf("Null") }
+    val typeSelectedOption = remember { mutableStateOf("Null") }
+
+    val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
+    val thresholdSelectedOption = remember { mutableStateOf("Null") }
 
     val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
-    var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
+    val adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 20.dp).weight(0.15f)) {
@@ -56,8 +59,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
         Column(modifier = Modifier.weight(0.35f)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
-
-            val thresholdSelectedOption = remember { mutableStateOf(false) }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isThreshType, onCheckedChange = {
@@ -88,22 +89,24 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Checkbox(state.isThreshSegment, onCheckedChange = {
                     state.isThreshSegment = it
 
+                    if (!state.isThreshSegment) {
+                        thresholdSelectedOption.value = "Null"
+                    }
                 })
                 Text("全局阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
-                RadioButton(
-                    selected = !thresholdSelectedOption.value,
-                    onClick = { thresholdSelectedOption.value = false }
-                )
-                Text("THRESH_OTSU", modifier = Modifier.align(Alignment.CenterVertically))
+                thresholdSelectTags.forEach {
+                    RadioButton(
+                        selected = (it == thresholdSelectedOption.value),
+                        onClick = {
+                            thresholdSelectedOption.value = it
+                        }
+                    )
 
-                RadioButton(
-                    selected = thresholdSelectedOption.value,
-                    onClick = { thresholdSelectedOption.value = true }
-                )
-                Text("THRESH_TRIANGLE", modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
             }
 
             Row(modifier = Modifier.padding(top = 20.dp),
