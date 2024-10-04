@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
@@ -73,7 +74,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text("THRESH_BINARY_INV", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.padding(top = 20.dp),
+                verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isThreshSegment, onCheckedChange = {
                     state.isThreshSegment = it
 
@@ -95,7 +97,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text("THRESH_TRIANGLE", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(modifier = Modifier.padding(top = 20.dp),
+                verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isAdaptiveThresh, onCheckedChange = {
                     state.isAdaptiveThresh = it
 
