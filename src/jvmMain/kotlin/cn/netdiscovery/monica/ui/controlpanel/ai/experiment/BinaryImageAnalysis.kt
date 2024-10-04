@@ -17,6 +17,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -26,8 +28,13 @@ import cn.netdiscovery.monica.utils.composeClick
  * @date:  2024/10/2 15:03
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
+
+    val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
+    var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 20.dp).weight(0.15f)) {
@@ -49,7 +56,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
             divider()
             val typeSelectedOption = remember { mutableStateOf(false) }
             val thresholdSelectedOption = remember { mutableStateOf(false) }
-            val adaptiveMethodSelectedOption = remember { mutableStateOf(false) }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isThreshType, onCheckedChange = {
@@ -102,6 +108,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Checkbox(state.isAdaptiveThresh, onCheckedChange = {
                     state.isAdaptiveThresh = it
 
+                    if (!state.isAdaptiveThresh) {
+                        adaptiveMethodSelectedOption.value = "Null"
+                    }
+
                 })
                 Text("自适应阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
@@ -109,17 +119,16 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Row {
                 Text("自适应阈值算法", modifier = Modifier.align(Alignment.CenterVertically))
 
-                RadioButton(
-                    selected = !adaptiveMethodSelectedOption.value,
-                    onClick = { adaptiveMethodSelectedOption.value = false }
-                )
-                Text("ADAPTIVE_THRESH_MEAN_C", modifier = Modifier.align(Alignment.CenterVertically))
+                adaptiveMethodSelectTags.forEach {
+                    RadioButton(
+                        selected = (it == adaptiveMethodSelectedOption.value),
+                        onClick = {
+                            adaptiveMethodSelectedOption.value = it
+                        }
+                    )
 
-                RadioButton(
-                    selected = adaptiveMethodSelectedOption.value,
-                    onClick = { adaptiveMethodSelectedOption.value = true }
-                )
-                Text("ADAPTIVE_THRESH_GAUSSIAN_C", modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
             }
         }
 
