@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
@@ -33,6 +32,9 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
 
+    val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
+    var typeSelectedOption = remember { mutableStateOf("Null") }
+
     val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
     var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
 
@@ -54,30 +56,31 @@ fun binaryImageAnalysis(state: ApplicationState) {
         Column(modifier = Modifier.weight(0.35f)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
-            val typeSelectedOption = remember { mutableStateOf(false) }
+
             val thresholdSelectedOption = remember { mutableStateOf(false) }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isThreshType, onCheckedChange = {
                     state.isThreshType = it
 
+                    if (!state.isThreshType) {
+                        typeSelectedOption.value = "Null"
+                    }
                 })
                 Text("阈值化类型", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
-                RadioButton(
-                    selected = !typeSelectedOption.value,
-                    onClick = { typeSelectedOption.value = false }
-                )
-                Text("THRESH_BINARY", modifier = Modifier.align(Alignment.CenterVertically))
+                typeSelectTags.forEach {
+                    RadioButton(
+                        selected = (it == typeSelectedOption.value),
+                        onClick = {
+                            typeSelectedOption.value = it
+                        }
+                    )
 
-                RadioButton(
-                    selected = typeSelectedOption.value,
-                    onClick = { typeSelectedOption.value = true }
-                )
-
-                Text("THRESH_BINARY_INV", modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
             }
 
             Row(modifier = Modifier.padding(top = 20.dp),
@@ -111,7 +114,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     if (!state.isAdaptiveThresh) {
                         adaptiveMethodSelectedOption.value = "Null"
                     }
-
                 })
                 Text("自适应阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
