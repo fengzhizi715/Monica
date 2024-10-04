@@ -256,7 +256,79 @@ fun binaryImageAnalysis(state: ApplicationState) {
                         typeSelectedOption.value = "Null"
                     }
                 })
-                Text("Canny 边缘检测", modifier = Modifier.align(Alignment.CenterVertically))
+                Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+
+            var threshold1Text by remember {
+                mutableStateOf("")
+            }
+
+            var threshold2Text by remember {
+                mutableStateOf("")
+            }
+
+            var apertureSizeText by remember {
+                mutableStateOf("3")
+            }
+
+            Row {
+                Text(text = "threshold1")
+
+                BasicTextField(
+                    value = threshold1Text,
+                    onValueChange = { str ->
+                        threshold1Text = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp)) {
+                Text(text = "threshold2")
+
+                BasicTextField(
+                    value = threshold2Text,
+                    onValueChange = { str ->
+                        threshold2Text = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp)) {
+                Text(text = "apertureSize")
+
+                BasicTextField(
+                    value = apertureSizeText,
+                    onValueChange = { str ->
+                        apertureSizeText = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = composeClick {
+
+                }
+            ) {
+                Text(text = "Canny 边缘检测", color = Color.Unspecified)
             }
         }
     }
