@@ -48,7 +48,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
     val adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
-        Column(modifier = Modifier.padding(top = 20.dp).weight(0.15f)) {
+        Column(modifier = Modifier.padding(top = 5.dp).weight(0.1f)) {
             subTitle(text = "灰度图像", color = Color.Black)
             divider()
 
@@ -62,7 +62,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier.weight(0.35f)) {
+        Column(modifier = Modifier.weight(0.45f)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
 
@@ -90,7 +90,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 }
             }
 
-            Row(modifier = Modifier.padding(top = 20.dp),
+            Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isThreshSegment, onCheckedChange = {
                     state.isThreshSegment = it
@@ -115,7 +115,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 }
             }
 
-            Row(modifier = Modifier.padding(top = 20.dp),
+            Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isAdaptiveThresh, onCheckedChange = {
                     state.isAdaptiveThresh = it
@@ -141,7 +141,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
-
 
             var blockSizeText by remember {
                 mutableStateOf("")
@@ -195,7 +194,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier.weight(0.5f)) {
+        Column(modifier = Modifier.weight(0.45f)) {
             subTitle(text = "边缘检测算子", color = Color.Black)
             divider()
         }
