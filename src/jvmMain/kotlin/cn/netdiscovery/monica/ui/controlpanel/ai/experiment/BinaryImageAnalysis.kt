@@ -35,17 +35,19 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
+val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
+val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
+val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
+val secondDerivativeOperatorTags = arrayListOf("Laplace算子")
+
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
-
-    val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
-    val typeSelectedOption = remember { mutableStateOf("Null") }
-
-    val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
-    val thresholdSelectedOption = remember { mutableStateOf("Null") }
-
-    val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
-    val adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
+    var typeSelectedOption = remember { mutableStateOf("Null") }
+    var thresholdSelectedOption = remember { mutableStateOf("Null") }
+    var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
+    var firstDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
+    var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 5.dp).weight(0.1f)) {
@@ -53,7 +55,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             divider()
 
             Button(
-                modifier = Modifier,
+                modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
 
                 }
@@ -185,7 +187,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
 
             Button(
-                modifier = Modifier,
+                modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
 
                 }
@@ -197,6 +199,65 @@ fun binaryImageAnalysis(state: ApplicationState) {
         Column(modifier = Modifier.weight(0.45f)) {
             subTitle(text = "边缘检测算子", color = Color.Black)
             divider()
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(state.isThreshType, onCheckedChange = {
+                    state.isThreshType = it
+
+                    if (!state.isThreshType) {
+                        typeSelectedOption.value = "Null"
+                    }
+                })
+                Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+
+            Row {
+                firstDerivativeOperatorTags.forEach {
+                    RadioButton(
+                        selected = (it == firstDerivativeOperatorSelectedOption.value),
+                        onClick = {
+                            firstDerivativeOperatorSelectedOption.value = it
+                        }
+                    )
+
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp),verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(state.isThreshType, onCheckedChange = {
+                    state.isThreshType = it
+
+                    if (!state.isThreshType) {
+                        typeSelectedOption.value = "Null"
+                    }
+                })
+                Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
+            }
+
+            Row {
+                secondDerivativeOperatorTags.forEach {
+                    RadioButton(
+                        selected = (it == secondDerivativeOperatorSelectedOption.value),
+                        onClick = {
+                            secondDerivativeOperatorSelectedOption.value = it
+                        }
+                    )
+
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Checkbox(state.isThreshType, onCheckedChange = {
+                    state.isThreshType = it
+
+                    if (!state.isThreshType) {
+                        typeSelectedOption.value = "Null"
+                    }
+                })
+                Text("Canny 边缘检测", modifier = Modifier.align(Alignment.CenterVertically))
+            }
         }
     }
 }
