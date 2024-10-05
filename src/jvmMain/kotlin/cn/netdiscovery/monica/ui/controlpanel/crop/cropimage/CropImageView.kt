@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.*
+import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.OnCropPropertiesChange
 import org.koin.compose.koinInject
@@ -107,27 +108,18 @@ fun cropImage(state: ApplicationState) {
             )
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterEnd)
-            .padding(start =10.dp, end = 10.dp)
-            .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
+        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+            toolTipButton(text = "settings",
+                painter = painterResource("images/cropimage/settings.png"),
+                onClick = {
+                    showSettingDialog = true
+                })
 
-            Column(
-                Modifier.padding(start =10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-
-                toolTipButton(text = "settings",
-                    painter = painterResource("images/cropimage/settings.png"),
-                    onClick = {
-                        showSettingDialog = true
-                    })
-
-                toolTipButton(text = "crop",
-                    painter = painterResource("images/cropimage/crop.png"),
-                    onClick = {
-                        crop = true
-                    })
-            }
+            toolTipButton(text = "crop",
+                painter = painterResource("images/cropimage/crop.png"),
+                onClick = {
+                    crop = true
+                })
         }
     }
 

@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
+import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
@@ -205,65 +206,56 @@ fun drawImage(
             }
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterEnd)
-            .padding(start =10.dp, end = 10.dp)
-            .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
+        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+            toolTipButton(text = "选择颜色",
+                painter = painterResource("images/doodle/color.png"),
+                onClick = {
+                    showColorDialog = true
+                    currentPathProperty.eraseMode = false
+                })
 
-            Column(
-                Modifier.padding(start =10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
+            toolTipButton(text = "刷子",
+                painter = painterResource("images/doodle/brush.png"),
+                onClick = {
+                    showPropertiesDialog = true
+                    currentPathProperty.eraseMode = false
+                })
 
-                toolTipButton(text = "选择颜色",
-                    painter = painterResource("images/doodle/color.png"),
-                    onClick = {
-                        showColorDialog = true
-                        currentPathProperty.eraseMode = false
-                    })
+            toolTipButton(text = "橡皮擦",
+                painter = painterResource("images/doodle/eraser.png"),
+                onClick = {
+                    currentPathProperty.eraseMode = true
+                })
 
-                toolTipButton(text = "刷子",
-                    painter = painterResource("images/doodle/brush.png"),
-                    onClick = {
-                        showPropertiesDialog = true
-                        currentPathProperty.eraseMode = false
-                    })
+            toolTipButton(text = "上一步",
+                painter = painterResource("images/doodle/previous_step.png"),
+                onClick = {
+                    val lastItem = paths.lastOrNull()
+                    lastItem?.let {
+                        val lastPath = it.first
+                        val lastPathProperty = it.second
+                        paths.removeLast()
+                        pathsUndone.add(Pair(lastPath, lastPathProperty))
+                    }
+                })
 
-                toolTipButton(text = "橡皮擦",
-                    painter = painterResource("images/doodle/eraser.png"),
-                    onClick = {
-                        currentPathProperty.eraseMode = true
-                    })
+            toolTipButton(text = "撤回",
+                painter = painterResource("images/doodle/revoke.png"),
+                onClick = {
+                    val lastUndoPath = pathsUndone.lastOrNull()
+                    lastUndoPath?.let {
+                        val lastPath = it.first
+                        val lastPathProperty = it.second
+                        pathsUndone.removeLast()
+                        paths.add(Pair(lastPath, lastPathProperty))
+                    }
+                })
 
-                toolTipButton(text = "上一步",
-                    painter = painterResource("images/doodle/previous_step.png"),
-                    onClick = {
-                        val lastItem = paths.lastOrNull()
-                        lastItem?.let {
-                            val lastPath = it.first
-                            val lastPathProperty = it.second
-                            paths.removeLast()
-                            pathsUndone.add(Pair(lastPath, lastPathProperty))
-                        }
-                    })
-
-                toolTipButton(text = "撤回",
-                    painter = painterResource("images/doodle/revoke.png"),
-                    onClick = {
-                        val lastUndoPath = pathsUndone.lastOrNull()
-                        lastUndoPath?.let {
-                            val lastPath = it.first
-                            val lastPathProperty = it.second
-                            pathsUndone.removeLast()
-                            paths.add(Pair(lastPath, lastPathProperty))
-                        }
-                    })
-
-                toolTipButton(text = "保存",
-                    painter = painterResource("images/doodle/save.png"),
-                    onClick = {
-                        viewModel.saveCanvasToBitmap(density,paths,image, state)
-                    })
-            }
+            toolTipButton(text = "保存",
+                painter = painterResource("images/doodle/save.png"),
+                onClick = {
+                    viewModel.saveCanvasToBitmap(density,paths,image, state)
+                })
         }
 
         if (showColorDialog) {
