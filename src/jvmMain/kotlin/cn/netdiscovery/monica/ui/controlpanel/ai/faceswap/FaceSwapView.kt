@@ -1,14 +1,12 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.faceswap
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -20,6 +18,7 @@ import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
+import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -203,45 +202,38 @@ fun faceSwap(state: ApplicationState) {
             }
         }
 
-        Row(modifier = Modifier.align(Alignment.CenterEnd)
-            .padding(start = 10.dp, end = 10.dp)
-            .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
-            Column(
-                Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
-                verticalArrangement = Arrangement.Center
-            ) {
-                toolTipButton(text = "设置",
-                    painter = painterResource("images/cropimage/settings.png"),
-                    iconModifier = Modifier.size(36.dp),
-                    onClick = {
-                        showSwapFaceSettings.value = true
-                    })
+        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+            toolTipButton(text = "设置",
+                painter = painterResource("images/cropimage/settings.png"),
+                iconModifier = Modifier.size(36.dp),
+                onClick = {
+                    showSwapFaceSettings.value = true
+                })
 
-                toolTipButton(text = "人脸替换",
-                    painter = painterResource("images/ai/face_swap2.png"),
-                    iconModifier = Modifier.size(36.dp),
-                    onClick = {
+            toolTipButton(text = "人脸替换",
+                painter = painterResource("images/ai/face_swap2.png"),
+                iconModifier = Modifier.size(36.dp),
+                onClick = {
 
-                        if (state.currentImage!=null && viewModel.targetImage!=null) {
-                            viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value) {
-                                viewModel.lastTargetImage = viewModel.targetImage
-                                viewModel.targetImage = it
-                            }
+                    if (state.currentImage!=null && viewModel.targetImage!=null) {
+                        viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value) {
+                            viewModel.lastTargetImage = viewModel.targetImage
+                            viewModel.targetImage = it
                         }
-                    })
+                    }
+                })
 
-                toolTipButton(text = "保存结果",
-                    painter = painterResource("images/doodle/save.png"),
-                    iconModifier = Modifier.size(36.dp),
-                    onClick = {
-                        if (viewModel.targetImage!=null) {
-                            state.addQueue(state.currentImage!!)
-                            state.currentImage = viewModel.targetImage
-                            viewModel.clearTargetImage()
-                        }
-                        state.togglePreviewWindow(false)
-                    })
-            }
+            toolTipButton(text = "保存结果",
+                painter = painterResource("images/doodle/save.png"),
+                iconModifier = Modifier.size(36.dp),
+                onClick = {
+                    if (viewModel.targetImage!=null) {
+                        state.addQueue(state.currentImage!!)
+                        state.currentImage = viewModel.targetImage
+                        viewModel.clearTargetImage()
+                    }
+                    state.togglePreviewWindow(false)
+                })
         }
 
         if (loadingDisplay) {
