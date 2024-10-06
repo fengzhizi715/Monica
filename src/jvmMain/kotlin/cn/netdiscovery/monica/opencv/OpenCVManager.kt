@@ -27,6 +27,7 @@ object OpenCVManager {
      * @param failure 失败的回调
      */
     fun invokeCV(state: ApplicationState,
+                 type:Int = BufferedImage.TYPE_INT_ARGB,
                  action: CVAction,
                  failure: CVFailure) {
 
@@ -36,7 +37,7 @@ object OpenCVManager {
             try {
                 val outPixels = action.invoke(byteArray)
                 state.addQueue(state.currentImage!!)
-                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height)
+                state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height,type)
             } catch (e:Exception) {
                 failure.invoke(e)
             }
@@ -52,6 +53,7 @@ object OpenCVManager {
      * @param failure 失败的回调
      */
     fun invokeCV(image: BufferedImage,
+                 type:Int = BufferedImage.TYPE_INT_ARGB,
                  action: CVAction,
                  success: CVSuccess,
                  failure: CVFailure) {
@@ -59,7 +61,7 @@ object OpenCVManager {
 
         try {
             val outPixels = action.invoke(byteArray)
-            success.invoke(BufferedImages.toBufferedImage(outPixels,width,height))
+            success.invoke(BufferedImages.toBufferedImage(outPixels,width,height,type))
         } catch (e:Exception) {
             failure.invoke(e)
         }

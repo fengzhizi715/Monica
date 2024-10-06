@@ -54,8 +54,14 @@ class BufferedImages {
                 if (height > 0) height else 1,
                 type)
 
-        fun toBufferedImage(pixels: IntArray, width: Int, height: Int): BufferedImage {
-            val bi = BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB)
+        fun toBufferedImage(pixels: IntArray, width: Int, height: Int, type: Int): BufferedImage {
+            val bi = BufferedImage(width, height, type)
+            bi.setRGB(0, 0, width, height, pixels, 0, width)
+            return bi
+        }
+
+        fun toBufferedImage2(pixels: IntArray, width: Int, height: Int): BufferedImage {
+            val bi = BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)
             bi.setRGB(0, 0, width, height, pixels, 0, width)
             return bi
         }

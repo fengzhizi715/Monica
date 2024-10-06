@@ -1,11 +1,14 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
+import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -32,7 +35,7 @@ class AIViewModel {
     fun sketchDrawing(state: ApplicationState) {
         state.scope.launchWithLoading {
 
-            OpenCVManager.invokeCV(state, action = { byteArray ->
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
                 ImageProcess.sketchDrawing(byteArray)
             }, failure = { e ->
                 logger.error("sketchDrawing is failed", e)
