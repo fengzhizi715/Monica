@@ -74,6 +74,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isThreshType) {
                         typeSelectedOption.value = "Null"
+                        logger.info("取消了阈值化类型")
+                    } else {
+                        logger.info("勾选了阈值化类型")
                     }
                 })
                 Text("阈值化类型", modifier = Modifier.align(Alignment.CenterVertically))
@@ -99,6 +102,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isThreshSegment) {
                         thresholdSelectedOption.value = "Null"
+                        logger.info("取消了全局阈值分割")
+                    } else {
+                        logger.info("勾选了全局阈值分割")
                     }
                 })
                 Text("全局阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
@@ -124,6 +130,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isAdaptiveThresh) {
                         adaptiveMethodSelectedOption.value = "Null"
+                        logger.info("取消了自适应阈值分割")
+                    } else {
+                        logger.info("勾选了自适应阈值分割")
                     }
                 })
                 Text("自适应阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
