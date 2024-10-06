@@ -23,7 +23,8 @@ object OpenCVManager {
      * 便于当前的图像进行调用 OpenCV 的方法，以及对返回的 IntArray 进行处理返回成 BufferedImage
      *
      * @param state
-     * @param action 通过 jni 调用 OpenCV 的方法
+     * @param type    图像的类型
+     * @param action  通过 jni 调用 OpenCV 的方法
      * @param failure 失败的回调
      */
     fun invokeCV(state: ApplicationState,
@@ -47,8 +48,9 @@ object OpenCVManager {
     /**
      * 封装调用 OpenCV 的方法
      *
-     * @param image 对该图片进行处理
-     * @param action 通过 jni 调用 OpenCV 的方法
+     * @param image   对该图片进行处理
+     * @param type    图像的类型
+     * @param action  通过 jni 调用 OpenCV 的方法
      * @param success 成功的回调
      * @param failure 失败的回调
      */
