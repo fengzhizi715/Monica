@@ -79,6 +79,12 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isAdaptiveThresh by mutableStateOf(false)
 
+    var isFirstDerivativeOperator by mutableStateOf(false)
+
+    var isSecondDerivativeOperator by mutableStateOf(false)
+
+    var isCannyOperator by mutableStateOf(false)
+
     var isShowPreviewWindow by mutableStateOf(false)
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)

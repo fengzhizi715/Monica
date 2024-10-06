@@ -210,10 +210,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
             divider()
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
+                Checkbox(state.isFirstDerivativeOperator, onCheckedChange = {
+                    state.isFirstDerivativeOperator = it
 
-                    if (!state.isThreshType) {
+                    if (!state.isFirstDerivativeOperator) {
                         typeSelectedOption.value = "Null"
                     }
                 })
@@ -234,10 +234,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
 
             Row(modifier = Modifier.padding(top = 10.dp),verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
+                Checkbox(state.isSecondDerivativeOperator, onCheckedChange = {
+                    state.isSecondDerivativeOperator = it
 
-                    if (!state.isThreshType) {
+                    if (!state.isSecondDerivativeOperator) {
                         typeSelectedOption.value = "Null"
                     }
                 })
@@ -258,10 +258,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
 
             Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
+                Checkbox(state.isCannyOperator, onCheckedChange = {
+                    state.isCannyOperator = it
 
-                    if (!state.isThreshType) {
+                    if (!state.isCannyOperator) {
                         typeSelectedOption.value = "Null"
                     }
                 })
