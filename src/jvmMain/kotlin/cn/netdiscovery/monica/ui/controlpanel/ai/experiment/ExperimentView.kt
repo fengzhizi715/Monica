@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
+import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
 /**
@@ -134,43 +136,68 @@ fun experiment(state: ApplicationState) {
                 }
             }
 
-            Row (modifier = Modifier.fillMaxSize().weight(9.5f),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center) {
 
-                Column (modifier = Modifier.fillMaxSize().weight(1.0f),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-                    customNavigationHost(state, navController)
+            Box(
+                Modifier.fillMaxSize().weight(9.5f),
+                contentAlignment = Alignment.Center
+            ) {
+                Row (modifier = Modifier.fillMaxSize().padding(end = 90.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center) {
+                    Column (modifier = Modifier.fillMaxSize().weight(1.0f),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally) {
+                        customNavigationHost(state, navController)
+                    }
+
+                    Card(
+                        modifier = Modifier.padding(10.dp).weight(1.0f),
+                        shape = RoundedCornerShape(8.dp),
+                        elevation = 4.dp,
+                        onClick = {
+                            viewModel.chooseImage(state) { file ->
+                                state.rawImage = BufferedImages.load(file)
+                                state.currentImage = state.rawImage
+                                state.rawImageFile = file
+                            }
+                        },
+                        enabled = state.currentImage == null
+                    ) {
+                        if (state.currentImage == null) {
+                            Text(
+                                modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                                text = "请点击选择图像",
+                                textAlign = TextAlign.Center
+                            )
+                        } else {
+                            Image(
+                                painter = state.currentImage!!.toPainter(),
+                                contentDescription = null,
+                                contentScale = ContentScale.Fit,
+                                modifier = Modifier
+                            )
+                        }
+                    }
                 }
 
-                Card(
-                    modifier = Modifier.padding(10.dp).weight(1.0f),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = 4.dp,
-                    onClick = {
-                        viewModel.chooseImage(state) { file ->
-                            state.rawImage = BufferedImages.load(file)
-                            state.currentImage = state.rawImage
-                            state.rawImageFile = file
-                        }
-                    },
-                    enabled = state.currentImage == null
-                ) {
-                    if (state.currentImage == null) {
-                        Text(
-                            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                            text = "请点击选择图像",
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        Image(
-                            painter = state.currentImage!!.toPainter(),
-                            contentDescription = null,
-                            contentScale = ContentScale.Fit,
-                            modifier = Modifier
-                        )
-                    }
+                rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+                    toolTipButton(text = "删除",
+                        painter = painterResource("images/preview/delete.png"),
+                        iconModifier = Modifier.size(36.dp),
+                        onClick = {
+                        })
+
+                    toolTipButton(text = "撤回",
+                        painter = painterResource("images/doodle/previous_step.png"),
+                        iconModifier = Modifier.size(36.dp),
+                        onClick = {
+                        })
+
+                    toolTipButton(text = "保存",
+                        painter = painterResource("images/doodle/save.png"),
+                        iconModifier = Modifier.size(36.dp),
+                        onClick = {
+                        })
                 }
             }
         }
