@@ -27,7 +27,7 @@ class BinaryImageAnalysisViewModel {
         })
     }
 
-    fun binary(state: ApplicationState, typeSelect: String, thresholdSelect: String) {
+    fun threshold(state: ApplicationState, typeSelect: String, thresholdSelect: String) {
 
         val iTypeSelect = when(typeSelect) {
             "THRESH_BINARY" -> 0
@@ -42,7 +42,28 @@ class BinaryImageAnalysisViewModel {
         }
 
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.binary(byteArray, iTypeSelect, iThresholdSelect)
+            ImageProcess.threshold(byteArray, iTypeSelect, iThresholdSelect)
+        }, failure = { e ->
+            logger.error("cvtGray is failed", e)
+        })
+    }
+
+    fun adaptiveThreshold(state: ApplicationState, adaptiveMethodSelect: String, typeSelect: String, blockSize:Int, c:Int) {
+
+        val iAdaptiveMethodSelect = when(adaptiveMethodSelect) {
+            "ADAPTIVE_THRESH_MEAN_C" -> 0
+            "ADAPTIVE_THRESH_GAUSSIAN_C" -> 1
+            else -> 0
+        }
+
+        val iTypeSelect = when(typeSelect) {
+            "THRESH_BINARY" -> 0
+            "THRESH_BINARY_INV" -> 1
+            else -> 0
+        }
+
+        OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+            ImageProcess.adaptiveThreshold(byteArray, iAdaptiveMethodSelect, iTypeSelect, blockSize, c)
         }, failure = { e ->
             logger.error("cvtGray is failed", e)
         })

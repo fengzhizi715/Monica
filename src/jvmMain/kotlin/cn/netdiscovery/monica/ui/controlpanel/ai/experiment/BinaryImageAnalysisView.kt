@@ -208,9 +208,12 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
-                        // TODO 增加校验
                         if (state.isThreshType && state.isThreshSegment) {
-                            viewModel.binary(state, typeSelectedOption.value, thresholdSelectedOption.value)
+                            // TODO 增加校验
+                            viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
+                        } else if (state.isThreshType && state.isAdaptiveThresh) {
+                            // TODO 增加校验
+                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSizeText.toInt(), cText.toInt())
                         }
                     }
                 }
