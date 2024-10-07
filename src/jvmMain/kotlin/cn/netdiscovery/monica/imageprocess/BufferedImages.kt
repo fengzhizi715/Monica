@@ -60,12 +60,6 @@ class BufferedImages {
             return bi
         }
 
-        fun toBufferedImage2(pixels: IntArray, width: Int, height: Int): BufferedImage {
-            val bi = BufferedImage(width, height, BufferedImage.TYPE_BYTE_GRAY)
-            bi.setRGB(0, 0, width, height, pixels, 0, width)
-            return bi
-        }
-
         fun load(input: InputStream): BufferedImage = ImageIO.read(input)
 
         fun load(file: File): BufferedImage = ImageIO.read(file)

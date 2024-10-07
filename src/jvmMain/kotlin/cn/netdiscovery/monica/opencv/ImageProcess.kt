@@ -97,6 +97,11 @@ object ImageProcess {
     external fun ace(src: ByteArray, ratio:Int, radius:Int):IntArray
 
     /**
+     * 转换成灰度图像
+     */
+    external fun cvtGray(src: ByteArray):IntArray
+
+    /**
      * 初始化人脸检测模块
      */
     external fun initFaceDetect(faceProto:String,faceModel:String,

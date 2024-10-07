@@ -60,7 +60,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-
+                    viewModel.cvtGray(state)
                 }
             ) {
                 Text(text = "图像灰度化", color = Color.Unspecified)
