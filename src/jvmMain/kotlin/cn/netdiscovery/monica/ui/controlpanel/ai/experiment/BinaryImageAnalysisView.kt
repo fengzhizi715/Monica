@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
@@ -25,6 +26,7 @@ import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -60,7 +62,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-                    viewModel.cvtGray(state)
+
+                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
+                        viewModel.cvtGray(state)
+                    }
                 }
             ) {
                 Text(text = "图像灰度化", color = Color.Unspecified)

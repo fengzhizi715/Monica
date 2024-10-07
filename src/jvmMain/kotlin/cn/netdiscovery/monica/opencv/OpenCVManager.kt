@@ -20,7 +20,7 @@ object OpenCVManager {
 
     /**
      * 封装调用 OpenCV 的方法
-     * 便于当前的图像进行调用 OpenCV 的方法，以及对返回的 IntArray 进行处理返回成 BufferedImage
+     * 便于"当前的图像"进行调用 OpenCV 的方法，以及对返回的 IntArray 进行处理返回成 BufferedImage
      *
      * @param state
      * @param type    图像的类型
