@@ -110,6 +110,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                         thresholdSelectedOption.value = "Null"
                         logger.info("取消了全局阈值分割")
                     } else {
+                        state.isAdaptiveThresh = false
+                        adaptiveMethodSelectedOption.value = "Null"
                         logger.info("勾选了全局阈值分割")
                     }
                 })
@@ -137,6 +139,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                         adaptiveMethodSelectedOption.value = "Null"
                         logger.info("取消了自适应阈值分割")
                     } else {
+                        state.isThreshSegment = false
+                        thresholdSelectedOption.value = "Null"
                         logger.info("勾选了自适应阈值分割")
                     }
                 })
