@@ -22,13 +22,14 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.BinaryImageAnalysis
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.BinaryImageAnalysisView
  * @author: Tony Shen
  * @date:  2024/10/2 15:03
  * @version: V1.0 <描述当前版本功能>
@@ -43,6 +44,8 @@ val secondDerivativeOperatorTags = arrayListOf("Laplace算子")
 
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
+    val viewModel: BinaryImageAnalysisViewModel = koinInject()
+
     var typeSelectedOption = remember { mutableStateOf("Null") }
     var thresholdSelectedOption = remember { mutableStateOf("Null") }
     var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
