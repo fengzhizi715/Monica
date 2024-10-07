@@ -27,10 +27,22 @@ class BinaryImageAnalysisViewModel {
         })
     }
 
-    fun binary(state: ApplicationState) {
+    fun binary(state: ApplicationState, typeSelect: String, thresholdSelect: String) {
+
+        val iTypeSelect = when(typeSelect) {
+            "THRESH_BINARY" -> 0
+            "THRESH_BINARY_INV" -> 1
+            else -> 0
+        }
+
+        val iThresholdSelect = when(thresholdSelect) {
+            "THRESH_OTSU" -> 8
+            "THRESH_TRIANGLE" -> 16
+            else -> 8
+        }
 
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.binary(byteArray)
+            ImageProcess.binary(byteArray, iTypeSelect, iThresholdSelect)
         }, failure = { e ->
             logger.error("cvtGray is failed", e)
         })

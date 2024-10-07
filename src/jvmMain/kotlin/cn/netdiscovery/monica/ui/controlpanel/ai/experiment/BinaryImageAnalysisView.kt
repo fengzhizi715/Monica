@@ -97,7 +97,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
                             typeSelectedOption.value = it
                         }
                     )
-
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
@@ -125,7 +124,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
                             thresholdSelectedOption.value = it
                         }
                     )
-
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
@@ -155,7 +153,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
                             adaptiveMethodSelectedOption.value = it
                         }
                     )
-
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
@@ -205,7 +202,13 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-                    viewModel.binary(state)
+                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
+
+                        // TODO 增加校验
+                        if (state.isThreshType && state.isThreshSegment) {
+                            viewModel.binary(state, typeSelectedOption.value, thresholdSelectedOption.value)
+                        }
+                    }
                 }
             ) {
                 Text(text = "阈值分割", color = Color.Unspecified)

@@ -105,7 +105,7 @@ object ImageProcess {
     /**
      * 转换成二值图像
      */
-    external fun binary(src: ByteArray):IntArray
+    external fun binary(src: ByteArray, iTypeSelect: Int, iThresholdSelect: Int):IntArray
 
     /**
      * 初始化人脸检测模块
