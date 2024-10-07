@@ -101,6 +101,12 @@ object ImageProcess {
      */
     external fun cvtGray(src: ByteArray):IntArray
 
+
+    /**
+     * 转换成二值图像
+     */
+    external fun binary(src: ByteArray):IntArray
+
     /**
      * 初始化人脸检测模块
      */

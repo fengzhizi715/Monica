@@ -26,4 +26,13 @@ class BinaryImageAnalysisViewModel {
             logger.error("cvtGray is failed", e)
         })
     }
+
+    fun binary(state: ApplicationState) {
+
+        OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+            ImageProcess.binary(byteArray)
+        }, failure = { e ->
+            logger.error("cvtGray is failed", e)
+        })
+    }
 }

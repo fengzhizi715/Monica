@@ -206,7 +206,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-
+                    viewModel.binary(state)
                 }
             ) {
                 Text(text = "阈值分割", color = Color.Unspecified)
