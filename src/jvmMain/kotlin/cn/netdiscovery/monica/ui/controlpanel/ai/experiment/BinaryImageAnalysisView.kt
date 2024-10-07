@@ -18,7 +18,6 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
@@ -93,7 +92,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Row {
                 typeSelectTags.forEach {
                     RadioButton(
-                        selected = (it == typeSelectedOption.value),
+                        selected = (state.isThreshType && it == typeSelectedOption.value),
                         onClick = {
                             typeSelectedOption.value = it
                         }
@@ -121,7 +120,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Row {
                 thresholdSelectTags.forEach {
                     RadioButton(
-                        selected = (it == thresholdSelectedOption.value),
+                        selected = (state.isThreshSegment && it == thresholdSelectedOption.value),
                         onClick = {
                             thresholdSelectedOption.value = it
                         }
@@ -151,7 +150,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                 adaptiveMethodSelectTags.forEach {
                     RadioButton(
-                        selected = (it == adaptiveMethodSelectedOption.value),
+                        selected = (state.isAdaptiveThresh && it == adaptiveMethodSelectedOption.value),
                         onClick = {
                             adaptiveMethodSelectedOption.value = it
                         }
@@ -222,7 +221,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     state.isFirstDerivativeOperator = it
 
                     if (!state.isFirstDerivativeOperator) {
-                        typeSelectedOption.value = "Null"
+                        firstDerivativeOperatorSelectedOption.value = "Null"
                     }
                 })
                 Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -231,7 +230,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Row {
                 firstDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (it == firstDerivativeOperatorSelectedOption.value),
+                        selected = (state.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption.value),
                         onClick = {
                             firstDerivativeOperatorSelectedOption.value = it
                         }
@@ -246,7 +245,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     state.isSecondDerivativeOperator = it
 
                     if (!state.isSecondDerivativeOperator) {
-                        typeSelectedOption.value = "Null"
+                        secondDerivativeOperatorSelectedOption.value = "Null"
                     }
                 })
                 Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -255,7 +254,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Row {
                 secondDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (it == secondDerivativeOperatorSelectedOption.value),
+                        selected = (state.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption.value),
                         onClick = {
                             secondDerivativeOperatorSelectedOption.value = it
                         }
