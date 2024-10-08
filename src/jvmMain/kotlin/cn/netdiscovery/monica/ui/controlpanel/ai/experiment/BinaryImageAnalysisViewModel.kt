@@ -27,43 +27,43 @@ class BinaryImageAnalysisViewModel {
         })
     }
 
-    fun threshold(state: ApplicationState, typeSelect: String, thresholdSelect: String) {
+    fun threshold(state: ApplicationState, typeSelected: String, thresholdSelected: String) {
 
-        val iTypeSelect = when(typeSelect) {
+        val thresholdType1 = when(typeSelected) {
             "THRESH_BINARY" -> 0
             "THRESH_BINARY_INV" -> 1
             else -> 0
         }
 
-        val iThresholdSelect = when(thresholdSelect) {
+        val thresholdType2 = when(thresholdSelected) {
             "THRESH_OTSU" -> 8
             "THRESH_TRIANGLE" -> 16
             else -> 8
         }
 
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.threshold(byteArray, iTypeSelect, iThresholdSelect)
+            ImageProcess.threshold(byteArray, thresholdType1, thresholdType2)
         }, failure = { e ->
             logger.error("threshold is failed", e)
         })
     }
 
-    fun adaptiveThreshold(state: ApplicationState, adaptiveMethodSelect: String, typeSelect: String, blockSize:Int, c:Int) {
+    fun adaptiveThreshold(state: ApplicationState, adaptiveMethodSelected: String, typeSelected: String, blockSize:Int, c:Int) {
 
-        val iAdaptiveMethodSelect = when(adaptiveMethodSelect) {
+        val adaptiveMethod = when(adaptiveMethodSelected) {
             "ADAPTIVE_THRESH_MEAN_C" -> 0
             "ADAPTIVE_THRESH_GAUSSIAN_C" -> 1
             else -> 0
         }
 
-        val iTypeSelect = when(typeSelect) {
+        val thresholdType = when(typeSelected) {
             "THRESH_BINARY" -> 0
             "THRESH_BINARY_INV" -> 1
             else -> 0
         }
 
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.adaptiveThreshold(byteArray, iAdaptiveMethodSelect, iTypeSelect, blockSize, c)
+            ImageProcess.adaptiveThreshold(byteArray, adaptiveMethod, thresholdType, blockSize, c)
         }, failure = { e ->
             logger.error("adaptiveThreshold is failed", e)
         })

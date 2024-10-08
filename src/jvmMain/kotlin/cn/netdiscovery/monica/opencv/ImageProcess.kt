@@ -105,12 +105,12 @@ object ImageProcess {
     /**
      * 阈值分割
      */
-    external fun threshold(src: ByteArray, iTypeSelect: Int, iThresholdSelect: Int):IntArray
+    external fun threshold(src: ByteArray, thresholdType1: Int, thresholdType2: Int):IntArray
 
     /**
      * 自适应阈值分割
      */
-    external fun adaptiveThreshold(src: ByteArray, iAdaptiveMethodSelect: Int, iTypeSelect: Int, blockSize:Int, c:Int):IntArray
+    external fun adaptiveThreshold(src: ByteArray, adaptiveMethod: Int, thresholdType: Int, blockSize:Int, c:Int):IntArray
 
     /**
      * 初始化人脸检测模块
