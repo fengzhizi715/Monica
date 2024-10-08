@@ -14,11 +14,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.height
+import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
+import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import loadingDisplay
 import org.koin.compose.koinInject
 
 /**
@@ -201,6 +205,10 @@ fun experiment(state: ApplicationState) {
                         })
                 }
             }
+        }
+
+        if (loadingDisplay) {
+            ThreeBallLoading(Modifier.width(loadingWidth).height(height))
         }
     }
 }

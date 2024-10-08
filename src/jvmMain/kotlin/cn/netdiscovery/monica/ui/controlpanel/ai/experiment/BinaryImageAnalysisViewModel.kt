@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
@@ -20,11 +21,13 @@ class BinaryImageAnalysisViewModel {
 
     fun cvtGray(state: ApplicationState) {
 
-        OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
-            ImageProcess.cvtGray(byteArray)
-        }, failure = { e ->
-            logger.error("cvtGray is failed", e)
-        })
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.cvtGray(byteArray)
+            }, failure = { e ->
+                logger.error("cvtGray is failed", e)
+            })
+        }
     }
 
     fun threshold(state: ApplicationState, typeSelected: String, thresholdSelected: String) {
@@ -41,11 +44,13 @@ class BinaryImageAnalysisViewModel {
             else -> 8
         }
 
-        OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.threshold(byteArray, thresholdType1, thresholdType2)
-        }, failure = { e ->
-            logger.error("threshold is failed", e)
-        })
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+                ImageProcess.threshold(byteArray, thresholdType1, thresholdType2)
+            }, failure = { e ->
+                logger.error("threshold is failed", e)
+            })
+        }
     }
 
     fun adaptiveThreshold(state: ApplicationState, adaptiveMethodSelected: String, typeSelected: String, blockSize:Int, c:Int) {
@@ -62,10 +67,12 @@ class BinaryImageAnalysisViewModel {
             else -> 0
         }
 
-        OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-            ImageProcess.adaptiveThreshold(byteArray, adaptiveMethod, thresholdType, blockSize, c)
-        }, failure = { e ->
-            logger.error("adaptiveThreshold is failed", e)
-        })
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+                ImageProcess.adaptiveThreshold(byteArray, adaptiveMethod, thresholdType, blockSize, c)
+            }, failure = { e ->
+                logger.error("adaptiveThreshold is failed", e)
+            })
+        }
     }
 }
