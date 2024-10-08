@@ -185,6 +185,7 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/preview/delete.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
+                            state.clearImage()
                         })
 
                     toolTipButton(text = "撤回",

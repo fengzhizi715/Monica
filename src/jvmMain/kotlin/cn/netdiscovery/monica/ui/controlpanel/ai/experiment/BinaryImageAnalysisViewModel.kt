@@ -44,7 +44,7 @@ class BinaryImageAnalysisViewModel {
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
             ImageProcess.threshold(byteArray, iTypeSelect, iThresholdSelect)
         }, failure = { e ->
-            logger.error("cvtGray is failed", e)
+            logger.error("threshold is failed", e)
         })
     }
 
@@ -65,7 +65,7 @@ class BinaryImageAnalysisViewModel {
         OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
             ImageProcess.adaptiveThreshold(byteArray, iAdaptiveMethodSelect, iTypeSelect, blockSize, c)
         }, failure = { e ->
-            logger.error("cvtGray is failed", e)
+            logger.error("adaptiveThreshold is failed", e)
         })
     }
 }
