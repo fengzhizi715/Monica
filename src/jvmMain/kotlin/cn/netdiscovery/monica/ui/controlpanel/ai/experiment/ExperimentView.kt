@@ -196,12 +196,7 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/doodle/previous_step.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
-                        })
-
-                    toolTipButton(text = "保存",
-                        painter = painterResource("images/doodle/save.png"),
-                        iconModifier = Modifier.size(36.dp),
-                        onClick = {
+                            viewModel.getLastImage(state)
                         })
                 }
             }

@@ -36,4 +36,9 @@ class ExperimentViewModel {
         )
     }
 
+    fun getLastImage(state: ApplicationState) {
+        state.getLastImage()?.let {
+            state.currentImage = it
+        }
+    }
 }
