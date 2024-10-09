@@ -101,7 +101,6 @@ object ImageProcess {
      */
     external fun cvtGray(src: ByteArray):IntArray
 
-
     /**
      * 阈值分割
      */
@@ -111,6 +110,21 @@ object ImageProcess {
      * 自适应阈值分割
      */
     external fun adaptiveThreshold(src: ByteArray, adaptiveMethod: Int, thresholdType: Int, blockSize:Int, c:Int):IntArray
+
+    /**
+     * 实现 roberts 算子
+     */
+    external fun roberts(src: ByteArray):IntArray
+
+    /**
+     * 实现 prewitt 算子
+     */
+    external fun prewitt(src: ByteArray):IntArray
+
+    /**
+     * 实现 sobel 算子
+     */
+    external fun sobel(src: ByteArray):IntArray
 
     /**
      * 初始化人脸检测模块
