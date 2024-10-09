@@ -232,6 +232,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isFirstDerivativeOperator) {
                         firstDerivativeOperatorSelectedOption.value = "Null"
+                    } else {
+                        state.isSecondDerivativeOperator = false
+                        state.isCannyOperator = false
                     }
                 })
                 Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -267,6 +270,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isSecondDerivativeOperator) {
                         secondDerivativeOperatorSelectedOption.value = "Null"
+                    } else {
+                        state.isFirstDerivativeOperator = false
+                        state.isCannyOperator = false
                     }
                 })
                 Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -302,6 +308,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isCannyOperator) {
                         typeSelectedOption.value = "Null"
+                    } else {
+                        state.isFirstDerivativeOperator = false
+                        state.isSecondDerivativeOperator = false
                     }
                 })
                 Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
