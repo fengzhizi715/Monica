@@ -53,6 +53,14 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var firstDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
     var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
 
+
+    var blockSizeText = remember { mutableStateOf("") }
+    var cText = remember { mutableStateOf("") }
+
+    var threshold1Text = remember { mutableStateOf("") }
+    var threshold2Text = remember { mutableStateOf("") }
+    var apertureSizeText = remember { mutableStateOf("3") }
+
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 5.dp).weight(0.1f)) {
             subTitle(text = "灰度图像", color = Color.Black)
@@ -137,6 +145,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isAdaptiveThresh) {
                         adaptiveMethodSelectedOption.value = "Null"
+                        blockSizeText.value = ""
+                        cText.value = ""
                         logger.info("取消了自适应阈值分割")
                     } else {
                         state.isThreshSegment = false
@@ -161,21 +171,15 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 }
             }
 
-            var blockSizeText by remember {
-                mutableStateOf("")
-            }
-
-            var cText by remember {
-                mutableStateOf("")
-            }
-
             Row {
                 Text(text = "blockSize")
 
                 BasicTextField(
-                    value = blockSizeText,
+                    value = blockSizeText.value,
                     onValueChange = { str ->
-                        blockSizeText = str
+                        if (state.isAdaptiveThresh) {
+                            blockSizeText.value = str
+                        }
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -190,9 +194,11 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text(text = "c")
 
                 BasicTextField(
-                    value = cText,
+                    value = cText.value,
                     onValueChange = { str ->
-                        cText = str
+                        if (state.isAdaptiveThresh) {
+                            cText.value = str
+                        }
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -213,7 +219,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             // TODO 增加校验
-                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSizeText.toInt(), cText.toInt())
+                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSizeText.value.toInt(), cText.value.toInt())
                         }
                     }
                 }
@@ -307,7 +313,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     state.isCannyOperator = it
 
                     if (!state.isCannyOperator) {
-                        typeSelectedOption.value = "Null"
+                        threshold1Text.value = ""
+                        threshold2Text.value = ""
+                        apertureSizeText.value = "3"
                     } else {
                         state.isFirstDerivativeOperator = false
                         state.isSecondDerivativeOperator = false
@@ -316,25 +324,15 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
-            var threshold1Text by remember {
-                mutableStateOf("")
-            }
-
-            var threshold2Text by remember {
-                mutableStateOf("")
-            }
-
-            var apertureSizeText by remember {
-                mutableStateOf("3")
-            }
-
             Row {
                 Text(text = "threshold1")
 
                 BasicTextField(
-                    value = threshold1Text,
+                    value = threshold1Text.value,
                     onValueChange = { str ->
-                        threshold1Text = str
+                        if (state.isCannyOperator) {
+                            threshold1Text.value = str
+                        }
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -349,9 +347,11 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text(text = "threshold2")
 
                 BasicTextField(
-                    value = threshold2Text,
+                    value = threshold2Text.value,
                     onValueChange = { str ->
-                        threshold2Text = str
+                        if (state.isCannyOperator) {
+                            threshold2Text.value = str
+                        }
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -366,9 +366,11 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text(text = "apertureSize")
 
                 BasicTextField(
-                    value = apertureSizeText,
+                    value = apertureSizeText.value,
                     onValueChange = { str ->
-                        apertureSizeText = str
+                        if (state.isCannyOperator) {
+                            apertureSizeText.value = str
+                        }
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
