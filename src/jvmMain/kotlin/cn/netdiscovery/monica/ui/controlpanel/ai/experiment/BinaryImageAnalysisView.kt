@@ -248,6 +248,17 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
+
+                Column(modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.Center) {
+                    Button(
+                        onClick = composeClick {
+                        }
+                    ) {
+                        Text(text = "一阶导数算子边缘检测", color = Color.Unspecified)
+                    }
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp),verticalAlignment = Alignment.CenterVertically) {
@@ -271,6 +282,17 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     )
 
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
+
+                Column(modifier = Modifier.fillMaxWidth(),
+                    horizontalAlignment = Alignment.End,
+                    verticalArrangement = Arrangement.Center) {
+                    Button(
+                        onClick = composeClick {
+                        }
+                    ) {
+                        Text(text = "二阶导数算子边缘检测", color = Color.Unspecified)
+                    }
                 }
             }
 
