@@ -120,6 +120,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isAdaptiveThresh = false
                         adaptiveMethodSelectedOption.value = "Null"
+                        blockSizeText.value = ""
+                        cText.value = ""
                         logger.info("勾选了全局阈值分割")
                     }
                 })
@@ -241,6 +243,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isSecondDerivativeOperator = false
                         state.isCannyOperator = false
+                        threshold1Text.value = ""
+                        threshold2Text.value = ""
+                        apertureSizeText.value = "3"
                     }
                 })
                 Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -279,6 +284,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isFirstDerivativeOperator = false
                         state.isCannyOperator = false
+                        threshold1Text.value = ""
+                        threshold2Text.value = ""
+                        apertureSizeText.value = "3"
                     }
                 })
                 Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
