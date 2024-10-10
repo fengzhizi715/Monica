@@ -321,6 +321,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = composeClick {
+                            viewModel.laplace(state)
                         }
                     ) {
                         Text(text = "二阶导数算子边缘检测", color = Color.Unspecified)

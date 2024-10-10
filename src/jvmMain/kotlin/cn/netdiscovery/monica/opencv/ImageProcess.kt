@@ -126,6 +126,10 @@ object ImageProcess {
      */
     external fun sobel(src: ByteArray):IntArray
 
+    /**
+     * 实现 laplace 算子
+     */
+    external fun laplace(src: ByteArray):IntArray
 
     /**
      * 实现 canny 算子

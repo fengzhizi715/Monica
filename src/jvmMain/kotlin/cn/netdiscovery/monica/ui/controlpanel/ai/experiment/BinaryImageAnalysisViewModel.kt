@@ -108,4 +108,15 @@ class BinaryImageAnalysisViewModel {
             })
         }
     }
+
+    fun laplace(state: ApplicationState) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.laplace(byteArray)
+            }, failure = { e ->
+                logger.error("sobel is failed", e)
+            })
+        }
+    }
 }
