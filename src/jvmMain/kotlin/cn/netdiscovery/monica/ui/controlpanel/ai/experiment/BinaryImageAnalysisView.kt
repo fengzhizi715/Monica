@@ -61,6 +61,17 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var threshold2Text = remember { mutableStateOf("") }
     var apertureSizeText = remember { mutableStateOf("3") }
 
+    fun clearAdaptiveThreshParams() {
+        blockSizeText.value = ""
+        cText.value = ""
+    }
+
+    fun clearCannyParams() {
+        threshold1Text.value = ""
+        threshold2Text.value = ""
+        apertureSizeText.value = "3"
+    }
+
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         Column(modifier = Modifier.padding(top = 5.dp).weight(0.1f)) {
             subTitle(text = "灰度图像", color = Color.Black)
@@ -120,8 +131,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isAdaptiveThresh = false
                         adaptiveMethodSelectedOption.value = "Null"
-                        blockSizeText.value = ""
-                        cText.value = ""
+                        clearAdaptiveThreshParams()
                         logger.info("勾选了全局阈值分割")
                     }
                 })
@@ -147,8 +157,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
 
                     if (!state.isAdaptiveThresh) {
                         adaptiveMethodSelectedOption.value = "Null"
-                        blockSizeText.value = ""
-                        cText.value = ""
+                        clearAdaptiveThreshParams()
                         logger.info("取消了自适应阈值分割")
                     } else {
                         state.isThreshSegment = false
@@ -243,9 +252,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isSecondDerivativeOperator = false
                         state.isCannyOperator = false
-                        threshold1Text.value = ""
-                        threshold2Text.value = ""
-                        apertureSizeText.value = "3"
+                        clearCannyParams()
                     }
                 })
                 Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -284,9 +291,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     } else {
                         state.isFirstDerivativeOperator = false
                         state.isCannyOperator = false
-                        threshold1Text.value = ""
-                        threshold2Text.value = ""
-                        apertureSizeText.value = "3"
+                        clearCannyParams()
                     }
                 })
                 Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -321,9 +326,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     state.isCannyOperator = it
 
                     if (!state.isCannyOperator) {
-                        threshold1Text.value = ""
-                        threshold2Text.value = ""
-                        apertureSizeText.value = "3"
+                        clearCannyParams()
                     } else {
                         state.isFirstDerivativeOperator = false
                         state.isSecondDerivativeOperator = false
