@@ -54,11 +54,11 @@ class ImageEnhanceViewModel {
         }
     }
 
-    fun laplace(state: ApplicationState) {
+    fun laplaceSharpening(state: ApplicationState) {
         state.scope.launchWithLoading {
 
             OpenCVManager.invokeCV(state, action = { byteArray ->
-                ImageProcess.laplace(byteArray)
+                ImageProcess.laplaceSharpening(byteArray)
             }, failure = { e ->
                 logger.error("laplace is failed", e)
             })

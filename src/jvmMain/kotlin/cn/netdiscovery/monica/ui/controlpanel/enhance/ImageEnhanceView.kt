@@ -86,7 +86,7 @@ fun imageEnhanceView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = LaplaceStatus
 
-                viewModel.laplace(state)
+                viewModel.laplaceSharpening(state)
             })
 
         toolTipButton(text = "USM 锐化",

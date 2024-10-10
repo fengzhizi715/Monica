@@ -84,7 +84,7 @@ object ImageProcess {
     /**
      * laplace 锐化，主要是 8 邻域卷积核
      */
-    external fun laplace(src: ByteArray):IntArray
+    external fun laplaceSharpening(src: ByteArray):IntArray
 
     /**
      * USM 锐化
@@ -125,6 +125,7 @@ object ImageProcess {
      * 实现 sobel 算子
      */
     external fun sobel(src: ByteArray):IntArray
+
 
     /**
      * 实现 canny 算子
