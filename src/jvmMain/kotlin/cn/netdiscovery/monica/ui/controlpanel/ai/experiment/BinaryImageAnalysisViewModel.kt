@@ -86,4 +86,15 @@ class BinaryImageAnalysisViewModel {
             })
         }
     }
+
+    fun prewitt(state: ApplicationState) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.prewitt(byteArray)
+            }, failure = { e ->
+                logger.error("adaptiveThreshold is failed", e)
+            })
+        }
+    }
 }

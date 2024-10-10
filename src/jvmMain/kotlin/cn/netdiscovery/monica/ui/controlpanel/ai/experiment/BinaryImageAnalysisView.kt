@@ -275,7 +275,12 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = composeClick {
-                            viewModel.roberts(state)
+                            when(firstDerivativeOperatorSelectedOption.value) {
+                                "Roberts算子" -> viewModel.roberts(state)
+                                "Prewitt算子" -> viewModel.prewitt(state)
+                                else -> {}
+                            }
+
                         }
                     ) {
                         Text(text = "一阶导数算子边缘检测", color = Color.Unspecified)
