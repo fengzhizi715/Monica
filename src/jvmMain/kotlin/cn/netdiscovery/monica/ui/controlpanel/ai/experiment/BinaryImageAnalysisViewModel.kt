@@ -75,4 +75,15 @@ class BinaryImageAnalysisViewModel {
             })
         }
     }
+
+    fun roberts(state: ApplicationState) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.roberts(byteArray)
+            }, failure = { e ->
+                logger.error("adaptiveThreshold is failed", e)
+            })
+        }
+    }
 }
