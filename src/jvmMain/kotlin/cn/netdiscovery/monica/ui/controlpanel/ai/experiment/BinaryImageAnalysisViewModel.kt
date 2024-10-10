@@ -119,4 +119,15 @@ class BinaryImageAnalysisViewModel {
             })
         }
     }
+
+    fun canny(state: ApplicationState, threshold1:Double, threshold2: Double, apertureSize:Int) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.canny(byteArray,threshold1,threshold2,apertureSize)
+            }, failure = { e ->
+                logger.error("sobel is failed", e)
+            })
+        }
+    }
 }
