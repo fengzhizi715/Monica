@@ -278,7 +278,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
                             when(firstDerivativeOperatorSelectedOption.value) {
                                 "Roberts算子" -> viewModel.roberts(state)
                                 "Prewitt算子" -> viewModel.prewitt(state)
-                                else -> {}
+                                "Sobel算子"   -> viewModel.sobel(state)
+                                else         -> {}
                             }
 
                         }

@@ -82,7 +82,7 @@ class BinaryImageAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
                 ImageProcess.roberts(byteArray)
             }, failure = { e ->
-                logger.error("adaptiveThreshold is failed", e)
+                logger.error("roberts is failed", e)
             })
         }
     }
@@ -93,7 +93,18 @@ class BinaryImageAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
                 ImageProcess.prewitt(byteArray)
             }, failure = { e ->
-                logger.error("adaptiveThreshold is failed", e)
+                logger.error("prewitt is failed", e)
+            })
+        }
+    }
+
+    fun sobel(state: ApplicationState) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.sobel(byteArray)
+            }, failure = { e ->
+                logger.error("sobel is failed", e)
             })
         }
     }
