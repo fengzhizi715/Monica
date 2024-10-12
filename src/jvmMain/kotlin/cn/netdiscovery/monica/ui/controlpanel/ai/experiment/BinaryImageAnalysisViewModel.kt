@@ -115,7 +115,7 @@ class BinaryImageAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
                 ImageProcess.laplace(byteArray)
             }, failure = { e ->
-                logger.error("sobel is failed", e)
+                logger.error("laplace is failed", e)
             })
         }
     }
@@ -126,7 +126,7 @@ class BinaryImageAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
                 ImageProcess.canny(byteArray,threshold1,threshold2,apertureSize)
             }, failure = { e ->
-                logger.error("sobel is failed", e)
+                logger.error("canny is failed", e)
             })
         }
     }
