@@ -137,6 +137,11 @@ object ImageProcess {
     external fun canny(src: ByteArray, threshold1:Double, threshold2: Double, apertureSize:Int):IntArray
 
     /**
+     * 实现 LoG 算子
+     */
+    external fun log(src: ByteArray):IntArray
+
+    /**
      * 初始化人脸检测模块
      */
     external fun initFaceDetect(faceProto:String,faceModel:String,

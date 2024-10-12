@@ -120,6 +120,17 @@ class BinaryImageAnalysisViewModel {
         }
     }
 
+    fun log(state: ApplicationState) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.log(byteArray)
+            }, failure = { e ->
+                logger.error("log is failed", e)
+            })
+        }
+    }
+
     fun canny(state: ApplicationState, threshold1:Double, threshold2: Double, apertureSize:Int) {
 
         state.scope.launchWithLoading {

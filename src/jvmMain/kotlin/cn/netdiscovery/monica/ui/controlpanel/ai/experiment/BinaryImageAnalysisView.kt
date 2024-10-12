@@ -41,7 +41,7 @@ val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
 val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
 val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
 val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
-val secondDerivativeOperatorTags = arrayListOf("Laplace算子")
+val secondDerivativeOperatorTags = arrayListOf("Laplace算子","LoG算子")
 
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
@@ -321,7 +321,11 @@ fun binaryImageAnalysis(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = composeClick {
-                            viewModel.laplace(state)
+                            when(secondDerivativeOperatorSelectedOption.value) {
+                                "Laplace算子" -> viewModel.laplace(state)
+                                "LoG算子"     -> viewModel.log(state)
+                                else         -> {}
+                            }
                         }
                     ) {
                         Text(text = "二阶导数算子边缘检测", color = Color.Unspecified)
