@@ -40,8 +40,6 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 val typeSelectTags = arrayListOf("THRESH_BINARY", "THRESH_BINARY_INV")
 val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
 val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
-val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
-val secondDerivativeOperatorTags = arrayListOf("Laplace算子","LoG算子")
 
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
@@ -50,30 +48,20 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var typeSelectedOption = remember { mutableStateOf("Null") }
     var thresholdSelectedOption = remember { mutableStateOf("Null") }
     var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
-    var firstDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
-    var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
+
 
 
     var blockSizeText = remember { mutableStateOf("") }
     var cText = remember { mutableStateOf("") }
 
-    var threshold1Text = remember { mutableStateOf("") }
-    var threshold2Text = remember { mutableStateOf("") }
-    var apertureSizeText = remember { mutableStateOf("3") }
 
     fun clearAdaptiveThreshParams() {
         blockSizeText.value = ""
         cText.value = ""
     }
 
-    fun clearCannyParams() {
-        threshold1Text.value = ""
-        threshold2Text.value = ""
-        apertureSizeText.value = "3"
-    }
-
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
-        Column(modifier = Modifier.padding(top = 5.dp).weight(0.1f)) {
+        Column(modifier = Modifier.padding(top = 5.dp)) {
             subTitle(text = "灰度图像", color = Color.Black)
             divider()
 
@@ -90,7 +78,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier.weight(0.45f)) {
+        Column(modifier = Modifier) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
 
@@ -239,182 +227,6 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier.weight(0.45f)) {
-            subTitle(text = "边缘检测算子", color = Color.Black)
-            divider()
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isFirstDerivativeOperator, onCheckedChange = {
-                    state.isFirstDerivativeOperator = it
-
-                    if (!state.isFirstDerivativeOperator) {
-                        firstDerivativeOperatorSelectedOption.value = "Null"
-                    } else {
-                        state.isSecondDerivativeOperator = false
-                        state.isCannyOperator = false
-                        clearCannyParams()
-                    }
-                })
-                Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
-            }
-
-            Row {
-                firstDerivativeOperatorTags.forEach {
-                    RadioButton(
-                        selected = (state.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption.value),
-                        onClick = {
-                            firstDerivativeOperatorSelectedOption.value = it
-                        }
-                    )
-
-                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
-                }
-
-                Column(modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Center) {
-                    Button(
-                        onClick = composeClick {
-                            when(firstDerivativeOperatorSelectedOption.value) {
-                                "Roberts算子" -> viewModel.roberts(state)
-                                "Prewitt算子" -> viewModel.prewitt(state)
-                                "Sobel算子"   -> viewModel.sobel(state)
-                                else         -> {}
-                            }
-
-                        }
-                    ) {
-                        Text(text = "一阶导数算子边缘检测", color = Color.Unspecified)
-                    }
-                }
-            }
-
-            Row(modifier = Modifier.padding(top = 10.dp),verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isSecondDerivativeOperator, onCheckedChange = {
-                    state.isSecondDerivativeOperator = it
-
-                    if (!state.isSecondDerivativeOperator) {
-                        secondDerivativeOperatorSelectedOption.value = "Null"
-                    } else {
-                        state.isFirstDerivativeOperator = false
-                        state.isCannyOperator = false
-                        clearCannyParams()
-                    }
-                })
-                Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
-            }
-
-            Row {
-                secondDerivativeOperatorTags.forEach {
-                    RadioButton(
-                        selected = (state.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption.value),
-                        onClick = {
-                            secondDerivativeOperatorSelectedOption.value = it
-                        }
-                    )
-
-                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
-                }
-
-                Column(modifier = Modifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.End,
-                    verticalArrangement = Arrangement.Center) {
-                    Button(
-                        onClick = composeClick {
-                            when(secondDerivativeOperatorSelectedOption.value) {
-                                "Laplace算子" -> viewModel.laplace(state)
-                                "LoG算子"     -> viewModel.log(state)
-                                else         -> {}
-                            }
-                        }
-                    ) {
-                        Text(text = "二阶导数算子边缘检测", color = Color.Unspecified)
-                    }
-                }
-            }
-
-            Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isCannyOperator, onCheckedChange = {
-                    state.isCannyOperator = it
-
-                    if (!state.isCannyOperator) {
-                        clearCannyParams()
-                    } else {
-                        state.isFirstDerivativeOperator = false
-                        state.isSecondDerivativeOperator = false
-                    }
-                })
-                Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
-            }
-
-            Row {
-                Text(text = "threshold1")
-
-                BasicTextField(
-                    value = threshold1Text.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold1Text.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-            }
-
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "threshold2")
-
-                BasicTextField(
-                    value = threshold2Text.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold2Text.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-            }
-
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "apertureSize")
-
-                BasicTextField(
-                    value = apertureSizeText.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            apertureSizeText.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-            }
-
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
-                        // TODO 增加校验
-                        viewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
-                    }
-                }
-            ) {
-                Text(text = "Canny 边缘检测", color = Color.Unspecified)
-            }
-        }
     }
 }

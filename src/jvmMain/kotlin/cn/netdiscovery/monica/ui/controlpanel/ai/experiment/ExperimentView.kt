@@ -84,6 +84,10 @@ fun customNavigationHost(
             binaryImageAnalysis(state)
         }
 
+        composable(Screen.EdgeDetection.name) {
+            edgeDetection(state)
+        }
+
         composable(Screen.ContourAnalysis.name) {
         }
 
