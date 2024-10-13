@@ -78,7 +78,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier) {
+        Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
 
@@ -226,7 +226,5 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 Text(text = "阈值分割", color = Color.Unspecified)
             }
         }
-
-
     }
 }
