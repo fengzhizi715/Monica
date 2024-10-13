@@ -45,7 +45,7 @@ val secondDerivativeOperatorTags = arrayListOf("Laplace算子","LoG算子")
 
 @Composable
 fun edgeDetection(state: ApplicationState) {
-    val viewModel: BinaryImageAnalysisViewModel = koinInject()
+    val viewModel: EdgeDetectionViewModel = koinInject()
 
     var firstDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
     var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
