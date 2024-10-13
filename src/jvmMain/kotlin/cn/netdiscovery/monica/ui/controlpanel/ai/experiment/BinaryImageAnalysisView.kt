@@ -60,8 +60,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
         cText.value = ""
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
-        Column(modifier = Modifier.padding(top = 5.dp)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+        Column {
             subTitle(text = "灰度图像", color = Color.Black)
             divider()
 

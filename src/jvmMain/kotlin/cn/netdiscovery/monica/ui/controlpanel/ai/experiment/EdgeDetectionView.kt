@@ -60,8 +60,8 @@ fun edgeDetection(state: ApplicationState) {
         apertureSizeText.value = "3"
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
-        Column(modifier = Modifier.weight(0.45f)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+        Column{
             subTitle(text = "边缘检测算子", color = Color.Black)
             divider()
 
