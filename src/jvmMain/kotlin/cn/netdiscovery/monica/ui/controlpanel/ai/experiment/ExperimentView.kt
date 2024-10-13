@@ -49,6 +49,10 @@ enum class Screen(
         label = "二值图像分析",
         resourcePath = "images/ai/binary_image_analysis.png"
     ),
+    EdgeDetection(
+        label = "边缘检测",
+        resourcePath = "images/ai/edge_detection.png"
+    ),
     ContourAnalysis(
         label = "轮廓分析",
         resourcePath = "images/ai/contour_analysis.png"
