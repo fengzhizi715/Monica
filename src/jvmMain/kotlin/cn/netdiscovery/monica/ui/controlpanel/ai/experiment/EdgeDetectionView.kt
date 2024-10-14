@@ -157,6 +157,7 @@ fun edgeDetection(state: ApplicationState) {
                             when(secondDerivativeOperatorSelectedOption.value) {
                                 "Laplace算子" -> viewModel.laplace(state)
                                 "LoG算子"     -> viewModel.log(state)
+                                "DoG算子"     -> viewModel.dog(state, sigma1Text.value.toDouble(), sigma2Text.value.toDouble(), sizeText.value.toInt())
                                 else         -> {}
                             }
                         }

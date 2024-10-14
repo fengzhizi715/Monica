@@ -74,6 +74,17 @@ class EdgeDetectionViewModel {
         }
     }
 
+    fun dog(state: ApplicationState, sigma1:Double, sigma2: Double, size:Int) {
+
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+                ImageProcess.dog(byteArray, sigma1, sigma2, size)
+            }, failure = { e ->
+                logger.error("log is failed", e)
+            })
+        }
+    }
+
     fun canny(state: ApplicationState, threshold1:Double, threshold2: Double, apertureSize:Int) {
 
         state.scope.launchWithLoading {
