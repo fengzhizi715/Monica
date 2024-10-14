@@ -11,6 +11,7 @@ import androidx.compose.material.Checkbox
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -40,7 +41,7 @@ import java.awt.image.BufferedImage
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
-val secondDerivativeOperatorTags = arrayListOf("Laplace算子","LoG算子")
+val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "DoG算子")
 
 
 @Composable
@@ -54,10 +55,20 @@ fun edgeDetection(state: ApplicationState) {
     var threshold2Text = remember { mutableStateOf("") }
     var apertureSizeText = remember { mutableStateOf("3") }
 
+    var sigma1Text = remember { mutableStateOf("") }
+    var sigma2Text = remember { mutableStateOf("") }
+    var sizeText = remember { mutableStateOf("") }
+
     fun clearCannyParams() {
         threshold1Text.value = ""
         threshold2Text.value = ""
         apertureSizeText.value = "3"
+    }
+
+    fun clearDoGParams() {
+        sigma1Text.value = ""
+        sigma2Text.value = ""
+        sizeText.value = ""
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
@@ -155,6 +166,8 @@ fun edgeDetection(state: ApplicationState) {
                 }
             }
 
+            generateDoGParams(state, secondDerivativeOperatorSelectedOption, sigma1Text, sigma2Text, sizeText)
+
             Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(state.isCannyOperator, onCheckedChange = {
                     state.isCannyOperator = it
@@ -237,6 +250,68 @@ fun edgeDetection(state: ApplicationState) {
             ) {
                 Text(text = "Canny 边缘检测", color = Color.Unspecified)
             }
+        }
+    }
+}
+
+@Composable
+private fun generateDoGParams(state: ApplicationState,
+                              secondDerivativeOperatorSelectedOption:MutableState<String>,
+                              sigma1Text:MutableState<String>,
+                              sigma2Text:MutableState<String>,
+                              sizeText:MutableState<String>) {
+    if (state.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption.value == "DoG算子") {
+        Row {
+            Text(text = "sigma1")
+
+            BasicTextField(
+                value = sigma1Text.value,
+                onValueChange = { str ->
+                    if (state.isSecondDerivativeOperator) {
+                        sigma1Text.value = str
+                    }
+                },
+                keyboardOptions = KeyboardOptions.Default,
+                keyboardActions = KeyboardActions.Default,
+                cursorBrush = SolidColor(Color.Gray),
+                singleLine = true,
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+            )
+
+            Text(text = "sigma2")
+
+            BasicTextField(
+                value = sigma2Text.value,
+                onValueChange = { str ->
+                    if (state.isSecondDerivativeOperator) {
+                        sigma2Text.value = str
+                    }
+                },
+                keyboardOptions = KeyboardOptions.Default,
+                keyboardActions = KeyboardActions.Default,
+                cursorBrush = SolidColor(Color.Gray),
+                singleLine = true,
+                modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+            )
+
+            Text(text = "size")
+
+            BasicTextField(
+                value = sizeText.value,
+                onValueChange = { str ->
+                    if (state.isSecondDerivativeOperator) {
+                        sizeText.value = str
+                    }
+                },
+                keyboardOptions = KeyboardOptions.Default,
+                keyboardActions = KeyboardActions.Default,
+                cursorBrush = SolidColor(Color.Gray),
+                singleLine = true,
+                modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+            )
         }
     }
 }

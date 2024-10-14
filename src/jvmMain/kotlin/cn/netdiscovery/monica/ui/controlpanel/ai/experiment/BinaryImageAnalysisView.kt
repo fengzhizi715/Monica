@@ -49,11 +49,8 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var thresholdSelectedOption = remember { mutableStateOf("Null") }
     var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
 
-
-
     var blockSizeText = remember { mutableStateOf("") }
     var cText = remember { mutableStateOf("") }
-
 
     fun clearAdaptiveThreshParams() {
         blockSizeText.value = ""
