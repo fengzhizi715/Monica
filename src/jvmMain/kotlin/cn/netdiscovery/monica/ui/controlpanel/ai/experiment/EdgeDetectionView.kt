@@ -48,7 +48,7 @@ val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "Do
 fun edgeDetection(state: ApplicationState) {
     val viewModel: EdgeDetectionViewModel = koinInject()
 
-    var firstDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
+    var firstDerivativeOperatorSelectedOption  = remember { mutableStateOf("Null") }
     var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
 
     var threshold1Text = remember { mutableStateOf("") }
@@ -86,6 +86,7 @@ fun edgeDetection(state: ApplicationState) {
                         state.isSecondDerivativeOperator = false
                         state.isCannyOperator = false
                         clearCannyParams()
+                        clearDoGParams()
                     }
                 })
                 Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
@@ -178,6 +179,7 @@ fun edgeDetection(state: ApplicationState) {
                     } else {
                         state.isFirstDerivativeOperator = false
                         state.isSecondDerivativeOperator = false
+                        clearDoGParams()
                     }
                 })
                 Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
