@@ -52,6 +52,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var blockSizeText = remember { mutableStateOf("") }
     var cText = remember { mutableStateOf("") }
 
+    var threshold1Text = remember { mutableStateOf("") }
+    var threshold2Text = remember { mutableStateOf("") }
+    var apertureSizeText = remember { mutableStateOf("3") }
+
     fun clearAdaptiveThreshParams() {
         blockSizeText.value = ""
         cText.value = ""
@@ -222,6 +226,85 @@ fun binaryImageAnalysis(state: ApplicationState) {
             ) {
                 Text(text = "阈值分割", color = Color.Unspecified)
             }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitle(text = "Canny 边缘检测", color = Color.Black)
+            divider()
+
+            Row {
+                Text(text = "threshold1")
+
+                BasicTextField(
+                    value = threshold1Text.value,
+                    onValueChange = { str ->
+                        if (state.isCannyOperator) {
+                            threshold1Text.value = str
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp)) {
+                Text(text = "threshold2")
+
+                BasicTextField(
+                    value = threshold2Text.value,
+                    onValueChange = { str ->
+                        if (state.isCannyOperator) {
+                            threshold2Text.value = str
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp)) {
+                Text(text = "apertureSize")
+
+                BasicTextField(
+                    value = apertureSizeText.value,
+                    onValueChange = { str ->
+                        if (state.isCannyOperator) {
+                            apertureSizeText.value = str
+                        }
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = composeClick {
+                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
+                        // TODO 增加校验
+//                        viewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
+                    }
+                }
+            ) {
+                Text(text = "Canny 边缘检测", color = Color.Unspecified)
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitle(text = "彩色图像分割", color = Color.Black)
+            divider()
         }
     }
 }
