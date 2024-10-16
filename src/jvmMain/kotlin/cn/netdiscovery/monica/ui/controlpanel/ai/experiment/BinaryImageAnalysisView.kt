@@ -44,6 +44,7 @@ val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_T
 @Composable
 fun binaryImageAnalysis(state: ApplicationState) {
     val viewModel: BinaryImageAnalysisViewModel = koinInject()
+    val edgeDetectionViewModel: EdgeDetectionViewModel = koinInject()
 
     var typeSelectedOption = remember { mutableStateOf("Null") }
     var thresholdSelectedOption = remember { mutableStateOf("Null") }
@@ -292,9 +293,9 @@ fun binaryImageAnalysis(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
+                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
                         // TODO 增加校验
-//                        viewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
+                        edgeDetectionViewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
                     }
                 }
             ) {
