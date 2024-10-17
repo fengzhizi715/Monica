@@ -112,6 +112,11 @@ object ImageProcess {
     external fun adaptiveThreshold(src: ByteArray, adaptiveMethod: Int, thresholdType: Int, blockSize:Int, c:Int):IntArray
 
     /**
+     * 颜色分割
+     */
+    external fun inRange(src: ByteArray, hmin:Int, smin:Int, vmin:Int, hmax:Int, smax:Int, vmax:Int):IntArray
+
+    /**
      * 实现 roberts 算子
      */
     external fun roberts(src: ByteArray):IntArray

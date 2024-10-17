@@ -76,4 +76,15 @@ class BinaryImageViewModel {
         }
     }
 
+    fun inRange(state: ApplicationState, hmin:Int, smin:Int, vmin:Int, hmax:Int, smax:Int, vmax:Int) {
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+                ImageProcess.inRange(byteArray, hmin, smin, vmin, hmax, smax, vmax)
+            }, failure = { e ->
+                logger.error("inRange is failed", e)
+            })
+        }
+
+    }
+
 }

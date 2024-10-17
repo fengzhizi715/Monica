@@ -325,8 +325,9 @@ fun binaryImage(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
-                    if(state.currentImage!= null && state.currentImage?.type == BufferedImage.TYPE_INT_ARGB) {
-
+                    if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
+                        logger.info("state.currentImage?.type = ${state.currentImage?.type}")
+                        viewModel.inRange(state, hminText.value.toInt(), sminText.value.toInt(), vminText.value.toInt(), hmaxText.value.toInt(), smaxText.value.toInt(), vmaxText.value.toInt())
                     }
                 }
             ) {
