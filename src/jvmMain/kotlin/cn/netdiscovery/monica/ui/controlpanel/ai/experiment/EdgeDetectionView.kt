@@ -241,54 +241,27 @@ private fun generateDoGParams(state: ApplicationState,
         Row {
             Text(text = "sigma1")
 
-            BasicTextField(
-                value = sigma1Text.value,
-                onValueChange = { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma1Text.value = str
-                    }
-                },
-                keyboardOptions = KeyboardOptions.Default,
-                keyboardActions = KeyboardActions.Default,
-                cursorBrush = SolidColor(Color.Gray),
-                singleLine = true,
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-            )
+            basicTextField(sigma1Text.value) { str ->
+                if (state.isSecondDerivativeOperator) {
+                    sigma1Text.value = str
+                }
+            }
 
             Text(text = "sigma2")
 
-            BasicTextField(
-                value = sigma2Text.value,
-                onValueChange = { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma2Text.value = str
-                    }
-                },
-                keyboardOptions = KeyboardOptions.Default,
-                keyboardActions = KeyboardActions.Default,
-                cursorBrush = SolidColor(Color.Gray),
-                singleLine = true,
-                modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-            )
+            basicTextField(sigma2Text.value) { str ->
+                if (state.isSecondDerivativeOperator) {
+                    sigma2Text.value = str
+                }
+            }
 
             Text(text = "size")
 
-            BasicTextField(
-                value = sizeText.value,
-                onValueChange = { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sizeText.value = str
-                    }
-                },
-                keyboardOptions = KeyboardOptions.Default,
-                keyboardActions = KeyboardActions.Default,
-                cursorBrush = SolidColor(Color.Gray),
-                singleLine = true,
-                modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-            )
+            basicTextField(sizeText.value) { str ->
+                if (state.isSecondDerivativeOperator) {
+                    sizeText.value = str
+                }
+            }
         }
     }
 }
