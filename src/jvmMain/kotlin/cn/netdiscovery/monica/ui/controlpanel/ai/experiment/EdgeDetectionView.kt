@@ -22,6 +22,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
@@ -188,58 +189,31 @@ fun edgeDetection(state: ApplicationState) {
             Row {
                 Text(text = "threshold1")
 
-                BasicTextField(
-                    value = threshold1Text.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold1Text.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(threshold1Text.value) { str ->
+                    if (state.isCannyOperator) {
+                        threshold1Text.value = str
+                    }
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text(text = "threshold2")
 
-                BasicTextField(
-                    value = threshold2Text.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold2Text.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(threshold2Text.value) { str ->
+                    if (state.isCannyOperator) {
+                        threshold2Text.value = str
+                    }
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text(text = "apertureSize")
 
-                BasicTextField(
-                    value = apertureSizeText.value,
-                    onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            apertureSizeText.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(apertureSizeText.value) { str ->
+                    if (state.isCannyOperator) {
+                        apertureSizeText.value = str
+                    }
+                }
             }
 
             Button(
