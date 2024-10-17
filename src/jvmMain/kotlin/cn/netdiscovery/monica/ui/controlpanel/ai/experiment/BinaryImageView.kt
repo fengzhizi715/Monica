@@ -19,6 +19,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
@@ -311,98 +312,41 @@ fun binaryImage(state: ApplicationState) {
             Row {
                 Text(text = "hmin")
 
-                BasicTextField(
-                    value = hminText.value,
-                    onValueChange = { str ->
-                        hminText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(hminText.value) { str ->
+                    hminText.value = str
+                }
 
                 Text(text = "smin")
 
-                BasicTextField(
-                    value = sminText.value,
-                    onValueChange = { str ->
-                        sminText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(sminText.value) { str ->
+                    sminText.value = str
+                }
 
                 Text(text = "vmin")
 
-                BasicTextField(
-                    value = vminText.value,
-                    onValueChange = { str ->
-                        vminText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(vminText.value) { str ->
+                    vminText.value = str
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)){
                 Text(text = "hmax")
 
-                BasicTextField(
-                    value = hmaxText.value,
-                    onValueChange = { str ->
-                        hmaxText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-
+                basicTextField(hmaxText.value) { str ->
+                    hmaxText.value = str
+                }
 
                 Text(text = "smax")
 
-                BasicTextField(
-                    value = smaxText.value,
-                    onValueChange = { str ->
-                        smaxText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-
+                basicTextField(smaxText.value) { str ->
+                    smaxText.value = str
+                }
 
                 Text(text = "vmax")
 
-                BasicTextField(
-                    value = vmaxText.value,
-                    onValueChange = { str ->
-                        vmaxText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
-
+                basicTextField(vmaxText.value) { str ->
+                    vmaxText.value = str
+                }
             }
 
             Button(
