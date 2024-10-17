@@ -57,6 +57,10 @@ fun binaryImageAnalysis(state: ApplicationState) {
     var threshold2Text = remember { mutableStateOf("") }
     var apertureSizeText = remember { mutableStateOf("3") }
 
+    var hminText = remember { mutableStateOf("") }
+    var sminText = remember { mutableStateOf("") }
+    var vminText = remember { mutableStateOf("") }
+
     fun clearAdaptiveThreshParams() {
         blockSizeText.value = ""
         cText.value = ""
@@ -239,9 +243,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 BasicTextField(
                     value = threshold1Text.value,
                     onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold1Text.value = str
-                        }
+                        threshold1Text.value = str
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -258,9 +260,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 BasicTextField(
                     value = threshold2Text.value,
                     onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            threshold2Text.value = str
-                        }
+                        threshold2Text.value = str
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -277,9 +277,7 @@ fun binaryImageAnalysis(state: ApplicationState) {
                 BasicTextField(
                     value = apertureSizeText.value,
                     onValueChange = { str ->
-                        if (state.isCannyOperator) {
-                            apertureSizeText.value = str
-                        }
+                        apertureSizeText.value = str
                     },
                     keyboardOptions = KeyboardOptions.Default,
                     keyboardActions = KeyboardActions.Default,
@@ -306,6 +304,87 @@ fun binaryImageAnalysis(state: ApplicationState) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitle(text = "彩色图像分割", color = Color.Black)
             divider()
+
+            Row {
+                Text(text = "hmin")
+
+                BasicTextField(
+                    value = hminText.value,
+                    onValueChange = { str ->
+                        hminText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+
+                Text(text = "smin")
+
+                BasicTextField(
+                    value = sminText.value,
+                    onValueChange = { str ->
+                        sminText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+
+                Text(text = "vmin")
+
+                BasicTextField(
+                    value = vminText.value,
+                    onValueChange = { str ->
+                        vminText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+            }
+
+            Row(modifier = Modifier.padding(top = 10.dp)){
+                Text(text = "hmax")
+
+//                BasicTextField(
+//                    value = sigma1Text.value,
+//                    onValueChange = { str ->
+//                        if (state.isSecondDerivativeOperator) {
+//                            sigma1Text.value = str
+//                        }
+//                    },
+//                    keyboardOptions = KeyboardOptions.Default,
+//                    keyboardActions = KeyboardActions.Default,
+//                    cursorBrush = SolidColor(Color.Gray),
+//                    singleLine = true,
+//                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+//                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+//                )
+
+                Text(text = "smax")
+
+                Text(text = "vmax")
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = composeClick {
+                    if(state.currentImage!= null && state.currentImage?.type == BufferedImage.TYPE_INT_ARGB) {
+
+                    }
+                }
+            ) {
+                Text(text = "彩色图像分割", color = Color.Unspecified)
+            }
         }
     }
 }
