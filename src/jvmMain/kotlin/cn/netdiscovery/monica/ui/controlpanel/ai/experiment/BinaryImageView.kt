@@ -60,6 +60,9 @@ fun binaryImage(state: ApplicationState) {
     var hminText = remember { mutableStateOf("") }
     var sminText = remember { mutableStateOf("") }
     var vminText = remember { mutableStateOf("") }
+    var hmaxText = remember { mutableStateOf("") }
+    var smaxText = remember { mutableStateOf("") }
+    var vmaxText = remember { mutableStateOf("") }
 
     fun clearAdaptiveThreshParams() {
         blockSizeText.value = ""
@@ -355,24 +358,51 @@ fun binaryImage(state: ApplicationState) {
             Row(modifier = Modifier.padding(top = 10.dp)){
                 Text(text = "hmax")
 
-//                BasicTextField(
-//                    value = sigma1Text.value,
-//                    onValueChange = { str ->
-//                        if (state.isSecondDerivativeOperator) {
-//                            sigma1Text.value = str
-//                        }
-//                    },
-//                    keyboardOptions = KeyboardOptions.Default,
-//                    keyboardActions = KeyboardActions.Default,
-//                    cursorBrush = SolidColor(Color.Gray),
-//                    singleLine = true,
-//                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-//                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-//                )
+                BasicTextField(
+                    value = hmaxText.value,
+                    onValueChange = { str ->
+                        hmaxText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+
 
                 Text(text = "smax")
 
+                BasicTextField(
+                    value = smaxText.value,
+                    onValueChange = { str ->
+                        smaxText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+
+
                 Text(text = "vmax")
+
+                BasicTextField(
+                    value = vmaxText.value,
+                    onValueChange = { str ->
+                        vmaxText.value = str
+                    },
+                    keyboardOptions = KeyboardOptions.Default,
+                    keyboardActions = KeyboardActions.Default,
+                    cursorBrush = SolidColor(Color.Gray),
+                    singleLine = true,
+                    modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+                )
+
             }
 
             Button(
