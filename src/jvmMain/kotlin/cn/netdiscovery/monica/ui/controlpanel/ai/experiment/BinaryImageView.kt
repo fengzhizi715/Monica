@@ -42,8 +42,8 @@ val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
 val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
 
 @Composable
-fun binaryImageAnalysis(state: ApplicationState) {
-    val viewModel: BinaryImageAnalysisViewModel = koinInject()
+fun binaryImage(state: ApplicationState) {
+    val viewModel: BinaryImageViewModel = koinInject()
     val edgeDetectionViewModel: EdgeDetectionViewModel = koinInject()
 
     var typeSelectedOption = remember { mutableStateOf("Null") }

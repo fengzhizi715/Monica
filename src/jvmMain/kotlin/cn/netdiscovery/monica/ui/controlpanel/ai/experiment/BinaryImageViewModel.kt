@@ -16,8 +16,8 @@ import java.awt.image.BufferedImage
  * @date: 2024/10/7 16:07
  * @version: V1.0 <描述当前版本功能>
  */
-class BinaryImageAnalysisViewModel {
-    private val logger: Logger = logger<BinaryImageAnalysisViewModel>()
+class BinaryImageViewModel {
+    private val logger: Logger = logger<BinaryImageViewModel>()
 
     fun cvtGray(state: ApplicationState) {
 

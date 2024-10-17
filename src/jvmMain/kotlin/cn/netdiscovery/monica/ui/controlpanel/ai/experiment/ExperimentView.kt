@@ -44,9 +44,9 @@ enum class Screen(
         label = "首页",
         resourcePath = "images/ai/home.png"
     ),
-    BinaryImageAnalysis(
-        label = "二值图像分析",
-        resourcePath = "images/ai/binary_image_analysis.png"
+    BinaryImage(
+        label = "二值图像",
+        resourcePath = "images/ai/binary_image.png"
     ),
     EdgeDetection(
         label = "边缘检测",
@@ -79,8 +79,8 @@ fun customNavigationHost(
         composable(Screen.Home.name) {
         }
 
-        composable(Screen.BinaryImageAnalysis.name) {
-            binaryImageAnalysis(state)
+        composable(Screen.BinaryImage.name) {
+            binaryImage(state)
         }
 
         composable(Screen.EdgeDetection.name) {
