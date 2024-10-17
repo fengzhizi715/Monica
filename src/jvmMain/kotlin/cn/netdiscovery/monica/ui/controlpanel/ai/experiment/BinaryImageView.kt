@@ -244,52 +244,25 @@ fun binaryImage(state: ApplicationState) {
             Row {
                 Text(text = "threshold1")
 
-                BasicTextField(
-                    value = threshold1Text.value,
-                    onValueChange = { str ->
-                        threshold1Text.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(threshold1Text.value) { str ->
+                    threshold1Text.value = str
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text(text = "threshold2")
 
-                BasicTextField(
-                    value = threshold2Text.value,
-                    onValueChange = { str ->
-                        threshold2Text.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(threshold2Text.value) { str ->
+                    threshold2Text.value = str
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text(text = "apertureSize")
 
-                BasicTextField(
-                    value = apertureSizeText.value,
-                    onValueChange = { str ->
-                        apertureSizeText.value = str
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(apertureSizeText.value) { str ->
+                    apertureSizeText.value = str
+                }
             }
 
             Button(
