@@ -1,23 +1,20 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
@@ -183,39 +180,21 @@ fun binaryImage(state: ApplicationState) {
             Row {
                 Text(text = "blockSize")
 
-                BasicTextField(
-                    value = blockSizeText.value,
-                    onValueChange = { str ->
-                        if (state.isAdaptiveThresh) {
-                            blockSizeText.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(blockSizeText.value) { str ->
+                    if (state.isAdaptiveThresh) {
+                        blockSizeText.value = str
+                    }
+                }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 Text(text = "c")
 
-                BasicTextField(
-                    value = cText.value,
-                    onValueChange = { str ->
-                        if (state.isAdaptiveThresh) {
-                            cText.value = str
-                        }
-                    },
-                    keyboardOptions = KeyboardOptions.Default,
-                    keyboardActions = KeyboardActions.Default,
-                    cursorBrush = SolidColor(Color.Gray),
-                    singleLine = true,
-                    modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                    textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-                )
+                basicTextField(cText.value) { str ->
+                    if (state.isAdaptiveThresh) {
+                        cText.value = str
+                    }
+                }
             }
 
             Button(
