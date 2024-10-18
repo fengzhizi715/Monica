@@ -45,7 +45,7 @@ enum class Screen(
         resourcePath = "images/ai/home.png"
     ),
     BinaryImage(
-        label = "二值图像",
+        label = "二值化",
         resourcePath = "images/ai/binary_image.png"
     ),
     EdgeDetection(

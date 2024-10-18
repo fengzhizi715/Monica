@@ -71,24 +71,24 @@ fun binaryImage(state: ApplicationState) {
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+//        Column {
+//            subTitle(text = "灰度图像", color = Color.Black)
+//            divider()
+//
+//            Button(
+//                modifier = Modifier.align(Alignment.End),
+//                onClick = composeClick {
+//
+//                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
+//                        viewModel.cvtGray(state)
+//                    }
+//                }
+//            ) {
+//                Text(text = "图像灰度化", color = Color.Unspecified)
+//            }
+//        }
+
         Column {
-            subTitle(text = "灰度图像", color = Color.Black)
-            divider()
-
-            Button(
-                modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
-
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
-                        viewModel.cvtGray(state)
-                    }
-                }
-            ) {
-                Text(text = "图像灰度化", color = Color.Unspecified)
-            }
-        }
-
-        Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitle(text = "阈值分割", color = Color.Black)
             divider()
 
