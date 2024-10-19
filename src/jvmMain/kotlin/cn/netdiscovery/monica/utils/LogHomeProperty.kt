@@ -14,7 +14,7 @@ import java.io.File
 class LogHomeProperty : PropertyDefinerBase() {
 
     private val LOG_HOME: String by lazy {
-        val dirPath = System.getProperty("user.dir") + File.separator + "log"
+        val dirPath = workDirectory + File.separator + "log"
         val dir = File(dirPath)
 
         if (!dir.isDirectory) {

@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.rxcache
 
+import cn.netdiscovery.monica.utils.workDirectory
 import com.safframework.rxcache.RxCache
 import com.safframework.rxcache.ext.persistence
 import com.safframework.rxcache.memory.impl.FIFOMemoryImpl
@@ -17,7 +18,7 @@ import java.io.File
 val rxCache: RxCache by lazy {
     RxCache.config {
         RxCache.Builder().memory(FIFOMemoryImpl()).persistence {
-            val cacheDirectory = File(System.getProperty("user.dir"),"rxcache") // rxCache 持久层存放地址
+            val cacheDirectory = File(workDirectory,"rxcache") // rxCache 持久层存放地址
             if (!cacheDirectory.exists()) {
                 cacheDirectory.mkdirs()
             }
