@@ -17,13 +17,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
-import cn.netdiscovery.monica.ui.widget.confirmButton
-import cn.netdiscovery.monica.ui.widget.desktopLazyRow
-import cn.netdiscovery.monica.ui.widget.subTitle
-import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.*
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -157,18 +153,9 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
     ) {
         Text(text = "width")
 
-        BasicTextField(
-            value = widthText,
-            onValueChange = { str ->
-                widthText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(widthText) { str ->
+            widthText = str
+        }
     }
 
     Row(
@@ -176,18 +163,9 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
     ) {
         Text(text = "height")
 
-        BasicTextField(
-            value = heightText,
-            onValueChange = { str ->
-                heightText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(heightText) { str ->
+            heightText = str
+        }
 
         confirmButton(state.isBasic) {
             viewModel.resize(widthText.toInt(),heightText.toInt(),state)
