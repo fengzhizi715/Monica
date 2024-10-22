@@ -190,18 +190,9 @@ fun generateShearingParams(state: ApplicationState,viewModel: CropViewModel) {
     ) {
         Text(text = "x 方向")
 
-        BasicTextField(
-            value = xText,
-            onValueChange = { str ->
-                xText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(xText) { str ->
+            xText = str
+        }
     }
 
     Row(
@@ -209,18 +200,9 @@ fun generateShearingParams(state: ApplicationState,viewModel: CropViewModel) {
     ) {
         Text(text = "y 方向")
 
-        BasicTextField(
-            value = yText,
-            onValueChange = { str ->
-                yText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(yText) { str ->
+            yText = str
+        }
 
         confirmButton(state.isBasic) {
             viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
