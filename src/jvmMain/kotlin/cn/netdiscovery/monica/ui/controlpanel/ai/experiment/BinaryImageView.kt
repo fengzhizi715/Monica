@@ -8,17 +8,13 @@ import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.basicTextField
-import cn.netdiscovery.monica.ui.widget.divider
-import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.composeClick
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -203,7 +199,21 @@ fun binaryImage(state: ApplicationState) {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         if (state.isThreshType && state.isThreshSegment) {
-                            // TODO 增加校验
+
+                            if (typeSelectedOption.value == "Null") {
+                                verifyToastMessage = "请选择阈值化类型类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
+
+                            if (thresholdSelectedOption.value == "Null") {
+                                verifyToastMessage = "请选择全局阈值分割类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
+
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             // TODO 增加校验

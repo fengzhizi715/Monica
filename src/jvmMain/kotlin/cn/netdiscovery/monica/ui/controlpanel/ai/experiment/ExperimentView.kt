@@ -4,9 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toPainter
@@ -18,6 +16,7 @@ import cn.netdiscovery.monica.config.height
 import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.CenterToast
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -32,6 +31,9 @@ import org.koin.compose.koinInject
  * @date: 2024/9/23 19:37
  * @version: V1.0 <描述当前版本功能>
  */
+
+var showVerifyToast by mutableStateOf(false)
+var verifyToastMessage by mutableStateOf("")
 
 /**
  * Screens
@@ -211,6 +213,12 @@ fun experiment(state: ApplicationState) {
 
         if (loadingDisplay) {
             ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+        }
+
+        if (showVerifyToast) {
+            CenterToast(Modifier, verifyToastMessage, onDismissCallback = {
+                showVerifyToast = false
+            })
         }
     }
 }
