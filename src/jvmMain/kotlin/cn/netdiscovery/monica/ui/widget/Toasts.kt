@@ -120,6 +120,95 @@ fun TopToast(
 }
 
 @Composable
+fun CenterToast(
+    modifier: Modifier = Modifier,
+    message: String = "An unexpected error occurred. Please try again later",
+    height: Dp = 100.dp,
+    width: Dp = 400.dp,
+    onDismissCallback: @Composable () -> Unit = {},
+) {
+    var hasTransitionStarted by remember { mutableStateOf(false) }
+    var clipShape by remember { mutableStateOf(CircleShape) }
+    var slideDownAnimation by remember { mutableStateOf(true) }
+    var animationStarted by remember { mutableStateOf(false) }
+    var showMessage by remember { mutableStateOf(false) }
+    var dismissCallback by remember { mutableStateOf(false) }
+
+    val boxWidth by animateDpAsState(
+        targetValue = if (hasTransitionStarted) width else 30.dp,
+        animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
+        label = "Box width",
+    )
+
+    val boxHeight by animateDpAsState(
+        targetValue = if (hasTransitionStarted) height else 30.dp,
+        animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
+        label = "Box height",
+    )
+
+    val slideY by animateDpAsState(
+        targetValue = if (slideDownAnimation) (-100).dp else 0.dp,
+        animationSpec = tween(durationMillis = 100),
+        label = "Slide parameter in DP",
+    )
+
+    if (!animationStarted) {
+        LaunchedEffect(Unit) {
+            slideDownAnimation = false
+
+            // Delay for 0.2 seconds before transitioning to rectangle
+            delay(200)
+            hasTransitionStarted = true
+            clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
+            showMessage = true
+
+            // Delay for 2.5 seconds before reverting to circle
+            delay(2500)
+            hasTransitionStarted = false
+            showMessage = false
+
+            // Delay for 0.2 seconds before sliding up
+            delay(200)
+            clipShape = CircleShape
+            slideDownAnimation = true
+            animationStarted = true
+            dismissCallback = true
+        }
+    }
+
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Transparent)
+            .padding(16.dp),
+    ) {
+        Box(
+            modifier = modifier
+                .size(boxWidth, boxHeight)
+                .offset(y = slideY)
+                .clip(clipShape)
+                .background(MaterialTheme.colors.primary)
+                .align(alignment = Alignment.Center),
+            contentAlignment = Alignment.Center,
+        ) {
+            if (showMessage) {
+                Text(
+                    text = message,
+                    color = Color.Gray,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(16.dp),
+                )
+            }
+
+            if (dismissCallback) onDismissCallback()
+        }
+    }
+}
+
+@Composable
 fun BottomToast(
     modifier: Modifier = Modifier,
     message: String = "An unexpected error occurred. Please try again later",
