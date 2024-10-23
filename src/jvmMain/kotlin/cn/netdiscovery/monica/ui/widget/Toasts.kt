@@ -47,19 +47,19 @@ fun TopToast(
 
     val boxWidth by animateDpAsState(
         targetValue = if (hasTransitionStarted) width else 30.dp,
-        animationSpec = tween(durationMillis = 200, easing = FastOutSlowInEasing),
+        animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
         label = "Box width",
     )
 
     val boxHeight by animateDpAsState(
         targetValue = if (hasTransitionStarted) height else 30.dp,
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
+        animationSpec = tween(durationMillis = 100, easing = FastOutSlowInEasing),
         label = "Box height",
     )
 
     val slideY by animateDpAsState(
         targetValue = if (slideDownAnimation) (-100).dp else 0.dp,
-        animationSpec = tween(durationMillis = 200),
+        animationSpec = tween(durationMillis = 100),
         label = "Slide parameter in DP",
     )
 
@@ -67,19 +67,19 @@ fun TopToast(
         LaunchedEffect(Unit) {
             slideDownAnimation = false
 
-            // Delay for 0.33 seconds before transitioning to rectangle
-            delay(330)
+            // Delay for 0.2 seconds before transitioning to rectangle
+            delay(200)
             hasTransitionStarted = true
             clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
             showMessage = true
 
-            // Delay for 2 seconds before reverting to circle
-            delay(2000)
+            // Delay for 2.5 seconds before reverting to circle
+            delay(2500)
             hasTransitionStarted = false
             showMessage = false
 
-            // Delay for 2.5 seconds before sliding up
-            delay(2500)
+            // Delay for 0.2 seconds before sliding up
+            delay(200)
             clipShape = CircleShape
             slideDownAnimation = true
             animationStarted = true
