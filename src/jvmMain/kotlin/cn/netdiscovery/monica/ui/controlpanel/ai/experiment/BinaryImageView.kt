@@ -364,13 +364,48 @@ fun binaryImage(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
-                        // TODO 增加校验
-                        viewModel.inRange(state, hminText.value.toInt(), sminText.value.toInt(), vminText.value.toInt(), hmaxText.value.toInt(), smaxText.value.toInt(), vmaxText.value.toInt())
+
+//                        val hmin = try {
+//                            hminText.value.toInt()
+//                        } catch (e:Exception) {
+//                            experimentViewVerifyToast("hmin 需要 int 类型")
+//
+//                            return@composeClick
+//                        }
+
+                        val hmin = getField("hmin 需要 int 类型") { hminText.value.toInt() } ?: return@composeClick
+
+                        val smin = try {
+                            sminText.value.toInt()
+                        } catch (e:Exception) {
+                            experimentViewVerifyToast("smin 需要 int 类型")
+
+                            return@composeClick
+                        }
+
+                        val vmin = try {
+                            vminText.value.toInt()
+                        } catch (e:Exception) {
+                            experimentViewVerifyToast("vmin 需要 int 类型")
+
+                            return@composeClick
+                        }
+
+                        viewModel.inRange(state, hmin, smin, vmin, hmaxText.value.toInt(), smaxText.value.toInt(), vmaxText.value.toInt())
                     }
                 }
             ) {
                 Text(text = "彩色图像分割", color = Color.Unspecified)
             }
         }
+    }
+}
+
+private fun <T> getField(message: String, block:()-> T): T? {
+    try {
+        return block.invoke()
+    } catch (e:Exception) {
+        experimentViewVerifyToast(message)
+        return null
     }
 }
