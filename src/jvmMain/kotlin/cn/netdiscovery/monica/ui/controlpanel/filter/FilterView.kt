@@ -26,8 +26,7 @@ import filterNames
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import showToast
-import toastMessage
+import showTopToast
 
 /**
  *
@@ -70,9 +69,7 @@ fun filterView(state: ApplicationState) {
             modifier = Modifier.offset(x = 290.dp,y = 0.dp),
             onClick =  composeClick {
                 viewModel.applyFilterParams(state)
-
-                toastMessage = "滤镜修改参数生效"
-                showToast = true
+                showTopToast("滤镜修改参数生效")
             },
             enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0
         ) {

@@ -49,8 +49,8 @@ var openURLDialog by mutableStateOf(false)
 var picUrl by mutableStateOf("")
 
 var showVersion by mutableStateOf(false)
-var showToast by mutableStateOf(false)
-var toastMessage by mutableStateOf("")
+private var showToast by mutableStateOf(false)
+private var toastMessage by mutableStateOf("")
 
 lateinit var client: HttpConnectionClient
 
@@ -157,8 +157,7 @@ fun main() = application {
 
         if (applicationState.currentImage == null &&
             (applicationState.currentStatus != FaceSwapStatus && applicationState.currentStatus != OpenCVDebugStatus)){
-            toastMessage = "请先选择图像"
-            showToast = true
+            showTopToast("请先选择图像")
 
             return@application
         }
@@ -168,8 +167,7 @@ fun main() = application {
             onCloseRequest = {
                 when(applicationState.currentStatus) {
                     DoodleStatus -> {
-                        toastMessage = "想要保存涂鸦效果，需要点击保存按钮"
-                        showToast = true
+                        showTopToast("想要保存涂鸦效果，需要点击保存按钮")
                     }
 
                     CropSizeStatus -> {
@@ -219,6 +217,11 @@ fun main() = application {
             }
         }
     }
+}
+
+fun showTopToast(message:String) {
+    toastMessage = message
+    showToast = true
 }
 
 /**
