@@ -125,20 +125,16 @@ fun basicView(state: ApplicationState) {
 
     Column {
         when(state.currentStatus) {
-            ResizeStatus -> {
-                generateResizeParams(state,viewModel)
-            }
+            ResizeStatus -> generateResizeParams(state,viewModel)
 
-            ShearingStatus -> {
-                generateShearingParams(state,viewModel)
-            }
+            ShearingStatus -> generateShearingParams(state,viewModel)
         }
     }
 }
 
 
 @Composable
-fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
+private fun generateResizeParams(state: ApplicationState, viewModel: CropViewModel) {
 
     var widthText by remember {
         mutableStateOf("${state.currentImage?.width?:400}")
@@ -175,7 +171,7 @@ fun generateResizeParams(state: ApplicationState,viewModel: CropViewModel) {
 
 
 @Composable
-fun generateShearingParams(state: ApplicationState,viewModel: CropViewModel) {
+private fun generateShearingParams(state: ApplicationState, viewModel: CropViewModel) {
 
     var xText by remember {
         mutableStateOf("${0}")

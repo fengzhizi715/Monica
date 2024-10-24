@@ -86,7 +86,7 @@ fun openURLDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
 }
 
 @Composable
-fun showVersionInfo(onClick: () -> Unit,) {
+fun showVersionInfo(onClick: () -> Unit) {
     AlertDialog(onDismissRequest = {},
         title = {
             Text("Monica 软件信息")
