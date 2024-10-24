@@ -229,8 +229,26 @@ fun binaryImage(state: ApplicationState) {
 
                                 return@composeClick
                             }
-                            // TODO 增加校验
-                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSizeText.value.toInt(), cText.value.toInt())
+
+                            val blockSize = try {
+                                blockSizeText.value.toInt()
+                            } catch (e:Exception) {
+                                verifyToastMessage = "blockSize 需要 int 类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
+
+                            val c = try {
+                                cText.value.toInt()
+                            } catch (e:Exception) {
+                                verifyToastMessage = "c 需要 int 类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
+
+                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
                         }
                     }
                 }
