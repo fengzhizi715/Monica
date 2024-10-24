@@ -290,7 +290,35 @@ fun binaryImage(state: ApplicationState) {
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
                         // TODO 增加校验
-                        edgeDetectionViewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
+
+                        val threshold1 = try {
+                            threshold1Text.value.toDouble()
+                        } catch (e:Exception) {
+                            verifyToastMessage = "threshold1 需要 double 类型"
+                            showVerifyToast = true
+
+                            return@composeClick
+                        }
+
+                        val threshold2 = try {
+                            threshold2Text.value.toDouble()
+                        } catch (e:Exception) {
+                            verifyToastMessage = "threshold2 需要 double 类型"
+                            showVerifyToast = true
+
+                            return@composeClick
+                        }
+
+                        val apertureSize = try {
+                            apertureSizeText.value.toInt()
+                        } catch (e:Exception) {
+                            verifyToastMessage = "apertureSize 需要 int 类型"
+                            showVerifyToast = true
+
+                            return@composeClick
+                        }
+
+                        edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
                 }
             ) {
