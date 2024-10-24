@@ -153,10 +153,16 @@ fun main() = application {
         }
     }
 
-    if (applicationState.isShowPreviewWindow &&
-        (applicationState.currentImage != null
-                || applicationState.currentStatus == FaceSwapStatus
-                || applicationState.currentStatus == OpenCVDebugStatus)) {
+    if (applicationState.isShowPreviewWindow) {
+
+        if (applicationState.currentImage == null &&
+            (applicationState.currentStatus != FaceSwapStatus && applicationState.currentStatus != OpenCVDebugStatus)){
+            toastMessage = "请先选择图像"
+            showToast = true
+
+            return@application
+        }
+
         Window(
             title = getWindowsTitle(applicationState),
             onCloseRequest = {
