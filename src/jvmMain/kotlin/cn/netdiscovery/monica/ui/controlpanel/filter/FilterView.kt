@@ -87,7 +87,7 @@ fun filterView(state: ApplicationState) {
 
 @Preview
 @Composable
-fun dropdownFilterMenuForSelect(state:ApplicationState){
+private fun dropdownFilterMenuForSelect(state:ApplicationState){
     var expanded by remember { mutableStateOf(false) }
 
     Row(
@@ -130,7 +130,7 @@ fun dropdownFilterMenuForSelect(state:ApplicationState){
  * 根据不同的滤镜，生成不同的参数
  */
 @Composable
-fun generateFilterParams(selectedIndex:Int) {
+private fun generateFilterParams(selectedIndex:Int) {
 
     tempMap.clear()
 
@@ -170,7 +170,7 @@ fun generateFilterParams(selectedIndex:Int) {
 }
 
 @Composable
-fun generateFilterRemark(selectedIndex:Int) {
+private fun generateFilterRemark(selectedIndex:Int) {
     val filterName = filterNames[selectedIndex]
     val remark = getFilterRemark(filterName)
 
