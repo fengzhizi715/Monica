@@ -31,6 +31,66 @@ import kotlinx.coroutines.delay
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
+fun topToast(
+    modifier: Modifier = Modifier,
+    message: String = "An unexpected error occurred. Please try again later",
+    textColor: Color = Color.Gray,
+    fontSize: TextUnit = 16.sp,
+    height: Dp = 100.dp,
+    width: Dp = 400.dp,
+    onDismissCallback: @Composable () -> Unit = {},
+) {
+    toast(modifier = modifier,
+        message = message,
+        textColor = textColor,
+        fontSize = fontSize,
+        height = height,
+        width = width,
+        alignment = Alignment.TopCenter,
+        onDismissCallback = onDismissCallback)
+}
+
+@Composable
+fun centerToast(
+    modifier: Modifier = Modifier,
+    message: String = "An unexpected error occurred. Please try again later",
+    textColor: Color = Color.Gray,
+    fontSize: TextUnit = 16.sp,
+    height: Dp = 100.dp,
+    width: Dp = 400.dp,
+    onDismissCallback: @Composable () -> Unit = {},
+) {
+    toast(modifier = modifier,
+        message = message,
+        textColor = textColor,
+        fontSize = fontSize,
+        height = height,
+        width = width,
+        alignment = Alignment.Center,
+        onDismissCallback = onDismissCallback)
+}
+
+@Composable
+fun bottomToast(
+    modifier: Modifier = Modifier,
+    message: String = "An unexpected error occurred. Please try again later",
+    textColor: Color = Color.Gray,
+    fontSize: TextUnit = 16.sp,
+    height: Dp = 100.dp,
+    width: Dp = 400.dp,
+    onDismissCallback: @Composable () -> Unit = {},
+) {
+    toast(modifier = modifier,
+        message = message,
+        textColor = textColor,
+        fontSize = fontSize,
+        height = height,
+        width = width,
+        alignment = Alignment.BottomCenter,
+        onDismissCallback = onDismissCallback)
+}
+
+@Composable
 private fun toast(
     modifier: Modifier = Modifier,
     message: String = "An unexpected error occurred. Please try again later",
@@ -111,135 +171,6 @@ private fun toast(
                     color = textColor,
                     fontWeight = FontWeight.Bold,
                     fontSize = fontSize,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier
-                        .padding(16.dp),
-                )
-            }
-
-            if (dismissCallback) onDismissCallback()
-        }
-    }
-}
-
-@Composable
-fun topToast(
-    modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
-    textColor: Color = Color.Gray,
-    fontSize: TextUnit = 16.sp,
-    height: Dp = 100.dp,
-    width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
-) {
-    toast(modifier = modifier,
-        message = message,
-        textColor = textColor,
-        fontSize = fontSize,
-        height = height,
-        width = width,
-        alignment = Alignment.TopCenter,
-        onDismissCallback = onDismissCallback)
-}
-
-@Composable
-fun centerToast(
-    modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
-    textColor: Color = Color.Gray,
-    fontSize: TextUnit = 16.sp,
-    height: Dp = 100.dp,
-    width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
-) {
-    toast(modifier = modifier,
-        message = message,
-        textColor = textColor,
-        fontSize = fontSize,
-        height = height,
-        width = width,
-        alignment = Alignment.Center,
-        onDismissCallback = onDismissCallback)
-}
-
-@Composable
-fun BottomToast(
-    modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
-    height: Dp = 100.dp,
-    width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
-) {
-    var isTransitionStarted by remember { mutableStateOf(false) }
-    var clipShape by remember { mutableStateOf(CircleShape) }
-    var slideAnimation by remember { mutableStateOf(true) }
-    var animationStarted by remember { mutableStateOf(false) }
-    var showMessage by remember { mutableStateOf(false) }
-    var dismissCallback by remember { mutableStateOf(false) }
-
-    val boxWidth by animateDpAsState(
-        targetValue = if (isTransitionStarted) width else 30.dp,
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
-        label = "Box width",
-    )
-
-    val boxHeight by animateDpAsState(
-        targetValue = if (isTransitionStarted) height else 30.dp,
-        animationSpec = tween(durationMillis = 300, easing = FastOutSlowInEasing),
-        label = "Box Height",
-    )
-
-    val slideY by animateDpAsState(
-        targetValue = if (slideAnimation) 100.dp else 0.dp,
-        animationSpec = tween(durationMillis = 200),
-        label = "Slide parameter in DP",
-    )
-
-    if (!animationStarted) {
-        LaunchedEffect(Unit) {
-            slideAnimation = false
-
-            // Delay for 0.33 seconds before transitioning to rectangle
-            delay(330)
-            isTransitionStarted = true
-            clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
-            showMessage = true
-
-            // Delay for 2 seconds before transitioning back to circle
-            delay(2000)
-            isTransitionStarted = false
-            showMessage = false
-
-            // Delay for 0.33 seconds before sliding down
-            delay(330)
-            clipShape = CircleShape
-            slideAnimation = true
-            animationStarted = true
-            dismissCallback = true
-        }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.Transparent)
-            .padding(16.dp),
-    ) {
-        Box(
-            modifier = modifier
-                .size(boxWidth, boxHeight)
-                .offset(y = slideY)
-                .clip(clipShape)
-                .background(MaterialTheme.colors.primary)
-                .align(alignment = Alignment.BottomCenter),
-            contentAlignment = Alignment.Center,
-        ) {
-            if (showMessage) {
-                Text(
-                    text = message,
-                    color = Color.White,
-                    fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
                         .padding(16.dp),
