@@ -201,15 +201,13 @@ fun binaryImage(state: ApplicationState) {
                         if (state.isThreshType && state.isThreshSegment) {
 
                             if (typeSelectedOption.value == "Null") {
-                                verifyToastMessage = "请选择阈值化类型类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("请选择阈值化类型类型")
 
                                 return@composeClick
                             }
 
                             if (thresholdSelectedOption.value == "Null") {
-                                verifyToastMessage = "请选择全局阈值分割类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("请选择全局阈值分割类型")
 
                                 return@composeClick
                             }
@@ -217,15 +215,13 @@ fun binaryImage(state: ApplicationState) {
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
-                                verifyToastMessage = "请选择阈值化类型类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("请选择阈值化类型类型")
 
                                 return@composeClick
                             }
 
                             if (adaptiveMethodSelectedOption.value == "Null") {
-                                verifyToastMessage = "请选择自适应阈值算法类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("请选择自适应阈值算法类型")
 
                                 return@composeClick
                             }
@@ -233,8 +229,7 @@ fun binaryImage(state: ApplicationState) {
                             val blockSize = try {
                                 blockSizeText.value.toInt()
                             } catch (e:Exception) {
-                                verifyToastMessage = "blockSize 需要 int 类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("blockSize 需要 int 类型")
 
                                 return@composeClick
                             }
@@ -242,8 +237,7 @@ fun binaryImage(state: ApplicationState) {
                             val c = try {
                                 cText.value.toInt()
                             } catch (e:Exception) {
-                                verifyToastMessage = "c 需要 int 类型"
-                                showVerifyToast = true
+                                experimentViewVerifyToast("c 需要 int 类型")
 
                                 return@composeClick
                             }
@@ -289,13 +283,11 @@ fun binaryImage(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        // TODO 增加校验
 
                         val threshold1 = try {
                             threshold1Text.value.toDouble()
                         } catch (e:Exception) {
-                            verifyToastMessage = "threshold1 需要 double 类型"
-                            showVerifyToast = true
+                            experimentViewVerifyToast("threshold1 需要 double 类型")
 
                             return@composeClick
                         }
@@ -303,8 +295,7 @@ fun binaryImage(state: ApplicationState) {
                         val threshold2 = try {
                             threshold2Text.value.toDouble()
                         } catch (e:Exception) {
-                            verifyToastMessage = "threshold2 需要 double 类型"
-                            showVerifyToast = true
+                            experimentViewVerifyToast("threshold2 需要 double 类型")
 
                             return@composeClick
                         }
@@ -312,8 +303,7 @@ fun binaryImage(state: ApplicationState) {
                         val apertureSize = try {
                             apertureSizeText.value.toInt()
                         } catch (e:Exception) {
-                            verifyToastMessage = "apertureSize 需要 int 类型"
-                            showVerifyToast = true
+                            experimentViewVerifyToast("apertureSize 需要 int 类型")
 
                             return@composeClick
                         }

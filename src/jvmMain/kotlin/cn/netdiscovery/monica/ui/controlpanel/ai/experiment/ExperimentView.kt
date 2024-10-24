@@ -32,8 +32,8 @@ import org.koin.compose.koinInject
  * @version: V1.0 <描述当前版本功能>
  */
 
-var showVerifyToast by mutableStateOf(false)
-var verifyToastMessage by mutableStateOf("")
+private var showVerifyToast by mutableStateOf(false)
+private var verifyToastMessage by mutableStateOf("")
 
 /**
  * Screens
@@ -221,4 +221,9 @@ fun experiment(state: ApplicationState) {
             })
         }
     }
+}
+
+fun experimentViewVerifyToast(message: String) {
+    verifyToastMessage = message
+    showVerifyToast = true
 }
