@@ -216,6 +216,19 @@ fun binaryImage(state: ApplicationState) {
 
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
+                            if (typeSelectedOption.value == "Null") {
+                                verifyToastMessage = "请选择阈值化类型类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
+
+                            if (adaptiveMethodSelectedOption.value == "Null") {
+                                verifyToastMessage = "请选择自适应阈值算法类型"
+                                showVerifyToast = true
+
+                                return@composeClick
+                            }
                             // TODO 增加校验
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSizeText.value.toInt(), cText.value.toInt())
                         }
