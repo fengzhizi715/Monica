@@ -6,6 +6,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
@@ -28,7 +29,7 @@ import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
-import cn.netdiscovery.monica.ui.widget.TopToast
+import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.runInBackground
 import org.koin.compose.KoinApplication
@@ -139,7 +140,7 @@ fun main() = application {
             }
 
             if (showToast) {
-                TopToast(Modifier,toastMessage, onDismissCallback = {
+                topToast(Modifier, message = toastMessage, onDismissCallback = {
                     showToast = false
                 })
             }

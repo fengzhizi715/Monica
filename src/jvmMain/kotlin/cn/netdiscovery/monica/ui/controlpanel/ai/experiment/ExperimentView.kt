@@ -16,7 +16,7 @@ import cn.netdiscovery.monica.config.height
 import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.CenterToast
+import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -216,7 +216,7 @@ fun experiment(state: ApplicationState) {
         }
 
         if (showVerifyToast) {
-            CenterToast(Modifier, verifyToastMessage, onDismissCallback = {
+            centerToast(Modifier, verifyToastMessage, onDismissCallback = {
                 showVerifyToast = false
             })
         }
