@@ -90,6 +90,7 @@ fun customNavigationHost(
         }
 
         composable(Screen.ContourAnalysis.name) {
+            contourAnalysis(state)
         }
 
         composable(Screen.ImageConvolution.name) {
@@ -148,7 +149,6 @@ fun experiment(state: ApplicationState) {
                     )
                 }
             }
-
 
             Box(
                 Modifier.fillMaxSize().weight(9.5f),
