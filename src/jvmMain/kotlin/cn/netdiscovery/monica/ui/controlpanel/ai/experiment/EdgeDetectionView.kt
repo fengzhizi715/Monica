@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -212,8 +213,14 @@ fun edgeDetection(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        // TODO 增加校验
-                        viewModel.canny(state, threshold1Text.value.toDouble(), threshold2Text.value.toDouble(), apertureSizeText.value.toInt())
+
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@composeClick
+
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@composeClick
+
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@composeClick
+
+                        viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
                 }
             ) {
