@@ -2,13 +2,10 @@ package cn.netdiscovery.monica.ui.controlpanel.ai
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
