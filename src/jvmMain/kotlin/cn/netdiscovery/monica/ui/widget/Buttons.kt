@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.composeClick
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -38,7 +39,7 @@ fun toolTipButton(
     buttonModifier: Modifier = Modifier.padding(5.dp),
     iconModifier: Modifier = Modifier.size(36.dp),
     enable: ()-> Boolean = { true },
-    onClick: () -> Unit,
+    onClick: Action,
 ) {
     TooltipArea(
         tooltip = {

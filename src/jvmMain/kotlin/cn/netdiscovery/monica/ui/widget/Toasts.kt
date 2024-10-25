@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.utils.Action
 import kotlinx.coroutines.delay
 
 /**
@@ -38,7 +39,7 @@ fun topToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
+    onDismissCallback: @Composable Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -58,7 +59,7 @@ fun centerToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
+    onDismissCallback: @Composable Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -78,7 +79,7 @@ fun bottomToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable () -> Unit = {},
+    onDismissCallback: @Composable Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -99,7 +100,7 @@ private fun toast(
     height: Dp = 100.dp,
     width: Dp = 400.dp,
     alignment: Alignment,
-    onDismissCallback: @Composable () -> Unit = {}
+    onDismissCallback: @Composable Action = {}
 ) {
     var hasTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }

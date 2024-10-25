@@ -18,3 +18,5 @@ typealias CVSuccess = (image: BufferedImage)->Unit
 typealias CVFailure = (e:Exception) -> Unit
 
 typealias OnCropPropertiesChange = (cropProperties: CropProperties) -> Unit
+
+typealias Action = () -> Unit
