@@ -203,13 +203,11 @@ fun binaryImage(state: ApplicationState) {
 
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型类型")
-
                                 return@composeClick
                             }
 
                             if (thresholdSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择全局阈值分割类型")
-
                                 return@composeClick
                             }
 
@@ -217,31 +215,17 @@ fun binaryImage(state: ApplicationState) {
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型类型")
-
                                 return@composeClick
                             }
 
                             if (adaptiveMethodSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择自适应阈值算法类型")
-
                                 return@composeClick
                             }
 
-                            val blockSize = try {
-                                blockSizeText.value.toInt()
-                            } catch (e:Exception) {
-                                experimentViewVerifyToast("blockSize 需要 int 类型")
+                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@composeClick
 
-                                return@composeClick
-                            }
-
-                            val c = try {
-                                cText.value.toInt()
-                            } catch (e:Exception) {
-                                experimentViewVerifyToast("c 需要 int 类型")
-
-                                return@composeClick
-                            }
+                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@composeClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
                         }
@@ -285,29 +269,11 @@ fun binaryImage(state: ApplicationState) {
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
-                        val threshold1 = try {
-                            threshold1Text.value.toDouble()
-                        } catch (e:Exception) {
-                            experimentViewVerifyToast("threshold1 需要 double 类型")
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@composeClick
 
-                            return@composeClick
-                        }
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@composeClick
 
-                        val threshold2 = try {
-                            threshold2Text.value.toDouble()
-                        } catch (e:Exception) {
-                            experimentViewVerifyToast("threshold2 需要 double 类型")
-
-                            return@composeClick
-                        }
-
-                        val apertureSize = try {
-                            apertureSizeText.value.toInt()
-                        } catch (e:Exception) {
-                            experimentViewVerifyToast("apertureSize 需要 int 类型")
-
-                            return@composeClick
-                        }
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@composeClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
