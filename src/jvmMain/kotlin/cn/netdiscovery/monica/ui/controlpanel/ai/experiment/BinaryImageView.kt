@@ -197,6 +197,11 @@ fun binaryImage(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
+                    if (state.currentImage == null) {
+                        experimentViewVerifyToast("请先选择图像")
+                        return@composeClick
+                    }
+
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         if (state.isThreshType && state.isThreshSegment) {
@@ -267,6 +272,11 @@ fun binaryImage(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
+                    if (state.currentImage == null) {
+                        experimentViewVerifyToast("请先选择图像")
+                        return@composeClick
+                    }
+
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@composeClick
@@ -330,6 +340,11 @@ fun binaryImage(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
+                    if (state.currentImage == null) {
+                        experimentViewVerifyToast("请先选择图像")
+                        return@composeClick
+                    }
+
                     if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
                         val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@composeClick
 
