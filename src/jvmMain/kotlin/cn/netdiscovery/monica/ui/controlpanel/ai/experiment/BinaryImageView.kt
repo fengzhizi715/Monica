@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.composeClick
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -364,16 +365,7 @@ fun binaryImage(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = composeClick {
                     if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
-
-//                        val hmin = try {
-//                            hminText.value.toInt()
-//                        } catch (e:Exception) {
-//                            experimentViewVerifyToast("hmin 需要 int 类型")
-//
-//                            return@composeClick
-//                        }
-
-                        val hmin = getField("hmin 需要 int 类型") { hminText.value.toInt() } ?: return@composeClick
+                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@composeClick
 
                         val smin = try {
                             sminText.value.toInt()
@@ -398,14 +390,5 @@ fun binaryImage(state: ApplicationState) {
                 Text(text = "彩色图像分割", color = Color.Unspecified)
             }
         }
-    }
-}
-
-private fun <T> getField(message: String, block:()-> T): T? {
-    try {
-        return block.invoke()
-    } catch (e:Exception) {
-        experimentViewVerifyToast(message)
-        return null
     }
 }
