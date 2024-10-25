@@ -16,8 +16,8 @@ const val VIEW_CLICK_INTERVAL_TIME = 1000 // View的click方法的两次点击�
 @Composable
 inline fun composeClick(
     time: Int = VIEW_CLICK_INTERVAL_TIME,
-    crossinline onClick: () -> Unit
-): () -> Unit {
+    crossinline onClick: Action
+): Action {
     var lastClickTime by remember { mutableStateOf(value = 0L) } // 使用remember函数记录上次点击的时间
     return {
         val currentTimeMillis = System.currentTimeMillis()
@@ -31,7 +31,7 @@ inline fun composeClick(
 /**
  * 点击按钮后，会带有 loading 的效果
  */
-fun loadingDisplay(block:()->Unit) {
+fun loadingDisplay(block: Action) {
     loadingDisplay = true
     block.invoke()
     loadingDisplay = false

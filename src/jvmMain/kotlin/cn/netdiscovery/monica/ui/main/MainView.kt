@@ -46,7 +46,7 @@ fun mainView(
  * 加载网络图片的对话框
  */
 @Composable
-fun openURLDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
+fun openURLDialog(onConfirm: Action, onDismiss: Action) {
     AlertDialog(
         modifier = Modifier.width(600.dp).height(200.dp),
         onDismissRequest = onDismiss,
@@ -86,7 +86,7 @@ fun openURLDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
 }
 
 @Composable
-fun showVersionInfo(onClick: () -> Unit) {
+fun showVersionInfo(onClick: Action) {
     AlertDialog(onDismissRequest = {},
         title = {
             Text("Monica 软件信息")
