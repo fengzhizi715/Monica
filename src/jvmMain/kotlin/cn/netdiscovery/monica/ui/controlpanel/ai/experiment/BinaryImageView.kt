@@ -367,23 +367,17 @@ fun binaryImage(state: ApplicationState) {
                     if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
                         val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@composeClick
 
-                        val smin = try {
-                            sminText.value.toInt()
-                        } catch (e:Exception) {
-                            experimentViewVerifyToast("smin 需要 int 类型")
+                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@composeClick
 
-                            return@composeClick
-                        }
+                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@composeClick
 
-                        val vmin = try {
-                            vminText.value.toInt()
-                        } catch (e:Exception) {
-                            experimentViewVerifyToast("vmin 需要 int 类型")
+                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@composeClick
 
-                            return@composeClick
-                        }
+                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@composeClick
 
-                        viewModel.inRange(state, hmin, smin, vmin, hmaxText.value.toInt(), smaxText.value.toInt(), vmaxText.value.toInt())
+                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@composeClick
+
+                        viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }
                 }
             ) {
