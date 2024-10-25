@@ -103,6 +103,11 @@ fun edgeDetection(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = composeClick {
+                            if (firstDerivativeOperatorSelectedOption.value == "Null") {
+                                experimentViewVerifyToast("请选择一阶导数算子类型")
+                                return@composeClick
+                            }
+
                             when(firstDerivativeOperatorSelectedOption.value) {
                                 "Roberts算子" -> viewModel.roberts(state)
                                 "Prewitt算子" -> viewModel.prewitt(state)
@@ -149,6 +154,11 @@ fun edgeDetection(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = composeClick {
+                            if (secondDerivativeOperatorSelectedOption.value == "Null") {
+                                experimentViewVerifyToast("请选择二阶导数算子类型")
+                                return@composeClick
+                            }
+
                             when(secondDerivativeOperatorSelectedOption.value) {
                                 "Laplace算子" -> viewModel.laplace(state)
                                 "LoG算子"     -> viewModel.log(state)

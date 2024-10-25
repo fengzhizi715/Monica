@@ -202,7 +202,7 @@ fun binaryImage(state: ApplicationState) {
                         if (state.isThreshType && state.isThreshSegment) {
 
                             if (typeSelectedOption.value == "Null") {
-                                experimentViewVerifyToast("请选择阈值化类型类型")
+                                experimentViewVerifyToast("请选择阈值化类型")
                                 return@composeClick
                             }
 
@@ -214,7 +214,7 @@ fun binaryImage(state: ApplicationState) {
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
-                                experimentViewVerifyToast("请选择阈值化类型类型")
+                                experimentViewVerifyToast("请选择阈值化类型")
                                 return@composeClick
                             }
 
