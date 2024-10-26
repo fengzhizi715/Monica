@@ -18,7 +18,6 @@ import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.title
-import cn.netdiscovery.monica.utils.composeClick
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -105,15 +104,10 @@ fun edgeDetection(state: ApplicationState) {
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center) {
                     Button(
-                        onClick = composeClick {
-                            if (state.currentImage == null) {
-                                experimentViewVerifyToast("请先选择图像")
-                                return@composeClick
-                            }
-
+                        onClick = experimentViewClick(state) {
                             if (firstDerivativeOperatorSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择一阶导数算子类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
                             when(firstDerivativeOperatorSelectedOption.value) {
@@ -122,7 +116,6 @@ fun edgeDetection(state: ApplicationState) {
                                 "Sobel算子"   -> viewModel.sobel(state)
                                 else         -> {}
                             }
-
                         }
                     ) {
                         Text(text = "一阶导数算子边缘检测", color = Color.Unspecified)
@@ -161,15 +154,10 @@ fun edgeDetection(state: ApplicationState) {
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center) {
                     Button(
-                        onClick = composeClick {
-                            if (state.currentImage == null) {
-                                experimentViewVerifyToast("请先选择图像")
-                                return@composeClick
-                            }
-
+                        onClick = experimentViewClick(state) {
                             if (secondDerivativeOperatorSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择二阶导数算子类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
                             when(secondDerivativeOperatorSelectedOption.value) {
@@ -234,19 +222,14 @@ fun edgeDetection(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
-                    if (state.currentImage == null) {
-                        experimentViewVerifyToast("请先选择图像")
-                        return@composeClick
-                    }
-
+                onClick = experimentViewClick(state) {
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@composeClick
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
 
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@composeClick
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
 
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@composeClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }

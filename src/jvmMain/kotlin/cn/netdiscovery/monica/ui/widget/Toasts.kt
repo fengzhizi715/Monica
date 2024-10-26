@@ -34,7 +34,7 @@ import kotlinx.coroutines.delay
 @Composable
 fun topToast(
     modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
+    message: String = "",
     textColor: Color = Color.Gray,
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
@@ -54,7 +54,7 @@ fun topToast(
 @Composable
 fun centerToast(
     modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
+    message: String = "",
     textColor: Color = Color.Gray,
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
@@ -74,7 +74,7 @@ fun centerToast(
 @Composable
 fun bottomToast(
     modifier: Modifier = Modifier,
-    message: String = "An unexpected error occurred. Please try again later",
+    message: String = "",
     textColor: Color = Color.Gray,
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
