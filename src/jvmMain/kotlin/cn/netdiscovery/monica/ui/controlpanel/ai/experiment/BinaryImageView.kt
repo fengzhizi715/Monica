@@ -273,11 +273,13 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
+                onClick = composeClick (filter = {
                     if (state.currentImage == null) {
                         experimentViewVerifyToast("请先选择图像")
-                        return@composeClick
+                        false
                     }
+                    true
+                }, onClick = {
 
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
@@ -289,7 +291,7 @@ fun binaryImage(state: ApplicationState) {
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
-                }
+                })
             ) {
                 Text(text = "Canny 边缘检测", color = Color.Unspecified)
             }

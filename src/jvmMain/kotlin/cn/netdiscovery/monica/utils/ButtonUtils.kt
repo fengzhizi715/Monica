@@ -11,18 +11,24 @@ import loadingDisplay
  * @date: 2024/4/27 17:16
  * @version: V1.0 <描述当前版本功能>
  */
-const val VIEW_CLICK_INTERVAL_TIME = 1000 // View的click方法的两次点击间隔时间
+const val VIEW_CLICK_INTERVAL_TIME = 1000 // View 的 click 方法的两次点击间隔时间
 
 @Composable
 inline fun composeClick(
-    time: Int = VIEW_CLICK_INTERVAL_TIME,
+    time: Int = VIEW_CLICK_INTERVAL_TIME, // 默认是 1s 不同的 view 可以有不同的间隔时间
+    crossinline filter: () -> Boolean = { true },
     crossinline onClick: Action
 ): Action {
     var lastClickTime by remember { mutableStateOf(value = 0L) } // 使用remember函数记录上次点击的时间
+
     return {
         val currentTimeMillis = System.currentTimeMillis()
         if (currentTimeMillis - time >= lastClickTime) {          // 判断点击间隔,如果在间隔内则不回调
-            onClick()
+
+            if (filter.invoke()) {
+                onClick()
+            }
+
             lastClickTime = currentTimeMillis
         }
     }
