@@ -15,7 +15,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
-import cn.netdiscovery.monica.utils.composeClick
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -198,41 +197,36 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
-                    if (state.currentImage == null) {
-                        experimentViewVerifyToast("请先选择图像")
-                        return@composeClick
-                    }
-
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
+                onClick = experimentViewClick(state) {
+                    if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         if (state.isThreshType && state.isThreshSegment) {
 
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
                             if (thresholdSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择全局阈值分割类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (state.isThreshType && state.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
                             if (adaptiveMethodSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择自适应阈值算法类型")
-                                return@composeClick
+                                return@experimentViewClick
                             }
 
-                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@composeClick
+                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentViewClick
 
-                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@composeClick
+                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
                         }
@@ -273,25 +267,18 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = composeClick (filter = {
-                    if (state.currentImage == null) {
-                        experimentViewVerifyToast("请先选择图像")
-                        false
-                    }
-                    true
-                }, onClick = {
+                onClick = experimentViewClick(state) {
+                    if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
 
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@composeClick
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
 
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@composeClick
-
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@composeClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
-                })
+                }
             ) {
                 Text(text = "Canny 边缘检测", color = Color.Unspecified)
             }
@@ -343,24 +330,19 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = composeClick {
-                    if (state.currentImage == null) {
-                        experimentViewVerifyToast("请先选择图像")
-                        return@composeClick
-                    }
+                onClick = experimentViewClick(state) {
+                    if(state.currentImage?.type!! in 1..9) {
+                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
 
-                    if(state.currentImage!= null && state.currentImage?.type!! in 1..9) {
-                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@composeClick
+                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
 
-                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@composeClick
+                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
 
-                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@composeClick
+                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
 
-                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@composeClick
+                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
 
-                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@composeClick
-
-                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@composeClick
+                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }

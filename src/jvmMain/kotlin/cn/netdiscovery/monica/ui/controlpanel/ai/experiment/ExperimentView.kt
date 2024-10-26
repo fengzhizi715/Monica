@@ -20,6 +20,8 @@ import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.Action
+import cn.netdiscovery.monica.utils.composeClick
 import loadingDisplay
 import org.koin.compose.koinInject
 
@@ -226,4 +228,19 @@ fun experiment(state: ApplicationState) {
 fun experimentViewVerifyToast(message: String) {
     verifyToastMessage = message
     showVerifyToast = true
+}
+
+@Composable
+inline fun experimentViewClick(
+    state: ApplicationState,
+    crossinline onClick: Action
+): Action {
+    return composeClick(filter = {
+        if (state.currentImage == null) {
+            experimentViewVerifyToast("请先选择图像")
+            false
+        } else {
+            true
+        }
+    }, onClick = onClick)
 }
