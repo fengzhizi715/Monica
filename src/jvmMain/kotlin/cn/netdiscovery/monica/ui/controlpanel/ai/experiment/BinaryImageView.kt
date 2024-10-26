@@ -229,6 +229,8 @@ fun binaryImage(state: ApplicationState) {
                             val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
+                        } else {
+                            experimentViewVerifyToast("请选择阈值化类型以及全局阈值分割 或 自适应阈值分割")
                         }
                     }
                 }

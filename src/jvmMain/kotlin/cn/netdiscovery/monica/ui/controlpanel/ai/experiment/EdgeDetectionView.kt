@@ -223,7 +223,7 @@ fun edgeDetection(state: ApplicationState) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
-                    if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
+                    if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
 
