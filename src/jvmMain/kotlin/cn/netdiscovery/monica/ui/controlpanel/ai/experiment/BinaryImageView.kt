@@ -64,7 +64,9 @@ fun binaryImage(state: ApplicationState) {
         cText.value = ""
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "二值化", color = Color.Black)
+
 //        Column {
 //            subTitle(text = "灰度图像", color = Color.Black)
 //            divider()

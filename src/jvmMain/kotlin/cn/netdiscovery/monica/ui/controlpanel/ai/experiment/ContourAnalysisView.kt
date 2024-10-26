@@ -4,12 +4,14 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.widget.title
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -26,7 +28,9 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun contourAnalysis(state: ApplicationState) {
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "轮廓分析", color = Color.Black)
+
         Column{
             subTitle(text = "过滤设置", color = Color.Black)
             divider()

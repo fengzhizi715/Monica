@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.composeClick
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -65,7 +66,9 @@ fun edgeDetection(state: ApplicationState) {
         sizeText.value = ""
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 20.dp)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "边缘检测", color = Color.Black)
+
         Column{
             subTitle(text = "边缘检测算子", color = Color.Black)
             divider()
