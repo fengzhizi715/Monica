@@ -163,7 +163,15 @@ fun edgeDetection(state: ApplicationState) {
                             when(secondDerivativeOperatorSelectedOption.value) {
                                 "Laplace算子" -> viewModel.laplace(state)
                                 "LoG算子"     -> viewModel.log(state)
-                                "DoG算子"     -> viewModel.dog(state, sigma1Text.value.toDouble(), sigma2Text.value.toDouble(), sizeText.value.toInt())
+                                "DoG算子"     -> {
+                                    val sigma1 = getValidateField(block = { sigma1Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
+
+                                    val sigma2 = getValidateField(block = { sigma2Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
+
+                                    val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
+
+                                    viewModel.dog(state, sigma1, sigma2, size)
+                                }
                                 else         -> {}
                             }
                         }
