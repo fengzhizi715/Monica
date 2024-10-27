@@ -18,6 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.widget.basicTextField
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -135,44 +136,26 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
         mutableStateOf("10")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row{
         Text(text = "clipLimit")
 
-        BasicTextField(
-            value = clipLimitText,
-            onValueChange = { str ->
-                clipLimitText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(clipLimitText, Modifier.padding(top = 5.dp)) { str ->
+            clipLimitText = str
+        }
+
+        Text(text = "size")
+
+        basicTextField(sizeText, Modifier.padding(top = 5.dp)) { str ->
+            sizeText = str
+        }
     }
 
     Row(
-        modifier = Modifier.padding(top = 10.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = "size")
-
-        BasicTextField(
-            value = sizeText,
-            onValueChange = { str ->
-                sizeText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
-
-        confirmButton(state.isEnhance) {
+        confirmButton(state.isEnhance, Modifier) {
             viewModel.clahe(state,clipLimitText.toDouble(), sizeText.toInt())
         }
     }
