@@ -168,25 +168,14 @@ private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhance
         mutableStateOf("1.0")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row{
         Text(text = "gamma")
 
-        BasicTextField(
-            value = gammaText,
-            onValueChange = { str ->
-                gammaText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(gammaText, Modifier.padding(top = 5.dp)) { str ->
+            gammaText = str
+        }
 
-        confirmButton(state.isEnhance) {
+        confirmButton(state.isEnhance, Modifier.padding(start = 120.dp)) {
             viewModel.gammaCorrection(state, gammaText.toFloat())
         }
     }
