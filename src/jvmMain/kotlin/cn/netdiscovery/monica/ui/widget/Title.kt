@@ -52,3 +52,15 @@ fun subTitle(
         fontWeight = fontWeight
     )
 }
+
+@Composable
+fun subTitleWithDivider(
+    modifier: Modifier = Modifier,
+    text: String,
+    color: Color = MaterialTheme.colors.primary,
+    fontSize: TextUnit = subTitleTextSize,
+    fontWeight: FontWeight? = null
+) {
+    subTitle(modifier = modifier, text = text, color = color, fontSize = fontSize, fontWeight = fontWeight)
+    divider()
+}

@@ -84,8 +84,7 @@ fun binaryImage(state: ApplicationState) {
 //        }
 
         Column {
-            subTitle(text = "阈值分割", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "阈值分割", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isThreshType, onCheckedChange = {
@@ -240,8 +239,7 @@ fun binaryImage(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitle(text = "Canny 边缘检测", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "Canny 边缘检测", color = Color.Black)
 
             Row {
                 Text(text = "threshold1")
@@ -271,11 +269,8 @@ fun binaryImage(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-
                         val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
-
                         val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
-
                         val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
@@ -287,8 +282,7 @@ fun binaryImage(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitle(text = "彩色图像分割", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "彩色图像分割", color = Color.Black)
 
             Row {
                 Text(text = "hmin")
@@ -335,15 +329,11 @@ fun binaryImage(state: ApplicationState) {
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
                         val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
-
                         val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
-
                         val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
 
                         val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
-
                         val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
-
                         val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)

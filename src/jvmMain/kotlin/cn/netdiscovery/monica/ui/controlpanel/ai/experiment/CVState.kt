@@ -25,4 +25,6 @@ object CVState {
     var isSecondDerivativeOperator by mutableStateOf(false)
 
     var isCannyOperator by mutableStateOf(false)
+
+
 }

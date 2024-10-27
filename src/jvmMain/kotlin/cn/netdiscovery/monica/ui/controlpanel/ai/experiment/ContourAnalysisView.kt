@@ -11,10 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.basicTextField
-import cn.netdiscovery.monica.ui.widget.divider
-import cn.netdiscovery.monica.ui.widget.subTitle
-import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.ui.widget.*
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -40,8 +37,7 @@ fun contourAnalysis(state: ApplicationState) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "轮廓分析", color = Color.Black)
 
         Column{
-            subTitle(text = "过滤设置", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "过滤设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isThreshType, onCheckedChange = {
@@ -165,8 +161,7 @@ fun contourAnalysis(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitle(text = "显示设置", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isThreshType, onCheckedChange = {

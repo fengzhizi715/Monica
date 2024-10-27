@@ -14,10 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.basicTextField
-import cn.netdiscovery.monica.ui.widget.divider
-import cn.netdiscovery.monica.ui.widget.subTitle
-import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -36,7 +33,6 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
 val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "DoG算子")
-
 
 @Composable
 fun edgeDetection(state: ApplicationState) {
@@ -69,8 +65,7 @@ fun edgeDetection(state: ApplicationState) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "边缘检测", color = Color.Black)
 
         Column{
-            subTitle(text = "边缘检测算子", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "边缘检测算子", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isFirstDerivativeOperator, onCheckedChange = {
@@ -165,9 +160,7 @@ fun edgeDetection(state: ApplicationState) {
                                 "LoG算子"     -> viewModel.log(state)
                                 "DoG算子"     -> {
                                     val sigma1 = getValidateField(block = { sigma1Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
-
                                     val sigma2 = getValidateField(block = { sigma2Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
-
                                     val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
 
                                     viewModel.dog(state, sigma1, sigma2, size)
@@ -232,12 +225,9 @@ fun edgeDetection(state: ApplicationState) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
-
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
-
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() }, failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
