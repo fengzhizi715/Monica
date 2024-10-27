@@ -30,8 +30,17 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 fun contourAnalysis(state: ApplicationState) {
     val viewModel: ContourAnalysisViewModel = koinInject()
 
-    var sigma1Text = remember { mutableStateOf("") }
-    var sigma2Text = remember { mutableStateOf("") }
+    var minPerimeterText = remember { mutableStateOf("") }
+    var maxPerimeterText = remember { mutableStateOf("") }
+
+    var minAreaText = remember { mutableStateOf("") }
+    var maxAreaText = remember { mutableStateOf("") }
+
+    var minRoundnessText = remember { mutableStateOf("") }
+    var maxRoundnessText = remember { mutableStateOf("") }
+
+    var minAspectRatioText = remember { mutableStateOf("") }
+    var maxAspectRatioText = remember { mutableStateOf("") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "轮廓分析", color = Color.Black)
@@ -40,21 +49,16 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "过滤设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(CVState.isContourPerimeter, onCheckedChange = {
+                    CVState.isContourPerimeter = it
+
                 })
 
                 Text("周长", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
                 Text(text = "最小值")
 
-                basicTextField(sigma1Text.value) { str ->
+                basicTextField(minPerimeterText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma1Text.value = str
 //                    }
@@ -62,7 +66,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最大值")
 
-                basicTextField(sigma2Text.value) { str ->
+                basicTextField(maxPerimeterText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma2Text.value = str
 //                    }
@@ -84,7 +88,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最小值")
 
-                basicTextField(sigma1Text.value) { str ->
+                basicTextField(minAreaText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma1Text.value = str
 //                    }
@@ -92,7 +96,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最大值")
 
-                basicTextField(sigma2Text.value) { str ->
+                basicTextField(maxAreaText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma2Text.value = str
 //                    }
@@ -114,7 +118,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最小值")
 
-                basicTextField(sigma1Text.value) { str ->
+                basicTextField(minRoundnessText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma1Text.value = str
 //                    }
@@ -122,7 +126,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最大值")
 
-                basicTextField(sigma2Text.value) { str ->
+                basicTextField(maxRoundnessText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma2Text.value = str
 //                    }
@@ -144,7 +148,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最小值")
 
-                basicTextField(sigma1Text.value) { str ->
+                basicTextField(minAspectRatioText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma1Text.value = str
 //                    }
@@ -152,7 +156,7 @@ fun contourAnalysis(state: ApplicationState) {
 
                 Text(text = "最大值")
 
-                basicTextField(sigma2Text.value) { str ->
+                basicTextField(maxAspectRatioText.value) { str ->
 //                    if (state.isSecondDerivativeOperator) {
 //                        sigma2Text.value = str
 //                    }

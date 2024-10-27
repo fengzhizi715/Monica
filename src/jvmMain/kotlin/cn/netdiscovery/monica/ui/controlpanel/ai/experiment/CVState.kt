@@ -26,5 +26,5 @@ object CVState {
 
     var isCannyOperator by mutableStateOf(false)
 
-
+    var isContourPerimeter by mutableStateOf(false)
 }
