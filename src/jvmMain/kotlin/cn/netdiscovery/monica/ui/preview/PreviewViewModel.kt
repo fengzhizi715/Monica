@@ -17,6 +17,7 @@ import com.safframework.kotlin.coroutines.IO
 import filterNames
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
+import showTopToast
 import java.awt.Color
 import java.awt.Graphics
 import java.io.File
@@ -249,7 +250,8 @@ class PreviewViewModel {
                 val outputPath = it[0].absolutePath
                 val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
                 state.currentImage!!.saveImage(saveFile)
-                state.showTray(msg = "保存成功（${outputPath}）")
+
+                showTopToast("图像保存成功")
             }
         }
     }
