@@ -2,10 +2,6 @@ package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -144,26 +140,26 @@ private fun generateResizeParams(state: ApplicationState, viewModel: CropViewMod
         mutableStateOf("${state.currentImage?.height?:400}")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row {
         Text(text = "width")
 
         basicTextField(widthText) { str ->
             widthText = str
         }
-    }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
         Text(text = "height")
 
         basicTextField(heightText) { str ->
             heightText = str
         }
+    }
 
-        confirmButton(state.isBasic) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        confirmButton(state.isBasic, Modifier) {
             viewModel.resize(widthText.toInt(),heightText.toInt(),state)
         }
     }
@@ -181,26 +177,26 @@ private fun generateShearingParams(state: ApplicationState, viewModel: CropViewM
         mutableStateOf("${0}")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row{
         Text(text = "x 方向")
 
         basicTextField(xText) { str ->
             xText = str
         }
-    }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
         Text(text = "y 方向")
 
         basicTextField(yText) { str ->
             yText = str
         }
+    }
 
-        confirmButton(state.isBasic) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        confirmButton(state.isBasic, Modifier) {
             viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
         }
     }
