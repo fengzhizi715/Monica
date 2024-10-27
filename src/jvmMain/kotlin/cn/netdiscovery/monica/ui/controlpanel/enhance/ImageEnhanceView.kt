@@ -196,63 +196,30 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
         mutableStateOf("50")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row {
         Text(text = "Radius")
 
-        BasicTextField(
-            value = radiusText,
-            onValueChange = { str ->
-                radiusText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(radiusText, Modifier.padding(top = 5.dp)) { str ->
+            radiusText = str
+        }
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row {
         Text(text = "Threshold")
 
-        BasicTextField(
-            value = thresholdText,
-            onValueChange = { str ->
-                thresholdText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(thresholdText, Modifier.padding(top = 5.dp)) { str ->
+            thresholdText = str
+        }
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row {
         Text(text = "Amount")
 
-        BasicTextField(
-            value = amountText,
-            onValueChange = { str ->
-                amountText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(amountText, Modifier.padding(top = 5.dp)) { str ->
+            amountText = str
+        }
 
-        confirmButton(state.isEnhance) {
+        confirmButton(state.isEnhance, Modifier.padding(start = 120.dp)) {
             viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
         }
     }
@@ -269,44 +236,26 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
         mutableStateOf("1")
     }
 
-    Row(
-        modifier = Modifier.padding(top = 10.dp)
-    ) {
+    Row {
         Text(text = "Ratio")
 
-        BasicTextField(
-            value = ratioText,
-            onValueChange = { str ->
-                ratioText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
+        basicTextField(ratioText, Modifier.padding(top = 5.dp)) { str ->
+            ratioText = str
+        }
+
+        Text(text = "Radius")
+
+        basicTextField(radiusText, Modifier.padding(top = 5.dp)) { str ->
+            radiusText = str
+        }
     }
 
     Row(
-        modifier = Modifier.padding(top = 10.dp)
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = "Radius")
-
-        BasicTextField(
-            value = radiusText,
-            onValueChange = { str ->
-                radiusText = str
-            },
-            keyboardOptions = KeyboardOptions.Default,
-            keyboardActions = KeyboardActions.Default,
-            cursorBrush = SolidColor(Color.Gray),
-            singleLine = true,
-            modifier = Modifier.padding(start = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-        )
-
-        confirmButton(state.isEnhance) {
+        confirmButton(state.isEnhance, Modifier) {
             viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
         }
     }

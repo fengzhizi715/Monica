@@ -81,7 +81,7 @@ fun toolTipButton(
 
 @Composable
 fun confirmButton(enabled:Boolean,
-                  modifier:Modifier = Modifier.offset(x = 140.dp,y = 0.dp),
+                  modifier:Modifier = Modifier,
                   onClick: () -> Unit) {
     Button(
         modifier = modifier,
