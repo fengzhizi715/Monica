@@ -73,14 +73,14 @@ fun edgeDetection(state: ApplicationState) {
             divider()
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isFirstDerivativeOperator, onCheckedChange = {
-                    state.isFirstDerivativeOperator = it
+                Checkbox(CVState.isFirstDerivativeOperator, onCheckedChange = {
+                    CVState.isFirstDerivativeOperator = it
 
-                    if (!state.isFirstDerivativeOperator) {
+                    if (!CVState.isFirstDerivativeOperator) {
                         firstDerivativeOperatorSelectedOption.value = "Null"
                     } else {
-                        state.isSecondDerivativeOperator = false
-                        state.isCannyOperator = false
+                        CVState.isSecondDerivativeOperator = false
+                        CVState.isCannyOperator = false
                         clearCannyParams()
                         clearDoGParams()
                     }
@@ -91,7 +91,7 @@ fun edgeDetection(state: ApplicationState) {
             Row {
                 firstDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (state.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption.value),
+                        selected = (CVState.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption.value),
                         onClick = {
                             firstDerivativeOperatorSelectedOption.value = it
                         }
@@ -124,14 +124,14 @@ fun edgeDetection(state: ApplicationState) {
             }
 
             Row(modifier = Modifier.padding(top = 10.dp),verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isSecondDerivativeOperator, onCheckedChange = {
-                    state.isSecondDerivativeOperator = it
+                Checkbox(CVState.isSecondDerivativeOperator, onCheckedChange = {
+                    CVState.isSecondDerivativeOperator = it
 
-                    if (!state.isSecondDerivativeOperator) {
+                    if (!CVState.isSecondDerivativeOperator) {
                         secondDerivativeOperatorSelectedOption.value = "Null"
                     } else {
-                        state.isFirstDerivativeOperator = false
-                        state.isCannyOperator = false
+                        CVState.isFirstDerivativeOperator = false
+                        CVState.isCannyOperator = false
                         clearCannyParams()
                     }
                 })
@@ -141,7 +141,7 @@ fun edgeDetection(state: ApplicationState) {
             Row {
                 secondDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (state.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption.value),
+                        selected = (CVState.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption.value),
                         onClick = {
                             secondDerivativeOperatorSelectedOption.value = it
                         }
@@ -181,17 +181,17 @@ fun edgeDetection(state: ApplicationState) {
                 }
             }
 
-            generateDoGParams(state, secondDerivativeOperatorSelectedOption, sigma1Text, sigma2Text, sizeText)
+            generateDoGParams(secondDerivativeOperatorSelectedOption, sigma1Text, sigma2Text, sizeText)
 
             Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isCannyOperator, onCheckedChange = {
-                    state.isCannyOperator = it
+                Checkbox(CVState.isCannyOperator, onCheckedChange = {
+                    CVState.isCannyOperator = it
 
-                    if (!state.isCannyOperator) {
+                    if (!CVState.isCannyOperator) {
                         clearCannyParams()
                     } else {
-                        state.isFirstDerivativeOperator = false
-                        state.isSecondDerivativeOperator = false
+                        CVState.isFirstDerivativeOperator = false
+                        CVState.isSecondDerivativeOperator = false
                         clearDoGParams()
                     }
                 })
@@ -202,7 +202,7 @@ fun edgeDetection(state: ApplicationState) {
                 Text(text = "threshold1")
 
                 basicTextField(threshold1Text.value) { str ->
-                    if (state.isCannyOperator) {
+                    if (CVState.isCannyOperator) {
                         threshold1Text.value = str
                     }
                 }
@@ -212,7 +212,7 @@ fun edgeDetection(state: ApplicationState) {
                 Text(text = "threshold2")
 
                 basicTextField(threshold2Text.value) { str ->
-                    if (state.isCannyOperator) {
+                    if (CVState.isCannyOperator) {
                         threshold2Text.value = str
                     }
                 }
@@ -222,7 +222,7 @@ fun edgeDetection(state: ApplicationState) {
                 Text(text = "apertureSize")
 
                 basicTextField(apertureSizeText.value) { str ->
-                    if (state.isCannyOperator) {
+                    if (CVState.isCannyOperator) {
                         apertureSizeText.value = str
                     }
                 }
@@ -250,17 +250,16 @@ fun edgeDetection(state: ApplicationState) {
 }
 
 @Composable
-private fun generateDoGParams(state: ApplicationState,
-                              secondDerivativeOperatorSelectedOption:MutableState<String>,
+private fun generateDoGParams(secondDerivativeOperatorSelectedOption:MutableState<String>,
                               sigma1Text:MutableState<String>,
                               sigma2Text:MutableState<String>,
                               sizeText:MutableState<String>) {
-    if (state.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption.value == "DoG算子") {
+    if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption.value == "DoG算子") {
         Row {
             Text(text = "sigma1")
 
             basicTextField(sigma1Text.value) { str ->
-                if (state.isSecondDerivativeOperator) {
+                if (CVState.isSecondDerivativeOperator) {
                     sigma1Text.value = str
                 }
             }
@@ -268,7 +267,7 @@ private fun generateDoGParams(state: ApplicationState,
             Text(text = "sigma2")
 
             basicTextField(sigma2Text.value) { str ->
-                if (state.isSecondDerivativeOperator) {
+                if (CVState.isSecondDerivativeOperator) {
                     sigma2Text.value = str
                 }
             }
@@ -276,7 +275,7 @@ private fun generateDoGParams(state: ApplicationState,
             Text(text = "size")
 
             basicTextField(sizeText.value) { str ->
-                if (state.isSecondDerivativeOperator) {
+                if (CVState.isSecondDerivativeOperator) {
                     sizeText.value = str
                 }
             }

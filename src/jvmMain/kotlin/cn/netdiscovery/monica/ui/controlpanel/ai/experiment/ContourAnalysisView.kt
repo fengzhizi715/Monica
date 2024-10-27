@@ -59,17 +59,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(sigma1Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma1Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma1Text.value = str
+//                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(sigma2Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma2Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma2Text.value = str
+//                    }
                 }
             }
 
@@ -89,17 +89,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(sigma1Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma1Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma1Text.value = str
+//                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(sigma2Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma2Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma2Text.value = str
+//                    }
                 }
             }
 
@@ -119,17 +119,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(sigma1Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma1Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma1Text.value = str
+//                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(sigma2Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma2Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma2Text.value = str
+//                    }
                 }
             }
 
@@ -149,17 +149,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(sigma1Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma1Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma1Text.value = str
+//                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(sigma2Text.value) { str ->
-                    if (state.isSecondDerivativeOperator) {
-                        sigma2Text.value = str
-                    }
+//                    if (state.isSecondDerivativeOperator) {
+//                        sigma2Text.value = str
+//                    }
                 }
             }
         }

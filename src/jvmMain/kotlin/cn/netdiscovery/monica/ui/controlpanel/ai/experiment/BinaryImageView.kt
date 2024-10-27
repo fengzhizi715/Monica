@@ -122,7 +122,7 @@ fun binaryImage(state: ApplicationState) {
                         thresholdSelectedOption.value = "Null"
                         logger.info("取消了全局阈值分割")
                     } else {
-                        state.isAdaptiveThresh = false
+                        CVState.isAdaptiveThresh = false
                         adaptiveMethodSelectedOption.value = "Null"
                         clearAdaptiveThreshParams()
                         logger.info("勾选了全局阈值分割")
@@ -145,10 +145,10 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isAdaptiveThresh, onCheckedChange = {
-                    state.isAdaptiveThresh = it
+                Checkbox(CVState.isAdaptiveThresh, onCheckedChange = {
+                    CVState.isAdaptiveThresh = it
 
-                    if (!state.isAdaptiveThresh) {
+                    if (!CVState.isAdaptiveThresh) {
                         adaptiveMethodSelectedOption.value = "Null"
                         clearAdaptiveThreshParams()
                         logger.info("取消了自适应阈值分割")
@@ -166,7 +166,7 @@ fun binaryImage(state: ApplicationState) {
 
                 adaptiveMethodSelectTags.forEach {
                     RadioButton(
-                        selected = (state.isAdaptiveThresh && it == adaptiveMethodSelectedOption.value),
+                        selected = (CVState.isAdaptiveThresh && it == adaptiveMethodSelectedOption.value),
                         onClick = {
                             adaptiveMethodSelectedOption.value = it
                         }
@@ -179,7 +179,7 @@ fun binaryImage(state: ApplicationState) {
                 Text(text = "blockSize")
 
                 basicTextField(blockSizeText.value) { str ->
-                    if (state.isAdaptiveThresh) {
+                    if (CVState.isAdaptiveThresh) {
                         blockSizeText.value = str
                     }
                 }
@@ -189,7 +189,7 @@ fun binaryImage(state: ApplicationState) {
                 Text(text = "c")
 
                 basicTextField(cText.value) { str ->
-                    if (state.isAdaptiveThresh) {
+                    if (CVState.isAdaptiveThresh) {
                         cText.value = str
                     }
                 }
@@ -213,7 +213,7 @@ fun binaryImage(state: ApplicationState) {
                             }
 
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
-                        } else if (CVState.isThreshType && state.isAdaptiveThresh) {
+                        } else if (CVState.isThreshType && CVState.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
                                 return@experimentViewClick
