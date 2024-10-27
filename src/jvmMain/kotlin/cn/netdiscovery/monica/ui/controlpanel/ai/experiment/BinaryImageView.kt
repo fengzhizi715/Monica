@@ -88,10 +88,10 @@ fun binaryImage(state: ApplicationState) {
             divider()
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+                    CVState.isThreshType = it
 
-                    if (!state.isThreshType) {
+                    if (!CVState.isThreshType) {
                         typeSelectedOption.value = "Null"
                         logger.info("取消了阈值化类型")
                     } else {
@@ -104,7 +104,7 @@ fun binaryImage(state: ApplicationState) {
             Row {
                 typeSelectTags.forEach {
                     RadioButton(
-                        selected = (state.isThreshType && it == typeSelectedOption.value),
+                        selected = (CVState.isThreshType && it == typeSelectedOption.value),
                         onClick = {
                             typeSelectedOption.value = it
                         }
@@ -115,10 +115,10 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshSegment, onCheckedChange = {
-                    state.isThreshSegment = it
+                Checkbox(CVState.isThreshSegment, onCheckedChange = {
+                    CVState.isThreshSegment = it
 
-                    if (!state.isThreshSegment) {
+                    if (!CVState.isThreshSegment) {
                         thresholdSelectedOption.value = "Null"
                         logger.info("取消了全局阈值分割")
                     } else {
@@ -134,7 +134,7 @@ fun binaryImage(state: ApplicationState) {
             Row {
                 thresholdSelectTags.forEach {
                     RadioButton(
-                        selected = (state.isThreshSegment && it == thresholdSelectedOption.value),
+                        selected = (CVState.isThreshSegment && it == thresholdSelectedOption.value),
                         onClick = {
                             thresholdSelectedOption.value = it
                         }
@@ -153,7 +153,7 @@ fun binaryImage(state: ApplicationState) {
                         clearAdaptiveThreshParams()
                         logger.info("取消了自适应阈值分割")
                     } else {
-                        state.isThreshSegment = false
+                        CVState.isThreshSegment = false
                         thresholdSelectedOption.value = "Null"
                         logger.info("勾选了自适应阈值分割")
                     }
@@ -200,7 +200,7 @@ fun binaryImage(state: ApplicationState) {
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
-                        if (state.isThreshType && state.isThreshSegment) {
+                        if (CVState.isThreshType && CVState.isThreshSegment) {
 
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
@@ -213,7 +213,7 @@ fun binaryImage(state: ApplicationState) {
                             }
 
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
-                        } else if (state.isThreshType && state.isAdaptiveThresh) {
+                        } else if (CVState.isThreshType && state.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
                                 return@experimentViewClick

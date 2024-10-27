@@ -73,10 +73,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isAI by mutableStateOf(false)
 
-    var isThreshType by mutableStateOf(false)
-
-    var isThreshSegment by mutableStateOf(false)
-
     var isAdaptiveThresh by mutableStateOf(false)
 
     var isFirstDerivativeOperator by mutableStateOf(false)

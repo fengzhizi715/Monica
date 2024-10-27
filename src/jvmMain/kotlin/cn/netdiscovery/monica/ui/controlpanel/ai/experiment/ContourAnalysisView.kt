@@ -44,14 +44,14 @@ fun contourAnalysis(state: ApplicationState) {
             divider()
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("周长", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
@@ -74,14 +74,14 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("面积", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
@@ -104,14 +104,14 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("圆度", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
@@ -134,14 +134,14 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("长宽比", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 35.dp))
@@ -169,26 +169,26 @@ fun contourAnalysis(state: ApplicationState) {
             divider()
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
-                Checkbox(state.isThreshType, onCheckedChange = {
-                    state.isThreshType = it
-
-                    if (!state.isThreshType) {
-
-                    } else {
-
-                    }
+                Checkbox(CVState.isThreshType, onCheckedChange = {
+//                    state.isThreshType = it
+//
+//                    if (!state.isThreshType) {
+//
+//                    } else {
+//
+//                    }
                 })
 
                 Text("最小外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
