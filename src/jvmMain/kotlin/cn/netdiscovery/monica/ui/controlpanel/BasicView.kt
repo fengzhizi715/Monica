@@ -159,7 +159,7 @@ private fun generateResizeParams(state: ApplicationState, viewModel: CropViewMod
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        confirmButton(state.isBasic, Modifier) {
+        confirmButton(state.isBasic) {
             viewModel.resize(widthText.toInt(),heightText.toInt(),state)
         }
     }
@@ -196,7 +196,7 @@ private fun generateShearingParams(state: ApplicationState, viewModel: CropViewM
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        confirmButton(state.isBasic, Modifier) {
+        confirmButton(state.isBasic) {
             viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
         }
     }

@@ -155,7 +155,7 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        confirmButton(state.isEnhance, Modifier) {
+        confirmButton(state.isEnhance) {
             viewModel.clahe(state,clipLimitText.toDouble(), sizeText.toInt())
         }
     }
@@ -255,7 +255,7 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
         horizontalArrangement = Arrangement.End,
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        confirmButton(state.isEnhance, Modifier) {
+        confirmButton(state.isEnhance) {
             viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
         }
     }
