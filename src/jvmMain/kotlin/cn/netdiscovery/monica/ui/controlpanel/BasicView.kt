@@ -143,13 +143,13 @@ private fun generateResizeParams(state: ApplicationState, viewModel: CropViewMod
     Row {
         Text(text = "width")
 
-        basicTextField(widthText) { str ->
+        basicTextField(widthText, Modifier.padding(top = 5.dp)) { str ->
             widthText = str
         }
 
         Text(text = "height")
 
-        basicTextField(heightText) { str ->
+        basicTextField(heightText, Modifier.padding(top = 5.dp)) { str ->
             heightText = str
         }
     }
@@ -180,13 +180,13 @@ private fun generateShearingParams(state: ApplicationState, viewModel: CropViewM
     Row{
         Text(text = "x 方向")
 
-        basicTextField(xText) { str ->
+        basicTextField(xText, Modifier.padding(top = 5.dp)) { str ->
             xText = str
         }
 
         Text(text = "y 方向")
 
-        basicTextField(yText) { str ->
+        basicTextField(yText, Modifier.padding(top = 5.dp)) { str ->
             yText = str
         }
     }

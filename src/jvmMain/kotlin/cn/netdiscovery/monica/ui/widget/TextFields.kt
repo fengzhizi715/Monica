@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun basicTextField(value: String,
+                   modifier:Modifier = Modifier,
                    onValueChange: (String) -> Unit) {
 
     BasicTextField(
@@ -35,7 +36,7 @@ fun basicTextField(value: String,
         keyboardActions = KeyboardActions.Default,
         cursorBrush = SolidColor(Color.Gray),
         singleLine = true,
-        modifier = Modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+        modifier = modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
         textStyle = TextStyle(Color.Black, fontSize = 12.sp)
     )
 }
