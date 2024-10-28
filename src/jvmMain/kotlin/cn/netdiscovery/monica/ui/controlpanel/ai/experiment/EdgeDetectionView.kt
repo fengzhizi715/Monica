@@ -192,37 +192,21 @@ fun edgeDetection(state: ApplicationState) {
             }
 
             Row {
-                Text(text = "threshold1")
-
-                basicTextField(threshold1Text.value) { str ->
-                    if (CVState.isCannyOperator) {
-                        threshold1Text.value = str
-                    }
+                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text.value) { str ->
+                    threshold1Text.value = str
                 }
-            }
 
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "threshold2")
-
-                basicTextField(threshold2Text.value) { str ->
-                    if (CVState.isCannyOperator) {
-                        threshold2Text.value = str
-                    }
+                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text.value) { str ->
+                    threshold2Text.value = str
                 }
-            }
 
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "apertureSize")
-
-                basicTextField(apertureSizeText.value) { str ->
-                    if (CVState.isCannyOperator) {
-                        apertureSizeText.value = str
-                    }
+                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText.value) { str ->
+                    apertureSizeText.value = str
                 }
             }
 
             Button(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
                         val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
