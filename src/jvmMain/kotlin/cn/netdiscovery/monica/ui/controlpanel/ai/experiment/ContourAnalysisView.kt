@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -49,12 +48,10 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "过滤设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isContourPerimeter, onCheckedChange = {
+                checkBoxWithTitle("周长", checked = CVState.isContourPerimeter, onCheckedChange = {
                     CVState.isContourPerimeter = it
 
                 })
-
-                Text("周长", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
                 Text(text = "最小值")
 
@@ -74,12 +71,10 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isContourArea, onCheckedChange = {
+                checkBoxWithTitle("面积", checked = CVState.isContourArea, onCheckedChange = {
                     CVState.isContourArea = it
 
                 })
-
-                Text("面积", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
                 Text(text = "最小值")
 
@@ -99,12 +94,10 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isContourRoundness, onCheckedChange = {
+                checkBoxWithTitle("圆度", checked = CVState.isContourRoundness, onCheckedChange = {
                     CVState.isContourRoundness = it
 
                 })
-
-                Text("圆度", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
                 Text(text = "最小值")
 
@@ -124,12 +117,10 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isContourAspectRatio, onCheckedChange = {
+                checkBoxWithTitle("长宽比", Modifier.padding(end = 35.dp), CVState.isContourAspectRatio, onCheckedChange = {
                     CVState.isContourAspectRatio = it
 
                 })
-
-                Text("长宽比", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 35.dp))
 
                 Text(text = "最小值")
 
@@ -153,11 +144,11 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("外接矩形", true, onCheckedChange = {
+                checkBoxWithTitle("外接矩形", checked = true, onCheckedChange = {
 
                 })
 
-                checkBoxWithTitle("最小外接矩形",true, onCheckedChange = {
+                checkBoxWithTitle("最小外接矩形",checked =true, onCheckedChange = {
                 })
             }
         }

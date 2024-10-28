@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun checkBoxWithTitle(text: String,
+                      textModify:Modifier = Modifier.padding(end = 50.dp),
                       checked: Boolean,
                       onCheckedChange: ((Boolean) -> Unit)?,
                       ) {
@@ -28,7 +29,7 @@ fun checkBoxWithTitle(text: String,
             onCheckedChange?.invoke(it)
         })
 
-        Text(text, modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
+        Text(text, modifier = textModify.align(Alignment.CenterVertically))
     }
 
 }
