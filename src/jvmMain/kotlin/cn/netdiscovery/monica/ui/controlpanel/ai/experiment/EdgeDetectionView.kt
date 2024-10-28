@@ -230,25 +230,19 @@ private fun generateDoGParams(secondDerivativeOperatorSelectedOption:MutableStat
                               sizeText:MutableState<String>) {
     if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption.value == "DoG算子") {
         Row {
-            Text(text = "sigma1")
-
-            basicTextField(sigma1Text.value) { str ->
+            basicTextFieldWithTitle(titleText = "sigma1", sigma1Text.value) { str ->
                 if (CVState.isSecondDerivativeOperator) {
                     sigma1Text.value = str
                 }
             }
 
-            Text(text = "sigma2")
-
-            basicTextField(sigma2Text.value) { str ->
+            basicTextFieldWithTitle(titleText = "sigma2", sigma2Text.value) { str ->
                 if (CVState.isSecondDerivativeOperator) {
                     sigma2Text.value = str
                 }
             }
 
-            Text(text = "size")
-
-            basicTextField(sizeText.value) { str ->
+            basicTextFieldWithTitle(titleText = "size", sizeText.value) { str ->
                 if (CVState.isSecondDerivativeOperator) {
                     sizeText.value = str
                 }
