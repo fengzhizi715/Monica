@@ -187,26 +187,16 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
         mutableStateOf("50")
     }
 
-    Row {
-        Text(text = "Radius")
+    basicTextFieldWithTitle(titleText = "Radius", radiusText, Modifier.padding(top = 5.dp)) { str ->
+        radiusText = str
+    }
 
-        basicTextField(radiusText, Modifier.padding(top = 5.dp)) { str ->
-            radiusText = str
-        }
+    basicTextFieldWithTitle(titleText = "Threshold", thresholdText, Modifier.padding(top = 5.dp)) { str ->
+        thresholdText = str
     }
 
     Row {
-        Text(text = "Threshold")
-
-        basicTextField(thresholdText, Modifier.padding(top = 5.dp)) { str ->
-            thresholdText = str
-        }
-    }
-
-    Row {
-        Text(text = "Amount")
-
-        basicTextField(amountText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "Amount", amountText, Modifier.padding(top = 5.dp)) { str ->
             amountText = str
         }
 
@@ -228,15 +218,11 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
     }
 
     Row {
-        Text(text = "Ratio")
-
-        basicTextField(ratioText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "Ratio", ratioText, Modifier.padding(top = 5.dp)) { str ->
             ratioText = str
         }
 
-        Text(text = "Radius")
-
-        basicTextField(radiusText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "Radius", radiusText, Modifier.padding(top = 5.dp)) { str ->
             radiusText = str
         }
     }
