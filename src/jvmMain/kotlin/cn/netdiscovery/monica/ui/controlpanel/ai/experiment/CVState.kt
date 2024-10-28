@@ -29,4 +29,8 @@ object CVState {
     var isContourPerimeter by mutableStateOf(false)
 
     var isContourArea by mutableStateOf(false)
+
+    var isContourRoundness by mutableStateOf(false)
+
+    var isContourAspectRatio by mutableStateOf(false)
 }

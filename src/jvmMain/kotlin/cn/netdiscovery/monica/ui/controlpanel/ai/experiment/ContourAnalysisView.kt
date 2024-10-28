@@ -99,14 +99,9 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(CVState.isContourRoundness, onCheckedChange = {
+                    CVState.isContourRoundness = it
+
                 })
 
                 Text("圆度", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
@@ -114,29 +109,24 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(minRoundnessText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma1Text.value = str
-//                    }
+                    if (CVState.isContourRoundness) {
+                        minRoundnessText.value = str
+                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(maxRoundnessText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma2Text.value = str
-//                    }
+                    if (CVState.isContourRoundness) {
+                        maxRoundnessText.value = str
+                    }
                 }
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(CVState.isContourAspectRatio, onCheckedChange = {
+                    CVState.isContourAspectRatio = it
+
                 })
 
                 Text("长宽比", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 35.dp))
@@ -144,17 +134,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(minAspectRatioText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma1Text.value = str
-//                    }
+                    if (CVState.isContourAspectRatio) {
+                        minAspectRatioText.value = str
+                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(maxAspectRatioText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma2Text.value = str
-//                    }
+                    if (CVState.isContourAspectRatio) {
+                        maxAspectRatioText.value = str
+                    }
                 }
             }
         }
@@ -163,26 +153,12 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(true, onCheckedChange = {
                 })
 
                 Text("外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
 
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(true, onCheckedChange = {
                 })
 
                 Text("最小外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
