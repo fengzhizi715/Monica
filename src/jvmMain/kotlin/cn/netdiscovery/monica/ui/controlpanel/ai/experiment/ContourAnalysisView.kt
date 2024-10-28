@@ -59,29 +59,24 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(minPerimeterText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma1Text.value = str
-//                    }
+                    if (CVState.isContourPerimeter) {
+                        minPerimeterText.value = str
+                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(maxPerimeterText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma2Text.value = str
-//                    }
+                    if (CVState.isContourPerimeter) {
+                        maxPerimeterText.value = str
+                    }
                 }
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
-//                    state.isThreshType = it
-//
-//                    if (!state.isThreshType) {
-//
-//                    } else {
-//
-//                    }
+                Checkbox(CVState.isContourArea, onCheckedChange = {
+                    CVState.isContourArea = it
+
                 })
 
                 Text("面积", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
@@ -89,17 +84,17 @@ fun contourAnalysis(state: ApplicationState) {
                 Text(text = "最小值")
 
                 basicTextField(minAreaText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma1Text.value = str
-//                    }
+                    if (CVState.isContourArea) {
+                        minAreaText.value = str
+                    }
                 }
 
                 Text(text = "最大值")
 
                 basicTextField(maxAreaText.value) { str ->
-//                    if (state.isSecondDerivativeOperator) {
-//                        sigma2Text.value = str
-//                    }
+                    if (CVState.isContourArea) {
+                        maxAreaText.value = str
+                    }
                 }
             }
 
