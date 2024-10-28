@@ -153,15 +153,12 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(true, onCheckedChange = {
+                checkBoxWithTitle("外接矩形", true, onCheckedChange = {
+
                 })
 
-                Text("外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
-
-                Checkbox(true, onCheckedChange = {
+                checkBoxWithTitle("最小外接矩形",true, onCheckedChange = {
                 })
-
-                Text("最小外接矩形", modifier = Modifier.align(Alignment.CenterVertically).padding(end = 50.dp))
             }
         }
     }
