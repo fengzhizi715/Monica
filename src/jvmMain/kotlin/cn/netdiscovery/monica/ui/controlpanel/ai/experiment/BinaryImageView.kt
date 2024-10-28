@@ -87,7 +87,7 @@ fun binaryImage(state: ApplicationState) {
             subTitleWithDivider(text = "阈值分割", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshType, onCheckedChange = {
+                checkBoxWithTitle("阈值化类型", Modifier, CVState.isThreshType, onCheckedChange = {
                     CVState.isThreshType = it
 
                     if (!CVState.isThreshType) {
@@ -97,7 +97,6 @@ fun binaryImage(state: ApplicationState) {
                         logger.info("勾选了阈值化类型")
                     }
                 })
-                Text("阈值化类型", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
@@ -114,7 +113,7 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isThreshSegment, onCheckedChange = {
+                checkBoxWithTitle("全局阈值分割", Modifier, CVState.isThreshSegment, onCheckedChange = {
                     CVState.isThreshSegment = it
 
                     if (!CVState.isThreshSegment) {
@@ -144,7 +143,7 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                Checkbox(CVState.isAdaptiveThresh, onCheckedChange = {
+                checkBoxWithTitle("自适应阈值分割", Modifier, CVState.isAdaptiveThresh, onCheckedChange = {
                     CVState.isAdaptiveThresh = it
 
                     if (!CVState.isAdaptiveThresh) {
@@ -157,7 +156,6 @@ fun binaryImage(state: ApplicationState) {
                         logger.info("勾选了自适应阈值分割")
                     }
                 })
-                Text("自适应阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
