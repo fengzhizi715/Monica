@@ -18,10 +18,7 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.widget.basicTextField
-import cn.netdiscovery.monica.ui.widget.confirmButton
-import cn.netdiscovery.monica.ui.widget.subTitle
-import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.*
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -137,15 +134,11 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
     }
 
     Row{
-        Text(text = "clipLimit")
-
-        basicTextField(clipLimitText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "clipLimit", clipLimitText, Modifier.padding(top = 5.dp)) { str ->
             clipLimitText = str
         }
 
-        Text(text = "size")
-
-        basicTextField(sizeText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "size", sizeText, Modifier.padding(top = 5.dp)) { str ->
             sizeText = str
         }
     }
@@ -169,9 +162,7 @@ private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhance
     }
 
     Row{
-        Text(text = "gamma")
-
-        basicTextField(gammaText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = "gamma", gammaText, Modifier.padding(top = 5.dp)) { str ->
             gammaText = str
         }
 

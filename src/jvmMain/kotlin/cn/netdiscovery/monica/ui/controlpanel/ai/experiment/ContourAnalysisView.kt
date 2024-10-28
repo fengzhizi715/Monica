@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,17 +52,13 @@ fun contourAnalysis(state: ApplicationState) {
 
                 })
 
-                Text(text = "最小值")
-
-                basicTextField(minPerimeterText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最小值", minPerimeterText.value) { str ->
                     if (CVState.isContourPerimeter) {
                         minPerimeterText.value = str
                     }
                 }
 
-                Text(text = "最大值")
-
-                basicTextField(maxPerimeterText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最大值", maxPerimeterText.value) { str ->
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText.value = str
                     }
@@ -76,17 +71,13 @@ fun contourAnalysis(state: ApplicationState) {
 
                 })
 
-                Text(text = "最小值")
-
-                basicTextField(minAreaText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最小值", minAreaText.value) { str ->
                     if (CVState.isContourArea) {
                         minAreaText.value = str
                     }
                 }
 
-                Text(text = "最大值")
-
-                basicTextField(maxAreaText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最大值", maxAreaText.value) { str ->
                     if (CVState.isContourArea) {
                         maxAreaText.value = str
                     }
@@ -99,17 +90,13 @@ fun contourAnalysis(state: ApplicationState) {
 
                 })
 
-                Text(text = "最小值")
-
-                basicTextField(minRoundnessText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最小值", minRoundnessText.value) { str ->
                     if (CVState.isContourRoundness) {
                         minRoundnessText.value = str
                     }
                 }
 
-                Text(text = "最大值")
-
-                basicTextField(maxRoundnessText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最大值", maxRoundnessText.value) { str ->
                     if (CVState.isContourRoundness) {
                         maxRoundnessText.value = str
                     }
@@ -122,17 +109,13 @@ fun contourAnalysis(state: ApplicationState) {
 
                 })
 
-                Text(text = "最小值")
-
-                basicTextField(minAspectRatioText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最小值", minAspectRatioText.value) { str ->
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText.value = str
                     }
                 }
 
-                Text(text = "最大值")
-
-                basicTextField(maxAspectRatioText.value) { str ->
+                basicTextFieldWithTitle(titleText = "最大值", maxAspectRatioText.value) { str ->
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText.value = str
                     }
