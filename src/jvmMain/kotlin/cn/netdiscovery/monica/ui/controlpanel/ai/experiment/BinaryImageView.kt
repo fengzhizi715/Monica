@@ -185,7 +185,7 @@ fun binaryImage(state: ApplicationState) {
             }
 
             Button(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
@@ -232,31 +232,21 @@ fun binaryImage(state: ApplicationState) {
             subTitleWithDivider(text = "Canny 边缘检测", color = Color.Black)
 
             Row {
-                Text(text = "threshold1")
-
-                basicTextField(threshold1Text.value) { str ->
+                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text.value) { str ->
                     threshold1Text.value = str
                 }
-            }
 
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "threshold2")
-
-                basicTextField(threshold2Text.value) { str ->
+                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text.value) { str ->
                     threshold2Text.value = str
                 }
-            }
 
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "apertureSize")
-
-                basicTextField(apertureSizeText.value) { str ->
+                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText.value) { str ->
                     apertureSizeText.value = str
                 }
             }
 
             Button(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
                         val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
@@ -275,47 +265,35 @@ fun binaryImage(state: ApplicationState) {
             subTitleWithDivider(text = "彩色图像分割", color = Color.Black)
 
             Row {
-                Text(text = "hmin")
-
-                basicTextField(hminText.value) { str ->
+                basicTextFieldWithTitle(titleText = "hmin", hminText.value) { str ->
                     hminText.value = str
                 }
 
-                Text(text = "smin")
-
-                basicTextField(sminText.value) { str ->
+                basicTextFieldWithTitle(titleText = "smin", sminText.value) { str ->
                     sminText.value = str
                 }
 
-                Text(text = "vmin")
-
-                basicTextField(vminText.value) { str ->
+                basicTextFieldWithTitle(titleText = "vmin", vminText.value) { str ->
                     vminText.value = str
                 }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)){
-                Text(text = "hmax")
-
-                basicTextField(hmaxText.value) { str ->
+                basicTextFieldWithTitle(titleText = "hmax", hmaxText.value) { str ->
                     hmaxText.value = str
                 }
 
-                Text(text = "smax")
-
-                basicTextField(smaxText.value) { str ->
+                basicTextFieldWithTitle(titleText = "smax", smaxText.value) { str ->
                     smaxText.value = str
                 }
 
-                Text(text = "vmax")
-
-                basicTextField(vmaxText.value) { str ->
+                basicTextFieldWithTitle(titleText = "vmax", vmaxText.value) { str ->
                     vmaxText.value = str
                 }
             }
 
             Button(
-                modifier = Modifier.align(Alignment.End),
+                modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
                         val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
