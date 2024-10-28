@@ -1,6 +1,8 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.material.Button
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -159,6 +161,10 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
+                checkBoxWithTitle("原图显示", Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
+
+                })
+
                 checkBoxWithTitle("外接矩形", Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
 
                 })
@@ -166,6 +172,15 @@ fun contourAnalysis(state: ApplicationState) {
                 checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked =true, onCheckedChange = {
                 })
             }
+        }
+
+        Button(
+            modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
+            onClick = experimentViewClick(state) {
+
+            }
+        ) {
+            Text(text = "轮廓分析", color = Color.Unspecified)
         }
     }
 }
