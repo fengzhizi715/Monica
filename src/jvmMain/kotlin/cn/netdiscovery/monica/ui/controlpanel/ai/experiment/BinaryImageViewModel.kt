@@ -84,7 +84,5 @@ class BinaryImageViewModel {
                 logger.error("inRange is failed", e)
             })
         }
-
     }
-
 }

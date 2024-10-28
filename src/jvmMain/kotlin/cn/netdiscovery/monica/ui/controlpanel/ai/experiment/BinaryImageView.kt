@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -87,7 +86,7 @@ fun binaryImage(state: ApplicationState) {
             subTitleWithDivider(text = "阈值分割", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("阈值化类型", Modifier, CVState.isThreshType, onCheckedChange = {
+                checkBoxWithTitle("阈值化类型", checked = CVState.isThreshType, onCheckedChange = {
                     CVState.isThreshType = it
 
                     if (!CVState.isThreshType) {
@@ -113,7 +112,7 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("全局阈值分割", Modifier, CVState.isThreshSegment, onCheckedChange = {
+                checkBoxWithTitle("全局阈值分割", checked = CVState.isThreshSegment, onCheckedChange = {
                     CVState.isThreshSegment = it
 
                     if (!CVState.isThreshSegment) {
@@ -143,7 +142,7 @@ fun binaryImage(state: ApplicationState) {
 
             Row(modifier = Modifier.padding(top = 10.dp),
                 verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("自适应阈值分割", Modifier, CVState.isAdaptiveThresh, onCheckedChange = {
+                checkBoxWithTitle("自适应阈值分割", Modifier, checked = CVState.isAdaptiveThresh, onCheckedChange = {
                     CVState.isAdaptiveThresh = it
 
                     if (!CVState.isAdaptiveThresh) {

@@ -48,7 +48,7 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "过滤设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("周长", checked = CVState.isContourPerimeter, onCheckedChange = {
+                checkBoxWithTitle("周长", Modifier.padding(end = 50.dp), checked = CVState.isContourPerimeter, onCheckedChange = {
                     CVState.isContourPerimeter = it
 
                 })
@@ -71,7 +71,7 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("面积", checked = CVState.isContourArea, onCheckedChange = {
+                checkBoxWithTitle("面积", Modifier.padding(end = 50.dp), checked = CVState.isContourArea, onCheckedChange = {
                     CVState.isContourArea = it
 
                 })
@@ -94,7 +94,7 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("圆度", checked = CVState.isContourRoundness, onCheckedChange = {
+                checkBoxWithTitle("圆度", Modifier.padding(end = 50.dp), checked = CVState.isContourRoundness, onCheckedChange = {
                     CVState.isContourRoundness = it
 
                 })
@@ -117,7 +117,7 @@ fun contourAnalysis(state: ApplicationState) {
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("长宽比", Modifier.padding(end = 35.dp), CVState.isContourAspectRatio, onCheckedChange = {
+                checkBoxWithTitle("长宽比", Modifier.padding(end = 35.dp), checked = CVState.isContourAspectRatio, onCheckedChange = {
                     CVState.isContourAspectRatio = it
 
                 })
@@ -144,11 +144,11 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("外接矩形", checked = true, onCheckedChange = {
+                checkBoxWithTitle("外接矩形", Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
 
                 })
 
-                checkBoxWithTitle("最小外接矩形",checked =true, onCheckedChange = {
+                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked =true, onCheckedChange = {
                 })
             }
         }

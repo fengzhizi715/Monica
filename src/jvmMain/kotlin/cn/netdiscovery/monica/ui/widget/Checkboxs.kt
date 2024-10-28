@@ -1,13 +1,12 @@
 package cn.netdiscovery.monica.ui.widget
 
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.graphics.Color
 
 /**
  *
@@ -19,7 +18,8 @@ import androidx.compose.ui.unit.dp
  */
 @Composable
 fun checkBoxWithTitle(text: String,
-                      textModify:Modifier = Modifier.padding(end = 50.dp),
+                      textModify:Modifier = Modifier,
+                      color: Color = Color.Unspecified,
                       checked: Boolean,
                       onCheckedChange: ((Boolean) -> Unit)?,
                       ) {
@@ -29,7 +29,7 @@ fun checkBoxWithTitle(text: String,
             onCheckedChange?.invoke(it)
         })
 
-        Text(text, modifier = textModify.align(Alignment.CenterVertically))
+        Text(text, modifier = textModify.align(Alignment.CenterVertically), color = color)
     }
 
 }

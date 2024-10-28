@@ -14,6 +14,7 @@ import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
+import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import org.koin.compose.koinInject
