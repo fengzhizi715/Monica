@@ -125,7 +125,6 @@ fun binaryImage(state: ApplicationState) {
                         logger.info("勾选了全局阈值分割")
                     }
                 })
-                Text("全局阈值分割", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
@@ -172,19 +171,13 @@ fun binaryImage(state: ApplicationState) {
             }
 
             Row {
-                Text(text = "blockSize")
-
-                basicTextField(blockSizeText.value) { str ->
+                basicTextFieldWithTitle(titleText = "blockSize", blockSizeText.value) { str ->
                     if (CVState.isAdaptiveThresh) {
                         blockSizeText.value = str
                     }
                 }
-            }
 
-            Row(modifier = Modifier.padding(top = 10.dp)) {
-                Text(text = "c")
-
-                basicTextField(cText.value) { str ->
+                basicTextFieldWithTitle(titleText = "c", cText.value) { str ->
                     if (CVState.isAdaptiveThresh) {
                         cText.value = str
                     }

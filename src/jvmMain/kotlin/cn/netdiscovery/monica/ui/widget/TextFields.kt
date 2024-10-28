@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.widget
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -8,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,6 +17,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 
 /**
  *
@@ -39,4 +42,17 @@ fun basicTextField(value: String,
         modifier = modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
         textStyle = TextStyle(Color.Black, fontSize = 12.sp)
     )
+}
+
+@Composable
+fun basicTextFieldWithTitle(
+                   titleText:String,
+                   value: String,
+                   modifier:Modifier = Modifier,
+                   onValueChange: (String) -> Unit) {
+    Row {
+        Text(text = titleText)
+
+        basicTextField(value,modifier,onValueChange)
+    }
 }
