@@ -40,6 +40,26 @@ fun contourAnalysis(state: ApplicationState) {
     var minAspectRatioText = remember { mutableStateOf("") }
     var maxAspectRatioText = remember { mutableStateOf("") }
 
+    fun clearContourPerimeterParams() {
+        minPerimeterText.value = ""
+        maxPerimeterText.value = ""
+    }
+
+    fun clearContourAreaParams() {
+        minAreaText.value = ""
+        maxAreaText.value = ""
+    }
+
+    fun clearContourRoundnessParams() {
+        minRoundnessText.value = ""
+        maxRoundnessText.value = ""
+    }
+
+    fun clearContourAspectRatioParams() {
+        minAspectRatioText.value = ""
+        maxAspectRatioText.value = ""
+    }
+
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "轮廓分析", color = Color.Black)
 
@@ -50,6 +70,9 @@ fun contourAnalysis(state: ApplicationState) {
                 checkBoxWithTitle("周长", Modifier.padding(end = 50.dp), checked = CVState.isContourPerimeter, onCheckedChange = {
                     CVState.isContourPerimeter = it
 
+                    if (!CVState.isContourPerimeter) {
+                        clearContourPerimeterParams()
+                    }
                 })
 
                 basicTextFieldWithTitle(titleText = "最小值", minPerimeterText.value) { str ->
@@ -69,6 +92,9 @@ fun contourAnalysis(state: ApplicationState) {
                 checkBoxWithTitle("面积", Modifier.padding(end = 50.dp), checked = CVState.isContourArea, onCheckedChange = {
                     CVState.isContourArea = it
 
+                    if (!CVState.isContourArea) {
+                        clearContourAreaParams()
+                    }
                 })
 
                 basicTextFieldWithTitle(titleText = "最小值", minAreaText.value) { str ->
@@ -88,6 +114,9 @@ fun contourAnalysis(state: ApplicationState) {
                 checkBoxWithTitle("圆度", Modifier.padding(end = 50.dp), checked = CVState.isContourRoundness, onCheckedChange = {
                     CVState.isContourRoundness = it
 
+                    if (!CVState.isContourRoundness) {
+                        clearContourRoundnessParams()
+                    }
                 })
 
                 basicTextFieldWithTitle(titleText = "最小值", minRoundnessText.value) { str ->
@@ -107,6 +136,9 @@ fun contourAnalysis(state: ApplicationState) {
                 checkBoxWithTitle("长宽比", Modifier.padding(end = 35.dp), checked = CVState.isContourAspectRatio, onCheckedChange = {
                     CVState.isContourAspectRatio = it
 
+                    if (!CVState.isContourAspectRatio) {
+                        clearContourAspectRatioParams()
+                    }
                 })
 
                 basicTextFieldWithTitle(titleText = "最小值", minAspectRatioText.value) { str ->
