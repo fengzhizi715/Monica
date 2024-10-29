@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
-import cn.netdiscovery.monica.imageprocess.getImageInfo
+import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
@@ -24,7 +24,7 @@ class ContourAnalysisViewModel {
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_INT_ARGB, action = { byteArray ->
-                val (width,height,srcByteArray) = state.rawImage!!.getImageInfo()
+                val srcByteArray = state.rawImage!!.image2ByteArray()
 
                 ImageProcess.findContours(srcByteArray, byteArray)
             }, failure = { e ->
