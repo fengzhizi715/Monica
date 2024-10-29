@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.opencv
 
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows
@@ -154,7 +155,7 @@ object ImageProcess {
     /**
      * 查找轮廓
      */
-    external fun findContours(src: ByteArray, binary: ByteArray):IntArray
+    external fun findContours(src: ByteArray, binary: ByteArray, contourDisplaySettings: ContourDisplaySettings):IntArray
 
     /**
      * 初始化人脸检测模块

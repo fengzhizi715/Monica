@@ -33,4 +33,12 @@ object CVState {
     var isContourRoundness by mutableStateOf(false)
 
     var isContourAspectRatio by mutableStateOf(false)
+
+    var showOriginalImage by mutableStateOf(false)
+
+    var showBoundingRect by mutableStateOf(false)
+
+    var showMinAreaRect by mutableStateOf(false)
+
+    var showCenter by mutableStateOf(false)
 }

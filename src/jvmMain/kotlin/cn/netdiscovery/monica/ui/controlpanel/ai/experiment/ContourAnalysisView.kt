@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.widget.*
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -26,9 +27,12 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+val contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
+
 @Composable
 fun contourAnalysis(state: ApplicationState) {
     val viewModel: ContourAnalysisViewModel = koinInject()
+
 
     var minPerimeterText = remember { mutableStateOf("") }
     var maxPerimeterText = remember { mutableStateOf("") }
@@ -161,19 +165,24 @@ fun contourAnalysis(state: ApplicationState) {
             subTitleWithDivider(text = "显示设置", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("原图显示", Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
-
+                checkBoxWithTitle("原图显示", Modifier.padding(end = 50.dp), checked = CVState.showOriginalImage, onCheckedChange = {
+                    contourDisplaySettings.showOriginalImage = it
+                    CVState.showOriginalImage = it
                 })
 
-                checkBoxWithTitle("外接矩形", Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
-
+                checkBoxWithTitle("外接矩形", Modifier.padding(end = 50.dp), checked = CVState.showBoundingRect, onCheckedChange = {
+                    contourDisplaySettings.showBoundingRect = it
+                    CVState.showBoundingRect = it
                 })
 
-                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
-
+                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked = CVState.showMinAreaRect, onCheckedChange = {
+                    contourDisplaySettings.showMinAreaRect = it
+                    CVState.showMinAreaRect = it
                 })
 
-                checkBoxWithTitle("质心",Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
+                checkBoxWithTitle("质心",Modifier.padding(end = 50.dp), checked = CVState.showCenter, onCheckedChange = {
+                    contourDisplaySettings.showCenter = it
+                    CVState.showCenter = it
                 })
             }
         }
@@ -181,7 +190,7 @@ fun contourAnalysis(state: ApplicationState) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-                viewModel.findContours(state)
+                viewModel.findContours(state,contourDisplaySettings)
             }
         ) {
             Text(text = "轮廓分析", color = Color.Unspecified)
