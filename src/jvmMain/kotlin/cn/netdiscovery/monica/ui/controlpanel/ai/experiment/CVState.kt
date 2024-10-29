@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -33,4 +34,6 @@ object CVState {
     var isContourRoundness by mutableStateOf(false)
 
     var isContourAspectRatio by mutableStateOf(false)
+
+//    var rawImage: BufferedImage? by mutableStateOf(null)
 }

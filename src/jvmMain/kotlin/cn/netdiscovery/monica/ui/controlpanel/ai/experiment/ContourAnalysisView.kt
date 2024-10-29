@@ -177,7 +177,7 @@ fun contourAnalysis(state: ApplicationState) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-
+                viewModel.findContours(state)
             }
         ) {
             Text(text = "轮廓分析", color = Color.Unspecified)

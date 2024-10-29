@@ -152,6 +152,11 @@ object ImageProcess {
     external fun dog(src: ByteArray, sigma1:Double, sigma2:Double, size:Int):IntArray
 
     /**
+     * 查找轮廓
+     */
+    external fun findContours(src: ByteArray, binary: ByteArray):IntArray
+
+    /**
      * 初始化人脸检测模块
      */
     external fun initFaceDetect(faceProto:String,faceModel:String,
