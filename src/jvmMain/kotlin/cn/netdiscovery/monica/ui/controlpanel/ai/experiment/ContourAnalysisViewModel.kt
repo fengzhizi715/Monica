@@ -5,6 +5,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
@@ -21,7 +22,7 @@ import java.awt.image.BufferedImage
 class ContourAnalysisViewModel {
     private val logger: Logger = logger<ContourAnalysisViewModel>()
 
-    fun findContours(state: ApplicationState, contourDisplaySettings: ContourDisplaySettings) {
+    fun contourAnalysis(state: ApplicationState, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings) {
 
         val type = if (contourDisplaySettings.showOriginalImage) { BufferedImage.TYPE_INT_ARGB } else BufferedImage.TYPE_BYTE_BINARY
 
@@ -29,7 +30,7 @@ class ContourAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = type, action = { byteArray ->
                 val srcByteArray = state.rawImage!!.image2ByteArray()
 
-                ImageProcess.findContours(srcByteArray, byteArray, contourDisplaySettings)
+                ImageProcess.contourAnalysis(srcByteArray, byteArray, contourFilterSettings, contourDisplaySettings)
             }, failure = { e ->
                 logger.error("findContours is failed", e)
             })

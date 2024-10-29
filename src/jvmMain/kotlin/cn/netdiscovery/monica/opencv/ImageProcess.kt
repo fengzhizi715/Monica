@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows
@@ -153,9 +154,9 @@ object ImageProcess {
     external fun dog(src: ByteArray, sigma1:Double, sigma2:Double, size:Int):IntArray
 
     /**
-     * 查找轮廓
+     * 轮廓分析
      */
-    external fun findContours(src: ByteArray, binary: ByteArray, contourDisplaySettings: ContourDisplaySettings):IntArray
+    external fun contourAnalysis(src: ByteArray, binary: ByteArray, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings):IntArray
 
     /**
      * 初始化人脸检测模块

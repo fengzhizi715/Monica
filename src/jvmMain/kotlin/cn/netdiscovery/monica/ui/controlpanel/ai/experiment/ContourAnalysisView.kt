@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.ui.widget.*
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -27,12 +28,12 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+val contourFilterSettings:ContourFilterSettings = ContourFilterSettings()
 val contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
 
 @Composable
 fun contourAnalysis(state: ApplicationState) {
     val viewModel: ContourAnalysisViewModel = koinInject()
-
 
     var minPerimeterText = remember { mutableStateOf("") }
     var maxPerimeterText = remember { mutableStateOf("") }
@@ -84,12 +85,26 @@ fun contourAnalysis(state: ApplicationState) {
                 basicTextFieldWithTitle(titleText = "最小值", minPerimeterText.value) { str ->
                     if (CVState.isContourPerimeter) {
                         minPerimeterText.value = str
+
+                        contourFilterSettings.minPerimeter = try {
+                            minPerimeterText.value.toDouble()
+                        } catch (e: Exception) {
+                            experimentViewVerifyToast("周长最小值需要 double 类型")
+                            return@basicTextFieldWithTitle
+                        }
                     }
                 }
 
                 basicTextFieldWithTitle(titleText = "最大值", maxPerimeterText.value) { str ->
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText.value = str
+
+                        contourFilterSettings.maxPerimeter = try {
+                            maxPerimeterText.value.toDouble()
+                        } catch (e: Exception) {
+                            experimentViewVerifyToast("周长最大值需要 double 类型")
+                            return@basicTextFieldWithTitle
+                        }
                     }
                 }
             }
@@ -190,7 +205,7 @@ fun contourAnalysis(state: ApplicationState) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-                viewModel.findContours(state,contourDisplaySettings)
+                viewModel.contourAnalysis(state, contourFilterSettings, contourDisplaySettings)
             }
         ) {
             Text(text = "轮廓分析", color = Color.Unspecified)
