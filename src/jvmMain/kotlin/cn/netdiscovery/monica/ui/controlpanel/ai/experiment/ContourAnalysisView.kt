@@ -169,7 +169,11 @@ fun contourAnalysis(state: ApplicationState) {
 
                 })
 
-                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked =true, onCheckedChange = {
+                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
+
+                })
+
+                checkBoxWithTitle("质心",Modifier.padding(end = 50.dp), checked = true, onCheckedChange = {
                 })
             }
         }

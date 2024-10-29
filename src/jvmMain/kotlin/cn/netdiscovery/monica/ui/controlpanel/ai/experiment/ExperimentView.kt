@@ -209,6 +209,13 @@ fun experiment(state: ApplicationState) {
                         onClick = {
                             viewModel.getLastImage(state)
                         })
+
+                    toolTipButton(text = "保存",
+                        painter = painterResource("images/doodle/save.png"),
+                        iconModifier = Modifier.size(36.dp),
+                        onClick = {
+                            state.togglePreviewWindow(false)
+                        })
                 }
             }
         }
