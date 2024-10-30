@@ -14,6 +14,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.ui.widget.*
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -86,12 +87,8 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourPerimeter) {
                         minPerimeterText.value = str
 
-                        contourFilterSettings.minPerimeter = try {
-                            minPerimeterText.value.toDouble()
-                        } catch (e: Exception) {
-                            experimentViewVerifyToast("周长最小值需要 double 类型")
-                            return@basicTextFieldWithTitle
-                        }
+                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.value.toDouble() } , failed = { experimentViewVerifyToast("周长最小值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
 
@@ -99,12 +96,8 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText.value = str
 
-                        contourFilterSettings.maxPerimeter = try {
-                            maxPerimeterText.value.toDouble()
-                        } catch (e: Exception) {
-                            experimentViewVerifyToast("周长最大值需要 double 类型")
-                            return@basicTextFieldWithTitle
-                        }
+                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.value.toDouble() } , failed = { experimentViewVerifyToast("周长最大值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -121,12 +114,18 @@ fun contourAnalysis(state: ApplicationState) {
                 basicTextFieldWithTitle(titleText = "最小值", minAreaText.value) { str ->
                     if (CVState.isContourArea) {
                         minAreaText.value = str
+
+                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.value.toDouble() } , failed = { experimentViewVerifyToast("面积最小值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
 
                 basicTextFieldWithTitle(titleText = "最大值", maxAreaText.value) { str ->
                     if (CVState.isContourArea) {
                         maxAreaText.value = str
+
+                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.value.toDouble() } , failed = { experimentViewVerifyToast("面积最大值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
             }
