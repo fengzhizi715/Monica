@@ -142,12 +142,18 @@ fun contourAnalysis(state: ApplicationState) {
                 basicTextFieldWithTitle(titleText = "最小值", minRoundnessText.value) { str ->
                     if (CVState.isContourRoundness) {
                         minRoundnessText.value = str
+
+                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.value.toDouble() } , failed = { experimentViewVerifyToast("圆度最小值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
 
                 basicTextFieldWithTitle(titleText = "最大值", maxRoundnessText.value) { str ->
                     if (CVState.isContourRoundness) {
                         maxRoundnessText.value = str
+
+                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.value.toDouble() } , failed = { experimentViewVerifyToast("圆度最大值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -164,12 +170,18 @@ fun contourAnalysis(state: ApplicationState) {
                 basicTextFieldWithTitle(titleText = "最小值", minAspectRatioText.value) { str ->
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText.value = str
+
+                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.value.toDouble() } , failed = { experimentViewVerifyToast("长宽比最小值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
 
                 basicTextFieldWithTitle(titleText = "最大值", maxAspectRatioText.value) { str ->
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText.value = str
+
+                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.value.toDouble() } , failed = { experimentViewVerifyToast("长宽比最大值需要 double 类型") })
+                            ?: return@basicTextFieldWithTitle
                     }
                 }
             }
