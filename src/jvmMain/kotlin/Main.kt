@@ -178,6 +178,10 @@ fun main() = application {
                         faceSwapModel.clearTargetImage()
                     }
 
+                    OpenCVDebugStatus -> {
+                        CVState.clearAllStatus()
+                    }
+
                     else -> {}
                 }
 

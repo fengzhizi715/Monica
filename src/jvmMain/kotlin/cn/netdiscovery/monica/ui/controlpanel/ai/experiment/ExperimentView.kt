@@ -214,6 +214,7 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/doodle/save.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
+                            CVState.clearAllStatus()
                             state.togglePreviewWindow(false)
                         })
                 }

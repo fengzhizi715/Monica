@@ -41,4 +41,21 @@ object CVState {
     var showMinAreaRect by mutableStateOf(false)
 
     var showCenter by mutableStateOf(false)
+
+    fun clearAllStatus() {
+        isThreshType = false
+        isThreshSegment = false
+        isAdaptiveThresh = false
+        isFirstDerivativeOperator = false
+        isSecondDerivativeOperator = false
+        isCannyOperator = false
+        isContourPerimeter = false
+        isContourArea = false
+        isContourRoundness = false
+        isContourAspectRatio = false
+        showOriginalImage = false
+        showBoundingRect = false
+        showMinAreaRect = false
+        showCenter = false
+    }
 }
