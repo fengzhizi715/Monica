@@ -13,7 +13,7 @@ import java.time.format.DateTimeFormatter
  * @version: V1.0 <描述当前版本功能>
  */
 
-private val yyyy_MM_dd_HH_mm_ss_SSS = "yyyy-MM-dd-H-mm-ss-SSS"
+private const val yyyy_MM_dd_HH_mm_ss_SSS = "yyyy-MM-dd-H-mm-ss-SSS"
 
 private val formatterWithHorizontal by lazy {
     DateTimeFormatter.ofPattern(yyyy_MM_dd_HH_mm_ss_SSS).withZone(ZoneId.systemDefault())
