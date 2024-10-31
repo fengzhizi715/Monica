@@ -32,7 +32,7 @@ class ContourAnalysisViewModel {
 
                 ImageProcess.contourAnalysis(srcByteArray, byteArray, contourFilterSettings, contourDisplaySettings)
             }, failure = { e ->
-                logger.error("findContours is failed", e)
+                logger.error("contourAnalysis is failed", e)
             })
         }
     }
