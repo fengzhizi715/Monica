@@ -87,7 +87,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourPerimeter) {
                         minPerimeterText.value = str
 
-                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.value.toDouble() } , failed = { experimentalViewVerifyToast("周长最小值需要 double 类型") })
+                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.value.toDouble() } , failed = { experimentViewVerifyToast("周长最小值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -96,7 +96,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText.value = str
 
-                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.value.toDouble() } , failed = { experimentalViewVerifyToast("周长最大值需要 double 类型") })
+                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.value.toDouble() } , failed = { experimentViewVerifyToast("周长最大值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -115,7 +115,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourArea) {
                         minAreaText.value = str
 
-                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.value.toDouble() } , failed = { experimentalViewVerifyToast("面积最小值需要 double 类型") })
+                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.value.toDouble() } , failed = { experimentViewVerifyToast("面积最小值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -124,7 +124,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourArea) {
                         maxAreaText.value = str
 
-                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.value.toDouble() } , failed = { experimentalViewVerifyToast("面积最大值需要 double 类型") })
+                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.value.toDouble() } , failed = { experimentViewVerifyToast("面积最大值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -143,7 +143,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourRoundness) {
                         minRoundnessText.value = str
 
-                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.value.toDouble() } , failed = { experimentalViewVerifyToast("圆度最小值需要 double 类型") })
+                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.value.toDouble() } , failed = { experimentViewVerifyToast("圆度最小值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -152,7 +152,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourRoundness) {
                         maxRoundnessText.value = str
 
-                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.value.toDouble() } , failed = { experimentalViewVerifyToast("圆度最大值需要 double 类型") })
+                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.value.toDouble() } , failed = { experimentViewVerifyToast("圆度最大值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -171,7 +171,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText.value = str
 
-                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.value.toDouble() } , failed = { experimentalViewVerifyToast("长宽比最小值需要 double 类型") })
+                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.value.toDouble() } , failed = { experimentViewVerifyToast("长宽比最小值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -180,7 +180,7 @@ fun contourAnalysis(state: ApplicationState) {
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText.value = str
 
-                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.value.toDouble() } , failed = { experimentalViewVerifyToast("长宽比最大值需要 double 类型") })
+                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.value.toDouble() } , failed = { experimentViewVerifyToast("长宽比最大值需要 double 类型") })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -215,32 +215,32 @@ fun contourAnalysis(state: ApplicationState) {
 
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
-            onClick = experimentalViewClick(state) {
+            onClick = experimentViewClick(state) {
                 if (CVState.isContourPerimeter) {
                     if (contourFilterSettings.minPerimeter == 0.0 && contourFilterSettings.maxPerimeter == 0.0) {
-                        experimentalViewVerifyToast("周长至少输入一个最小值或最大值")
-                        return@experimentalViewClick
+                        experimentViewVerifyToast("周长至少输入一个最小值或最大值")
+                        return@experimentViewClick
                     }
                 }
 
                 if (CVState.isContourArea) {
                     if (contourFilterSettings.minArea == 0.0 && contourFilterSettings.maxArea == 0.0) {
-                        experimentalViewVerifyToast("面积至少输入一个最小值或最大值")
-                        return@experimentalViewClick
+                        experimentViewVerifyToast("面积至少输入一个最小值或最大值")
+                        return@experimentViewClick
                     }
                 }
 
                 if (CVState.isContourRoundness) {
                     if (contourFilterSettings.minRoundness == 0.0 && contourFilterSettings.maxRoundness == 0.0) {
-                        experimentalViewVerifyToast("圆度至少输入一个最小值或最大值")
-                        return@experimentalViewClick
+                        experimentViewVerifyToast("圆度至少输入一个最小值或最大值")
+                        return@experimentViewClick
                     }
                 }
 
                 if (CVState.isContourAspectRatio) {
                     if (contourFilterSettings.minAspectRatio == 0.0 && contourFilterSettings.maxAspectRatio == 0.0) {
-                        experimentalViewVerifyToast("长宽比至少输入一个最小值或最大值")
-                        return@experimentalViewClick
+                        experimentViewVerifyToast("长宽比至少输入一个最小值或最大值")
+                        return@experimentViewClick
                     }
                 }
 

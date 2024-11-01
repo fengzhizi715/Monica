@@ -71,7 +71,7 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.align(Alignment.End),
-                onClick = experimentalViewClick(state) {
+                onClick = experimentViewClick(state) {
 
                     if(state.currentImage!= null && state.currentImage?.type != BufferedImage.TYPE_BYTE_GRAY) {
                         viewModel.cvtGray(state)
@@ -186,40 +186,40 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
-                onClick = experimentalViewClick(state) {
+                onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
 
                         if (CVState.isThreshType && CVState.isThreshSegment) {
 
                             if (typeSelectedOption.value == "Null") {
-                                experimentalViewVerifyToast("请选择阈值化类型")
-                                return@experimentalViewClick
+                                experimentViewVerifyToast("请选择阈值化类型")
+                                return@experimentViewClick
                             }
 
                             if (thresholdSelectedOption.value == "Null") {
-                                experimentalViewVerifyToast("请选择全局阈值分割类型")
-                                return@experimentalViewClick
+                                experimentViewVerifyToast("请选择全局阈值分割类型")
+                                return@experimentViewClick
                             }
 
                             viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
                         } else if (CVState.isThreshType && CVState.isAdaptiveThresh) {
                             if (typeSelectedOption.value == "Null") {
-                                experimentalViewVerifyToast("请选择阈值化类型")
-                                return@experimentalViewClick
+                                experimentViewVerifyToast("请选择阈值化类型")
+                                return@experimentViewClick
                             }
 
                             if (adaptiveMethodSelectedOption.value == "Null") {
-                                experimentalViewVerifyToast("请选择自适应阈值算法类型")
-                                return@experimentalViewClick
+                                experimentViewVerifyToast("请选择自适应阈值算法类型")
+                                return@experimentViewClick
                             }
 
-                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentalViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentalViewClick
+                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentViewClick
 
-                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentalViewVerifyToast("c 需要 int 类型") })?: return@experimentalViewClick
+                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
                         } else {
-                            experimentalViewVerifyToast("请选择阈值化类型以及全局阈值分割 或 自适应阈值分割")
+                            experimentViewVerifyToast("请选择阈值化类型以及全局阈值分割 或 自适应阈值分割")
                         }
                     }
                 }
@@ -247,11 +247,11 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
-                onClick = experimentalViewClick(state) {
+                onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentalViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentalViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentalViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentalViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentalViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentalViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
@@ -294,15 +294,15 @@ fun binaryImage(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
-                onClick = experimentalViewClick(state) {
+                onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
-                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentalViewVerifyToast("hmin 需要 int 类型") })?: return@experimentalViewClick
-                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentalViewVerifyToast("smin 需要 int 类型") })?: return@experimentalViewClick
-                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentalViewVerifyToast("vmin 需要 int 类型") })?: return@experimentalViewClick
+                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
+                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
+                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
 
-                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentalViewVerifyToast("hmax 需要 int 类型") })?: return@experimentalViewClick
-                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentalViewVerifyToast("smax 需要 int 类型") })?: return@experimentalViewClick
-                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentalViewVerifyToast("vmax 需要 int 类型") })?: return@experimentalViewClick
+                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
+                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
+                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }
