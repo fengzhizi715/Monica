@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState

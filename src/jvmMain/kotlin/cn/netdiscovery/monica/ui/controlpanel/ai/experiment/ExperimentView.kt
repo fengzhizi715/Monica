@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -109,7 +109,7 @@ fun customNavigationHost(
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun experimental(state: ApplicationState) {
+fun experiment(state: ApplicationState) {
 
     val viewModel: ExperimentViewModel = koinInject()
 

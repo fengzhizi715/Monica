@@ -15,8 +15,8 @@ import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.CVState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.experimental
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
@@ -211,7 +211,7 @@ fun main() = application {
                 }
                 OpenCVDebugStatus -> {
                     logger.info("enter OpenCVDebugView")
-                    experimental(applicationState)
+                    experiment(applicationState)
                 }
                 else              -> {
                     logger.info("enter ShowImgView")

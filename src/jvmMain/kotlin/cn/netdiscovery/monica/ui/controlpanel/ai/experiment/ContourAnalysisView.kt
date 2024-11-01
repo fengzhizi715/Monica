@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
@@ -11,8 +11,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
