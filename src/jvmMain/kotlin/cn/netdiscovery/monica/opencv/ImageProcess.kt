@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourFilterSettings
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows

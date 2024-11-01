@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
 
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager

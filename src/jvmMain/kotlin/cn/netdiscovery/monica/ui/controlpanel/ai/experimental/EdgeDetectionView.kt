@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button

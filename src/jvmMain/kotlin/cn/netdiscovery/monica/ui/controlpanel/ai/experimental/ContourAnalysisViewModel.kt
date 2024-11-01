@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experimental
 
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experimental.model.ContourFilterSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
