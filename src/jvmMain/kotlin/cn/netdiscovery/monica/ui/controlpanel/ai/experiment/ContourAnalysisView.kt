@@ -218,7 +218,28 @@ fun contourAnalysis(state: ApplicationState) {
             onClick = experimentViewClick(state) {
                 if (CVState.isContourPerimeter) {
                     if (contourFilterSettings.minPerimeter == 0.0 && contourFilterSettings.maxPerimeter == 0.0) {
-                        experimentViewVerifyToast("周长必须输入最小值或最大值")
+                        experimentViewVerifyToast("周长至少输入一个最小值或最大值")
+                        return@experimentViewClick
+                    }
+                }
+
+                if (CVState.isContourArea) {
+                    if (contourFilterSettings.minArea == 0.0 && contourFilterSettings.maxArea == 0.0) {
+                        experimentViewVerifyToast("面积至少输入一个最小值或最大值")
+                        return@experimentViewClick
+                    }
+                }
+
+                if (CVState.isContourRoundness) {
+                    if (contourFilterSettings.minRoundness == 0.0 && contourFilterSettings.maxRoundness == 0.0) {
+                        experimentViewVerifyToast("圆度至少输入一个最小值或最大值")
+                        return@experimentViewClick
+                    }
+                }
+
+                if (CVState.isContourAspectRatio) {
+                    if (contourFilterSettings.minAspectRatio == 0.0 && contourFilterSettings.maxAspectRatio == 0.0) {
+                        experimentViewVerifyToast("长宽比至少输入一个最小值或最大值")
                         return@experimentViewClick
                     }
                 }
