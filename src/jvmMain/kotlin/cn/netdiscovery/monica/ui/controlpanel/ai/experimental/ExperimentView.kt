@@ -234,19 +234,19 @@ fun experimental(state: ApplicationState) {
     }
 }
 
-fun experimentViewVerifyToast(message: String) {
+fun experimentalViewVerifyToast(message: String) {
     verifyToastMessage = message
     showVerifyToast = true
 }
 
 @Composable
-inline fun experimentViewClick(
+inline fun experimentalViewClick(
     state: ApplicationState,
     crossinline onClick: Action
 ): Action {
     return composeClick(filter = {
         if (state.currentImage == null) {
-            experimentViewVerifyToast("请先选择图像")
+            experimentalViewVerifyToast("请先选择图像")
             false
         } else {
             true

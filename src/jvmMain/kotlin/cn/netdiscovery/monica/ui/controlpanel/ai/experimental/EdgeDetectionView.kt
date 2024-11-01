@@ -99,10 +99,10 @@ fun edgeDetection(state: ApplicationState) {
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center) {
                     Button(
-                        onClick = experimentViewClick(state) {
+                        onClick = experimentalViewClick(state) {
                             if (firstDerivativeOperatorSelectedOption.value == "Null") {
-                                experimentViewVerifyToast("请选择一阶导数算子类型")
-                                return@experimentViewClick
+                                experimentalViewVerifyToast("请选择一阶导数算子类型")
+                                return@experimentalViewClick
                             }
 
                             when(firstDerivativeOperatorSelectedOption.value) {
@@ -149,19 +149,19 @@ fun edgeDetection(state: ApplicationState) {
                     horizontalAlignment = Alignment.End,
                     verticalArrangement = Arrangement.Center) {
                     Button(
-                        onClick = experimentViewClick(state) {
+                        onClick = experimentalViewClick(state) {
                             if (secondDerivativeOperatorSelectedOption.value == "Null") {
-                                experimentViewVerifyToast("请选择二阶导数算子类型")
-                                return@experimentViewClick
+                                experimentalViewVerifyToast("请选择二阶导数算子类型")
+                                return@experimentalViewClick
                             }
 
                             when(secondDerivativeOperatorSelectedOption.value) {
                                 "Laplace算子" -> viewModel.laplace(state)
                                 "LoG算子"     -> viewModel.log(state)
                                 "DoG算子"     -> {
-                                    val sigma1 = getValidateField(block = { sigma1Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
-                                    val sigma2 = getValidateField(block = { sigma2Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
-                                    val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
+                                    val sigma1 = getValidateField(block = { sigma1Text.value.toDouble() } , failed = { experimentalViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentalViewClick
+                                    val sigma2 = getValidateField(block = { sigma2Text.value.toDouble() } , failed = { experimentalViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentalViewClick
+                                    val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentalViewVerifyToast("size 需要 int 类型") }) ?: return@experimentalViewClick
 
                                     viewModel.dog(state, sigma1, sigma2, size)
                                 }
@@ -207,11 +207,11 @@ fun edgeDetection(state: ApplicationState) {
 
             Button(
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
-                onClick = experimentViewClick(state) {
+                onClick = experimentalViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() }, failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() }, failed = { experimentalViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentalViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() }, failed = { experimentalViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentalViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() }, failed = { experimentalViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentalViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
