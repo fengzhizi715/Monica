@@ -81,6 +81,7 @@ fun customNavigationHost(
 ) {
     NavigationHost(navController) {
         composable(Screen.Home.name) {
+            experimentHome()
         }
 
         composable(Screen.BinaryImage.name) {
