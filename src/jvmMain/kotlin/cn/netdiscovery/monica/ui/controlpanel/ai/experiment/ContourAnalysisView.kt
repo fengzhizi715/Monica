@@ -216,6 +216,13 @@ fun contourAnalysis(state: ApplicationState) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
+                if (CVState.isContourPerimeter) {
+                    if (contourFilterSettings.minPerimeter == 0.0 && contourFilterSettings.maxPerimeter == 0.0) {
+                        experimentViewVerifyToast("周长必须输入最小值或最大值")
+                        return@experimentViewClick
+                    }
+                }
+
                 viewModel.contourAnalysis(state, contourFilterSettings, contourDisplaySettings)
             }
         ) {
