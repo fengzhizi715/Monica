@@ -33,6 +33,6 @@ fun experimentHome() {
             modifier = Modifier)
 
         subTitle(modifier = Modifier.padding(top = 20.dp),
-            text = "本模块的算法使用 OpenCV C++ 实现，目前只适用于一些简单 CV 算法的快速验证")
+            text = "本模块的算法使用 OpenCV C++ 实现，目前只适用于一些简单 CV 算法的快速验证和调参。")
     }
 }

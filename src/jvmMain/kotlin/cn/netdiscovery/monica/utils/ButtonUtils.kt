@@ -13,9 +13,12 @@ import loadingDisplay
  */
 const val VIEW_CLICK_INTERVAL_TIME = 1000 // View 的 click 方法的两次点击间隔时间
 
+/**
+ * 防止 view 的重复点击，默认是 1s 间隔，不同的 view 可以有不同的间隔时间。
+ */
 @Composable
 inline fun composeClick(
-    time: Int = VIEW_CLICK_INTERVAL_TIME, // 默认是 1s，不同的 view 可以有不同的间隔时间
+    time: Int = VIEW_CLICK_INTERVAL_TIME,
     crossinline filter: () -> Boolean = { true },
     crossinline onClick: Action
 ): Action {

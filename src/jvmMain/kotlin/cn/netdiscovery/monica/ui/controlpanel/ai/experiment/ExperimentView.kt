@@ -234,6 +234,9 @@ fun experiment(state: ApplicationState) {
     }
 }
 
+/**
+ * experiment 模块下，通用的显示验证相关的 toast
+ */
 fun experimentViewVerifyToast(message: String) {
     verifyToastMessage = message
     showVerifyToast = true
