@@ -29,6 +29,7 @@ import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
+import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.*
 import com.safframework.kotlin.coroutines.runInBackground
@@ -122,7 +123,7 @@ fun main() = application {
             mainView(applicationState)
 
             if (loadingDisplay) {
-                ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+                showLoading()
             }
 
             if (openURLDialog) {

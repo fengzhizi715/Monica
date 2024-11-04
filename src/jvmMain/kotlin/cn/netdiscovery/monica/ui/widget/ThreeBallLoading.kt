@@ -2,7 +2,9 @@ package cn.netdiscovery.monica.ui.widget
 
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
@@ -11,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.height
+import cn.netdiscovery.monica.config.loadingWidth
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.flow
 import kotlin.math.cos
@@ -24,6 +28,11 @@ import kotlin.math.sin
  * @date: 2024/4/28 17:45
  * @version: V1.0 <描述当前版本功能>
  */
+@Composable
+fun showLoading() {
+    ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+}
+
 @Composable
 fun ThreeBallLoading(modifier: Modifier) {
     val width = remember { mutableStateOf(800f) }
@@ -79,12 +88,12 @@ fun ThreeBallLoading(modifier: Modifier) {
     }
 }
 
-fun pointX(radius: Float, centerX: Float, angle: Float): Float {
+private fun pointX(radius: Float, centerX: Float, angle: Float): Float {
     val res = Math.toRadians(angle.toDouble())
     return centerX - cos(res).toFloat() * (radius)
 }
 
-fun pointY(radius: Float, centerY: Float, angle: Float): Float {
+private fun pointY(radius: Float, centerY: Float, angle: Float): Float {
     val res = Math.toRadians(angle.toDouble())
     return centerY - sin(res).toFloat() * (radius)
 }

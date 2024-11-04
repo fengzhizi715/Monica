@@ -16,10 +16,7 @@ import cn.netdiscovery.monica.config.height
 import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.centerToast
-import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
-import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
-import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.composeClick
 import loadingDisplay
@@ -223,7 +220,7 @@ fun experiment(state: ApplicationState) {
         }
 
         if (loadingDisplay) {
-            ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+            showLoading()
         }
 
         if (showVerifyToast) {

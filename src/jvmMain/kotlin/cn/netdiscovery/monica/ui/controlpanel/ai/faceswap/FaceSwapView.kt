@@ -19,6 +19,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.ThreeBallLoading
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
+import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -237,7 +238,7 @@ fun faceSwap(state: ApplicationState) {
         }
 
         if (loadingDisplay) {
-            ThreeBallLoading(Modifier.width(loadingWidth).height(height))
+            showLoading()
         }
 
         if (showSwapFaceSettings.value) {
