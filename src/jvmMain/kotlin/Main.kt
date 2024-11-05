@@ -19,6 +19,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
+import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
@@ -206,6 +207,10 @@ fun main() = application {
                     logger.info("enter CropImageView")
                     cropImage(applicationState)
                 }
+                ColorCorrectionStatus -> {
+                    logger.info("enter ColorCorrectionView")
+                    colorCorrection(applicationState)
+                }
                 FaceSwapStatus    -> {
                     logger.info("enter FaceSwapView")
                     faceSwap(applicationState)
@@ -266,10 +271,11 @@ private fun initData() {
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
-    ColorPickStatus   -> "图像取色"
-    DoodleStatus      -> "涂鸦图像"
-    CropSizeStatus    -> "图像裁剪"
-    FaceSwapStatus    -> "人脸替换"
-    OpenCVDebugStatus -> "简单 CV 算法的快速验证"
-    else              -> "放大预览"
+    ColorPickStatus       -> "图像取色"
+    DoodleStatus          -> "涂鸦图像"
+    CropSizeStatus        -> "图像裁剪"
+    ColorCorrectionStatus -> "图像调色"
+    FaceSwapStatus        -> "人脸替换"
+    OpenCVDebugStatus     -> "简单 CV 算法的快速验证"
+    else                  -> "放大预览"
 }

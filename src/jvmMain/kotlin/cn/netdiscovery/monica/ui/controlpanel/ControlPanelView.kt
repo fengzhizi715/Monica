@@ -8,7 +8,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.isProVersion
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrectionView
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
 import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView

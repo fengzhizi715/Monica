@@ -122,7 +122,7 @@ fun basicView(state: ApplicationState) {
 
     Column {
         when(state.currentStatus) {
-            ResizeStatus -> generateResizeParams(state,viewModel)
+            ResizeStatus   -> generateResizeParams(state,viewModel)
 
             ShearingStatus -> generateShearingParams(state,viewModel)
         }
