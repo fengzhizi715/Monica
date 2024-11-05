@@ -35,10 +35,10 @@ fun colorCorrectionView(state: ApplicationState) {
     val viewModel: PreviewViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isHLS, onCheckedChange = {
-            state.isHLS = it
+        Checkbox(state.isColorCorrection, onCheckedChange = {
+            state.isColorCorrection = it
 
-            if (!state.isHLS) {
+            if (!state.isColorCorrection) {
                 viewModel.saturation = 0f
                 viewModel.hue = 0f
                 viewModel.luminance = 0f
@@ -53,7 +53,7 @@ fun colorCorrectionView(state: ApplicationState) {
     Column(modifier = Modifier.fillMaxWidth()){
         Button(
             modifier = Modifier.align(Alignment.Start).padding(start = 15.dp),
-            enabled = state.isHLS,
+            enabled = state.isColorCorrection,
             onClick = composeClick {
             }
         ) {

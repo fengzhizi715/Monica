@@ -202,13 +202,13 @@ class PreviewViewModel {
                 if (state.currentImage == null)
                     return@loadingDisplayWithSuspend
 
-                if (!state.isHLS && (!state.isFilter || (state.isFilter && selectedIndex.value == 0)))  {
+                if (!state.isColorCorrection && (!state.isFilter || (state.isFilter && selectedIndex.value == 0)))  {
                     return@loadingDisplayWithSuspend
                 }
 
                 val tempImage = state.currentImage!!
 
-                if (state.isHLS) {
+                if (state.isColorCorrection) {
                     logger.info("saturation = $saturation, hue = $hue, luminance = $luminance ")
                     state.currentImage = hsl(state.currentImage!!, saturation, hue, luminance)
                 }

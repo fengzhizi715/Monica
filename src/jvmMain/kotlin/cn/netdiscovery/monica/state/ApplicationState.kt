@@ -28,19 +28,20 @@ val ResizeStatus: Int = 7
 val ShearingStatus: Int = 8
 val CropSizeStatus: Int = 9
 
+val ColorCorrectionStatus: Int = 10
 
-val EqualizeHistStatus: Int = 10
-val ClaheStatus: Int = 11
-val GammaStatus: Int = 12
-val LaplaceStatus: Int = 13
-val USMStatus: Int = 14
-val ACEStatus: Int = 15
+val EqualizeHistStatus: Int = 11
+val ClaheStatus: Int = 12
+val GammaStatus: Int = 13
+val LaplaceStatus: Int = 14
+val USMStatus: Int = 15
+val ACEStatus: Int = 16
 
 
-val OpenCVDebugStatus: Int = 16
-val FaceDetectStatus: Int = 17
-val SketchDrawingStatus: Int = 18
-val FaceSwapStatus: Int = 19
+val OpenCVDebugStatus: Int = 17
+val FaceDetectStatus: Int = 18
+val SketchDrawingStatus: Int = 19
+val FaceSwapStatus: Int = 20
 
 
 @Composable
@@ -65,7 +66,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isBasic by mutableStateOf(false)
 
-    var isHLS by mutableStateOf(false)
+    var isColorCorrection by mutableStateOf(false)
 
     var isEnhance by mutableStateOf(false)
 
