@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel
+package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -10,11 +10,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
-import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import org.koin.compose.koinInject
@@ -24,7 +21,7 @@ import org.slf4j.LoggerFactory
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ImageProcessView
+ *          cn.netdiscovery.monica.ui.controlpanel.ColorCorrectionView
  * @author: Tony Shen
  * @date: 2024/5/1 00:43
  * @version: V1.0 <描述当前版本功能>
@@ -32,7 +29,7 @@ import org.slf4j.LoggerFactory
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 @Composable
-fun imageProcessView(state: ApplicationState) {
+fun colorCorrectionView(state: ApplicationState) {
     val viewModel: PreviewViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {

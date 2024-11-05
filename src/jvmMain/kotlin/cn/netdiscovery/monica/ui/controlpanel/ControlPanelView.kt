@@ -1,15 +1,14 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.isProVersion
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrectionView
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
 import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
@@ -43,7 +42,7 @@ fun controlPanel(
 
             divider()
 
-            imageProcessView(state)  // HSL 色彩空间调色
+            colorCorrectionView(state) // 图像调色
 
             divider()
 
