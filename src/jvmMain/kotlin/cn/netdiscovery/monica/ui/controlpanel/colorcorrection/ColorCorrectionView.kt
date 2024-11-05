@@ -60,7 +60,7 @@ fun colorCorrection(state: ApplicationState) {
 
             rightSideMenuBar(modifier = Modifier.weight(0.5f)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(modifier = Modifier.padding(start = 10.dp).width(60.dp), text = "饱和度：", color = Color.Unspecified)
+                    Text(modifier = Modifier.padding(start = 5.dp).width(120.dp), text = "饱和度(saturation)：", color = Color.Unspecified)
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Slider(
@@ -80,7 +80,7 @@ fun colorCorrection(state: ApplicationState) {
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(modifier = Modifier.padding(start = 10.dp).width(60.dp), text = "色相：", color = Color.Unspecified)
+                    Text(modifier = Modifier.padding(start = 5.dp).width(120.dp), text = "色相(hue)：", color = Color.Unspecified)
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Slider(
@@ -100,7 +100,7 @@ fun colorCorrection(state: ApplicationState) {
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(modifier = Modifier.padding(start = 10.dp).width(60.dp), text = "亮度：", color = Color.Unspecified)
+                    Text(modifier = Modifier.padding(start = 5.dp).width(120.dp), text = "亮度(luminance)：", color = Color.Unspecified)
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         Slider(
