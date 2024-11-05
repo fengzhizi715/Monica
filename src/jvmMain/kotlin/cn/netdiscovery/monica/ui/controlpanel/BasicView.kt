@@ -1,21 +1,19 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Checkbox
-import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
-import cn.netdiscovery.monica.ui.widget.*
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.confirmButton
+import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -48,7 +46,8 @@ fun basicView(state: ApplicationState) {
         })
         subTitle(text = "基础功能", color = Color.Black)
     }
-    desktopLazyRow {
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
         toolTipButton(text = "图像模糊",
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
@@ -94,7 +93,9 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = RotateStatus
                 viewModel.rotate(state)
             })
+    }
 
+    Row(verticalAlignment = Alignment.CenterVertically) {
         toolTipButton(text = "图像缩放",
             painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isBasic },
