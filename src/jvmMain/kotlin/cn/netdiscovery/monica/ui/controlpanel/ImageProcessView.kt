@@ -49,7 +49,7 @@ fun imageProcessView(state: ApplicationState) {
                 logger.info("勾选了图像处理")
             }
         })
-        subTitle(text = "图像处理", color = Color.Black)
+        subTitle(text = "图像调色", color = Color.Black)
     }
     Row(
         verticalAlignment = Alignment.CenterVertically

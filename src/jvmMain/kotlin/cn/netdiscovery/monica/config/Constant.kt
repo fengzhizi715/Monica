@@ -30,7 +30,7 @@ val isProVersion by lazy {
     cn.netdiscovery.monica.Monica.BuildConfig.IS_PRO_VERSION
 }
 
-val buildTime by lazy {
+val buildTime:String by lazy {
    val time = cn.netdiscovery.monica.Monica.BuildConfig.BUILD_TIME
 
     val dateformat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
