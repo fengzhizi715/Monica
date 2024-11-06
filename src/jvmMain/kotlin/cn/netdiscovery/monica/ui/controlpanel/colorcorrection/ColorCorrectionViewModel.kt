@@ -18,8 +18,13 @@ class ColorCorrectionViewModel {
 
     private val logger: Logger = logger<ColorCorrectionViewModel>()
 
-    var saturation by mutableStateOf(0f )
-    var luminance by mutableStateOf(0f )
+    var contrast by mutableStateOf(0f )
     var hue by mutableStateOf(0f )
-
+    var saturation by mutableStateOf(0f )
+    var lightness by mutableStateOf(0f )
+    var temperature by mutableStateOf(0f )
+    var highlight by mutableStateOf(0f )
+    var shadow by mutableStateOf(0f )
+    var sharpen by mutableStateOf(0f )
+    var corner by mutableStateOf(0f )
 }
