@@ -9,7 +9,13 @@ package cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model
  * @version: V1.0 <描述当前版本功能>
  */
 data class ColorCorrectionSettings(
-    var hueOffset:Int,
-    val saturationOffset:Int,
-    val lightnessOffset:Int
+    val contrast:Int = 255,
+    val hue:Int = 180,
+    val saturation:Int = 255,
+    val lightness:Int = 255,
+    val temperature:Int = 255,
+    val highlight:Int = 255,
+    val shadow:Int = 255,
+    val sharpen:Int = 0,
+    val corner:Int = 0
 )

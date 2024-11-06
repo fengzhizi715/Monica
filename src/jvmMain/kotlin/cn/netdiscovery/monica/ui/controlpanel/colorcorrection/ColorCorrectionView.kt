@@ -13,8 +13,9 @@ import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
+import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.extension.to2fStr
+import com.safframework.rxcache.utils.GsonUtils
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 
@@ -26,6 +27,8 @@ import kotlin.math.roundToInt
  * @date: 2024/11/5 15:05
  * @version: V1.0 <描述当前版本功能>
  */
+var colorCorrectionSettings = ColorCorrectionSettings()
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun colorCorrection(state: ApplicationState) {
@@ -71,7 +74,11 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.contrast,
                                 onValueChange = {
-                                    viewModel.contrast = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.contrast = value.toFloat()
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(contrast = value)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -91,7 +98,11 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.hue,
                                 onValueChange = {
-                                    viewModel.hue = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.hue = value.toFloat()
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(hue = value)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
