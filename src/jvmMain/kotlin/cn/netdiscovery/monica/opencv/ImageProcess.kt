@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
 import cn.netdiscovery.monica.utils.isWindows
@@ -67,6 +68,11 @@ object ImageProcess {
      * @param 沿 y 方向
      */
     external fun shearing(src: ByteArray, x:Float, y:Float):IntArray
+
+    /**
+     * 图像调色
+     */
+    external fun colorCorrection(src: ByteArray, colorCorrectionSettings: ColorCorrectionSettings):IntArray
 
     /**
      * 直方图均衡化

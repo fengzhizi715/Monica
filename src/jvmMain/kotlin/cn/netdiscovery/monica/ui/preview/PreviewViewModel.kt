@@ -38,9 +38,9 @@ class PreviewViewModel {
 
     private val blurFilter = FastBlur2D(15)
 
-    var saturation by mutableStateOf(0f )
-    var luminance by mutableStateOf(0f )
-    var hue by mutableStateOf(0f )
+//    var saturation by mutableStateOf(0f )
+//    var luminance by mutableStateOf(0f )
+//    var hue by mutableStateOf(0f )
 
     fun chooseImage(state: ApplicationState) {
         showFileSelector(
@@ -207,11 +207,6 @@ class PreviewViewModel {
                 }
 
                 val tempImage = state.currentImage!!
-
-                if (state.isColorCorrection) {
-                    logger.info("saturation = $saturation, hue = $hue, luminance = $luminance ")
-                    state.currentImage = hsl(state.currentImage!!, saturation, hue, luminance)
-                }
 
                 if(state.isFilter) {
                     val filterName = filterNames[selectedIndex.value]
