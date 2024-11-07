@@ -43,14 +43,14 @@ class ColorCorrectionViewModel {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
-        if (!init) {
-            init = true
-
-            val byteArray = state.currentImage!!.image2ByteArray()
-            ImageProcess.initColorCorrection(byteArray)
-        }
-
         state.scope.launchWithLoading {
+            if (!init) {
+                init = true
+
+                val byteArray = state.currentImage!!.image2ByteArray()
+                ImageProcess.initColorCorrection(byteArray)
+            }
+
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.colorCorrection(byteArray, colorCorrectionSettings)
             }, failure = { e ->
