@@ -76,7 +76,7 @@ fun colorCorrection(state: ApplicationState) {
                                 onValueChange = {
                                     val value = it.roundToInt()
                                     viewModel.contrast = value.toFloat()
-                                    colorCorrectionSettings = colorCorrectionSettings.copy(contrast = value)
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(contrast = value, status = 1)
 
                                     viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
@@ -100,7 +100,7 @@ fun colorCorrection(state: ApplicationState) {
                                 onValueChange = {
                                     val value = it.roundToInt()
                                     viewModel.hue = value.toFloat()
-                                    colorCorrectionSettings = colorCorrectionSettings.copy(hue = value)
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(hue = value, status = 2)
 
                                     viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
@@ -122,7 +122,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.saturation,
                                 onValueChange = {
-                                    viewModel.saturation = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.saturation = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(saturation = value, status = 3)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),

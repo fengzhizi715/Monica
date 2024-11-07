@@ -70,6 +70,11 @@ object ImageProcess {
     external fun shearing(src: ByteArray, x:Float, y:Float):IntArray
 
     /**
+     * 初始化图像调色模块
+     */
+    external fun initColorCorrection(src: ByteArray)
+
+    /**
      * 图像调色
      */
     external fun colorCorrection(src: ByteArray, colorCorrectionSettings: ColorCorrectionSettings):IntArray

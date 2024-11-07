@@ -17,5 +17,7 @@ data class ColorCorrectionSettings(
     val highlight:Int = 255,
     val shadow:Int = 255,
     val sharpen:Int = 0,
-    val corner:Int = 0
+    val corner:Int = 0,
+
+    val status:Int = 0 // 1 contrast, 2 hue, 3 saturation, 4 lightness, 5 temperature, 6 highlight, 7 shadow, 8 sharpen, 9 corner
 )

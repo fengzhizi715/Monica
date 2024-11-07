@@ -35,7 +35,18 @@ class ColorCorrectionViewModel {
     var sharpen by mutableStateOf(0f )
     var corner by mutableStateOf(0f )
 
+    var init by mutableStateOf(false )
+
     fun colorCorrection(state: ApplicationState, colorCorrectionSettings: ColorCorrectionSettings) {
+
+        logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
+
+        if (!init) {
+            init = true
+
+            val byteArray = state.currentImage!!.image2ByteArray()
+            ImageProcess.initColorCorrection(byteArray)
+        }
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, action = { byteArray ->
@@ -46,7 +57,9 @@ class ColorCorrectionViewModel {
         }
     }
 
-    fun clear() {
+    fun clearAllStatus() {
+        init = false
+
         contrast = 255f
         hue = 180f
         saturation = 255f

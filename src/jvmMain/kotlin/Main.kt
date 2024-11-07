@@ -19,6 +19,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
+import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
@@ -74,6 +75,7 @@ fun main() = application {
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
     lateinit var faceSwapModel: FaceSwapViewModel
+    lateinit var colorCorrectionViewModel: ColorCorrectionViewModel
 
     Tray(
         state = trayState,
@@ -118,6 +120,7 @@ fun main() = application {
             previewViewModel = koinInject()
             cropViewModel    = koinInject()
             faceSwapModel    = koinInject()
+            colorCorrectionViewModel = koinInject()
 
             applicationState.window = window
 
@@ -173,6 +176,10 @@ fun main() = application {
 
                     CropSizeStatus -> {
                         cropViewModel.clearCropImageView()
+                    }
+
+                    ColorCorrectionStatus -> {
+                        colorCorrectionViewModel.clearAllStatus()
                     }
 
                     FaceSwapStatus -> {
