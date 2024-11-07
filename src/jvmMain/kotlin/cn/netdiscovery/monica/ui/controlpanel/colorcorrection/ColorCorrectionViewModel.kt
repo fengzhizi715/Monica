@@ -10,7 +10,9 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
+import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.utils.GsonUtils
+import kotlinx.coroutines.launch
 import org.slf4j.Logger
 
 /**
@@ -35,7 +37,7 @@ class ColorCorrectionViewModel {
     var sharpen by mutableStateOf(0f )
     var corner by mutableStateOf(0f )
 
-    var init by mutableStateOf(false )
+    private var init by mutableStateOf(false )
 
     fun colorCorrection(state: ApplicationState, colorCorrectionSettings: ColorCorrectionSettings) {
 

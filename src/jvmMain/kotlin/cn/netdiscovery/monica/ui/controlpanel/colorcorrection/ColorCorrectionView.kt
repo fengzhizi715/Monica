@@ -14,8 +14,10 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
+import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import com.safframework.rxcache.utils.GsonUtils
+import loadingDisplay
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
 
@@ -44,7 +46,7 @@ fun colorCorrection(state: ApplicationState) {
             horizontalArrangement = Arrangement.Center
         ) {
             Card(
-                modifier = Modifier.padding(10.dp).weight(1.0f),
+                modifier = Modifier.padding(10.dp).weight(1.4f),
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
@@ -58,9 +60,13 @@ fun colorCorrection(state: ApplicationState) {
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
                 )
+
+                if (loadingDisplay) {
+                    showLoading()
+                }
             }
 
-            Row(modifier = Modifier.weight(0.5f)
+            Row(modifier = Modifier.weight(0.6f)
                 .padding(start = 10.dp, end = 10.dp)
                 .background(color = Color.LightGray, shape = RoundedCornerShape(5))) {
                 Column(
@@ -147,7 +153,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.lightness,
                                 onValueChange = {
-                                    viewModel.lightness = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.lightness = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(lightness = value, status = 4)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -167,7 +178,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.temperature,
                                 onValueChange = {
-                                    viewModel.temperature = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.temperature = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(temperature = value, status = 5)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -187,7 +203,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.highlight,
                                 onValueChange = {
-                                    viewModel.highlight = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.highlight = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(highlight = value, status = 6)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -207,7 +228,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.shadow,
                                 onValueChange = {
-                                    viewModel.shadow = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.shadow = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(shadow = value, status = 7)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -227,7 +253,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.sharpen,
                                 onValueChange = {
-                                    viewModel.sharpen = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.sharpen = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(sharpen = value, status = 8)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -247,7 +278,12 @@ fun colorCorrection(state: ApplicationState) {
                             Slider(
                                 value = viewModel.corner,
                                 onValueChange = {
-                                    viewModel.corner = it.roundToInt().toFloat()
+                                    val value = it.roundToInt()
+                                    viewModel.corner = value.toFloat()
+
+                                    colorCorrectionSettings = colorCorrectionSettings.copy(corner = value, status = 9)
+
+                                    viewModel.colorCorrection(state, colorCorrectionSettings)
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
