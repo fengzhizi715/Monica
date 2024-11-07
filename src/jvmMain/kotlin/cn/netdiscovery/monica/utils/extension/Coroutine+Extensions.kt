@@ -2,8 +2,7 @@ package cn.netdiscovery.monica.utils.extension
 
 import cn.netdiscovery.monica.utils.loadingDisplay
 import com.safframework.kotlin.coroutines.IO
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 
 /**
  *

@@ -10,9 +10,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
-import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.utils.GsonUtils
-import kotlinx.coroutines.launch
 import org.slf4j.Logger
 
 /**

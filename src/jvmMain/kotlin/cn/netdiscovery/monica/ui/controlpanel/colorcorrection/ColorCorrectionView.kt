@@ -16,7 +16,6 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.utils.extension.to2fStr
-import com.safframework.rxcache.utils.GsonUtils
 import loadingDisplay
 import org.koin.compose.koinInject
 import kotlin.math.roundToInt
@@ -50,7 +49,6 @@ fun colorCorrection(state: ApplicationState) {
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
-
                 },
                 enabled = state.currentImage == null
             ) {
