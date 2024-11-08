@@ -51,21 +51,33 @@ fun contourAnalysis(state: ApplicationState) {
     fun clearContourPerimeterParams() {
         minPerimeterText.value = ""
         maxPerimeterText.value = ""
+
+        contourFilterSettings.minPerimeter = 0.0
+        contourFilterSettings.maxPerimeter = 0.0
     }
 
     fun clearContourAreaParams() {
         minAreaText.value = ""
         maxAreaText.value = ""
+
+        contourFilterSettings.minArea = 0.0
+        contourFilterSettings.maxArea = 0.0
     }
 
     fun clearContourRoundnessParams() {
         minRoundnessText.value = ""
         maxRoundnessText.value = ""
+
+        contourFilterSettings.minRoundness = 0.0
+        contourFilterSettings.maxRoundness = 0.0
     }
 
     fun clearContourAspectRatioParams() {
         minAspectRatioText.value = ""
         maxAspectRatioText.value = ""
+
+        contourFilterSettings.minAspectRatio = 0.0
+        contourFilterSettings.maxAspectRatio = 0.0
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {

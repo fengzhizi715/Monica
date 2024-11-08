@@ -8,6 +8,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplay
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
+import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
 
@@ -23,6 +24,9 @@ class ContourAnalysisViewModel {
     private val logger: Logger = logger<ContourAnalysisViewModel>()
 
     fun contourAnalysis(state: ApplicationState, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings) {
+
+        logger.info("contourFilterSettings = ${GsonUtils.toJson(contourFilterSettings)}")
+        logger.info("contourDisplaySettings = ${GsonUtils.toJson(contourDisplaySettings)}")
 
         val type = if (contourDisplaySettings.showOriginalImage) { BufferedImage.TYPE_INT_ARGB } else BufferedImage.TYPE_BYTE_BINARY
 
