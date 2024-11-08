@@ -72,7 +72,7 @@ fun colorCorrection(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "contrast：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "对比度：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -96,7 +96,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "hue：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "色调：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -120,7 +120,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "saturation：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "饱和度：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -145,7 +145,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "lightness：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "亮度：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -170,7 +170,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "temperature：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "色温：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -195,7 +195,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "highlight：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "高光：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -220,7 +220,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "shadow：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "阴影：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -245,7 +245,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "sharpen：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "锐化：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -270,7 +270,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "corner：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = "暗角：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
