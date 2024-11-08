@@ -72,12 +72,17 @@ object ImageProcess {
     /**
      * 初始化图像调色模块
      */
-    external fun initColorCorrection(src: ByteArray)
+    external fun initColorCorrection(src: ByteArray): Long
 
     /**
      * 图像调色
      */
-    external fun colorCorrection(src: ByteArray, colorCorrectionSettings: ColorCorrectionSettings):IntArray
+    external fun colorCorrection(src: ByteArray, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long):IntArray
+
+    /**
+     * 删除 ColorCorrection
+     */
+    external fun deleteColorCorrection(cppObjectPtr:Long): Long
 
     /**
      * 直方图均衡化

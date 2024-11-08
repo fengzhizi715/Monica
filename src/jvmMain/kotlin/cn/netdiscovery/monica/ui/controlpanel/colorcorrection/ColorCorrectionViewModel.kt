@@ -35,6 +35,8 @@ class ColorCorrectionViewModel {
     var sharpen by mutableStateOf(0f )
     var corner by mutableStateOf(0f )
 
+    private var cppObjectPtr:Long = 0
+
     private var init by mutableStateOf(false )
 
     fun colorCorrection(state: ApplicationState, colorCorrectionSettings: ColorCorrectionSettings) {
@@ -46,11 +48,11 @@ class ColorCorrectionViewModel {
                 init = true
 
                 val byteArray = state.currentImage!!.image2ByteArray()
-                ImageProcess.initColorCorrection(byteArray)
+                cppObjectPtr = ImageProcess.initColorCorrection(byteArray)
             }
 
             OpenCVManager.invokeCV(state, action = { byteArray ->
-                ImageProcess.colorCorrection(byteArray, colorCorrectionSettings)
+                ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
             }, failure = { e ->
                 logger.error("colorCorrection is failed", e)
             })
@@ -69,5 +71,8 @@ class ColorCorrectionViewModel {
         shadow = 255f
         sharpen = 0f
         corner = 0f
+
+        ImageProcess.deleteColorCorrection(cppObjectPtr)
+        cppObjectPtr = 0
     }
 }
