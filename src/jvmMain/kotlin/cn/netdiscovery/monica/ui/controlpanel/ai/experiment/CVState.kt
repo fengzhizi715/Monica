@@ -3,6 +3,8 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 
 /**
  *
@@ -57,5 +59,8 @@ object CVState {
         showBoundingRect = false
         showMinAreaRect = false
         showCenter = false
+
+        contourFilterSettings = ContourFilterSettings()
+        contourDisplaySettings = ContourDisplaySettings()
     }
 }

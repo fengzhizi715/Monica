@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val contourFilterSettings:ContourFilterSettings = ContourFilterSettings()
-val contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
+var contourFilterSettings:ContourFilterSettings = ContourFilterSettings()
+var contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
 
 @Composable
 fun contourAnalysis(state: ApplicationState) {
