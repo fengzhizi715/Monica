@@ -60,6 +60,11 @@ Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使�
 
 暂时还不提供安装包，不过可自行编译，后续版本会提供 Windows、Linux、MasOS 各个平台对应的安装包。
 
+Windows 用户的体验版本: 
+> 链接: https://pan.baidu.com/s/1QrauiGLKUtozkKKB4JKLiQ?pwd=u9jn
+> 
+> 由于是体验版本，少了一些深度学习相关的功能，加上这些功能的话打包太大了超过1G，主要是模型太大。
+
 相关文章的介绍，在如下的专栏：
 
 https://juejin.cn/column/7396157773312065574
