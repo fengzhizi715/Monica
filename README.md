@@ -60,6 +60,8 @@ https://github.com/fengzhizi715/MonicaImageProcess
 > 链接: https://pan.baidu.com/s/1cZvMSuOGxl8CuyHdJM27kw?pwd=9mun
 > 
 > 链接: https://pan.baidu.com/s/10bIlCT08XPtUd_GBOGH6cw?pwd=xu4f
+> 
+> 下载下来放的目录是/resources/common/下
 
 # 四. 更多详情
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用以及提各个意见和建议。
