@@ -53,8 +53,9 @@ fun controlPanel(
 
             filterView(state) // 滤镜相关的内容
 
-            if(isProVersion && (isMac || isWindows)) {
-                divider()
+            divider()
+
+            if(isMac || isWindows) {
 
                 aiView(state) // AI 实验室
             }
