@@ -14,7 +14,7 @@ Monica 是一款跨平台的桌面图像编辑软件(早期主要是个人为了
 ![](images/screenshot-version.png)
 
 # 一. 简介
-Monica 目前还处于开发阶段，当前提供的基础功能包括：
+Monica 目前还处于开发阶段，当前提供的基础功能：
 
 * 支持加载本地图片、网络图片。
 * 支持对图片进行局部模糊、打马赛克。
@@ -28,7 +28,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能包括：
 * 保存修改的图像。
 * 提供快速验证 OpenCV 算法的功能(目前只能提供简单算法的调参)
 
-深度学习相关的功能包括：
+深度学习相关的功能：
 
 * 人脸检测(人脸、性别、年龄)
 * 生成素描画
@@ -53,18 +53,18 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
 
-> 目前，有三个模型没有提交，主要是太大了每个都超过了 100 M。我把他们放到百度网盘
+> 目前，有三个模型没有提交到 github，主要是太大了，每个都超过了 100 M。我把他们放到百度网盘
 > 
-> 链接: https://pan.baidu.com/s/15XhVHKi-vPGjB2hYa33v_A?pwd=d9mm 
+> 链接: https://pan.baidu.com/s/15XhVHKi-vPGjB2hYa33v_A?pwd=d9mm
 > 
 > 链接: https://pan.baidu.com/s/1cZvMSuOGxl8CuyHdJM27kw?pwd=9mun
 > 
 > 链接: https://pan.baidu.com/s/10bIlCT08XPtUd_GBOGH6cw?pwd=xu4f
 > 
-> 下载下来放的目录是/resources/common/下
+> 下载下来放的目录是 /resources/common/ 下
 
 # 四. 更多详情
-Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用以及提各个意见和建议。
+Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见、参与开发。
 
 暂时还不提供安装包，不过可自行编译，后续版本会提供 Windows、Linux、MasOS 各个平台对应的安装包。
 
