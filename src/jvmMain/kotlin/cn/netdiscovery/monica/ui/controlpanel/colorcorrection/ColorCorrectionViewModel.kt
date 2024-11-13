@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -12,6 +13,7 @@ import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -39,7 +41,7 @@ class ColorCorrectionViewModel {
 
     private var init by mutableStateOf(false )
 
-    fun colorCorrection(state: ApplicationState, colorCorrectionSettings: ColorCorrectionSettings) {
+    fun colorCorrection(state: ApplicationState, image: MutableState<BufferedImage>,  colorCorrectionSettings: ColorCorrectionSettings) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
@@ -51,12 +53,19 @@ class ColorCorrectionViewModel {
                 cppObjectPtr = ImageProcess.initColorCorrection(byteArray)
             }
 
-            OpenCVManager.invokeCV(state, action = { byteArray ->
+            OpenCVManager.invokeCV(image, action = { byteArray ->
                 ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
             }, failure = { e ->
                 logger.error("colorCorrection is failed", e)
             })
         }
+    }
+
+    fun save(state: ApplicationState, image: MutableState<BufferedImage>) {
+        state.currentImage = image.value
+
+        clearAllStatus()
+        colorCorrectionSettings = ColorCorrectionSettings()
     }
 
     fun clearAllStatus() {
