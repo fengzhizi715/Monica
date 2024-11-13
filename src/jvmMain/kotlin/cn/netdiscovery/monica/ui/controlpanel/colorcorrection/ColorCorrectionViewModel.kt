@@ -42,7 +42,7 @@ class ColorCorrectionViewModel {
 
     private var init by mutableStateOf(false )
 
-    fun colorCorrection(state: ApplicationState, image: BufferedImage,  colorCorrectionSettings: ColorCorrectionSettings, success: CVSuccess) {
+    fun colorCorrection(state: ApplicationState, image: BufferedImage, colorCorrectionSettings: ColorCorrectionSettings, success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
@@ -55,7 +55,7 @@ class ColorCorrectionViewModel {
             }
 
             OpenCVManager.invokeCV(image,
-                action = { byteArray -> ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr) },
+                action  = { byteArray -> ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr) },
                 success = { success.invoke(it) },
                 failure = { e ->
                     logger.error("colorCorrection is failed", e)

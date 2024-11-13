@@ -85,7 +85,7 @@ fun colorCorrection(state: ApplicationState) {
                                     viewModel.contrast = value.toFloat()
                                     colorCorrectionSettings = colorCorrectionSettings.copy(contrast = value, status = 1)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -109,7 +109,7 @@ fun colorCorrection(state: ApplicationState) {
                                     viewModel.hue = value.toFloat()
                                     colorCorrectionSettings = colorCorrectionSettings.copy(hue = value, status = 2)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -134,7 +134,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(saturation = value, status = 3)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -159,7 +159,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(lightness = value, status = 4)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -184,7 +184,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(temperature = value, status = 5)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -209,7 +209,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(highlight = value, status = 6)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -234,7 +234,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(shadow = value, status = 7)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -259,7 +259,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(sharpen = value, status = 8)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -284,7 +284,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(corner = value, status = 9)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings) { cachedImage = it}
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
