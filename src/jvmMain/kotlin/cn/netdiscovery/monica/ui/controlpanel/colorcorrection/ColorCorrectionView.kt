@@ -4,11 +4,11 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.material.Card
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Slider
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -17,14 +17,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.extension.to2fStr
 import loadingDisplay
 import org.koin.compose.koinInject
-import java.awt.image.BufferedImage
 import kotlin.math.roundToInt
 
 /**
@@ -42,7 +40,7 @@ var colorCorrectionSettings = ColorCorrectionSettings()
 fun colorCorrection(state: ApplicationState) {
     val viewModel: ColorCorrectionViewModel = koinInject()
 
-    val cachedImage:MutableState<BufferedImage> = remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
+    var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
     Box(
         Modifier.fillMaxSize(),
@@ -59,10 +57,10 @@ fun colorCorrection(state: ApplicationState) {
                 elevation = 4.dp,
                 onClick = {
                 },
-                enabled = state.currentImage == null
+                enabled = true
             ) {
                 Image(
-                    painter = cachedImage!!.value!!.toPainter(),
+                    painter = cachedImage.toPainter(),
                     contentDescription = null,
                     contentScale = ContentScale.Fit,
                     modifier = Modifier
@@ -87,7 +85,7 @@ fun colorCorrection(state: ApplicationState) {
                                     viewModel.contrast = value.toFloat()
                                     colorCorrectionSettings = colorCorrectionSettings.copy(contrast = value, status = 1)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -111,7 +109,7 @@ fun colorCorrection(state: ApplicationState) {
                                     viewModel.hue = value.toFloat()
                                     colorCorrectionSettings = colorCorrectionSettings.copy(hue = value, status = 2)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -136,7 +134,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(saturation = value, status = 3)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -161,7 +159,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(lightness = value, status = 4)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -186,7 +184,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(temperature = value, status = 5)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -211,7 +209,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(highlight = value, status = 6)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -236,7 +234,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(shadow = value, status = 7)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -261,7 +259,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(sharpen = value, status = 8)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -286,7 +284,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     colorCorrectionSettings = colorCorrectionSettings.copy(corner = value, status = 9)
 
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings) { cachedImage = it}
                                 },
                                 enabled = true,
                                 modifier = Modifier.weight(9f),
@@ -304,7 +302,7 @@ fun colorCorrection(state: ApplicationState) {
                             painter = painterResource("images/doodle/save.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                viewModel.save(state, cachedImage)
+                                viewModel.save(cachedImage) { state.currentImage = it}
                                 state.togglePreviewWindow(false)
                             })
                     }

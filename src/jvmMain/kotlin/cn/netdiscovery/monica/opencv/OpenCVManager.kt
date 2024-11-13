@@ -46,23 +46,6 @@ object OpenCVManager {
         }
     }
 
-    fun invokeCV(image: MutableState<BufferedImage>,
-                 type:Int = BufferedImage.TYPE_INT_ARGB,
-                 action: CVAction,
-                 failure: CVFailure) {
-
-        if (image.value!=null) {
-            val (width,height,byteArray) = image.value!!.getImageInfo()
-
-            try {
-                val outPixels = action.invoke(byteArray)
-                image.value = BufferedImages.toBufferedImage(outPixels,width,height,type)
-            } catch (e:Exception) {
-                failure.invoke(e)
-            }
-        }
-    }
-
     /**
      * 封装调用 OpenCV 的方法
      * 便于对某个图像调用 OpenCV 的方法，以及对返回的 IntArray 进行处理返回成 BufferedImage

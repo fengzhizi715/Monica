@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
+import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
@@ -41,7 +42,7 @@ class ColorCorrectionViewModel {
 
     private var init by mutableStateOf(false )
 
-    fun colorCorrection(state: ApplicationState, image: MutableState<BufferedImage>,  colorCorrectionSettings: ColorCorrectionSettings) {
+    fun colorCorrection(state: ApplicationState, image: BufferedImage,  colorCorrectionSettings: ColorCorrectionSettings, success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
@@ -49,20 +50,21 @@ class ColorCorrectionViewModel {
             if (!init) {
                 init = true
 
-                val byteArray = state.currentImage!!.image2ByteArray()
+                val byteArray = image.image2ByteArray()
                 cppObjectPtr = ImageProcess.initColorCorrection(byteArray)
             }
 
-            OpenCVManager.invokeCV(image, action = { byteArray ->
-                ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
-            }, failure = { e ->
-                logger.error("colorCorrection is failed", e)
-            })
+            OpenCVManager.invokeCV(image,
+                action = { byteArray -> ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr) },
+                success = { success.invoke(it) },
+                failure = { e ->
+                    logger.error("colorCorrection is failed", e)
+                })
         }
     }
 
-    fun save(state: ApplicationState, image: MutableState<BufferedImage>) {
-        state.currentImage = image.value
+    fun save(image: BufferedImage, success: CVSuccess) {
+        success.invoke(image)
 
         clearAllStatus()
         colorCorrectionSettings = ColorCorrectionSettings()
