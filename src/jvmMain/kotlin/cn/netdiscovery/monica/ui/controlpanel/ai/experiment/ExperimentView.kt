@@ -112,9 +112,7 @@ fun experiment(state: ApplicationState) {
 
     val screens = Screen.entries
     val navController by rememberNavController(Screen.Home.name)
-    val currentScreen by remember {
-        navController.currentScreen
-    }
+    val currentScreen by remember { navController.currentScreen }
 
     Box(
         Modifier.fillMaxSize(),

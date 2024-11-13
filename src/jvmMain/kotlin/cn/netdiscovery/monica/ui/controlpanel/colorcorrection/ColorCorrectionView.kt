@@ -42,7 +42,7 @@ var colorCorrectionSettings = ColorCorrectionSettings()
 fun colorCorrection(state: ApplicationState) {
     val viewModel: ColorCorrectionViewModel = koinInject()
 
-    var cachedImage:MutableState<BufferedImage> = remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
+    val cachedImage:MutableState<BufferedImage> = remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
     Box(
         Modifier.fillMaxSize(),
