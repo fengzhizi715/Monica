@@ -28,7 +28,9 @@ val ResizeStatus: Int = 7
 val ShearingStatus: Int = 8
 val CropSizeStatus: Int = 9
 
+
 val ColorCorrectionStatus: Int = 10
+
 
 val EqualizeHistStatus: Int = 11
 val ClaheStatus: Int = 12
