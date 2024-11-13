@@ -222,9 +222,7 @@ fun experiment(state: ApplicationState) {
         }
 
         if (showVerifyToast) {
-            centerToast(Modifier, verifyToastMessage, onDismissCallback = {
-                showVerifyToast = false
-            })
+            centerToast(message = verifyToastMessage, onDismissCallback = { showVerifyToast = false })
         }
     }
 }
