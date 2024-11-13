@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.opencv
 
+import androidx.compose.runtime.MutableState
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
@@ -39,6 +40,23 @@ object OpenCVManager {
                 val outPixels = action.invoke(byteArray)
                 state.addQueue(state.currentImage!!)
                 state.currentImage = BufferedImages.toBufferedImage(outPixels,width,height,type)
+            } catch (e:Exception) {
+                failure.invoke(e)
+            }
+        }
+    }
+
+    fun invokeCV(image: MutableState<BufferedImage>,
+                 type:Int = BufferedImage.TYPE_INT_ARGB,
+                 action: CVAction,
+                 failure: CVFailure) {
+
+        if (image.value!=null) {
+            val (width,height,byteArray) = image.value!!.getImageInfo()
+
+            try {
+                val outPixels = action.invoke(byteArray)
+                image.value = BufferedImages.toBufferedImage(outPixels,width,height,type)
             } catch (e:Exception) {
                 failure.invoke(e)
             }
