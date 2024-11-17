@@ -61,7 +61,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 > 
 > 链接: https://pan.baidu.com/s/10bIlCT08XPtUd_GBOGH6cw?pwd=xu4f
 > 
-> 下载下来放的目录是 /resources/common/ 下
+> 模型下载下来，存放的目录是在工程的 /resources/common/ 目录下
 
 # 四. 更多详情
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见、参与开发。
@@ -82,9 +82,9 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * UI 层性能优化
+* 增加对图像添加文字的功能
 * 拆分成多模块
 * 模型部署到云端
-* 增加对图像添加文字的功能
 * 增加人脸美颜的算法
 
 
