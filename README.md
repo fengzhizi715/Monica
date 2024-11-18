@@ -3,7 +3,7 @@ Monica 是一款跨平台的桌面图像编辑软件(早期主要是个人为了
 
 其技术栈如下：
 * Kotlin 编写 UI(Kotlin Compose Desktop 作为 UI 框架)
-* 基于 mvvm 模式，使用 koin 作为依赖注入框架，使用 JDK 17 进行编译
+* 基于 mvvm 模式，依赖注入使用 koin，编译使用 JDK 17
 * 部分算法使用 Kotlin 实现
 * 其余的算法使用 OpenCV C++ 来实现，Kotlin 通过 jni 来调用。
 * Monica 所使用的模型，主要使用 ONNXRuntime 进行部署和推理
