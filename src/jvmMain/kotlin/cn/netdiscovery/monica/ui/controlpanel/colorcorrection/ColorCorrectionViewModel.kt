@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
+import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
@@ -42,7 +43,8 @@ class ColorCorrectionViewModel {
 
     private var init by mutableStateOf(false )
 
-    fun colorCorrection(state: ApplicationState, image: BufferedImage, colorCorrectionSettings: ColorCorrectionSettings, success: CVSuccess) {
+    fun colorCorrection(state: ApplicationState, image: BufferedImage, colorCorrectionSettings: ColorCorrectionSettings,
+                        success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
@@ -63,8 +65,8 @@ class ColorCorrectionViewModel {
         }
     }
 
-    fun save(image: BufferedImage, success: CVSuccess) {
-        success.invoke(image)
+    fun save(action: Action) {
+        action.invoke()
 
         clearAllStatus()
         colorCorrectionSettings = ColorCorrectionSettings()
