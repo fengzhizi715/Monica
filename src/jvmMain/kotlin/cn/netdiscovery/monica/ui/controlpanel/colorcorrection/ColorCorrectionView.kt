@@ -297,12 +297,13 @@ fun colorCorrection(state: ApplicationState) {
                         }
                     }
 
+                    // 底部菜单
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp)) {
                         toolTipButton(text = "保存",
                             painter = painterResource("images/doodle/save.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                viewModel.save(cachedImage) { state.currentImage = it}
+                                viewModel.save(cachedImage) { state.currentImage = it }
                                 state.togglePreviewWindow(false)
                             })
                     }
