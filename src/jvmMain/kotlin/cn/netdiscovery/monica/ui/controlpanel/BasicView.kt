@@ -80,6 +80,9 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = ColorPickStatus
                 state.togglePreviewWindow(true)
             })
+    }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
 
         toolTipButton(text = "图像翻转",
             painter = painterResource("images/controlpanel/flip.png"),
@@ -96,9 +99,7 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = RotateStatus
                 viewModel.rotate(state)
             })
-    }
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
         toolTipButton(text = "图像缩放",
             painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isBasic },
