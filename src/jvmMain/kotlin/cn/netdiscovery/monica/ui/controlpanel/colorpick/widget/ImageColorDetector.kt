@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.controlpanel.colorpick.widget
 
 import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.*
@@ -14,6 +14,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.DpSize
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.OnColorChange
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.defaultThumbnailSize
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.utils.calculateColorInPixel

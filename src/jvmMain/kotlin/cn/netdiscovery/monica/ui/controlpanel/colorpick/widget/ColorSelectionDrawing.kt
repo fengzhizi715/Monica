@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.controlpanel.colorpick.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.defaultThumbnailSize
 import kotlin.math.roundToInt
 
 /**

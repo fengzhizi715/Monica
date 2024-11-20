@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.widget.ColorDisplay
+import cn.netdiscovery.monica.ui.controlpanel.colorpick.widget.ImageColorDetector
 
 /**
  *

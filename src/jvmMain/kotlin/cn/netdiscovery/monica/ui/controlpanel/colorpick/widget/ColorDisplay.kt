@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorpick
+package cn.netdiscovery.monica.ui.controlpanel.colorpick.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
