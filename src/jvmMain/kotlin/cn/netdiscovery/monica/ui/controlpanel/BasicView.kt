@@ -9,7 +9,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experimentViewVerifyToast
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
@@ -71,6 +70,13 @@ fun basicView(state: ApplicationState) {
             onClick = {
                 state.currentStatus = DoodleStatus
                 state.togglePreviewWindow(true)
+            })
+
+        toolTipButton(text = "形状绘制",
+            painter = painterResource("images/controlpanel/shape-drawing.png"),
+            enable = { state.isBasic },
+            onClick = {
+
             })
 
         toolTipButton(text = "图像取色",
