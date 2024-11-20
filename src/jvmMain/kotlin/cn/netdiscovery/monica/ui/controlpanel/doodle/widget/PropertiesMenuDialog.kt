@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.doodle
+package cn.netdiscovery.monica.ui.controlpanel.doodle.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
