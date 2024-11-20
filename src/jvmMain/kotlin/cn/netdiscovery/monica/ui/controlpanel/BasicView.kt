@@ -9,14 +9,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experimentViewVerifyToast
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import showVerifyToast
 
 /**
  *
@@ -157,7 +160,10 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
         verticalAlignment = Alignment.CenterVertically,
     ) {
         confirmButton(state.isBasic) {
-            viewModel.resize(widthText.toInt(),heightText.toInt(),state)
+
+            val width = getValidateField(block = { widthText.toInt() } , failed = { showVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
+            val height = getValidateField(block = { heightText.toInt() } , failed = { showVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
+            viewModel.resize(width, height, state)
         }
     }
 }
@@ -190,7 +196,10 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
         verticalAlignment = Alignment.CenterVertically,
     ) {
         confirmButton(state.isBasic) {
-            viewModel.shearing(xText.toFloat(),yText.toFloat(),state)
+
+            val x = getValidateField(block = { xText.toFloat() } , failed = { showVerifyToast("x 方向 需要 float 类型") }) ?: return@confirmButton
+            val y = getValidateField(block = { yText.toFloat() } , failed = { showVerifyToast("y 方向 需要 float 类型") }) ?: return@confirmButton
+            viewModel.shearing(x, y, state)
         }
     }
 }
