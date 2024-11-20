@@ -13,9 +13,11 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import showVerifyToast
 
 /**
  *
@@ -143,7 +145,10 @@ private fun generateClaheParams(state: ApplicationState, viewModel: ImageEnhance
         verticalAlignment = Alignment.CenterVertically,
     ) {
         confirmButton(state.isEnhance) {
-            viewModel.clahe(state,clipLimitText.toDouble(), sizeText.toInt())
+
+            val clipLimit = getValidateField(block = { clipLimitText.toDouble() } , failed = { showVerifyToast("clipLimit 需要 double 类型") }) ?: return@confirmButton
+            val size = getValidateField(block = { sizeText.toInt() } , failed = { showVerifyToast("size 需要 int 类型") }) ?: return@confirmButton
+            viewModel.clahe(state,clipLimit, size)
         }
     }
 }
@@ -161,7 +166,9 @@ private fun generateGammaParams(state: ApplicationState, viewModel: ImageEnhance
         }
 
         confirmButton(state.isEnhance, Modifier.padding(start = 120.dp)) {
-            viewModel.gammaCorrection(state, gammaText.toFloat())
+
+            val gamma = getValidateField(block = { gammaText.toFloat() } , failed = { showVerifyToast("gamma 需要 float 类型") }) ?: return@confirmButton
+            viewModel.gammaCorrection(state, gamma)
         }
     }
 }
