@@ -40,28 +40,28 @@ fun preview(
     state: ApplicationState,
     modifier: Modifier
 ) {
-    val previewViewModel: PreviewViewModel = koinInject()
+    val viewModel: PreviewViewModel = koinInject()
 
     Card(
         modifier = modifier.padding(16.dp),
         shape = RoundedCornerShape(8.dp),
         elevation = 4.dp,
         onClick = {
-            previewViewModel.chooseImage(state)
+            viewModel.chooseImage(state)
         },
         enabled = state.rawImage == null
     ) {
         if (state.rawImage == null) {
             chooseImage()
         } else {
-            previewImage(state,previewViewModel)
+            previewImage(state,viewModel)
         }
     }
 }
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewModel) {
+private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
     if (state.currentImage == null) return
 
     Column(
@@ -85,9 +85,9 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                         detectTapGestures(
                             onPress = {
                                 if (state.currentStatus == MosaicStatus) {
-                                    previewViewModel.mosaic(width, height, it, state)
+                                    viewModel.mosaic(width, height, it, state)
                                 } else if (state.currentStatus == BlurStatus) {
-                                    previewViewModel.blur(width,height, it, state)
+                                    viewModel.blur(width,height, it, state)
                                 }
                             })
                     }
@@ -116,19 +116,19 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
                 painter = painterResource("images/preview/initial_picture.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
-                    previewViewModel.recoverImage(state)
+                    viewModel.recoverImage(state)
                 })
 
             toolTipButton(text = "上一步",
                 painter = painterResource("images/preview/reduction.png"),
                 onClick = {
-                    previewViewModel.getLastImage(state)
+                    viewModel.getLastImage(state)
                 })
 
             toolTipButton(text = "预览效果",
                 painter = painterResource("images/preview/preview.png"),
                 onClick = {
-                    previewViewModel.previewImage(state)
+                    viewModel.previewImage(state)
                 })
 
             toolTipButton(text = "放大预览",
@@ -140,13 +140,13 @@ private fun previewImage(state: ApplicationState, previewViewModel: PreviewViewM
             toolTipButton(text = "保存",
                 painter = painterResource("images/preview/save.png"),
                 onClick = {
-                    previewViewModel.saveImage(state)
+                    viewModel.saveImage(state)
                 })
 
             toolTipButton(text = "删除",
                 painter = painterResource("images/preview/delete.png"),
                 onClick = {
-                    previewViewModel.clearImage(state)
+                    viewModel.clearImage(state)
                 })
         }
     }

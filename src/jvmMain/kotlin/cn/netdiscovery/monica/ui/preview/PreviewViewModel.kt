@@ -1,13 +1,10 @@
 package cn.netdiscovery.monica.ui.preview
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
-import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.imageprocess.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
-import cn.netdiscovery.monica.imageprocess.saveImage
-import cn.netdiscovery.monica.imageprocess.subImage
+import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
@@ -37,10 +34,6 @@ class PreviewViewModel {
     private val logger: Logger = logger<PreviewViewModel>()
 
     private val blurFilter = FastBlur2D(15)
-
-//    var saturation by mutableStateOf(0f )
-//    var luminance by mutableStateOf(0f )
-//    var hue by mutableStateOf(0f )
 
     fun chooseImage(state: ApplicationState) {
         showFileSelector(
@@ -193,6 +186,53 @@ class PreviewViewModel {
 
             state.addQueue(state.currentImage!!)
             state.currentImage = outputImage
+        }
+    }
+
+    fun flip(state: ApplicationState) {
+
+        state.currentImage?.let {
+            state.addQueue(it)
+            state.currentImage = it.flipHorizontally()
+        }
+    }
+
+    fun rotate(state: ApplicationState) {
+
+        state.currentImage?.let {
+            state.addQueue(it)
+            state.currentImage = it.rotate(-90.0)
+        }
+    }
+
+    fun resize(width:Int, height:Int, state: ApplicationState) {
+
+        state.currentImage?.let {
+            if (width == it.width && height == it.height) {
+                return@let
+            }
+
+            val resizedImage = it.resize(width, height)
+            state.addQueue(it)
+            state.currentImage = resizedImage
+        }
+    }
+
+    fun shearing(x:Float, y:Float, state: ApplicationState) {
+
+        state.currentImage?.let {
+            if (x == 0f && y == 0f) {
+                return@let
+            }
+
+            state.scope.launchWithLoading {
+
+                OpenCVManager.invokeCV(state, action = { byteArray ->
+                    ImageProcess.shearing(byteArray, x, y)
+                }, failure = { e ->
+                    logger.error("shearing is failed", e)
+                })
+            }
         }
     }
 

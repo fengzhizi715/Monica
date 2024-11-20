@@ -9,7 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitle
@@ -31,7 +31,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun basicView(state: ApplicationState) {
 
-    val viewModel: CropViewModel = koinInject()
+    val viewModel: PreviewViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         Checkbox(state.isBasic, onCheckedChange = {
@@ -131,7 +131,7 @@ fun basicView(state: ApplicationState) {
 
 
 @Composable
-private fun generateResizeParams(state: ApplicationState, viewModel: CropViewModel) {
+private fun generateResizeParams(state: ApplicationState, viewModel: PreviewViewModel) {
 
     var widthText by remember {
         mutableStateOf("${state.currentImage?.width?:400}")
@@ -164,7 +164,7 @@ private fun generateResizeParams(state: ApplicationState, viewModel: CropViewMod
 
 
 @Composable
-private fun generateShearingParams(state: ApplicationState, viewModel: CropViewModel) {
+private fun generateShearingParams(state: ApplicationState, viewModel: PreviewViewModel) {
 
     var xText by remember {
         mutableStateOf("${0}")
