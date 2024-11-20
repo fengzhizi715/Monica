@@ -18,33 +18,33 @@ import java.util.concurrent.TimeUnit
  * @date: 2024/4/26 10:42
  * @version: V1.0 <描述当前版本功能>
  */
-val ZoomPreviewStatus: Int = 1
-val BlurStatus: Int = 2
-val MosaicStatus: Int = 3
-val DoodleStatus: Int = 4
-val ColorPickStatus: Int = 5
-val FlipStatus: Int = 6
-val RotateStatus: Int = 7
-val ResizeStatus: Int = 8
-val ShearingStatus: Int = 9
-val CropSizeStatus: Int = 10
+const val ZoomPreviewStatus: Int = 1
+const val BlurStatus: Int = 2
+const val MosaicStatus: Int = 3
+const val DoodleStatus: Int = 4
+const val ColorPickStatus: Int = 5
+const val FlipStatus: Int = 6
+const val RotateStatus: Int = 7
+const val ResizeStatus: Int = 8
+const val ShearingStatus: Int = 9
+const val CropSizeStatus: Int = 10
 
 
-val ColorCorrectionStatus: Int = 11
+const val ColorCorrectionStatus: Int = 11
 
 
-val EqualizeHistStatus: Int = 12
-val ClaheStatus: Int = 13
-val GammaStatus: Int = 14
-val LaplaceStatus: Int = 15
-val USMStatus: Int = 16
-val ACEStatus: Int = 17
+const val EqualizeHistStatus: Int = 12
+const val ClaheStatus: Int = 13
+const val GammaStatus: Int = 14
+const val LaplaceStatus: Int = 15
+const val USMStatus: Int = 16
+const val ACEStatus: Int = 17
 
 
-val OpenCVDebugStatus: Int = 18
-val FaceDetectStatus: Int = 19
-val SketchDrawingStatus: Int = 20
-val FaceSwapStatus: Int = 21
+const val OpenCVDebugStatus: Int = 18
+const val FaceDetectStatus: Int = 19
+const val SketchDrawingStatus: Int = 20
+const val FaceSwapStatus: Int = 21
 
 
 @Composable
