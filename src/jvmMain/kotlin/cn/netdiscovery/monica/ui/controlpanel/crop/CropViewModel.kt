@@ -30,36 +30,39 @@ class CropViewModel {
     private val logger: Logger = logger<CropViewModel>()
 
     fun flip(state: ApplicationState) {
-        if (state.currentImage!=null) {
-            state.addQueue(state.currentImage!!)
-            state.currentImage = state.currentImage!!.flipHorizontally()
+
+        state.currentImage?.let {
+            state.addQueue(it)
+            state.currentImage = it.flipHorizontally()
         }
     }
 
     fun rotate(state: ApplicationState) {
-        if (state.currentImage!=null) {
-            state.addQueue(state.currentImage!!)
-            state.currentImage = state.currentImage!!.rotate(-90.0)
+
+        state.currentImage?.let {
+            state.addQueue(it)
+            state.currentImage = it.rotate(-90.0)
         }
     }
 
     fun resize(width:Int, height:Int, state: ApplicationState) {
-        if (state.currentImage!=null) {
 
-            if (width == state.currentImage!!.width && height == state.currentImage!!.height) {
-                return
+        state.currentImage?.let {
+            if (width == it.width && height == it.height) {
+                return@let
             }
 
-            val resizedImage = state.currentImage!!.resize(width, height)
-            state.addQueue(state.currentImage!!)
+            val resizedImage = it.resize(width, height)
+            state.addQueue(it)
             state.currentImage = resizedImage
         }
     }
 
     fun shearing(x:Float, y:Float, state: ApplicationState) {
-        if (state.currentImage!=null) {
+
+        state.currentImage?.let {
             if (x == 0f && y == 0f) {
-                return
+                return@let
             }
 
             state.scope.launchWithLoading {
