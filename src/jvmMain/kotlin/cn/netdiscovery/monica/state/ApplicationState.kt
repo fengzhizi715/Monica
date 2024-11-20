@@ -18,32 +18,33 @@ import java.util.concurrent.TimeUnit
  * @date: 2024/4/26 10:42
  * @version: V1.0 <描述当前版本功能>
  */
-val BlurStatus: Int = 1
-val MosaicStatus: Int = 2
-val DoodleStatus: Int = 3
-val ColorPickStatus: Int = 4
-val FlipStatus: Int = 5
-val RotateStatus: Int = 6
-val ResizeStatus: Int = 7
-val ShearingStatus: Int = 8
-val CropSizeStatus: Int = 9
+val ZoomPreviewStatus: Int = 1
+val BlurStatus: Int = 2
+val MosaicStatus: Int = 3
+val DoodleStatus: Int = 4
+val ColorPickStatus: Int = 5
+val FlipStatus: Int = 6
+val RotateStatus: Int = 7
+val ResizeStatus: Int = 8
+val ShearingStatus: Int = 9
+val CropSizeStatus: Int = 10
 
 
-val ColorCorrectionStatus: Int = 10
+val ColorCorrectionStatus: Int = 11
 
 
-val EqualizeHistStatus: Int = 11
-val ClaheStatus: Int = 12
-val GammaStatus: Int = 13
-val LaplaceStatus: Int = 14
-val USMStatus: Int = 15
-val ACEStatus: Int = 16
+val EqualizeHistStatus: Int = 12
+val ClaheStatus: Int = 13
+val GammaStatus: Int = 14
+val LaplaceStatus: Int = 15
+val USMStatus: Int = 16
+val ACEStatus: Int = 17
 
 
-val OpenCVDebugStatus: Int = 17
-val FaceDetectStatus: Int = 18
-val SketchDrawingStatus: Int = 19
-val FaceSwapStatus: Int = 20
+val OpenCVDebugStatus: Int = 18
+val FaceDetectStatus: Int = 19
+val SketchDrawingStatus: Int = 20
+val FaceSwapStatus: Int = 21
 
 
 @Composable
@@ -96,6 +97,11 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun resetCurrentStatus() {
         currentStatus = 0
+    }
+
+    fun closeWindows() {
+        resetCurrentStatus()
+        togglePreviewWindow(false)
     }
 
     fun clearImage() {

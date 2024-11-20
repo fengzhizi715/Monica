@@ -22,6 +22,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.state.MosaicStatus
+import cn.netdiscovery.monica.state.ZoomPreviewStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 
@@ -134,6 +135,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             toolTipButton(text = "放大预览",
                 painter = painterResource("images/preview/zoom.png"),
                 onClick = {
+                    state.currentStatus = ZoomPreviewStatus
                     state.togglePreviewWindow(true)
                 })
 

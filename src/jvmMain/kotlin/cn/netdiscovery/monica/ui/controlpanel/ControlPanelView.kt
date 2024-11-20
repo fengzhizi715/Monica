@@ -56,7 +56,6 @@ fun controlPanel(
             divider()
 
             if(isMac || isWindows) {
-
                 aiView(state) // AI 实验室
             }
         }

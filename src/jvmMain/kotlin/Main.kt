@@ -193,45 +193,43 @@ fun main() = application {
                     else -> {}
                 }
 
-                applicationState.resetCurrentStatus()
-                applicationState.togglePreviewWindow(false)
+                applicationState.closeWindows()
             },
             state = rememberWindowState().apply {
                 position = WindowPosition(Alignment.Center)
                 placement = if(isWindows) WindowPlacement.Maximized else WindowPlacement.Fullscreen
             }
         ) {
-            if (applicationState.currentStatus > 0) {
-                when(applicationState.currentStatus) {
-                    ColorPickStatus   -> {
-                        logger.info("enter ColorPickView")
-                        colorPick(applicationState)
-                    }
-                    DoodleStatus      -> {
-                        logger.info("enter DoodleView")
-                        drawImage(applicationState)
-                    }
-                    CropSizeStatus    -> {
-                        logger.info("enter CropImageView")
-                        cropImage(applicationState)
-                    }
-                    ColorCorrectionStatus -> {
-                        logger.info("enter ColorCorrectionView")
-                        colorCorrection(applicationState)
-                    }
-                    FaceSwapStatus    -> {
-                        logger.info("enter FaceSwapView")
-                        faceSwap(applicationState)
-                    }
-                    OpenCVDebugStatus -> {
-                        logger.info("enter OpenCVDebugView")
-                        experiment(applicationState)
-                    }
-                    else              -> {
-                        logger.info("enter ShowImgView")
-                        showImage(applicationState)
-                    }
+            when(applicationState.currentStatus) {
+                ZoomPreviewStatus -> {
+                    logger.info("enter ShowImgView")
+                    showImage(applicationState)
                 }
+                ColorPickStatus   -> {
+                    logger.info("enter ColorPickView")
+                    colorPick(applicationState)
+                }
+                DoodleStatus      -> {
+                    logger.info("enter DoodleView")
+                    drawImage(applicationState)
+                }
+                CropSizeStatus    -> {
+                    logger.info("enter CropImageView")
+                    cropImage(applicationState)
+                }
+                ColorCorrectionStatus -> {
+                    logger.info("enter ColorCorrectionView")
+                    colorCorrection(applicationState)
+                }
+                FaceSwapStatus    -> {
+                    logger.info("enter FaceSwapView")
+                    faceSwap(applicationState)
+                }
+                OpenCVDebugStatus -> {
+                    logger.info("enter OpenCVDebugView")
+                    experiment(applicationState)
+                }
+                else -> {}
             }
         }
     }
