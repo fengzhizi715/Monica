@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.utils
 
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropProperties
 import java.awt.image.BufferedImage
 
 /**

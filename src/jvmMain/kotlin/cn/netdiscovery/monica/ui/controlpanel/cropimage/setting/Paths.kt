@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.setting
 
 import androidx.compose.ui.graphics.Path
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.Paths
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.Paths
  * @author: Tony Shen
  * @date: 2024/5/28 18:29
  * @version: V1.0 <描述当前版本功能>

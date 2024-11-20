@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Offset
@@ -6,7 +6,7 @@ import androidx.compose.ui.geometry.Offset
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutlineProperties
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutlineProperties
  * @author: Tony Shen
  * @date: 2024/5/26 12:23
  * @version: V1.0 <描述当前版本功能>

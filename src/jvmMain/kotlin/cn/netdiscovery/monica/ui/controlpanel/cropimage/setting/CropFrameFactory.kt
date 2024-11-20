@@ -1,14 +1,14 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.setting
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.ui.graphics.ImageBitmap
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.*
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.createPolygonShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.*
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFactory
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropFrameFactory
  * @author: Tony Shen
  * @date: 2024/5/28 18:27
  * @version: V1.0 <描述当前版本功能>

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.draw
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -11,7 +11,7 @@ import kotlin.math.roundToInt
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.ImageDrawCanvas
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.draw.ImageDrawCanvas
  * @author: Tony Shen
  * @date: 2024/5/26 15:37
  * @version: V1.0 <描述当前版本功能>

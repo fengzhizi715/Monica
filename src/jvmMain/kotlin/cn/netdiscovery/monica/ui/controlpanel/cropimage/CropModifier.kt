@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.runtime.*
@@ -9,20 +9,20 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.debugInspectorInfo
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropData
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropState
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.cropData
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.CropData
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.CropState
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.cropData
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectMotionEventsAsList
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectTransformGestures
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.ZoomLevel
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.getNextZoomLevel
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.update
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.ZoomLevel
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.getNextZoomLevel
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.update
 import kotlinx.coroutines.launch
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropModifier
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.CropModifier
  * @author: Tony Shen
  * @date: 2024/5/26 15:29
  * @version: V1.0 <描述当前版本功能>

@@ -1,13 +1,13 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.graphics.Shape
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createRectShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.createRectShape
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropAspectRatio
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropAspectRatio
  * @author: Tony Shen
  * @date: 2024/6/10 17:29
  * @version: V1.0 <描述当前版本功能>

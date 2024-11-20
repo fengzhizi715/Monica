@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.utils
 
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.ui.geometry.Offset
@@ -7,7 +7,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.AspectRatio
 import org.jetbrains.skia.Matrix33
 import kotlin.math.cos
 import kotlin.math.sin
@@ -16,7 +16,7 @@ import kotlin.math.tan
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.ShapeUtils
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.ShapeUtils
  * @author: Tony Shen
  * @date: 2024/5/26 12:12
  * @version: V1.0 <描述当前版本功能>

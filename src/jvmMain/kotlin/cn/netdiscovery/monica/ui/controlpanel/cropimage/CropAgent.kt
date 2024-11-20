@@ -1,24 +1,22 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.resize
 import cn.netdiscovery.monica.imageprocess.subImage
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropImageMask
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropPath
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropImageMask
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutline
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropPath
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropShape
 import org.jetbrains.skia.Matrix33
-import java.awt.Image
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropAgent
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.CropAgent
  * @author: Tony Shen
  * @date: 2024/5/26 15:45
  * @version: V1.0 <描述当前版本功能>

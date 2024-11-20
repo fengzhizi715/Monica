@@ -1,9 +1,9 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.TouchRegion
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.TouchRegion
  * @author: Tony Shen
  * @date: 2024/5/26 12:17
  * @version: V1.0 <描述当前版本功能>

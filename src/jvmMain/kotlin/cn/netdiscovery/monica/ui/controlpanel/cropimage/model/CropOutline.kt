@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.model
 
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.CutCornerShape
@@ -8,15 +8,15 @@ import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.Shape
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Diamond
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Parallelogram
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.Ticket
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils.createPolygonShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.Diamond
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.Parallelogram
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.Ticket
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.createPolygonShape
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutline
  * @author: Tony Shen
  * @date: 2024/5/26 12:22
  * @version: V1.0 <描述当前版本功能>

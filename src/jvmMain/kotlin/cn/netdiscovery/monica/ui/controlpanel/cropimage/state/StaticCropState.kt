@@ -1,15 +1,15 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.state
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.AspectRatio
 import kotlinx.coroutines.coroutineScope
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.StaticCropState
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.state.StaticCropState
  * @author: Tony Shen
  * @date: 2024/5/26 18:56
  * @version: V1.0 <描述当前版本功能>

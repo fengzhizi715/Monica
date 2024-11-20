@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.state
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -6,16 +6,16 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.input.pointer.positionChangeIgnoreConsumed
 import androidx.compose.ui.unit.IntSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.TouchRegion
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.TouchRegion
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropProperties
 import kotlinx.coroutines.coroutineScope
 import kotlin.math.roundToInt
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.DynamicCropState
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.state.DynamicCropState
  * @author: Tony Shen
  * @date: 2024/5/26 15:26
  * @version: V1.0 <描述当前版本功能>

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.state
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.TransformState
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.state.TransformState
  * @author: Tony Shen
  * @date: 2024/5/26 12:09
  * @version: V1.0 <描述当前版本功能>

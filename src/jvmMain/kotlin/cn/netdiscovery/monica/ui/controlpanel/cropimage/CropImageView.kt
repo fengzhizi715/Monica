@@ -1,9 +1,8 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.AlertDialog
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
@@ -22,10 +21,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.OutlineType
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.RectCropShape
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.*
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.OutlineType
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.RectCropShape
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.*
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.OnCropPropertiesChange
@@ -34,7 +32,7 @@ import org.koin.compose.koinInject
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropImageView
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.CropImageView
  * @author: Tony Shen
  * @date: 2024/5/27 14:00
  * @version: V1.0 <描述当前版本功能>
@@ -159,12 +157,12 @@ fun cropImage(state: ApplicationState) {
 }
 
 @Composable
-private fun showCroppedImageSettingDialog(cropProperties:CropProperties,
-                                          cropFrameFactory:CropFrameFactory,
+private fun showCroppedImageSettingDialog(cropProperties: CropProperties,
+                                          cropFrameFactory: CropFrameFactory,
                                           onConfirm: OnCropPropertiesChange,
                                           onDismiss: () -> Unit) {
 
-    var tempProperties:CropProperties = cropProperties
+    var tempProperties: CropProperties = cropProperties
 
     AlertDialog(
         onDismissRequest = onDismiss,

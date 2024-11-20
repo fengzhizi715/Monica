@@ -1,38 +1,30 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.gestures.Orientation
-import androidx.compose.foundation.gestures.draggable
-import androidx.compose.foundation.gestures.rememberDraggableState
-import androidx.compose.foundation.gestures.scrollBy
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.config.subTitleTextSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropFrameFactory
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropOutlineProperty
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropFrameFactory
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.aspectRatios
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropOutlineProperty
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropProperties
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.OnCropPropertiesChange
-import kotlinx.coroutines.launch
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.CropImageSettingView
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.CropImageSettingView
  * @author: Tony Shen
  * @date:  2024/6/10 21:32
  * @version: V1.0 <描述当前版本功能>
@@ -56,7 +48,7 @@ fun cropTypeSelect(cropProperties: CropProperties,
         }
 
         DropdownMenu(expanded= expanded, onDismissRequest = {expanded =false}){
-            cropTypes.forEachIndexed{ index,label ->
+            cropTypes.forEachIndexed{ index, label ->
                 DropdownMenuItem(onClick = {
                     cropTypesIndex.value = index
 
@@ -89,7 +81,7 @@ fun contentScaleSelect(cropProperties: CropProperties,
         }
 
         DropdownMenu(expanded= expanded, onDismissRequest = {expanded =false}){
-            contentScales.forEachIndexed{ index,label ->
+            contentScales.forEachIndexed{ index, label ->
                 DropdownMenuItem(onClick = {
                     contentScalesIndex.value = index
 
@@ -128,7 +120,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(start = 5.dp, top = 16.dp,end = 16.dp,bottom = 16.dp).clickable{
                 selectRadio.value = "Original"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[0].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[0].aspectRatio))
             }
         ) {
             Text(
@@ -145,7 +137,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "9:16"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[1].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[1].aspectRatio))
             }
         ) {
             Text(
@@ -162,7 +154,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "2:3"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[2].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[2].aspectRatio))
             }
         ) {
             Text(
@@ -179,7 +171,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "1:1"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[3].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[3].aspectRatio))
             }
         ) {
             Text(
@@ -196,7 +188,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "16:9"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[4].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[4].aspectRatio))
             }
         ) {
             Text(
@@ -213,7 +205,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "1.91:1"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[5].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[5].aspectRatio))
             }
         ) {
             Text(
@@ -230,7 +222,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "3:2"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[6].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[6].aspectRatio))
             }
         ) {
             Text(
@@ -247,7 +239,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "3:4"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[7].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[7].aspectRatio))
             }
         ) {
             Text(
@@ -264,7 +256,7 @@ fun aspectRatioScrollableRow(cropProperties: CropProperties,
             elevation = 16.dp,
             modifier = Modifier.padding(16.dp).clickable {
                 selectRadio.value = "3:5"
-                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.aspectRatios[8].aspectRatio))
+                onCropPropertiesChange.invoke(cropProperties.copy(aspectRatio = aspectRatios[8].aspectRatio))
             }
         ) {
             Text(

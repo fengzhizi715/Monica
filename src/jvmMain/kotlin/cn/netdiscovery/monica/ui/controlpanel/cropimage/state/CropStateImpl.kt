@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.state
 
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.AnimationSpec
@@ -13,14 +13,14 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.input.pointer.PointerInputChange
 import androidx.compose.ui.unit.IntSize
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.TouchRegion
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.AspectRatio
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.TouchRegion
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.AspectRatio
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropProperties
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.CropStateImpl
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.state.CropStateImpl
  * @author: Tony Shen
  * @date: 2024/5/26 12:05
  * @version: V1.0 <描述当前版本功能>

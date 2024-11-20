@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage
+package cn.netdiscovery.monica.ui.controlpanel.cropimage
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
@@ -28,15 +28,15 @@ import cn.netdiscovery.monica.config.KEY_CROP
 import cn.netdiscovery.monica.config.KEY_CROP_FIRST
 import cn.netdiscovery.monica.config.KEY_CROP_SECOND
 import cn.netdiscovery.monica.rxcache.rxCache
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.DrawingOverlay
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.draw.ImageDrawCanvas
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.model.CropOutline
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropDefaults
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropProperties
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropStyle
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.setting.CropType
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.DynamicCropState
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.rememberCropState
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.draw.DrawingOverlay
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.draw.ImageDrawCanvas
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutline
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropDefaults
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropProperties
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropStyle
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.CropType
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.DynamicCropState
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.rememberCropState
 import cn.netdiscovery.monica.ui.widget.image.ImageWithConstraints
 import cn.netdiscovery.monica.ui.widget.image.getScaledImageBitmap
 import com.safframework.kotlin.coroutines.Default
@@ -50,7 +50,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.ImageCropper
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.ImageCropper
  * @author: Tony Shen
  * @date: 2024/5/26 12:00
  * @version: V1.0 <描述当前版本功能>

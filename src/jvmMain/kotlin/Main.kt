@@ -22,8 +22,8 @@ import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrectionSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
-import cn.netdiscovery.monica.ui.controlpanel.crop.CropViewModel
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.cropImage
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog

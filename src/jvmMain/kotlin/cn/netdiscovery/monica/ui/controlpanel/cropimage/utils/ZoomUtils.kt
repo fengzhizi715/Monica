@@ -1,12 +1,12 @@
-package cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.utils
+package cn.netdiscovery.monica.ui.controlpanel.cropimage.utils
 
 import androidx.compose.ui.graphics.GraphicsLayerScope
-import cn.netdiscovery.monica.ui.controlpanel.crop.cropimage.state.TransformState
+import cn.netdiscovery.monica.ui.controlpanel.cropimage.state.TransformState
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.ZoomUtils
+ *          cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.ZoomUtils
  * @author: Tony Shen
  * @date: 2024/5/26 15:32
  * @version: V1.0 <描述当前版本功能>
