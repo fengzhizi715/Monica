@@ -202,7 +202,11 @@ private fun generateUSMParams(state: ApplicationState, viewModel: ImageEnhanceVi
         }
 
         confirmButton(state.isEnhance, Modifier.padding(start = 120.dp)) {
-            viewModel.unsharpMask(state, radiusText.toInt(),thresholdText.toInt(),amountText.toInt())
+
+            val radius = getValidateField(block = { radiusText.toInt() } , failed = { showVerifyToast("Radius 需要 int 类型") }) ?: return@confirmButton
+            val threshold = getValidateField(block = { thresholdText.toInt() } , failed = { showVerifyToast("Threshold 需要 int 类型") }) ?: return@confirmButton
+            val amount = getValidateField(block = { amountText.toInt() } , failed = { showVerifyToast("Amount 需要 int 类型") }) ?: return@confirmButton
+            viewModel.unsharpMask(state, radius, threshold, amount)
         }
     }
 }
@@ -234,7 +238,10 @@ private fun generateACEParams(state: ApplicationState, viewModel: ImageEnhanceVi
         verticalAlignment = Alignment.CenterVertically,
     ) {
         confirmButton(state.isEnhance) {
-            viewModel.ace(state,ratioText.toInt(), radiusText.toInt())
+
+            val ratio = getValidateField(block = { ratioText.toInt() } , failed = { showVerifyToast("Ratio 需要 int 类型") }) ?: return@confirmButton
+            val radius = getValidateField(block = { radiusText.toInt() } , failed = { showVerifyToast("Radius 需要 int 类型") }) ?: return@confirmButton
+            viewModel.ace(state, ratio, radius)
         }
     }
 }
