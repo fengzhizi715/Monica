@@ -3,7 +3,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
@@ -30,6 +29,7 @@ import cn.netdiscovery.monica.ui.main.openURLDialog
 import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
+import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.*
@@ -53,6 +53,8 @@ var picUrl by mutableStateOf("")
 var showVersion by mutableStateOf(false)
 private var showToast by mutableStateOf(false)
 private var toastMessage by mutableStateOf("")
+private var showVerifyToast by mutableStateOf(false)
+private var verifyToastMessage by mutableStateOf("")
 
 lateinit var client: HttpConnectionClient
 
@@ -144,9 +146,15 @@ fun main() = application {
             }
 
             if (showToast) {
-                topToast(Modifier, message = toastMessage, onDismissCallback = {
+                topToast(message = toastMessage) {
                     showToast = false
-                })
+                }
+            }
+
+            if (showVerifyToast) {
+                centerToast(message = verifyToastMessage) {
+                    showVerifyToast = false
+                }
             }
 
             if (showVersion) {
@@ -238,6 +246,11 @@ fun main() = application {
 fun showTopToast(message:String) {
     toastMessage = message
     showToast = true
+}
+
+fun showVerifyToast(message: String) {
+    verifyToastMessage = message
+    showVerifyToast = true
 }
 
 /**
