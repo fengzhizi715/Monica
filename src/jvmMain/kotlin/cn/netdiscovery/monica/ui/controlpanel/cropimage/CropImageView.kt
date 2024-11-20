@@ -140,13 +140,14 @@ fun cropImage(state: ApplicationState) {
             showCroppedImageDialog(imageBitmap = it,
             onConfirm = {
                 showCropDialog = !showCropDialog
-                croppedImage = null
 
                 cropViewModel.clearCropImageView()
 
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
                 state.closeWindows()
+
+                croppedImage = null
             }, onDismiss = {
                 showCropDialog = !showCropDialog
                 croppedImage = null
