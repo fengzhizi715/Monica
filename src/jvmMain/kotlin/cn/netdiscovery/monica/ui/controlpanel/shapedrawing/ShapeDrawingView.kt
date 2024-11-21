@@ -29,7 +29,6 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.text.FieldPosition
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -50,8 +49,10 @@ fun shapeDrawing(state: ApplicationState) {
 
     val density = LocalDensity.current
 
-    var circleCenter by remember { mutableStateOf(Offset.Unspecified) }
-    var circleRadius by remember { mutableStateOf(0.0f) }
+    var currentCircleCenter by remember { mutableStateOf(Offset.Unspecified) }
+    var currentCircleRadius by remember { mutableStateOf(0.0f) }
+
+    val circles = remember { mutableStateMapOf<Offset, Float>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -110,8 +111,8 @@ fun shapeDrawing(state: ApplicationState) {
 
                     MotionEvent.Down -> {
 
-                        if (previousPosition != currentPosition && circleCenter == Offset.Unspecified) {
-                            circleCenter = currentPosition
+                        if (previousPosition != currentPosition && currentCircleCenter == Offset.Unspecified) {
+                            currentCircleCenter = currentPosition
                         }
 
                         previousPosition = currentPosition
@@ -119,13 +120,18 @@ fun shapeDrawing(state: ApplicationState) {
 
                     MotionEvent.Move -> {
                         if (previousPosition != Offset.Unspecified) {
+                            currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
+                            circles[currentCircleCenter] = currentCircleRadius
                             previousPosition = currentPosition
                         }
-
-                        circleRadius = calcCircleRadius(circleCenter,currentPosition)
                     }
 
                     MotionEvent.Up -> {
+
+                        circles[currentCircleCenter] = currentCircleRadius
+
+                        previousPosition = currentPosition
+                        motionEvent = MotionEvent.Idle
                     }
 
                     else -> Unit
@@ -134,11 +140,14 @@ fun shapeDrawing(state: ApplicationState) {
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
 
-                    if (circleCenter != Offset.Unspecified) {
+                    circles.forEach {
+
+                        val circleCenter = it.key
+                        val circleRadius = it.value
+
                         canvasDrawer.point(circleCenter, Color.Red)
                         canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
-
 
                     restoreToCount(checkPoint)
                 }
@@ -150,6 +159,8 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(text = "圆形",
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
+                    currentCircleCenter = Offset.Unspecified
+                    currentCircleRadius = 0.0f
                 })
 
             toolTipButton(text = "矩形",
