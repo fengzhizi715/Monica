@@ -22,29 +22,30 @@ const val ZoomPreviewStatus: Int = 1
 const val BlurStatus: Int = 2
 const val MosaicStatus: Int = 3
 const val DoodleStatus: Int = 4
-const val ColorPickStatus: Int = 5
-const val FlipStatus: Int = 6
-const val RotateStatus: Int = 7
-const val ResizeStatus: Int = 8
-const val ShearingStatus: Int = 9
-const val CropSizeStatus: Int = 10
+const val ShapeDrawingStatus: Int = 5
+const val ColorPickStatus: Int = 6
+const val FlipStatus: Int = 7
+const val RotateStatus: Int = 8
+const val ResizeStatus: Int = 9
+const val ShearingStatus: Int = 10
+const val CropSizeStatus: Int = 11
 
 
-const val ColorCorrectionStatus: Int = 11
+const val ColorCorrectionStatus: Int = 12
 
 
-const val EqualizeHistStatus: Int = 12
-const val ClaheStatus: Int = 13
-const val GammaStatus: Int = 14
-const val LaplaceStatus: Int = 15
-const val USMStatus: Int = 16
-const val ACEStatus: Int = 17
+const val EqualizeHistStatus: Int = 13
+const val ClaheStatus: Int = 14
+const val GammaStatus: Int = 15
+const val LaplaceStatus: Int = 16
+const val USMStatus: Int = 17
+const val ACEStatus: Int = 18
 
 
-const val OpenCVDebugStatus: Int = 18
-const val FaceDetectStatus: Int = 19
-const val SketchDrawingStatus: Int = 20
-const val FaceSwapStatus: Int = 21
+const val OpenCVDebugStatus: Int = 19
+const val FaceDetectStatus: Int = 20
+const val SketchDrawingStatus: Int = 21
+const val FaceSwapStatus: Int = 22
 
 
 @Composable

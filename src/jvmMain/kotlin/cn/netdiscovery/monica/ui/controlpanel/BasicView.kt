@@ -76,7 +76,8 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/shape-drawing.png"),
             enable = { state.isBasic },
             onClick = {
-
+                state.currentStatus = ShapeDrawingStatus
+                state.togglePreviewWindow(true)
             })
 
         toolTipButton(text = "图像取色",

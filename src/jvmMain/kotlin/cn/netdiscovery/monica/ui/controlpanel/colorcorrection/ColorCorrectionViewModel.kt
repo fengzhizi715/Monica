@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -69,7 +68,6 @@ class ColorCorrectionViewModel {
         action.invoke()
 
         clearAllStatus()
-        colorCorrectionSettings = ColorCorrectionSettings()
     }
 
     fun clearAllStatus() {
@@ -84,6 +82,8 @@ class ColorCorrectionViewModel {
         shadow = 255f
         sharpen = 0f
         corner = 0f
+
+        colorCorrectionSettings = ColorCorrectionSettings()
 
         ImageProcess.deleteColorCorrection(cppObjectPtr)
         cppObjectPtr = 0
