@@ -68,24 +68,21 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
-                state.currentStatus = DoodleStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(DoodleStatus)
             })
 
         toolTipButton(text = "形状绘制",
             painter = painterResource("images/controlpanel/shape-drawing.png"),
             enable = { state.isBasic },
             onClick = {
-                state.currentStatus = ShapeDrawingStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(ShapeDrawingStatus)
             })
 
         toolTipButton(text = "图像取色",
             painter = painterResource("images/controlpanel/color-picker.png"),
             enable = { state.isBasic },
             onClick = {
-                state.currentStatus = ColorPickStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
             })
     }
 
@@ -126,8 +123,7 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/crop.png"),
             enable = { state.isBasic },
             onClick = {
-                state.currentStatus = CropSizeStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(CropSizeStatus)
             })
     }
 

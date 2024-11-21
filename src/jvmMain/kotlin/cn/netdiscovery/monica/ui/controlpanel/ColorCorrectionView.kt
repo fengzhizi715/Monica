@@ -49,8 +49,7 @@ fun colorCorrectionView(state: ApplicationState) {
             modifier = Modifier.align(Alignment.Start).padding(start = 15.dp),
             enabled = state.isColorCorrection,
             onClick = composeClick {
-                state.currentStatus = ColorCorrectionStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(ColorCorrectionStatus)
             }
         ) {
             Text(text = "进入图像调色界面", color = Color.Unspecified)

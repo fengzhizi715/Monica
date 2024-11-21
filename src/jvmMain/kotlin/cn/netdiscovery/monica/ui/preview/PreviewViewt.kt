@@ -135,8 +135,7 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             toolTipButton(text = "放大预览",
                 painter = painterResource("images/preview/zoom.png"),
                 onClick = {
-                    state.currentStatus = ZoomPreviewStatus
-                    state.togglePreviewWindow(true)
+                    state.togglePreviewWindowAndUpdateStatus(ZoomPreviewStatus)
                 })
 
             toolTipButton(text = "保存",

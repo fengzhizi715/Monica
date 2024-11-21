@@ -96,6 +96,11 @@ class ApplicationState(val scope:CoroutineScope,
         isShowPreviewWindow = isShow
     }
 
+    fun togglePreviewWindowAndUpdateStatus(status:Int) {
+        currentStatus = status
+        isShowPreviewWindow = true
+    }
+
     fun resetCurrentStatus() {
         currentStatus = 0
     }

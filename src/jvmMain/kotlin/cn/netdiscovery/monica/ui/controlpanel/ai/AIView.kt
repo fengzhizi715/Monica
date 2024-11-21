@@ -50,8 +50,7 @@ fun aiView(state: ApplicationState) {
             painter = painterResource("images/ai/experiment.png"),
             enable = { state.isAI },
             onClick = {
-                state.currentStatus = OpenCVDebugStatus
-                state.togglePreviewWindow(true)
+                state.togglePreviewWindowAndUpdateStatus(OpenCVDebugStatus)
             })
 
         if (isProVersion) {
@@ -75,8 +74,7 @@ fun aiView(state: ApplicationState) {
                 painter = painterResource("images/ai/face_swap.png"),
                 enable = { state.isAI },
                 onClick = {
-                    state.currentStatus = FaceSwapStatus
-                    state.togglePreviewWindow(true)
+                    state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
                 })
         }
     }
