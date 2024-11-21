@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.platform.LocalDensity
@@ -19,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
@@ -57,6 +55,7 @@ fun shapeDrawing(state: ApplicationState) {
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
+    var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     val image = state.currentImage!!.toComposeImageBitmap()
 
@@ -109,10 +108,19 @@ fun shapeDrawing(state: ApplicationState) {
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-                        circleCenter = currentPosition
+
+                        if (previousPosition != currentPosition && circleCenter == Offset.Unspecified) {
+                            circleCenter = currentPosition
+                        }
+
+                        previousPosition = currentPosition
                     }
 
                     MotionEvent.Move -> {
+                        if (previousPosition != Offset.Unspecified) {
+                            previousPosition = currentPosition
+                        }
+
                         circleRadius = sqrt((abs(currentPosition.x - circleCenter.x).pow(2) + abs(currentPosition.y - circleCenter.y).pow(2)).toDouble())
                     }
 
@@ -143,7 +151,7 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = {
                 })
 
-            toolTipButton(text = "三角",
+            toolTipButton(text = "矩形",
                 painter = painterResource("images/shapedrawing/triangle.png"),
                 onClick = {
                 })
