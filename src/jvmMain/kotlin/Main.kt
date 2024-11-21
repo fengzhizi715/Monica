@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog
 import cn.netdiscovery.monica.ui.main.showVersionInfo
@@ -214,6 +215,10 @@ fun main() = application {
                     logger.info("enter DoodleView")
                     drawImage(applicationState)
                 }
+                ShapeDrawingStatus-> {
+                    logger.info("enter ShapeDrawingView")
+                    shapeDrawing(applicationState)
+                }
                 CropSizeStatus    -> {
                     logger.info("enter CropImageView")
                     cropImage(applicationState)
@@ -286,6 +291,7 @@ private fun initData() {
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
     ColorPickStatus       -> "图像取色"
     DoodleStatus          -> "涂鸦图像"
+    ShapeDrawingStatus    -> "形状绘制"
     CropSizeStatus        -> "图像裁剪"
     ColorCorrectionStatus -> "图像调色"
     FaceSwapStatus        -> "人脸替换"

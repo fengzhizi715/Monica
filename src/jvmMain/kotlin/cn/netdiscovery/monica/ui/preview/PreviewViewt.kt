@@ -1,8 +1,6 @@
 package cn.netdiscovery.monica.ui.preview
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -60,7 +58,6 @@ fun preview(
     }
 }
 
-@OptIn(ExperimentalFoundationApi::class)
 @Composable
 private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
     if (state.currentImage == null) return
