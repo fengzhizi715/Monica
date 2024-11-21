@@ -31,6 +31,9 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.math.abs
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 /**
  *
@@ -48,7 +51,11 @@ fun shapeDrawing(state: ApplicationState) {
 
     val density = LocalDensity.current
 
-    val circleCenters = remember { mutableStateListOf<Offset>() }
+//    val circleCenters = remember { mutableStateListOf<Offset>() }
+    var circleCenter by remember { mutableStateOf(Offset.Unspecified) }
+    var radius by remember { mutableStateOf(0.0) }
+
+    val points = remember { mutableStateListOf<Offset>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -105,10 +112,11 @@ fun shapeDrawing(state: ApplicationState) {
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-                        circleCenters.add(currentPosition)
+                        circleCenter = currentPosition
                     }
 
                     MotionEvent.Move -> {
+                        radius = sqrt((abs(currentPosition.x - circleCenter.x).pow(2) + abs(currentPosition.y - circleCenter.y).pow(2)).toDouble())
                     }
 
                     MotionEvent.Up -> {
@@ -120,11 +128,20 @@ fun shapeDrawing(state: ApplicationState) {
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
 
-                    circleCenters.forEach {
-                        if (it != Offset.Unspecified) {
-                            canvasDrawer.circle(it, 25.0f, Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
-                        }
+//                    circleCenters.forEach {
+//                        if (it != Offset.Unspecified) {
+//                            canvasDrawer.circle(it, 25.0f, Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
+//                        }
+//                    }
+
+//                    if (points.size > 0)
+//                        canvasDrawer.polygon(points, Style(null, Color.Black, Border.Line, null, fill = false, scale = 1f, bounded = true))
+
+                    if (circleCenter != Offset.Unspecified) {
+                        canvasDrawer.circle(circleCenter, 1.0f, Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                        canvasDrawer.circle(circleCenter, radius.toFloat(), Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
                     }
+
 
                     restoreToCount(checkPoint)
                 }
@@ -134,7 +151,12 @@ fun shapeDrawing(state: ApplicationState) {
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
 
             toolTipButton(text = "圆形",
-                painter = painterResource("images/doodle/save.png"),
+                painter = painterResource("images/shapedrawing/circle.png"),
+                onClick = {
+                })
+
+            toolTipButton(text = "三角",
+                painter = painterResource("images/shapedrawing/triangle.png"),
                 onClick = {
                 })
 
