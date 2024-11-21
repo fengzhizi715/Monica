@@ -92,17 +92,6 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                                 }
                             })
                     }
-                    .combinedClickable(onLongClick = {
-                        // perform long click operations
-                    }, onDoubleClick = {
-                        // perform double click operations
-                    }, onClick = {
-                        if (state.isBasic) {
-                            state.togglePreviewWindow(false)
-                        } else {
-                            state.togglePreviewWindow(true)
-                        }
-                    })
                     .drawWithContent {
                     drawContent()
                     })
