@@ -51,11 +51,8 @@ fun shapeDrawing(state: ApplicationState) {
 
     val density = LocalDensity.current
 
-//    val circleCenters = remember { mutableStateListOf<Offset>() }
     var circleCenter by remember { mutableStateOf(Offset.Unspecified) }
-    var radius by remember { mutableStateOf(0.0) }
-
-    val points = remember { mutableStateListOf<Offset>() }
+    var circleRadius by remember { mutableStateOf(0.0) }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -116,7 +113,7 @@ fun shapeDrawing(state: ApplicationState) {
                     }
 
                     MotionEvent.Move -> {
-                        radius = sqrt((abs(currentPosition.x - circleCenter.x).pow(2) + abs(currentPosition.y - circleCenter.y).pow(2)).toDouble())
+                        circleRadius = sqrt((abs(currentPosition.x - circleCenter.x).pow(2) + abs(currentPosition.y - circleCenter.y).pow(2)).toDouble())
                     }
 
                     MotionEvent.Up -> {
@@ -128,18 +125,9 @@ fun shapeDrawing(state: ApplicationState) {
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
 
-//                    circleCenters.forEach {
-//                        if (it != Offset.Unspecified) {
-//                            canvasDrawer.circle(it, 25.0f, Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
-//                        }
-//                    }
-
-//                    if (points.size > 0)
-//                        canvasDrawer.polygon(points, Style(null, Color.Black, Border.Line, null, fill = false, scale = 1f, bounded = true))
-
                     if (circleCenter != Offset.Unspecified) {
-                        canvasDrawer.circle(circleCenter, 1.0f, Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
-                        canvasDrawer.circle(circleCenter, radius.toFloat(), Style(null, Color.Black, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                        canvasDrawer.point(circleCenter, Color.Black)
+                        canvasDrawer.circle(circleCenter, circleRadius.toFloat(), Style(null, Color.Black, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
 
 
