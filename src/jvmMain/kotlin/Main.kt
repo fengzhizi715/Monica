@@ -180,25 +180,19 @@ fun main() = application {
                     DoodleStatus -> {
                         showTopToast("想要保存涂鸦效果，需要点击保存按钮")
                     }
-
                     CropSizeStatus -> {
                         cropViewModel.clearCropImageView()
                     }
-
                     ColorCorrectionStatus -> {
                         colorCorrectionViewModel.clearAllStatus()
                         colorCorrectionSettings = ColorCorrectionSettings()
                     }
-
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
                     }
-
                     OpenCVDebugStatus -> {
                         CVState.clearAllStatus()
                     }
-
-                    else -> {}
                 }
 
                 applicationState.closeWindows()

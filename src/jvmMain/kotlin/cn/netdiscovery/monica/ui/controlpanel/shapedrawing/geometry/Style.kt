@@ -1,9 +1,9 @@
-package cn.netdiscovery.monica.geometry
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.geometry.Style
+ *          cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
  * @author: Tony Shen
  * @date: 2024/11/20 11:45
  * @version: V1.0 <描述当前版本功能>

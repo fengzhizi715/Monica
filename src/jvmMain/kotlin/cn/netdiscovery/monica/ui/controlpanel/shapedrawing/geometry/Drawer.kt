@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.geometry
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.Color
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.geometry.Drawer
+ *          cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Drawer
  * @author: Tony Shen
  * @date: 2024/11/20 11:42
  * @version: V1.0 <描述当前版本功能>

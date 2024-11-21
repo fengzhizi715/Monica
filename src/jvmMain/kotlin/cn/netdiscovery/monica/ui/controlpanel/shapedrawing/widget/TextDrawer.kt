@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.geometry
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Canvas
@@ -12,12 +12,12 @@ import org.jetbrains.skia.TextLine
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.geometry.TextDrawerImpl
+ *          cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawerImpl
  * @author: Tony Shen
  * @date: 2024/11/20 11:59
  * @version: V1.0 <描述当前版本功能>
  */
-object TextDrawerImpl: TextDrawer {
+object TextDrawer: cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.TextDrawer {
 
     override fun text(canvas: Canvas, pos: Offset, text: List<String>, color: Color) {
         val paint = Paint()
