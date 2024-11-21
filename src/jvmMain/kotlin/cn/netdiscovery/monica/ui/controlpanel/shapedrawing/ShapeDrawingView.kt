@@ -29,6 +29,7 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.text.FieldPosition
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
@@ -50,7 +51,7 @@ fun shapeDrawing(state: ApplicationState) {
     val density = LocalDensity.current
 
     var circleCenter by remember { mutableStateOf(Offset.Unspecified) }
-    var circleRadius by remember { mutableStateOf(0.0) }
+    var circleRadius by remember { mutableStateOf(0.0f) }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -121,7 +122,7 @@ fun shapeDrawing(state: ApplicationState) {
                             previousPosition = currentPosition
                         }
 
-                        circleRadius = sqrt((abs(currentPosition.x - circleCenter.x).pow(2) + abs(currentPosition.y - circleCenter.y).pow(2)).toDouble())
+                        circleRadius = calcCircleRadius(circleCenter,currentPosition)
                     }
 
                     MotionEvent.Up -> {
@@ -134,8 +135,8 @@ fun shapeDrawing(state: ApplicationState) {
                     val checkPoint = saveLayer(null, null)
 
                     if (circleCenter != Offset.Unspecified) {
-                        canvasDrawer.point(circleCenter, Color.Black)
-                        canvasDrawer.circle(circleCenter, circleRadius.toFloat(), Style(null, Color.Black, Border.No, null, fill = true, scale = 1f, bounded = true))
+                        canvasDrawer.point(circleCenter, Color.Red)
+                        canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
 
 
@@ -162,4 +163,8 @@ fun shapeDrawing(state: ApplicationState) {
                 })
         }
     }
+}
+
+private fun calcCircleRadius(center:Offset, position: Offset):Float {
+    return sqrt((abs(position.x - center.x).pow(2) + abs(position.y - center.y).pow(2)).toDouble()).toFloat()
 }
