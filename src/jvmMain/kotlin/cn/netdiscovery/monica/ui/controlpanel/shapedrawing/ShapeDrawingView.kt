@@ -50,12 +50,16 @@ fun shapeDrawing(state: ApplicationState) {
 
     val density = LocalDensity.current
 
+    var shape by remember { mutableStateOf(ShapeEnum.NotAShape) }
+
     var currentCircleCenter by remember { mutableStateOf(Offset.Unspecified) }
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
-
     val circles = remember { mutableStateMapOf<Offset, Float>() }
 
-    var shape by remember { mutableStateOf(ShapeEnum.NotAShape) }
+    var currentRectTL by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectBR by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectTR by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectBL by remember { mutableStateOf(Offset.Unspecified) }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -119,6 +123,20 @@ fun shapeDrawing(state: ApplicationState) {
                                     currentCircleCenter = currentPosition
                                 }
                             }
+
+                            ShapeEnum.Rectangle -> {
+                                if (previousPosition != currentPosition && currentRectTL == Offset.Unspecified) {
+                                    currentRectTL = currentPosition
+                                } else if (currentRectTL != Offset.Unspecified) {
+                                    currentRectBR = currentPosition
+
+                                    if (currentRectBR.x > currentRectTL.x && currentRectBR.y > currentRectTL.y) {
+                                        currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+                                        currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
+                                    }
+                                }
+                            }
+
                             else -> {}
                         }
 
@@ -128,10 +146,16 @@ fun shapeDrawing(state: ApplicationState) {
                     MotionEvent.Move -> {
                         when(shape) {
                             ShapeEnum.Circle -> {
-                                if (previousPosition != Offset.Unspecified) {
-                                    currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
-                                    circles[currentCircleCenter] = currentCircleRadius
+                                currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
+                                circles[currentCircleCenter] = currentCircleRadius
+                            }
 
+                            ShapeEnum.Rectangle -> {
+                                currentRectBR = currentPosition
+
+                                if (currentRectBR.x > currentRectTL.x && currentRectBR.y > currentRectTL.y) {
+                                    currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+                                    currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
                                 }
                             }
 
@@ -161,12 +185,22 @@ fun shapeDrawing(state: ApplicationState) {
                     val checkPoint = saveLayer(null, null)
 
                     circles.forEach {
-
                         val circleCenter = it.key
                         val circleRadius = it.value
 
                         canvasDrawer.point(circleCenter, Color.Red)
                         canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                    }
+
+                    if (currentRectTL != Offset.Unspecified && currentRectTR != Offset.Unspecified && currentRectBL != Offset.Unspecified && currentRectBR != Offset.Unspecified) {
+                        val list = mutableListOf<Offset>().apply {
+                            add(currentRectTL)
+                            add(currentRectBL)
+                            add(currentRectBR)
+                            add(currentRectTR)
+                        }
+
+                        canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
 
                     restoreToCount(checkPoint)
@@ -180,6 +214,7 @@ fun shapeDrawing(state: ApplicationState) {
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
                     shape = ShapeEnum.Circle
+
                     currentCircleCenter = Offset.Unspecified
                     currentCircleRadius = 0.0f
                 })
@@ -188,6 +223,11 @@ fun shapeDrawing(state: ApplicationState) {
                 painter = painterResource("images/shapedrawing/rectangle.png"),
                 onClick = {
                     shape = ShapeEnum.Rectangle
+
+                    currentRectTL = Offset.Unspecified
+                    currentRectBR = Offset.Unspecified
+                    currentRectTR = Offset.Unspecified
+                    currentRectBL = Offset.Unspecified
                 })
 
             toolTipButton(text = "保存",
