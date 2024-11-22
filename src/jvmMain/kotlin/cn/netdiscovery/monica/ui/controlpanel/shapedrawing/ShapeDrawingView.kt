@@ -56,6 +56,7 @@ fun shapeDrawing(state: ApplicationState) {
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
     val circles = remember { mutableStateMapOf<Offset, Float>() }
 
+    var currentRectFirst by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectTL by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectBR by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectTR by remember { mutableStateOf(Offset.Unspecified) }
@@ -127,12 +128,27 @@ fun shapeDrawing(state: ApplicationState) {
                             ShapeEnum.Rectangle -> {
                                 if (previousPosition != currentPosition && currentRectTL == Offset.Unspecified) {
                                     currentRectTL = currentPosition
+                                    currentRectFirst = currentPosition
                                 } else if (currentRectTL != Offset.Unspecified) {
                                     currentRectBR = currentPosition
 
-                                    if (currentRectBR.x > currentRectTL.x && currentRectBR.y > currentRectTL.y) {
+                                    if (currentRectBR.x > currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+                                        if (currentRectTL != currentRectFirst)
+                                            currentRectTL = currentRectFirst
+
                                         currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
                                         currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
+                                    } else if (currentRectBR.x > currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+                                        if (currentRectTL != currentRectFirst)
+                                            currentRectTL = currentRectFirst
+
+                                        currentRectBL = currentRectTL
+                                        currentRectTR = currentRectBR
+
+                                        currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+                                        currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
                                     }
                                 }
                             }
@@ -153,9 +169,23 @@ fun shapeDrawing(state: ApplicationState) {
                             ShapeEnum.Rectangle -> {
                                 currentRectBR = currentPosition
 
-                                if (currentRectBR.x > currentRectTL.x && currentRectBR.y > currentRectTL.y) {
+                                if (currentRectBR.x > currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+                                    if (currentRectTL != currentRectFirst)
+                                        currentRectTL = currentRectFirst
+
                                     currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
                                     currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
+                                } else if (currentRectBR.x > currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+                                    if (currentRectTL != currentRectFirst)
+                                        currentRectTL = currentRectFirst
+
+                                    currentRectBL = currentRectTL
+                                    currentRectTR = currentRectBR
+
+                                    currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+                                    currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
                                 }
                             }
 
@@ -224,6 +254,7 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = {
                     shape = ShapeEnum.Rectangle
 
+                    currentRectFirst = Offset.Unspecified
                     currentRectTL = Offset.Unspecified
                     currentRectBR = Offset.Unspecified
                     currentRectTR = Offset.Unspecified
