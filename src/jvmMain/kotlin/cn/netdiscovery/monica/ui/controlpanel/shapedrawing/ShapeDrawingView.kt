@@ -21,6 +21,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
@@ -53,6 +54,8 @@ fun shapeDrawing(state: ApplicationState) {
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
 
     val circles = remember { mutableStateMapOf<Offset, Float>() }
+
+    var shape by remember { mutableStateOf(ShapeEnum.NotAShape) }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -110,25 +113,42 @@ fun shapeDrawing(state: ApplicationState) {
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-
-                        if (previousPosition != currentPosition && currentCircleCenter == Offset.Unspecified) {
-                            currentCircleCenter = currentPosition
+                        when(shape) {
+                            ShapeEnum.Circle -> {
+                                if (previousPosition != currentPosition && currentCircleCenter == Offset.Unspecified) {
+                                    currentCircleCenter = currentPosition
+                                }
+                            }
+                            else -> {}
                         }
 
                         previousPosition = currentPosition
                     }
 
                     MotionEvent.Move -> {
-                        if (previousPosition != Offset.Unspecified) {
-                            currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
-                            circles[currentCircleCenter] = currentCircleRadius
-                            previousPosition = currentPosition
+                        when(shape) {
+                            ShapeEnum.Circle -> {
+                                if (previousPosition != Offset.Unspecified) {
+                                    currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
+                                    circles[currentCircleCenter] = currentCircleRadius
+
+                                }
+                            }
+
+                            else -> {}
                         }
+
+                        previousPosition = currentPosition
                     }
 
                     MotionEvent.Up -> {
+                        when(shape) {
+                            ShapeEnum.Circle -> {
+                                circles[currentCircleCenter] = currentCircleRadius
+                            }
 
-                        circles[currentCircleCenter] = currentCircleRadius
+                            else -> {}
+                        }
 
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
@@ -159,13 +179,15 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(text = "圆形",
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
+                    shape = ShapeEnum.Circle
                     currentCircleCenter = Offset.Unspecified
                     currentCircleRadius = 0.0f
                 })
 
             toolTipButton(text = "矩形",
-                painter = painterResource("images/shapedrawing/triangle.png"),
+                painter = painterResource("images/shapedrawing/rectangle.png"),
                 onClick = {
+                    shape = ShapeEnum.Rectangle
                 })
 
             toolTipButton(text = "保存",
