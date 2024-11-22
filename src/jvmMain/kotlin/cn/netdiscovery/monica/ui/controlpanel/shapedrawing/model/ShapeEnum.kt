@@ -10,7 +10,9 @@ package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model
  */
 enum class ShapeEnum {
     Point,
+    Line,
     Circle,
+    Triangle,
     Rectangle,
     NotAShape
 }

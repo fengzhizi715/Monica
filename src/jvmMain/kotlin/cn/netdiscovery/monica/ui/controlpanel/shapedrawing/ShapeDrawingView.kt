@@ -21,6 +21,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Line
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
@@ -53,10 +54,17 @@ fun shapeDrawing(state: ApplicationState) {
 
     var shape by remember { mutableStateOf(ShapeEnum.NotAShape) }
 
+    // 线段相关
+    var currentLineStart by remember { mutableStateOf(Offset.Unspecified) }
+    var currentLineEnd   by remember { mutableStateOf(Offset.Unspecified) }
+    val lines = remember { mutableStateMapOf<Offset, Line>() }
+
+    // 圆相关
     var currentCircleCenter by remember { mutableStateOf(Offset.Unspecified) }
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
     val circles = remember { mutableStateMapOf<Offset, Float>() }
 
+    // 矩形相关
     var currentRectFirst by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectTL    by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectBR    by remember { mutableStateOf(Offset.Unspecified) }
@@ -70,6 +78,51 @@ fun shapeDrawing(state: ApplicationState) {
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     val image = state.currentImage!!.toComposeImageBitmap()
+
+    /**
+     * 确定矩形的坐标
+     */
+    fun determineCoordinatesOfRectangle() {
+        if (currentRectBR.x > currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+            if (currentRectTL != currentRectFirst)
+                currentRectTL = currentRectFirst
+
+            currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+            currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
+        } else if (currentRectBR.x > currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+            if (currentRectTL != currentRectFirst)
+                currentRectTL = currentRectFirst
+
+            currentRectBL = currentRectTL
+            currentRectTR = currentRectBR
+
+            currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+            currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+        } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+            if (currentRectTL != currentRectFirst)
+                currentRectTL = currentRectFirst
+
+            currentRectTR = currentRectTL
+            currentRectBL = currentRectBR
+
+            currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+            currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+        } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+            if (currentRectTL != currentRectFirst)
+                currentRectTL = currentRectFirst
+
+            var temp = currentRectTL
+            currentRectTL = currentRectBR
+            currentRectBR = temp
+
+            currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+            currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
+        }
+    }
 
     Box(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -121,6 +174,14 @@ fun shapeDrawing(state: ApplicationState) {
 
                     MotionEvent.Down -> {
                         when(shape) {
+                            ShapeEnum.Line -> {
+                                if (previousPosition != currentPosition && currentLineStart == Offset.Unspecified) {
+                                    currentLineStart = currentPosition
+                                } else if (currentLineStart != Offset.Unspecified) {
+                                    currentLineEnd = currentPosition
+                                }
+                            }
+
                             ShapeEnum.Circle -> {
                                 if (previousPosition != currentPosition && currentCircleCenter == Offset.Unspecified) {
                                     currentCircleCenter = currentPosition
@@ -134,45 +195,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 } else if (currentRectTL != Offset.Unspecified) {
                                     currentRectBR = currentPosition
 
-                                    if (currentRectBR.x > currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
-
-                                        if (currentRectTL != currentRectFirst)
-                                            currentRectTL = currentRectFirst
-
-                                        currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
-                                        currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
-                                    } else if (currentRectBR.x > currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
-
-                                        if (currentRectTL != currentRectFirst)
-                                            currentRectTL = currentRectFirst
-
-                                        currentRectBL = currentRectTL
-                                        currentRectTR = currentRectBR
-
-                                        currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
-                                        currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
-                                    } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
-
-                                        if (currentRectTL != currentRectFirst)
-                                            currentRectTL = currentRectFirst
-
-                                        currentRectTR = currentRectTL
-                                        currentRectBL = currentRectBR
-
-                                        currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
-                                        currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
-                                    } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
-
-                                        if (currentRectTL != currentRectFirst)
-                                            currentRectTL = currentRectFirst
-
-                                        var temp = currentRectTL
-                                        currentRectTL = currentRectBR
-                                        currentRectBR = temp
-
-                                        currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
-                                        currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
-                                    }
+                                    determineCoordinatesOfRectangle()
                                 }
                             }
 
@@ -184,6 +207,11 @@ fun shapeDrawing(state: ApplicationState) {
 
                     MotionEvent.Move -> {
                         when(shape) {
+                            ShapeEnum.Line -> {
+                                currentLineEnd = currentPosition
+                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd)
+                            }
+
                             ShapeEnum.Circle -> {
                                 currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
                                 circles[currentCircleCenter] = currentCircleRadius
@@ -192,45 +220,7 @@ fun shapeDrawing(state: ApplicationState) {
                             ShapeEnum.Rectangle -> {
                                 currentRectBR = currentPosition
 
-                                if (currentRectBR.x > currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
-
-                                    if (currentRectTL != currentRectFirst)
-                                        currentRectTL = currentRectFirst
-
-                                    currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
-                                    currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
-                                } else if (currentRectBR.x > currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
-
-                                    if (currentRectTL != currentRectFirst)
-                                        currentRectTL = currentRectFirst
-
-                                    currentRectBL = currentRectTL
-                                    currentRectTR = currentRectBR
-
-                                    currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
-                                    currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
-                                } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
-
-                                    if (currentRectTL != currentRectFirst)
-                                        currentRectTL = currentRectFirst
-
-                                    currentRectTR = currentRectTL
-                                    currentRectBL = currentRectBR
-
-                                    currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
-                                    currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
-                                } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
-
-                                    if (currentRectTL != currentRectFirst)
-                                        currentRectTL = currentRectFirst
-
-                                    var temp = currentRectTL
-                                    currentRectTL = currentRectBR
-                                    currentRectBR = temp
-
-                                    currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
-                                    currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
-                                }
+                                determineCoordinatesOfRectangle()
 
                                 rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
                             }
@@ -243,6 +233,10 @@ fun shapeDrawing(state: ApplicationState) {
 
                     MotionEvent.Up -> {
                         when(shape) {
+                            ShapeEnum.Line -> {
+                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd)
+                            }
+
                             ShapeEnum.Circle -> {
                                 circles[currentCircleCenter] = currentCircleRadius
                             }
@@ -263,6 +257,15 @@ fun shapeDrawing(state: ApplicationState) {
 
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
+
+                    lines.forEach {
+
+                        val line = it.value
+
+                        if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
+                            canvasDrawer.line(line.from,line.to, Style(null, Color.Red, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                        }
+                    }
 
                     circles.forEach {
                         val circleCenter = it.key
@@ -294,6 +297,15 @@ fun shapeDrawing(state: ApplicationState) {
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
 
+            toolTipButton(text = "线段",
+                painter = painterResource("images/shapedrawing/line.png"),
+                onClick = {
+                    shape = ShapeEnum.Line
+
+                    currentLineStart = Offset.Unspecified
+                    currentLineEnd = Offset.Unspecified
+                })
+
             toolTipButton(text = "圆形",
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
@@ -301,6 +313,13 @@ fun shapeDrawing(state: ApplicationState) {
 
                     currentCircleCenter = Offset.Unspecified
                     currentCircleRadius = 0.0f
+                })
+
+            toolTipButton(text = "三角",
+                painter = painterResource("images/shapedrawing/triangle.png"),
+                onClick = {
+                    shape = ShapeEnum.Triangle
+
                 })
 
             toolTipButton(text = "矩形",
