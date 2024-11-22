@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Line
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Triangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
@@ -64,6 +65,12 @@ fun shapeDrawing(state: ApplicationState) {
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
     val circles = remember { mutableStateMapOf<Offset, Float>() }
 
+    // 三角相关
+    var currentTriangleFirst  by remember { mutableStateOf(Offset.Unspecified) }
+    var currentTriangleSecond by remember { mutableStateOf(Offset.Unspecified) }
+    var currentTriangleThird  by remember { mutableStateOf(Offset.Unspecified) }
+    val triangles = remember { mutableStateMapOf<Offset, Triangle>() }
+
     // 矩形相关
     var currentRectFirst by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectTL    by remember { mutableStateOf(Offset.Unspecified) }
@@ -78,6 +85,19 @@ fun shapeDrawing(state: ApplicationState) {
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     val image = state.currentImage!!.toComposeImageBitmap()
+
+    /**
+     * 确定三角形的坐标
+     */
+    fun determineCoordinatesOfTriangle() {
+        if (previousPosition != currentPosition && currentTriangleFirst == Offset.Unspecified) {
+            currentTriangleFirst = currentPosition
+        } else if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond == Offset.Unspecified && currentTriangleFirst != currentPosition) {
+            currentTriangleSecond = currentPosition
+        } else if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != currentPosition) {
+            currentTriangleThird = currentPosition
+        }
+    }
 
     /**
      * 确定矩形的坐标
@@ -188,6 +208,10 @@ fun shapeDrawing(state: ApplicationState) {
                                 }
                             }
 
+                            ShapeEnum.Triangle -> {
+                                determineCoordinatesOfTriangle()
+                            }
+
                             ShapeEnum.Rectangle -> {
                                 if (previousPosition != currentPosition && currentRectTL == Offset.Unspecified) {
                                     currentRectTL = currentPosition
@@ -217,6 +241,14 @@ fun shapeDrawing(state: ApplicationState) {
                                 circles[currentCircleCenter] = currentCircleRadius
                             }
 
+                            ShapeEnum.Triangle -> {
+                                determineCoordinatesOfTriangle()
+
+                                if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
+                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird)
+                                }
+                            }
+
                             ShapeEnum.Rectangle -> {
                                 currentRectBR = currentPosition
 
@@ -239,6 +271,12 @@ fun shapeDrawing(state: ApplicationState) {
 
                             ShapeEnum.Circle -> {
                                 circles[currentCircleCenter] = currentCircleRadius
+                            }
+
+                            ShapeEnum.Triangle -> {
+                                if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
+                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird)
+                                }
                             }
 
                             ShapeEnum.Rectangle -> {
@@ -273,6 +311,20 @@ fun shapeDrawing(state: ApplicationState) {
 
                         canvasDrawer.point(circleCenter, Color.Red)
                         canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                    }
+
+                    triangles.forEach {
+                        val triangle = it.value
+
+                        if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
+                            val list = mutableListOf<Offset>().apply {
+                                add(triangle.first)
+                                add(triangle.second)
+                                add(triangle.third)
+                            }
+
+                            canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                        }
                     }
 
                     rectangles.forEach {
@@ -320,6 +372,9 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = {
                     shape = ShapeEnum.Triangle
 
+                    currentTriangleFirst  = Offset.Unspecified
+                    currentTriangleSecond = Offset.Unspecified
+                    currentTriangleThird  = Offset.Unspecified
                 })
 
             toolTipButton(text = "矩形",
