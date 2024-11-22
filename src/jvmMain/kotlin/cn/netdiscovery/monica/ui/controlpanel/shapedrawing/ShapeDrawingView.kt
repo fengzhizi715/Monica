@@ -149,6 +149,27 @@ fun shapeDrawing(state: ApplicationState) {
 
                                         currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
                                         currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+                                    } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+                                        if (currentRectTL != currentRectFirst)
+                                            currentRectTL = currentRectFirst
+
+                                        currentRectTR = currentRectTL
+                                        currentRectBL = currentRectBR
+
+                                        currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+                                        currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+                                    } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+                                        if (currentRectTL != currentRectFirst)
+                                            currentRectTL = currentRectFirst
+
+                                        var temp = currentRectTL
+                                        currentRectTL = currentRectBR
+                                        currentRectBR = temp
+
+                                        currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+                                        currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
                                     }
                                 }
                             }
@@ -186,6 +207,27 @@ fun shapeDrawing(state: ApplicationState) {
 
                                     currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
                                     currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+                                } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y > currentRectFirst.y) {
+
+                                    if (currentRectTL != currentRectFirst)
+                                        currentRectTL = currentRectFirst
+
+                                    currentRectTR = currentRectTL
+                                    currentRectBL = currentRectBR
+
+                                    currentRectTL = Offset(currentRectBL.x, currentRectTR.y)
+                                    currentRectBR = Offset(currentRectTR.x, currentRectBL.y)
+                                } else if (currentRectBR.x < currentRectFirst.x && currentRectBR.y < currentRectFirst.y) {
+
+                                    if (currentRectTL != currentRectFirst)
+                                        currentRectTL = currentRectFirst
+
+                                    var temp = currentRectTL
+                                    currentRectTL = currentRectBR
+                                    currentRectBR = temp
+
+                                    currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
+                                    currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
                                 }
                             }
 
