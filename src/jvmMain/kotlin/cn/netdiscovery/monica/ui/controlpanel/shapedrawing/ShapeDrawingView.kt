@@ -21,6 +21,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
@@ -57,10 +58,11 @@ fun shapeDrawing(state: ApplicationState) {
     val circles = remember { mutableStateMapOf<Offset, Float>() }
 
     var currentRectFirst by remember { mutableStateOf(Offset.Unspecified) }
-    var currentRectTL by remember { mutableStateOf(Offset.Unspecified) }
-    var currentRectBR by remember { mutableStateOf(Offset.Unspecified) }
-    var currentRectTR by remember { mutableStateOf(Offset.Unspecified) }
-    var currentRectBL by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectTL    by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectBR    by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectTR    by remember { mutableStateOf(Offset.Unspecified) }
+    var currentRectBL    by remember { mutableStateOf(Offset.Unspecified) }
+    val rectangles = remember { mutableStateMapOf<Offset, Rectangle>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
@@ -229,6 +231,8 @@ fun shapeDrawing(state: ApplicationState) {
                                     currentRectTR = Offset(currentRectBR.x, currentRectTL.y)
                                     currentRectBL = Offset(currentRectTL.x, currentRectBR.y)
                                 }
+
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
                             }
 
                             else -> {}
@@ -241,6 +245,10 @@ fun shapeDrawing(state: ApplicationState) {
                         when(shape) {
                             ShapeEnum.Circle -> {
                                 circles[currentCircleCenter] = currentCircleRadius
+                            }
+
+                            ShapeEnum.Rectangle -> {
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
                             }
 
                             else -> {}
@@ -264,15 +272,19 @@ fun shapeDrawing(state: ApplicationState) {
                         canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
 
-                    if (currentRectTL != Offset.Unspecified && currentRectTR != Offset.Unspecified && currentRectBL != Offset.Unspecified && currentRectBR != Offset.Unspecified) {
-                        val list = mutableListOf<Offset>().apply {
-                            add(currentRectTL)
-                            add(currentRectBL)
-                            add(currentRectBR)
-                            add(currentRectTR)
-                        }
+                    rectangles.forEach {
+                        val rect = it.value
 
-                        canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                        if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
+                            val list = mutableListOf<Offset>().apply {
+                                add(rect.tl)
+                                add(rect.bl)
+                                add(rect.br)
+                                add(rect.tr)
+                            }
+
+                            canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                        }
                     }
 
                     restoreToCount(checkPoint)
