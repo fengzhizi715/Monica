@@ -223,7 +223,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 }
                             }
 
-                            else -> {}
+                            else -> Unit
                         }
 
                         previousPosition = currentPosition
@@ -257,7 +257,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
                             }
 
-                            else -> {}
+                            else -> Unit
                         }
 
                         previousPosition = currentPosition
@@ -283,7 +283,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
                             }
 
-                            else -> {}
+                            else -> Unit
                         }
 
                         previousPosition = currentPosition
