@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.doodle.widget
+package cn.netdiscovery.monica.ui.widget.color
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -182,79 +182,6 @@ fun ColorSelectionDialog(
                     ) {
                         Text(text = "OK")
                     }
-                }
-            }
-        }
-    }
-}
-
-/**
- * Expandable selection menu
- * @param title of the displayed item on top
- * @param index index of selected item
- * @param options list of [String] options
- * @param onSelected lambda to be invoked when an item is selected that returns
- * its index.
- */
-@OptIn(ExperimentalMaterialApi::class)
-@Composable
-fun ExposedSelectionMenu(
-    title: String,
-    index: Int,
-    options: List<String>,
-    onSelected: (Int) -> Unit
-) {
-
-    var expanded by remember { mutableStateOf(false) }
-    var selectedOptionText by remember { mutableStateOf(options[index]) }
-    var selectedIndex = remember { index }
-
-    ExposedDropdownMenuBox(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 4.dp),
-        expanded = expanded,
-        onExpandedChange = {
-            expanded = !expanded
-        }
-    ) {
-        TextField(
-            modifier = Modifier.fillMaxWidth(),
-            readOnly = true,
-            value = selectedOptionText,
-            onValueChange = { },
-            label = { Text(title) },
-            trailingIcon = {
-                ExposedDropdownMenuDefaults.TrailingIcon(
-                    expanded = expanded
-                )
-            },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(
-                backgroundColor = Color.White,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                disabledIndicatorColor = Color.Transparent,
-            )
-        )
-        ExposedDropdownMenu(
-            modifier = Modifier.fillMaxWidth(),
-            expanded = expanded,
-            onDismissRequest = {
-                expanded = false
-
-            }
-        ) {
-            options.forEachIndexed { index: Int, selectionOption: String ->
-                DropdownMenuItem(
-                    modifier = Modifier.fillMaxWidth(),
-                    onClick = {
-                        selectedOptionText = selectionOption
-                        expanded = false
-                        selectedIndex = index
-                        onSelected(selectedIndex)
-                    }
-                ) {
-                    Text(text = selectionOption)
                 }
             }
         }

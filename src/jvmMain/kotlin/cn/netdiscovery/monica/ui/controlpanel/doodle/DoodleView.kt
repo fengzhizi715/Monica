@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
-import cn.netdiscovery.monica.ui.controlpanel.doodle.widget.ColorSelectionDialog
+import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.controlpanel.doodle.widget.PropertiesMenuDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
