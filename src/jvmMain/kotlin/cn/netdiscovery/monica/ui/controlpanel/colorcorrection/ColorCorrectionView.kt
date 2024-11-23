@@ -42,6 +42,8 @@ fun colorCorrection(state: ApplicationState) {
 
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
+    val enableSilder = !loadingDisplay
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -87,7 +89,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -111,7 +113,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..360f)
 
@@ -136,7 +138,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -161,7 +163,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -186,7 +188,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -211,7 +213,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -236,7 +238,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -261,7 +263,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..255f)
 
@@ -286,7 +288,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = !loadingDisplay,
+                                enabled = enableSilder,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..255f)
 
