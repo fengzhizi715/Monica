@@ -65,6 +65,7 @@ class ShapeDrawingViewModel {
 
             if (triangle.second != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
+                canvasDrawer.line(triangle.first,triangle.second, Style(null, triangle.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
             }
 
             if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {

@@ -275,10 +275,6 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Triangle -> {
-//                                if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
-//                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
-//                                }
-
                                 if (currentTriangleFirst != Offset.Unspecified) {
                                     triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
                                 }
