@@ -30,12 +30,13 @@ class ShapeDrawingViewModel {
                   lines: Map<Offset, Line>,
                   circles: Map<Offset, Circle>,
                   triangles: Map<Offset, Triangle>,
-                  rectangles: Map<Offset, Rectangle>) {
+                  rectangles: Map<Offset, Rectangle>,
+                  saveFlag: Boolean = false) {
         lines.forEach {
 
             val line = it.value
 
-            if (line.from != Offset.Unspecified) {
+            if (line.from != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(line.from, line.shapeProperties.color)
             }
 
@@ -48,7 +49,7 @@ class ShapeDrawingViewModel {
 
             val circle = it.value
 
-            if (circle.center != Offset.Unspecified) {
+            if (circle.center != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(circle.center, circle.shapeProperties.color)
             }
 
@@ -58,11 +59,11 @@ class ShapeDrawingViewModel {
         triangles.forEach {
             val triangle = it.value
 
-            if (triangle.first != Offset.Unspecified) {
+            if (triangle.first != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(triangle.first, triangle.shapeProperties.color)
             }
 
-            if (triangle.second != Offset.Unspecified) {
+            if (triangle.second != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(triangle.second, triangle.shapeProperties.color)
             }
 
@@ -80,7 +81,7 @@ class ShapeDrawingViewModel {
         rectangles.forEach {
             val rect = it.value
 
-            if (rect.tl!=Offset.Unspecified) {
+            if (rect.tl!=Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(rect.tl, rect.shapeProperties.color)
             }
 
@@ -121,7 +122,7 @@ class ShapeDrawingViewModel {
         ) {
             state.closeWindows()
 
-            drawShape(canvasDrawer,lines,circles,triangles,rectangles)
+            drawShape(canvasDrawer,lines,circles,triangles,rectangles, true)
         }
 
         state.addQueue(state.currentImage!!)
