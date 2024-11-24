@@ -64,14 +64,14 @@ class ShapeDrawingViewModel {
             }
 
             if (triangle.second != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(triangle.second, triangle.shapeProperties.color)
+                canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
             }
 
             if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
                 val list = mutableListOf<Offset>().apply {
                     add(triangle.first)
-                    add(triangle.second)
-                    add(triangle.third)
+                    add(triangle.second!!)
+                    add(triangle.third!!)
                 }
 
                 canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))

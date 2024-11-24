@@ -15,6 +15,6 @@ data class Line(val from: Offset, val to: Offset, val shapeProperties: ShapeProp
 
 data class Circle(val center: Offset, val radius:Float, val shapeProperties: ShapeProperties)
 
-data class Triangle(val first: Offset, val second: Offset, val third: Offset, val shapeProperties: ShapeProperties)
+data class Triangle(val first: Offset, val second: Offset?=null, val third: Offset?=null, val shapeProperties: ShapeProperties)
 
 data class Rectangle(val tl: Offset, val bl: Offset, val br: Offset, val tr: Offset, val rectFirst: Offset,val shapeProperties: ShapeProperties)
