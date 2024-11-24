@@ -77,7 +77,7 @@ fun shapeDrawing(state: ApplicationState) {
 
     // 多边形相关
     var currentPolygonFirst by remember { mutableStateOf(Offset.Unspecified) }
-    var currentPolygonPoint = mutableSetOf<Offset>()
+    var currentPolygonPoints = remember { mutableSetOf<Offset>() }
     val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -232,9 +232,9 @@ fun shapeDrawing(state: ApplicationState) {
                             ShapeEnum.Polygon -> {
                                 if (previousPosition != currentPosition && currentPolygonFirst == Offset.Unspecified) {
                                     currentPolygonFirst = currentPosition
-                                    currentPolygonPoint.add(currentPolygonFirst)
+                                    currentPolygonPoints.add(currentPolygonFirst)
                                 }  else if (currentPolygonFirst != Offset.Unspecified) {
-                                    currentPolygonPoint.add(currentPosition)
+                                    currentPolygonPoints.add(currentPosition)
                                 }
                             }
 
@@ -273,9 +273,9 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Polygon -> {
-                                currentPolygonPoint.add(currentPosition)
+                                currentPolygonPoints.add(currentPosition)
 
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(),  currentShapeProperty)
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(),  currentShapeProperty)
                             }
 
                             else -> Unit
@@ -305,7 +305,7 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Polygon -> {
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentShapeProperty)
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
                             }
 
                             else -> Unit
@@ -386,7 +386,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Polygon
 
                     currentPolygonFirst = Offset.Unspecified
-                    currentPolygonPoint = mutableSetOf()
+                    currentPolygonPoints.clear()
                     currentShapeProperty = ShapeProperties()
                 })
 
