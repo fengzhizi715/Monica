@@ -18,7 +18,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
@@ -249,7 +248,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 determineCoordinatesOfTriangle()
 
                                 if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
-                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird)
+                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
                                 }
                             }
 
@@ -258,7 +257,7 @@ fun shapeDrawing(state: ApplicationState) {
 
                                 determineCoordinatesOfRectangle()
 
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentShapeProperty)
                             }
 
                             else -> Unit
@@ -279,12 +278,12 @@ fun shapeDrawing(state: ApplicationState) {
 
                             ShapeEnum.Triangle -> {
                                 if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
-                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird)
+                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
                                 }
                             }
 
                             ShapeEnum.Rectangle -> {
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR)
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentShapeProperty)
                             }
 
                             else -> Unit
@@ -327,7 +326,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 add(triangle.third)
                             }
 
-                            canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                            canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
                         }
                     }
 
@@ -342,7 +341,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 add(rect.tr)
                             }
 
-                            canvasDrawer.polygon(list, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                            canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
                         }
                     }
 
