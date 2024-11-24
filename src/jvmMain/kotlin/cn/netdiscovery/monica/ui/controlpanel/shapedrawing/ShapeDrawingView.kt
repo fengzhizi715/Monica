@@ -18,9 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
@@ -299,51 +297,7 @@ fun shapeDrawing(state: ApplicationState) {
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
 
-                    lines.forEach {
-
-                        val line = it.value
-
-                        if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
-                            canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
-                        }
-                    }
-
-                    circles.forEach {
-
-                        val circle = it.value
-
-                        canvasDrawer.point(circle.center, circle.shapeProperties.color)
-                        canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
-                    }
-
-                    triangles.forEach {
-                        val triangle = it.value
-
-                        if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
-                            val list = mutableListOf<Offset>().apply {
-                                add(triangle.first)
-                                add(triangle.second)
-                                add(triangle.third)
-                            }
-
-                            canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
-                        }
-                    }
-
-                    rectangles.forEach {
-                        val rect = it.value
-
-                        if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
-                            val list = mutableListOf<Offset>().apply {
-                                add(rect.tl)
-                                add(rect.bl)
-                                add(rect.br)
-                                add(rect.tr)
-                            }
-
-                            canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
-                        }
-                    }
+                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles)
 
                     restoreToCount(checkPoint)
                 }
