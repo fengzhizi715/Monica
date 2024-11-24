@@ -18,13 +18,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Line
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Triangle
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
@@ -85,7 +83,10 @@ fun shapeDrawing(state: ApplicationState) {
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
+    var currentShapeProperty by remember { mutableStateOf(ShapeProperties()) }
     var showColorDialog by remember { mutableStateOf(false) }
+
+    val properties by rememberUpdatedState(newValue = currentShapeProperty)
 
     val image = state.currentImage!!.toComposeImageBitmap()
 
@@ -304,7 +305,7 @@ fun shapeDrawing(state: ApplicationState) {
                         val line = it.value
 
                         if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
-                            canvasDrawer.line(line.from,line.to, Style(null, Color.Red, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                            canvasDrawer.line(line.from,line.to, Style(null, currentShapeProperty.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
                         }
                     }
 
@@ -406,12 +407,12 @@ fun shapeDrawing(state: ApplicationState) {
 
         if (showColorDialog) {
             ColorSelectionDialog(
-                Color.Red,
+                properties.color,
                 onDismiss = { showColorDialog = !showColorDialog },
                 onNegativeClick = { showColorDialog = !showColorDialog },
                 onPositiveClick = { color: Color ->
                     showColorDialog = !showColorDialog
-
+                    properties.color = color
                 }
             )
         }
