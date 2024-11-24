@@ -405,7 +405,7 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    viewModel.saveCanvasToBitmap(density,lines,image,state)
+                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,image,state)
                 })
         }
 

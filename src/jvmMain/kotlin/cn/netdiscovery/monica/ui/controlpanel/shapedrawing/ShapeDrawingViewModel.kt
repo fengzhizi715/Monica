@@ -11,7 +11,10 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Circle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Line
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Triangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 
 /**
@@ -24,8 +27,13 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
  */
 class ShapeDrawingViewModel {
 
-    fun saveCanvasToBitmap(density: Density, lines: Map<Offset, Line>,
-                           image: ImageBitmap, state: ApplicationState) {
+    fun saveCanvasToBitmap(density: Density,
+                           lines: Map<Offset, Line>,
+                           circles: Map<Offset, Circle>,
+                           triangles: Map<Offset, Triangle>,
+                           rectangles: Map<Offset, Rectangle>,
+                           image: ImageBitmap,
+                           state: ApplicationState) {
 
         val bitmapWidth = image.width
         val bitmapHeight = image.height
@@ -49,6 +57,43 @@ class ShapeDrawingViewModel {
 
                 if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
                     canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                }
+            }
+
+            circles.forEach {
+
+                val circle = it.value
+
+                canvasDrawer.point(circle.center, circle.shapeProperties.color)
+                canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
+            }
+
+            triangles.forEach {
+                val triangle = it.value
+
+                if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
+                    val list = mutableListOf<Offset>().apply {
+                        add(triangle.first)
+                        add(triangle.second)
+                        add(triangle.third)
+                    }
+
+                    canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
+                }
+            }
+
+            rectangles.forEach {
+                val rect = it.value
+
+                if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
+                    val list = mutableListOf<Offset>().apply {
+                        add(rect.tl)
+                        add(rect.bl)
+                        add(rect.br)
+                        add(rect.tr)
+                    }
+
+                    canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
                 }
             }
         }
