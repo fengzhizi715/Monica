@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Triangle
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
+import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
@@ -83,6 +84,8 @@ fun shapeDrawing(state: ApplicationState) {
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+
+    var showColorDialog by remember { mutableStateOf(false) }
 
     val image = state.currentImage!!.toComposeImageBitmap()
 
@@ -349,6 +352,12 @@ fun shapeDrawing(state: ApplicationState) {
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
 
+            toolTipButton(text = "选择颜色",
+                painter = painterResource("images/doodle/color.png"),
+                onClick = {
+                    showColorDialog = true
+                })
+
             toolTipButton(text = "线段",
                 painter = painterResource("images/shapedrawing/line.png"),
                 onClick = {
@@ -393,6 +402,18 @@ fun shapeDrawing(state: ApplicationState) {
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
                 })
+        }
+
+        if (showColorDialog) {
+            ColorSelectionDialog(
+                Color.Red,
+                onDismiss = { showColorDialog = !showColorDialog },
+                onNegativeClick = { showColorDialog = !showColorDialog },
+                onPositiveClick = { color: Color ->
+                    showColorDialog = !showColorDialog
+
+                }
+            )
         }
     }
 }
