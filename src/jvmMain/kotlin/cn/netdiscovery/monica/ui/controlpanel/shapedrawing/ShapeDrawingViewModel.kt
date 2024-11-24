@@ -35,6 +35,10 @@ class ShapeDrawingViewModel {
 
             val line = it.value
 
+            if (line.from != Offset.Unspecified) {
+                canvasDrawer.point(line.from, line.shapeProperties.color)
+            }
+
             if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
                 canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
             }
@@ -44,12 +48,23 @@ class ShapeDrawingViewModel {
 
             val circle = it.value
 
-            canvasDrawer.point(circle.center, circle.shapeProperties.color)
+            if (circle.center != Offset.Unspecified) {
+                canvasDrawer.point(circle.center, circle.shapeProperties.color)
+            }
+
             canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
         }
 
         triangles.forEach {
             val triangle = it.value
+
+            if (triangle.first != Offset.Unspecified) {
+                canvasDrawer.point(triangle.first, triangle.shapeProperties.color)
+            }
+
+            if (triangle.second != Offset.Unspecified) {
+                canvasDrawer.point(triangle.second, triangle.shapeProperties.color)
+            }
 
             if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
                 val list = mutableListOf<Offset>().apply {
@@ -64,6 +79,10 @@ class ShapeDrawingViewModel {
 
         rectangles.forEach {
             val rect = it.value
+
+            if (rect.tl!=Offset.Unspecified) {
+                canvasDrawer.point(rect.tl, rect.shapeProperties.color)
+            }
 
             if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
                 val list = mutableListOf<Offset>().apply {

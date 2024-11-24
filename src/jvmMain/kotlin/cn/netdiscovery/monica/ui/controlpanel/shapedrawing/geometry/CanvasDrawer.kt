@@ -19,7 +19,7 @@ interface TextDrawer {
 class CanvasDrawer(private val textDrawer: TextDrawer, private val canvas: Canvas): Drawer {
 
     override fun point(offset: Offset, color: Color) {
-        canvas.drawCircle(offset, 9f, Paint().also { it.color = color })
+        canvas.drawCircle(offset, 2f, Paint().also { it.color = color })
     }
 
     override fun circle(center: Offset, radius: Float, style: Style) = style.styled {
