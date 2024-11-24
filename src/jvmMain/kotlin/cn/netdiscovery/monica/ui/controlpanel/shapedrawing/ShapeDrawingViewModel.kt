@@ -99,8 +99,13 @@ class ShapeDrawingViewModel {
         polygons.forEach {
             val polygon = it.value
 
-            if (polygon.polygonFirst!=Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(polygon.polygonFirst, polygon.shapeProperties.color)
+            if (polygon.points[0]!=null && polygon.points[0] != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(polygon.points[0] , polygon.shapeProperties.color)
+            }
+
+            if (polygon.points.size>1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(polygon.points[1] , polygon.shapeProperties.color)
+                canvasDrawer.line(polygon.points[0], polygon.points[1], Style(null, polygon.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
             }
 
             canvasDrawer.polygon(polygon.points, Style(null, polygon.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))

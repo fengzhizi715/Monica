@@ -275,7 +275,7 @@ fun shapeDrawing(state: ApplicationState) {
                             ShapeEnum.Polygon -> {
                                 currentPolygonPoint.add(currentPosition)
 
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentPolygonFirst, currentShapeProperty)
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(),  currentShapeProperty)
                             }
 
                             else -> Unit
@@ -305,7 +305,7 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Polygon -> {
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentPolygonFirst, currentShapeProperty)
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentShapeProperty)
                             }
 
                             else -> Unit
