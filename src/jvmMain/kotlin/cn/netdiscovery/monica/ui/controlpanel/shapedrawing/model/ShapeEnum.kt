@@ -14,5 +14,6 @@ enum class ShapeEnum {
     Circle,
     Triangle,
     Rectangle,
+    Polygon,
     NotAShape
 }

@@ -75,6 +75,11 @@ fun shapeDrawing(state: ApplicationState) {
     var currentRectBL    by remember { mutableStateOf(Offset.Unspecified) }
     val rectangles = remember { mutableStateMapOf<Offset, Rectangle>() }
 
+    // 多边形相关
+    var currentPolygonFirst by remember { mutableStateOf(Offset.Unspecified) }
+    var currentPolygonPoint = mutableSetOf<Offset>()
+    val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
+
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -224,6 +229,15 @@ fun shapeDrawing(state: ApplicationState) {
                                 }
                             }
 
+                            ShapeEnum.Polygon -> {
+                                if (previousPosition != currentPosition && currentPolygonFirst == Offset.Unspecified) {
+                                    currentPolygonFirst = currentPosition
+                                    currentPolygonPoint.add(currentPolygonFirst)
+                                }  else if (currentPolygonFirst != Offset.Unspecified) {
+                                    currentPolygonPoint.add(currentPosition)
+                                }
+                            }
+
                             else -> Unit
                         }
 
@@ -258,6 +272,12 @@ fun shapeDrawing(state: ApplicationState) {
                                 rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                             }
 
+                            ShapeEnum.Polygon -> {
+                                currentPolygonPoint.add(currentPosition)
+
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentPolygonFirst, currentShapeProperty)
+                            }
+
                             else -> Unit
                         }
 
@@ -284,6 +304,10 @@ fun shapeDrawing(state: ApplicationState) {
                                 rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                             }
 
+                            ShapeEnum.Polygon -> {
+                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoint.toList(), currentPolygonFirst, currentShapeProperty)
+                            }
+
                             else -> Unit
                         }
 
@@ -297,7 +321,7 @@ fun shapeDrawing(state: ApplicationState) {
                 with(drawContext.canvas.nativeCanvas) {
                     val checkPoint = saveLayer(null, null)
 
-                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles)
+                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons)
 
                     restoreToCount(checkPoint)
                 }
@@ -332,7 +356,7 @@ fun shapeDrawing(state: ApplicationState) {
                     currentShapeProperty = ShapeProperties()
                 })
 
-            toolTipButton(text = "三角",
+            toolTipButton(text = "三角形",
                 painter = painterResource("images/shapedrawing/triangle.png"),
                 onClick = {
                     shape = ShapeEnum.Triangle
@@ -356,10 +380,20 @@ fun shapeDrawing(state: ApplicationState) {
                     currentShapeProperty = ShapeProperties()
                 })
 
+            toolTipButton(text = "多边形",
+                painter = painterResource("images/shapedrawing/polygon.png"),
+                onClick = {
+                    shape = ShapeEnum.Polygon
+
+                    currentPolygonFirst = Offset.Unspecified
+                    currentPolygonPoint = mutableSetOf()
+                    currentShapeProperty = ShapeProperties()
+                })
+
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,image,state)
+                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,polygons, image,state)
                 })
         }
 

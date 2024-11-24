@@ -10,10 +10,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Circle
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Line
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Rectangle
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Triangle
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 
 /**
@@ -31,6 +28,7 @@ class ShapeDrawingViewModel {
                   circles: Map<Offset, Circle>,
                   triangles: Map<Offset, Triangle>,
                   rectangles: Map<Offset, Rectangle>,
+                  polygons: Map<Offset, Polygon>,
                   saveFlag: Boolean = false) {
         lines.forEach {
 
@@ -97,6 +95,16 @@ class ShapeDrawingViewModel {
                 canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
             }
         }
+
+        polygons.forEach {
+            val polygon = it.value
+
+            if (polygon.polygonFirst!=Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(polygon.polygonFirst, polygon.shapeProperties.color)
+            }
+
+            canvasDrawer.polygon(polygon.points, Style(null, polygon.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
+        }
     }
 
     fun saveCanvasToBitmap(density: Density,
@@ -104,6 +112,7 @@ class ShapeDrawingViewModel {
                            circles: Map<Offset, Circle>,
                            triangles: Map<Offset, Triangle>,
                            rectangles: Map<Offset, Rectangle>,
+                           polygons: Map<Offset, Polygon>,
                            image: ImageBitmap,
                            state: ApplicationState) {
 
@@ -123,7 +132,7 @@ class ShapeDrawingViewModel {
         ) {
             state.closeWindows()
 
-            drawShape(canvasDrawer,lines,circles,triangles,rectangles, true)
+            drawShape(canvasDrawer,lines,circles,triangles,rectangles, polygons,true)
         }
 
         state.addQueue(state.currentImage!!)
