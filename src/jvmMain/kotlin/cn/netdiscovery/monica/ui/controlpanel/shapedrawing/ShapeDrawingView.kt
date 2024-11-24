@@ -237,7 +237,7 @@ fun shapeDrawing(state: ApplicationState) {
                         when(shape) {
                             ShapeEnum.Line -> {
                                 currentLineEnd = currentPosition
-                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd)
+                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
                             }
 
                             ShapeEnum.Circle -> {
@@ -270,7 +270,7 @@ fun shapeDrawing(state: ApplicationState) {
                     MotionEvent.Up -> {
                         when(shape) {
                             ShapeEnum.Line -> {
-                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd)
+                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
                             }
 
                             ShapeEnum.Circle -> {
@@ -305,7 +305,7 @@ fun shapeDrawing(state: ApplicationState) {
                         val line = it.value
 
                         if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
-                            canvasDrawer.line(line.from,line.to, Style(null, currentShapeProperty.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
+                            canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, bounded = true))
                         }
                     }
 
@@ -366,6 +366,7 @@ fun shapeDrawing(state: ApplicationState) {
 
                     currentLineStart = Offset.Unspecified
                     currentLineEnd = Offset.Unspecified
+                    currentShapeProperty = ShapeProperties()
                 })
 
             toolTipButton(text = "圆形",
@@ -375,6 +376,7 @@ fun shapeDrawing(state: ApplicationState) {
 
                     currentCircleCenter = Offset.Unspecified
                     currentCircleRadius = 0.0f
+                    currentShapeProperty = ShapeProperties()
                 })
 
             toolTipButton(text = "三角",
@@ -385,6 +387,7 @@ fun shapeDrawing(state: ApplicationState) {
                     currentTriangleFirst  = Offset.Unspecified
                     currentTriangleSecond = Offset.Unspecified
                     currentTriangleThird  = Offset.Unspecified
+                    currentShapeProperty = ShapeProperties()
                 })
 
             toolTipButton(text = "矩形",
@@ -397,11 +400,13 @@ fun shapeDrawing(state: ApplicationState) {
                     currentRectBR = Offset.Unspecified
                     currentRectTR = Offset.Unspecified
                     currentRectBL = Offset.Unspecified
+                    currentShapeProperty = ShapeProperties()
                 })
 
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
+                    state.closeWindows()
                 })
         }
 

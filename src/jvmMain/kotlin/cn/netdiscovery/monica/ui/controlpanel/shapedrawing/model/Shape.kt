@@ -11,7 +11,7 @@ import androidx.compose.ui.geometry.Offset
  * @version: V1.0 <描述当前版本功能>
  */
 
-data class Line(val from: Offset, val to: Offset)
+data class Line(val from: Offset, val to: Offset, val shapeProperties: ShapeProperties)
 
 data class Triangle(val first: Offset, val second: Offset, val third: Offset)
 

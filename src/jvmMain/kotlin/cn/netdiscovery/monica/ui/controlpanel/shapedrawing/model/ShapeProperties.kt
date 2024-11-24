@@ -13,4 +13,9 @@ import androidx.compose.ui.graphics.Color
 class ShapeProperties (
     var color: Color = Color.Black,
     var alpha: Float = 1f
-)
+) {
+
+    override fun toString(): String {
+        return "color = $color, alpha = $alpha"
+    }
+}
