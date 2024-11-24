@@ -81,8 +81,8 @@ class ShapeDrawingViewModel {
         rectangles.forEach {
             val rect = it.value
 
-            if (rect.tl!=Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(rect.tl, rect.shapeProperties.color)
+            if (rect.rectFirst!=Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(rect.rectFirst, rect.shapeProperties.color)
             }
 
             if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
@@ -118,7 +118,7 @@ class ShapeDrawingViewModel {
             density = density,
             layoutDirection = LayoutDirection.Ltr,
             canvas = canvas,
-            size = size,
+            size = size
         ) {
             state.closeWindows()
 

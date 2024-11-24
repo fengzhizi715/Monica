@@ -255,7 +255,7 @@ fun shapeDrawing(state: ApplicationState) {
 
                                 determineCoordinatesOfRectangle()
 
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentShapeProperty)
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                             }
 
                             else -> Unit
@@ -281,7 +281,7 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Rectangle -> {
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentShapeProperty)
+                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                             }
 
                             else -> Unit
