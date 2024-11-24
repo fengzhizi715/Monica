@@ -62,7 +62,7 @@ fun shapeDrawing(state: ApplicationState) {
     // 圆相关
     var currentCircleCenter by remember { mutableStateOf(Offset.Unspecified) }
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
-    val circles = remember { mutableStateMapOf<Offset, Float>() }
+    val circles = remember { mutableStateMapOf<Offset, Circle>() }
 
     // 三角相关
     var currentTriangleFirst  by remember { mutableStateOf(Offset.Unspecified) }
@@ -242,7 +242,7 @@ fun shapeDrawing(state: ApplicationState) {
 
                             ShapeEnum.Circle -> {
                                 currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
-                                circles[currentCircleCenter] = currentCircleRadius
+                                circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
                             }
 
                             ShapeEnum.Triangle -> {
@@ -274,7 +274,7 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Circle -> {
-                                circles[currentCircleCenter] = currentCircleRadius
+                                circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
                             }
 
                             ShapeEnum.Triangle -> {
@@ -310,11 +310,11 @@ fun shapeDrawing(state: ApplicationState) {
                     }
 
                     circles.forEach {
-                        val circleCenter = it.key
-                        val circleRadius = it.value
 
-                        canvasDrawer.point(circleCenter, Color.Red)
-                        canvasDrawer.circle(circleCenter, circleRadius, Style(null, Color.Red, Border.No, null, fill = true, scale = 1f, bounded = true))
+                        val circle = it.value
+
+                        canvasDrawer.point(circle.center, circle.shapeProperties.color)
+                        canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
                     }
 
                     triangles.forEach {

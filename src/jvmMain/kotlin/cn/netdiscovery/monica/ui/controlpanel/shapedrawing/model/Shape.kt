@@ -13,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 
 data class Line(val from: Offset, val to: Offset, val shapeProperties: ShapeProperties)
 
+data class Circle(val center: Offset, val radius:Float, val shapeProperties: ShapeProperties)
+
 data class Triangle(val first: Offset, val second: Offset, val third: Offset)
 
 data class Rectangle(val tl: Offset, val bl: Offset, val br: Offset, val tr: Offset)
