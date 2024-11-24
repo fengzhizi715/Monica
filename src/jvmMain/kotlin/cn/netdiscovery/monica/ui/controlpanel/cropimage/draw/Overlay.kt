@@ -19,8 +19,8 @@ import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutline
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropPath
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropShape
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.drawGrid
-import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.drawWithLayer
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.utils.scaleAndTranslatePath
+import cn.netdiscovery.monica.utils.extension.drawWithLayer
 
 /**
  *

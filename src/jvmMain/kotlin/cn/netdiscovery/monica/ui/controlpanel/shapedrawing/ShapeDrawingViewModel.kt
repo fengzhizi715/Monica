@@ -30,6 +30,7 @@ class ShapeDrawingViewModel {
                   rectangles: Map<Offset, Rectangle>,
                   polygons: Map<Offset, Polygon>,
                   saveFlag: Boolean = false) {
+
         lines.forEach {
 
             val line = it.value

@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.extension.drawWithLayer
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -318,12 +319,8 @@ fun shapeDrawing(state: ApplicationState) {
                     else -> Unit
                 }
 
-                with(drawContext.canvas.nativeCanvas) {
-                    val checkPoint = saveLayer(null, null)
-
+                drawWithLayer {
                     viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons)
-
-                    restoreToCount(checkPoint)
                 }
             }
         }

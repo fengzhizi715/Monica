@@ -4,7 +4,6 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.nativeCanvas
 
 /**
  *
@@ -39,13 +38,5 @@ fun DrawScope.drawGrid(rect: Rect, strokeWidth: Float, color: Color) {
             end = Offset(rect.left + i * gridWidth, rect.bottom),
             strokeWidth = strokeWidth
         )
-    }
-}
-
-fun DrawScope.drawWithLayer(block: DrawScope.() -> Unit) {
-    with(drawContext.canvas.nativeCanvas) {
-        val checkPoint = saveLayer(null, null)
-        block()
-        restoreToCount(checkPoint)
     }
 }
