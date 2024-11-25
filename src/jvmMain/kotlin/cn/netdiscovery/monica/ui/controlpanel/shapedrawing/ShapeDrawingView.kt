@@ -407,7 +407,7 @@ fun shapeDrawing(state: ApplicationState) {
                 })
 
             toolTipButton(text = "添加文字",
-                painter = painterResource("images/shapedrawing/polygon.png"),
+                painter = painterResource("images/shapedrawing/text.png"),
                 onClick = {
                     showDraggableTextField = true
 
