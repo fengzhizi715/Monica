@@ -11,6 +11,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 
 /**
