@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.utils.extension.drawWithLayer
 import org.koin.compose.koinInject
 
 /**
@@ -148,9 +149,7 @@ fun drawImage(
                     else -> Unit
                 }
 
-                with(drawContext.canvas.nativeCanvas) {
-
-                    val checkPoint = saveLayer(null, null)
+                drawWithLayer {
 
                     paths.forEach {
 
@@ -206,7 +205,6 @@ fun drawImage(
                             )
                         }
                     }
-                    restoreToCount(checkPoint)
                 }
             }
         }
