@@ -4,8 +4,6 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -91,6 +89,7 @@ fun shapeDrawing(state: ApplicationState) {
     val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
     // 文字相关
+    var fontSize by remember { mutableStateOf(40f) }
     val texts = remember { mutableStateMapOf<Offset, Text>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -412,6 +411,7 @@ fun shapeDrawing(state: ApplicationState) {
                     showDraggableTextField = true
 
                     text = ""
+                    fontSize = 40f
                     currentShapeProperty = ShapeProperties()
                 })
 
@@ -445,11 +445,12 @@ fun shapeDrawing(state: ApplicationState) {
 
                     logger.info("currentPosition = $currentPosition")
 
-                    texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+                    texts[currentPosition] = Text(currentPosition, text, currentShapeProperty, fontSize)
 
                     showDraggableTextField = false
                 })
         }
+
     }
 }
 

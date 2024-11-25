@@ -119,7 +119,7 @@ class ShapeDrawingViewModel {
             val list = mutableListOf<String>().apply {
                 add(text.message)
             }
-            canvasDrawer.text(text.point, list, text.shapeProperties.color, 40f)
+            canvasDrawer.text(text.point, list, text.shapeProperties.color, text.fontSize)
         }
     }
 
