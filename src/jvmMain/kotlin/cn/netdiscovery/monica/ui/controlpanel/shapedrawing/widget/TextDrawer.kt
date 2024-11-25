@@ -19,11 +19,11 @@ import org.jetbrains.skia.TextLine
  */
 object TextDrawer: cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.TextDrawer {
 
-    override fun text(canvas: Canvas, pos: Offset, text: List<String>, color: Color) {
+    override fun text(canvas: Canvas, pos: Offset, text: List<String>, color: Color, fontSize: Float) {
         val paint = Paint()
         paint.color = color.toArgb()
-        val font = Font(null, 40f)
-        val subscript = Font(null, 30f)
+        val font = Font(null, fontSize)
+        val subscript = Font(null, fontSize - 10)
         var current = pos.x
         text.forEachIndexed { index, str ->
             val line = TextLine.make(str, if (index % 2 == 0) font else subscript)

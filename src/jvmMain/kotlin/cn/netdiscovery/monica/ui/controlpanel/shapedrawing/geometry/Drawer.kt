@@ -24,7 +24,7 @@ interface Drawer {
 
     fun polygon(points: List<Offset>, style: Style)
 
-    fun text(pos: Offset, text: List<String>, color: Color)
+    fun text(pos: Offset, text: List<String>, color: Color, fontSize: Float)
 
     fun angle(center: Offset, from: Float, to: Float, style: Style)
 }

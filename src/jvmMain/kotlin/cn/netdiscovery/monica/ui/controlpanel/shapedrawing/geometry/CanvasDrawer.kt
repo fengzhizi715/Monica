@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.*
  * @version: V1.0 <描述当前版本功能>
  */
 interface TextDrawer {
-    fun text(canvas: Canvas, pos: Offset, text: List<String>, color: Color)
+    fun text(canvas: Canvas, pos: Offset, text: List<String>, color: Color, fontSize: Float)
 }
 
 class CanvasDrawer(private val textDrawer: TextDrawer, private val canvas: Canvas): Drawer {
@@ -42,8 +42,8 @@ class CanvasDrawer(private val textDrawer: TextDrawer, private val canvas: Canva
         }
     }
 
-    override fun text(pos: Offset, text: List<String>, color: Color) =
-        textDrawer.text(canvas, pos, text, color)
+    override fun text(pos: Offset, text: List<String>, color: Color, fontSize: Float) =
+        textDrawer.text(canvas, pos, text, color, fontSize)
 
     override fun angle(center: Offset, from: Float, to: Float, style: Style) = style.styled {
         canvas.drawArcRad(Rect(center, 50*style.scale), -from, from - to, true, it)
