@@ -1,27 +1,35 @@
 package cn.netdiscovery.monica.ui.controlpanel.shapedrawing
 
-import androidx.compose.foundation.Canvas
-import androidx.compose.foundation.background
+import androidx.compose.foundation.*
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.material.OutlinedTextField
+import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.Density
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
@@ -32,6 +40,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.math.abs
 import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 /**
@@ -81,6 +90,9 @@ fun shapeDrawing(state: ApplicationState) {
     var currentPolygonPoints = remember { mutableSetOf<Offset>() }
     val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
+    // 文字相关
+    val texts = remember { mutableStateMapOf<Offset, Text>() }
+
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -92,6 +104,10 @@ fun shapeDrawing(state: ApplicationState) {
     val properties by rememberUpdatedState(newValue = currentShapeProperty)
 
     val image = state.currentImage!!.toComposeImageBitmap()
+
+    var showDraggableTextField by remember { mutableStateOf(false) }
+
+    var text by remember { mutableStateOf("") }
 
     /**
      * 确定三角形的坐标
@@ -157,6 +173,9 @@ fun shapeDrawing(state: ApplicationState) {
     ) {
         val bitmapWidth = image.width
         val bitmapHeight = image.height
+
+        val halfWidth = bitmapWidth/2
+        val halfHeight = bitmapHeight/2
 
         val width = (bitmapWidth/density.density).dp
         val height = (bitmapHeight/density.density).dp
@@ -320,7 +339,7 @@ fun shapeDrawing(state: ApplicationState) {
                 }
 
                 drawWithLayer {
-                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons)
+                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons, texts)
                 }
             }
         }
@@ -387,10 +406,19 @@ fun shapeDrawing(state: ApplicationState) {
                     currentShapeProperty = ShapeProperties()
                 })
 
+            toolTipButton(text = "添加文字",
+                painter = painterResource("images/shapedrawing/polygon.png"),
+                onClick = {
+                    showDraggableTextField = true
+
+                    text = ""
+                    currentShapeProperty = ShapeProperties()
+                })
+
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,polygons, image,state)
+                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,polygons, texts, image,state)
                 })
         }
 
@@ -405,8 +433,78 @@ fun shapeDrawing(state: ApplicationState) {
                 }
             )
         }
+
+        if (showDraggableTextField) {
+            DraggableTextField(modifier = Modifier.width(250.dp).height(130.dp), bitmapWidth = bitmapWidth, bitmapHeight = bitmapHeight, density = density, text = text,
+                onTextChanged = {
+                    text = it
+                }, onDragged = { offset ->
+                    val x = halfWidth.toFloat()  + offset.x - 110*density.density
+                    val y = halfHeight.toFloat() + offset.y - 35*density.density
+                    currentPosition = Offset(x,y)
+
+                    logger.info("currentPosition = $currentPosition")
+
+                    texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+
+                    showDraggableTextField = false
+                })
+        }
     }
 }
+
+
+@OptIn(ExperimentalFoundationApi::class)
+@Composable
+fun DraggableTextField(
+    modifier: Modifier = Modifier,
+    text: String,
+    bitmapWidth: Int,
+    bitmapHeight: Int,
+    density: Density,
+    onTextChanged: (String) -> Unit,
+    onDragged: (Offset) -> Unit
+) {
+    var offset by remember { mutableStateOf(Offset.Zero) }
+    val halfWidth = bitmapWidth/2
+    val halfHeight = bitmapHeight/2
+    val halfTextFieldWidth = 125/density.density
+    val halfTextFieldHeight = 65/density.density
+
+    Box(
+        modifier = modifier
+            .offset { IntOffset(offset.x.roundToInt(), offset.y.roundToInt()) }
+            .pointerInput(Unit) {
+                detectDragGestures { change ->
+                    offset += change
+                    if (abs(offset.x) > halfWidth - halfTextFieldWidth || abs(offset.y) > halfHeight - halfTextFieldHeight) {
+                        offset -= change
+                        return@detectDragGestures
+                    }
+                }
+            }
+            .shadow(8.dp)
+            .background(Color.White)
+            .padding(16.dp)
+            .fillMaxWidth()
+            .wrapContentHeight(Alignment.Top)
+            .clip(RoundedCornerShape(8.dp))
+    ) {
+
+        Column {
+            TextField (
+                value = text,
+                onValueChange = onTextChanged,
+                modifier = Modifier.width(220.dp)
+            )
+
+            confirmButton(true, modifier = Modifier.align(Alignment.End).padding(top = 5.dp)) {
+                onDragged.invoke(offset)
+            }
+        }
+    }
+}
+
 
 private fun calcCircleRadius(center:Offset, position: Offset):Float {
     return sqrt((abs(position.x - center.x).pow(2) + abs(position.y - center.y).pow(2)).toDouble()).toFloat()

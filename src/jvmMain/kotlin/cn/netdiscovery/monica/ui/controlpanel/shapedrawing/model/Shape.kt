@@ -30,5 +30,7 @@ sealed class Shape {
     data class Rectangle(val tl: Offset, val bl: Offset, val br: Offset, val tr: Offset, val rectFirst: Offset,val shapeProperties: ShapeProperties): Shape()
 
     data class Polygon(val points: List<Offset>, val shapeProperties: ShapeProperties): Shape()
+
+    data class Text(val point: Offset, val message:String, val shapeProperties: ShapeProperties): Shape()
 }
 

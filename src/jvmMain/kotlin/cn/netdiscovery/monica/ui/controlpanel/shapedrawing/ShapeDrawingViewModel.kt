@@ -10,7 +10,6 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 
@@ -30,6 +29,7 @@ class ShapeDrawingViewModel {
                   triangles: Map<Offset, Triangle>,
                   rectangles: Map<Offset, Rectangle>,
                   polygons: Map<Offset, Polygon>,
+                  texts: Map<Offset, Text>,
                   saveFlag: Boolean = false) {
 
         lines.forEach {
@@ -112,6 +112,15 @@ class ShapeDrawingViewModel {
 
             canvasDrawer.polygon(polygon.points, Style(null, polygon.shapeProperties.color, Border.No, null, fill = true, scale = 1f, bounded = true))
         }
+
+        texts.forEach {
+            val text = it.value
+
+            val list = mutableListOf<String>().apply {
+                add(text.message)
+            }
+            canvasDrawer.text(text.point, list, text.shapeProperties.color)
+        }
     }
 
     fun saveCanvasToBitmap(density: Density,
@@ -120,6 +129,7 @@ class ShapeDrawingViewModel {
                            triangles: Map<Offset, Triangle>,
                            rectangles: Map<Offset, Rectangle>,
                            polygons: Map<Offset, Polygon>,
+                           texts: Map<Offset, Text>,
                            image: ImageBitmap,
                            state: ApplicationState) {
 
@@ -139,7 +149,7 @@ class ShapeDrawingViewModel {
         ) {
             state.closeWindows()
 
-            drawShape(canvasDrawer,lines,circles,triangles,rectangles, polygons,true)
+            drawShape(canvasDrawer,lines,circles,triangles,rectangles, polygons,texts, true)
         }
 
         state.addQueue(state.currentImage!!)
