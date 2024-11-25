@@ -10,6 +10,16 @@ import androidx.compose.ui.geometry.Offset
  * @date: 2024/11/22 14:34
  * @version: V1.0 <描述当前版本功能>
  */
+enum class ShapeEnum {
+    Point,
+    Line,
+    Circle,
+    Triangle,
+    Rectangle,
+    Polygon,
+    NotAShape
+}
+
 sealed class Shape {
     data class Line(val from: Offset, val to: Offset, val shapeProperties: ShapeProperties): Shape()
 
