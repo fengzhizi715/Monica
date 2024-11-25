@@ -4,6 +4,9 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Card
+import androidx.compose.material.Slider
+import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,10 +19,8 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.IntSize
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
+import androidx.compose.ui.window.Dialog
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
@@ -98,12 +99,12 @@ fun shapeDrawing(state: ApplicationState) {
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     var currentShapeProperty by remember { mutableStateOf(ShapeProperties()) }
-    var showColorDialog by remember { mutableStateOf(false) }
-
     val properties by rememberUpdatedState(newValue = currentShapeProperty)
 
     val image = state.currentImage!!.toComposeImageBitmap()
 
+    var showColorDialog by remember { mutableStateOf(false) }
+    var showPropertiesDialog by remember { mutableStateOf(false) }
     var showDraggableTextField by remember { mutableStateOf(false) }
 
     var text by remember { mutableStateOf("") }
@@ -351,6 +352,12 @@ fun shapeDrawing(state: ApplicationState) {
                     showColorDialog = true
                 })
 
+            toolTipButton(text = "刷子",
+                painter = painterResource("images/doodle/brush.png"),
+                onClick = {
+                    showPropertiesDialog = true
+                })
+
             toolTipButton(text = "线段",
                 painter = painterResource("images/shapedrawing/line.png"),
                 onClick = {
@@ -451,6 +458,41 @@ fun shapeDrawing(state: ApplicationState) {
                 })
         }
 
+        if (showPropertiesDialog) {
+
+            var strokeWidth by remember { mutableStateOf(fontSize) }
+
+            Dialog(onDismissRequest = {
+                fontSize = strokeWidth
+                texts[currentPosition] = Text(currentPosition, text, currentShapeProperty, fontSize)
+                showPropertiesDialog = false
+            }) {
+
+                Card(
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp),
+                    modifier = Modifier.padding(vertical = 8.dp)
+                ) {
+                    Column(modifier = Modifier.padding(8.dp)) {
+                        Text(
+                            text = "Stroke Width ${strokeWidth.toInt()}",
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(horizontal = 12.dp)
+                        )
+
+                        Slider(
+                            value = strokeWidth,
+                            onValueChange = {
+                                strokeWidth = it
+                                fontSize = strokeWidth
+                            },
+                            valueRange = 1f..100f,
+                            onValueChangeFinished = {}
+                        )
+                    }
+                }
+            }
+        }
     }
 }
 
