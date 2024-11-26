@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 @Composable
 fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss: () -> Unit) {
 
+    var alpha    by remember { mutableStateOf(shapeProperties.alpha) }
     var fontSize by remember { mutableStateOf(shapeProperties.fontSize) }
 
     Dialog(onDismissRequest = {
@@ -36,6 +37,23 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
             modifier = Modifier.padding(vertical = 8.dp)
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
+
+                Text(
+                    text = "alpha: ${alpha}",
+                    fontSize = 16.sp,
+                    modifier = Modifier.padding(horizontal = 12.dp)
+                )
+
+                Slider(
+                    value = alpha,
+                    onValueChange = {
+                        alpha = it
+                        shapeProperties.alpha = alpha
+                    },
+                    valueRange = 0f..1f,
+                    onValueChangeFinished = {}
+                )
+
                 Text(
                     text = "fontSize: ${fontSize.toInt()}",
                     fontSize = 16.sp,
