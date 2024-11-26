@@ -65,7 +65,6 @@ fun DraggableTextField(
             .wrapContentHeight(Alignment.Top)
             .clip(RoundedCornerShape(8.dp))
     ) {
-
         Column {
             TextField (
                 value = text,

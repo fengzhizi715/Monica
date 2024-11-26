@@ -41,7 +41,7 @@ class ShapeDrawingViewModel {
             }
 
             if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
-                canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, alpha = line.shapeProperties.alpha, bounded = true))
+                canvasDrawer.line(line.from,line.to, Style(null, line.shapeProperties.color, line.shapeProperties.border, null, fill = line.shapeProperties.fill, scale = 1f, alpha = line.shapeProperties.alpha, bounded = true))
             }
         }
 
@@ -53,7 +53,8 @@ class ShapeDrawingViewModel {
                 canvasDrawer.point(circle.center, circle.shapeProperties.color)
             }
 
-            canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, alpha = circle.shapeProperties.alpha, bounded = true))
+            println("circle.shapeProperties.fill = ${circle.shapeProperties.fill}")
+            canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, circle.shapeProperties.border, null, fill = circle.shapeProperties.fill, scale = 1f, alpha = circle.shapeProperties.alpha, bounded = true))
         }
 
         triangles.forEach {
@@ -65,7 +66,7 @@ class ShapeDrawingViewModel {
 
             if (triangle.second != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
-                canvasDrawer.line(triangle.first,triangle.second, Style(null, triangle.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, alpha = triangle.shapeProperties.alpha, bounded = true))
+                canvasDrawer.line(triangle.first,triangle.second, Style(null, triangle.shapeProperties.color, Border.Line, null, fill = triangle.shapeProperties.fill, scale = 1f, alpha = triangle.shapeProperties.alpha, bounded = true))
             }
 
             if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
@@ -75,7 +76,7 @@ class ShapeDrawingViewModel {
                     add(triangle.third!!)
                 }
 
-                canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, Border.No, null, fill = true, scale = 1f, alpha = triangle.shapeProperties.alpha,  bounded = true))
+                canvasDrawer.polygon(list, Style(null, triangle.shapeProperties.color, triangle.shapeProperties.border, null, fill = triangle.shapeProperties.fill, scale = 1f, alpha = triangle.shapeProperties.alpha,  bounded = true))
             }
         }
 
@@ -94,7 +95,7 @@ class ShapeDrawingViewModel {
                     add(rect.tr)
                 }
 
-                canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, Border.No, null, fill = true, scale = 1f, alpha = rect.shapeProperties.alpha, bounded = true))
+                canvasDrawer.polygon(list, Style(null, rect.shapeProperties.color, rect.shapeProperties.border, null, fill = rect.shapeProperties.fill, scale = 1f, alpha = rect.shapeProperties.alpha, bounded = true))
             }
         }
 
@@ -107,10 +108,10 @@ class ShapeDrawingViewModel {
 
             if (polygon.points.size>1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(polygon.points[1] , polygon.shapeProperties.color)
-                canvasDrawer.line(polygon.points[0], polygon.points[1], Style(null, polygon.shapeProperties.color, Border.Line, null, fill = true, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true))
+                canvasDrawer.line(polygon.points[0], polygon.points[1], Style(null, polygon.shapeProperties.color, Border.Line, null, fill = polygon.shapeProperties.fill, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true))
             }
 
-            canvasDrawer.polygon(polygon.points, Style(null, polygon.shapeProperties.color, Border.No, null, fill = true, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true))
+            canvasDrawer.polygon(polygon.points, Style(null, polygon.shapeProperties.color, polygon.shapeProperties.border, null, fill = polygon.shapeProperties.fill, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true))
         }
 
         texts.forEach {

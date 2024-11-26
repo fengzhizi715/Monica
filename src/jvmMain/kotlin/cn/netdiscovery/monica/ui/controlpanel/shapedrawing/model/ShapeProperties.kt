@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model
 
 import androidx.compose.ui.graphics.Color
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 
 /**
  *
@@ -13,10 +14,7 @@ import androidx.compose.ui.graphics.Color
 class ShapeProperties (
     var color: Color = Color.Black,
     var alpha: Float = 1f,
-    var fontSize: Float = 40f
-) {
-
-    override fun toString(): String {
-        return "color = $color, alpha = $alpha, fontSize = $fontSize"
-    }
-}
+    var fontSize: Float = 40f,
+    var fill: Boolean = true,
+    var border: Border = Border.Line
+)
