@@ -12,10 +12,11 @@ import androidx.compose.ui.graphics.Color
  */
 class ShapeProperties (
     var color: Color = Color.Black,
-    var alpha: Float = 1f
+    var alpha: Float = 1f,
+    var fontSize: Float = 40f
 ) {
 
     override fun toString(): String {
-        return "color = $color, alpha = $alpha"
+        return "color = $color, alpha = $alpha, fontSize = $fontSize"
     }
 }

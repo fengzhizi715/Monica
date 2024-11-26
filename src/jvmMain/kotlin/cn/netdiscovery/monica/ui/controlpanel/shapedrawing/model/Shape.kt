@@ -31,6 +31,6 @@ sealed class Shape {
 
     data class Polygon(val points: List<Offset>, val shapeProperties: ShapeProperties): Shape()
 
-    data class Text(val point: Offset, val message:String, val shapeProperties: ShapeProperties, val fontSize: Float): Shape()
+    data class Text(val point: Offset, val message:String, val shapeProperties: ShapeProperties): Shape()
 }
 
