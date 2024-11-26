@@ -24,7 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 @Composable
 fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss: () -> Unit) {
 
-    var strokeWidth by remember { mutableStateOf(shapeProperties.fontSize) }
+    var fontSize by remember { mutableStateOf(shapeProperties.fontSize) }
 
     Dialog(onDismissRequest = {
         onDismiss.invoke()
@@ -37,16 +37,16 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
                 Text(
-                    text = "Stroke Width ${strokeWidth.toInt()}",
+                    text = "fontSize: ${fontSize.toInt()}",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
 
                 Slider(
-                    value = strokeWidth,
+                    value = fontSize,
                     onValueChange = {
-                        strokeWidth = it
-                        shapeProperties.fontSize = strokeWidth
+                        fontSize = it
+                        shapeProperties.fontSize = fontSize
                     },
                     valueRange = 1f..100f,
                     onValueChangeFinished = {}

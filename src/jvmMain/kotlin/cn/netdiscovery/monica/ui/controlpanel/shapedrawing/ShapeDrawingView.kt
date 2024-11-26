@@ -92,7 +92,6 @@ fun shapeDrawing(state: ApplicationState) {
     val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
     // 文字相关
-//    var fontSize by remember { mutableStateOf(40f) }
     val texts = remember { mutableStateMapOf<Offset, Text>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -458,7 +457,6 @@ fun shapeDrawing(state: ApplicationState) {
                     // logger.info("currentPosition = $currentPosition")
 
                     texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
-
                     showDraggableTextField = false
                 })
         }
