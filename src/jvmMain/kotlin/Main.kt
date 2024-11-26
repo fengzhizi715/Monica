@@ -181,6 +181,9 @@ fun main() = application {
                     DoodleStatus -> {
                         showTopToast("想要保存涂鸦效果，需要点击保存按钮")
                     }
+                    ShapeDrawingStatus -> {
+                        showTopToast("想要保存形状绘制的结果，需要点击保存按钮")
+                    }
                     CropSizeStatus -> {
                         cropViewModel.clearCropImageView()
                     }
