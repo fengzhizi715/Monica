@@ -55,7 +55,7 @@ private fun Style.styled(action: (Paint) -> Unit) {
         action(Paint().apply {
         color = this@styled.color
         style = PaintingStyle.Fill
-//        alpha = 0.3f
+        alpha = this@styled.alpha
     })
     if (border != Border.No)
         action(Paint().apply {
