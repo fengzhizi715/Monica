@@ -116,10 +116,12 @@ class ShapeDrawingViewModel {
         texts.forEach {
             val text = it.value
 
-            val list = mutableListOf<String>().apply {
-                add(text.message)
+            if (text.point!= Offset.Unspecified) {
+                val list = mutableListOf<String>().apply {
+                    add(text.message)
+                }
+                canvasDrawer.text(text.point, list, text.shapeProperties.color, text.shapeProperties.fontSize)
             }
-            canvasDrawer.text(text.point, list, text.shapeProperties.color, text.shapeProperties.fontSize)
         }
     }
 
