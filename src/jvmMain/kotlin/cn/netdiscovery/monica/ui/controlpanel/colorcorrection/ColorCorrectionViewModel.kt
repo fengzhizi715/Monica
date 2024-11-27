@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import java.util.concurrent.atomic.AtomicBoolean
 
 /**
  *
@@ -40,7 +41,7 @@ class ColorCorrectionViewModel {
 
     private var cppObjectPtr:Long = 0
 
-    private var init by mutableStateOf(false )
+    private var init:AtomicBoolean = AtomicBoolean(false)
 
     fun colorCorrection(state: ApplicationState, image: BufferedImage, colorCorrectionSettings: ColorCorrectionSettings,
                         success: CVSuccess) {
@@ -48,8 +49,8 @@ class ColorCorrectionViewModel {
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
         state.scope.launchWithLoading {
-            if (!init) {
-                init = true
+            if (!init.get()) {
+                init.set(true)
 
                 val byteArray = image.image2ByteArray()
                 cppObjectPtr = ImageProcess.initColorCorrection(byteArray)
@@ -71,7 +72,7 @@ class ColorCorrectionViewModel {
     }
 
     fun clearAllStatus() {
-        init = false
+        init.set(false)
 
         contrast = 255f
         hue = 180f
