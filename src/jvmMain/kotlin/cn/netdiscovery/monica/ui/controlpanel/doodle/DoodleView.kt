@@ -217,7 +217,7 @@ fun drawImage(
                     currentPathProperty.eraseMode = false
                 })
 
-            toolTipButton(text = "刷子",
+            toolTipButton(text = "属性更改",
                 painter = painterResource("images/doodle/brush.png"),
                 onClick = {
                     showPropertiesDialog = true
