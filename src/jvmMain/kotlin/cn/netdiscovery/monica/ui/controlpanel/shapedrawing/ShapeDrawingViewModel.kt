@@ -53,7 +53,6 @@ class ShapeDrawingViewModel {
                 canvasDrawer.point(circle.center, circle.shapeProperties.color)
             }
 
-            println("circle.shapeProperties.fill = ${circle.shapeProperties.fill}")
             canvasDrawer.circle(circle.center, circle.radius, Style(null, circle.shapeProperties.color, circle.shapeProperties.border, null, fill = circle.shapeProperties.fill, scale = 1f, alpha = circle.shapeProperties.alpha, bounded = true))
         }
 
@@ -66,7 +65,7 @@ class ShapeDrawingViewModel {
 
             if (triangle.second != Offset.Unspecified && !saveFlag) {
                 canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
-                canvasDrawer.line(triangle.first,triangle.second, Style(null, triangle.shapeProperties.color, Border.Line, null, fill = triangle.shapeProperties.fill, scale = 1f, alpha = triangle.shapeProperties.alpha, bounded = true))
+                canvasDrawer.line(triangle.first,triangle.second, Style(null, triangle.shapeProperties.color, triangle.shapeProperties.border, null, fill = triangle.shapeProperties.fill, scale = 1f, alpha = triangle.shapeProperties.alpha, bounded = true))
             }
 
             if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
