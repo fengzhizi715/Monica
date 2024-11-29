@@ -31,7 +31,7 @@ import kotlin.math.roundToInt
  */
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun DraggableTextField(
+fun draggableTextField(
     modifier: Modifier = Modifier,
     text: String,
     bitmapWidth: Int,

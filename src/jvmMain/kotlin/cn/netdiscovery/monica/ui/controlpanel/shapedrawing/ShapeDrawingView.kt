@@ -21,7 +21,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.DraggableTextField
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.draggableTextField
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeDrawingPropertiesMenuDialog
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
@@ -435,7 +435,7 @@ fun shapeDrawing(state: ApplicationState) {
         }
 
         if (showDraggableTextField) {
-            DraggableTextField(modifier = Modifier.width(250.dp).height(130.dp),
+            draggableTextField(modifier = Modifier.width(250.dp).height(130.dp),
                 bitmapWidth = bitmapWidth,
                 bitmapHeight = bitmapHeight,
                 density = density,
