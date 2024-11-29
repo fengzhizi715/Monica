@@ -105,6 +105,9 @@ class ApplicationState(val scope:CoroutineScope,
         currentStatus = 0
     }
 
+    /**
+     * 关闭当前弹出的页面
+     */
     fun closeWindows() {
         resetCurrentStatus()
         togglePreviewWindow(false)
