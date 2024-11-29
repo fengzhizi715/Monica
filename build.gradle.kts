@@ -7,7 +7,7 @@ plugins {
     id("com.github.gmazzo.buildconfig") version "5.4.0"
 }
 
-val appVersion = "1.0.3"
+val appVersion = "1.0.4"
 val isProVersion = true
 
 group = "cn.netdiscovery.monica"
