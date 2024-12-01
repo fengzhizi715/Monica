@@ -70,7 +70,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 # 四. 更多详情
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见(提需求)、参与开发。
 
-暂时还不提供安装包，不过可自行编译，后续版本会提供 Windows、Linux、MasOS 各个平台对应的安装包。
+目前，暂时还不提供安装包。不过可自行编译，后续版本会提供 Windows、Linux、MasOS 各个平台对应的安装包。
 
 Windows 用户的体验安装包: 
 > 链接: https://pan.baidu.com/s/1QrauiGLKUtozkKKB4JKLiQ?pwd=u9jn
