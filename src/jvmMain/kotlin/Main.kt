@@ -45,7 +45,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 val filterNames = mutableListOf("选择滤镜")
 
-val flag = AtomicBoolean(false)
+private val flag = AtomicBoolean(false)
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
