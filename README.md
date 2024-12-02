@@ -94,13 +94,17 @@ https://juejin.cn/column/7396157773312065574
 * 增加人脸美颜的算法
 
 
-# 六. 联系方式：
+# 六. 更新日志
+请查看 [CHANGELOG](CHANGELOG.md) 文件
+
+
+# 七. 联系方式：
 
 wechat：fengzhizi715
 
 Email：fengzhizi715@126.com
 
 
-# 七. Star History
+# 八. Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)
