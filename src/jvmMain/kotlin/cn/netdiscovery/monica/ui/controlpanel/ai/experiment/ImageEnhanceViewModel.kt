@@ -20,7 +20,6 @@ class ImageEnhanceViewModel {
 
     fun equalizeHist(state: ApplicationState) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.equalizeHist(byteArray)
             }, failure = { e ->
@@ -31,7 +30,6 @@ class ImageEnhanceViewModel {
 
     fun clahe(state: ApplicationState, clipLimit:Double, size:Int) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.clahe(byteArray, clipLimit, size)
             }, failure = { e ->
@@ -42,7 +40,6 @@ class ImageEnhanceViewModel {
 
     fun gammaCorrection(state: ApplicationState, gamma:Float) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.gammaCorrection(byteArray, gamma)
             }, failure = { e ->
@@ -53,7 +50,6 @@ class ImageEnhanceViewModel {
 
     fun laplaceSharpening(state: ApplicationState) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.laplaceSharpening(byteArray)
             }, failure = { e ->
@@ -64,7 +60,6 @@ class ImageEnhanceViewModel {
 
     fun unsharpMask(state: ApplicationState,radius:Int,threshold:Int,amount:Int) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.unsharpMask(byteArray,radius,threshold,amount)
             }, failure = { e ->
@@ -75,7 +70,6 @@ class ImageEnhanceViewModel {
 
     fun ace(state: ApplicationState, ratio:Int, radius:Int) {
         state.scope.launchWithLoading {
-
             OpenCVManager.invokeCV(state, action = { byteArray ->
                 ImageProcess.ace(byteArray,ratio,radius)
             }, failure = { e ->
