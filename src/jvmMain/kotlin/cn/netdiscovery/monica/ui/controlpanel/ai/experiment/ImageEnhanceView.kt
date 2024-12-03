@@ -41,6 +41,13 @@ fun imageEnhance(state: ApplicationState, title: String) {
 
     var gammaText = remember { mutableStateOf("1.0") }
 
+    var amountText = remember { mutableStateOf("25") }
+    var thresholdText = remember { mutableStateOf("0") }
+    var radiusText = remember { mutableStateOf("50") }
+
+    var ratioText = remember { mutableStateOf("4") }
+    var aceRadiusText = remember { mutableStateOf("1") }
+
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
@@ -51,9 +58,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    if(state.currentImage!= null) {
-                        viewModel.equalizeHist(state)
-                    }
+                    viewModel.equalizeHist(state)
                 }
             ) {
                 Text(text = "直方图均衡化", color = Color.Unspecified)
@@ -61,7 +66,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "限制对比度自适应直方图均衡化", color = Color.Black)
+            subTitleWithDivider(text = "限制对比度自适应直方图均衡(clahe)", color = Color.Black)
 
             Row {
                 basicTextFieldWithTitle(titleText = "clipLimit", clipLimitText.value) { str ->
@@ -77,11 +82,9 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    if(state.currentImage!= null) {
-                        val clipLimit = getValidateField(block = { clipLimitText.value.toDouble() } , failed = { experimentViewVerifyToast("clipLimit 需要 double 类型") }) ?: return@experimentViewClick
-                        val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
-                        viewModel.clahe(state, clipLimit, size)
-                    }
+                    val clipLimit = getValidateField(block = { clipLimitText.value.toDouble() } , failed = { experimentViewVerifyToast("clipLimit 需要 double 类型") }) ?: return@experimentViewClick
+                    val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
+                    viewModel.clahe(state, clipLimit, size)
                 }
             ) {
                 Text(text = "clahe", color = Color.Unspecified)
@@ -101,13 +104,82 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    if(state.currentImage!= null) {
-                        val gamma = getValidateField(block = { gammaText.value.toFloat() } , failed = { experimentViewVerifyToast("gamma 需要 float 类型") }) ?: return@experimentViewClick
-                        viewModel.gammaCorrection(state, gamma)
-                    }
+                    val gamma = getValidateField(block = { gammaText.value.toFloat() } , failed = { experimentViewVerifyToast("gamma 需要 float 类型") }) ?: return@experimentViewClick
+                    viewModel.gammaCorrection(state, gamma)
                 }
             ) {
                 Text(text = "gamma 变换", color = Color.Unspecified)
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "Laplace 锐化", color = Color.Black)
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = experimentViewClick(state) {
+
+                    viewModel.laplaceSharpening(state)
+                }
+            ) {
+                Text(text = "Laplace 锐化", color = Color.Unspecified)
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "USM 锐化", color = Color.Black)
+
+            Row {
+                basicTextFieldWithTitle(titleText = "Radius", radiusText.value) { str ->
+                    radiusText.value = str
+                }
+
+                basicTextFieldWithTitle(titleText = "Threshold", thresholdText.value) { str ->
+                    thresholdText.value = str
+                }
+
+                basicTextFieldWithTitle(titleText = "Amount", amountText.value) { str ->
+                    amountText.value = str
+                }
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = experimentViewClick(state) {
+
+                    val radius = getValidateField(block = { radiusText.value.toInt() } , failed = { experimentViewVerifyToast("Radius 需要 int 类型") }) ?: return@experimentViewClick
+                    val threshold = getValidateField(block = { thresholdText.value.toInt() } , failed = { experimentViewVerifyToast("Threshold 需要 int 类型") }) ?: return@experimentViewClick
+                    val amount = getValidateField(block = { amountText.value.toInt() } , failed = { experimentViewVerifyToast("Amount 需要 int 类型") }) ?: return@experimentViewClick
+                    viewModel.unsharpMask(state, radius, threshold, amount)
+                }
+            ) {
+                Text(text = "USM 锐化", color = Color.Unspecified)
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "自动色彩均衡", color = Color.Black)
+
+            Row {
+                basicTextFieldWithTitle(titleText = "Ratio", ratioText.value) { str ->
+                    ratioText.value = str
+                }
+
+                basicTextFieldWithTitle(titleText = "Radius", aceRadiusText.value) { str ->
+                    aceRadiusText.value = str
+                }
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = experimentViewClick(state) {
+
+                    val ratio = getValidateField(block = { ratioText.value.toInt() } , failed = { experimentViewVerifyToast("Ratio 需要 int 类型") }) ?: return@experimentViewClick
+                    val radius = getValidateField(block = { aceRadiusText.value.toInt() } , failed = { experimentViewVerifyToast("Radius 需要 int 类型") }) ?: return@experimentViewClick
+                    viewModel.ace(state, ratio, radius)
+                }
+            ) {
+                Text(text = "自动色彩均衡", color = Color.Unspecified)
             }
         }
     }
