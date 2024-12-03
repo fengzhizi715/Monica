@@ -1,15 +1,14 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.*
-import androidx.compose.runtime.*
+import androidx.compose.material.Card
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.config.isProVersion
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
-import cn.netdiscovery.monica.ui.controlpanel.enhance.imageEnhanceView
 import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.utils.isMac
