@@ -66,8 +66,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column {
-            subTitle(text = "灰度图像", color = Color.Black)
-            divider()
+            subTitleWithDivider(text = "灰度图像", color = Color.Black)
 
             Button(
                 modifier = Modifier.align(Alignment.End),
