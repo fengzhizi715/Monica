@@ -34,18 +34,10 @@ const val CropSizeStatus: Int = 11
 const val ColorCorrectionStatus: Int = 12
 
 
-const val EqualizeHistStatus: Int = 13
-const val ClaheStatus: Int = 14
-const val GammaStatus: Int = 15
-const val LaplaceStatus: Int = 16
-const val USMStatus: Int = 17
-const val ACEStatus: Int = 18
-
-
-const val OpenCVDebugStatus: Int = 19
-const val FaceDetectStatus: Int = 20
-const val SketchDrawingStatus: Int = 21
-const val FaceSwapStatus: Int = 22
+const val OpenCVDebugStatus: Int = 13
+const val FaceDetectStatus: Int = 14
+const val SketchDrawingStatus: Int = 15
+const val FaceSwapStatus: Int = 16
 
 
 @Composable
