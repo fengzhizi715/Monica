@@ -62,11 +62,10 @@ fun filterView(state: ApplicationState) {
 
     dropdownFilterMenuForSelect(state)
 
-    Row(modifier = Modifier.padding(top = 10.dp),
-        verticalAlignment = Alignment.CenterVertically) {
+    Column(modifier = Modifier.fillMaxWidth().padding(top = 10.dp)){
         Button(
-            modifier = Modifier.offset(x = 290.dp,y = 0.dp),
-            onClick =  composeClick {
+            modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
+            onClick = composeClick {
                 viewModel.applyFilterParams(state)
                 showTopToast("滤镜修改参数生效")
             },

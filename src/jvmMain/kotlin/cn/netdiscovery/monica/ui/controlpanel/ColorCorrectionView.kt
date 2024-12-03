@@ -46,7 +46,7 @@ fun colorCorrectionView(state: ApplicationState) {
     }
     Column(modifier = Modifier.fillMaxWidth()){
         Button(
-            modifier = Modifier.align(Alignment.Start).padding(start = 15.dp),
+            modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
             enabled = state.isColorCorrection,
             onClick = composeClick {
                 state.togglePreviewWindowAndUpdateStatus(ColorCorrectionStatus)
