@@ -96,6 +96,9 @@ class ApplicationState(val scope:CoroutineScope,
         isShowPreviewWindow = isShow
     }
 
+    /**
+     * 弹出新的页面，更新 currentStatus 状态
+     */
     fun togglePreviewWindowAndUpdateStatus(status:Int) {
         currentStatus = status
         isShowPreviewWindow = true
