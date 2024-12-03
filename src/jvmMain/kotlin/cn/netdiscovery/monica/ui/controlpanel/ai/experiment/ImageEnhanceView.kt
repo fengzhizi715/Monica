@@ -6,15 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
@@ -38,8 +37,9 @@ fun imageEnhance(state: ApplicationState, title: String) {
     val viewModel: ImageEnhanceViewModel = koinInject()
 
     var clipLimitText = remember { mutableStateOf("4") }
-
     var sizeText = remember { mutableStateOf("10") }
+
+    var gammaText = remember { mutableStateOf("1.0") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
@@ -85,6 +85,29 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 }
             ) {
                 Text(text = "clahe", color = Color.Unspecified)
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "gamma 变换", color = Color.Black)
+
+            Row{
+                basicTextFieldWithTitle(titleText = "gamma", gammaText.value) { str ->
+                    gammaText.value = str
+                }
+            }
+
+            Button(
+                modifier = Modifier.align(Alignment.End),
+                onClick = experimentViewClick(state) {
+
+                    if(state.currentImage!= null) {
+                        val gamma = getValidateField(block = { gammaText.value.toFloat() } , failed = { experimentViewVerifyToast("gamma 需要 float 类型") }) ?: return@experimentViewClick
+                        viewModel.gammaCorrection(state, gamma)
+                    }
+                }
+            ) {
+                Text(text = "gamma 变换", color = Color.Unspecified)
             }
         }
     }
