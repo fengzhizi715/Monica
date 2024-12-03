@@ -35,7 +35,7 @@ val thresholdSelectTags = arrayListOf("THRESH_OTSU", "THRESH_TRIANGLE")
 val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_THRESH_GAUSSIAN_C")
 
 @Composable
-fun binaryImage(state: ApplicationState) {
+fun binaryImage(state: ApplicationState, title: String) {
     val viewModel: BinaryImageViewModel = koinInject()
     val edgeDetectionViewModel: EdgeDetectionViewModel = koinInject()
 
@@ -63,7 +63,7 @@ fun binaryImage(state: ApplicationState) {
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
-        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "二值化", color = Color.Black)
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column {
             subTitle(text = "灰度图像", color = Color.Black)

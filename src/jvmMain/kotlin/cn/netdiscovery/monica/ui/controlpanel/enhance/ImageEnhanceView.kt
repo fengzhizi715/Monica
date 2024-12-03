@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.*
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitle

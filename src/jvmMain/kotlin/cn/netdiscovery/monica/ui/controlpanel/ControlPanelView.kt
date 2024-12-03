@@ -45,11 +45,11 @@ fun controlPanel(
 
             divider()
 
-            if(isMac || isWindows) {
-                imageEnhanceView(state) // 图像增强
-
-                divider()
-            }
+//            if(isMac || isWindows) {
+//                imageEnhanceView(state) // 图像增强
+//
+//                divider()
+//            }
 
             filterView(state) // 滤镜相关的内容
 

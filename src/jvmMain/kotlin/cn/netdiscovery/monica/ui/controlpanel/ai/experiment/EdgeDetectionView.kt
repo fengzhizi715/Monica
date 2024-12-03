@@ -35,7 +35,7 @@ val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", 
 val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "DoG算子")
 
 @Composable
-fun edgeDetection(state: ApplicationState) {
+fun edgeDetection(state: ApplicationState, title: String) {
     val viewModel: EdgeDetectionViewModel = koinInject()
 
     var firstDerivativeOperatorSelectedOption  = remember { mutableStateOf("Null") }
@@ -62,7 +62,7 @@ fun edgeDetection(state: ApplicationState) {
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
-        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "边缘检测", color = Color.Black)
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column{
             subTitleWithDivider(text = "边缘检测算子", color = Color.Black)

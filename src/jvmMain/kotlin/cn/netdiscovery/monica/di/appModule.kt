@@ -11,7 +11,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
-import cn.netdiscovery.monica.ui.controlpanel.enhance.ImageEnhanceViewModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ShapeDrawingViewModel
 import cn.netdiscovery.monica.ui.main.MainViewModel

@@ -33,7 +33,7 @@ var contourFilterSettings:ContourFilterSettings = ContourFilterSettings()
 var contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
 
 @Composable
-fun contourAnalysis(state: ApplicationState) {
+fun contourAnalysis(state: ApplicationState, title: String) {
     val viewModel: ContourAnalysisViewModel = koinInject()
 
     var minPerimeterText = remember { mutableStateOf("") }
@@ -81,7 +81,7 @@ fun contourAnalysis(state: ApplicationState) {
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
-        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = "轮廓分析", color = Color.Black)
+        title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column{
             subTitleWithDivider(text = "过滤设置", color = Color.Black)

@@ -12,8 +12,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.config.height
-import cn.netdiscovery.monica.config.loadingWidth
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
@@ -57,6 +55,10 @@ enum class Screen(
         label = "轮廓分析",
         resourcePath = "images/ai/contour_analysis.png"
     ),
+    ImageEnhance(
+        label = "图像增强",
+        resourcePath = "images/ai/image_enhance.png"
+    ),
     ImageConvolution(
         label = "图像卷积",
         resourcePath = "images/ai/image_convolution.png"
@@ -82,15 +84,19 @@ fun customNavigationHost(
         }
 
         composable(Screen.BinaryImage.name) {
-            binaryImage(state)
+            binaryImage(state, Screen.BinaryImage.label)
         }
 
         composable(Screen.EdgeDetection.name) {
-            edgeDetection(state)
+            edgeDetection(state, Screen.EdgeDetection.label)
         }
 
         composable(Screen.ContourAnalysis.name) {
-            contourAnalysis(state)
+            contourAnalysis(state, Screen.ContourAnalysis.label)
+        }
+
+        composable(Screen.ImageEnhance.name) {
+            imageEnhance(state, Screen.ImageEnhance.label)
         }
 
         composable(Screen.ImageConvolution.name) {
