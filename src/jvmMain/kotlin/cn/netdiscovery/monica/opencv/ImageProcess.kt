@@ -175,6 +175,26 @@ object ImageProcess {
     external fun contourAnalysis(src: ByteArray, binary: ByteArray, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings):IntArray
 
     /**
+     * 实现高斯滤波
+     */
+    external fun gaussianBlur(src: ByteArray, ksize:Int, sigmaX: Double = 0.0, sigmaY: Double = 0.0):IntArray
+
+    /**
+     * 实现中值滤波
+     */
+    external fun medianBlur(src: ByteArray, ksize:Int):IntArray
+
+    /**
+     * 实现高斯双边滤波
+     */
+    external fun bilateralFilter(src: ByteArray, d:Int, sigmaColor:Double, sigmaSpace:Double):IntArray
+
+    /**
+     * 实现均值迁移滤波
+     */
+    external fun pyrMeanShiftFiltering(src: ByteArray, sp: Double, sr: Double):IntArray
+
+    /**
      * 初始化人脸检测模块
      */
     external fun initFaceDetect(faceProto:String,faceModel:String,

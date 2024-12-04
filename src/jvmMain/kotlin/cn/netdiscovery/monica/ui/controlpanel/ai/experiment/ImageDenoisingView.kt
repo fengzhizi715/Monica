@@ -15,6 +15,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.utils.getValidateField
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -31,6 +33,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun imageDenoising(state: ApplicationState, title: String) {
+    val viewModel: ImageDenoisingViewModel = koinInject()
 
     var gaussianBlurKSizeText by remember { mutableStateOf("") }
     var sigmaXText by remember { mutableStateOf("") }
@@ -68,6 +71,11 @@ fun imageDenoising(state: ApplicationState, title: String) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
+
+                    val ksize = getValidateField(block = { gaussianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast("ksize 需要 int 类型") }) ?: return@experimentViewClick
+                    val sigmaX = getValidateField(block = { sigmaXText.toDouble() } , failed = { experimentViewVerifyToast("sigmaX 需要 double 类型") }) ?: return@experimentViewClick
+                    val sigmaY = getValidateField(block = { sigmaYText.toDouble() } , failed = { experimentViewVerifyToast("sigmaY 需要 double 类型") }) ?: return@experimentViewClick
+                    viewModel.gaussianBlur(state, ksize, sigmaX, sigmaY)
                 }
             ) {
                 Text(text = "高斯滤波", color = Color.Unspecified)
@@ -86,6 +94,9 @@ fun imageDenoising(state: ApplicationState, title: String) {
             Button(
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
+
+                    val ksize = getValidateField(block = { medianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast("ksize 需要 int 类型") }) ?: return@experimentViewClick
+                    viewModel.medianBlur(state, ksize)
                 }
             ) {
                 Text(text = "中值滤波", color = Color.Unspecified)
@@ -113,6 +124,10 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
+                    val d = getValidateField(block = { dText.toInt() } , failed = { experimentViewVerifyToast("d 需要 int 类型") }) ?: return@experimentViewClick
+                    val sigmaColor = getValidateField(block = { sigmaColorText.toDouble() } , failed = { experimentViewVerifyToast("sigmaColor 需要 double 类型") }) ?: return@experimentViewClick
+                    val sigmaSpace = getValidateField(block = { sigmaSpaceText.toDouble() } , failed = { experimentViewVerifyToast("sigmaSpace 需要 double 类型") }) ?: return@experimentViewClick
+                    viewModel.bilateralFilter(state, d, sigmaColor, sigmaSpace)
                 }
             ) {
                 Text(text = "高斯双边滤波", color = Color.Unspecified)
@@ -136,6 +151,9 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
+                    val sp = getValidateField(block = { spText.toDouble() } , failed = { experimentViewVerifyToast("sp 需要 double 类型") }) ?: return@experimentViewClick
+                    val sr = getValidateField(block = { srText.toDouble() } , failed = { experimentViewVerifyToast("sr 需要 double 类型") }) ?: return@experimentViewClick
+                    viewModel.pyrMeanShiftFiltering(state, sp, sr)
                 }
             ) {
                 Text(text = "均值迁移滤波", color = Color.Unspecified)
