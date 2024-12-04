@@ -39,27 +39,27 @@ fun binaryImage(state: ApplicationState, title: String) {
     val viewModel: BinaryImageViewModel = koinInject()
     val edgeDetectionViewModel: EdgeDetectionViewModel = koinInject()
 
-    var typeSelectedOption = remember { mutableStateOf("Null") }
-    var thresholdSelectedOption = remember { mutableStateOf("Null") }
-    var adaptiveMethodSelectedOption = remember { mutableStateOf("Null") }
+    var typeSelectedOption by remember { mutableStateOf("Null") }
+    var thresholdSelectedOption by remember { mutableStateOf("Null") }
+    var adaptiveMethodSelectedOption by remember { mutableStateOf("Null") }
 
-    var blockSizeText = remember { mutableStateOf("") }
-    var cText = remember { mutableStateOf("") }
+    var blockSizeText by remember { mutableStateOf("") }
+    var cText by remember { mutableStateOf("") }
 
-    var threshold1Text = remember { mutableStateOf("") }
-    var threshold2Text = remember { mutableStateOf("") }
-    var apertureSizeText = remember { mutableStateOf("3") }
+    var threshold1Text by remember { mutableStateOf("") }
+    var threshold2Text by remember { mutableStateOf("") }
+    var apertureSizeText by remember { mutableStateOf("3") }
 
-    var hminText = remember { mutableStateOf("") }
-    var sminText = remember { mutableStateOf("") }
-    var vminText = remember { mutableStateOf("") }
-    var hmaxText = remember { mutableStateOf("") }
-    var smaxText = remember { mutableStateOf("") }
-    var vmaxText = remember { mutableStateOf("") }
+    var hminText by remember { mutableStateOf("") }
+    var sminText by remember { mutableStateOf("") }
+    var vminText by remember { mutableStateOf("") }
+    var hmaxText by remember { mutableStateOf("") }
+    var smaxText by remember { mutableStateOf("") }
+    var vmaxText by remember { mutableStateOf("") }
 
     fun clearAdaptiveThreshParams() {
-        blockSizeText.value = ""
-        cText.value = ""
+        blockSizeText = ""
+        cText = ""
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
@@ -89,7 +89,7 @@ fun binaryImage(state: ApplicationState, title: String) {
                     CVState.isThreshType = it
 
                     if (!CVState.isThreshType) {
-                        typeSelectedOption.value = "Null"
+                        typeSelectedOption = "Null"
                         logger.info("取消了阈值化类型")
                     } else {
                         logger.info("勾选了阈值化类型")
@@ -100,9 +100,9 @@ fun binaryImage(state: ApplicationState, title: String) {
             Row {
                 typeSelectTags.forEach {
                     RadioButton(
-                        selected = (CVState.isThreshType && it == typeSelectedOption.value),
+                        selected = (CVState.isThreshType && it == typeSelectedOption),
                         onClick = {
-                            typeSelectedOption.value = it
+                            typeSelectedOption = it
                         }
                     )
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
@@ -115,11 +115,11 @@ fun binaryImage(state: ApplicationState, title: String) {
                     CVState.isThreshSegment = it
 
                     if (!CVState.isThreshSegment) {
-                        thresholdSelectedOption.value = "Null"
+                        thresholdSelectedOption = "Null"
                         logger.info("取消了全局阈值分割")
                     } else {
                         CVState.isAdaptiveThresh = false
-                        adaptiveMethodSelectedOption.value = "Null"
+                        adaptiveMethodSelectedOption = "Null"
                         clearAdaptiveThreshParams()
                         logger.info("勾选了全局阈值分割")
                     }
@@ -129,9 +129,9 @@ fun binaryImage(state: ApplicationState, title: String) {
             Row {
                 thresholdSelectTags.forEach {
                     RadioButton(
-                        selected = (CVState.isThreshSegment && it == thresholdSelectedOption.value),
+                        selected = (CVState.isThreshSegment && it == thresholdSelectedOption),
                         onClick = {
-                            thresholdSelectedOption.value = it
+                            thresholdSelectedOption = it
                         }
                     )
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
@@ -144,12 +144,12 @@ fun binaryImage(state: ApplicationState, title: String) {
                     CVState.isAdaptiveThresh = it
 
                     if (!CVState.isAdaptiveThresh) {
-                        adaptiveMethodSelectedOption.value = "Null"
+                        adaptiveMethodSelectedOption = "Null"
                         clearAdaptiveThreshParams()
                         logger.info("取消了自适应阈值分割")
                     } else {
                         CVState.isThreshSegment = false
-                        thresholdSelectedOption.value = "Null"
+                        thresholdSelectedOption = "Null"
                         logger.info("勾选了自适应阈值分割")
                     }
                 })
@@ -160,9 +160,9 @@ fun binaryImage(state: ApplicationState, title: String) {
 
                 adaptiveMethodSelectTags.forEach {
                     RadioButton(
-                        selected = (CVState.isAdaptiveThresh && it == adaptiveMethodSelectedOption.value),
+                        selected = (CVState.isAdaptiveThresh && it == adaptiveMethodSelectedOption),
                         onClick = {
-                            adaptiveMethodSelectedOption.value = it
+                            adaptiveMethodSelectedOption = it
                         }
                     )
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
@@ -170,15 +170,15 @@ fun binaryImage(state: ApplicationState, title: String) {
             }
 
             Row {
-                basicTextFieldWithTitle(titleText = "blockSize", blockSizeText.value) { str ->
+                basicTextFieldWithTitle(titleText = "blockSize", blockSizeText) { str ->
                     if (CVState.isAdaptiveThresh) {
-                        blockSizeText.value = str
+                        blockSizeText = str
                     }
                 }
 
-                basicTextFieldWithTitle(titleText = "c", cText.value) { str ->
+                basicTextFieldWithTitle(titleText = "c", cText) { str ->
                     if (CVState.isAdaptiveThresh) {
-                        cText.value = str
+                        cText = str
                     }
                 }
             }
@@ -190,33 +190,33 @@ fun binaryImage(state: ApplicationState, title: String) {
 
                         if (CVState.isThreshType && CVState.isThreshSegment) {
 
-                            if (typeSelectedOption.value == "Null") {
+                            if (typeSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
                                 return@experimentViewClick
                             }
 
-                            if (thresholdSelectedOption.value == "Null") {
+                            if (thresholdSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择全局阈值分割类型")
                                 return@experimentViewClick
                             }
 
-                            viewModel.threshold(state, typeSelectedOption.value, thresholdSelectedOption.value)
+                            viewModel.threshold(state, typeSelectedOption, thresholdSelectedOption)
                         } else if (CVState.isThreshType && CVState.isAdaptiveThresh) {
-                            if (typeSelectedOption.value == "Null") {
+                            if (typeSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择阈值化类型")
                                 return@experimentViewClick
                             }
 
-                            if (adaptiveMethodSelectedOption.value == "Null") {
+                            if (adaptiveMethodSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择自适应阈值算法类型")
                                 return@experimentViewClick
                             }
 
-                            val blockSize = getValidateField(block = { blockSizeText.value.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentViewClick
+                            val blockSize = getValidateField(block = { blockSizeText.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentViewClick
 
-                            val c = getValidateField(block = { cText.value.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
+                            val c = getValidateField(block = { cText.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
 
-                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption.value, typeSelectedOption.value, blockSize, c)
+                            viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption, typeSelectedOption, blockSize, c)
                         } else {
                             experimentViewVerifyToast("请选择阈值化类型以及全局阈值分割 或 自适应阈值分割")
                         }
@@ -231,16 +231,16 @@ fun binaryImage(state: ApplicationState, title: String) {
             subTitleWithDivider(text = "Canny 边缘检测", color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)){
-                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text.value) { str ->
-                    threshold1Text.value = str
+                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text) { str ->
+                    threshold1Text = str
                 }
 
-                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text.value) { str ->
-                    threshold2Text.value = str
+                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text) { str ->
+                    threshold2Text = str
                 }
 
-                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText.value) { str ->
-                    apertureSizeText.value = str
+                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText) { str ->
+                    apertureSizeText = str
                 }
             }
 
@@ -248,9 +248,9 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
@@ -264,30 +264,30 @@ fun binaryImage(state: ApplicationState, title: String) {
             subTitleWithDivider(text = "彩色图像分割", color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
-                basicTextFieldWithTitle(titleText = "hmin", hminText.value) { str ->
-                    hminText.value = str
+                basicTextFieldWithTitle(titleText = "hmin", hminText) { str ->
+                    hminText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "smin", sminText.value) { str ->
-                    sminText.value = str
+                basicTextFieldWithTitle(titleText = "smin", sminText) { str ->
+                    sminText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "vmin", vminText.value) { str ->
-                    vminText.value = str
+                basicTextFieldWithTitle(titleText = "vmin", vminText) { str ->
+                    vminText = str
                 }
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)){
-                basicTextFieldWithTitle(titleText = "hmax", hmaxText.value) { str ->
-                    hmaxText.value = str
+                basicTextFieldWithTitle(titleText = "hmax", hmaxText) { str ->
+                    hmaxText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "smax", smaxText.value) { str ->
-                    smaxText.value = str
+                basicTextFieldWithTitle(titleText = "smax", smaxText) { str ->
+                    smaxText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "vmax", vmaxText.value) { str ->
-                    vmaxText.value = str
+                basicTextFieldWithTitle(titleText = "vmax", vmaxText) { str ->
+                    vmaxText = str
                 }
             }
 
@@ -295,13 +295,13 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
-                        val hmin = getValidateField(block = { hminText.value.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
-                        val smin = getValidateField(block = { sminText.value.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
-                        val vmin = getValidateField(block = { vminText.value.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
+                        val hmin = getValidateField(block = { hminText.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
+                        val smin = getValidateField(block = { sminText.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
+                        val vmin = getValidateField(block = { vminText.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
 
-                        val hmax = getValidateField(block = { hmaxText.value.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
-                        val smax = getValidateField(block = { smaxText.value.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
-                        val vmax = getValidateField(block = { vmaxText.value.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
+                        val hmax = getValidateField(block = { hmaxText.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
+                        val smax = getValidateField(block = { smaxText.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
+                        val vmax = getValidateField(block = { vmaxText.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }
