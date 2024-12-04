@@ -60,7 +60,7 @@ enum class Screen(
         resourcePath = "images/ai/image_enhance.png"
     ),
     ImageConvolution(
-        label = "图像卷积",
+        label = "图像降噪",
         resourcePath = "images/ai/image_convolution.png"
     ),
     MorphologicalOperations(
