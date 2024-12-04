@@ -59,7 +59,7 @@ enum class Screen(
         label = "图像增强",
         resourcePath = "images/ai/image_enhance.png"
     ),
-    ImageConvolution(
+    ImageDenoising(
         label = "图像降噪",
         resourcePath = "images/ai/image_convolution.png"
     ),
@@ -99,7 +99,8 @@ fun customNavigationHost(
             imageEnhance(state, Screen.ImageEnhance.label)
         }
 
-        composable(Screen.ImageConvolution.name) {
+        composable(Screen.ImageDenoising.name) {
+            imageDenoising(state, Screen.ImageDenoising.label)
         }
 
         composable(Screen.MorphologicalOperations.name) {

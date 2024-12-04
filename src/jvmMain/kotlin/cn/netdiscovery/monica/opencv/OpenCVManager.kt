@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.opencv
 
-import androidx.compose.runtime.MutableState
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
 import cn.netdiscovery.monica.state.ApplicationState
