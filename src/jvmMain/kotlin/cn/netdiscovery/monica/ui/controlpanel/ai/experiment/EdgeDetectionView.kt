@@ -5,10 +5,7 @@ import androidx.compose.material.Button
 import androidx.compose.material.Checkbox
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -38,27 +35,27 @@ val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "Do
 fun edgeDetection(state: ApplicationState, title: String) {
     val viewModel: EdgeDetectionViewModel = koinInject()
 
-    var firstDerivativeOperatorSelectedOption  = remember { mutableStateOf("Null") }
-    var secondDerivativeOperatorSelectedOption = remember { mutableStateOf("Null") }
+    var firstDerivativeOperatorSelectedOption  by remember { mutableStateOf("Null") }
+    var secondDerivativeOperatorSelectedOption by remember { mutableStateOf("Null") }
 
-    var threshold1Text = remember { mutableStateOf("") }
-    var threshold2Text = remember { mutableStateOf("") }
-    var apertureSizeText = remember { mutableStateOf("3") }
+    var threshold1Text by remember { mutableStateOf("") }
+    var threshold2Text by remember { mutableStateOf("") }
+    var apertureSizeText by remember { mutableStateOf("3") }
 
-    var sigma1Text = remember { mutableStateOf("") }
-    var sigma2Text = remember { mutableStateOf("") }
-    var sizeText = remember { mutableStateOf("") }
+    var sigma1Text by remember { mutableStateOf("") }
+    var sigma2Text by remember { mutableStateOf("") }
+    var sizeText by remember { mutableStateOf("") }
 
     fun clearCannyParams() {
-        threshold1Text.value = ""
-        threshold2Text.value = ""
-        apertureSizeText.value = "3"
+        threshold1Text = ""
+        threshold2Text = ""
+        apertureSizeText = "3"
     }
 
     fun clearDoGParams() {
-        sigma1Text.value = ""
-        sigma2Text.value = ""
-        sizeText.value = ""
+        sigma1Text = ""
+        sigma2Text = ""
+        sizeText = ""
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
@@ -72,7 +69,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     CVState.isFirstDerivativeOperator = it
 
                     if (!CVState.isFirstDerivativeOperator) {
-                        firstDerivativeOperatorSelectedOption.value = "Null"
+                        firstDerivativeOperatorSelectedOption = "Null"
                     } else {
                         CVState.isSecondDerivativeOperator = false
                         CVState.isCannyOperator = false
@@ -86,9 +83,9 @@ fun edgeDetection(state: ApplicationState, title: String) {
             Row {
                 firstDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (CVState.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption.value),
+                        selected = (CVState.isFirstDerivativeOperator && it == firstDerivativeOperatorSelectedOption),
                         onClick = {
-                            firstDerivativeOperatorSelectedOption.value = it
+                            firstDerivativeOperatorSelectedOption = it
                         }
                     )
 
@@ -100,12 +97,12 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = experimentViewClick(state) {
-                            if (firstDerivativeOperatorSelectedOption.value == "Null") {
+                            if (firstDerivativeOperatorSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择一阶导数算子类型")
                                 return@experimentViewClick
                             }
 
-                            when(firstDerivativeOperatorSelectedOption.value) {
+                            when(firstDerivativeOperatorSelectedOption) {
                                 "Roberts算子" -> viewModel.roberts(state)
                                 "Prewitt算子" -> viewModel.prewitt(state)
                                 "Sobel算子"   -> viewModel.sobel(state)
@@ -123,7 +120,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     CVState.isSecondDerivativeOperator = it
 
                     if (!CVState.isSecondDerivativeOperator) {
-                        secondDerivativeOperatorSelectedOption.value = "Null"
+                        secondDerivativeOperatorSelectedOption = "Null"
                     } else {
                         CVState.isFirstDerivativeOperator = false
                         CVState.isCannyOperator = false
@@ -136,9 +133,9 @@ fun edgeDetection(state: ApplicationState, title: String) {
             Row {
                 secondDerivativeOperatorTags.forEach {
                     RadioButton(
-                        selected = (CVState.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption.value),
+                        selected = (CVState.isSecondDerivativeOperator && it == secondDerivativeOperatorSelectedOption),
                         onClick = {
-                            secondDerivativeOperatorSelectedOption.value = it
+                            secondDerivativeOperatorSelectedOption = it
                         }
                     )
 
@@ -150,18 +147,18 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     verticalArrangement = Arrangement.Center) {
                     Button(
                         onClick = experimentViewClick(state) {
-                            if (secondDerivativeOperatorSelectedOption.value == "Null") {
+                            if (secondDerivativeOperatorSelectedOption == "Null") {
                                 experimentViewVerifyToast("请选择二阶导数算子类型")
                                 return@experimentViewClick
                             }
 
-                            when(secondDerivativeOperatorSelectedOption.value) {
+                            when(secondDerivativeOperatorSelectedOption) {
                                 "Laplace算子" -> viewModel.laplace(state)
                                 "LoG算子"     -> viewModel.log(state)
                                 "DoG算子"     -> {
-                                    val sigma1 = getValidateField(block = { sigma1Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
-                                    val sigma2 = getValidateField(block = { sigma2Text.value.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
-                                    val size = getValidateField(block = { sizeText.value.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
+                                    val sigma1 = getValidateField(block = { sigma1Text.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
+                                    val sigma2 = getValidateField(block = { sigma2Text.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
+                                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
 
                                     viewModel.dog(state, sigma1, sigma2, size)
                                 }
@@ -174,7 +171,27 @@ fun edgeDetection(state: ApplicationState, title: String) {
                 }
             }
 
-            generateDoGParams(secondDerivativeOperatorSelectedOption, sigma1Text, sigma2Text, sizeText)
+            if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption == "DoG算子") {
+                Row {
+                    basicTextFieldWithTitle(titleText = "sigma1", sigma1Text) { str ->
+                        if (CVState.isSecondDerivativeOperator) {
+                            sigma1Text = str
+                        }
+                    }
+
+                    basicTextFieldWithTitle(titleText = "sigma2", sigma2Text) { str ->
+                        if (CVState.isSecondDerivativeOperator) {
+                            sigma2Text = str
+                        }
+                    }
+
+                    basicTextFieldWithTitle(titleText = "size", sizeText) { str ->
+                        if (CVState.isSecondDerivativeOperator) {
+                            sizeText = str
+                        }
+                    }
+                }
+            }
 
             Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isCannyOperator, onCheckedChange = {
@@ -192,16 +209,16 @@ fun edgeDetection(state: ApplicationState, title: String) {
             }
 
             Row {
-                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text.value) { str ->
-                    threshold1Text.value = str
+                basicTextFieldWithTitle(titleText = "threshold1", threshold1Text) { str ->
+                    threshold1Text = str
                 }
 
-                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text.value) { str ->
-                    threshold2Text.value = str
+                basicTextFieldWithTitle(titleText = "threshold2", threshold2Text) { str ->
+                    threshold2Text = str
                 }
 
-                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText.value) { str ->
-                    apertureSizeText.value = str
+                basicTextFieldWithTitle(titleText = "apertureSize", apertureSizeText) { str ->
+                    apertureSizeText = str
                 }
             }
 
@@ -209,43 +226,15 @@ fun edgeDetection(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.value.toDouble() }, failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.value.toInt() }, failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() }, failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() }, failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
                 }
             ) {
                 Text(text = "Canny 边缘检测", color = Color.Unspecified)
-            }
-        }
-    }
-}
-
-@Composable
-private fun generateDoGParams(secondDerivativeOperatorSelectedOption:MutableState<String>,
-                              sigma1Text:MutableState<String>,
-                              sigma2Text:MutableState<String>,
-                              sizeText:MutableState<String>) {
-    if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption.value == "DoG算子") {
-        Row {
-            basicTextFieldWithTitle(titleText = "sigma1", sigma1Text.value) { str ->
-                if (CVState.isSecondDerivativeOperator) {
-                    sigma1Text.value = str
-                }
-            }
-
-            basicTextFieldWithTitle(titleText = "sigma2", sigma2Text.value) { str ->
-                if (CVState.isSecondDerivativeOperator) {
-                    sigma2Text.value = str
-                }
-            }
-
-            basicTextFieldWithTitle(titleText = "size", sizeText.value) { str ->
-                if (CVState.isSecondDerivativeOperator) {
-                    sizeText.value = str
-                }
             }
         }
     }
