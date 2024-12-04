@@ -6,14 +6,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
 import androidx.compose.material.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
-import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
@@ -68,7 +69,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "限制对比度自适应直方图均衡(clahe)", color = Color.Black)
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "clipLimit", clipLimitText.value) { str ->
                     clipLimitText.value = str
                 }
@@ -94,7 +95,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "gamma 变换", color = Color.Black)
 
-            Row{
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "gamma", gammaText.value) { str ->
                     gammaText.value = str
                 }
@@ -129,7 +130,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "USM 锐化", color = Color.Black)
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "Radius", radiusText.value) { str ->
                     radiusText.value = str
                 }
@@ -160,7 +161,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "自动色彩均衡", color = Color.Black)
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "Ratio", ratioText.value) { str ->
                     ratioText.value = str
                 }

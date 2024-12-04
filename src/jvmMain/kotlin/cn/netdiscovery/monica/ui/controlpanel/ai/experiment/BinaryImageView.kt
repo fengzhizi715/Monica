@@ -230,7 +230,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "Canny 边缘检测", color = Color.Black)
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)){
                 basicTextFieldWithTitle(titleText = "threshold1", threshold1Text.value) { str ->
                     threshold1Text.value = str
                 }
@@ -263,7 +263,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "彩色图像分割", color = Color.Black)
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "hmin", hminText.value) { str ->
                     hminText.value = str
                 }
