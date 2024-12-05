@@ -36,8 +36,8 @@ fun imageDenoising(state: ApplicationState, title: String) {
     val viewModel: ImageDenoisingViewModel = koinInject()
 
     var gaussianBlurKSizeText by remember { mutableStateOf("") }
-    var sigmaXText by remember { mutableStateOf("") }
-    var sigmaYText by remember { mutableStateOf("") }
+    var sigmaXText by remember { mutableStateOf("0.0") }
+    var sigmaYText by remember { mutableStateOf("0.0") }
 
     var medianBlurKSizeText by remember { mutableStateOf("") }
 
