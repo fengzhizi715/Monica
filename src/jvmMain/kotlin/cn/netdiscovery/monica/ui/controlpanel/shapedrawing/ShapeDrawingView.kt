@@ -85,12 +85,14 @@ fun shapeDrawing(state: ApplicationState) {
     val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
     // 文字相关
+    var text by remember { mutableStateOf("") }
     val texts = remember { mutableStateMapOf<Offset, Text>() }
-
-    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
+
+    var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+
 
     var currentShapeProperty by remember { mutableStateOf(ShapeProperties()) }
     val properties by rememberUpdatedState(newValue = currentShapeProperty)
@@ -101,7 +103,32 @@ fun shapeDrawing(state: ApplicationState) {
     var showPropertiesDialog by remember { mutableStateOf(false) }
     var showDraggableTextField by remember { mutableStateOf(false) }
 
-    var text by remember { mutableStateOf("") }
+
+    fun clear() {
+        shape = ShapeEnum.NotAShape
+        currentShapeProperty = ShapeProperties()
+
+        currentLineStart = Offset.Unspecified
+        currentLineEnd = Offset.Unspecified
+
+        currentCircleCenter = Offset.Unspecified
+        currentCircleRadius = 0.0f
+
+        currentTriangleFirst  = Offset.Unspecified
+        currentTriangleSecond = Offset.Unspecified
+        currentTriangleThird  = Offset.Unspecified
+
+        currentRectFirst = Offset.Unspecified
+        currentRectTL = Offset.Unspecified
+        currentRectBR = Offset.Unspecified
+        currentRectTR = Offset.Unspecified
+        currentRectBL = Offset.Unspecified
+
+        currentPolygonFirst = Offset.Unspecified
+        currentPolygonPoints.clear()
+
+        text = ""
+    }
 
     /**
      * 确定三角形的坐标
@@ -355,55 +382,41 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(text = "线段",
                 painter = painterResource("images/shapedrawing/line.png"),
                 onClick = {
-                    shape = ShapeEnum.Line
+                    clear()
 
-                    currentLineStart = Offset.Unspecified
-                    currentLineEnd = Offset.Unspecified
-                    currentShapeProperty = ShapeProperties()
+                    shape = ShapeEnum.Line
                 })
 
             toolTipButton(text = "圆形",
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
-                    shape = ShapeEnum.Circle
+                    clear()
 
-                    currentCircleCenter = Offset.Unspecified
-                    currentCircleRadius = 0.0f
-                    currentShapeProperty = ShapeProperties()
+                    shape = ShapeEnum.Circle
                 })
 
             toolTipButton(text = "三角形",
                 painter = painterResource("images/shapedrawing/triangle.png"),
                 onClick = {
-                    shape = ShapeEnum.Triangle
+                    clear()
 
-                    currentTriangleFirst  = Offset.Unspecified
-                    currentTriangleSecond = Offset.Unspecified
-                    currentTriangleThird  = Offset.Unspecified
-                    currentShapeProperty = ShapeProperties()
+                    shape = ShapeEnum.Triangle
                 })
 
             toolTipButton(text = "矩形",
                 painter = painterResource("images/shapedrawing/rectangle.png"),
                 onClick = {
-                    shape = ShapeEnum.Rectangle
+                    clear()
 
-                    currentRectFirst = Offset.Unspecified
-                    currentRectTL = Offset.Unspecified
-                    currentRectBR = Offset.Unspecified
-                    currentRectTR = Offset.Unspecified
-                    currentRectBL = Offset.Unspecified
-                    currentShapeProperty = ShapeProperties()
+                    shape = ShapeEnum.Rectangle
                 })
 
             toolTipButton(text = "多边形",
                 painter = painterResource("images/shapedrawing/polygon.png"),
                 onClick = {
-                    shape = ShapeEnum.Polygon
+                    clear()
 
-                    currentPolygonFirst = Offset.Unspecified
-                    currentPolygonPoints.clear()
-                    currentShapeProperty = ShapeProperties()
+                    shape = ShapeEnum.Polygon
                 })
 
             toolTipButton(text = "添加文字",
@@ -411,8 +424,7 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = {
                     showDraggableTextField = true
 
-                    text = ""
-                    currentShapeProperty = ShapeProperties()
+                    clear()
                 })
 
             toolTipButton(text = "保存",
