@@ -64,8 +64,6 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isColorCorrection by mutableStateOf(false)
 
-    var isEnhance by mutableStateOf(false)
-
     var isFilter by mutableStateOf(false)
 
     var isAI by mutableStateOf(false)

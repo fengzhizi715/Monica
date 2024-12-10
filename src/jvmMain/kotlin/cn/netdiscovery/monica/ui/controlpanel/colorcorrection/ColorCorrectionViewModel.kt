@@ -43,7 +43,16 @@ class ColorCorrectionViewModel {
 
     private var init:AtomicBoolean = AtomicBoolean(false)
 
-    fun colorCorrection(state: ApplicationState, image: BufferedImage, colorCorrectionSettings: ColorCorrectionSettings,
+    /**
+     * 封装图像调色的方法
+     * @param state   当前应用的 state
+     * @param image   需要调色的图像
+     * @param colorCorrectionSettings 图像调色所需要的参数
+     * @param success 成功后的回调
+     */
+    fun colorCorrection(state: ApplicationState,
+                        image: BufferedImage,
+                        colorCorrectionSettings: ColorCorrectionSettings,
                         success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
@@ -65,6 +74,9 @@ class ColorCorrectionViewModel {
         }
     }
 
+    /**
+     * 保存图像，清空状态
+     */
     fun save(action: Action) {
         action.invoke()
 
