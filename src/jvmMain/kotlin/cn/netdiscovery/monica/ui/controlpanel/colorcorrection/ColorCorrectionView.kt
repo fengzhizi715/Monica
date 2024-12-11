@@ -42,7 +42,7 @@ fun colorCorrection(state: ApplicationState) {
 
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
-    val enableSilder = !loadingDisplay
+    val enableSlider = !loadingDisplay
 
     Box(
         Modifier.fillMaxSize(),
@@ -89,7 +89,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -113,7 +113,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..360f)
 
@@ -138,7 +138,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -163,7 +163,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -188,7 +188,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -213,7 +213,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -238,7 +238,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..510f)
 
@@ -263,7 +263,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..255f)
 
@@ -288,7 +288,7 @@ fun colorCorrection(state: ApplicationState) {
 
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
                                 },
-                                enabled = enableSilder,
+                                enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
                                 valueRange = 0f..255f)
 
