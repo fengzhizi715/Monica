@@ -1,5 +1,5 @@
 # Monica
-Monica 是一款跨平台的桌面图像编辑软件(早期主要是个人为了验证一些算法而产生的)。
+Monica 是一款跨平台的桌面图像编辑软件(早期是为了验证一些算法而产生的)。
 
 其技术栈如下：
 * Kotlin 编写 UI(Kotlin Compose Desktop 作为 UI 框架)
