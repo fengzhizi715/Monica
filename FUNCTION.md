@@ -53,16 +53,7 @@ Monica 的很多按钮，都带有 tooltips ，例如这个涂鸦功能
 
 
 ## 2.4 图像增强
-Monica 支持多种增强算法对图像进行增强。
-
-![](images/4-1.png)
-
-直方图均衡化的效果
-![](images/4-2.png)
-![](images/4-3.png)
-
-Gamma 变换的效果
-![](images/4-4.png)
+稍后更新
 
 
 ## 2.5 滤镜
