@@ -27,12 +27,15 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val operatingElementsTag = arrayListOf("膨胀", "腐蚀", "开操作", "闭操作")
+val operatingElementsTag = arrayListOf("膨胀", "腐蚀", "开操作", "闭操作", "顶帽", "黑帽", "差分", "击中击不中")
+
+val structuralElementsTag = arrayListOf("矩形","圆形","十字交叉")
 
 @Composable
 fun morphologicalOperations(state: ApplicationState, title: String) {
 
-    var operatingElementsOption by remember { mutableStateOf("Null") }
+    var operatingElementOption by remember { mutableStateOf("Null") }
+    var structuralElementOption by remember { mutableStateOf("Null") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -44,9 +47,26 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                 operatingElementsTag.forEach {
 
                     RadioButton(
-                        selected = (it == operatingElementsOption),
+                        selected = (it == operatingElementOption),
                         onClick = {
-                            operatingElementsOption = it
+                            operatingElementOption = it
+                        }
+                    )
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "结构元素", color = Color.Black)
+
+            Row {
+                structuralElementsTag.forEach {
+
+                    RadioButton(
+                        selected = (it == structuralElementOption),
+                        onClick = {
+                            structuralElementOption = it
                         }
                     )
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))

@@ -81,7 +81,7 @@ fun binaryImage(state: ApplicationState, title: String) {
             }
         }
 
-        Column {
+        Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "阈值分割", color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
