@@ -1,0 +1,57 @@
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.RadioButton
+import androidx.compose.material.Text
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
+import cn.netdiscovery.monica.ui.widget.title
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+/**
+ *
+ * @FileName:
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationsView
+ * @author: Tony Shen
+ * @date: 2024/12/21 20:16
+ * @version: V1.0 <描述当前版本功能>
+ */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
+val operatingElementsTag = arrayListOf("膨胀", "腐蚀", "开操作", "闭操作")
+
+@Composable
+fun morphologicalOperations(state: ApplicationState, title: String) {
+
+    var operatingElementsOption by remember { mutableStateOf("Null") }
+
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
+        title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
+
+        Column {
+            subTitleWithDivider(text = "操作元素", color = Color.Black)
+
+            Row {
+                operatingElementsTag.forEach {
+
+                    RadioButton(
+                        selected = (it == operatingElementsOption),
+                        onClick = {
+                            operatingElementsOption = it
+                        }
+                    )
+                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                }
+            }
+        }
+    }
+}
