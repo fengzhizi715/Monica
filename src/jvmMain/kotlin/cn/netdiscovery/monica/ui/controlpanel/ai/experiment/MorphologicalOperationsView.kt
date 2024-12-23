@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Button
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
@@ -14,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.utils.getValidateField
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -72,6 +74,15 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
+        }
+
+        Button(
+            modifier = Modifier.align(Alignment.End),
+            onClick = experimentViewClick(state) {
+
+            }
+        ) {
+            Text(text = "应用", color = Color.Unspecified)
         }
     }
 }
