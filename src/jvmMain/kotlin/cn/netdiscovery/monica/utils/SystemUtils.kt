@@ -10,12 +10,12 @@ package cn.netdiscovery.monica.utils
  * @version: V1.0 <描述当前版本功能>
  */
 
-val os = System.getProperty("os.name")
-val arch = System.getProperty("os.arch")
-val osVersion = System.getProperty("os.version")
-val javaVersion = System.getProperty("java.version")
-val javaVendor = System.getProperty("java.vendor")
-val workDirectory = System.getProperty("user.dir")
+val os: String = System.getProperty("os.name")
+val arch: String = System.getProperty("os.arch")
+val osVersion: String = System.getProperty("os.version")
+val javaVersion: String = System.getProperty("java.version")
+val javaVendor: String = System.getProperty("java.vendor")
+val workDirectory: String = System.getProperty("user.dir")
 
 val isMac by lazy {
     os.contains("Mac")
