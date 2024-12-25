@@ -54,7 +54,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
 
-> 目前，有三个模型没有提交到 github，主要是太大了，每个都超过了 100 M。我把他们放到百度网盘
+> 目前，有三个模型没有提交到 github，主要是太大了。每个都超过了 100 M，我把他们放到百度网盘
 > 
 > 链接: https://pan.baidu.com/s/15XhVHKi-vPGjB2hYa33v_A?pwd=d9mm
 > 

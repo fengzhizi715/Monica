@@ -29,7 +29,6 @@ class CropAgent {
 
     private val paint = Paint()
 
-
     fun crop(
         imageBitmap: ImageBitmap,
         cropRect: Rect,
