@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ExperimentViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.EdgeDetectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ImageDenoisingViewModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.MorphologicalOperationsViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
@@ -44,4 +45,5 @@ val viewModelModule = module {
     singleOf(::ContourAnalysisViewModel)
     singleOf(::ImageEnhanceViewModel)
     singleOf(::ImageDenoisingViewModel)
+    singleOf(::MorphologicalOperationsViewModel)
 }
