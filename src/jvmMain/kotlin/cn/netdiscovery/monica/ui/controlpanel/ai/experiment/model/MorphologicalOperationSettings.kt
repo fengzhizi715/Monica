@@ -9,8 +9,8 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model
  * @version: V1.0 <描述当前版本功能>
  */
 data class MorphologicalOperationSettings(
-    var op:Int,
-    var shape:Int,
-    var width:Int,
-    var height:Int
+    var op:Int = 0,
+    var shape:Int = 0,
+    var width:Int = 0,
+    var height:Int = 0
 )

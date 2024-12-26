@@ -10,6 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
@@ -27,9 +29,12 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val operatingElementsTag = arrayListOf("膨胀", "腐蚀", "开操作", "闭操作", "顶帽", "黑帽", "差分", "击中击不中")
-
+val operatingElementsTag = arrayListOf("腐蚀", "膨胀", "开操作", "闭操作", "形态学梯度", "顶帽", "黑帽", "击中击不中")
 val structuralElementsTag = arrayListOf("矩形","十字交叉","椭圆形")
+val tagList1 = operatingElementsTag.take(4)
+val tagList2 = operatingElementsTag.takeLast(4)
+
+var morphologicalOperationSettings: MorphologicalOperationSettings = MorphologicalOperationSettings()
 
 @Composable
 fun morphologicalOperations(state: ApplicationState, title: String) {
@@ -47,7 +52,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
             subTitleWithDivider(text = "操作元素", color = Color.Black)
 
             Row {
-                operatingElementsTag.forEach {
+                tagList1.forEach {
 
                     RadioButton(
                         selected = (it == operatingElementOption),
@@ -55,7 +60,20 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                             operatingElementOption = it
                         }
                     )
-                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
+                }
+            }
+
+            Row {
+                tagList2.forEach {
+
+                    RadioButton(
+                        selected = (it == operatingElementOption),
+                        onClick = {
+                            operatingElementOption = it
+                        }
+                    )
+                    Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
                 }
             }
         }
@@ -72,7 +90,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                             structuralElementOption = it
                         }
                     )
-                    Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
+                    Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
                 }
             }
 
