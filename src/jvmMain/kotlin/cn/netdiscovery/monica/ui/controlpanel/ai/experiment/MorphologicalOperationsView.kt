@@ -1,9 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.RadioButton
 import androidx.compose.material.Text
@@ -13,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
@@ -38,6 +36,9 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
 
     var operatingElementOption by remember { mutableStateOf("Null") }
     var structuralElementOption by remember { mutableStateOf("Null") }
+
+    var widthText by remember { mutableStateOf("") }
+    var heightText by remember { mutableStateOf("") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -74,10 +75,22 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                     Text(text = it, modifier = Modifier.align(Alignment.CenterVertically))
                 }
             }
+
+            Row(modifier = Modifier.padding(top = 20.dp)) {
+                Text(modifier = Modifier.width(70.dp), text = "结构元素：", color = Color.Unspecified)
+
+                basicTextFieldWithTitle(titleText = "宽度", widthText) { str ->
+
+                }
+
+                basicTextFieldWithTitle(titleText = "高度", heightText) { str ->
+
+                }
+            }
         }
 
         Button(
-            modifier = Modifier.align(Alignment.End),
+            modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
 
             }
