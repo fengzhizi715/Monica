@@ -29,7 +29,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 val operatingElementsTag = arrayListOf("膨胀", "腐蚀", "开操作", "闭操作", "顶帽", "黑帽", "差分", "击中击不中")
 
-val structuralElementsTag = arrayListOf("矩形","圆形","十字交叉")
+val structuralElementsTag = arrayListOf("矩形","十字交叉","椭圆形")
 
 @Composable
 fun morphologicalOperations(state: ApplicationState, title: String) {
