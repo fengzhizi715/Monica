@@ -83,6 +83,7 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
+* 多图生成 gif 效果
 * 完善 CV 调试模块
 * 部分模型部署到云端
 * 增加滤镜
