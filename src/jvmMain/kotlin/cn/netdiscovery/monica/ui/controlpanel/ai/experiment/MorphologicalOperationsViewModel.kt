@@ -26,13 +26,13 @@ class MorphologicalOperationsViewModel {
 
         logger.info("morphologicalOperationSettings = ${GsonUtils.toJson(morphologicalOperationSettings)}")
 
-//        state.scope.launchWithLoading {
-//            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
-//
-//                ImageProcess.morphologyEx(byteArray, morphologicalOperationSettings)
-//            }, failure = { e ->
-//                logger.error("contourAnalysis is failed", e)
-//            })
-//        }
+        state.scope.launchWithLoading {
+            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+
+                ImageProcess.morphologyEx(byteArray, morphologicalOperationSettings)
+            }, failure = { e ->
+                logger.error("contourAnalysis is failed", e)
+            })
+        }
     }
 }
