@@ -14,6 +14,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalO
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -104,11 +105,11 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                 Text(modifier = Modifier.width(70.dp), text = "结构元素：", color = Color.Unspecified)
 
                 basicTextFieldWithTitle(titleText = "宽度", widthText) { str ->
-
+                    widthText = str
                 }
 
                 basicTextFieldWithTitle(titleText = "高度", heightText) { str ->
-
+                    heightText = str
                 }
             }
         }
@@ -116,7 +117,10 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-                println("morphologicalOperationSettings = $morphologicalOperationSettings")
+                val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast("width 需要 int 类型") }) ?: return@experimentViewClick
+                val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast("height 需要 int 类型") }) ?: return@experimentViewClick
+
+
             }
         ) {
             Text(text = "应用", color = Color.Unspecified)
