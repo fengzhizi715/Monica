@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -42,7 +43,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
     val viewModel: MorphologicalOperationsViewModel = koinInject()
 
     var operatingElementOption by remember { mutableStateOf("Null") }
-    var structuralElementOption by remember { mutableStateOf("Null") }
+    var structuralElementOption by remember { mutableStateOf("矩形") }
 
     var widthText by remember { mutableStateOf("3") }
     var heightText by remember { mutableStateOf("3") }
@@ -117,12 +118,17 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-                val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast("width 需要 int 类型") }) ?: return@experimentViewClick
-                val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast("height 需要 int 类型") }) ?: return@experimentViewClick
 
-                morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
+                if(state.currentImage?.type == BufferedImage.TYPE_BYTE_BINARY) {
+                    val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast("width 需要 int 类型") }) ?: return@experimentViewClick
+                    val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast("height 需要 int 类型") }) ?: return@experimentViewClick
 
-                viewModel.morphologyEx(state, morphologicalOperationSettings)
+                    morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
+
+                    viewModel.morphologyEx(state, morphologicalOperationSettings)
+                } else {
+                    experimentViewVerifyToast("请先将当前图像进行二值化")
+                }
             }
         ) {
             Text(text = "应用", color = Color.Unspecified)
