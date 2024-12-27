@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 
 /**
  *
@@ -60,7 +61,8 @@ object CVState {
         showMinAreaRect = false
         showCenter = false
 
-        contourFilterSettings = ContourFilterSettings()
-        contourDisplaySettings = ContourDisplaySettings()
+        contourFilterSettings          = ContourFilterSettings()
+        contourDisplaySettings         = ContourDisplaySettings()
+        morphologicalOperationSettings = MorphologicalOperationSettings()
     }
 }
