@@ -10,12 +10,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
-import cn.netdiscovery.monica.utils.getValidateField
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -39,11 +38,13 @@ var morphologicalOperationSettings: MorphologicalOperationSettings = Morphologic
 @Composable
 fun morphologicalOperations(state: ApplicationState, title: String) {
 
+    val viewModel: MorphologicalOperationsViewModel = koinInject()
+
     var operatingElementOption by remember { mutableStateOf("Null") }
     var structuralElementOption by remember { mutableStateOf("Null") }
 
-    var widthText by remember { mutableStateOf("") }
-    var heightText by remember { mutableStateOf("") }
+    var widthText by remember { mutableStateOf("3") }
+    var heightText by remember { mutableStateOf("3") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -53,11 +54,12 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
 
             Row {
                 tagList1.forEach {
-
                     RadioButton(
                         selected = (it == operatingElementOption),
                         onClick = {
                             operatingElementOption = it
+                            val index = operatingElementsTag.indexOf(it)
+                            morphologicalOperationSettings = morphologicalOperationSettings.copy(op = index)
                         }
                     )
                     Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
@@ -71,6 +73,8 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                         selected = (it == operatingElementOption),
                         onClick = {
                             operatingElementOption = it
+                            val index = operatingElementsTag.indexOf(it)
+                            morphologicalOperationSettings = morphologicalOperationSettings.copy(op = index)
                         }
                     )
                     Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
@@ -88,6 +92,8 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                         selected = (it == structuralElementOption),
                         onClick = {
                             structuralElementOption = it
+                            val index = structuralElementsTag.indexOf(it)
+                            morphologicalOperationSettings = morphologicalOperationSettings.copy(shape = index)
                         }
                     )
                     Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
@@ -110,7 +116,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
         Button(
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
-
+                println("morphologicalOperationSettings = $morphologicalOperationSettings")
             }
         ) {
             Text(text = "应用", color = Color.Unspecified)
