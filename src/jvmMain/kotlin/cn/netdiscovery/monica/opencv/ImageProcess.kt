@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.arch
 import cn.netdiscovery.monica.utils.isMac
@@ -194,6 +195,14 @@ object ImageProcess {
      */
     external fun pyrMeanShiftFiltering(src: ByteArray, sp: Double, sr: Double):IntArray
 
+    /**
+     * 形态学操作
+     */
+    external fun morphologyEx(src: ByteArray, morphologicalOperationSettings: MorphologicalOperationSettings):IntArray
+
+    //-------------------------------------------------------------------
+    // 调用深度学习模型相关
+    //-------------------------------------------------------------------
     /**
      * 初始化人脸检测模块
      */

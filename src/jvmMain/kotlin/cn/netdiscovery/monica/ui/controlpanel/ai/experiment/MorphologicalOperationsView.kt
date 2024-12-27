@@ -120,7 +120,9 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                 val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast("width 需要 int 类型") }) ?: return@experimentViewClick
                 val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast("height 需要 int 类型") }) ?: return@experimentViewClick
 
+                morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
 
+                viewModel.morphologyEx(state, morphologicalOperationSettings)
             }
         ) {
             Text(text = "应用", color = Color.Unspecified)
