@@ -131,7 +131,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
                 }
             }
         ) {
-            Text(text = "应用", color = Color.Unspecified)
+            Text(text = "形态学操作", color = Color.Unspecified)
         }
     }
 }

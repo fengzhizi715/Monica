@@ -208,7 +208,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                 Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
             }
 
-            Row {
+            Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "threshold1", threshold1Text) { str ->
                     threshold1Text = str
                 }
