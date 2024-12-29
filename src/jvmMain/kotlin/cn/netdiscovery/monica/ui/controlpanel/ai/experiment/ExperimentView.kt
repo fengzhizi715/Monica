@@ -108,6 +108,7 @@ fun customNavigationHost(
         }
 
         composable(Screen.TemplateMatching.name) {
+            templateMatching(state, Screen.TemplateMatching.label)
         }
     }.build()
 }
