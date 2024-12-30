@@ -45,6 +45,9 @@ object CVState {
 
     var showCenter by mutableStateOf(false)
 
+    /**
+     * 清空状态
+     */
     fun clearAllStatus() {
         isThreshType = false
         isThreshSegment = false
