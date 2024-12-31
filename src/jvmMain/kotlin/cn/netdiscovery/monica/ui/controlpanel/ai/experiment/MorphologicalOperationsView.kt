@@ -125,7 +125,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
 
                     morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
 
-                    viewModel.morphologyEx(state, morphologicalOperationSettings)
+//                    viewModel.morphologyEx(state, morphologicalOperationSettings)
                 } else {
                     experimentViewVerifyToast("请先将当前图像进行二值化")
                 }
