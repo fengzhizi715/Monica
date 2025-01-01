@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.TemplateMatchingView
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.MatchTemplateView
  * @author: Tony Shen
  * @date: 2024/12/29 14:03
  * @version: V1.0 <描述当前版本功能>
@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 @Composable
-fun matchTemplates(state: ApplicationState, title: String) {
+fun matchTemplate(state: ApplicationState, title: String) {
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
