@@ -67,9 +67,9 @@ enum class Screen(
         label = "形态学操作",
         resourcePath = "images/ai/morphological_operations.png"
     ),
-    TemplateMatching(
+    MatchTemplate(
         label = "模版匹配",
-        resourcePath = "images/ai/template_matching.png"
+        resourcePath = "images/ai/match_template.png"
     )
 }
 
@@ -107,8 +107,8 @@ fun customNavigationHost(
             morphologicalOperations(state, Screen.MorphologicalOperations.label)
         }
 
-        composable(Screen.TemplateMatching.name) {
-            templateMatching(state, Screen.TemplateMatching.label)
+        composable(Screen.MatchTemplate.name) {
+            matchTemplate(state, Screen.MatchTemplate.label)
         }
     }.build()
 }

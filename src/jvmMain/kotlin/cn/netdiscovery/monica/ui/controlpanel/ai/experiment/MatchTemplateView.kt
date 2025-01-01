@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 @Composable
-fun templateMatching(state: ApplicationState, title: String) {
+fun matchTemplates(state: ApplicationState, title: String) {
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
