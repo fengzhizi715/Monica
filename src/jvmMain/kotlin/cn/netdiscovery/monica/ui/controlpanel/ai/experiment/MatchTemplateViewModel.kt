@@ -14,4 +14,6 @@ import org.slf4j.Logger
 class MatchTemplateViewModel {
 
     private val logger: Logger = logger<MatchTemplateViewModel>()
+
+
 }
