@@ -10,11 +10,12 @@ package cn.netdiscovery.monica.utils
  */
 
 /**
- * 对字段进行获取和验证
- * @param block 对字段进行获取
- * @param failed 对字段获取失败的回调
+ * 对字段进行转换和验证
+ * @param block 对字段进行转换
+ * @param failed 对字段转换失败的回调
  */
-fun <T> getValidateField(block:()-> T, failed:()->Unit): T? {
+fun <T> getValidateField(block:()-> T, 
+                         failed:()->Unit): T? {
 
     return try {
         block.invoke()
