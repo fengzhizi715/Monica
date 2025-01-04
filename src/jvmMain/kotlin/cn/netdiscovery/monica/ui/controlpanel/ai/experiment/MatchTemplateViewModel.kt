@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 
+import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 
@@ -15,5 +16,6 @@ class MatchTemplateViewModel {
 
     private val logger: Logger = logger<MatchTemplateViewModel>()
 
-
+    fun matchTemplate(state: ApplicationState) {
+    }
 }
