@@ -14,7 +14,7 @@ package cn.netdiscovery.monica.utils
  * @param block 对字段进行转换
  * @param failed 对字段转换失败的回调
  */
-fun <T> getValidateField(block:()-> T, 
+fun <T> getValidateField(block:()-> T,
                          failed:()->Unit): T? {
 
     return try {
