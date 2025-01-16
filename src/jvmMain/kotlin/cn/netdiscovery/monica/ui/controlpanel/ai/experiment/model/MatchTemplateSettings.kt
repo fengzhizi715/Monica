@@ -12,5 +12,7 @@ data class MatchTemplateSettings (
     var matchType:Int = 0, // 0 表示原图匹配，1 表示灰度匹配 2 表示边缘匹配
     var angleStart:Int,
     var angleEnd:Int,
-    var angleStep:Int
+    var angleStep:Int,
+    var matchTemplateThreshold:Double, // 模版匹配的阈值
+
 )
