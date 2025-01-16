@@ -11,7 +11,7 @@ import javax.swing.JFileChooser
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ExperimentViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ExperimentViewModel
  * @author: Tony Shen
  * @date:  2024/10/2 15:24
  * @version: V1.0 <描述当前版本功能>

@@ -13,7 +13,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.MorphologicalOperationsViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MorphologicalOperationsViewModel
  * @author: Tony Shen
  * @date: 2024/12/26 20:21
  * @version: V1.0 <描述当前版本功能>
