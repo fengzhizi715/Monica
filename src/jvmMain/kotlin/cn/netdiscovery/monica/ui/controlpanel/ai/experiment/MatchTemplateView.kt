@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.widget.title
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -23,6 +24,8 @@ import org.slf4j.LoggerFactory
  * @version: V1.0 <描述当前版本功能>
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
+var matchTemplateSettings: MatchTemplateSettings = MatchTemplateSettings()
 
 @Composable
 fun matchTemplate(state: ApplicationState, title: String) {
