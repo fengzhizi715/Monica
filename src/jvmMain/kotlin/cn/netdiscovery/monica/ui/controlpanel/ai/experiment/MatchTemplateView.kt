@@ -50,41 +50,45 @@ fun matchTemplate(state: ApplicationState, title: String) {
         Column {
             subTitleWithDivider(text = "模版", color = Color.Black)
 
-            Card(
-                modifier = Modifier.padding(10.dp).width(200.dp).height(200.dp),
-                shape = RoundedCornerShape(8.dp),
-                elevation = 4.dp,
-                onClick = {
+            Row {
+                Text(modifier = Modifier.width(100.dp).padding(top = 10.dp), text = "导入模版：", color = Color.Unspecified)
 
-                },
-                enabled = viewModel.templateImage == null
-            ) {
-                if (viewModel.templateImage == null) {
-                    Text(
-                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                        text = "请点击选择图像",
-                        textAlign = TextAlign.Center
-                    )
-                } else {
-                    Box {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Text(
-                                text = "target",
-                                textAlign = TextAlign.Center,
-                                color = MaterialTheme.colors.primary,
-                                fontSize = 36.sp,
-                                fontWeight = FontWeight.Bold
-                            )
+                Card(
+                    modifier = Modifier.padding(10.dp).width(150.dp).height(150.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = 4.dp,
+                    onClick = {
 
-                            Image(
-                                painter = viewModel.templateImage!!.toPainter(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier)
+                    },
+                    enabled = viewModel.templateImage == null
+                ) {
+                    if (viewModel.templateImage == null) {
+                        Text(
+                            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                            text = "请点击选择图像",
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Box {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(
+                                    text = "target",
+                                    textAlign = TextAlign.Center,
+                                    color = MaterialTheme.colors.primary,
+                                    fontSize = 36.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Image(
+                                    painter = viewModel.templateImage!!.toPainter(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier)
+                            }
                         }
                     }
                 }
