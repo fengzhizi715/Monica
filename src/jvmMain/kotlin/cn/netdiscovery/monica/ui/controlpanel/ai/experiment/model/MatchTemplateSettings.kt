@@ -13,6 +13,10 @@ data class MatchTemplateSettings (
     var angleStart:Int,
     var angleEnd:Int,
     var angleStep:Int,
+    var scaleStart:Double,
+    var scaleEnd:Double,
+    var scaleStep:Double,
     var matchTemplateThreshold:Double, // 模版匹配的阈值
-
+    var scoreThreshold: Float,         // 置信分数的阈值(nms 相关)
+    var nmsThreshold: Float            // 非极大值抑制的阈值(nms 相关)
 )
