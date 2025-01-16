@@ -1,7 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.utils.logger
+import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 
 /**
@@ -16,6 +18,9 @@ class MatchTemplateViewModel {
 
     private val logger: Logger = logger<MatchTemplateViewModel>()
 
-    fun matchTemplate(state: ApplicationState) {
+    fun matchTemplate(state: ApplicationState, matchTemplateSettings: MatchTemplateSettings) {
+        logger.info("matchTemplateSettings = ${GsonUtils.toJson(matchTemplateSettings)}")
+
+
     }
 }

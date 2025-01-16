@@ -27,23 +27,6 @@ import androidx.compose.ui.unit.sp
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun basicTextField(value: String,
-                   modifier:Modifier = Modifier,
-                   onValueChange: (String) -> Unit) {
-
-    BasicTextField(
-        value = value,
-        onValueChange = onValueChange,
-        keyboardOptions = KeyboardOptions.Default,
-        keyboardActions = KeyboardActions.Default,
-        cursorBrush = SolidColor(Color.Gray),
-        singleLine = true,
-        modifier = modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-        textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-    )
-}
-
-@Composable
 fun basicTextFieldWithTitle(
                    titleText:String,
                    value: String,
@@ -52,6 +35,15 @@ fun basicTextFieldWithTitle(
     Row {
         Text(text = titleText)
 
-        basicTextField(value,modifier,onValueChange)
+        BasicTextField(
+            value = value,
+            onValueChange = onValueChange,
+            keyboardOptions = KeyboardOptions.Default,
+            keyboardActions = KeyboardActions.Default,
+            cursorBrush = SolidColor(Color.Gray),
+            singleLine = true,
+            modifier = modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            textStyle = TextStyle(Color.Black, fontSize = 12.sp)
+        )
     }
 }
