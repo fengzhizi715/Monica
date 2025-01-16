@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
@@ -11,7 +11,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.EdgeDetectionViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
  * @author: Tony Shen
  * @date:  2024/10/13 22:23
  * @version: V1.0 <描述当前版本功能>

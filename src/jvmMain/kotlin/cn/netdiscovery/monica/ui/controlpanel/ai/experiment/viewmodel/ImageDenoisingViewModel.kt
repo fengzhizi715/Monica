@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
@@ -10,7 +10,7 @@ import org.slf4j.Logger
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.ImageDenoisingViewModel
+ *          cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageDenoisingViewModel
  * @author: Tony Shen
  * @date: 2024/12/4 15:44
  * @version: V1.0 <描述当前版本功能>

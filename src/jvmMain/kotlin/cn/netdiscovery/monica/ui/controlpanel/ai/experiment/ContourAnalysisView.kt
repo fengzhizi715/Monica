@@ -11,6 +11,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject

@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
+package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
