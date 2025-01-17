@@ -4,7 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,6 +36,8 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+val matchingMethodTag = arrayListOf("原图匹配","灰度匹配","边缘匹配")
+
 var matchTemplateSettings: MatchTemplateSettings = MatchTemplateSettings()
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -43,6 +45,8 @@ var matchTemplateSettings: MatchTemplateSettings = MatchTemplateSettings()
 fun matchTemplate(state: ApplicationState, title: String) {
 
     val viewModel: MatchTemplateViewModel = koinInject()
+
+    var matchingMethodOption by remember { mutableStateOf("原图匹配") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -97,6 +101,22 @@ fun matchTemplate(state: ApplicationState, title: String) {
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "匹配方式", color = Color.Black)
+
+            Row {
+                matchingMethodTag.forEach {
+
+                    RadioButton(
+                        selected = (it == matchingMethodOption),
+                        onClick = {
+                            matchingMethodOption = it
+                            val index = matchingMethodTag.indexOf(it)
+                            matchTemplateSettings = matchTemplateSettings.copy(matchType = index)
+                        }
+                    )
+                    Text(text = it, modifier = Modifier.width(120.dp).align(Alignment.CenterVertically))
+                }
+            }
+
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
