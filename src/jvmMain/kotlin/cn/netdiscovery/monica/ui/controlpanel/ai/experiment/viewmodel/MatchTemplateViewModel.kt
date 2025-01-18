@@ -10,9 +10,12 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
+import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import java.io.File
+import javax.swing.JFileChooser
 
 /**
  *
@@ -27,6 +30,22 @@ class MatchTemplateViewModel {
     private val logger: Logger = logger<MatchTemplateViewModel>()
 
     var templateImage: BufferedImage? by mutableStateOf(null)
+
+    fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
+        showFileSelector(
+            isMultiSelection = false,
+            selectionMode = JFileChooser.FILES_ONLY,
+            onFileSelected = {
+                state.scope.launchWithLoading {
+                    val file = it.getOrNull(0)
+                    if (file != null) {
+                        logger.info("load file: ${file.absolutePath}")
+                        block.invoke(file)
+                    }
+                }
+            }
+        )
+    }
 
     fun matchTemplate(state: ApplicationState, matchTemplateSettings: MatchTemplateSettings) {
         logger.info("matchTemplateSettings = ${GsonUtils.toJson(matchTemplateSettings)}")

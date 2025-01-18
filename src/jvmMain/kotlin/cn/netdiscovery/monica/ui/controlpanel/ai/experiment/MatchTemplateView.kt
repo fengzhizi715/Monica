@@ -14,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
@@ -72,7 +73,9 @@ fun matchTemplate(state: ApplicationState, title: String) {
                     shape = RoundedCornerShape(8.dp),
                     elevation = 4.dp,
                     onClick = {
-
+                        viewModel.chooseImage(state) { file ->
+                            viewModel.templateImage = BufferedImages.load(file)
+                        }
                     },
                     enabled = viewModel.templateImage == null
                 ) {
@@ -89,14 +92,6 @@ fun matchTemplate(state: ApplicationState, title: String) {
                                 verticalArrangement = Arrangement.Center,
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Text(
-                                    text = "target",
-                                    textAlign = TextAlign.Center,
-                                    color = MaterialTheme.colors.primary,
-                                    fontSize = 36.sp,
-                                    fontWeight = FontWeight.Bold
-                                )
-
                                 Image(
                                     painter = viewModel.templateImage!!.toPainter(),
                                     contentDescription = null,
