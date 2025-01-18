@@ -19,6 +19,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -47,6 +48,10 @@ fun matchTemplate(state: ApplicationState, title: String) {
     val viewModel: MatchTemplateViewModel = koinInject()
 
     var matchingMethodOption by remember { mutableStateOf("原图匹配") }
+
+    var angleStartText by remember { mutableStateOf("0") }
+    var angleEndText by remember { mutableStateOf("360") }
+    var angleStepText by remember { mutableStateOf("10") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -121,6 +126,20 @@ fun matchTemplate(state: ApplicationState, title: String) {
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "旋转", color = Color.Black)
+
+            Row(modifier = Modifier.padding(top = 20.dp)) {
+                basicTextFieldWithTitle(titleText = "最小角度", angleStartText) { str ->
+                    angleStartText = str
+                }
+
+                basicTextFieldWithTitle(titleText = "最大角度", angleEndText) { str ->
+                    angleEndText = str
+                }
+
+                basicTextFieldWithTitle(titleText = "角度步长", angleStepText) { str ->
+                    angleStepText = str
+                }
+            }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
