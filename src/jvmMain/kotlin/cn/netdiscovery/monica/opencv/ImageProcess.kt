@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.opencv
 
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.arch
@@ -199,6 +200,12 @@ object ImageProcess {
      * 形态学操作
      */
     external fun morphologyEx(src: ByteArray, morphologicalOperationSettings: MorphologicalOperationSettings):IntArray
+
+    /**
+     * 模版匹配
+     */
+    external fun matchTemplate(src: ByteArray, template: ByteArray, matchTemplateSettings: MatchTemplateSettings):IntArray
+
 
     //-------------------------------------------------------------------
     // 调用深度学习模型相关
