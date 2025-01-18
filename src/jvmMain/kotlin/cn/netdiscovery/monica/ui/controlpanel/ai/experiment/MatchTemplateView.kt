@@ -193,16 +193,40 @@ fun matchTemplate(state: ApplicationState, title: String) {
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
 
-//                if (viewModel.templateImage == null) {
-//                    experimentViewVerifyToast("请先导入模版文件")
-//                    return@experimentViewClick
-//                }
+                if (viewModel.templateImage == null) {
+                    experimentViewVerifyToast("请先导入模版文件")
+                    return@experimentViewClick
+                }
 
-                val angleStart = getValidateField(block = { angleStartText.toInt() } , condition = { it >= 0 }, failed = { experimentViewVerifyToast("angleStart 需要 int 类型， 且 angleStart >= 0") }) ?: return@experimentViewClick
-                val angleEnd = getValidateField(block = { angleEndText.toInt() } , failed = { experimentViewVerifyToast("angleEnd 需要 int 类型") }) ?: return@experimentViewClick
+                val angleStart = getValidateField(block = { angleStartText.toInt() } ,
+                    condition = { it in 0..360 },
+                    failed = { experimentViewVerifyToast("angleStart 需要 int 类型， 且 angleStart >= 0") }) ?: return@experimentViewClick
+                val angleEnd = getValidateField(block = { angleEndText.toInt() } ,
+                    condition = { it in 0..360 },
+                    failed = { experimentViewVerifyToast("angleEnd 需要 int 类型， 且 angleEnd <= 360") }) ?: return@experimentViewClick
                 val angleStep = getValidateField(block = { angleStartText.toInt() } , failed = { experimentViewVerifyToast("angleStep 需要 int 类型") }) ?: return@experimentViewClick
 
-                matchTemplateSettings = matchTemplateSettings.copy(angleStart = angleStart, angleEnd = angleEnd, angleStep = angleStep)
+                val scaleStart = getValidateField(block = { scaleStartText.toDouble() } ,
+                    condition = { it in 0.0..1.0 },
+                    failed = { experimentViewVerifyToast("scaleStart 需要 double 类型， 且 scaleStart >= 0") }) ?: return@experimentViewClick
+                val scaleEnd = getValidateField(block = { scaleEndText.toDouble() } ,
+                    condition = { it in 0.0..1.0 },
+                    failed = { experimentViewVerifyToast("scaleEnd 需要 double 类型， 且 scaleStart <= 1.0") }) ?: return@experimentViewClick
+                val scaleStep = getValidateField(block = { scaleStepText.toDouble() } , failed = { experimentViewVerifyToast("scaleStep 需要 double 类型") }) ?: return@experimentViewClick
+
+                val matchTemplateThreshold = getValidateField(block = { matchTemplateThresholdText.toDouble() } ,
+                    condition = { it in 0.0..1.0 },
+                    failed = { experimentViewVerifyToast("matchTemplateThreshold 需要 double 类型， 且 matchTemplateThreshold >= 0") }) ?: return@experimentViewClick
+                val scoreThreshold = getValidateField(block = { scoreThresholdText.toFloat() } ,
+                    condition = { it in 0.0..1.0 },
+                    failed = { experimentViewVerifyToast("scoreThreshold 需要 float 类型， 且 scoreThreshold >= 0") }) ?: return@experimentViewClick
+                val nmsThreshold = getValidateField(block = { nmsThresholdText.toFloat() } ,
+                    condition = { it in 0.0..1.0 },
+                    failed = { experimentViewVerifyToast("nmsThreshold 需要 float 类型， 且 nmsThreshold >= 0") }) ?: return@experimentViewClick
+
+                matchTemplateSettings = matchTemplateSettings.copy(angleStart = angleStart, angleEnd = angleEnd, angleStep = angleStep,
+                    scaleStart = scaleStart, scaleEnd = scaleEnd, scaleStep = scaleStep,
+                    matchTemplateThreshold = matchTemplateThreshold, scoreThreshold = scoreThreshold, nmsThreshold = nmsThreshold)
 
                 viewModel.matchTemplate(state, matchTemplateSettings)
             }
