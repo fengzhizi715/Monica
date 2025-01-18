@@ -10,19 +10,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
-import cn.netdiscovery.monica.ui.widget.toolTipButton
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -52,6 +49,11 @@ fun matchTemplate(state: ApplicationState, title: String) {
     var angleStartText by remember { mutableStateOf("0") }
     var angleEndText by remember { mutableStateOf("360") }
     var angleStepText by remember { mutableStateOf("10") }
+    var scaleStartText by remember { mutableStateOf("0.1") }
+    var scaleEndText by remember { mutableStateOf("1.0") }
+    var scaleStepText by remember { mutableStateOf("0.1") }
+
+    var matchTemplateThresholdText by remember { mutableStateOf("0.8") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -127,7 +129,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "旋转", color = Color.Black)
 
-            Row(modifier = Modifier.padding(top = 20.dp)) {
+            Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
                 basicTextFieldWithTitle(titleText = "最小角度", angleStartText) { str ->
                     angleStartText = str
                 }
@@ -144,10 +146,38 @@ fun matchTemplate(state: ApplicationState, title: String) {
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "尺度", color = Color.Black)
+
+            Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+                basicTextFieldWithTitle(titleText = "最小尺度", scaleStartText) { str ->
+                    scaleStartText = str
+                }
+
+                basicTextFieldWithTitle(titleText = "最大尺度", scaleEndText) { str ->
+                    scaleEndText = str
+                }
+
+                basicTextFieldWithTitle(titleText = "尺度步长", scaleStepText) { str ->
+                    scaleStepText = str
+                }
+            }
+        }
+
+        Column(modifier = Modifier.padding(top = 20.dp)) {
+            subTitleWithDivider(text = "模版匹配相关参数", color = Color.Black)
+
+            Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
+                basicTextFieldWithTitle(titleText = "阈值", matchTemplateThresholdText) { str ->
+                    matchTemplateThresholdText = str
+                }
+            }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "NMS 相关参数", color = Color.Black)
+
+            Row(modifier = Modifier.padding(top = 20.dp)) {
+
+            }
         }
 
         Button(
