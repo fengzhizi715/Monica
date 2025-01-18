@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTempl
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -54,6 +55,8 @@ fun matchTemplate(state: ApplicationState, title: String) {
     var scaleStepText by remember { mutableStateOf("0.1") }
 
     var matchTemplateThresholdText by remember { mutableStateOf("0.8") }
+    var scoreThresholdText by remember { mutableStateOf("0.6") }
+    var nmsThresholdText by remember { mutableStateOf("0.3") }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
@@ -176,7 +179,13 @@ fun matchTemplate(state: ApplicationState, title: String) {
             subTitleWithDivider(text = "NMS 相关参数", color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 20.dp)) {
+                basicTextFieldWithTitle(titleText = "分数阈值", scoreThresholdText) { str ->
+                    scoreThresholdText = str
+                }
 
+                basicTextFieldWithTitle(titleText = "非极大值抑制阈值", nmsThresholdText) { str ->
+                    nmsThresholdText = str
+                }
             }
         }
 
@@ -184,6 +193,18 @@ fun matchTemplate(state: ApplicationState, title: String) {
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
 
+//                if (viewModel.templateImage == null) {
+//                    experimentViewVerifyToast("请先导入模版文件")
+//                    return@experimentViewClick
+//                }
+
+                val angleStart = getValidateField(block = { angleStartText.toInt() } , condition = { it >= 0 }, failed = { experimentViewVerifyToast("angleStart 需要 int 类型， 且 angleStart >= 0") }) ?: return@experimentViewClick
+                val angleEnd = getValidateField(block = { angleEndText.toInt() } , failed = { experimentViewVerifyToast("angleEnd 需要 int 类型") }) ?: return@experimentViewClick
+                val angleStep = getValidateField(block = { angleStartText.toInt() } , failed = { experimentViewVerifyToast("angleStep 需要 int 类型") }) ?: return@experimentViewClick
+
+                matchTemplateSettings = matchTemplateSettings.copy(angleStart = angleStart, angleEnd = angleEnd, angleStep = angleStep)
+
+                viewModel.matchTemplate(state, matchTemplateSettings)
             }
         ) {
             Text(text = "模版匹配", color = Color.Unspecified)

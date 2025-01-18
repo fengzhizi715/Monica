@@ -27,6 +27,5 @@ class MatchTemplateViewModel {
     fun matchTemplate(state: ApplicationState, matchTemplateSettings: MatchTemplateSettings) {
         logger.info("matchTemplateSettings = ${GsonUtils.toJson(matchTemplateSettings)}")
 
-
     }
 }
