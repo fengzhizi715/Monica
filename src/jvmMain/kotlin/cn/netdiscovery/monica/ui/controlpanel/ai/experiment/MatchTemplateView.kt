@@ -199,7 +199,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                 val angleEnd = getValidateField(block = { angleEndText.toInt() } ,
                     condition = { it in 0..360 },
                     failed = { experimentViewVerifyToast("angleEnd 需要 int 类型， 且 angleEnd <= 360") }) ?: return@experimentViewClick
-                val angleStep = getValidateField(block = { angleStartText.toInt() } , failed = { experimentViewVerifyToast("angleStep 需要 int 类型") }) ?: return@experimentViewClick
+                val angleStep = getValidateField(block = { angleStepText.toInt() } , failed = { experimentViewVerifyToast("angleStep 需要 int 类型") }) ?: return@experimentViewClick
 
                 val scaleStart = getValidateField(block = { scaleStartText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
