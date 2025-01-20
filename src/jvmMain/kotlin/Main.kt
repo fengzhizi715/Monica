@@ -19,8 +19,6 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
-import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrectionSettings
-import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage

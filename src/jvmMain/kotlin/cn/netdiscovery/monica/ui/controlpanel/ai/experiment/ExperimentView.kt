@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ExperimentViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
+import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.composeClick
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -176,7 +177,7 @@ fun experiment(state: ApplicationState) {
                         shape = RoundedCornerShape(8.dp),
                         elevation = 4.dp,
                         onClick = {
-                            viewModel.chooseImage(state) { file ->
+                            chooseImage(state) { file ->
                                 state.rawImage = BufferedImages.load(file)
                                 state.currentImage = state.rawImage
                                 state.rawImageFile = file
