@@ -75,12 +75,12 @@ fun matchTemplate(state: ApplicationState, title: String) {
                     elevation = 4.dp,
                     onClick = {
                         chooseImage(state) { file ->
-                            viewModel.templateImage = BufferedImages.load(file)
+                            CVState.templateImage = BufferedImages.load(file)
                         }
                     },
-                    enabled = viewModel.templateImage == null
+                    enabled = CVState.templateImage == null
                 ) {
-                    if (viewModel.templateImage == null) {
+                    if (CVState.templateImage == null) {
                         Text(
                             modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
                             text = "请点击选择图像",
@@ -94,7 +94,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
                                 Image(
-                                    painter = viewModel.templateImage!!.toPainter(),
+                                    painter = CVState.templateImage!!.toPainter(),
                                     contentDescription = null,
                                     contentScale = ContentScale.Fit,
                                     modifier = Modifier)
@@ -199,7 +199,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
             modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
             onClick = experimentViewClick(state) {
 
-                if (viewModel.templateImage == null) {
+                if (CVState.templateImage == null) {
                     experimentViewVerifyToast("请先导入模版文件")
                     return@experimentViewClick
                 }

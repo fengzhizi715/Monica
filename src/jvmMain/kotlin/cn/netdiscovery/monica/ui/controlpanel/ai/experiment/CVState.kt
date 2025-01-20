@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplay
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
+import java.awt.image.BufferedImage
 
 /**
  *
@@ -46,6 +47,8 @@ object CVState {
 
     var showCenter by mutableStateOf(false)
 
+    var templateImage: BufferedImage? by mutableStateOf(null)
+
     /**
      * 清空状态
      */
@@ -64,6 +67,7 @@ object CVState {
         showBoundingRect = false
         showMinAreaRect = false
         showCenter = false
+        templateImage = null
 
         contourFilterSettings          = ContourFilterSettings()
         contourDisplaySettings         = ContourDisplaySettings()
