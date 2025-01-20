@@ -31,6 +31,13 @@ class MatchTemplateViewModel {
 
     var templateImage: BufferedImage? by mutableStateOf(null)
 
+    fun clearTemplateImage() {
+        if (templateImage!=null) {
+            templateImage = null
+        }
+    }
+
+
     fun matchTemplate(state: ApplicationState, matchTemplateSettings: MatchTemplateSettings) {
         logger.info("matchTemplateSettings = ${GsonUtils.toJson(matchTemplateSettings)}")
 

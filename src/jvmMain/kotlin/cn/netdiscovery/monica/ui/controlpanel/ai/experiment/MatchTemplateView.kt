@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
@@ -19,6 +20,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTempl
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
+import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -76,7 +78,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                             viewModel.templateImage = BufferedImages.load(file)
                         }
                     },
-                    enabled = true
+                    enabled = viewModel.templateImage == null
                 ) {
                     if (viewModel.templateImage == null) {
                         Text(
@@ -96,6 +98,16 @@ fun matchTemplate(state: ApplicationState, title: String) {
                                     contentDescription = null,
                                     contentScale = ContentScale.Fit,
                                     modifier = Modifier)
+                            }
+
+                            Row(modifier = Modifier.align(Alignment.TopEnd)) {
+                                toolTipButton(text = "删除 source 的图",
+                                    painter = painterResource("images/preview/delete.png"),
+                                    buttonModifier = Modifier,
+                                    iconModifier = Modifier.size(20.dp),
+                                    onClick = {
+                                        viewModel.clearTemplateImage()
+                                    })
                             }
                         }
                     }
