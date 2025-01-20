@@ -35,24 +35,6 @@ class PreviewViewModel {
 
     private val blurFilter = FastBlur2D(15)
 
-    fun chooseImage(state: ApplicationState) {
-        showFileSelector(
-            isMultiSelection = false,
-            selectionMode = JFileChooser.FILES_ONLY,
-            onFileSelected = {
-                state.scope.launchWithLoading {
-                    val file = it.getOrNull(0)
-                    if (file != null) {
-                        logger.info("load file: ${file.absolutePath}")
-                        state.rawImage = BufferedImages.load(file)
-                        state.currentImage = state.rawImage
-                        state.rawImageFile = file
-                    }
-                }
-            }
-        )
-    }
-
     fun loadUrl(picUrl:String, state: ApplicationState) {
         logger.info("load picUrl: $picUrl")
 

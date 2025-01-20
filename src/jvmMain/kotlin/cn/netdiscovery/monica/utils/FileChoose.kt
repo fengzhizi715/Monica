@@ -1,6 +1,10 @@
 package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.awt.ComposeWindow
+import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.awt.datatransfer.DataFlavor
 import java.awt.dnd.DnDConstants
 import java.awt.dnd.DropTarget
@@ -19,7 +23,25 @@ import javax.swing.filechooser.FileNameExtensionFilter
  * @date: 2024/4/26 10:57
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 val legalSuffixList: Array<String> = arrayOf("jpg", "jpeg", "png")
+
+fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
+    showFileSelector(
+        isMultiSelection = false,
+        selectionMode = JFileChooser.FILES_ONLY,
+        onFileSelected = {
+            state.scope.launchWithLoading {
+                val file = it.getOrNull(0)
+                if (file != null) {
+                    logger.info("load file: ${file.absolutePath}")
+                    block.invoke(file)
+                }
+            }
+        }
+    )
+}
 
 fun showFileSelector(
     suffixList: Array<String> = legalSuffixList,
