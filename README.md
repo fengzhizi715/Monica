@@ -83,12 +83,10 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
-* 完善 CV 调试模块
-* 增加通用的一些设置
-* UI 层性能优化
-* 多图生成 gif
 * 部分模型部署到云端
-* 升级 Kotlin 版本、Compose 版本
+* 增加通用的一些设置
+* UI 层性能优化，升级 Kotlin 版本、Compose 版本
+* 多图生成 gif
 * 增加滤镜的数量
 * 拆分成多模块
 * 绘制完的 Shape，支持拖动
