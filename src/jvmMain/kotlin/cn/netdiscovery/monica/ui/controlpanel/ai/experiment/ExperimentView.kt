@@ -14,7 +14,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ExperimentViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
@@ -119,8 +118,6 @@ fun customNavigationHost(
 @Composable
 fun experiment(state: ApplicationState) {
 
-    val viewModel: ExperimentViewModel = koinInject()
-
     val screens = Screen.entries
     val navController by rememberNavController(Screen.Home.name)
     val currentScreen by remember { navController.currentScreen }
@@ -214,7 +211,9 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/doodle/previous_step.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
-                            viewModel.getLastImage(state)
+                            state.getLastImage()?.let {
+                                state.currentImage = it
+                            }
                         })
 
                     toolTipButton(text = "保存",

@@ -5,7 +5,6 @@ import org.koin.dsl.module
 import cn.netdiscovery.monica.ui.controlpanel.ai.AIViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.BinaryImageViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ExperimentViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageDenoisingViewModel
@@ -40,7 +39,6 @@ val viewModelModule = module {
     singleOf(::FilterViewModel)
     singleOf(::AIViewModel)
     singleOf(::FaceSwapViewModel)
-    singleOf(::ExperimentViewModel)
     singleOf(::BinaryImageViewModel)
     singleOf(::EdgeDetectionViewModel)
     singleOf(::ContourAnalysisViewModel)
