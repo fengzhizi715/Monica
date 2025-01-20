@@ -31,22 +31,6 @@ class MatchTemplateViewModel {
 
     var templateImage: BufferedImage? by mutableStateOf(null)
 
-    fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
-        showFileSelector(
-            isMultiSelection = false,
-            selectionMode = JFileChooser.FILES_ONLY,
-            onFileSelected = {
-                state.scope.launchWithLoading {
-                    val file = it.getOrNull(0)
-                    if (file != null) {
-                        logger.info("load file: ${file.absolutePath}")
-                        block.invoke(file)
-                    }
-                }
-            }
-        )
-    }
-
     fun matchTemplate(state: ApplicationState, matchTemplateSettings: MatchTemplateSettings) {
         logger.info("matchTemplateSettings = ${GsonUtils.toJson(matchTemplateSettings)}")
 

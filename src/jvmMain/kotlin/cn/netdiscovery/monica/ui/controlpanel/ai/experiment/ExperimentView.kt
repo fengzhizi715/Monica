@@ -19,7 +19,6 @@ import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.composeClick
 import loadingDisplay
-import org.koin.compose.koinInject
 
 /**
  *
