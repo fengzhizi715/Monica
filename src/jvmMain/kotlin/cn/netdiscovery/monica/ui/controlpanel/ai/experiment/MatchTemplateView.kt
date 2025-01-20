@@ -76,7 +76,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                             viewModel.templateImage = BufferedImages.load(file)
                         }
                     },
-                    enabled = viewModel.templateImage == null
+                    enabled = true
                 ) {
                     if (viewModel.templateImage == null) {
                         Text(
