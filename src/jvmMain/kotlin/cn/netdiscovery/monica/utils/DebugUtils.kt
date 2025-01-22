@@ -13,7 +13,7 @@ import kotlin.system.measureTimeMillis
  *          cn.netdiscovery.monica.utils.DebugUtils
  * @author: Tony Shen
  * @date: 2024/4/30 12:43
- * @version: V1.0 方便调试时，使用的工具类
+ * @version: V1.0 调试时，使用的工具类
  */
 
 /**
