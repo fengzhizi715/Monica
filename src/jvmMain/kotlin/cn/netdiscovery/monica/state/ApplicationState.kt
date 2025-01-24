@@ -60,6 +60,8 @@ class ApplicationState(val scope:CoroutineScope,
     // 表示用于点击了哪个功能
     var currentStatus by mutableStateOf(0)
 
+    var isGeneralSettings by mutableStateOf(false)
+
     var isBasic by mutableStateOf(false)
 
     var isColorCorrection by mutableStateOf(false)
