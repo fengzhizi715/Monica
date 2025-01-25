@@ -24,16 +24,16 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 fun generalSettingsView(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isGeneralSettings, onCheckedChange = {
-            state.isGeneralSettings = it
-
-            if (!state.isGeneralSettings) {
-                state.resetCurrentStatus()
-                logger.info("取消了通用设置")
-            } else {
-                logger.info("勾选了通用设置")
-            }
-        })
+//        Checkbox(state.isGeneralSettings, onCheckedChange = {
+//            state.isGeneralSettings = it
+//
+//            if (!state.isGeneralSettings) {
+//                state.resetCurrentStatus()
+//                logger.info("取消了通用设置")
+//            } else {
+//                logger.info("勾选了通用设置")
+//            }
+//        })
         subTitle(text = "通用设置", color = Color.Black)
     }
 }
