@@ -15,6 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -28,12 +29,14 @@ import androidx.compose.ui.unit.sp
  */
 @Composable
 fun basicTextFieldWithTitle(
-                   titleText:String,
-                   value: String,
-                   modifier:Modifier = Modifier,
-                   onValueChange: (String) -> Unit) {
+    titleText:String,
+    value: String,
+    modifier:Modifier = Modifier,
+    textModifier:Modifier = Modifier,
+    width: Dp = 120.dp,
+    onValueChange: (String) -> Unit) {
     Row {
-        Text(text = titleText)
+        Text(text = titleText, modifier = textModifier)
 
         BasicTextField(
             value = value,
@@ -42,7 +45,7 @@ fun basicTextFieldWithTitle(
             keyboardActions = KeyboardActions.Default,
             cursorBrush = SolidColor(Color.Gray),
             singleLine = true,
-            modifier = modifier.padding(start = 10.dp, end = 10.dp).width(120.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
+            modifier = modifier.padding(start = 10.dp, end = 10.dp).width(width).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
             textStyle = TextStyle(Color.Black, fontSize = 12.sp)
         )
     }

@@ -72,6 +72,10 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
+    var rText by mutableStateOf("255")
+    var gText by mutableStateOf("0")
+    var bText by mutableStateOf("0")
+
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)

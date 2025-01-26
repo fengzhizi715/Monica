@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.ui.main
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -10,6 +10,7 @@ import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
@@ -93,11 +94,7 @@ fun showVersionInfo(onClick: Action) {
         },
         text = {
             Column {
-                val versionInfo = if (isProVersion) {
-                    "Pro 版本"
-                } else {
-                    "普通版本"
-                }
+                val versionInfo = if (isProVersion) "Pro 版本" else "普通版本"
                 Text("Monica 版本: $appVersion, $versionInfo, 编译时间: $buildTime")
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
@@ -114,6 +111,42 @@ fun showVersionInfo(onClick: Action) {
                 onClick.invoke()
             }) {
                 Text("关闭")
+            }
+        })
+}
+
+@Composable
+fun generalSettings(state: ApplicationState, onClick: Action) {
+
+    AlertDialog(onDismissRequest = {},
+        title = {
+            Text("Monica 通用设置")
+        },
+        text = {
+            Column {
+
+                Row {
+                    Text("对象输出框颜色:")
+
+                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), titleText = "R", value = state.rText, width = 80.dp) { str ->
+                        state.rText = str
+                    }
+
+                    basicTextFieldWithTitle(titleText = "G", value = state.gText, width = 80.dp) { str ->
+                        state.gText = str
+                    }
+
+                    basicTextFieldWithTitle(titleText = "B", value = state.bText, width = 80.dp) { str ->
+                        state.bText = str
+                    }
+                }
+            }
+        },
+        confirmButton = {
+            Button(onClick = {
+                onClick.invoke()
+            }) {
+                Text("更新")
             }
         })
 }

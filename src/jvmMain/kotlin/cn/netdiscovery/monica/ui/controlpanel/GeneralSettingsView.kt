@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import showGeneralSettings
 
 /**
  *
@@ -50,7 +51,7 @@ fun generalSettingsView(state: ApplicationState) {
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
             enabled = state.isGeneralSettings,
             onClick = composeClick {
-
+                showGeneralSettings = true
             }
         ) {
             Text(text = "设置", color = Color.Unspecified)

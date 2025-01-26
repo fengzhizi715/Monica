@@ -24,6 +24,7 @@ import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
+import cn.netdiscovery.monica.ui.main.generalSettings
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog
 import cn.netdiscovery.monica.ui.main.showVersionInfo
@@ -55,6 +56,7 @@ private var showToast by mutableStateOf(false)
 private var toastMessage by mutableStateOf("")
 private var showVerifyToast by mutableStateOf(false)
 private var verifyToastMessage by mutableStateOf("")
+var showGeneralSettings by mutableStateOf(false)
 
 lateinit var client: HttpConnectionClient
 
@@ -164,6 +166,12 @@ fun main() = application {
             if (showVersion) {
                 showVersionInfo {
                     showVersion = false
+                }
+            }
+
+            if (showGeneralSettings) {
+                generalSettings(applicationState) {
+                    showGeneralSettings = false
                 }
             }
         }
