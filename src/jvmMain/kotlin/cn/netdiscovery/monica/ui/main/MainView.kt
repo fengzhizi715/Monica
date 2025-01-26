@@ -9,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
+import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.preview.preview
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.utils.*
@@ -118,6 +119,8 @@ fun showVersionInfo(onClick: Action) {
 @Composable
 fun generalSettings(state: ApplicationState, onClick: Action) {
 
+    val previewViewModel:PreviewViewModel = koinInject()
+
     var rText by remember { mutableStateOf(state.rText) }
     var gText by remember { mutableStateOf(state.gText) }
     var bText by remember { mutableStateOf(state.bText) }
@@ -152,13 +155,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.gText = gText
                 state.bText = bText
 
-                onClick.invoke()
+                onClick()
             }) {
                 Text("更新")
             }
 
             Button(onClick = {
-                onClick.invoke()
+                onClick()
             }) {
                 Text("关闭")
             }

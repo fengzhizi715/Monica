@@ -174,7 +174,7 @@ object ImageProcess {
     /**
      * 轮廓分析
      */
-    external fun contourAnalysis(src: ByteArray, binary: ByteArray, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings):IntArray
+    external fun contourAnalysis(src: ByteArray, binary: ByteArray, scalar:IntArray, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings):IntArray
 
     /**
      * 实现高斯滤波
