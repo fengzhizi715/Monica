@@ -204,7 +204,7 @@ object ImageProcess {
     /**
      * 模版匹配
      */
-    external fun matchTemplate(src: ByteArray, template: ByteArray, matchTemplateSettings: MatchTemplateSettings):IntArray
+    external fun matchTemplate(src: ByteArray, template: ByteArray, scalar:IntArray, matchTemplateSettings: MatchTemplateSettings):IntArray
 
 
     //-------------------------------------------------------------------

@@ -43,7 +43,9 @@ class MatchTemplateViewModel {
             state.scope.launchWithLoading {
                 OpenCVManager.invokeCV(state, action = { byteArray ->
                     val templateByteArray = CVState.templateImage!!.image2ByteArray()
-                    ImageProcess.matchTemplate(byteArray, templateByteArray, matchTemplateSettings)
+                    val scalar = intArrayOf(state.bText.toInt(), state.gText.toInt(), state.rText.toInt())
+
+                    ImageProcess.matchTemplate(byteArray, templateByteArray, scalar, matchTemplateSettings)
                 }, failure = { e ->
                     logger.error("contourAnalysis is failed", e)
                 })
