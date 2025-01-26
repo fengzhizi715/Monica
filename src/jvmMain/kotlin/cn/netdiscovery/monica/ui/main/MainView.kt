@@ -118,6 +118,10 @@ fun showVersionInfo(onClick: Action) {
 @Composable
 fun generalSettings(state: ApplicationState, onClick: Action) {
 
+    var rText by remember { mutableStateOf(state.rText) }
+    var gText by remember { mutableStateOf(state.gText) }
+    var bText by remember { mutableStateOf(state.bText) }
+
     AlertDialog(onDismissRequest = {},
         title = {
             Text("Monica 通用设置")
@@ -128,25 +132,35 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row {
                     Text("对象输出框颜色:")
 
-                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), titleText = "R", value = state.rText, width = 80.dp) { str ->
-                        state.rText = str
+                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), titleText = "R", value = rText, width = 80.dp) { str ->
+                        rText = str
                     }
 
-                    basicTextFieldWithTitle(titleText = "G", value = state.gText, width = 80.dp) { str ->
-                        state.gText = str
+                    basicTextFieldWithTitle(titleText = "G", value = gText, width = 80.dp) { str ->
+                        gText = str
                     }
 
-                    basicTextFieldWithTitle(titleText = "B", value = state.bText, width = 80.dp) { str ->
-                        state.bText = str
+                    basicTextFieldWithTitle(titleText = "B", value = bText, width = 80.dp) { str ->
+                        bText = str
                     }
                 }
             }
         },
         confirmButton = {
             Button(onClick = {
+                state.rText = rText
+                state.gText = gText
+                state.bText = bText
+
                 onClick.invoke()
             }) {
                 Text("更新")
+            }
+
+            Button(onClick = {
+                onClick.invoke()
+            }) {
+                Text("关闭")
             }
         })
 }
