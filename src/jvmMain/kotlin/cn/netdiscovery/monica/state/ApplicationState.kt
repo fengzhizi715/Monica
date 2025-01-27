@@ -78,6 +78,8 @@ class ApplicationState(val scope:CoroutineScope,
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
+    fun toScalar() = intArrayOf(bText.toInt(), gText.toInt(), rText.toInt())
+
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
 
     fun addQueue(bufferedImage: BufferedImage) {

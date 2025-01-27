@@ -34,7 +34,7 @@ class ContourAnalysisViewModel {
             OpenCVManager.invokeCV(state, type = type, action = { byteArray ->
                 val srcByteArray = state.rawImage!!.image2ByteArray()
 
-                val scalar = intArrayOf(state.bText.toInt(), state.gText.toInt(), state.rText.toInt())
+                val scalar = state.toScalar()
 
                 ImageProcess.contourAnalysis(srcByteArray, byteArray, scalar, contourFilterSettings, contourDisplaySettings)
             }, failure = { e ->
