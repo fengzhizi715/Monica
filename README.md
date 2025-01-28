@@ -42,7 +42,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 本地的算法库：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境是在 MacOS 下)
+目前只在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境是在 MacOS 下)
 
 其中
 
@@ -84,7 +84,6 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * 部分模型部署到云端
-* 增加通用的一些设置
 * UI 层性能优化，升级 Kotlin 版本、Compose 版本，拆分成多模块
 * 多图生成 gif
 * 增加滤镜的数量
