@@ -9,12 +9,12 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
-import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.preview.preview
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
+import showTopToast
 
 /**
  *
@@ -149,9 +149,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
         },
         confirmButton = {
             Button(onClick = {
-                state.rText = getValidateField(block = { rText.toInt() } , failed = { }) ?: return@Button
-                state.gText = getValidateField(block = { gText.toInt() } , failed = { }) ?: return@Button
-                state.bText = getValidateField(block = { bText.toInt() } , failed = { }) ?: return@Button
+                state.rText = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
+                state.gText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
+                state.bText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型")}) ?: return@Button
 
                 onClick()
             }) {
