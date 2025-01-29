@@ -72,6 +72,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
+    // 对象输出框的颜色
     var rText by mutableStateOf(255)
     var gText by mutableStateOf(0)
     var bText by mutableStateOf(0)
