@@ -119,11 +119,9 @@ fun showVersionInfo(onClick: Action) {
 @Composable
 fun generalSettings(state: ApplicationState, onClick: Action) {
 
-    val previewViewModel:PreviewViewModel = koinInject()
-
-    var rText by remember { mutableStateOf(state.rText) }
-    var gText by remember { mutableStateOf(state.gText) }
-    var bText by remember { mutableStateOf(state.bText) }
+    var rText by remember { mutableStateOf(state.rText.toString()) }
+    var gText by remember { mutableStateOf(state.gText.toString()) }
+    var bText by remember { mutableStateOf(state.bText.toString()) }
 
     AlertDialog(onDismissRequest = {},
         title = {
@@ -151,9 +149,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
         },
         confirmButton = {
             Button(onClick = {
-                state.rText = rText
-                state.gText = gText
-                state.bText = bText
+                state.rText = getValidateField(block = { rText.toInt() } , failed = { }) ?: return@Button
+                state.gText = getValidateField(block = { gText.toInt() } , failed = { }) ?: return@Button
+                state.bText = getValidateField(block = { bText.toInt() } , failed = { }) ?: return@Button
 
                 onClick()
             }) {
