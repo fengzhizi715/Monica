@@ -14,6 +14,7 @@ Monica 是一款跨平台的桌面图像编辑软件(早期是为了验证一些
 ![](images/screenshot-version.png)
 
 # 一. 简介
+
 Monica 目前还处于开发阶段，当前提供的基础功能：
 
 * 支持图像放大预览。
@@ -35,10 +36,12 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 
 
 # 二. 功能
+
 截图较多，详细的功能跳转到单独的页面。[功能详见](FUNCTION.md)
 
 
 # 三. CV 算法 && 调用深度学习的模型
+
 本地的算法库：
 https://github.com/fengzhizi715/MonicaImageProcess
 
@@ -66,6 +69,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 
 # 四. 更多详情
+
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见和需求、参与开发。
 
 目前，暂时还不提供安装包。不过可自行编译，后续版本会提供 Windows、Linux、MasOS 各个平台对应的安装包。
@@ -92,6 +96,7 @@ https://juejin.cn/column/7396157773312065574
 
 
 # 六. 更新日志
+
 请查看 [CHANGELOG](CHANGELOG.md) 文件
 
 
