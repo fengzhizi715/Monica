@@ -4,6 +4,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
+import cn.netdiscovery.monica.config.KEY_COLOR
+import cn.netdiscovery.monica.rxcache.rxCache
+import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.CoroutineScope
 import java.awt.image.BufferedImage
 import java.io.File
@@ -73,13 +76,17 @@ class ApplicationState(val scope:CoroutineScope,
     var isShowPreviewWindow by mutableStateOf(false)
 
     // 对象输出框的颜色
-    var rText by mutableStateOf(255)
-    var gText by mutableStateOf(0)
-    var bText by mutableStateOf(0)
+    var rText by mutableStateOf(rxCache.get<IntArray>(KEY_COLOR)?.data?.get(0)?:255)
+    var gText by mutableStateOf(rxCache.get<IntArray>(KEY_COLOR)?.data?.get(1)?:0)
+    var bText by mutableStateOf(rxCache.get<IntArray>(KEY_COLOR)?.data?.get(2)?:0)
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
     fun toScalar() = intArrayOf(bText, gText, rText)
+
+    fun saveColor() {
+        rxCache.saveOrUpdate(KEY_COLOR, intArrayOf(rText, gText, bText))
+    }
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
 

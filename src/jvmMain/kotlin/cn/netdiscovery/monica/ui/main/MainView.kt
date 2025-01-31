@@ -153,6 +153,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.gText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                 state.bText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
 
+                state.saveColor()
+
                 onClick()
             }) {
                 Text("更新")
