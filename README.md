@@ -88,7 +88,8 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * 部分模型部署到云端
-* UI 层性能优化，升级 Kotlin 版本、Compose 版本，拆分成多模块
+* UI 层性能优化，升级 Kotlin 版本、Compose 版本
+* 拆分成多模块
 * 多图生成 gif
 * 增加滤镜的数量
 * 绘制完的 Shape，支持拖动
