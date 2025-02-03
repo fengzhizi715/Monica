@@ -25,7 +25,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 * 支持图像的翻转、旋转、缩放、错切。
 * 支持各种形状的裁剪，并保存裁剪的结果。
 * 支持调整图像的对比度、色调、饱和度、亮度、色温、高光、阴影等。
-* 提供 20 多款滤镜，大多数滤镜可以单独调参。
+* 提供 20 多款滤镜，且大多数滤镜可以单独调参。
 * 提供快速验证 OpenCV 算法的功能(目前只能提供一些简单算法的调参)
 
 深度学习相关的功能：
@@ -72,7 +72,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见和需求、参与开发。
 
-目前，暂时还不提供安装包。不过可自行编译，后续版本会提供 Windows、Linux、MasOS 等各个平台对应的安装包。
+目前，还不提供安装包。不过可自行编译，后续版本会提供 Windows、Linux、MasOS 等各个平台对应的安装包。
 
 Windows 用户的体验安装包: 
 > 链接: https://pan.baidu.com/s/1QrauiGLKUtozkKKB4JKLiQ?pwd=u9jn
@@ -88,7 +88,7 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * 部分模型部署到云端
-* UI 层性能优化，升级 Kotlin 版本、Compose 版本
+* UI 层性能优化，升级 Kotlin、Compose 版本
 * 拆分成多模块应用
 * 增加多张图像生成 gif 的功能
 * 增加滤镜的数量
