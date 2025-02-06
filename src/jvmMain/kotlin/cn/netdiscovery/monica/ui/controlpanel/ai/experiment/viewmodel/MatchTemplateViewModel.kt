@@ -43,7 +43,7 @@ class MatchTemplateViewModel {
             state.scope.launchWithLoading {
                 OpenCVManager.invokeCV(state, action = { byteArray ->
                     val templateByteArray = CVState.templateImage!!.image2ByteArray()
-                    val scalar = state.toScalar()
+                    val scalar = state.toOutputBoxScalar()
 
                     ImageProcess.matchTemplate(byteArray, templateByteArray, scalar, matchTemplateSettings)
                 }, failure = { e ->

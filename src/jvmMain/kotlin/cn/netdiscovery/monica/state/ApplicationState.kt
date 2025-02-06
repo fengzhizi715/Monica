@@ -82,7 +82,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
-    fun toScalar() = intArrayOf(bText, gText, rText)
+    fun toOutputBoxScalar() = intArrayOf(bText, gText, rText)
 
     fun saveOutputBoxColor() {
         rxCache.saveOrUpdate(KEY_COLOR, intArrayOf(rText, gText, bText))
