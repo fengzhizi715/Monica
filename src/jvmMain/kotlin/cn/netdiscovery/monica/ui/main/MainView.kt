@@ -145,6 +145,10 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         bText = str
                     }
                 }
+
+                Row(modifier = Modifier.padding(top = 20.dp)) {
+                    Text("通用区域大小(只用于打码、马赛克):")
+                }
             }
         },
         confirmButton = {

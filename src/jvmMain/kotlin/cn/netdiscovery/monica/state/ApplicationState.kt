@@ -75,7 +75,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
-    // 对象输出框的颜色
+    // 通用输出框的颜色
     var outputBoxRText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(0)?:255)
     var outputBoxGText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(1)?:0)
     var outputBoxBText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(2)?:0)

@@ -118,15 +118,16 @@ class PreviewViewModel {
             val mosaicSize = 40
             var xcount = 0 // 方向绘制个数
             var ycount = 0 // y方向绘制个数
-            if (width % mosaicSize === 0) {
-                xcount = width / mosaicSize
+            xcount = if (width % mosaicSize === 0) {
+                width / mosaicSize
             } else {
-                xcount = width / mosaicSize + 1
+                width / mosaicSize + 1
             }
-            if (height % mosaicSize === 0) {
-                ycount = height / mosaicSize
+
+            ycount = if (height % mosaicSize === 0) {
+                height / mosaicSize
             } else {
-                ycount = height / mosaicSize + 1
+                height / mosaicSize + 1
             }
 
             var xTmp = x
