@@ -119,9 +119,9 @@ fun showVersionInfo(onClick: Action) {
 @Composable
 fun generalSettings(state: ApplicationState, onClick: Action) {
 
-    var rText by remember { mutableStateOf(state.rText.toString()) }
-    var gText by remember { mutableStateOf(state.gText.toString()) }
-    var bText by remember { mutableStateOf(state.bText.toString()) }
+    var rText by remember { mutableStateOf(state.outputBoxRText.toString()) }
+    var gText by remember { mutableStateOf(state.outputBoxGText.toString()) }
+    var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
 
     AlertDialog(onDismissRequest = {},
         title = {
@@ -131,7 +131,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
             Column {
 
                 Row {
-                    Text("对象输出框颜色:")
+                    Text("通用输出框颜色:")
 
                     basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), titleText = "R", value = rText, width = 80.dp) { str ->
                         rText = str
@@ -149,9 +149,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
         },
         confirmButton = {
             Button(onClick = {
-                state.rText = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
-                state.gText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
-                state.bText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
+                state.outputBoxRText = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
+                state.outputBoxGText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
+                state.outputBoxBText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
 
                 state.saveOutputBoxColor()
 
