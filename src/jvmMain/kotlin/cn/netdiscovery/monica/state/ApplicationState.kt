@@ -84,7 +84,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun toScalar() = intArrayOf(bText, gText, rText)
 
-    fun saveColor() {
+    fun saveOutputBoxColor() {
         rxCache.saveOrUpdate(KEY_COLOR, intArrayOf(rText, gText, bText))
     }
 
