@@ -4,7 +4,8 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
-import cn.netdiscovery.monica.config.KEY_OUTPUT_BOX_COLOR
+import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
+import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.rxcache.rxCache
 import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.CoroutineScope
@@ -76,16 +77,16 @@ class ApplicationState(val scope:CoroutineScope,
     var isShowPreviewWindow by mutableStateOf(false)
 
     // 通用输出框的颜色
-    var outputBoxRText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(0)?:255)
-    var outputBoxGText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(1)?:0)
-    var outputBoxBText by mutableStateOf(rxCache.get<IntArray>(KEY_OUTPUT_BOX_COLOR)?.data?.get(2)?:0)
+    var outputBoxRText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxR?:255)
+    var outputBoxGText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxG?:0)
+    var outputBoxBText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxB?:0)
 
     private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
 
     fun toOutputBoxScalar() = intArrayOf(outputBoxBText, outputBoxGText, outputBoxRText)
 
-    fun saveOutputBoxColor() {
-        rxCache.saveOrUpdate(KEY_OUTPUT_BOX_COLOR, intArrayOf(outputBoxRText, outputBoxGText, outputBoxBText))
+    fun saveGeneralSettings() {
+        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText))
     }
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
