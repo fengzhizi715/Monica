@@ -76,17 +76,19 @@ class ApplicationState(val scope:CoroutineScope,
 
     var isShowPreviewWindow by mutableStateOf(false)
 
+    private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
+
     // 通用输出框的颜色
     var outputBoxRText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxR?:255)
     var outputBoxGText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxG?:0)
     var outputBoxBText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxB?:0)
 
-    private val queue: LinkedBlockingDeque<BufferedImage> = LinkedBlockingDeque(40)
+    var sizeText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.size?:100)
 
     fun toOutputBoxScalar() = intArrayOf(outputBoxBText, outputBoxGText, outputBoxRText)
 
     fun saveGeneralSettings() {
-        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText))
+        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText, sizeText))
     }
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)

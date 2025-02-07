@@ -11,5 +11,6 @@ package cn.netdiscovery.monica.domain
 data class GeneralSettings(
     var outputBoxR: Int,
     var outputBoxG: Int,
-    var outputBoxB: Int
+    var outputBoxB: Int,
+    var size: Int
 )

@@ -122,6 +122,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var rText by remember { mutableStateOf(state.outputBoxRText.toString()) }
     var gText by remember { mutableStateOf(state.outputBoxGText.toString()) }
     var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
+    var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
 
     AlertDialog(onDismissRequest = {},
         title = {
@@ -148,6 +149,10 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
                     Text("通用区域大小(只用于打码、马赛克):")
+
+                    basicTextFieldWithTitle(titleText = "size", value = sizeText, width = 80.dp) { str ->
+                        sizeText = str
+                    }
                 }
             }
         },
@@ -156,6 +161,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.outputBoxRText = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
                 state.outputBoxGText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                 state.outputBoxBText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
+                state.sizeText       = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
 
                 state.saveGeneralSettings()
 

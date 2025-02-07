@@ -1,16 +1,20 @@
 package cn.netdiscovery.monica.ui.preview
 
 import androidx.compose.ui.geometry.Offset
+import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
+import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.imageprocess.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import com.safframework.kotlin.coroutines.IO
+import com.safframework.rxcache.ext.get
 import filterNames
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
@@ -67,14 +71,16 @@ class PreviewViewModel {
             val xScale = (srcWidth.toFloat()/width)
             val yScale = (srcHeight.toFloat()/height)
 
+            val size = rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.size?:100
+
             // 打码区域左上角x坐标
             val x = (offset.x*xScale).toInt()
             // 打码区域左上角y坐标
             val y = (offset.y*yScale).toInt()
             // 打码区域宽度
-            val width = (100*xScale).toInt()
+            val width = (size*xScale).toInt()
             // 打码区域高度
-            val height = (100*yScale).toInt()
+            val height = (size*yScale).toInt()
 
             var tempImage = bufferedImage.subImage(x,y,width,height)
             tempImage = blurFilter.transform(tempImage)
@@ -100,6 +106,8 @@ class PreviewViewModel {
             val xScale = (srcWidth.toFloat()/width)
             val yScale = (srcHeight.toFloat()/height)
 
+            val size = rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.size?:100
+
             // 创建与输入图像相同大小的新图像
             val outputImage = BufferedImages.create(srcWidth, srcHeight, state.currentImage!!.type)
             // 创建画笔
@@ -111,9 +119,9 @@ class PreviewViewModel {
             // 打码区域左上角y坐标
             val y = (offset.y*yScale).toInt()
             // 打码区域宽度
-            val width = (60*xScale).toInt()
+            val width = (size*xScale).toInt()
             // 打码区域高度
-            val height = (60*yScale).toInt()
+            val height = (size*yScale).toInt()
 
             val mosaicSize = 40
             var xcount = 0 // 方向绘制个数
