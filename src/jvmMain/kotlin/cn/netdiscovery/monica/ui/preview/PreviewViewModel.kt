@@ -62,6 +62,7 @@ class PreviewViewModel {
     }
 
     fun blur(width:Int, height:Int,offset: Offset,state: ApplicationState) {
+
         state.scope.launch(IO) {
             val bufferedImage = state.currentImage!!
 
@@ -97,6 +98,7 @@ class PreviewViewModel {
     }
 
     fun mosaic(width:Int, height:Int,offset: Offset,state: ApplicationState) {
+
         state.scope.launch(IO) {
             val bufferedImage = state.currentImage!!
 
@@ -228,6 +230,7 @@ class PreviewViewModel {
     }
 
     fun previewImage(state: ApplicationState) {
+
         state.scope.launch {
             loadingDisplayWithSuspend {
                 if (state.currentImage == null)
