@@ -87,8 +87,7 @@ https://juejin.cn/column/7396157773312065574
 # 五. TODO List：
 
 * 部分模型部署到云端
-* 升级 Kotlin、Compose 版本
-* 拆分成多模块应用
+* 升级 Kotlin、Compose 版本、拆分成多模块应用
 * 增加多张图像生成 gif 的功能
 * 增加滤镜的数量
 * 绘制完的 Shape，支持拖动
