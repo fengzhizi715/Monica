@@ -52,7 +52,7 @@ var openURLDialog by mutableStateOf(false)
 var picUrl by mutableStateOf("")
 
 var showVersion by mutableStateOf(false)
-private var showToast by mutableStateOf(false)
+private var showTopToast by mutableStateOf(false)
 private var toastMessage by mutableStateOf("")
 private var showVerifyToast by mutableStateOf(false)
 private var verifyToastMessage by mutableStateOf("")
@@ -151,9 +151,9 @@ fun main() = application {
                     })
             }
 
-            if (showToast) {
+            if (showTopToast) {
                 topToast(message = toastMessage) {
-                    showToast = false
+                    showTopToast = false
                 }
             }
 
@@ -258,7 +258,7 @@ fun main() = application {
 
 fun showTopToast(message:String) {
     toastMessage = message
-    showToast = true
+    showTopToast = true
 }
 
 fun showVerifyToast(message: String) {
