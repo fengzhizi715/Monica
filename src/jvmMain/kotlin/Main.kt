@@ -1,7 +1,4 @@
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
@@ -40,12 +37,9 @@ import org.koin.compose.koinInject
 import org.koin.core.Koin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.concurrent.atomic.AtomicBoolean
 
 
 val filterNames = mutableListOf("选择滤镜")
-
-private val flag = AtomicBoolean(false)
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
@@ -66,7 +60,10 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 fun main() = application {
 
-    initData()
+    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
+    LaunchedEffect(Unit) {
+        initData()
+    }
 
     val trayState = rememberTrayState()
 
@@ -120,6 +117,7 @@ fun main() = application {
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {
+
         KoinApplication(application = {
             mAppKoin = koin
             modules(viewModelModule)
@@ -275,31 +273,27 @@ fun showVerifyToast(message: String) {
  */
 private fun initData() {
 
-    if (!flag.get()) { // 防止被多次初始化
-        logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
+    logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
 
-        filterNames.addAll(getFilterNames())
-        saveFilterParamsAndRemark()
+    filterNames.addAll(getFilterNames())
+    saveFilterParamsAndRemark()
 
-        client = HttpConnectionClient(timeout, retryNum)
+    client = HttpConnectionClient(timeout, retryNum)
 
-        logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
+    logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
-        if (isProVersion) {
-            runInBackground { // 初始化人脸检测的模块
-                OpenCVManager.initFaceDetectModule()
-            }
-
-            runInBackground { // 初始化生成素描画的模块
-                OpenCVManager.initSketchDrawingModule()
-            }
-
-            runInBackground { // 初始化换脸的模块
-                OpenCVManager.initFaceSwapModule()
-            }
+    if (isProVersion) {
+        runInBackground { // 初始化人脸检测的模块
+            OpenCVManager.initFaceDetectModule()
         }
 
-        flag.set(true)
+        runInBackground { // 初始化生成素描画的模块
+            OpenCVManager.initSketchDrawingModule()
+        }
+
+        runInBackground { // 初始化换脸的模块
+            OpenCVManager.initFaceSwapModule()
+        }
     }
 }
 
