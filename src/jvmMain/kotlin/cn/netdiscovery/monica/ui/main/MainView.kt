@@ -134,15 +134,15 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row {
                     Text("通用输出框颜色:")
 
-                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), titleText = "R", value = rText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), modifier = Modifier.padding(top = 5.dp), titleText = "R", value = rText, width = 80.dp) { str ->
                         rText = str
                     }
 
-                    basicTextFieldWithTitle(titleText = "G", value = gText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "G",  modifier = Modifier.padding(top = 5.dp), value = gText, width = 80.dp) { str ->
                         gText = str
                     }
 
-                    basicTextFieldWithTitle(titleText = "B", value = bText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "B", modifier = Modifier.padding(top = 5.dp), value = bText, width = 80.dp) { str ->
                         bText = str
                     }
                 }
@@ -150,7 +150,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row(modifier = Modifier.padding(top = 20.dp)) {
                     Text("通用区域大小(只用于打码、马赛克):")
 
-                    basicTextFieldWithTitle(titleText = "size", value = sizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
                     }
                 }
