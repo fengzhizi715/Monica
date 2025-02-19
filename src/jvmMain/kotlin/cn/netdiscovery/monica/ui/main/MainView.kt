@@ -132,7 +132,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
             Column {
 
                 Row {
-                    Text("通用输出框颜色:")
+                    Text("通用输出框颜色设置:")
 
                     basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), modifier = Modifier.padding(top = 5.dp), titleText = "R", value = rText, width = 80.dp) { str ->
                         rText = str
@@ -148,7 +148,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
-                    Text("通用区域大小(只用于打码、马赛克):")
+                    Text("通用区域大小设置(只用于打码、马赛克):")
 
                     basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
