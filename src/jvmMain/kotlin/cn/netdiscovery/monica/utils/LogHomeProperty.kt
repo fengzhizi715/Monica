@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.utils
 
 import ch.qos.logback.core.PropertyDefinerBase
 import java.io.File
+import cn.netdiscovery.monica.config.workDirectory
 
 /**
  *

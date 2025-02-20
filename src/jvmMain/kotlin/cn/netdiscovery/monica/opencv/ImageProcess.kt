@@ -5,9 +5,9 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterS
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
-import cn.netdiscovery.monica.utils.arch
-import cn.netdiscovery.monica.utils.isMac
-import cn.netdiscovery.monica.utils.isWindows
+import cn.netdiscovery.monica.config.arch
+import cn.netdiscovery.monica.config.isMac
+import cn.netdiscovery.monica.config.isWindows
 import java.io.File
 
 /**

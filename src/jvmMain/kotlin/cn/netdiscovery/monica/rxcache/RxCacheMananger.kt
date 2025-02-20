@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.rxcache
 
-import cn.netdiscovery.monica.utils.workDirectory
+import cn.netdiscovery.monica.config.workDirectory
 import com.safframework.rxcache.RxCache
 import com.safframework.rxcache.ext.persistence
 import com.safframework.rxcache.memory.impl.FIFOMemoryImpl

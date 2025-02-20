@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.utils
+package cn.netdiscovery.monica.config
 
 
 /**
