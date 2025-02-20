@@ -4,11 +4,9 @@ plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
-    id("com.github.gmazzo.buildconfig") version "5.4.0"
 }
 
 val appVersion = "1.0.5"
-val isProVersion = true
 
 group = "cn.netdiscovery.monica"
 version = appVersion
@@ -39,18 +37,6 @@ var targetArch = when (osArch) {
 
 val skikoVersion = "0.8.4"
 val target = "${targetOs}-${targetArch}"
-
-buildConfig {
-    useKotlinOutput { topLevelConstants = true }
-    useKotlinOutput { internalVisibility = false }   // adds `internal` modifier to all declarations
-
-    buildConfigField("APP_NAME", project.name)
-    buildConfigField("APP_VERSION", appVersion)
-    buildConfigField("KOTLIN_VERSION", "${rootProject.extra["kotlin.version"]}")
-    buildConfigField("COMPOSE_VERSION", "${rootProject.extra["compose.version"]}")
-    buildConfigField("IS_PRO_VERSION", isProVersion)
-    buildConfigField("BUILD_TIME", System.currentTimeMillis())
-}
 
 kotlin {
     jvm {
