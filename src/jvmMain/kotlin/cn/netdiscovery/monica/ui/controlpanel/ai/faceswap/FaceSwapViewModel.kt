@@ -42,7 +42,10 @@ class FaceSwapViewModel {
         if (image!=null) {
             state.scope.launchWithLoading {
                 OpenCVManager.invokeCV(image,
-                    action = { ImageProcess.faceLandMark(it) },
+                    action = {
+                        val scalar = state.toOutputBoxScalar()
+                        ImageProcess.faceLandMark(it, scalar)
+                    },
                     success = { success.invoke(it) },
                     failure = { e->
                         logger.error("faceLandMark is failed", e)

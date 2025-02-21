@@ -241,7 +241,7 @@ object ImageProcess {
     /**
      * 人脸 landmark 提取
      */
-    external fun faceLandMark(src: ByteArray):IntArray
+    external fun faceLandMark(src: ByteArray, scalar:IntArray):IntArray
 
     /**
      * 替换人脸，将 src 中的人脸替换到 target 中，并展示 target 的图片。
