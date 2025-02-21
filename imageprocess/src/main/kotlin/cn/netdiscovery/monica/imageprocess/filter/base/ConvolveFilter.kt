@@ -1,8 +1,9 @@
 package cn.netdiscovery.monica.imageprocess.filter.base
 
-import cn.netdiscovery.monica.utils.clamp
-import cn.netdiscovery.monica.utils.premultiply
-import cn.netdiscovery.monica.utils.unpremultiply
+
+import cn.netdiscovery.monica.imageprocess.utils.clamp
+import cn.netdiscovery.monica.imageprocess.utils.premultiply
+import cn.netdiscovery.monica.imageprocess.utils.unpremultiply
 import java.awt.image.BufferedImage
 import java.awt.image.Kernel
 

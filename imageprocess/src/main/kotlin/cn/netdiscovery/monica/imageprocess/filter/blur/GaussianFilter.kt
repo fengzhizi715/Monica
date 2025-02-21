@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.imageprocess.filter.blur
 
 import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
-import cn.netdiscovery.monica.utils.clamp
+import cn.netdiscovery.monica.imageprocess.utils.clamp
 import java.awt.image.BufferedImage
 import java.awt.image.Kernel
 import kotlin.math.PI

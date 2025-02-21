@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.imageprocess
 
-import client
-import cn.netdiscovery.monica.utils.writeImageFile
+import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
@@ -65,8 +64,6 @@ class BufferedImages {
         fun load(file: File): BufferedImage = ImageIO.read(file)
 
         fun load(path: String): BufferedImage = load(File(path))
-
-        fun loadUrl(url:String): BufferedImage? = client.getImage(url)
     }
 }
 

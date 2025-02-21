@@ -15,13 +15,6 @@ import kotlin.system.measureTimeMillis
  * @version: V1.0 调试时，使用的工具类
  */
 
-/**
- * 把 BufferedImage 转换成文件，便于调试时使用
- */
-@Throws(IOException::class)
-fun writeImageFile(bi: BufferedImage, fileName:String) {
-    ImageIO.write(bi, "png", File(fileName))
-}
 
 /**
  * 统计耗时任务的时间，便于调试时使用

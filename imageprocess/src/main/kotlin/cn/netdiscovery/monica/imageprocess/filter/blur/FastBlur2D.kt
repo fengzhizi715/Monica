@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.imageprocess.filter.blur
 
 import cn.netdiscovery.monica.imageprocess.IntIntegralImage
 import cn.netdiscovery.monica.imageprocess.filter.base.ColorProcessorFilter
-import cn.netdiscovery.monica.utils.clamp
+import cn.netdiscovery.monica.imageprocess.utils.clamp
 import com.safframework.kotlin.coroutines.asyncInBackground
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.runBlocking

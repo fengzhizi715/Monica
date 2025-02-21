@@ -1,8 +1,8 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
-import androidx.compose.ui.graphics.Color
 import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
-import cn.netdiscovery.monica.utils.clamp
+import cn.netdiscovery.monica.imageprocess.utils.clamp
+import java.awt.Color
 import java.awt.image.BufferedImage
 
 /**
@@ -18,7 +18,7 @@ class VignetteFilter(
     private val vignetteWidth:Int = 50
 ): BaseFilter() {
 
-    private val vignetteColor: Color = Color.Black
+    private val vignetteColor: Color = Color.black
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 

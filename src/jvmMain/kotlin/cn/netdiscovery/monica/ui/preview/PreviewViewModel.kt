@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.preview
 
 import androidx.compose.ui.geometry.Offset
+import client
 import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
 import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.imageprocess.*
@@ -43,7 +44,7 @@ class PreviewViewModel {
         logger.info("load picUrl: $picUrl")
 
         state.scope.launchWithLoading {
-            BufferedImages.loadUrl(picUrl)?.let {
+            client.getImage(picUrl)?.let {
                 state.rawImage = it
                 state.currentImage = state.rawImage
             }
