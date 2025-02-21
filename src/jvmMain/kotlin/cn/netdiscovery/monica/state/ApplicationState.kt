@@ -107,12 +107,16 @@ class ApplicationState(val scope:CoroutineScope,
 
     /**
      * 弹出新的页面，更新 currentStatus 状态
+     * @param status 更新为当前的状态
      */
     fun togglePreviewWindowAndUpdateStatus(status:Int) {
         currentStatus = status
         isShowPreviewWindow = true
     }
 
+    /**
+     * 清空了当前的状态
+     */
     fun resetCurrentStatus() {
         currentStatus = 0
     }
