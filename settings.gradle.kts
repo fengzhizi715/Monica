@@ -17,5 +17,6 @@ plugins {
 }
 
 rootProject.name = "Monica"
+include("domain")
 include("opencv")
 include("config")
