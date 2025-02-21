@@ -3,11 +3,11 @@ package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.opencv.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extension.launchWithLoading

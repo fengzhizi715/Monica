@@ -1,9 +1,9 @@
-package cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model
+package cn.netdiscovery.monica.domain
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.colorcorrection.model.ColorCorrectionSettings
+ *          cn.netdiscovery.monica.domain.ColorCorrectionSettings
  * @author: Tony Shen
  * @date: 2024/11/6 10:40
  * @version: V1.0 <描述当前版本功能>
