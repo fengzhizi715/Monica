@@ -48,6 +48,7 @@ kotlin {
                 implementation(compose.desktop.currentOs)
                 implementation(project(":domain"))
                 implementation(project(":config"))
+                implementation(project(":imageprocess"))
                 implementation(project(":opencv"))
 
                 // skiko
