@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.manager
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.getImageInfo
+import cn.netdiscovery.monica.imageprocess.toImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVAction
@@ -34,7 +34,7 @@ object OpenCVManager {
                  failure: CVFailure) {
 
         if (state.currentImage!=null) {
-            val (width,height,byteArray) = state.currentImage!!.getImageInfo()
+            val (width,height,byteArray) = state.currentImage!!.toImageInfo()
 
             try {
                 val outPixels = action.invoke(byteArray)
@@ -61,7 +61,7 @@ object OpenCVManager {
                  action: CVAction,
                  success: CVSuccess,
                  failure: CVFailure) {
-        val (width,height,byteArray) = image.getImageInfo()
+        val (width,height,byteArray) = image.toImageInfo()
 
         try {
             val outPixels = action.invoke(byteArray)

@@ -77,7 +77,7 @@ fun BufferedImage.image2ByteArray() : ByteArray {
     return outStream.toByteArray()
 }
 
-fun BufferedImage.getImageInfo(): ImageInfo {
+fun BufferedImage.toImageInfo(): ImageInfo {
 
     val width = this.width
     val height = this.height
