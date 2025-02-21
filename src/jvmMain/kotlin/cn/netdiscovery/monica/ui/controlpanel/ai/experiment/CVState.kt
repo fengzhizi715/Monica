@@ -3,10 +3,10 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
+import cn.netdiscovery.monica.domain.ContourDisplaySettings
+import cn.netdiscovery.monica.domain.ContourFilterSettings
+import cn.netdiscovery.monica.domain.MatchTemplateSettings
+import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import java.awt.image.BufferedImage
 
 /**

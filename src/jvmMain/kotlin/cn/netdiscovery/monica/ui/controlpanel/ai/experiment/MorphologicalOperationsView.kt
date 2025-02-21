@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
+import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MorphologicalOperationsViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider

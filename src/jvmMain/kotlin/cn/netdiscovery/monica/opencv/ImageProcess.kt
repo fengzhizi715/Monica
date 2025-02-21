@@ -1,9 +1,9 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MorphologicalOperationSettings
+import cn.netdiscovery.monica.domain.ContourDisplaySettings
+import cn.netdiscovery.monica.domain.ContourFilterSettings
+import cn.netdiscovery.monica.domain.MatchTemplateSettings
+import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import cn.netdiscovery.monica.config.arch
 import cn.netdiscovery.monica.config.isMac
 import cn.netdiscovery.monica.config.isWindows

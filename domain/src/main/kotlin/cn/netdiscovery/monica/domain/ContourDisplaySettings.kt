@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model
+package cn.netdiscovery.monica.domain
 
 /**
  *

@@ -15,7 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.MatchTemplateSettings
+import cn.netdiscovery.monica.domain.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider

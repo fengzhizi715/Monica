@@ -9,8 +9,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourDisplaySettings
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.model.ContourFilterSettings
+import cn.netdiscovery.monica.domain.ContourDisplaySettings
+import cn.netdiscovery.monica.domain.ContourFilterSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
