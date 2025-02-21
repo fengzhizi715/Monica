@@ -1,7 +1,8 @@
-package cn.netdiscovery.monica.opencv
+package cn.netdiscovery.monica.manager
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.getImageInfo
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVAction
 import cn.netdiscovery.monica.utils.CVFailure
@@ -11,7 +12,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.opencv.OpenCVManager
+ *          cn.netdiscovery.monica.manager.OpenCVManager
  * @author: Tony Shen
  * @date: 2024/8/13 19:54
  * @version: V1.0
@@ -107,8 +108,10 @@ object OpenCVManager {
         val faceSwapModePath2       = ImageProcess.resourcesDir.resolve("model_matrix.bin").absolutePath
         val faceEnhanceModePath     = ImageProcess.resourcesDir.resolve("gfpgan_1.4.onnx").absolutePath
 
-        ImageProcess.initFaceSwap(yolov8FaceModelPath, face68LandmarksModePath,
+        ImageProcess.initFaceSwap(
+            yolov8FaceModelPath, face68LandmarksModePath,
             faceEmbeddingModePath, faceSwapModePath,
-            faceSwapModePath2, faceEnhanceModePath)
+            faceSwapModePath2, faceEnhanceModePath
+        )
     }
 }

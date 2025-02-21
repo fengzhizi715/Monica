@@ -3,7 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 import cn.netdiscovery.monica.domain.MatchTemplateSettings
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.opencv.OpenCVManager
+import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.utils.extension.launchWithLoading

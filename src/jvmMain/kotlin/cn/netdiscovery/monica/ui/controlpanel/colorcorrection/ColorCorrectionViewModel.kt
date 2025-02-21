@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.imageprocess.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.opencv.OpenCVManager
+import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.CVSuccess

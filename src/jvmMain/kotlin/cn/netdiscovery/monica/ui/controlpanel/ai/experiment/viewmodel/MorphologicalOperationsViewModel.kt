@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
-import cn.netdiscovery.monica.opencv.OpenCVManager
+import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import cn.netdiscovery.monica.opencv.ImageProcess
