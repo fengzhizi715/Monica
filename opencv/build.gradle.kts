@@ -10,6 +10,7 @@ dependencies {
     testImplementation(kotlin("test"))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib")
     implementation(project(":config"))
+    implementation(project(":domain"))
 }
 
 tasks.test {
