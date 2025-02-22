@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.manager
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.imageprocess.toImageInfo
+import cn.netdiscovery.monica.imageprocess.utils.extension.toImageInfo
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVAction

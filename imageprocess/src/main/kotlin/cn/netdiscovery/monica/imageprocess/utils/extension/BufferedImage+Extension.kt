@@ -22,8 +22,6 @@ import kotlin.math.sin
  * @date: 2025/2/22 15:00
  * @version: V1.0 <描述当前版本功能>
  */
-
-
 fun BufferedImage.image2ByteArray() : ByteArray {
     val outStream = ByteArrayOutputStream()
     ImageIO.write(this, "png", outStream)

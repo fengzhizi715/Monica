@@ -5,8 +5,8 @@ import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cn.netdiscovery.monica.imageprocess.resize
-import cn.netdiscovery.monica.imageprocess.subImage
+import cn.netdiscovery.monica.imageprocess.utils.extension.resize
+import cn.netdiscovery.monica.imageprocess.utils.extension.subImage
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropImageMask
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropOutline
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.CropPath

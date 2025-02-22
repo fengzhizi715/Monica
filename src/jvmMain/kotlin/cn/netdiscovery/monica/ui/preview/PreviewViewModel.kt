@@ -6,6 +6,7 @@ import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
 import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.imageprocess.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
+import cn.netdiscovery.monica.imageprocess.utils.extension.*
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterParam

@@ -11,7 +11,7 @@ import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntRect
-import cn.netdiscovery.monica.imageprocess.subImage
+import cn.netdiscovery.monica.imageprocess.utils.extension.subImage
 
 /**
  *
