@@ -84,6 +84,13 @@ fun basicView(state: ApplicationState) {
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
             })
+
+        toolTipButton(text = "生成gif",
+            painter = painterResource("images/controlpanel/gif.png"),
+            enable = { state.isBasic },
+            onClick = {
+                state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
+            })
     }
 
     Row(verticalAlignment = Alignment.CenterVertically) {
