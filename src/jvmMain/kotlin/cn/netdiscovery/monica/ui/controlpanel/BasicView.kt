@@ -89,7 +89,7 @@ fun basicView(state: ApplicationState) {
             painter = painterResource("images/controlpanel/gif.png"),
             enable = { state.isBasic },
             onClick = {
-                state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
+                state.togglePreviewWindowAndUpdateStatus(GenerateGifStatus)
             })
     }
 
