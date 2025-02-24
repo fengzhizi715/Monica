@@ -179,7 +179,7 @@ fun main() = application {
     if (applicationState.isShowPreviewWindow) {
 
         if (applicationState.currentImage == null &&
-            (applicationState.currentStatus != FaceSwapStatus && applicationState.currentStatus != OpenCVDebugStatus)){
+            (applicationState.currentStatus != GenerateGifStatus && applicationState.currentStatus != FaceSwapStatus && applicationState.currentStatus != OpenCVDebugStatus)){
             showTopToast("请先选择图像")
 
             return@application
@@ -303,12 +303,13 @@ private fun initData() {
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
-    ColorPickStatus       -> "图像取色"
     DoodleStatus          -> "涂鸦图像"
     ShapeDrawingStatus    -> "形状绘制"
+    ColorPickStatus       -> "图像取色"
+    GenerateGifStatus     -> "生成 gif"
     CropSizeStatus        -> "图像裁剪"
     ColorCorrectionStatus -> "图像调色"
-    FaceSwapStatus        -> "人脸替换"
     OpenCVDebugStatus     -> "简单 CV 算法的快速验证"
+    FaceSwapStatus        -> "人脸替换"
     else                  -> "放大预览"
 }
