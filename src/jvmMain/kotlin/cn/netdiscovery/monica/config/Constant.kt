@@ -12,15 +12,16 @@ import cn.netdiscovery.monica.opencv.ImageProcess
  * @date: 2024/5/7 10:55
  * @version: V1.0 <描述当前版本功能>
  */
-val imageProcessVersion by lazy {
+
+val imageProcessVersion by lazy { // 本地算法库的版本
     ImageProcess.getVersion()
 }
 
-val openCVVersion by lazy {
+val openCVVersion by lazy { // OpenCV 的版本
     ImageProcess.getOpenCVVersion()
 }
 
-val onnxRuntimeVersion by lazy {
+val onnxRuntimeVersion by lazy { // ONNXRuntime 的版本
     ImageProcess.getONNXRuntimeVersion()
 }
 
