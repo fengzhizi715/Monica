@@ -28,20 +28,21 @@ const val MosaicStatus: Int = 3
 const val DoodleStatus: Int = 4
 const val ShapeDrawingStatus: Int = 5
 const val ColorPickStatus: Int = 6
-const val FlipStatus: Int = 7
-const val RotateStatus: Int = 8
-const val ResizeStatus: Int = 9
-const val ShearingStatus: Int = 10
-const val CropSizeStatus: Int = 11
+const val GenerateGifStatus: Int = 7
+const val FlipStatus: Int = 8
+const val RotateStatus: Int = 9
+const val ResizeStatus: Int = 10
+const val ShearingStatus: Int = 11
+const val CropSizeStatus: Int = 12
 
 
-const val ColorCorrectionStatus: Int = 12
+const val ColorCorrectionStatus: Int = 13
 
 
-const val OpenCVDebugStatus: Int = 13
-const val FaceDetectStatus: Int = 14
-const val SketchDrawingStatus: Int = 15
-const val FaceSwapStatus: Int = 16
+const val OpenCVDebugStatus: Int = 14
+const val FaceDetectStatus: Int = 15
+const val SketchDrawingStatus: Int = 16
+const val FaceSwapStatus: Int = 17
 
 
 @Composable

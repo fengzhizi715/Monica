@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
+import cn.netdiscovery.monica.ui.controlpanel.generategif.generateGif
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
 import cn.netdiscovery.monica.ui.main.generalSettings
 import cn.netdiscovery.monica.ui.main.mainView
@@ -223,6 +224,10 @@ fun main() = application {
                 ColorPickStatus   -> {
                     logger.info("enter ColorPickView")
                     colorPick(applicationState)
+                }
+                GenerateGifStatus -> {
+                    logger.info("enter GenerateGifView")
+                    generateGif(applicationState)
                 }
                 DoodleStatus      -> {
                     logger.info("enter DoodleView")
