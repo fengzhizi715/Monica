@@ -3,7 +3,7 @@ import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 plugins {
     kotlin("multiplatform")
     id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.0.20"
+    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
 }
 
 val appVersion = "1.0.5"

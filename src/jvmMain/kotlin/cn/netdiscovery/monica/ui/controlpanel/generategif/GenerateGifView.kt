@@ -15,7 +15,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.utils.chooseImage
 import java.awt.image.BufferedImage
 
@@ -27,7 +26,7 @@ import java.awt.image.BufferedImage
  * @date:  2025/2/23 16:16
  * @version: V1.0 <描述当前版本功能>
  */
-private val list = mutableListOf<BufferedImage>()
+private val map = mutableMapOf<Int, BufferedImage>()
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -41,10 +40,13 @@ fun generateGif(state: ApplicationState) {
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
+                    chooseImage(state) { file ->
+                        map[0] = BufferedImages.load(file)
+                    }
                 },
-                enabled = list.size == 0
+                enabled = map.isEmpty()
             ) {
-                if (list.size == 0) {
+                if (map.isEmpty()) {
                     Text(
                         modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
                         text = "请点击选择图像",
@@ -58,7 +60,7 @@ fun generateGif(state: ApplicationState) {
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
                             Image(
-                                painter = list[0].toPainter(),
+                                painter = map[0]!!.toPainter(),
                                 contentDescription = null,
                                 contentScale = ContentScale.Fit,
                                 modifier = Modifier
@@ -68,35 +70,35 @@ fun generateGif(state: ApplicationState) {
                 }
             }
 
-            Card(
-                modifier = Modifier.padding(10.dp).width(300.dp).height(300.dp),
-                shape = RoundedCornerShape(8.dp),
-                elevation = 4.dp,
-                onClick = {
-                },
-                enabled = list.size > 1
-            ) {
-                if (list.size == 1) {
-                    Text(
-                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                        text = "请添加图片",
-                        textAlign = TextAlign.Center
-                    )
-                } else if (list.size == 0) {
-
-                } else if (list.size > 1) {
-                    Box {
-                        Column(
-                            modifier = Modifier.fillMaxSize(),
-                            verticalArrangement = Arrangement.Center,
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            Image(
-                                painter = list[1].toPainter(),
-                                contentDescription = null,
-                                contentScale = ContentScale.Fit,
-                                modifier = Modifier
-                            )
+            if (map.size >= 1) {
+                Card(
+                    modifier = Modifier.padding(10.dp).width(300.dp).height(300.dp),
+                    shape = RoundedCornerShape(8.dp),
+                    elevation = 4.dp,
+                    onClick = {
+                    },
+                    enabled = map.size > 1
+                ) {
+                    if (map.size == 1) {
+                        Text(
+                            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                            text = "请添加图片",
+                            textAlign = TextAlign.Center
+                        )
+                    } else {
+                        Box {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                verticalArrangement = Arrangement.Center,
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Image(
+                                    painter = map[1]!!.toPainter(),
+                                    contentDescription = null,
+                                    contentScale = ContentScale.Fit,
+                                    modifier = Modifier
+                                )
+                            }
                         }
                     }
                 }
