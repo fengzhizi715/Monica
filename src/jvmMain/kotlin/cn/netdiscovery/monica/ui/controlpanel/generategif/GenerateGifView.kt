@@ -70,7 +70,7 @@ fun generateGif(state: ApplicationState) {
                 }
             }
 
-            if (map.size >= 1) {
+            if (map.isNotEmpty()) {
                 Card(
                     modifier = Modifier.padding(10.dp).width(300.dp).height(300.dp),
                     shape = RoundedCornerShape(8.dp),

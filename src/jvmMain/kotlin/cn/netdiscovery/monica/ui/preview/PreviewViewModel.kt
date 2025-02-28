@@ -14,6 +14,7 @@ import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
+import cn.netdiscovery.monica.utils.extension.getUniqueFile
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.ext.get

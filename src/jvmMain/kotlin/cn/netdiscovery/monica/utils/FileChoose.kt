@@ -99,19 +99,3 @@ fun dropFileTarget(
         }
     }
 }
-
-fun File.getUniqueFile(sourceFile: File = File("")): File {
-    var newFile = this
-
-    if (newFile.isDirectory) {
-        newFile = File(newFile, sourceFile.name)
-    }
-
-    var index = 1
-    while (newFile.exists()) {
-        newFile = File(newFile.parentFile, "${newFile.nameWithoutExtension}($index).${newFile.extension}")
-        index++
-    }
-
-    return newFile
-}
