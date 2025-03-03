@@ -73,7 +73,8 @@ kotlin {
                 implementation("ch.qos.logback:logback-core:${rootProject.extra["logback"]}")
                 implementation("ch.qos.logback:logback-access:${rootProject.extra["logback"]}")
 
-                implementation ("com.madgag.gif.fms:gif-encoder:1.4")
+                // generate gif
+                implementation ("com.madgag:animated-gif-lib:1.4")
 
             }
         }
