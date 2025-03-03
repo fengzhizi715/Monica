@@ -5,21 +5,21 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.itemsIndexed
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import com.madgag.gif.fmsware.AnimatedGifEncoder
 import java.awt.FileDialog
 import java.awt.Frame
 import java.awt.image.BufferedImage
 import java.io.File
+import java.io.FileOutputStream
 import javax.imageio.ImageIO
 
 /**
@@ -123,7 +123,7 @@ fun generateGif(state: ApplicationState) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-//            generateGif(selectedImages, frameDelay, loopEnabled)
+            generateGif(selectedImages, frameDelay, loopEnabled)
         }) {
             Text("Generate GIF")
         }
@@ -140,4 +140,20 @@ fun chooseImageFile(): File? {
     } else {
         null
     }
+}
+
+fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
+    val gifEncoder = AnimatedGifEncoder()
+    gifEncoder.setSize(900, 1000);
+    gifEncoder.start(FileOutputStream("output.gif"))
+
+    gifEncoder.setDelay(frameDelay)
+    gifEncoder.setRepeat(if (loopEnabled) 0 else 1) // Set loop option
+
+    images.forEach { imageFile ->
+        val image = ImageIO.read(imageFile)
+        gifEncoder.addFrame(image)
+    }
+
+    gifEncoder.finish()
 }
