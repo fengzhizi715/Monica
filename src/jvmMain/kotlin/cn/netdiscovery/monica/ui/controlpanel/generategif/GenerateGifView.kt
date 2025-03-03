@@ -14,10 +14,10 @@ import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.chooseImage
 import com.madgag.gif.fmsware.AnimatedGifEncoder
-import java.awt.FileDialog
-import java.awt.Frame
-import java.awt.image.BufferedImage
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileOutputStream
 import javax.imageio.ImageIO
@@ -30,9 +30,8 @@ import javax.imageio.ImageIO
  * @date:  2025/2/23 16:16
  * @version: V1.0 <描述当前版本功能>
  */
-private val map = mutableMapOf<Int, BufferedImage>()
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun generateGif(state: ApplicationState) {
     var selectedImages by remember { mutableStateOf<List<File>>(emptyList()) }
@@ -40,17 +39,16 @@ fun generateGif(state: ApplicationState) {
     var loopEnabled by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text("Create GIF", style = MaterialTheme.typography.h4)
 
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-            val imageFile = chooseImageFile()
-            imageFile?.let {
-                selectedImages = selectedImages + it
+
+            chooseImage(state) {imageFile ->
+                selectedImages = selectedImages + imageFile
             }
         }) {
-            Text("Add Image")
+            Text("添加图片")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -63,7 +61,7 @@ fun generateGif(state: ApplicationState) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     itemsIndexed(selectedImages) { index, imageFile ->
-                        Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp), ) {
+                        Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
                             Column(modifier = Modifier.padding(4.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally) {
                                 val bitmap = remember(imageFile) { ImageIO.read(imageFile).toComposeImageBitmap() }
@@ -102,7 +100,14 @@ fun generateGif(state: ApplicationState) {
                 }
             }
         } else {
-            Text("No images added", modifier = Modifier.height(600.dp).fillMaxWidth())
+            Column(modifier = Modifier.height(600.dp).fillMaxWidth()) {
+                Card(modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
+                    Row(horizontalArrangement = Arrangement.Center,
+                        verticalAlignment = Alignment.CenterVertically) {
+                        Text("请先添加图片")
+                    }
+                }
+            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -125,26 +130,15 @@ fun generateGif(state: ApplicationState) {
         Button(onClick = {
             generateGif(selectedImages, frameDelay, loopEnabled)
         }) {
-            Text("Generate GIF")
+            Text("生成 gif")
         }
     }
 }
 
-fun chooseImageFile(): File? {
-    val fileDialog = FileDialog(Frame(), "Choose an image", FileDialog.LOAD)
-    fileDialog.isVisible = true
-    val fileName = fileDialog.file
-    val directory = fileDialog.directory
-    return if (fileName != null && directory != null) {
-        File(directory, fileName)
-    } else {
-        null
-    }
-}
-
 fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
+    logger.info("start to generate gif")
     val gifEncoder = AnimatedGifEncoder()
-    gifEncoder.setSize(900, 1000);
+    gifEncoder.setSize(900, 1000)
     gifEncoder.start(FileOutputStream("output.gif"))
 
     gifEncoder.setDelay(frameDelay)
@@ -156,4 +150,6 @@ fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
     }
 
     gifEncoder.finish()
+
+    logger.info("GIF generated successfully!")
 }
