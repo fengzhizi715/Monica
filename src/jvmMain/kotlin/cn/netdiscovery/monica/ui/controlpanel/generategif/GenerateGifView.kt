@@ -73,41 +73,54 @@ fun generateGif(state: ApplicationState) {
                     columns = GridCells.Fixed(5),
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    itemsIndexed(selectedImages) { index, imageFile ->
+                    val one = File("")
+                    itemsIndexed(selectedImages + one) { index, imageFile ->
 
-                        Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
+                        if (index < selectedImages.size) {
+                            Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
 
-                            Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
+                                Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                    val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
 
-                                Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
+                                    Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
 
-                                Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                                    Button(onClick = {
-                                        selectedImages = selectedImages.toMutableList().apply { removeAt(index) }
-                                    }) {
-                                        Text("Delete")
-                                    }
-
-                                    if (index > 0) {
+                                    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                                         Button(onClick = {
-                                            selectedImages = selectedImages.toMutableList().apply {
-                                                add(index - 1, removeAt(index))
-                                            }
+                                            selectedImages = selectedImages.toMutableList().apply { removeAt(index) }
                                         }) {
-                                            Text("Up")
+                                            Text("Delete")
+                                        }
+
+                                        if (index > 0) {
+                                            Button(onClick = {
+                                                selectedImages = selectedImages.toMutableList().apply {
+                                                    add(index - 1, removeAt(index))
+                                                }
+                                            }) {
+                                                Text("Up")
+                                            }
+                                        }
+
+                                        if (index < selectedImages.size - 1) {
+                                            Button(onClick = {
+                                                selectedImages = selectedImages.toMutableList().apply {
+                                                    add(index + 1, removeAt(index))
+                                                }
+                                            }) {
+                                                Text("Down")
+                                            }
                                         }
                                     }
-
-                                    if (index < selectedImages.size - 1) {
-                                        Button(onClick = {
-                                            selectedImages = selectedImages.toMutableList().apply {
-                                                add(index + 1, removeAt(index))
-                                            }
-                                        }) {
-                                            Text("Down")
-                                        }
-                                    }
+                                }
+                            }
+                        } else {
+                            Card(onClick = {
+                                chooseImage(state) {imageFile ->
+                                    selectedImages += imageFile
+                                }},
+                                modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
+                                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                                    Text("请先添加图片")
                                 }
                             }
                         }
