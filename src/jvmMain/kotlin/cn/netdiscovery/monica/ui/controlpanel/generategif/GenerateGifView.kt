@@ -13,6 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.chooseImage
 import com.madgag.gif.fmsware.AnimatedGifEncoder
@@ -43,9 +44,8 @@ fun generateGif(state: ApplicationState) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
-
             chooseImage(state) {imageFile ->
-                selectedImages = selectedImages + imageFile
+                selectedImages += imageFile
             }
         }) {
             Text("添加图片")
@@ -61,10 +61,12 @@ fun generateGif(state: ApplicationState) {
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     itemsIndexed(selectedImages) { index, imageFile ->
+
                         Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
-                            Column(modifier = Modifier.padding(4.dp),
-                                horizontalAlignment = Alignment.CenterHorizontally) {
-                                val bitmap = remember(imageFile) { ImageIO.read(imageFile).toComposeImageBitmap() }
+
+                            Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
+
                                 Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
                                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                                     Button(onClick = {
@@ -95,7 +97,6 @@ fun generateGif(state: ApplicationState) {
                                 }
                             }
                         }
-
                     }
                 }
             }
@@ -135,7 +136,7 @@ fun generateGif(state: ApplicationState) {
     }
 }
 
-fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
+private fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
     logger.info("start to generate gif")
     val gifEncoder = AnimatedGifEncoder()
     gifEncoder.setSize(900, 1000)
