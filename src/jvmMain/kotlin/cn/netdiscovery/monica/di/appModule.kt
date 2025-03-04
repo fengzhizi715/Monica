@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionVie
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
+import cn.netdiscovery.monica.ui.controlpanel.generategif.GenerateGifViewModel
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ShapeDrawingViewModel
 import cn.netdiscovery.monica.ui.main.MainViewModel
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
@@ -46,4 +47,5 @@ val viewModelModule = module {
     singleOf(::ImageDenoisingViewModel)
     singleOf(::MorphologicalOperationsViewModel)
     singleOf(::MatchTemplateViewModel)
+    singleOf(::GenerateGifViewModel)
 }

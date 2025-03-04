@@ -19,14 +19,11 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.utils.chooseImage
-import cn.netdiscovery.monica.utils.currentTime
 import cn.netdiscovery.monica.utils.getValidateField
-import com.madgag.gif.fmsware.AnimatedGifEncoder
+import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
-import java.io.FileOutputStream
-import javax.imageio.ImageIO
 
 /**
  *
@@ -44,6 +41,8 @@ private var verifyToastMessage by mutableStateOf("")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun generateGif(state: ApplicationState) {
+    val viewModel: GenerateGifViewModel = koinInject()
+
     var selectedImages by remember { mutableStateOf<List<File>>(emptyList()) }
 
     var widthText by remember { mutableStateOf("400") }
@@ -153,11 +152,15 @@ fun generateGif(state: ApplicationState) {
             enabled = selectedImages.isNotEmpty(),
             text = "生成 gif",
             onClick = {
+
                 val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
                 val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
                 val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
 
-                generateGif(selectedImages, width, height, frameDelay, loopEnabled)
+                logger.info("start to generate gif")
+                viewModel.generateGif(selectedImages, width, height, frameDelay, loopEnabled)
+                showGenerateGifVerifyToast("gif 生成成功")
+                logger.info("gif generated successfully!")
         })
     }
 
@@ -171,24 +174,4 @@ fun generateGif(state: ApplicationState) {
 private fun showGenerateGifVerifyToast(message: String) {
     verifyToastMessage = message
     showVerifyToast = true
-}
-
-private fun generateGif(images: List<File>, width: Int, height: Int, frameDelay: Int, loopEnabled: Boolean) {
-    logger.info("start to generate gif")
-    val gifEncoder = AnimatedGifEncoder()
-    gifEncoder.setSize(width, height)
-    gifEncoder.start(FileOutputStream("output_${currentTime()}.gif"))
-
-    gifEncoder.setDelay(frameDelay)
-    gifEncoder.setRepeat(if (loopEnabled) 0 else 1) // Set loop option
-
-    images.forEach { imageFile ->
-        val image = ImageIO.read(imageFile)
-        gifEncoder.addFrame(image)
-    }
-
-    gifEncoder.finish()
-
-    showGenerateGifVerifyToast("gif 生成成功")
-    logger.info("gif generated successfully!")
 }
