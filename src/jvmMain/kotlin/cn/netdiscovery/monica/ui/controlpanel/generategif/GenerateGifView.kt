@@ -10,14 +10,17 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.confirmButton
+import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -37,6 +40,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 private var showVerifyToast by mutableStateOf(false)
 private var verifyToastMessage by mutableStateOf("")
+private val height = 600.dp // 上传图片的区域
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -64,7 +68,7 @@ fun generateGif(state: ApplicationState) {
 
         if (selectedImages.isNotEmpty()) {
             Text("Selected Images:")
-            Box(modifier = Modifier.height(600.dp).fillMaxWidth()) {
+            Box(modifier = Modifier.height(height).fillMaxWidth()) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(5),
                     modifier = Modifier.fillMaxWidth()
@@ -111,7 +115,7 @@ fun generateGif(state: ApplicationState) {
                 }
             }
         } else {
-            Column(modifier = Modifier.height(600.dp).fillMaxWidth()) {
+            Column(modifier = Modifier.height(height).fillMaxWidth()) {
                 Card(onClick = {
                     chooseImage(state) {imageFile ->
                     selectedImages += imageFile
@@ -126,6 +130,8 @@ fun generateGif(state: ApplicationState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
+        subTitleWithDivider(text = "gif 生成策略", color = Color.Black)
+
         Row {
             basicTextFieldWithTitle(titleText = "gif 宽", widthText, Modifier.padding(end = 20.dp)) { str ->
                 widthText = str
@@ -134,14 +140,15 @@ fun generateGif(state: ApplicationState) {
             basicTextFieldWithTitle(titleText = "gif 高", heightText, Modifier.padding(end = 20.dp)) { str ->
                 heightText = str
             }
+        }
 
+        Row(modifier = Modifier.padding(top = 20.dp)) {
             basicTextFieldWithTitle(titleText = "每一帧间隔 (ms)", frameDelayText) { str ->
                 frameDelayText = str
             }
         }
 
-        Row(verticalAlignment = Alignment.CenterVertically) {
-
+        Row(modifier = Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
             Text("是否循环播放")
             Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
         }
@@ -152,7 +159,6 @@ fun generateGif(state: ApplicationState) {
             enabled = selectedImages.isNotEmpty(),
             text = "生成 gif",
             onClick = {
-
                 val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
                 val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
                 val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
