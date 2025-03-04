@@ -17,10 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
-import cn.netdiscovery.monica.ui.widget.centerToast
-import cn.netdiscovery.monica.ui.widget.confirmButton
-import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -67,7 +64,8 @@ fun generateGif(state: ApplicationState) {
         Spacer(modifier = Modifier.height(16.dp))
 
         if (selectedImages.isNotEmpty()) {
-            Text("Selected Images:")
+            subTitle(text = "选择下列图片", color = Color.Black)
+
             Box(modifier = Modifier.height(height).fillMaxWidth()) {
                 LazyVerticalGrid(
                     columns = GridCells.Fixed(5),
