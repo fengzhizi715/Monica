@@ -15,10 +15,16 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.centerToast
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.currentTime
+import cn.netdiscovery.monica.utils.getValidateField
 import com.madgag.gif.fmsware.AnimatedGifEncoder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import showVerifyToast
 import java.io.File
 import java.io.FileOutputStream
 import javax.imageio.ImageIO
@@ -33,15 +39,16 @@ import javax.imageio.ImageIO
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+private var showVerifyToast by mutableStateOf(false)
+private var verifyToastMessage by mutableStateOf("")
+
 @Composable
 fun generateGif(state: ApplicationState) {
     var selectedImages by remember { mutableStateOf<List<File>>(emptyList()) }
-    var frameDelay by remember { mutableStateOf(500) }
+    var frameDelayText by remember { mutableStateOf("500") }
     var loopEnabled by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-
-        Spacer(modifier = Modifier.height(16.dp))
 
         Button(onClick = {
             chooseImage(state) {imageFile ->
@@ -68,6 +75,7 @@ fun generateGif(state: ApplicationState) {
                                 val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
 
                                 Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
+
                                 Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                                     Button(onClick = {
                                         selectedImages = selectedImages.toMutableList().apply { removeAt(index) }
@@ -103,8 +111,7 @@ fun generateGif(state: ApplicationState) {
         } else {
             Column(modifier = Modifier.height(600.dp).fillMaxWidth()) {
                 Card(modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
-                    Row(horizontalArrangement = Arrangement.Center,
-                        verticalAlignment = Alignment.CenterVertically) {
+                    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
                         Text("请先添加图片")
                     }
                 }
@@ -113,34 +120,43 @@ fun generateGif(state: ApplicationState) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Text("Frame Delay (ms): $frameDelay")
-        Slider(
-            value = frameDelay.toFloat(),
-            onValueChange = { frameDelay = it.toInt() },
-            valueRange = 100f..2000f,
-            steps = 19
-        )
+        basicTextFieldWithTitle(titleText = "每一帧间隔 (ms): ", frameDelayText, Modifier.padding(top = 5.dp)) { str ->
+            frameDelayText = str
+        }
 
         Row(verticalAlignment = Alignment.CenterVertically) {
             Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
-            Text("Loop GIF")
+            Text("是否循环播放")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
 
-        Button(onClick = {
-            generateGif(selectedImages, frameDelay, loopEnabled)
-        }) {
-            Text("生成 gif")
+        confirmButton(
+            enabled = selectedImages.isNotEmpty(),
+            text = "生成 gif",
+            onClick = {
+                val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
+                generateGif(selectedImages, frameDelay, loopEnabled)
+        })
+    }
+
+    if (showVerifyToast) {
+        centerToast(message = verifyToastMessage) {
+            showVerifyToast = false
         }
     }
+}
+
+private fun showGenerateGifVerifyToast(message: String) {
+    verifyToastMessage = message
+    showVerifyToast = true
 }
 
 private fun generateGif(images: List<File>, frameDelay: Int, loopEnabled: Boolean) {
     logger.info("start to generate gif")
     val gifEncoder = AnimatedGifEncoder()
     gifEncoder.setSize(900, 1000)
-    gifEncoder.start(FileOutputStream("output.gif"))
+    gifEncoder.start(FileOutputStream("output_${currentTime()}.gif"))
 
     gifEncoder.setDelay(frameDelay)
     gifEncoder.setRepeat(if (loopEnabled) 0 else 1) // Set loop option

@@ -80,6 +80,7 @@ fun toolTipButton(
 
 @Composable
 fun confirmButton(enabled:Boolean,
+                  text:String = "确定",
                   modifier:Modifier = Modifier,
                   onClick: () -> Unit) {
     Button(
@@ -89,7 +90,7 @@ fun confirmButton(enabled:Boolean,
         },
         enabled = enabled
     ) {
-        Text(text = "确定",
+        Text(text = text,
             color = if (enabled) Color.Unspecified else Color.LightGray)
     }
 }
