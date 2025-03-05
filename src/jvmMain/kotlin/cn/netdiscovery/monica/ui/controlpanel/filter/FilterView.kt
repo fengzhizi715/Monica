@@ -16,12 +16,15 @@ import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.composeClick
 import filterNames
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import showTopToast
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
@@ -127,6 +130,8 @@ private fun generateFilterParams(selectedIndex:Int) {
 
     val filterName = filterNames[selectedIndex]
     val params: List<Param>? = getFilterParam(filterName)
+
+    Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
 
     params?.forEach {
 
