@@ -1,25 +1,20 @@
 package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import androidx.compose.desktop.ui.tooling.preview.Preview
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.KeyboardActions
-import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.SolidColor
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.composeClick
 import filterNames
@@ -151,21 +146,10 @@ private fun generateFilterParams(selectedIndex:Int) {
         Row(
             modifier = Modifier.padding(top = 10.dp)
         ) {
-            Text(text = paramName)
-
-            BasicTextField(
-                value = text,
-                onValueChange = { str ->
-                    text = str
-                    tempMap[Pair(paramName, type)] = text
-                },
-                keyboardOptions = KeyboardOptions.Default,
-                keyboardActions = KeyboardActions.Default,
-                cursorBrush = SolidColor(Color.Gray),
-                singleLine = true,
-                modifier = Modifier.padding(start = 10.dp).background(Color.LightGray.copy(alpha = 0.5f), shape = RoundedCornerShape(3.dp)).height(20.dp),
-                textStyle = TextStyle(Color.Black, fontSize = 12.sp)
-            )
+            basicTextFieldWithTitle(titleText = paramName, text, Modifier.padding(top = 5.dp)) { str ->
+                text = str
+                tempMap[Pair(paramName, type)] = text
+            }
         }
     }
 }
