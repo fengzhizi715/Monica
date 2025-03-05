@@ -74,10 +74,8 @@ fun generateGif(state: ApplicationState) {
     ) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-            Spacer(modifier = Modifier.height(16.dp))
-
             if (selectedImages.isNotEmpty()) {
-                subTitle(text = "选择下列图片", color = Color.Black)
+                subTitle(modifier = Modifier.padding(start = 20.dp), text = "选择下列图片", color = Color.Black)
 
                 Box(modifier = Modifier.height(height).fillMaxWidth()) {
                     LazyVerticalGrid(
@@ -131,6 +129,8 @@ fun generateGif(state: ApplicationState) {
                     }
                 }
             } else {
+                Spacer(modifier = Modifier.height(16.dp))
+
                 Column(modifier = Modifier.height(height).fillMaxWidth()) {
                     addImageCard(state)
                 }
@@ -161,21 +161,40 @@ fun generateGif(state: ApplicationState) {
                 Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
             }
 
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(40.dp))
 
-            confirmButton(
-                enabled = selectedImages.isNotEmpty(),
-                text = "生成 gif",
-                onClick = {
-                    val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
-                    val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
-                    val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
-
-                    viewModel.generateGif(state, selectedImages, width, height, frameDelay, loopEnabled) {
-                        showGenerateGifVerifyToast("gif 已生成")
+            Row {
+                confirmButton(
+                    enabled = true,
+                    text = "返回首页",
+                    onClick = {
                         clear()
-                    }
-                })
+                        state.closeWindows()
+                    })
+
+                confirmButton(
+                    enabled = true,
+                    text = "清空图片",
+                    modifier = Modifier.padding(start = 20.dp),
+                    onClick = {
+                        clear()
+                    })
+
+                confirmButton(
+                    enabled = selectedImages.isNotEmpty(),
+                    text = "生成 gif",
+                    modifier = Modifier.padding(start = 20.dp),
+                    onClick = {
+                        val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
+                        val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
+                        val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
+
+                        viewModel.generateGif(state, selectedImages, width, height, frameDelay, loopEnabled) {
+                            showGenerateGifVerifyToast("gif 已生成")
+                            clear()
+                        }
+                    })
+            }
         }
 
         if (loadingDisplay) {
