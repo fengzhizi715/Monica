@@ -51,15 +51,20 @@ fun generateGif(state: ApplicationState) {
     var frameDelayText by remember { mutableStateOf("500") }
     var loopEnabled by remember { mutableStateOf(false) }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-
-        Button(onClick = {
+    @Composable
+    fun addImageCard(state:ApplicationState) {
+        Card(onClick = {
             chooseImage(state) {imageFile ->
                 selectedImages += imageFile
+            }},
+            modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
+            Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
+                Text("请先添加图片")
             }
-        }) {
-            Text("添加图片")
         }
+    }
+
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -112,30 +117,14 @@ fun generateGif(state: ApplicationState) {
                                 }
                             }
                         } else {
-                            Card(onClick = {
-                                chooseImage(state) {imageFile ->
-                                    selectedImages += imageFile
-                                }},
-                                modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
-                                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                                    Text("请先添加图片")
-                                }
-                            }
+                            addImageCard(state)
                         }
                     }
                 }
             }
         } else {
             Column(modifier = Modifier.height(height).fillMaxWidth()) {
-                Card(onClick = {
-                    chooseImage(state) {imageFile ->
-                    selectedImages += imageFile
-                }},
-                    modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
-                    Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                        Text("请先添加图片")
-                    }
-                }
+                addImageCard(state)
             }
         }
 
