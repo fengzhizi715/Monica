@@ -1,7 +1,11 @@
 package cn.netdiscovery.monica.rxcache
 
 import cn.netdiscovery.monica.config.KEY_FILTER_REMARK
+import cn.netdiscovery.monica.opencv.ImageProcess
 import com.safframework.rxcache.ext.get
+import com.safframework.rxcache.reflect.TypeToken
+import com.safframework.rxcache.utils.GsonUtils
+import java.io.File
 
 /**
  *
@@ -11,103 +15,26 @@ import com.safframework.rxcache.ext.get
  * @date: 2024/4/27 13:59
  * @version: V1.0 <描述当前版本功能>
  */
-data class FilterParam(val name:String, val remark:String? = null,  var params: List<Triple<String,String,Any>>)
+data class FilterParam(
+    val name: String,
+    val remark: String?,
+    val params: List<Param>
+)
 
-private val filters: MutableList<FilterParam> by lazy {
-    mutableListOf<FilterParam>().apply {
-        this.add(FilterParam("AverageFilter", params = mutableListOf()))
-        this.add(FilterParam("BilateralFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("ds","Double",1.0))
-            this.add(Triple("rs","Double",1.0))
-        }))
-        this.add(FilterParam("BlockFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("blockSize","Int",2))
-        }))
-        this.add(FilterParam("BoxBlurFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("hRadius","Int",5))
-            this.add(Triple("vRadius","Int",5))
-            this.add(Triple("iterations","Int",1))
-        }))
-        this.add(FilterParam("BumpFilter", params = mutableListOf()))
-        this.add(FilterParam("ColorFilter", remark = "ColorFilter 支持选择0-11，共12种风格。\n" +
-                "0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n" +
-                "7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
-        params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("style","Int",0))
-        }))
-        this.add(FilterParam("ConBriFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("brightness","Float",1.0f))
-            this.add(Triple("contrast","Float",1.5f))
-        }))
-        this.add(FilterParam("CropFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("x","Int",0))
-            this.add(Triple("y","Int",0))
-            this.add(Triple("w","Int",32))
-            this.add(Triple("h","Int",32))
-        }))
-        this.add(FilterParam("EmbossFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("colorConstant","Int",100))
-        }))
-        this.add(FilterParam("FastBlur2D", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("ksize","Int",5))
-        }))
-        this.add(FilterParam("GammaFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("gamma","Double",0.5))
-        }))
-        this.add(FilterParam("GaussianFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("radius","Float",5.0f))
-        }))
-        this.add(FilterParam("GradientFilter", params = mutableListOf()))
-        this.add(FilterParam("GrayFilter", params = mutableListOf()))
-        this.add(FilterParam("HighPassFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("radius","Float",10f))
-        }))
-        this.add(FilterParam("LaplaceSharpenFilter", params = mutableListOf()))
-        this.add(FilterParam("MosaicFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("r","Int",3))
-        }))
-        this.add(FilterParam("MotionFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("angle","Float",0f))
-            this.add(Triple("distance","Float",0f))
-            this.add(Triple("zoom","Float",0.4f))
-        }))
-        this.add(FilterParam("NatureFilter", remark = "NatureFilter 支持选择1-8，共8种风格。\n" +
-                "1:ATMOSPHERE STYLE,2:BURN STYLE,3:FOG STYLE,\n"+
-                "4:FREEZE STYLE,5:LAVA STYLE,6:METAL STYLE,\n" +
-                "7:OCEAN STYLE,8:WATER STYLE",
-        params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("style","Int",1))
-        }))
-        this.add(FilterParam("OilPaintFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("intensity","Int",40))
-            this.add(Triple("ksize","Int",10))
-        }))
-        this.add(FilterParam("SepiaToneFilter", params = mutableListOf()))
-        this.add(FilterParam("SharpenFilter", params = mutableListOf()))
-        this.add(FilterParam("SpotlightFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("factor","Int",1))
-        }))
-        this.add(FilterParam("StrokeAreaFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("ksize","Double",10.0))
-        }))
-        this.add(FilterParam("USMFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("radius","Float",2.0f))
-            this.add(Triple("amount","Float",0.5f))
-            this.add(Triple("threshold","Int",1))
-        }))
-        this.add(FilterParam("VariableBlurFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("hRadius","Int",5))
-            this.add(Triple("vRadius","Int",5))
-            this.add(Triple("iterations","Int",1))
-        }))
-        this.add(FilterParam("VignetteFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("fade","Int",35))
-            this.add(Triple("vignetteWidth","Int",50))
-        }))
-        this.add(FilterParam("WhiteImageFilter", params = mutableListOf<Triple<String,String,Any>>().apply {
-            this.add(Triple("beta","Double",1.1))
-        }))
-    }
+// 参数对应的数据类
+data class Param(
+    val key: String,
+    val type: String,
+    val value: Any
+)
+
+private val filters: List<FilterParam> by lazy {
+
+    val fileName = ImageProcess.resourcesDir.resolve("filterConfig.json").absolutePath
+    val jsonContent = File(fileName).readText(Charsets.UTF_8)
+    val type = object : TypeToken<List<FilterParam>>() {}.type
+
+    GsonUtils.fromJson(jsonContent, type)
 }
 
 fun saveFilterParamsAndRemark(){
@@ -119,8 +46,8 @@ fun saveFilterParamsAndRemark(){
 
 fun getFilterNames(): List<String> = filters.map { it.name }
 
-fun getFilterParam(filterName:String): List<Triple<String,String,Any>>? =
-    rxCache.get<List<Triple<String,String,Any>>>(filterName)?.data
+fun getFilterParam(filterName:String): List<Param>? =
+    rxCache.get<List<Param>>(filterName)?.data
 
 fun getFilterRemark(filterName:String):String? {
     return rxCache.get<String>(KEY_FILTER_REMARK + filterName)?.data

@@ -252,14 +252,14 @@ class PreviewViewModel {
 
                     if (params!=null) {
                         // 按照参数名首字母进行排序
-                        Collections.sort(params) { o1, o2 -> collator.compare(o1.first, o2.first) }
+                        Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
                         logger.info("filterName: $filterName, sort params: $params")
                     }
 
                     val array = mutableListOf<Any>()
 
                     params?.forEach {
-                        array.add(it.third)
+                        array.add(it.value)
                     }
 
                     logger.info("filterName: $filterName, array: $array")

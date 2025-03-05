@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
@@ -130,14 +131,14 @@ private fun generateFilterParams(selectedIndex:Int) {
     tempMap.clear()
 
     val filterName = filterNames[selectedIndex]
-    val params: List<Triple<String,String,Any>>? = getFilterParam(filterName)
+    val params: List<Param>? = getFilterParam(filterName)
 
     params?.forEach {
 
-        val paramName = it.first
-        val type = it.second
+        val paramName = it.key
+        val type = it.type
         var text by remember(filterName, paramName) {
-            mutableStateOf(it.third.toString())
+            mutableStateOf(it.value.toString())
         }
 
         tempMap[Pair(paramName, type)] = text
