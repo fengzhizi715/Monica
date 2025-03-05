@@ -43,5 +43,4 @@ const val retryNum = 3
 const val KEY_CROP_FIRST = "key_crop_first"
 const val KEY_CROP_SECOND = "key_crop_second"
 const val KEY_CROP = "key_crop"
-const val KEY_FILTER_REMARK = "key_filter_remark_"
 const val KEY_GENERAL_SETTINGS = "key_general_settings"

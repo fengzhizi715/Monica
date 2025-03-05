@@ -1,11 +1,11 @@
 package cn.netdiscovery.monica.rxcache
 
-import cn.netdiscovery.monica.config.KEY_FILTER_REMARK
 import cn.netdiscovery.monica.opencv.ImageProcess
 import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.reflect.TypeToken
 import com.safframework.rxcache.utils.GsonUtils
 import java.io.File
+import java.io.Serializable
 
 /**
  *
@@ -18,15 +18,15 @@ import java.io.File
 data class FilterParam(
     val name: String,
     val remark: String?,
-    val params: List<Param>
-)
+    var params: List<Param>
+): Serializable
 
 // 参数对应的数据类
 data class Param(
     val key: String,
     val type: String,
     val value: Any
-)
+): Serializable
 
 private val filters: List<FilterParam> by lazy {
 
@@ -34,21 +34,19 @@ private val filters: List<FilterParam> by lazy {
     val jsonContent = File(fileName).readText(Charsets.UTF_8)
     val type = object : TypeToken<List<FilterParam>>() {}.type
 
-    GsonUtils.fromJson(jsonContent, type)
+    val list: List<FilterParam> = GsonUtils.fromJson(jsonContent, type)
+
+    list
 }
 
 fun saveFilterParamsAndRemark(){
     filters.forEach {
-        rxCache.saveOrUpdate(it.name, it.params)
-        rxCache.saveOrUpdate(KEY_FILTER_REMARK + it.name, it.remark)
+        rxCache.saveOrUpdate(it.name, it)
     }
 }
 
-fun getFilterNames(): List<String> = filters.map { it.name }
+fun getFilterNames():List<String> = filters.map { it.name }
 
-fun getFilterParam(filterName:String): List<Param>? =
-    rxCache.get<List<Param>>(filterName)?.data
+fun getFilterParam(filterName:String):List<Param>? = rxCache.get<FilterParam>(filterName)?.data?.params
 
-fun getFilterRemark(filterName:String):String? {
-    return rxCache.get<String>(KEY_FILTER_REMARK + filterName)?.data
-}
+fun getFilterRemark(filterName:String):String? = rxCache.get<FilterParam>(filterName)?.data?.remark

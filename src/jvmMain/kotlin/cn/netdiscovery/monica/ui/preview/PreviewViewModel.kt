@@ -259,7 +259,15 @@ class PreviewViewModel {
                     val array = mutableListOf<Any>()
 
                     params?.forEach {
-                        array.add(it.value)
+
+                        val value = when(it.type) {
+                            "Int"    -> it.value.toString().toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()?:0
+                            "Float"  -> it.value.toString().toFloat()
+                            "Double" -> it.value.toString().toDouble()
+                            else     -> it.value
+                        }
+
+                        array.add(value)
                     }
 
                     logger.info("filterName: $filterName, array: $array")
