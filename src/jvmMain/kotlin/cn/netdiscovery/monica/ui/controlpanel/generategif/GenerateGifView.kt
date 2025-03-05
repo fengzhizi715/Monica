@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
@@ -24,6 +23,7 @@ import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
+import loadingDisplay
 
 /**
  *
@@ -64,115 +64,121 @@ fun generateGif(state: ApplicationState) {
         }
     }
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
+    Box(
+        Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
-        Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
-        if (selectedImages.isNotEmpty()) {
-            subTitle(text = "选择下列图片", color = Color.Black)
+            if (selectedImages.isNotEmpty()) {
+                subTitle(text = "选择下列图片", color = Color.Black)
 
-            Box(modifier = Modifier.height(height).fillMaxWidth()) {
-                LazyVerticalGrid(
-                    columns = GridCells.Fixed(5),
-                    modifier = Modifier.fillMaxWidth()
-                ) {
-                    val one = File("")
-                    itemsIndexed(selectedImages + one) { index, imageFile ->
+                Box(modifier = Modifier.height(height).fillMaxWidth()) {
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(5),
+                        modifier = Modifier.fillMaxWidth()
+                    ) {
+                        val emptyFile = File("")
+                        itemsIndexed(selectedImages + emptyFile) { index, imageFile ->
 
-                        if (index < selectedImages.size) {
-                            Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
+                            if (index < selectedImages.size) {
+                                Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
 
-                                Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                    val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
+                                    Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
+                                        val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
 
-                                    Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
+                                        Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
 
-                                    Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-                                        Button(onClick = {
-                                            selectedImages = selectedImages.toMutableList().apply { removeAt(index) }
-                                        }) {
-                                            Text("Delete")
-                                        }
-
-                                        if (index > 0) {
+                                        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
                                             Button(onClick = {
-                                                selectedImages = selectedImages.toMutableList().apply {
-                                                    add(index - 1, removeAt(index))
-                                                }
+                                                selectedImages = selectedImages.toMutableList().apply { removeAt(index) }
                                             }) {
-                                                Text("Up")
+                                                Text("Delete")
                                             }
-                                        }
 
-                                        if (index < selectedImages.size - 1) {
-                                            Button(onClick = {
-                                                selectedImages = selectedImages.toMutableList().apply {
-                                                    add(index + 1, removeAt(index))
+                                            if (index > 0) {
+                                                Button(onClick = {
+                                                    selectedImages = selectedImages.toMutableList().apply {
+                                                        add(index - 1, removeAt(index))
+                                                    }
+                                                }) {
+                                                    Text("Up")
                                                 }
-                                            }) {
-                                                Text("Down")
+                                            }
+
+                                            if (index < selectedImages.size - 1) {
+                                                Button(onClick = {
+                                                    selectedImages = selectedImages.toMutableList().apply {
+                                                        add(index + 1, removeAt(index))
+                                                    }
+                                                }) {
+                                                    Text("Down")
+                                                }
                                             }
                                         }
                                     }
                                 }
+                            } else {
+                                addImageCard(state)
                             }
-                        } else {
-                            addImageCard(state)
                         }
                     }
                 }
+            } else {
+                Column(modifier = Modifier.height(height).fillMaxWidth()) {
+                    addImageCard(state)
+                }
             }
-        } else {
-            Column(modifier = Modifier.height(height).fillMaxWidth()) {
-                addImageCard(state)
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            subTitleWithDivider(text = "gif 生成策略", color = Color.Black)
+
+            Row {
+                basicTextFieldWithTitle(titleText = "gif 宽", widthText, Modifier.padding(end = 20.dp)) { str ->
+                    widthText = str
+                }
+
+                basicTextFieldWithTitle(titleText = "gif 高", heightText, Modifier.padding(end = 20.dp)) { str ->
+                    heightText = str
+                }
             }
+
+            Row(modifier = Modifier.padding(top = 20.dp)) {
+                basicTextFieldWithTitle(titleText = "每一帧间隔 (ms)", frameDelayText) { str ->
+                    frameDelayText = str
+                }
+            }
+
+            Row(modifier = Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
+                Text("是否循环播放")
+                Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            confirmButton(
+                enabled = selectedImages.isNotEmpty(),
+                text = "生成 gif",
+                onClick = {
+                    val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
+                    val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
+                    val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
+
+                    viewModel.generateGif(state, selectedImages, width, height, frameDelay, loopEnabled)
+                })
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
-
-        subTitleWithDivider(text = "gif 生成策略", color = Color.Black)
-
-        Row {
-            basicTextFieldWithTitle(titleText = "gif 宽", widthText, Modifier.padding(end = 20.dp)) { str ->
-                widthText = str
-            }
-
-            basicTextFieldWithTitle(titleText = "gif 高", heightText, Modifier.padding(end = 20.dp)) { str ->
-                heightText = str
-            }
+        if (loadingDisplay) {
+            showLoading()
         }
 
-        Row(modifier = Modifier.padding(top = 20.dp)) {
-            basicTextFieldWithTitle(titleText = "每一帧间隔 (ms)", frameDelayText) { str ->
-                frameDelayText = str
+        if (showVerifyToast) {
+            centerToast(message = verifyToastMessage) {
+                showVerifyToast = false
             }
-        }
-
-        Row(modifier = Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-            Text("是否循环播放")
-            Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
-        }
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        confirmButton(
-            enabled = selectedImages.isNotEmpty(),
-            text = "生成 gif",
-            onClick = {
-                val width = getValidateField(block = { widthText.toInt() } , failed = { showGenerateGifVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
-                val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
-                val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
-
-                logger.info("start to generate gif")
-                viewModel.generateGif(selectedImages, width, height, frameDelay, loopEnabled)
-                showGenerateGifVerifyToast("gif 生成成功")
-                logger.info("gif generated successfully!")
-        })
-    }
-
-    if (showVerifyToast) {
-        centerToast(message = verifyToastMessage) {
-            showVerifyToast = false
         }
     }
 }

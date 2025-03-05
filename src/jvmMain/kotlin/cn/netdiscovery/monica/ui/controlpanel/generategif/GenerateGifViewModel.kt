@@ -1,7 +1,12 @@
 package cn.netdiscovery.monica.ui.controlpanel.generategif
 
+import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.currentTime
+import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import com.madgag.gif.fmsware.AnimatedGifEncoder
+import kotlinx.coroutines.launch
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.io.File
 import java.io.FileOutputStream
 import javax.imageio.ImageIO
@@ -16,20 +21,26 @@ import javax.imageio.ImageIO
  */
 class GenerateGifViewModel {
 
-    fun generateGif(images: List<File>, width: Int, height: Int, frameDelay: Int, loopEnabled: Boolean) {
+    private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-        val gifEncoder = AnimatedGifEncoder()
-        gifEncoder.setSize(width, height)
-        gifEncoder.start(FileOutputStream("output_${currentTime()}.gif"))
+    fun generateGif(state: ApplicationState,images: List<File>, width: Int, height: Int, frameDelay: Int, loopEnabled: Boolean) {
+        logger.info("start to generate gif")
 
-        gifEncoder.setDelay(frameDelay)
-        gifEncoder.setRepeat(if (loopEnabled) 0 else 1) // Set loop option
+        state.scope.launchWithLoading {
+            val gifEncoder = AnimatedGifEncoder()
+            gifEncoder.setSize(width, height)
+            gifEncoder.start(FileOutputStream("output_${currentTime()}.gif"))
 
-        images.forEach { imageFile ->
-            val image = ImageIO.read(imageFile)
-            gifEncoder.addFrame(image)
+            gifEncoder.setDelay(frameDelay)
+            gifEncoder.setRepeat(if (loopEnabled) 0 else 1) // Set loop option
+
+            images.forEach { imageFile ->
+                val image = ImageIO.read(imageFile)
+                gifEncoder.addFrame(image)
+            }
+
+            gifEncoder.finish()
+            logger.info("gif generated successfully!")
         }
-
-        gifEncoder.finish()
     }
 }
