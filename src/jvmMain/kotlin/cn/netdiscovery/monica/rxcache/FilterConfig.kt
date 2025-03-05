@@ -5,7 +5,6 @@ import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.reflect.TypeToken
 import com.safframework.rxcache.utils.GsonUtils
 import java.io.File
-import java.io.Serializable
 
 /**
  *
@@ -19,14 +18,14 @@ data class FilterParam(
     val name: String,
     val remark: String?,
     var params: List<Param>
-): Serializable
+)
 
 // 参数对应的数据类
 data class Param(
     val key: String,
     val type: String,
     val value: Any
-): Serializable
+)
 
 private val filters: List<FilterParam> by lazy {
 

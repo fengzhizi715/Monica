@@ -138,7 +138,12 @@ private fun generateFilterParams(selectedIndex:Int) {
         val paramName = it.key
         val type = it.type
         var text by remember(filterName, paramName) {
-            mutableStateOf(it.value.toString())
+
+            if (type == "Int") {
+                mutableStateOf((it.value.toString().toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()?:0).toString())
+            } else {
+                mutableStateOf(it.value.toString())
+            }
         }
 
         tempMap[Pair(paramName, type)] = text
