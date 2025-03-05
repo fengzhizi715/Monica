@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.controlpanel.generategif
 
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.currentTime
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
 import com.madgag.gif.fmsware.AnimatedGifEncoder
@@ -23,7 +24,7 @@ class GenerateGifViewModel {
 
     private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-    fun generateGif(state: ApplicationState,images: List<File>, width: Int, height: Int, frameDelay: Int, loopEnabled: Boolean) {
+    fun generateGif(state: ApplicationState,images: List<File>, width: Int, height: Int, frameDelay: Int, loopEnabled: Boolean, block: Action) {
         logger.info("start to generate gif")
 
         state.scope.launchWithLoading {
@@ -41,6 +42,8 @@ class GenerateGifViewModel {
 
             gifEncoder.finish()
             logger.info("gif generated successfully!")
+
+            block()
         }
     }
 }

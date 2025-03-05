@@ -20,8 +20,6 @@ import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import java.io.File
 import loadingDisplay
 
@@ -33,8 +31,6 @@ import loadingDisplay
  * @date:  2025/2/23 16:16
  * @version: V1.0 <描述当前版本功能>
  */
-private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
-
 private var showVerifyToast by mutableStateOf(false)
 private var verifyToastMessage by mutableStateOf("")
 private val height = 600.dp // 上传图片的区域
@@ -50,6 +46,14 @@ fun generateGif(state: ApplicationState) {
     var heightText by remember { mutableStateOf("400") }
     var frameDelayText by remember { mutableStateOf("500") }
     var loopEnabled by remember { mutableStateOf(false) }
+
+    fun clear() {
+        widthText = "400"
+        heightText = "400"
+        frameDelayText = "500"
+        loopEnabled = false
+        selectedImages = emptyList()
+    }
 
     @Composable
     fun addImageCard(state:ApplicationState) {
@@ -167,7 +171,10 @@ fun generateGif(state: ApplicationState) {
                     val height = getValidateField(block = { heightText.toInt() } , failed = { showGenerateGifVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
                     val frameDelay = getValidateField(block = { frameDelayText.toInt() } , failed = { showGenerateGifVerifyToast("frameDelay 需要 int 类型") }) ?: return@confirmButton
 
-                    viewModel.generateGif(state, selectedImages, width, height, frameDelay, loopEnabled)
+                    viewModel.generateGif(state, selectedImages, width, height, frameDelay, loopEnabled) {
+                        showGenerateGifVerifyToast("gif 已生成")
+                        clear()
+                    }
                 })
         }
 
