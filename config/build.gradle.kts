@@ -7,7 +7,6 @@ repositories {
     mavenCentral()
 }
 
-val appVersion = "1.0.5"
 val isProVersion = true
 
 buildConfig {
@@ -15,7 +14,7 @@ buildConfig {
     useKotlinOutput { internalVisibility = false }   // adds `internal` modifier to all declarations
 
     buildConfigField("APP_NAME", project.name)
-    buildConfigField("APP_VERSION", appVersion)
+    buildConfigField("APP_VERSION", "${rootProject.extra["app.version"]}")
     buildConfigField("KOTLIN_VERSION", "${rootProject.extra["kotlin.version"]}")
     buildConfigField("COMPOSE_VERSION", "${rootProject.extra["compose.version"]}")
     buildConfigField("IS_PRO_VERSION", isProVersion)

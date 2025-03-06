@@ -65,7 +65,7 @@ fun filterView(state: ApplicationState) {
         Button(
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
             onClick = composeClick {
-                viewModel.applyFilterParams(state)
+                viewModel.updateFilterParams(state)
                 showTopToast("滤镜修改参数生效")
             },
             enabled = state.isFilter && selectedIndex.value>0 && tempMap.size>0

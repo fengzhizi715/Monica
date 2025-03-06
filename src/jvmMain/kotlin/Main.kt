@@ -123,9 +123,9 @@ fun main() = application {
             mAppKoin = koin
             modules(viewModelModule)
         }) {
-            previewViewModel = koinInject()
-            cropViewModel    = koinInject()
-            faceSwapModel    = koinInject()
+            previewViewModel         = koinInject()
+            cropViewModel            = koinInject()
+            faceSwapModel            = koinInject()
             colorCorrectionViewModel = koinInject()
 
             applicationState.window = window
@@ -221,7 +221,7 @@ fun main() = application {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)
                 }
-                ColorPickStatus   -> {
+                ColorPickStatus -> {
                     logger.info("enter ColorPickView")
                     colorPick(applicationState)
                 }
@@ -229,15 +229,15 @@ fun main() = application {
                     logger.info("enter GenerateGifView")
                     generateGif(applicationState)
                 }
-                DoodleStatus      -> {
+                DoodleStatus -> {
                     logger.info("enter DoodleView")
                     drawImage(applicationState)
                 }
-                ShapeDrawingStatus-> {
+                ShapeDrawingStatus -> {
                     logger.info("enter ShapeDrawingView")
                     shapeDrawing(applicationState)
                 }
-                CropSizeStatus    -> {
+                CropSizeStatus -> {
                     logger.info("enter CropImageView")
                     cropImage(applicationState)
                 }
@@ -245,7 +245,7 @@ fun main() = application {
                     logger.info("enter ColorCorrectionView")
                     colorCorrection(applicationState)
                 }
-                FaceSwapStatus    -> {
+                FaceSwapStatus -> {
                     logger.info("enter FaceSwapView")
                     faceSwap(applicationState)
                 }

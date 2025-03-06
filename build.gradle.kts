@@ -6,10 +6,9 @@ plugins {
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
 }
 
-val appVersion = "1.0.5"
 
 group = "cn.netdiscovery.monica"
-version = appVersion
+version = "${rootProject.extra["app.version"]}"
 
 val mOutputDir = project.buildDir.resolve("output")
 
@@ -99,7 +98,7 @@ compose.desktop {
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
             appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
             packageName = "Monica"
-            packageVersion = appVersion
+            packageVersion = "${rootProject.extra["app.version"]}"
             description = "Monica is a cross-platform image editor"
             copyright = "© 2024 Tony Shen. All rights reserved."
 

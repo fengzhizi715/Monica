@@ -23,7 +23,7 @@ class FilterViewModel {
 
     private val logger: Logger = logger<FilterViewModel>()
 
-    fun applyFilterParams(state: ApplicationState) {
+    fun updateFilterParams(state: ApplicationState) {
         if (state.rawImageFile == null)
             return
 
