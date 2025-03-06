@@ -140,7 +140,7 @@ private fun generateFilterParams(selectedIndex:Int) {
         tempMap[Pair(paramName, type)] = text
 
         Row(
-            modifier = Modifier.padding(top = 10.dp)
+            modifier = Modifier.padding(top = 15.dp)
         ) {
             basicTextFieldWithTitle(titleText = paramName, text) { str ->
                 text = str
