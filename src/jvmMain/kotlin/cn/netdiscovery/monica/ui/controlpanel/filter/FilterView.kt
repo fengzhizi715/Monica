@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
+import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
@@ -104,6 +105,7 @@ fun filter(state: ApplicationState) {
             if (selectedIndex.value>=0) {
                 subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", fontWeight = FontWeight.Bold)
                 generateFilterParams(selectedIndex.value)
+                generateFilterRemark(selectedIndex.value)
             } else {
                 subTitle(text = "请先选择一款滤镜", fontWeight = FontWeight.Bold)
             }
@@ -146,6 +148,23 @@ private fun generateFilterParams(selectedIndex:Int) {
                 text = str
                 tempMap[Pair(paramName, type)] = text
             }
+        }
+    }
+}
+
+@Composable
+private fun generateFilterRemark(selectedIndex:Int) {
+    val filterName = filterNames[selectedIndex]
+    val remark = getFilterRemark(filterName)
+
+    if (!remark.isNullOrEmpty()) {
+        Card(
+            modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
+            shape = RoundedCornerShape(16.dp),
+            elevation = 4.dp,
+            backgroundColor = Color.LightGray
+        ) {
+            Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(start = 10.dp))
         }
     }
 }
