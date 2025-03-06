@@ -18,10 +18,7 @@ import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
-import cn.netdiscovery.monica.ui.widget.desktopLazyRow
-import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
-import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import filterNames
@@ -102,12 +99,47 @@ fun filter(state: ApplicationState) {
 
         rightSideMenuBar(modifier = Modifier.width(400.dp).height(400.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
-            if (selectedIndex.value>=0) {
-                subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", fontWeight = FontWeight.Bold)
-                generateFilterParams(selectedIndex.value)
-                generateFilterRemark(selectedIndex.value)
-            } else {
-                subTitle(text = "请先选择一款滤镜", fontWeight = FontWeight.Bold)
+            Column {
+                if (selectedIndex.value>=0) {
+                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", fontWeight = FontWeight.Bold)
+                    generateFilterParams(selectedIndex.value)
+                    generateFilterRemark(selectedIndex.value)
+                } else {
+                    subTitle(text = "请先选择一款滤镜", fontWeight = FontWeight.Bold)
+                }
+            }
+
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.BottomCenter // 将内容对齐到底部中心
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
+                ) {
+                    confirmButton(
+                        enabled = tempMap.size>0,
+                        text = "更新滤镜参数",
+                        onClick = {
+
+                        })
+
+                    confirmButton(
+                        enabled = true,
+                        text = "预览效果",
+                        onClick = {
+
+                        })
+
+                    confirmButton(
+                        enabled = true,
+                        text = "上一步",
+                        onClick = {
+
+                        })
+                }
             }
         }
     }
