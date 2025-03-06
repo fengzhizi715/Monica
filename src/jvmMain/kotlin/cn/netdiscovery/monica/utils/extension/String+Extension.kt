@@ -24,3 +24,5 @@ internal fun String.openConnection(
     connection.readTimeout = readTimeout
     return connection
 }
+
+fun String.safelyConvertToInt(): Int? = this.toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()

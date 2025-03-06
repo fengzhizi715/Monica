@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.composeClick
+import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import filterNames
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -29,7 +30,7 @@ import kotlin.collections.HashMap
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.FilterView
+ *          cn.netdiscovery.monica.ui.controlpanel.filter.FilterView
  * @author: Tony Shen
  * @date: 2024/4/30 23:24
  * @version: V1.0 <描述当前版本功能>
@@ -140,7 +141,7 @@ private fun generateFilterParams(selectedIndex:Int) {
         var text by remember(filterName, paramName) {
 
             if (type == "Int") {
-                mutableStateOf((it.value.toString().toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()?:0).toString())
+                mutableStateOf((it.value.toString().safelyConvertToInt()?:0).toString())
             } else {
                 mutableStateOf(it.value.toString())
             }

@@ -5,6 +5,7 @@ import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.collator
+import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import filterNames
 import org.slf4j.Logger
 import cn.netdiscovery.monica.utils.logger
@@ -31,7 +32,7 @@ class FilterViewModel {
         val list = mutableListOf<Param>()
         tempMap.forEach { (t, u) ->
             val value = when(t.second) {
-                "Int"    -> u.toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()?:0
+                "Int"    -> u.safelyConvertToInt()?:0
                 "Float"  -> u.toFloat()
                 "Double" -> u.toDouble()
                 else     -> u

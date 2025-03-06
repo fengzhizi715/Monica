@@ -16,6 +16,7 @@ import cn.netdiscovery.monica.ui.controlpanel.filter.selectedIndex
 import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extension.getUniqueFile
 import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.ext.get
 import filterNames
@@ -261,7 +262,7 @@ class PreviewViewModel {
                     params?.forEach {
 
                         val value = when(it.type) {
-                            "Int"    -> it.value.toString().toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()?:0
+                            "Int"    -> it.value.toString().safelyConvertToInt()?:0
                             "Float"  -> it.value.toString().toFloat()
                             "Double" -> it.value.toString().toDouble()
                             else     -> it.value
