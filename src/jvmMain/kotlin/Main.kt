@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
+import cn.netdiscovery.monica.ui.controlpanel.filter.filter
 import cn.netdiscovery.monica.ui.controlpanel.generategif.generateGif
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
 import cn.netdiscovery.monica.ui.main.generalSettings
@@ -247,7 +248,7 @@ fun main() = application {
                 }
                 FilterStatus -> {
                     logger.info("enter FilterView")
-
+                    filter(applicationState)
                 }
                 FaceSwapStatus -> {
                     logger.info("enter FaceSwapView")
