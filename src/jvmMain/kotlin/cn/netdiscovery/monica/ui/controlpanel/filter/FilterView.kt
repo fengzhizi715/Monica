@@ -1,31 +1,36 @@
 package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.ExperimentalMaterialApi
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.rxcache.Param
+import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
-import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.utils.collator
+import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
+import filterNames
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
+import kotlin.collections.HashMap
 
 /**
  *
@@ -37,6 +42,9 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+var selectedIndex = mutableStateOf(0)
+val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun filter(state: ApplicationState) {
@@ -47,56 +55,93 @@ fun filter(state: ApplicationState) {
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
-        Column (modifier = Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally) {
-            Row (
-                modifier = Modifier.fillMaxSize().padding(bottom = 200.dp, end = 400.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
+
+        Row (
+            modifier = Modifier.fillMaxSize().padding(bottom = 220.dp, end = 400.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            Card(
+                modifier = Modifier.fillMaxSize().padding(10.dp),
+                shape = RoundedCornerShape(8.dp),
+                elevation = 4.dp
             ) {
-                Card(
-                    modifier = Modifier.padding(10.dp).weight(1.0f),
-                    shape = RoundedCornerShape(8.dp),
-                    elevation = 4.dp,
-                    onClick = {
-                        chooseImage(state) { file ->
-                            state.rawImage = BufferedImages.load(file)
-                            state.currentImage = state.rawImage
-                            state.rawImageFile = file
+                Image(
+                    painter = state.currentImage!!.toPainter(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                )
+            }
+        }
+
+        Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 200.dp).align(Alignment.BottomStart)) {
+            subTitle(text = "选择下列滤镜", fontWeight = FontWeight.Bold)
+
+            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(150.dp)) {
+                filterNames.forEachIndexed{ index,label ->
+                    Card(
+                        elevation = 16.dp,
+                        modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
+                            selectedIndex.value = index
                         }
-                    },
-                    enabled = state.currentImage == null
-                ) {
-                    if (state.currentImage == null) {
-                        Text(
-                            modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                            text = "请点击选择图像",
-                            textAlign = TextAlign.Center
-                        )
-                    } else {
-                        Box {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                verticalArrangement = Arrangement.Center,
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Image(
-                                    painter = state.currentImage!!.toPainter(),
-                                    contentDescription = null,
-                                    contentScale = ContentScale.Fit,
-                                    modifier = Modifier
-                                )
-                            }
+                    ) {
+                        Row(horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically) {
+                            Text(
+                                text = label,
+                                fontSize = 22.sp,
+                                fontWeight = FontWeight.Bold,
+                                modifier = Modifier
+                                    .padding(16.dp)
+                                    .fillMaxWidth())
                         }
                     }
                 }
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(600.dp).align(Alignment.CenterEnd),
-            backgroundColor = Color.White, percent = 5) {
+        rightSideMenuBar(modifier = Modifier.width(400.dp).height(600.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+            generateFilterParams(selectedIndex.value)
+        }
+    }
+}
 
+/**
+ * 根据不同的滤镜，生成不同的参数
+ */
+@Composable
+private fun generateFilterParams(selectedIndex:Int) {
+
+    tempMap.clear()
+
+    val filterName = filterNames[selectedIndex]
+    val params: List<Param>? = getFilterParam(filterName)
+
+    Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
+
+    params?.forEach {
+
+        val paramName = it.key
+        val type = it.type
+        var text by remember(filterName, paramName) {
+
+            if (type == "Int") {
+                mutableStateOf((it.value.toString().safelyConvertToInt()?:0).toString())
+            } else {
+                mutableStateOf(it.value.toString())
+            }
+        }
+
+        tempMap[Pair(paramName, type)] = text
+
+        Row(
+            modifier = Modifier.padding(top = 10.dp)
+        ) {
+            basicTextFieldWithTitle(titleText = paramName, text, Modifier.padding(top = 5.dp)) { str ->
+                text = str
+                tempMap[Pair(paramName, type)] = text
+            }
         }
     }
 }

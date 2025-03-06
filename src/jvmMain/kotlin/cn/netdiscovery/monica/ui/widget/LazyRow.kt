@@ -20,13 +20,13 @@ import kotlinx.coroutines.launch
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun desktopLazyRow(content: @Composable () -> Unit) {
+fun desktopLazyRow(modifier:Modifier = Modifier, content: @Composable () -> Unit) {
     val scrollState = rememberLazyListState()
     val coroutineScope = rememberCoroutineScope()
 
     LazyRow(
         state = scrollState,
-        modifier = Modifier
+        modifier = modifier
             .draggable(
                 orientation = Orientation.Horizontal,
                 state = rememberDraggableState { delta ->

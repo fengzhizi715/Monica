@@ -35,9 +35,6 @@ import kotlin.collections.HashMap
  * @date: 2024/4/30 23:24
  * @version: V1.0 <描述当前版本功能>
  */
-val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
-
-var selectedIndex = mutableStateOf(0)
 
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 

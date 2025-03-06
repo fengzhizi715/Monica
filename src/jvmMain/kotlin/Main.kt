@@ -41,7 +41,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 
-val filterNames = mutableListOf("选择滤镜")
+val filterNames = mutableListOf<String>()
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)
