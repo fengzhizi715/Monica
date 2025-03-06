@@ -245,6 +245,10 @@ fun main() = application {
                     logger.info("enter ColorCorrectionView")
                     colorCorrection(applicationState)
                 }
+                FilterStatus -> {
+                    logger.info("enter FilterView")
+
+                }
                 FaceSwapStatus -> {
                     logger.info("enter FaceSwapView")
                     faceSwap(applicationState)
@@ -309,6 +313,7 @@ private fun getWindowsTitle(state: ApplicationState):String = when(state.current
     GenerateGifStatus     -> "生成 gif"
     CropSizeStatus        -> "图像裁剪"
     ColorCorrectionStatus -> "图像调色"
+    FilterStatus          -> "使用滤镜"
     OpenCVDebugStatus     -> "简单 CV 算法的快速验证"
     FaceSwapStatus        -> "人脸替换"
     else                  -> "放大预览"
