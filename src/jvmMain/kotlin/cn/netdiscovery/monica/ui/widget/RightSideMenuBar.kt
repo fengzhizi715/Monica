@@ -17,11 +17,14 @@ import androidx.compose.ui.unit.dp
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun rightSideMenuBar(modifier: Modifier, content: @Composable ColumnScope.() -> Unit) {
+fun rightSideMenuBar(modifier: Modifier,
+                     backgroundColor:Color = Color.LightGray,
+                     percent:Int = 15,
+                     content: @Composable ColumnScope.() -> Unit) {
 
     Row(modifier = modifier
         .padding(start = 10.dp, end = 10.dp)
-        .background(color = Color.LightGray, shape = RoundedCornerShape(15))) {
+        .background(color = backgroundColor, shape = RoundedCornerShape(percent))) {
         Column(
             Modifier.padding(start = 10.dp, end = 10.dp, top = 20.dp, bottom = 20.dp),
             verticalArrangement = Arrangement.Center
