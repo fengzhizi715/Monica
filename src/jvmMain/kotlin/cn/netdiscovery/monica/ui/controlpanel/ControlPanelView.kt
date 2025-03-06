@@ -11,7 +11,6 @@ import cn.netdiscovery.monica.config.isMac
 import cn.netdiscovery.monica.config.isWindows
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
-import cn.netdiscovery.monica.ui.controlpanel.filter.filterView
 import cn.netdiscovery.monica.ui.widget.divider
 
 /**

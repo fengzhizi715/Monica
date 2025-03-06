@@ -7,7 +7,6 @@ import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Style
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
@@ -156,7 +155,7 @@ class ShapeDrawingViewModel {
             canvas = canvas,
             size = size
         ) {
-            state.closeWindows()
+            state.closePreviewWindow()
 
             drawShape(canvasDrawer,lines,circles,triangles,rectangles, polygons,texts, true)
         }

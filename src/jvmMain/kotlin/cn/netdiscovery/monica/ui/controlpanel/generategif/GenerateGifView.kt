@@ -169,7 +169,7 @@ fun generateGif(state: ApplicationState) {
                     text = "返回首页",
                     onClick = {
                         clear()
-                        state.closeWindows()
+                        state.closePreviewWindow()
                     })
 
                 confirmButton(

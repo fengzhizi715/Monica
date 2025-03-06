@@ -37,12 +37,13 @@ const val CropSizeStatus: Int = 12
 
 
 const val ColorCorrectionStatus: Int = 13
+const val FilterStatus: Int = 14
 
 
-const val OpenCVDebugStatus: Int = 14
-const val FaceDetectStatus: Int = 15
-const val SketchDrawingStatus: Int = 16
-const val FaceSwapStatus: Int = 17
+const val OpenCVDebugStatus: Int = 15
+const val FaceDetectStatus: Int = 16
+const val SketchDrawingStatus: Int = 17
+const val FaceSwapStatus: Int = 18
 
 
 @Composable
@@ -125,7 +126,7 @@ class ApplicationState(val scope:CoroutineScope,
     /**
      * 关闭当前弹出的页面
      */
-    fun closeWindows() {
+    fun closePreviewWindow() {
         resetCurrentStatus()
         togglePreviewWindow(false)
     }

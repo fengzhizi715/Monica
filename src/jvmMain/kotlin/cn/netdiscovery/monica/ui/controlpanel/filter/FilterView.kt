@@ -42,7 +42,7 @@ var selectedIndex = mutableStateOf(0)
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 @Composable
-fun filterView(state: ApplicationState) {
+fun filter(state: ApplicationState) {
 
     val viewModel: FilterViewModel = koinInject()
 

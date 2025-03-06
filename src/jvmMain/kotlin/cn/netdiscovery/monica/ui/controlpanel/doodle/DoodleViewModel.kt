@@ -34,7 +34,7 @@ class DoodleViewModel {
             canvas = canvas,
             size = size,
         ) {
-            state.closeWindows()
+            state.closePreviewWindow()
 
             paths.forEach {
 

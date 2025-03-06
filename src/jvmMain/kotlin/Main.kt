@@ -209,7 +209,7 @@ fun main() = application {
                     }
                 }
 
-                applicationState.closeWindows()
+                applicationState.closePreviewWindow()
             },
             state = rememberWindowState().apply {
                 position = WindowPosition(Alignment.Center)
