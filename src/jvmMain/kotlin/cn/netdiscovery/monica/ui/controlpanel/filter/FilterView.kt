@@ -90,7 +90,7 @@ fun filter(state: ApplicationState) {
                             Text(
                                 text = label,
                                 fontSize = 22.sp,
-                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colors.primary,
                                 modifier = Modifier
                                     .padding(16.dp)
                                     .fillMaxWidth())
