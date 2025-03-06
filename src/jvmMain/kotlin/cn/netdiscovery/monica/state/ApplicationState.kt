@@ -67,13 +67,9 @@ class ApplicationState(val scope:CoroutineScope,
     var currentStatus by mutableStateOf(0)
 
     var isGeneralSettings by mutableStateOf(false)
-
     var isBasic by mutableStateOf(false)
-
     var isColorCorrection by mutableStateOf(false)
-
     var isFilter by mutableStateOf(false)
-
     var isAI by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)
@@ -117,18 +113,18 @@ class ApplicationState(val scope:CoroutineScope,
     }
 
     /**
-     * 清空了当前的状态
-     */
-    fun resetCurrentStatus() {
-        currentStatus = 0
-    }
-
-    /**
      * 关闭当前弹出的页面
      */
     fun closePreviewWindow() {
         resetCurrentStatus()
         togglePreviewWindow(false)
+    }
+
+    /**
+     * 清空了当前的状态
+     */
+    fun resetCurrentStatus() {
+        currentStatus = 0
     }
 
     fun clearImage() {

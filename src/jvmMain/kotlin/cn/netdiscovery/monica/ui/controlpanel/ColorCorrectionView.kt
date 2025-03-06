@@ -37,9 +37,15 @@ fun colorCorrectionView(state: ApplicationState) {
             state.isColorCorrection = it
 
             if (!state.isColorCorrection) {
+                state.resetCurrentStatus()
                 logger.info("取消了图像调色")
             } else {
                 logger.info("勾选了图像调色")
+
+                state.isGeneralSettings = false
+                state.isBasic = false
+                state.isFilter = false
+                state.isAI = false
             }
         })
         subTitle(text = "图像调色", color = Color.Black)

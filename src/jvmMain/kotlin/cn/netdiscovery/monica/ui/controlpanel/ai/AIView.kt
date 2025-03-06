@@ -38,6 +38,11 @@ fun aiView(state: ApplicationState) {
                 logger.info("取消了 AI 实验室")
             } else {
                 logger.info("勾选了 AI 实验室")
+
+                state.isGeneralSettings = false
+                state.isBasic = false
+                state.isColorCorrection = false
+                state.isFilter = false
             }
         })
         subTitle(text = "AI 实验室", color = Color.Black)

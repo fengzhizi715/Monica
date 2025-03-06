@@ -41,6 +41,11 @@ fun generalSettingsView(state: ApplicationState) {
                 logger.info("取消了通用设置")
             } else {
                 logger.info("勾选了通用设置")
+
+                state.isBasic = false
+                state.isColorCorrection = false
+                state.isFilter = false
+                state.isAI = false
             }
         })
         subTitle(text = "通用设置", color = Color.Black)

@@ -44,6 +44,11 @@ fun basicView(state: ApplicationState) {
                 logger.info("取消了基础功能")
             } else {
                 logger.info("勾选了基础功能")
+
+                state.isGeneralSettings = false
+                state.isColorCorrection = false
+                state.isFilter = false
+                state.isAI = false
             }
         })
         subTitle(text = "基础功能", color = Color.Black)

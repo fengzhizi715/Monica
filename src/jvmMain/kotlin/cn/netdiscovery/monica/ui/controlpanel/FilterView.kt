@@ -40,6 +40,11 @@ fun filterView(state: ApplicationState) {
                 logger.info("取消了滤镜")
             } else {
                 logger.info("勾选了滤镜")
+
+                state.isGeneralSettings = false
+                state.isBasic = false
+                state.isColorCorrection = false
+                state.isAI = false
             }
         })
         subTitle(text = "滤镜", color = Color.Black)
