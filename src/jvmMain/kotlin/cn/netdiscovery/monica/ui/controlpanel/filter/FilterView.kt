@@ -3,9 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.filter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -42,7 +40,7 @@ import kotlin.collections.HashMap
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-var selectedIndex = mutableStateOf(0)
+var selectedIndex = mutableStateOf(-1)
 val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -57,7 +55,7 @@ fun filter(state: ApplicationState) {
     ) {
 
         Row (
-            modifier = Modifier.fillMaxSize().padding(bottom = 220.dp, end = 400.dp),
+            modifier = Modifier.fillMaxSize().padding(bottom = 160.dp, end = 400.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -75,10 +73,10 @@ fun filter(state: ApplicationState) {
             }
         }
 
-        Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 200.dp).align(Alignment.BottomStart)) {
+        Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
             subTitle(text = "选择下列滤镜", fontWeight = FontWeight.Bold)
 
-            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(150.dp)) {
+            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 filterNames.forEachIndexed{ index,label ->
                     Card(
                         elevation = 16.dp,
@@ -101,8 +99,14 @@ fun filter(state: ApplicationState) {
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(600.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
-            generateFilterParams(selectedIndex.value)
+        rightSideMenuBar(modifier = Modifier.width(400.dp).height(400.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+
+            if (selectedIndex.value>=0) {
+                subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", fontWeight = FontWeight.Bold)
+                generateFilterParams(selectedIndex.value)
+            } else {
+                subTitle(text = "请先选择一款滤镜", fontWeight = FontWeight.Bold)
+            }
         }
     }
 }
@@ -138,7 +142,7 @@ private fun generateFilterParams(selectedIndex:Int) {
         Row(
             modifier = Modifier.padding(top = 10.dp)
         ) {
-            basicTextFieldWithTitle(titleText = paramName, text, Modifier.padding(top = 5.dp)) { str ->
+            basicTextFieldWithTitle(titleText = paramName, text) { str ->
                 text = str
                 tempMap[Pair(paramName, type)] = text
             }
