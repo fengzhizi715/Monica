@@ -46,9 +46,6 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 private var selectedIndex = mutableStateOf(-1)
 private val tempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放当前滤镜的参数信息
 
-private var showTopToast by mutableStateOf(false)
-private var toastMessage by mutableStateOf("")
-
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun filter(state: ApplicationState) {
@@ -143,14 +140,6 @@ fun filter(state: ApplicationState) {
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                 ) {
-//                    toolTipButton(text = "更新滤镜参数",
-//                        enable = { state.currentImage != null && tempMap.size>0 },
-//                        painter = painterResource("images/filters/update_params.png"),
-//                        onClick = {
-//                            viewModel.updateFilterParams()
-//                            showTopToast("滤镜修改参数生效")
-//                        })
-
                     toolTipButton(text = "预览效果",
                         enable = { state.currentImage != null && selectedIndex.value >= 0 },
                         painter = painterResource("images/filters/preview.png"),
@@ -183,12 +172,6 @@ fun filter(state: ApplicationState) {
 
         if (loadingDisplay) {
             showLoading()
-        }
-
-        if (showTopToast) {
-            topToast(message = toastMessage) {
-                showTopToast = false
-            }
         }
     }
 }
@@ -247,9 +230,4 @@ private fun generateFilterRemark(selectedIndex:Int) {
             Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(10.dp))
         }
     }
-}
-
-private fun showTopToast(message:String) {
-    toastMessage = message
-    showTopToast = true
 }

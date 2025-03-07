@@ -64,7 +64,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 FastBlur2D(array[0] as Int).transform(state.currentImage!!)
             }
             "GaussianFilter" -> {
-                GaussianFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+                val filter = GaussianFilter(array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "GradientFilter" -> {
                 GradientFilter().transform(state.currentImage!!)
@@ -73,7 +75,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 GrayFilter().transform(state.currentImage!!)
             }
             "HighPassFilter" -> {
-                HighPassFilter(array[0] as Float).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+                val filter = HighPassFilter(array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "LaplaceSharpenFilter" -> {
                 LaplaceSharpenFilter().transform(state.currentImage!!)
