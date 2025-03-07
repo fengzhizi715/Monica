@@ -43,8 +43,8 @@ import kotlin.collections.HashMap
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-var selectedIndex = mutableStateOf(-1)
-val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
+private var selectedIndex = mutableStateOf(-1)
+private val tempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放当前滤镜的参数信息
 
 private var showTopToast by mutableStateOf(false)
 private var toastMessage by mutableStateOf("")
@@ -143,19 +143,19 @@ fun filter(state: ApplicationState) {
                         .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                 ) {
-                    toolTipButton(text = "更新滤镜参数",
-                        enable = { tempMap.size>0 },
-                        painter = painterResource("images/filters/update_params.png"),
-                        onClick = {
-                            viewModel.updateFilterParams(state)
-                            showTopToast("滤镜修改参数生效")
-                        })
+//                    toolTipButton(text = "更新滤镜参数",
+//                        enable = { state.currentImage != null && tempMap.size>0 },
+//                        painter = painterResource("images/filters/update_params.png"),
+//                        onClick = {
+//                            viewModel.updateFilterParams()
+//                            showTopToast("滤镜修改参数生效")
+//                        })
 
                     toolTipButton(text = "预览效果",
-                        enable = { selectedIndex.value >= 0 },
+                        enable = { state.currentImage != null && selectedIndex.value >= 0 },
                         painter = painterResource("images/filters/preview.png"),
                         onClick = {
-                            viewModel.applyFilter(state)
+                            viewModel.applyFilter(state, selectedIndex.value, tempMap)
                         })
 
                     toolTipButton(text = "上一步",

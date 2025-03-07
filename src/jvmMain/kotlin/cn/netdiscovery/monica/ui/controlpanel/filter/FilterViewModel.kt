@@ -29,62 +29,62 @@ class FilterViewModel {
 
     private val logger: Logger = logger<FilterViewModel>()
 
-    fun updateFilterParams(state: ApplicationState) {
-        if (state.rawImageFile == null)
-            return
+//    fun updateFilterParams(index:Int, paramMap:HashMap<Pair<String, String>, String>) {
+//        val filterName = filterNames[selectedIndex.value]
+//        val list = mutableListOf<Param>()
+//        tempMap.forEach { (t, u) ->
+//            val value = when(t.second) {
+//                "Int"    -> u.safelyConvertToInt()?:0
+//                "Float"  -> u.toFloat()
+//                "Double" -> u.toDouble()
+//                else     -> u
+//            }
+//
+//            list.add(Param(t.first, t.second, value))
+//        }
+//
+//        // 按照参数名首字母进行排序
+//        list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
+//
+//        logger.info("sort params: $list")
+//
+//        val filterParam = rxCache.get<FilterParam>(filterName)?.data
+//        filterParam?.params = list
+//        rxCache.saveOrUpdate(filterName, filterParam)
+//    }
 
-        val filterName = filterNames[selectedIndex.value]
-        val list = mutableListOf<Param>()
-        tempMap.forEach { (t, u) ->
-            val value = when(t.second) {
-                "Int"    -> u.safelyConvertToInt()?:0
-                "Float"  -> u.toFloat()
-                "Double" -> u.toDouble()
-                else     -> u
-            }
-
-            list.add(Param(t.first, t.second, value))
-        }
-
-        // 按照参数名首字母进行排序
-        list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
-
-        logger.info("sort params: $list")
-
-        val filterParam = rxCache.get<FilterParam>(filterName)?.data
-        filterParam?.params = list
-        rxCache.saveOrUpdate(filterName, filterParam)
-    }
-
-    fun applyFilter(state:ApplicationState) {
+    /**
+     * 保存滤镜参数，并调用滤镜效果
+     */
+    fun applyFilter(state:ApplicationState, index:Int, paramMap:HashMap<Pair<String, String>, String>) {
         state.scope.launch {
             loadingDisplayWithSuspend {
                 val tempImage = state.currentImage!!
 
-                val filterName = filterNames[selectedIndex.value]
+                val filterName = filterNames[index]
 
-                val params = getFilterParam(filterName) // 从缓存中获取滤镜的参数信息
-
-                if (params!=null) {
-                    // 按照参数名首字母进行排序
-                    Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
-                    logger.info("filterName: $filterName, sort params: $params")
-                }
-
-                val array = mutableListOf<Any>()
-
-                params?.forEach {
-
-                    val value = when(it.type) {
-                        "Int"    -> it.value.toString().safelyConvertToInt()?:0
-                        "Float"  -> it.value.toString().toFloat()
-                        "Double" -> it.value.toString().toDouble()
-                        else     -> it.value
+                val list = mutableListOf<Param>()
+                paramMap.forEach { (t, u) ->
+                    val value = when(t.second) {
+                        "Int"    -> u.safelyConvertToInt()?:0
+                        "Float"  -> u.toFloat()
+                        "Double" -> u.toDouble()
+                        else     -> u
                     }
 
-                    array.add(value)
+                    list.add(Param(t.first, t.second, value))
                 }
 
+                // 按照参数名首字母进行排序
+                list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
+
+                logger.info("sort params: $list")
+
+                val filterParam = rxCache.get<FilterParam>(filterName)?.data
+                filterParam?.params = list
+                rxCache.saveOrUpdate(filterName, filterParam) // 保存滤镜参数
+
+                val array:MutableList<Any> = list.map { it.value }.toMutableList()
                 logger.info("filterName: $filterName, array: $array")
 
                 state.currentImage = doFilter(filterName,array,state)
