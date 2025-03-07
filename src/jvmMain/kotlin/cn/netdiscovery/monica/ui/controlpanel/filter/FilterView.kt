@@ -19,11 +19,11 @@ import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import filterNames
+import loadingDisplay
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -42,6 +42,9 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 var selectedIndex = mutableStateOf(-1)
 val tempMap: HashMap<Pair<String, String>, String> = hashMapOf()
+
+private var showTopToast by mutableStateOf(false)
+private var toastMessage by mutableStateOf("")
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -103,7 +106,7 @@ fun filter(state: ApplicationState) {
 
             Column {
                 if (selectedIndex.value>=0) {
-                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
+                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
                     generateFilterParams(selectedIndex.value)
                     generateFilterRemark(selectedIndex.value)
                 } else {
@@ -125,27 +128,41 @@ fun filter(state: ApplicationState) {
                         enable = { tempMap.size>0 },
                         painter = painterResource("images/filters/update_params.png"),
                         onClick = {
-
+                            viewModel.updateFilterParams(state)
+                            showTopToast("滤镜修改参数生效")
                         })
 
                     toolTipButton(text = "预览效果",
-                        painter = painterResource("images/preview/preview.png"),
+                        enable = { selectedIndex.value >= 0 },
+                        painter = painterResource("images/filters/preview.png"),
                         onClick = {
-
+                            viewModel.applyFilter(state)
                         })
 
                     toolTipButton(text = "上一步",
                         painter = painterResource("images/doodle/previous_step.png"),
                         onClick = {
-
+                            state.getLastImage()?.let {
+                                state.currentImage = it
+                            }
                         })
 
                     toolTipButton(text = "保存",
                         painter = painterResource("images/doodle/save.png"),
                         onClick = {
-
+                            state.closePreviewWindow()
                         })
                 }
+            }
+        }
+
+        if (loadingDisplay) {
+            showLoading()
+        }
+
+        if (showTopToast) {
+            topToast(message = toastMessage) {
+                showTopToast = false
             }
         }
     }
@@ -205,4 +222,9 @@ private fun generateFilterRemark(selectedIndex:Int) {
             Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(10.dp))
         }
     }
+}
+
+private fun showTopToast(message:String) {
+    toastMessage = message
+    showTopToast = true
 }

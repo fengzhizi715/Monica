@@ -233,54 +233,6 @@ class PreviewViewModel {
         }
     }
 
-    fun previewImage(state: ApplicationState) {
-
-        state.scope.launch {
-            loadingDisplayWithSuspend {
-                if (state.currentImage == null)
-                    return@loadingDisplayWithSuspend
-
-                if (!state.isColorCorrection && (!state.isFilter || (state.isFilter && selectedIndex.value == 0)))  {
-                    return@loadingDisplayWithSuspend
-                }
-
-                val tempImage = state.currentImage!!
-
-                if(state.isFilter) {
-                    val filterName = filterNames[selectedIndex.value]
-
-                    val params = getFilterParam(filterName) // 从缓存中获取滤镜的参数信息
-
-                    if (params!=null) {
-                        // 按照参数名首字母进行排序
-                        Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
-                        logger.info("filterName: $filterName, sort params: $params")
-                    }
-
-                    val array = mutableListOf<Any>()
-
-                    params?.forEach {
-
-                        val value = when(it.type) {
-                            "Int"    -> it.value.toString().safelyConvertToInt()?:0
-                            "Float"  -> it.value.toString().toFloat()
-                            "Double" -> it.value.toString().toDouble()
-                            else     -> it.value
-                        }
-
-                        array.add(value)
-                    }
-
-                    logger.info("filterName: $filterName, array: $array")
-
-                    state.currentImage = doFilter(filterName,array,state)
-                }
-
-                state.addQueue(tempImage)
-            }
-        }
-    }
-
     fun saveImage(state: ApplicationState) {
         showFileSelector(
             isMultiSelection = false,

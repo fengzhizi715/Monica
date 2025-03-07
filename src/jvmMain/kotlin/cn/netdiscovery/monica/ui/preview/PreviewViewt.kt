@@ -118,12 +118,6 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
                     viewModel.getLastImage(state)
                 })
 
-            toolTipButton(text = "预览效果",
-                painter = painterResource("images/preview/preview.png"),
-                onClick = {
-                    viewModel.previewImage(state)
-                })
-
             toolTipButton(text = "放大预览",
                 painter = painterResource("images/preview/zoom.png"),
                 onClick = {
