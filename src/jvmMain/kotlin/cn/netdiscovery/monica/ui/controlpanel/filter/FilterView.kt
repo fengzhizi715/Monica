@@ -74,7 +74,7 @@ fun filter(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
-            subTitle(text = "选择下列滤镜", fontWeight = FontWeight.Bold)
+            subTitle(text = "选择下列滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 filterNames.forEachIndexed{ index,label ->
@@ -103,11 +103,11 @@ fun filter(state: ApplicationState) {
 
             Column {
                 if (selectedIndex.value>=0) {
-                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", fontWeight = FontWeight.Bold)
+                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜相关参数", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
                     generateFilterParams(selectedIndex.value)
                     generateFilterRemark(selectedIndex.value)
                 } else {
-                    subTitle(text = "请先选择一款滤镜", fontWeight = FontWeight.Bold)
+                    subTitle(text = "请先选择一款滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
                 }
             }
 
@@ -118,11 +118,18 @@ fun filter(state: ApplicationState) {
                 Row(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp),
+                        .padding(10.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                 ) {
                     toolTipButton(text = "更新滤镜参数",
+                        enable = { tempMap.size>0 },
                         painter = painterResource("images/filters/update_params.png"),
+                        onClick = {
+
+                        })
+
+                    toolTipButton(text = "预览效果",
+                        painter = painterResource("images/preview/preview.png"),
                         onClick = {
 
                         })
@@ -173,7 +180,7 @@ private fun generateFilterParams(selectedIndex:Int) {
         tempMap[Pair(paramName, type)] = text
 
         Row(
-            modifier = Modifier.padding(top = 15.dp)
+            modifier = Modifier.padding(top = 15.dp, start = 10.dp)
         ) {
             basicTextFieldWithTitle(titleText = paramName, text) { str ->
                 text = str
@@ -190,12 +197,12 @@ private fun generateFilterRemark(selectedIndex:Int) {
 
     if (!remark.isNullOrEmpty()) {
         Card(
-            modifier = Modifier.fillMaxWidth().padding(top = 15.dp),
-            shape = RoundedCornerShape(16.dp),
+            modifier = Modifier.padding(top = 15.dp, start = 10.dp),
+            shape = RoundedCornerShape(5.dp),
             elevation = 4.dp,
             backgroundColor = Color.LightGray
         ) {
-            Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(start = 10.dp))
+            Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(10.dp))
         }
     }
 }
