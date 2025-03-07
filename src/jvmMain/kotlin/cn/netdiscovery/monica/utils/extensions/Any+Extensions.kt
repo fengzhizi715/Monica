@@ -12,6 +12,10 @@ import kotlin.reflect.jvm.isAccessible
  * @date: 2025/3/7 14:24
  * @version: V1.0 <描述当前版本功能>
  */
+
+/**
+ * 显示在构造函数中，所有参数的名称、参数值，便于调试
+ */
 fun Any.printConstructorParamsWithValues() {
     val kClass = this::class
     val constructor = kClass.primaryConstructor
