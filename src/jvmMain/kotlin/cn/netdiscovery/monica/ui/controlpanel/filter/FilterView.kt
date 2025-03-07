@@ -13,13 +13,16 @@ import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
+import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
 import filterNames
@@ -65,14 +68,30 @@ fun filter(state: ApplicationState) {
             Card(
                 modifier = Modifier.fillMaxSize().padding(10.dp),
                 shape = RoundedCornerShape(8.dp),
-                elevation = 4.dp
+                elevation = 4.dp,
+                onClick = {
+                    chooseImage(state) { file ->
+                        state.rawImage = BufferedImages.load(file)
+                        state.currentImage = state.rawImage
+                        state.rawImageFile = file
+                    }
+                },
+                enabled = state.currentImage == null
             ) {
-                Image(
-                    painter = state.currentImage!!.toPainter(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                )
+                if (state.currentImage == null) {
+                    Text(
+                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
+                        text = "请点击选择图像",
+                        textAlign = TextAlign.Center
+                    )
+                } else {
+                    Image(
+                        painter = state.currentImage!!.toPainter(),
+                        contentDescription = null,
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                    )
+                }
             }
         }
 
@@ -151,6 +170,12 @@ fun filter(state: ApplicationState) {
                         painter = painterResource("images/doodle/save.png"),
                         onClick = {
                             state.closePreviewWindow()
+                        })
+
+                    toolTipButton(text = "删除原图",
+                        painter = painterResource("images/preview/delete.png"),
+                        onClick = {
+                            state.clearImage()
                         })
                 }
             }
