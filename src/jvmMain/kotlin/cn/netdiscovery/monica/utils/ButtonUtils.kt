@@ -26,7 +26,7 @@ inline fun composeClick(
 
     return {
         val currentTimeMillis = System.currentTimeMillis()
-        if (currentTimeMillis - time >= lastClickTime) {          // 判断点击间隔,如果在间隔内则不回调
+        if (currentTimeMillis - lastClickTime >= time) {          // 判断点击间隔,如果在间隔内则不回调
 
             if (filter.invoke()) {
                 onClick()
