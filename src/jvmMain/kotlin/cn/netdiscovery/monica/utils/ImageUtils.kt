@@ -35,7 +35,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
             "BlockFilter" -> {
-                BlockFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = BlockFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "BoxBlurFilter" -> {
                 val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
@@ -51,18 +53,24 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
             "ConBriFilter" -> {
-                val filter= ConBriFilter(array[1] as Float,array[0] as Float)
+                val filter = ConBriFilter(array[1] as Float,array[0] as Float)
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
             "CropFilter" -> {
-                CropFilter(array[2] as Int,array[3] as Int,array[1] as Int,array[0] as Int).transform(state.currentImage!!)
+                val filter = CropFilter(array[2] as Int,array[3] as Int,array[1] as Int,array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "EmbossFilter" -> {
-                EmbossFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = EmbossFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "GammaFilter" -> {
-                GammaFilter(array[0] as Double).transform(state.currentImage!!)
+                val filter = GammaFilter(array[0] as Double)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "FastBlur2D" -> {
                 FastBlur2D(array[0] as Int).transform(state.currentImage!!)
@@ -87,10 +95,14 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 LaplaceSharpenFilter().transform(state.currentImage!!)
             }
             "MosaicFilter" -> {
-                MosaicFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = MosaicFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "MotionFilter" -> {
-                MotionFilter(array[0] as Float,array[1] as Float,array[2] as Float).transform(state.currentImage!!)
+                val filter = MotionFilter(array[1] as Float,array[0] as Float,array[2] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "NatureFilter" -> {
                 NatureFilter(array[0] as Int).transform(state.currentImage!!)
