@@ -50,6 +50,8 @@ kotlin {
                 implementation(project(":imageprocess"))
                 implementation(project(":opencv"))
 
+                implementation ("org.jetbrains.kotlin:kotlin-reflect")
+
                 // skiko
                 implementation("org.jetbrains.skiko:skiko-awt-runtime-$target:$skikoVersion")
 
