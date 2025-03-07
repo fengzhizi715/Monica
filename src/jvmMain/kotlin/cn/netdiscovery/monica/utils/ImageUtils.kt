@@ -46,10 +46,14 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 BumpFilter().transform(state.currentImage!!)
             }
             "ColorFilter" -> {
-                ColorFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = ColorFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "ConBriFilter" -> {
-                ConBriFilter(array[0] as Float,array[1] as Float).transform(state.currentImage!!)
+                val filter= ConBriFilter(array[1] as Float,array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "CropFilter" -> {
                 CropFilter(array[2] as Int,array[3] as Int,array[1] as Int,array[0] as Int).transform(state.currentImage!!)
