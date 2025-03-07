@@ -8,6 +8,7 @@ import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extensions.printConstructorParamsWithValues
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage
@@ -29,13 +30,17 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 AverageFilter().transform(state.currentImage!!)
             }
             "BilateralFilter" -> {
-                BilateralFilter(array[0] as Double,array[1] as Double).transform(state.currentImage!!)
+                val filter = BilateralFilter(array[0] as Double, array[1] as Double)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "BlockFilter" -> {
                 BlockFilter(array[0] as Int).transform(state.currentImage!!)
             }
             "BoxBlurFilter" -> {
-                BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int).transform(state.currentImage!!)
+                val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "BumpFilter" -> {
                 BumpFilter().transform(state.currentImage!!)
