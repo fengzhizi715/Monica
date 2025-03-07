@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
@@ -119,23 +121,20 @@ fun filter(state: ApplicationState) {
                         .padding(16.dp),
                     horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                 ) {
-                    confirmButton(
-                        enabled = tempMap.size>0,
-                        text = "更新滤镜参数",
+                    toolTipButton(text = "更新滤镜参数",
+                        painter = painterResource("images/filters/update_params.png"),
                         onClick = {
 
                         })
 
-                    confirmButton(
-                        enabled = true,
-                        text = "预览效果",
+                    toolTipButton(text = "上一步",
+                        painter = painterResource("images/doodle/previous_step.png"),
                         onClick = {
 
                         })
 
-                    confirmButton(
-                        enabled = true,
-                        text = "上一步",
+                    toolTipButton(text = "保存",
+                        painter = painterResource("images/doodle/save.png"),
                         onClick = {
 
                         })
