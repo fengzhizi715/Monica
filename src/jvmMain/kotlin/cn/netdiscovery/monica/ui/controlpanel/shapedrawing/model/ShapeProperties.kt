@@ -12,9 +12,9 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
  * @version: V1.0 <描述当前版本功能>
  */
 class ShapeProperties (
-    var color: Color = Color.Black,
+    var color: Color = Color.Red,
     var alpha: Float = 1f,
     var fontSize: Float = 40f,
-    var fill: Boolean = true,
+    var fill: Boolean = false,
     var border: Border = Border.Line
 )
