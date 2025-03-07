@@ -28,30 +28,6 @@ class FilterViewModel {
 
     private val logger: Logger = logger<FilterViewModel>()
 
-//    fun updateFilterParams(index:Int, paramMap:HashMap<Pair<String, String>, String>) {
-//        val filterName = filterNames[selectedIndex.value]
-//        val list = mutableListOf<Param>()
-//        tempMap.forEach { (t, u) ->
-//            val value = when(t.second) {
-//                "Int"    -> u.safelyConvertToInt()?:0
-//                "Float"  -> u.toFloat()
-//                "Double" -> u.toDouble()
-//                else     -> u
-//            }
-//
-//            list.add(Param(t.first, t.second, value))
-//        }
-//
-//        // 按照参数名首字母进行排序
-//        list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
-//
-//        logger.info("sort params: $list")
-//
-//        val filterParam = rxCache.get<FilterParam>(filterName)?.data
-//        filterParam?.params = list
-//        rxCache.saveOrUpdate(filterName, filterParam)
-//    }
-
     /**
      * 保存滤镜参数，并调用滤镜效果
      */
@@ -76,8 +52,6 @@ class FilterViewModel {
 
                 // 按照参数名首字母进行排序
                 list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
-
-                logger.info("sort params: $list")
 
                 val filterParam = rxCache.get<FilterParam>(filterName)?.data
                 filterParam?.params = list

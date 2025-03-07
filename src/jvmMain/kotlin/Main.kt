@@ -8,6 +8,7 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
+import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
@@ -288,8 +289,11 @@ private fun initData() {
 
     logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
 
-    filterNames.addAll(getFilterNames())
-    saveFilterParams()
+    filterNames.addAll(getFilterNames()) // 获取所有滤镜的名称
+
+    if (rxCache.allKeys.isEmpty()) { // 第一次加载会缓存所有滤镜的参数配置
+        saveFilterParams()
+    }
 
     client = HttpConnectionClient(timeout, retryNum)
 
