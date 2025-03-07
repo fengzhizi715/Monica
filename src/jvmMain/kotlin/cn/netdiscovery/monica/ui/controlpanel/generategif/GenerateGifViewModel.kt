@@ -3,9 +3,8 @@ package cn.netdiscovery.monica.ui.controlpanel.generategif
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.currentTime
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import com.madgag.gif.fmsware.AnimatedGifEncoder
-import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File

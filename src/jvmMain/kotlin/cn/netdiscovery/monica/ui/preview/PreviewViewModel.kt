@@ -12,8 +12,8 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.currentTime
-import cn.netdiscovery.monica.utils.extension.getUniqueFile
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.getUniqueFile
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.kotlin.coroutines.IO

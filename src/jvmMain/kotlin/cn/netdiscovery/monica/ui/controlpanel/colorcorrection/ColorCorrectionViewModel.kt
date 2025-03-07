@@ -10,7 +10,7 @@ import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.CVSuccess
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger

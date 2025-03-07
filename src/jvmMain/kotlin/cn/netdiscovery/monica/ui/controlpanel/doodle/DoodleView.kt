@@ -24,7 +24,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.extension.drawWithLayer
+import cn.netdiscovery.monica.utils.extensions.drawWithLayer
 import org.koin.compose.koinInject
 
 /**

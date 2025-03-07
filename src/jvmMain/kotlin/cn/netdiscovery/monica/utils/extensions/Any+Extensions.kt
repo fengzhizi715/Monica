@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.utils.extension
+package cn.netdiscovery.monica.utils.extensions
 
 import kotlin.reflect.full.primaryConstructor
 import kotlin.reflect.full.memberProperties
@@ -7,7 +7,7 @@ import kotlin.reflect.jvm.isAccessible
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.extension.`Any+Extensions`
+ *          cn.netdiscovery.monica.utils.extensions.`Any+Extensions`
  * @author: Tony Shen
  * @date: 2025/3/7 14:24
  * @version: V1.0 <描述当前版本功能>

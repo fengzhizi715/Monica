@@ -8,7 +8,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVSuccess
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import java.awt.image.BufferedImage

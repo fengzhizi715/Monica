@@ -6,7 +6,7 @@ import cn.netdiscovery.monica.domain.ContourDisplaySettings
 import cn.netdiscovery.monica.domain.ContourFilterSettings
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger

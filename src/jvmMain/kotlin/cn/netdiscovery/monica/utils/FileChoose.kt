@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.awt.ComposeWindow
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extension.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.datatransfer.DataFlavor

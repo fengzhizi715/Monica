@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.utils.extension
+package cn.netdiscovery.monica.utils.extensions
 
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.nativeCanvas
@@ -6,7 +6,7 @@ import androidx.compose.ui.graphics.nativeCanvas
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.extension.`DrawScope+Extensions`
+ *          cn.netdiscovery.monica.utils.extensions.`DrawScope+Extensions`
  * @author: Tony Shen
  * @date: 2024/11/25 00:49
  * @version: V1.0 <描述当前版本功能>

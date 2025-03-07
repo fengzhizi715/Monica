@@ -1,6 +1,6 @@
 package cn.netdiscovery.monica.http
 
-import cn.netdiscovery.monica.utils.extension.openConnection
+import cn.netdiscovery.monica.utils.extensions.openConnection
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import java.awt.image.BufferedImage

@@ -16,7 +16,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extension.to2fStr
+import cn.netdiscovery.monica.utils.extensions.to2fStr
 
 /**
  *

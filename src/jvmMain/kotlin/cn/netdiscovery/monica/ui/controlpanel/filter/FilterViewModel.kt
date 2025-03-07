@@ -2,12 +2,11 @@ package cn.netdiscovery.monica.ui.controlpanel.filter
 
 import cn.netdiscovery.monica.rxcache.FilterParam
 import cn.netdiscovery.monica.rxcache.Param
-import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.doFilter
-import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
+import cn.netdiscovery.monica.utils.extensions.safelyConvertToInt
 import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
 import filterNames
 import org.slf4j.Logger

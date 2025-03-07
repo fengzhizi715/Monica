@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.utils.extension
+package cn.netdiscovery.monica.utils.extensions
 
 import java.io.File
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.utils.extension.`File+Extension`
+ *          cn.netdiscovery.monica.utils.extensions.`File+Extension`
  * @author: Tony Shen
  * @date:  2025/2/28 23:03
  * @version: V1.0 <描述当前版本功能>

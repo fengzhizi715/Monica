@@ -24,7 +24,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.collator
-import cn.netdiscovery.monica.utils.extension.safelyConvertToInt
+import cn.netdiscovery.monica.utils.extensions.safelyConvertToInt
 import filterNames
 import loadingDisplay
 import org.koin.compose.koinInject
