@@ -7,10 +7,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
+import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
@@ -126,7 +128,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
     AlertDialog(onDismissRequest = {},
         title = {
-            Text("Monica 通用设置")
+            Text("Monica 通用设置", fontSize = subTitleTextSize)
         },
         text = {
             Column {
@@ -152,6 +154,12 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                     basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
+                    }
+                }
+
+                Row(modifier = Modifier.padding(top = 20.dp)) {
+                    confirmButton(enabled = true, "初始化所有滤镜的参数配置") {
+                        initFilterParamsConfig()
                     }
                 }
             }

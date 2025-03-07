@@ -38,7 +38,7 @@ private val filters: List<FilterParam> by lazy {
     list
 }
 
-fun saveFilterParams(){
+fun initFilterParamsConfig(){
     filters.forEach {
         rxCache.saveOrUpdate(it.name, it)
     }
