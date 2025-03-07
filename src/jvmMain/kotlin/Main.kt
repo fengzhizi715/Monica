@@ -8,7 +8,7 @@ import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
-import cn.netdiscovery.monica.rxcache.saveFilterParamsAndRemark
+import cn.netdiscovery.monica.rxcache.saveFilterParams
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
@@ -129,7 +129,7 @@ fun main() = application {
             faceSwapModel            = koinInject()
             colorCorrectionViewModel = koinInject()
 
-            applicationState.window = window
+            applicationState.window  = window
 
             mainView(applicationState)
 
@@ -286,7 +286,7 @@ private fun initData() {
     logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
 
     filterNames.addAll(getFilterNames())
-    saveFilterParamsAndRemark()
+    saveFilterParams()
 
     client = HttpConnectionClient(timeout, retryNum)
 
