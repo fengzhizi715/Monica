@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage
  *          cn.netdiscovery.monica.imageprocess.Transformer
  * @author: Tony Shen
  * @date: 2024/4/27 13:32
- * @version: V1.0 <描述当前版本功能>
+ * @version: V1.0 图像转换的接口
  */
 interface Transformer {
 
