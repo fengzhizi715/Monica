@@ -17,7 +17,6 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
-import cn.netdiscovery.monica.utils.composeClick
 import loadingDisplay
 
 /**
