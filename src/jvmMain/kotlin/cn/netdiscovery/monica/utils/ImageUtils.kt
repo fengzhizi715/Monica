@@ -105,10 +105,14 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
             "NatureFilter" -> {
-                NatureFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = NatureFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "OilPaintFilter" -> {
-                OilPaintFilter(array[1] as Int,array[0] as Int).transform(state.currentImage!!)
+                val filter = OilPaintFilter(array[1] as Int,array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "SepiaToneFilter" -> {
                 SepiaToneFilter().transform(state.currentImage!!)
@@ -117,13 +121,19 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 SharpenFilter().transform(state.currentImage!!)
             }
             "SpotlightFilter" -> {
-                SpotlightFilter(array[0] as Int).transform(state.currentImage!!)
+                val filter = SpotlightFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "StrokeAreaFilter" -> {
-                StrokeAreaFilter(array[0] as Double).transform(state.currentImage!!)
+                val filter = StrokeAreaFilter(array[0] as Double)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
             }
             "USMFilter" -> {
-                USMFilter(array[1] as Float,array[0] as Float,array[2] as Int).transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
+                val filter = USMFilter(array[1] as Float,array[0] as Float,array[2] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!.toComposeImageBitmap().toAwtImage())
             }
             "VariableBlurFilter"-> {
                 val filter = VariableBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
