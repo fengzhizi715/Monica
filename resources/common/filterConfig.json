@@ -59,6 +59,13 @@
     ]
   },
   {
+    "name": "DiffuseFilter",
+    "remark": null,
+    "params": [
+      { "key": "scale", "type": "Float", "value": 4.0 }
+    ]
+  },
+  {
     "name": "EmbossFilter",
     "remark": null,
     "params": [

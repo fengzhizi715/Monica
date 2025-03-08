@@ -218,8 +218,7 @@ fun main() = application {
             },
             state = rememberWindowState().apply {
                 position = WindowPosition(Alignment.Center)
-//                placement = if(isWindows) WindowPlacement.Maximized else WindowPlacement.Fullscreen
-                placement = WindowPlacement.Maximized
+                placement = if(isWindows) WindowPlacement.Maximized else WindowPlacement.Fullscreen
             }
         ) {
             when(applicationState.currentStatus) {
