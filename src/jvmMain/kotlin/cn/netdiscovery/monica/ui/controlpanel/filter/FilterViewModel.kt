@@ -66,4 +66,9 @@ class FilterViewModel {
             }
         }
     }
+
+    fun clear() {
+        filterSelectedIndex.value = -1
+        filterTempMap.clear()
+    }
 }

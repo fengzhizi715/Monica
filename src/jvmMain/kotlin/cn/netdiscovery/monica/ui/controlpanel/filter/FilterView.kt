@@ -43,8 +43,8 @@ import kotlin.collections.HashMap
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-private var selectedIndex = mutableStateOf(-1)
-private val tempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放当前滤镜的参数信息
+var filterSelectedIndex = mutableStateOf(-1)
+val filterTempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放当前滤镜的参数信息
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -97,11 +97,11 @@ fun filter(state: ApplicationState) {
             subTitle(text = "请选择下列滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
-                filterNames.forEachIndexed{ index,label ->
+                filterNames.forEachIndexed{ index, label ->
                     Card(
                         elevation = 16.dp,
                         modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
-                            selectedIndex.value = index
+                            filterSelectedIndex.value = index
                         }
                     ) {
                         Row(horizontalArrangement = Arrangement.Center,
@@ -122,10 +122,10 @@ fun filter(state: ApplicationState) {
         rightSideMenuBar(modifier = Modifier.width(400.dp).height(400.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
             Column {
-                if (selectedIndex.value>=0) {
-                    subTitle(text = "${filterNames[selectedIndex.value]} 滤镜", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
-                    generateFilterParams(selectedIndex.value)
-                    generateFilterRemark(selectedIndex.value)
+                if (filterSelectedIndex.value>=0) {
+                    subTitle(text = "${filterNames[filterSelectedIndex.value]} 滤镜", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
+                    generateFilterParams(filterSelectedIndex.value)
+                    generateFilterRemark(filterSelectedIndex.value)
                 } else {
                     subTitle(text = "请先选择一款滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
                 }
@@ -142,10 +142,10 @@ fun filter(state: ApplicationState) {
                     horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                 ) {
                     toolTipButton(text = "预览效果",
-                        enable = { state.currentImage != null && selectedIndex.value >= 0 },
+                        enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
                         painter = painterResource("images/filters/preview.png"),
                         onClick = {
-                            viewModel.applyFilter(state, selectedIndex.value, tempMap)
+                            viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
                         })
 
                     toolTipButton(text = "上一步",
@@ -159,6 +159,7 @@ fun filter(state: ApplicationState) {
                     toolTipButton(text = "保存",
                         painter = painterResource("images/doodle/save.png"),
                         onClick = {
+                            viewModel.clear()
                             state.closePreviewWindow()
                         })
 
@@ -183,7 +184,7 @@ fun filter(state: ApplicationState) {
 @Composable
 private fun generateFilterParams(selectedIndex:Int) {
 
-    tempMap.clear()
+    filterTempMap.clear()
 
     val filterName = filterNames[selectedIndex]
     val params: List<Param>? = getFilterParam(filterName)
@@ -204,14 +205,14 @@ private fun generateFilterParams(selectedIndex:Int) {
                 }
             }
 
-            tempMap[Pair(paramName, type)] = text
+            filterTempMap[Pair(paramName, type)] = text
 
             Row(
                 modifier = Modifier.padding(top = 15.dp, start = 10.dp)
             ) {
                 basicTextFieldWithTitle(titleText = paramName, text) { str ->
                     text = str
-                    tempMap[Pair(paramName, type)] = text
+                    filterTempMap[Pair(paramName, type)] = text
                 }
             }
         }
