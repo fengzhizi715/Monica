@@ -25,4 +25,7 @@ internal fun String.openConnection(
     return connection
 }
 
+/**
+ * 将 string 字符串安全地转换成 int 类型
+ */
 fun String.safelyConvertToInt(): Int? = this.toDoubleOrNull()?.takeIf { it % 1 == 0.0 }?.toInt()

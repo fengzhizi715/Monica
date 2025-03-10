@@ -79,7 +79,8 @@ fun filter(state: ApplicationState) {
                     Text(
                         modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
                         text = "请点击选择图像",
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        fontSize = 24.sp
                     )
                 } else {
                     Image(
@@ -93,7 +94,7 @@ fun filter(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
-            subTitle(text = "选择下列滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+            subTitle(text = "请选择下列滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 filterNames.forEachIndexed{ index,label ->
@@ -187,29 +188,31 @@ private fun generateFilterParams(selectedIndex:Int) {
     val filterName = filterNames[selectedIndex]
     val params: List<Param>? = getFilterParam(filterName)
 
-    Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
+    if (params != null) {
+        Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
 
-    params?.forEach {
+        params.forEach {
 
-        val paramName = it.key
-        val type = it.type
-        var text by remember(filterName, paramName) {
+            val paramName = it.key
+            val type = it.type
+            var text by remember(filterName, paramName) {
 
-            if (type == "Int") {
-                mutableStateOf((it.value.toString().safelyConvertToInt()?:0).toString())
-            } else {
-                mutableStateOf(it.value.toString())
+                if (type == "Int") {
+                    mutableStateOf((it.value.toString().safelyConvertToInt()?:0).toString())
+                } else {
+                    mutableStateOf(it.value.toString())
+                }
             }
-        }
 
-        tempMap[Pair(paramName, type)] = text
+            tempMap[Pair(paramName, type)] = text
 
-        Row(
-            modifier = Modifier.padding(top = 15.dp, start = 10.dp)
-        ) {
-            basicTextFieldWithTitle(titleText = paramName, text) { str ->
-                text = str
-                tempMap[Pair(paramName, type)] = text
+            Row(
+                modifier = Modifier.padding(top = 15.dp, start = 10.dp)
+            ) {
+                basicTextFieldWithTitle(titleText = paramName, text) { str ->
+                    text = str
+                    tempMap[Pair(paramName, type)] = text
+                }
             }
         }
     }
