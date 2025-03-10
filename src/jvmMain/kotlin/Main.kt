@@ -50,9 +50,9 @@ var picUrl by mutableStateOf("")
 
 var showVersion by mutableStateOf(false)
 private var showTopToast by mutableStateOf(false)
-private var toastMessage by mutableStateOf("")
-private var showVerifyToast by mutableStateOf(false)
-private var verifyToastMessage by mutableStateOf("")
+private var topToastMessage by mutableStateOf("")
+private var showCenterToast by mutableStateOf(false)
+private var centerToastMessage by mutableStateOf("")
 var showGeneralSettings by mutableStateOf(false)
 
 lateinit var client: HttpConnectionClient
@@ -153,14 +153,14 @@ fun main() = application {
             }
 
             if (showTopToast) {
-                topToast(message = toastMessage) {
+                topToast(message = topToastMessage) {
                     showTopToast = false
                 }
             }
 
-            if (showVerifyToast) {
-                centerToast(message = verifyToastMessage) {
-                    showVerifyToast = false
+            if (showCenterToast) {
+                centerToast(message = centerToastMessage) {
+                    showCenterToast = false
                 }
             }
 
@@ -269,13 +269,13 @@ fun main() = application {
 }
 
 fun showTopToast(message:String) {
-    toastMessage = message
+    topToastMessage = message
     showTopToast = true
 }
 
-fun showVerifyToast(message: String) {
-    verifyToastMessage = message
-    showVerifyToast = true
+fun showCenterToast(message: String) {
+    centerToastMessage = message
+    showCenterToast = true
 }
 
 /**

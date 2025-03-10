@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.rxcache
 
 import cn.netdiscovery.monica.config.workDirectory
 import com.safframework.rxcache.RxCache
+import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.ext.persistence
 import com.safframework.rxcache.memory.impl.FIFOMemoryImpl
 import com.safframework.rxcache.persistence.okio.OkioImpl
@@ -29,3 +30,9 @@ val rxCache: RxCache by lazy {
 
     RxCache.getRxCache()
 }
+
+fun getFilterParam(filterName:String):List<Param>? = rxCache.get<FilterParam>(filterName)?.data?.params
+
+fun getFilterRemark(filterName:String):String? = rxCache.get<FilterParam>(filterName)?.data?.remark
+
+fun clearData() = rxCache.clear()

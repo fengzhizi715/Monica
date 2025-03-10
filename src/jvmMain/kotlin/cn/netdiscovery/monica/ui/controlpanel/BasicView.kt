@@ -18,7 +18,7 @@ import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import showVerifyToast
+import showCenterToast
 
 /**
  *
@@ -177,8 +177,8 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
     ) {
         confirmButton(state.isBasic) {
 
-            val width = getValidateField(block = { widthText.toInt() } , failed = { showVerifyToast("width 需要 int 类型") }) ?: return@confirmButton
-            val height = getValidateField(block = { heightText.toInt() } , failed = { showVerifyToast("height 需要 int 类型") }) ?: return@confirmButton
+            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast("width 需要 int 类型") }) ?: return@confirmButton
+            val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast("height 需要 int 类型") }) ?: return@confirmButton
             viewModel.resize(width, height, state)
         }
     }
@@ -213,8 +213,8 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
     ) {
         confirmButton(state.isBasic) {
 
-            val x = getValidateField(block = { xText.toFloat() } , failed = { showVerifyToast("x 方向 需要 float 类型") }) ?: return@confirmButton
-            val y = getValidateField(block = { yText.toFloat() } , failed = { showVerifyToast("y 方向 需要 float 类型") }) ?: return@confirmButton
+            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast("x 方向 需要 float 类型") }) ?: return@confirmButton
+            val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast("y 方向 需要 float 类型") }) ?: return@confirmButton
             viewModel.shearing(x, y, state)
         }
     }

@@ -1,7 +1,6 @@
 package cn.netdiscovery.monica.rxcache
 
 import cn.netdiscovery.monica.opencv.ImageProcess
-import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.reflect.TypeToken
 import com.safframework.rxcache.utils.GsonUtils
 import java.io.File
@@ -45,7 +44,3 @@ fun initFilterParamsConfig(){
 }
 
 fun getFilterNames():List<String> = filters.map { it.name }
-
-fun getFilterParam(filterName:String):List<Param>? = rxCache.get<FilterParam>(filterName)?.data?.params
-
-fun getFilterRemark(filterName:String):String? = rxCache.get<FilterParam>(filterName)?.data?.remark

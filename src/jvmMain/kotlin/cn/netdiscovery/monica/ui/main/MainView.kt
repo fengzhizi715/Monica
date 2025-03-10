@@ -7,6 +7,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
+import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.controlPanel
@@ -16,6 +17,7 @@ import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
+import showCenterToast
 import showTopToast
 
 /**
@@ -160,6 +162,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row(modifier = Modifier.padding(top = 20.dp)) {
                     confirmButton(enabled = true, "初始化所有滤镜的参数配置") {
                         initFilterParamsConfig()
+                        onClick()
+                        showCenterToast("初始化所有滤镜的参数配置成功")
+                    }
+                }
+
+                Row(modifier = Modifier.padding(top = 20.dp)) {
+                    confirmButton(enabled = true, "清空缓存数据") {
+                        clearData()
+                        onClick()
+                        showCenterToast("清空缓存数据成功")
                     }
                 }
             }
