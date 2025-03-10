@@ -119,6 +119,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "RippleFilter" -> {
+                val filter = RippleFilter(array[1] as Float, array[3] as Float, array[2] as Float, array[4] as Float, array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "SepiaToneFilter" -> {
                 SepiaToneFilter().transform(state.currentImage!!)
             }
