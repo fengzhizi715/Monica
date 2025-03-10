@@ -68,7 +68,7 @@
   },
   {
     "name": "DiffuseFilter",
-    "desc": null,
+    "desc": "漫反射滤镜",
     "remark": null,
     "params": [
       { "key": "scale", "type": "Float", "value": 4.0 }
@@ -100,7 +100,7 @@
   },
   {
     "name": "GaussianFilter",
-    "desc": "高斯滤镜",
+    "desc": "高斯模糊的滤镜",
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 5.0 }

@@ -52,7 +52,7 @@ val filterTempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放
 fun filter(state: ApplicationState) {
 
     val viewModel: FilterViewModel = koinInject()
-    
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

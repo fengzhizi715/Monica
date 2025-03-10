@@ -40,6 +40,8 @@ private val filters: List<FilterParam> by lazy {
 }
 
 fun initFilterParamsConfig(){
+
+    filterMaps.clear()
     filters.forEach {
         rxCache.saveOrUpdate(it.name, it)
         filterMaps[it.name] = it.desc?:""
