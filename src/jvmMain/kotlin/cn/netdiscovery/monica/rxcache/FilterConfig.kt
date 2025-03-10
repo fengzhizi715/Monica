@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.rxcache
 import cn.netdiscovery.monica.opencv.ImageProcess
 import com.safframework.rxcache.reflect.TypeToken
 import com.safframework.rxcache.utils.GsonUtils
+import filterMaps
 import java.io.File
 
 /**
@@ -15,6 +16,7 @@ import java.io.File
  */
 data class FilterParam(
     val name: String,
+    val desc: String?,
     val remark: String?,
     var params: List<Param>
 )
@@ -40,6 +42,7 @@ private val filters: List<FilterParam> by lazy {
 fun initFilterParamsConfig(){
     filters.forEach {
         rxCache.saveOrUpdate(it.name, it)
+        filterMaps[it.name] = it.desc?:""
     }
 }
 

@@ -1,11 +1,13 @@
 [
   {
     "name": "AverageFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "BilateralFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "ds", "type": "Double", "value": 1.0 },
@@ -14,6 +16,7 @@
   },
   {
     "name": "BlockFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "blockSize", "type": "Int", "value": 2 }
@@ -21,6 +24,7 @@
   },
   {
     "name": "BoxBlurFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
@@ -30,11 +34,13 @@
   },
   {
     "name": "BumpFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "ColorFilter",
+    "desc": null,
     "remark": "ColorFilter 支持选择0-11，共12种风格。\n0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
     "params": [
       { "key": "style", "type": "Int", "value": 0 }
@@ -42,6 +48,7 @@
   },
   {
     "name": "ConBriFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "brightness", "type": "Float", "value": 1.0 },
@@ -50,6 +57,7 @@
   },
   {
     "name": "CropFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "x", "type": "Int", "value": 0 },
@@ -60,6 +68,7 @@
   },
   {
     "name": "DiffuseFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "scale", "type": "Float", "value": 4.0 }
@@ -67,6 +76,7 @@
   },
   {
     "name": "EmbossFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "colorConstant", "type": "Int", "value": 100 }
@@ -74,6 +84,7 @@
   },
   {
     "name": "FastBlur2D",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "ksize", "type": "Int", "value": 5 }
@@ -81,6 +92,7 @@
   },
   {
     "name": "GammaFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "gamma", "type": "Double", "value": 0.5 }
@@ -88,6 +100,7 @@
   },
   {
     "name": "GaussianFilter",
+    "desc": "高斯滤镜",
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 5.0 }
@@ -95,16 +108,19 @@
   },
   {
     "name": "GradientFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "GrayFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "HighPassFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 10.0 }
@@ -112,11 +128,13 @@
   },
   {
     "name": "LaplaceSharpenFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "MosaicFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "r", "type": "Int", "value": 3 }
@@ -124,6 +142,7 @@
   },
   {
     "name": "MotionFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "angle", "type": "Float", "value": 0.0 },
@@ -133,6 +152,7 @@
   },
   {
     "name": "NatureFilter",
+    "desc": null,
     "remark": "NatureFilter 支持选择1-8，共8种风格。\n1:ATMOSPHERE STYLE,2:BURN STYLE,3:FOG STYLE,\n4:FREEZE STYLE,5:LAVA STYLE,6:METAL STYLE,\n7:OCEAN STYLE,8:WATER STYLE",
     "params": [
       { "key": "style", "type": "Int", "value": 1 }
@@ -140,6 +160,7 @@
   },
   {
     "name": "OilPaintFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "intensity", "type": "Int", "value": 40 },
@@ -148,6 +169,7 @@
   },
   {
     "name": "RippleFilter",
+    "desc": null,
     "remark": "waveType 支持选择0-3，共4种风格。\n0:SINE,1:SAWTOOTH,2:TRIANGLE,3:NOISE",
     "params": [
       { "key": "xAmplitude", "type": "Float", "value": 5.0 },
@@ -159,16 +181,19 @@
   },
   {
     "name": "SepiaToneFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "SharpenFilter",
+    "desc": null,
     "remark": null,
     "params": []
   },
   {
     "name": "SpotlightFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "factor", "type": "Int", "value": 1 }
@@ -176,6 +201,7 @@
   },
   {
     "name": "StrokeAreaFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "ksize", "type": "Double", "value": 10.0 }
@@ -183,6 +209,7 @@
   },
   {
     "name": "USMFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 2.0 },
@@ -192,6 +219,7 @@
   },
   {
     "name": "VariableBlurFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
@@ -201,6 +229,7 @@
   },
   {
     "name": "VignetteFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "fade", "type": "Int", "value": 35 },
@@ -209,6 +238,7 @@
   },
   {
     "name": "WhiteImageFilter",
+    "desc": null,
     "remark": null,
     "params": [
       { "key": "beta", "type": "Double", "value": 1.1 }

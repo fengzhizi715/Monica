@@ -44,6 +44,7 @@ import org.slf4j.LoggerFactory
 
 
 val filterNames = mutableListOf<String>()
+val filterMaps = mutableMapOf<String, String>()
 
 var loadingDisplay by mutableStateOf(false)
 var openURLDialog by mutableStateOf(false)

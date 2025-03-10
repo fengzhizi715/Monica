@@ -31,6 +31,7 @@ val rxCache: RxCache by lazy {
     RxCache.getRxCache()
 }
 
+
 fun getFilterParam(filterName:String):List<Param>? = rxCache.get<FilterParam>(filterName)?.data?.params
 
 fun getFilterRemark(filterName:String):String? = rxCache.get<FilterParam>(filterName)?.data?.remark

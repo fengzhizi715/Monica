@@ -25,6 +25,7 @@ import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extensions.safelyConvertToInt
+import filterMaps
 import filterNames
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -51,7 +52,7 @@ val filterTempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放
 fun filter(state: ApplicationState) {
 
     val viewModel: FilterViewModel = koinInject()
-
+    
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
@@ -98,21 +99,22 @@ fun filter(state: ApplicationState) {
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 filterNames.forEachIndexed{ index, label ->
+
                     Card(
                         elevation = 16.dp,
                         modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
                             filterSelectedIndex.value = index
                         }
                     ) {
-                        Row(horizontalArrangement = Arrangement.Center,
-                            verticalAlignment = Alignment.CenterVertically) {
-                            Text(
-                                text = label,
-                                fontSize = 22.sp,
+                        Column {
+                            Text(text = label, fontSize = 22.sp,
                                 color = MaterialTheme.colors.primary,
                                 modifier = Modifier
-                                    .padding(16.dp)
-                                    .fillMaxWidth())
+                                    .padding(16.dp))
+
+                            Text(text = filterMaps[label]?:"", fontSize = 16.sp,
+                                color = MaterialTheme.colors.primaryVariant,
+                                modifier = Modifier.align(Alignment.CenterHorizontally))
                         }
                     }
                 }
