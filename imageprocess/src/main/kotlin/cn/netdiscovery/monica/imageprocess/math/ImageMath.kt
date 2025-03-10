@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess.utils
+package cn.netdiscovery.monica.imageprocess.math
 
 /**
  *
@@ -12,6 +12,36 @@ package cn.netdiscovery.monica.imageprocess.utils
 val PI: Float = Math.PI.toFloat()
 
 val TWO_PI = Math.PI.toFloat() * 2.0f
+
+/**
+ * Return a mod b. This differs from the % operator with respect to negative numbers.
+ * @param a the dividend
+ * @param b the divisor
+ * @return a mod b
+ */
+fun mod(a: Double, b: Double): Double {
+    var a = a
+    val n = (a / b).toInt()
+
+    a -= n * b
+    if (a < 0) return a + b
+    return a
+}
+
+/**
+ * Return a mod b. This differs from the % operator with respect to negative numbers.
+ * @param a the dividend
+ * @param b the divisor
+ * @return a mod b
+ */
+fun mod(a: Float, b: Float): Float {
+    var a = a
+    val n = (a / b).toInt()
+
+    a -= n * b
+    if (a < 0) return a + b
+    return a
+}
 
 /**
  * Return a mod b. This differs from the % operator with respect to negative numbers.
@@ -76,4 +106,14 @@ fun bilinearInterpolate(x: Float, y: Float, nw: Int, ne: Int, sw: Int, se: Int):
     val b = (cy * m0 + y * m1).toInt()
 
     return (a shl 24) or (r shl 16) or (g shl 8) or b
+}
+
+/**
+ * The triangle function. Returns a repeating triangle shape in the range 0..1 with wavelength 1.0
+ * @param x the input parameter
+ * @return the output value
+ */
+fun triangle(x: Float): Float {
+    val r = mod(x, 1.0f)
+    return 2.0f * (if (r < 0.5) r else 1 - r)
 }

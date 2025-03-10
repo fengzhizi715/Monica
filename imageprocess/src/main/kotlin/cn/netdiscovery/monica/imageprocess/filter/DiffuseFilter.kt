@@ -1,7 +1,7 @@
 package cn.netdiscovery.monica.imageprocess.filter
 
 import cn.netdiscovery.monica.imageprocess.filter.base.TransformFilter
-import cn.netdiscovery.monica.imageprocess.utils.TWO_PI
+import cn.netdiscovery.monica.imageprocess.math.TWO_PI
 import java.awt.image.BufferedImage
 import kotlin.math.cos
 import kotlin.math.sin

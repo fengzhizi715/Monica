@@ -1,8 +1,8 @@
 package cn.netdiscovery.monica.imageprocess.filter.base
 
-import cn.netdiscovery.monica.imageprocess.utils.bilinearInterpolate
+import cn.netdiscovery.monica.imageprocess.math.bilinearInterpolate
 import cn.netdiscovery.monica.imageprocess.utils.clamp
-import cn.netdiscovery.monica.imageprocess.utils.mod
+import cn.netdiscovery.monica.imageprocess.math.mod
 import java.awt.Rectangle
 import java.awt.image.BufferedImage
 import kotlin.math.floor
@@ -68,42 +68,6 @@ abstract class TransformFilter: BaseFilter() {
      */
     protected var originalSpace: Rectangle? = null
 
-//    /**
-//     * Set the action to perform for pixels off the edge of the image.
-//     * @param edgeAction one of ZERO, CLAMP or WRAP
-//     * @see .getEdgeAction
-//     */
-//    fun setEdgeAction(edgeAction: Int) {
-//        this.edgeAction = edgeAction
-//    }
-//
-//    /**
-//     * Get the action to perform for pixels off the edge of the image.
-//     * @return one of ZERO, CLAMP or WRAP
-//     * @see .setEdgeAction
-//     */
-//    fun getEdgeAction(): Int {
-//        return edgeAction
-//    }
-
-//    /**
-//     * Set the type of interpolation to perform.
-//     * @param interpolation one of NEAREST_NEIGHBOUR or BILINEAR
-//     * @see .getInterpolation
-//     */
-//    fun setInterpolation(interpolation: Int) {
-//        this.interpolation = interpolation
-//    }
-//
-//    /**
-//     * Get the type of interpolation to perform.
-//     * @return one of NEAREST_NEIGHBOUR or BILINEAR
-//     * @see .setInterpolation
-//     */
-//    fun getInterpolation(): Int {
-//        return interpolation
-//    }
-
     /**
      * Inverse transform a point. This method needs to be overriden by all subclasses.
      * @param x the X position of the pixel in the output image
@@ -116,7 +80,7 @@ abstract class TransformFilter: BaseFilter() {
      * Forward transform a rectangle. Used to determine the size of the output image.
      * @param rect the rectangle to transform
      */
-    protected fun transformSpace(rect: Rectangle?) {
+    protected open fun transformSpace(rect: Rectangle) {
     }
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
@@ -128,9 +92,9 @@ abstract class TransformFilter: BaseFilter() {
 
         originalSpace = Rectangle(0, 0, width, height)
         transformedSpace = Rectangle(0, 0, width, height)
-        transformSpace(transformedSpace)
+        transformSpace(transformedSpace!!)
 
-        val dstRaster = dst.raster
+//        val dstRaster = dst.raster
 
         val inPixels: IntArray = getRGB(srcImage, 0, 0, width, height, null)
 
