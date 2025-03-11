@@ -100,7 +100,7 @@
   },
   {
     "name": "GaussianFilter",
-    "desc": "高斯模糊的滤镜",
+    "desc": "高斯滤镜",
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 5.0 }
@@ -108,7 +108,7 @@
   },
   {
     "name": "GradientFilter",
-    "desc": null,
+    "desc": "Sobel 梯度滤镜",
     "remark": null,
     "params": []
   },
