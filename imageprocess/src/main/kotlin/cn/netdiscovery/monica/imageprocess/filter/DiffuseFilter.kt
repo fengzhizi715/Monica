@@ -22,9 +22,10 @@ class DiffuseFilter(private val scale: Float = 4f): TransformFilter() {
 
     init {
         edgeAction = CLAMP
+        initialize()
     }
 
-    override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
+    private fun initialize() {
         sinTable = FloatArray(256)
         cosTable = FloatArray(256)
         for (i in 0..255) {
@@ -32,7 +33,6 @@ class DiffuseFilter(private val scale: Float = 4f): TransformFilter() {
             sinTable[i] = (scale * sin(angle.toDouble())).toFloat()
             cosTable[i]= (scale * cos(angle.toDouble())).toFloat()
         }
-        return super.doFilter(srcImage, dstImage)
     }
 
     override fun transformInverse(x: Int, y: Int, out: FloatArray) {
