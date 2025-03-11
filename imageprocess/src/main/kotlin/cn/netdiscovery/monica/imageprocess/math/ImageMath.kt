@@ -11,6 +11,8 @@ package cn.netdiscovery.monica.imageprocess.math
 
 val PI: Float = Math.PI.toFloat()
 
+val HALF_PI = Math.PI.toFloat() / 2.0f
+
 val TWO_PI = Math.PI.toFloat() * 2.0f
 
 /**

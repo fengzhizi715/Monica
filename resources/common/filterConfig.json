@@ -139,7 +139,7 @@
     "params": [
       { "key": "xScale", "type": "Float", "value": 4.0 },
       { "key": "yScale", "type": "Float", "value": 4.0 },
-      { "key": "turbulence", "type": "Float", "value": 10 }
+      { "key": "turbulence", "type": "Float", "value": 1.0 }
     ]
   },
   {
