@@ -127,6 +127,12 @@
     ]
   },
   {
+    "name": "InvertFilter",
+    "desc": "反转图像RGB通道的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
     "name": "LaplaceSharpenFilter",
     "desc": null,
     "remark": null,

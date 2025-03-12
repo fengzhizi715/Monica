@@ -96,6 +96,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "InvertFilter" -> {
+                InvertFilter().transform(state.currentImage!!)
+            }
             "LaplaceSharpenFilter" -> {
                 LaplaceSharpenFilter().transform(state.currentImage!!)
             }
