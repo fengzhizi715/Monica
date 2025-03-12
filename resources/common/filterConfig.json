@@ -194,7 +194,7 @@
   {
     "name": "RippleFilter",
     "desc": "波纹滤镜",
-    "remark": "waveType 支持选择0-3，共4种风格。\n0:SINE,1:SAWTOOTH,2:TRIANGLE,3:NOISE",
+    "remark": "waveType 支持选择 0-3，共4种风格。\n0:SINE,1:SAWTOOTH,2:TRIANGLE,3:NOISE",
     "params": [
       { "key": "xAmplitude", "type": "Float", "value": 5.0 },
       { "key": "yAmplitude", "type": "Float", "value": 0.0 },
