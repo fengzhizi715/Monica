@@ -48,4 +48,10 @@ fun initFilterParamsConfig(){
     }
 }
 
+fun initFilterMap() {
+    filters.forEach {
+        filterMaps[it.name] = it.desc?:""
+    }
+}
+
 fun getFilterNames():List<String> = filters.map { it.name }

@@ -1,9 +1,6 @@
 package cn.netdiscovery.monica.imageprocess.filter.base
 
 import java.awt.image.BufferedImage
-import java.awt.image.WritableRaster
-
-
 
 /**
  *
@@ -20,21 +17,39 @@ abstract class PointFilter: BaseFilter() {
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
         setDimensions(width, height)
 
-        val srcRaster: WritableRaster = srcImage.raster
-        val dstRaster: WritableRaster = dstImage.raster
+//        val srcRaster: WritableRaster = srcImage.raster
+//        val dstRaster: WritableRaster = dstImage.raster
+//
+//        val inPixels = IntArray(width)
+//        for (y in 0..<height) {
+//            if (type == BufferedImage.TYPE_INT_ARGB) {
+//                srcRaster.getDataElements(0, y, width, 1, inPixels)
+//
+//                for (x in 0..<width)
+//                    inPixels[x] = filterRGB(x, y, inPixels[x])
+//
+//                dstRaster.setDataElements(0, y, width, 1, inPixels)
+//            } else {
+//                srcImage.getRGB(0, y, width, 1, inPixels, 0, width)
+//
+//                for (x in 0..<width)
+//                    inPixels[x] = filterRGB(x, y, inPixels[x])
+//
+//                dstImage.setRGB(0, y, width, 1, inPixels, 0, width)
+//            }
+//        }
 
-        val inPixels = IntArray(width)
-        for (y in 0..<height) {
-            if (type == BufferedImage.TYPE_INT_ARGB) {
-                srcRaster.getDataElements(0, y, width, 1, inPixels)
-                for (x in 0..<width) inPixels[x] = filterRGB(x, y, inPixels[x])
-                dstRaster.setDataElements(0, y, width, 1, inPixels)
-            } else {
-                srcImage.getRGB(0, y, width, 1, inPixels, 0, width)
-                for (x in 0..<width) inPixels[x] = filterRGB(x, y, inPixels[x])
-                dstImage.setRGB(0, y, width, 1, inPixels, 0, width)
+        val outPixels = IntArray(width * height)
+
+        var index = 0
+        for (row in 0 until height) {
+            for (col in 0 until width) {
+                index = row * width + col
+                outPixels[index] = filterRGB(col, row, inPixels[index])
             }
         }
+
+        setRGB(dstImage, 0, 0, width, height, outPixels)
 
         return dstImage
     }

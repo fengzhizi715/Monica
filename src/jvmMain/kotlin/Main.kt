@@ -7,9 +7,7 @@ import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.manager.OpenCVManager
-import cn.netdiscovery.monica.rxcache.getFilterNames
-import cn.netdiscovery.monica.rxcache.rxCache
-import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
+import cn.netdiscovery.monica.rxcache.*
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
@@ -300,6 +298,10 @@ private fun initData() {
 
     if (rxCache.allKeys.isEmpty()) { // 第一次加载会缓存所有滤镜的参数配置
         initFilterParamsConfig()
+    }
+
+    if (filterMaps.isEmpty()) {
+        initFilterMap()
     }
 
     client = HttpConnectionClient(timeout, retryNum)
