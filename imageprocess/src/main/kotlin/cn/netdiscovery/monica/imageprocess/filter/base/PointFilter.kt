@@ -17,28 +17,6 @@ abstract class PointFilter: BaseFilter() {
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
         setDimensions(width, height)
 
-//        val srcRaster: WritableRaster = srcImage.raster
-//        val dstRaster: WritableRaster = dstImage.raster
-//
-//        val inPixels = IntArray(width)
-//        for (y in 0..<height) {
-//            if (type == BufferedImage.TYPE_INT_ARGB) {
-//                srcRaster.getDataElements(0, y, width, 1, inPixels)
-//
-//                for (x in 0..<width)
-//                    inPixels[x] = filterRGB(x, y, inPixels[x])
-//
-//                dstRaster.setDataElements(0, y, width, 1, inPixels)
-//            } else {
-//                srcImage.getRGB(0, y, width, 1, inPixels, 0, width)
-//
-//                for (x in 0..<width)
-//                    inPixels[x] = filterRGB(x, y, inPixels[x])
-//
-//                dstImage.setRGB(0, y, width, 1, inPixels, 0, width)
-//            }
-//        }
-
         val outPixels = IntArray(width * height)
 
         var index = 0
