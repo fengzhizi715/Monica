@@ -184,6 +184,14 @@
     ]
   },
   {
+    "name": "PosterizeFilter",
+    "desc": "色调分离的滤镜",
+    "remark": null,
+    "params": [
+      { "key": "numLevels", "type": "Int", "value": 6 }
+    ]
+  },
+  {
     "name": "RippleFilter",
     "desc": "波纹滤镜",
     "remark": "waveType 支持选择0-3，共4种风格。\n0:SINE,1:SAWTOOTH,2:TRIANGLE,3:NOISE",
