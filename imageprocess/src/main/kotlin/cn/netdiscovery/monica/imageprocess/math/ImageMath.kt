@@ -119,3 +119,27 @@ fun triangle(x: Float): Float {
     val r = mod(x, 1.0f)
     return 2.0f * (if (r < 0.5) r else 1 - r)
 }
+
+
+/**
+ * Apply a bias to a number in the unit interval, moving numbers towards 0 or 1
+ * according to the bias parameter.
+ * @param a the number to bias
+ * @param b the bias parameter. 0.5 means no change, smaller values bias towards 0, larger towards 1.
+ * @return the output value
+ */
+fun bias(a: Float, b: Float): Float {
+    return a / ((1.0f / b - 2) * (1.0f - a) + 1)
+}
+
+/**
+ * A variant of the gamma function.
+ * @param a the number to apply gain to
+ * @param b the gain parameter. 0.5 means no change, smaller values reduce gain, larger values increase gain.
+ * @return the output value
+ */
+fun gain(a: Float, b: Float): Float {
+    val c = (1.0f / b - 2.0f) * (1.0f - 2.0f * a)
+    return if (a < 0.5) a / (c + 1.0f)
+    else (c - a) / (c - 1.0f)
+}

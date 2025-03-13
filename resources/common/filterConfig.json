@@ -85,7 +85,7 @@
   {
     "name": "ExposureFilter",
     "desc": "修改曝光的过滤器",
-    "remark": null,
+    "remark": "exposure > 0",
     "params": [
       { "key": "exposure", "type": "Float", "value": 1 }
     ]
