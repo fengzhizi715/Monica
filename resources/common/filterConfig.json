@@ -48,7 +48,7 @@
   },
   {
     "name": "ConBriFilter",
-    "desc": null,
+    "desc": "修改对比度、亮度的滤镜",
     "remark": null,
     "params": [
       { "key": "brightness", "type": "Float", "value": 1.0 },
@@ -101,7 +101,7 @@
   {
     "name": "GainFilter",
     "desc": "修改增益、偏置的滤镜",
-    "remark": null,
+    "remark": "gain 取值范围在0-1之间，bias 取值范围在0-1之间",
     "params": [
       { "key": "gain", "type": "Float", "value": 0.5 },
       { "key": "bias", "type": "Float", "value": 0.5 }
