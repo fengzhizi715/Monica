@@ -83,6 +83,14 @@
     ]
   },
   {
+    "name": "ExposureFilter",
+    "desc": "修改曝光的过滤器",
+    "remark": null,
+    "params": [
+      { "key": "exposure", "type": "Float", "value": 1 }
+    ]
+  },
+  {
     "name": "FastBlur2D",
     "desc": null,
     "remark": null,
