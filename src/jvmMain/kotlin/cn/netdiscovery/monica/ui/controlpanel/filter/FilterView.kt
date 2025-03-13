@@ -227,9 +227,6 @@ private fun generateFilterRemark(selectedIndex:Int) {
     val remark = getFilterRemark(filterName)
 
     if (!remark.isNullOrEmpty()) {
-
-//        Text(text = "备注", modifier = Modifier.padding(top = 15.dp, start = 10.dp))
-
         Card(
             modifier = Modifier.padding(top = 10.dp, start = 10.dp),
             shape = RoundedCornerShape(5.dp),
