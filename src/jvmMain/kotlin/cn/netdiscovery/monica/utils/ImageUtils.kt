@@ -73,6 +73,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "ExposureFilter" -> {
+                val filter = ExposureFilter(array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "GammaFilter" -> {
                 val filter = GammaFilter(array[0] as Double)
                 filter.printConstructorParamsWithValues()
