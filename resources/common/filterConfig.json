@@ -156,6 +156,18 @@
     "params": []
   },
   {
+    "name": "LensBlurFilter",
+    "desc": "虚化镜头效果的滤镜",
+    "remark": null,
+    "params": [
+      { "key": "radius", "type": "Float", "value": 10.0 },
+      { "key": "bloom", "type": "Float", "value": 2.0 },
+      { "key": "bloomThreshold", "type": "Float", "value": 255.0 },
+      { "key": "angle", "type": "Float", "value": 0.0 },
+      { "key": "sides", "type": "Int", "value": 5 }
+    ]
+  },
+  {
     "name": "MarbleFilter",
     "desc": "大理石花纹效果滤镜",
     "remark": null,

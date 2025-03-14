@@ -113,6 +113,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "LaplaceSharpenFilter" -> {
                 LaplaceSharpenFilter().transform(state.currentImage!!)
             }
+            "LensBlurFilter" -> {
+                val filter = LensBlurFilter(array[3] as Float,array[1] as Float,array[2] as Float,array[0] as Float,array[4] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "MarbleFilter" -> {
                 val filter = MarbleFilter(array[1] as Float,array[2] as Float,array[0] as Float)
                 filter.printConstructorParamsWithValues()
