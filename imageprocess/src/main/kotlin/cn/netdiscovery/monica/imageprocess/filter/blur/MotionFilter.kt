@@ -20,7 +20,7 @@ class MotionFilter(private val distance:Float = 0f,private val angle:Float = 0f,
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
-        var outPixels = IntArray(width * height)
+        val outPixels = IntArray(width * height)
 
         var index = 0
         val cx = width / 2
