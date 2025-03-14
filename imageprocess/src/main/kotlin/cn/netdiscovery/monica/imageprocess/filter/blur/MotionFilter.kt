@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.blur
 
 import cn.netdiscovery.monica.imageprocess.filter.base.BaseFilter
 import cn.netdiscovery.monica.imageprocess.utils.clamp
@@ -11,7 +11,7 @@ import kotlin.math.sqrt
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.MotionFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.blur.MotionFilter
  * @author: Tony Shen
  * @date: 2024/5/1 10:52
  * @version: V1.0 <描述当前版本功能>
