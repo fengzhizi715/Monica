@@ -22,7 +22,7 @@ class HighPassFilter(override val radius: Float =10f): GaussianFilter(radius) {
             convolveAndTranspose(kernel, outPixels, inPixels, height, width, alpha, false, alpha && premultiplyAlpha, CLAMP_EDGES)
         }
 
-        srcImage.getRGB(0, 0, width, height, outPixels, 0, width)
+        getRGB(srcImage, 0, 0, width, height, outPixels)
 
         var index = 0
         for (y in 0 until height) {
@@ -38,12 +38,12 @@ class HighPassFilter(override val radius: Float =10f): GaussianFilter(radius) {
                 r1 = (r1 + 255 - r2) / 2
                 g1 = (g1 + 255 - g2) / 2
                 b1 = (b1 + 255 - b2) / 2
-                inPixels[index] = rgb1 and -0x1000000 or (r1 shl 16) or (g1 shl 8) or b1
+                inPixels[index] = (rgb1 and 0xff000000.toInt()) or (r1 shl 16) or (g1 shl 8) or b1
                 index++
             }
         }
 
-        dstImage.setRGB(0, 0, width, height, inPixels, 0, width)
+        setRGB(dstImage, 0, 0, width, height, inPixels)
         return dstImage
     }
 }

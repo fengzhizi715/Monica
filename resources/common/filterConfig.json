@@ -137,7 +137,7 @@
   },
   {
     "name": "HighPassFilter",
-    "desc": null,
+    "desc": "可产生发光效果的高斯滤镜",
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 10.0 }
