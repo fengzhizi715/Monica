@@ -124,6 +124,14 @@
     ]
   },
   {
+    "name": "GaussianNoiseFilter",
+    "desc": "随机噪声滤镜",
+    "remark": null,
+    "params": [
+      { "key": "sigma", "type": "Int", "value": 25 }
+    ]
+  },
+  {
     "name": "GradientFilter",
     "desc": "Sobel 梯度滤镜",
     "remark": null,

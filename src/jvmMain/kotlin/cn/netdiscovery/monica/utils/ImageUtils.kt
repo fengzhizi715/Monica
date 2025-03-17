@@ -96,6 +96,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "GaussianNoiseFilter" -> {
+                val filter = GaussianNoiseFilter(array[0] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "GradientFilter" -> {
                 GradientFilter().transform(state.currentImage!!)
             }
