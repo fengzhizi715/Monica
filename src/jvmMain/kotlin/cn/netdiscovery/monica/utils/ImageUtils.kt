@@ -41,12 +41,17 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
             "BoxBlurFilter" -> {
-                val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
+//                val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
+                val filter = CarveFilter()
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
             "BumpFilter" -> {
                 BumpFilter().transform(state.currentImage!!)
+            }
+            "CarveFilter" -> {
+                val filter = CarveFilter()
+                filter.transform(state.currentImage!!)
             }
             "ColorFilter" -> {
                 val filter = ColorFilter(array[0] as Int)

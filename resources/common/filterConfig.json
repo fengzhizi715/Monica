@@ -39,6 +39,12 @@
     "params": []
   },
   {
+    "name": "CarveFilter",
+    "desc": "雕刻效果的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
     "name": "ColorFilter",
     "desc": null,
     "remark": "ColorFilter 支持选择0-11，共12种风格。\n0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
@@ -290,7 +296,7 @@
   },
   {
     "name": "VignetteFilter",
-    "desc": null,
+    "desc": "边缘逐渐变淡效果的滤镜",
     "remark": null,
     "params": [
       { "key": "fade", "type": "Int", "value": 35 },
