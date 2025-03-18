@@ -2,7 +2,7 @@ package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import cn.netdiscovery.monica.imageprocess.PosterizeFilter
+import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter

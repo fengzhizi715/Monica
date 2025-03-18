@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.imageprocess
+package cn.netdiscovery.monica.imageprocess.filter
 
 import cn.netdiscovery.monica.imageprocess.filter.base.PointFilter
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.PosterizeFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
  * @author: Tony Shen
  * @date: 2025/3/12 13:47
  * @version: V1.0 <描述当前版本功能>
