@@ -192,6 +192,16 @@
     ]
   },
   {
+    "name": "MirrorFilter",
+    "desc": "镜像滤镜",
+    "remark": null,
+    "params": [
+      { "key": "opacity", "type": "Float", "value": 1.0 },
+      { "key": "centreY", "type": "Float", "value": 0.5 },
+      { "key": "gap", "type": "Float", "value": 0.0 }
+    ]
+  },
+  {
     "name": "MosaicFilter",
     "desc": null,
     "remark": null,

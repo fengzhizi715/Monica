@@ -17,23 +17,26 @@ class MirrorFilter(private val opacity:Float = 1.0f, private val centreY:Float =
 
     override fun doFilter(srcImage: BufferedImage, dstImage: BufferedImage): BufferedImage {
 
+        val clip: Shape
         val h = (centreY * height).toInt()
         val d = (gap * height).toInt()
 
         val g: Graphics2D = dstImage.createGraphics()
-//        val clip: Shape = g.clip
+        clip = g.clip
         g.clipRect(0, 0, width, h)
         g.drawRenderedImage(srcImage, null)
-//        g.clip = clip
+        g.clip = clip
         g.clipRect(0, h + d, width, height - h - d)
         g.translate(0, 2 * h + d)
         g.scale(1.0, -1.0)
         g.drawRenderedImage(srcImage, null)
-        g.paint = GradientPaint(0f, 0f, Color(1.0f, 0.0f, 0.0f, 0.0f), 0f, h.toFloat(), Color(0.0f, 1.0f, 0.0f, opacity))
+        g.paint =
+            GradientPaint(0f, 0f, Color(1.0f, 0.0f, 0.0f, 0.0f), 0f, h.toFloat(), Color(0.0f, 1.0f, 0.0f, opacity))
         g.composite = AlphaComposite.getInstance(AlphaComposite.DST_IN)
         g.fillRect(0, 0, width, h)
-//        g.clip = clip
+        g.clip = clip
         g.dispose()
+
 
         return dstImage
     }

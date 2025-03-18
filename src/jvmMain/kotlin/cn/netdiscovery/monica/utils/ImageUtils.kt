@@ -41,8 +41,7 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
             "BoxBlurFilter" -> {
-//                val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
-                val filter = MirrorFilter()
+                val filter = BoxBlurFilter(array[0] as Int,array[2] as Int,array[1] as Int)
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
@@ -130,6 +129,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             }
             "MarbleFilter" -> {
                 val filter = MarbleFilter(array[1] as Float,array[2] as Float,array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
+            "MirrorFilter" -> {
+                val filter = MirrorFilter(array[2] as Float,array[0] as Float,array[1] as Float)
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
