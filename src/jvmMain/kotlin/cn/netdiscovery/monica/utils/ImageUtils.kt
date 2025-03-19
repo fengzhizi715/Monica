@@ -57,6 +57,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "ColorHalftoneFilter" -> {
+                val filter = ColorHalftoneFilter(array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "ConBriFilter" -> {
                 val filter = ConBriFilter(array[1] as Float,array[0] as Float)
                 filter.printConstructorParamsWithValues()

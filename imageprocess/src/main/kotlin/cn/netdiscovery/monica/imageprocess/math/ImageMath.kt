@@ -110,6 +110,22 @@ fun bilinearInterpolate(x: Float, y: Float, nw: Int, ne: Int, sw: Int, se: Int):
     return (a shl 24) or (r shl 16) or (g shl 8) or b
 }
 
+
+/**
+ * A smoothed step function. A cubic function is used to smooth the step between two thresholds.
+ * @param a the lower threshold position
+ * @param b the upper threshold position
+ * @param x the input parameter
+ * @return the output value
+ */
+fun smoothStep(a: Float, b: Float, x: Float): Float {
+    var x = x
+    if (x < a) return 0f
+    if (x >= b) return 1f
+    x = (x - a) / (b - a)
+    return x * x * (3 - 2 * x)
+}
+
 /**
  * The triangle function. Returns a repeating triangle shape in the range 0..1 with wavelength 1.0
  * @param x the input parameter

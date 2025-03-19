@@ -53,6 +53,14 @@
     ]
   },
   {
+    "name": "ColorHalftoneFilter",
+    "desc": "模拟彩色半色调印刷中的点状图案的滤镜",
+    "remark": null,
+    "params": [
+      { "key": "dotRadius", "type": "Float", "value":2.0 }
+    ]
+  },
+  {
     "name": "ConBriFilter",
     "desc": "修改对比度、亮度的滤镜",
     "remark": null,
