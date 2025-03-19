@@ -167,7 +167,7 @@
   },
   {
     "name": "InvertFilter",
-    "desc": "反转图像RGB通道的滤镜",
+    "desc": "反转图像中的所有像素的滤镜",
     "remark": null,
     "params": []
   },
