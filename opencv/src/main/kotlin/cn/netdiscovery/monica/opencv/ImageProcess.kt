@@ -34,7 +34,7 @@ object ImageProcess {
     }
 
     /**
-     * 对于不同的平台加载的库是不同的，mac 是 dylib 库，windows 是 dll 库，linux 是 so 库
+     * 对于不同的平台加载的库是不同的: mac 是 dylib 库、windows 是 dll 库、linux 是 so 库
      */
     private fun loadMonicaImageProcess() {
         if (isMac) {
