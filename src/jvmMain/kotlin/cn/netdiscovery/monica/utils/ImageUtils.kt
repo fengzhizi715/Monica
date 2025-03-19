@@ -178,6 +178,9 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "SharpenFilter" -> {
                 SharpenFilter().transform(state.currentImage!!)
             }
+            "SolarizeFilter" -> {
+                SolarizeFilter().transform(state.currentImage!!)
+            }
             "SpotlightFilter" -> {
                 val filter = SpotlightFilter(array[0] as Int)
                 filter.printConstructorParamsWithValues()

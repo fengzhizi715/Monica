@@ -277,6 +277,12 @@
     "params": []
   },
   {
+    "name": "SolarizeFilter",
+    "desc": "图像曝光过度的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
     "name": "SpotlightFilter",
     "desc": null,
     "remark": null,
