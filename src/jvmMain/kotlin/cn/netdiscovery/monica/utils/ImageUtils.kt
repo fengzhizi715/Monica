@@ -188,6 +188,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "SwimFilter" -> {
+                val filter = SwimFilter(array[2] as Float,array[3] as Float,array[1] as Float,array[0] as Float,array[5] as Float,array[4] as Float,)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "USMFilter" -> {
                 val filter = USMFilter(array[1] as Float,array[0] as Float,array[2] as Int)
                 filter.printConstructorParamsWithValues()

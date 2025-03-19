@@ -293,6 +293,19 @@
     ]
   },
   {
+    "name": "SwimFilter",
+    "desc": "在水下效果的滤镜",
+    "remark": "amount: 效果的数量",
+    "params": [
+      { "key": "scale", "type": "Float", "value": 32.0 },
+      { "key": "stretch", "type": "Float", "value": 1.0 },
+      { "key": "angle", "type": "Float", "value": 0.0 },
+      { "key": "amount", "type": "Float", "value": 1.0 },
+      { "key": "turbulence", "type": "Float", "value": 1.0 },
+      { "key": "time", "type": "Float", "value": 0.0 }
+    ]
+  },
+  {
     "name": "USMFilter",
     "desc": null,
     "remark": null,

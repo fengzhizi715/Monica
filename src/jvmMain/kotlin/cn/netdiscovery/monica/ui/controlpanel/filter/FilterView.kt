@@ -121,7 +121,7 @@ fun filter(state: ApplicationState) {
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(400.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+        rightSideMenuBar(modifier = Modifier.width(400.dp).height(450.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
             Column {
                 if (filterSelectedIndex.value>=0) {
