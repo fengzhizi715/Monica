@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.imageprocess
+package cn.netdiscovery.monica.imageprocess.filter
 
 import cn.netdiscovery.monica.imageprocess.domain.Histogram
 import cn.netdiscovery.monica.imageprocess.filter.base.WholeImageFilter
@@ -7,7 +7,7 @@ import java.awt.Rectangle
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.EqualizeFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.EqualizeFilter
  * @author: Tony Shen
  * @date: 2025/3/20 19:58
  * @version: V1.0 <描述当前版本功能>

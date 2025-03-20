@@ -97,6 +97,12 @@
     ]
   },
   {
+    "name": "EqualizeFilter",
+    "desc": "采用直方图均衡化实现图像增强的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
     "name": "ExposureFilter",
     "desc": "修改曝光的滤镜",
     "remark": "exposure > 0",

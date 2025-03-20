@@ -2,7 +2,6 @@ package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import cn.netdiscovery.monica.imageprocess.EqualizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
@@ -81,6 +80,10 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "EmbossFilter" -> {
                 val filter = EmbossFilter(array[0] as Int)
                 filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
+            "EqualizeFilter" -> {
+                val filter = EqualizeFilter()
                 filter.transform(state.currentImage!!)
             }
             "ExposureFilter" -> {
