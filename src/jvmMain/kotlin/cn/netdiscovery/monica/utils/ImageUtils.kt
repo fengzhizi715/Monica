@@ -182,6 +182,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
             "SharpenFilter" -> {
                 SharpenFilter().transform(state.currentImage!!)
             }
+            "SmearFilter" -> {
+                val filter = SmearFilter(array[0] as Float, array[1] as Float, array[2] as Int, array[4] as Int, array[3] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "SolarizeFilter" -> {
                 SolarizeFilter().transform(state.currentImage!!)
             }

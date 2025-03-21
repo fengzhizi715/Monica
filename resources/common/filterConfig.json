@@ -283,6 +283,18 @@
     "params": []
   },
   {
+    "name": "SmearFilter",
+    "desc": "绘画效果的滤镜",
+    "remark": "shape 支持选择 0-3，共4种风格。\n0:CROSSES,1:LINES,2:CIRCLES,3:SQUARES",
+    "params": [
+      { "key": "angle", "type": "Float", "value": 0.0 },
+      { "key": "density", "type": "Float", "value": 0.5 },
+      { "key": "distance", "type": "Int", "value": 8 },
+      { "key": "shape", "type": "Int", "value": 1 },
+      { "key": "mix", "type": "Float", "value": 0.5 }
+    ]
+  },
+  {
     "name": "SolarizeFilter",
     "desc": "图像曝光过度的滤镜",
     "remark": null,

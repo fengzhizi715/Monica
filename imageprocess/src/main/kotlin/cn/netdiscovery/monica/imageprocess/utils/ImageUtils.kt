@@ -30,6 +30,17 @@ fun clamp(x: Int, a: Int, b: Int): Int {
     return if (x < a) a else if (x > b) b else x
 }
 
+/**
+ * Clamp a value to an interval.
+ * @param a the lower clamp threshold
+ * @param b the upper clamp threshold
+ * @param x the input parameter
+ * @return the clamped value
+ */
+fun clamp(x: Float, a: Float, b: Float): Float {
+    return if (x < a) a else if (x > b) b else x
+}
+
 fun premultiply(p: IntArray, offset: Int, length: Int) {
     var length = length
     length += offset
