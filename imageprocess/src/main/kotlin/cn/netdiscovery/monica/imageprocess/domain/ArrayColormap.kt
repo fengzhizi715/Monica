@@ -80,7 +80,7 @@ open class ArrayColormap(var map: IntArray = IntArray(256)) : Colormap, Cloneabl
      * @param color the color
      * @see .getColor
      */
-    fun setColor(index: Int, color: Int) {
+    open fun setColor(index: Int, color: Int) {
         map[index] = color
     }
 
