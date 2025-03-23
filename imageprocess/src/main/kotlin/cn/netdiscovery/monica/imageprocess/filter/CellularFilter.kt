@@ -21,7 +21,8 @@ import kotlin.math.*
  * @date:  2025/3/22 14:53
  * @version: V1.0 <描述当前版本功能>
  */
-open class CellularFilter(open var scale: Float = 32f,
+open class CellularFilter(open var angle: Double = 0.0,
+                          open var scale: Float = 32f,
                           open var randomness: Float = 0f,
                           open var gridType: Int = HEXAGONAL) : WholeImageFilter(), Function2D, Cloneable {
 
@@ -35,7 +36,6 @@ open class CellularFilter(open var scale: Float = 32f,
     }
 
     protected var stretch: Float = 1.0f
-    protected var angle: Float = 0.0f
     var amount: Float = 1.0f
     var turbulence: Float = 1.0f
     var gain: Float = 0.5f
@@ -73,23 +73,14 @@ open class CellularFilter(open var scale: Float = 32f,
                 for (j in start until end) probabilities!![j] = i.toByte()
             }
         }
-    }
 
-//    /**
-//     * Specifies the angle of the texture.
-//     * @param angle the angle of the texture.
-//     * @angle
-//     * @see .getAngle
-//     */
-//    fun setAngle(angle: Float) {
-//        this.angle = angle
-//        val cos = cos(angle.toDouble()).toFloat()
-//        val sin = sin(angle.toDouble()).toFloat()
-//        m00 = cos
-//        m01 = sin
-//        m10 = -sin
-//        m11 = cos
-//    }
+        val cos = cos(angle).toFloat()
+        val sin = sin(angle).toFloat()
+        m00 = cos
+        m01 = sin
+        m10 = -sin
+        m11 = cos
+    }
 
     inner class Point {
         var index: Int = 0
@@ -295,11 +286,11 @@ open class CellularFilter(open var scale: Float = 32f,
         if (colormap != null) {
             v = colormap.getColor(f)
             if (useColor) {
-                val srcx: Int = clamp(((results!![0]!!.x - 1000) * scale).toInt(), 0, width - 1)
-                val srcy: Int = clamp(((results!![0]!!.y - 1000) * scale).toInt(), 0, height - 1)
+                val srcx: Int = clamp(((results[0]!!.x - 1000) * scale).toInt(), 0, width - 1)
+                val srcy: Int = clamp(((results[0]!!.y - 1000) * scale).toInt(), 0, height - 1)
                 v = inPixels[srcy * width + srcx]
                 f =
-                    (results!![1]!!.distance - results!![0]!!.distance) / (results!![1]!!.distance + results!![0]!!.distance)
+                    (results[1]!!.distance - results[0]!!.distance) / (results[1]!!.distance + results[0]!!.distance)
                 f = smoothStep(coefficients[1], coefficients[0], f)
                 v = mixColors(f, -0x1000000, v)
             }
@@ -334,8 +325,6 @@ open class CellularFilter(open var scale: Float = 32f,
         f.coefficients = coefficients.clone()
         f.results = results.clone()
         f.random = Random()
-        //		if (colormap != null)
-//			f.colormap = (Colormap)colormap.clone();
         return f
     }
 }
