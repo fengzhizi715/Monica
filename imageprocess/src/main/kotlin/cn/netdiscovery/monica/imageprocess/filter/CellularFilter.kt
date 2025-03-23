@@ -21,7 +21,9 @@ import kotlin.math.*
  * @date:  2025/3/22 14:53
  * @version: V1.0 <描述当前版本功能>
  */
-open class CellularFilter : WholeImageFilter(), Function2D, Cloneable {
+open class CellularFilter(open var scale: Float = 32f,
+                          open var randomness: Float = 0f,
+                          open var gridType: Int = HEXAGONAL) : WholeImageFilter(), Function2D, Cloneable {
 
     companion object {
         private var probabilities: ByteArray? = null
@@ -32,7 +34,6 @@ open class CellularFilter : WholeImageFilter(), Function2D, Cloneable {
         const val TRIANGULAR: Int = 4
     }
 
-    protected var scale: Float = 32f
     protected var stretch: Float = 1.0f
     protected var angle: Float = 0.0f
     var amount: Float = 1.0f
@@ -50,8 +51,7 @@ open class CellularFilter : WholeImageFilter(), Function2D, Cloneable {
     protected var m10: Float = 0.0f
     protected var m11: Float = 1.0f
     protected var results: Array<Point?>
-    protected var randomness: Float = 0f
-    protected var gridType: Int = HEXAGONAL
+
     private val min = 0f
     private val max = 0f
     private var gradientCoefficient = 0f

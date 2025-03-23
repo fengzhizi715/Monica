@@ -12,31 +12,13 @@ import cn.netdiscovery.monica.imageprocess.utils.clamp
  * @date:  2025/3/22 16:50
  * @version: V1.0 <描述当前版本功能>
  */
-class CrystallizeFilter(private val edgeThickness:Float = 0.4f) : CellularFilter() {
+class CrystallizeFilter(private val edgeThickness:Float = 0.4f,
+                        override var scale:Float = 16f,
+                        override var randomness:Float = 0f,
+                        override var gridType:Int = HEXAGONAL) : CellularFilter(scale = scale, gridType = gridType) {
 
     private var fadeEdges = false
     private var edgeColor = 0xff000000.toInt()
-
-    init {
-        scale = 16f
-        randomness = 0f
-    }
-
-    fun setFadeEdges(fadeEdges: Boolean) {
-        this.fadeEdges = fadeEdges
-    }
-
-    fun getFadeEdges(): Boolean {
-        return fadeEdges
-    }
-
-    fun setEdgeColor(edgeColor: Int) {
-        this.edgeColor = edgeColor
-    }
-
-    fun getEdgeColor(): Int {
-        return edgeColor
-    }
 
     override fun getPixel(x: Int, y: Int, inPixels: IntArray, width: Int, height: Int): Int {
         var nx: Float = m00 * x + m01 * y
