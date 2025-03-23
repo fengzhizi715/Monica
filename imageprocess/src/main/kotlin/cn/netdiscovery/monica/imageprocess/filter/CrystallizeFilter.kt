@@ -15,7 +15,7 @@ import cn.netdiscovery.monica.imageprocess.utils.clamp
 class CrystallizeFilter(private val edgeThickness:Float = 0.4f,
                         override var scale:Float = 16f,
                         override var randomness:Float = 0f,
-                        override var gridType:Int = HEXAGONAL) : CellularFilter(scale = scale, gridType = gridType) {
+                        override var gridType:Int = HEXAGONAL) : CellularFilter(scale = scale, randomness = randomness, gridType = gridType) {
 
     private var fadeEdges = false
     private var edgeColor = 0xff000000.toInt()

@@ -72,6 +72,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "CrystallizeFilter" -> {
+                val filter = CrystallizeFilter(array[0] as Float, array[3] as Float, array[2] as Float, array[1] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "DiffuseFilter" -> {
                 val filter = DiffuseFilter(array[0] as Float)
                 filter.printConstructorParamsWithValues()
