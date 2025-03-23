@@ -262,6 +262,18 @@
     ]
   },
   {
+    "name": "PointillizeFilter",
+    "desc": "绘制彩色斑点效果的滤镜",
+    "remark": "gridType 支持选择0-4，共5种风格。\n0:RANDOM,1:SQUARE,2:HEXAGONAL,3:OCTAGONAL,\n4:TRIANGULAR",
+    "params": [
+      { "key": "edgeThickness", "type": "Float", "value": 0.4 },
+      { "key": "fuzziness", "type": "Float", "value": 0.1 },
+      { "key": "scale", "type": "Float", "value": 16 },
+      { "key": "randomness", "type": "Float", "value": 0.0 },
+      { "key": "gridType", "type": "Int", "value": 2 }
+    ]
+  },
+  {
     "name": "PosterizeFilter",
     "desc": "色调分离的滤镜",
     "remark": null,

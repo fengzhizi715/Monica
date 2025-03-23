@@ -171,6 +171,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "PointillizeFilter" -> {
+                val filter = PointillizeFilter(array[0] as Float, array[1] as Float, array[4] as Float, array[3] as Float, array[2] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "PosterizeFilter" -> {
                 val filter = PosterizeFilter(array[0] as Int)
                 filter.printConstructorParamsWithValues()
