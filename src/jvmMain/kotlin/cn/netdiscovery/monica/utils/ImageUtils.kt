@@ -151,6 +151,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "MaximumFilter" -> {
+                val filter = MaximumFilter()
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "MirrorFilter" -> {
                 val filter = MirrorFilter(array[2] as Float,array[0] as Float,array[1] as Float)
                 filter.printConstructorParamsWithValues()

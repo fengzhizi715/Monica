@@ -227,6 +227,12 @@
     ]
   },
   {
+    "name": "MaximumFilter",
+    "desc": "对每个像素用8邻域中的最大值进行替换的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
     "name": "MirrorFilter",
     "desc": "镜像滤镜",
     "remark": null,
