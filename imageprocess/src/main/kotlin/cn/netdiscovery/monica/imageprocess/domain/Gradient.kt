@@ -26,9 +26,7 @@ class Gradient : ArrayColormap {
     private var yKnots = intArrayOf(
         -0x1000000, -0x1000000, -0x1, -0x1,
     )
-    private var knotTypes = byteArrayOf(
-        (RGB or SPLINE).toByte(), (RGB or SPLINE).toByte(), (RGB or SPLINE).toByte(), (RGB or SPLINE).toByte()
-    )
+    private var knotTypes = byteArrayOf((RGB or SPLINE).toByte(), (RGB or SPLINE).toByte(), (RGB or SPLINE).toByte(), (RGB or SPLINE).toByte())
 
     /**
      * Construct a Gradient.

@@ -281,7 +281,7 @@ open class CellularFilter(open var angle: Double = 0.0,
 //		f = (f-min)/(max-min);
         f *= 2f
         f *= amount
-        val a = -0x1000000
+        val a = 0xff000000.toInt()
         var v: Int
         if (colormap != null) {
             v = colormap.getColor(f)
@@ -292,7 +292,7 @@ open class CellularFilter(open var angle: Double = 0.0,
                 f =
                     (results[1]!!.distance - results[0]!!.distance) / (results[1]!!.distance + results[0]!!.distance)
                 f = smoothStep(coefficients[1], coefficients[0], f)
-                v = mixColors(f, -0x1000000, v)
+                v = mixColors(f, 0xff000000.toInt(), v)
             }
             return v
         } else {
