@@ -253,6 +253,15 @@
     ]
   },
   {
+    "name": "OffsetFilter",
+    "desc": "偏移滤镜",
+    "remark": null,
+    "params": [
+      { "key": "xOffset", "type": "Int", "value": 0 },
+      { "key": "yOffset", "type": "Int", "value": 0 }
+    ]
+  },
+  {
     "name": "OilPaintFilter",
     "desc": null,
     "remark": null,

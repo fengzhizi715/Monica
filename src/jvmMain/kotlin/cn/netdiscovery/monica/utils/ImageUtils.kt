@@ -166,6 +166,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "OffsetFilter" -> {
+                val filter = OffsetFilter(array[0] as Int,array[1] as Int)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "OilPaintFilter" -> {
                 val filter = OilPaintFilter(array[1] as Int,array[0] as Int)
                 filter.printConstructorParamsWithValues()
