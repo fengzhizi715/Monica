@@ -1,19 +1,18 @@
-package cn.netdiscovery.monica.imageprocess.filter
+package cn.netdiscovery.monica.imageprocess.filter.blur
 
 import cn.netdiscovery.monica.imageprocess.filter.base.ColorProcessorFilter
 import java.awt.image.BufferedImage
 import java.util.*
 
-
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.imageprocess.filter.MaximumFilter
+ *          cn.netdiscovery.monica.imageprocess.filter.blur.MinimumFilter
  * @author: Tony Shen
- * @date: 2025/3/24 14:41
+ * @date: 2025/3/24 15:31
  * @version: V1.0 <描述当前版本功能>
  */
-class MaximumFilter: ColorProcessorFilter() {
+class MinimumFilter: ColorProcessorFilter() {
 
     override fun doColorProcessor(dstImage: BufferedImage): BufferedImage {
         val numOfPixels = width * height
@@ -47,9 +46,9 @@ class MaximumFilter: ColorProcessorFilter() {
                 Arrays.sort(subpixels[1])
                 Arrays.sort(subpixels[2])
 
-                r = subpixels[0][total - 1]
-                g = subpixels[1][total - 1]
-                b = subpixels[2][total - 1]
+                r = subpixels[0][0]
+                g = subpixels[1][0]
+                b = subpixels[2][0]
 
                 output[0][row * width + col] = r.toByte()
                 output[1][row * width + col] = g.toByte()
@@ -63,5 +62,4 @@ class MaximumFilter: ColorProcessorFilter() {
 
         return toBufferedImage(dstImage)
     }
-
 }

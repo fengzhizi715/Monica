@@ -228,7 +228,13 @@
   },
   {
     "name": "MaximumFilter",
-    "desc": "对每个像素用8邻域中的最大值进行替换的滤镜",
+    "desc": "对每个像素用自身和8邻域中的最大值进行替换的滤镜",
+    "remark": null,
+    "params": []
+  },
+  {
+    "name": "MinimumFilter",
+    "desc": "对每个像素用自身和8邻域中的最小值进行替换的滤镜",
     "remark": null,
     "params": []
   },
