@@ -130,6 +130,11 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "HSBAdjustFilter" -> {
+                val filter = HSBAdjustFilter(array[1] as Float, array[2] as Float, array[0] as Float)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
             "InvertFilter" -> {
                 InvertFilter().transform(state.currentImage!!)
             }

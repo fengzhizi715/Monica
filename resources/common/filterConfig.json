@@ -183,6 +183,16 @@
     ]
   },
   {
+    "name": "HSBAdjustFilter",
+    "desc": "调节 HSB 的滤镜",
+    "remark": null,
+    "params": [
+      { "key": "hFactor", "type": "Float", "value": 0.0 },
+      { "key": "sFactor", "type": "Float", "value": 0.0 },
+      { "key": "bFactor", "type": "Float", "value": 0.0 }
+    ]
+  },
+  {
     "name": "InvertFilter",
     "desc": "反转图像中的所有像素的滤镜",
     "remark": null,
