@@ -413,6 +413,19 @@
     ]
   },
   {
+    "name": "WaterFilter",
+    "desc": "水波纹效果的过滤器",
+    "remark": null,
+    "params": [
+      { "key": "wavelength", "type": "Float", "value": 16.0 },
+      { "key": "amplitude", "type": "Float", "value": 10.0 },
+      { "key": "phase", "type": "Float", "value": 0.0 },
+      { "key": "centreX", "type": "Float", "value": 0.5 },
+      { "key": "centreY", "type": "Float", "value": 0.5 },
+      { "key": "radius", "type": "Float", "value": 50.0 }
+    ]
+  },
+  {
     "name": "WhiteImageFilter",
     "desc": null,
     "remark": null,

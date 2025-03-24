@@ -13,9 +13,9 @@ import kotlin.math.sin
  */
 class FFT(logN: Int) {
     // Weighting factors
-    protected lateinit var w1: FloatArray
-    protected lateinit var w2: FloatArray
-    protected lateinit var w3: FloatArray
+    protected var w1: FloatArray
+    protected var w2: FloatArray
+    protected var w3: FloatArray
 
     init {
         // Prepare the weighting factors
