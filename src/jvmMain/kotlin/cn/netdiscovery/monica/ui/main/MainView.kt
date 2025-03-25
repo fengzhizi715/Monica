@@ -160,18 +160,18 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
-                    confirmButton(enabled = true, "初始化所有滤镜的参数配置") {
+                    confirmButton(enabled = true, "初始化滤镜的参数配置") {
                         initFilterParamsConfig()
                         onClick()
-                        showCenterToast("初始化所有滤镜的参数配置成功")
+                        showCenterToast("初始化滤镜的参数配置成功")
                     }
                 }
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
-                    confirmButton(enabled = true, "清空缓存数据") {
+                    confirmButton(enabled = true, "清空所有缓存数据") {
                         clearData()
                         onClick()
-                        showCenterToast("清空缓存数据成功")
+                        showCenterToast("清空所有缓存数据成功")
                     }
                 }
             }
