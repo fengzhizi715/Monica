@@ -75,11 +75,18 @@ kotlin {
                 implementation("ch.qos.logback:logback-access:${rootProject.extra["logback"]}")
 
                 // ktor
-                implementation("io.ktor:ktor-client-core:${rootProject.extra["ktor.version"]}")
-                implementation("io.ktor:ktor-client-cio:${rootProject.extra["ktor.version"]}")
-                implementation("io.ktor:ktor-client-content-negotiation:${rootProject.extra["ktor.version"]}")
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${rootProject.extra["ktor.version"]}")
-                implementation("io.ktor:ktor-client-logging:${rootProject.extra["ktor.version"]}")
+                implementation("io.ktor:ktor-client-core:${rootProject.extra["ktor.version"]}") {
+                    exclude(group = "org.slf4j")
+                }
+                implementation("io.ktor:ktor-client-cio:${rootProject.extra["ktor.version"]}") {
+                    exclude(group = "org.slf4j")
+                }
+                implementation("io.ktor:ktor-client-content-negotiation:${rootProject.extra["ktor.version"]}") {
+                    exclude(group = "org.slf4j")
+                }
+                implementation("io.ktor:ktor-serialization-kotlinx-json:${rootProject.extra["ktor.version"]}") {
+                    exclude(group = "org.slf4j")
+                }
 
                 // generate gif
                 implementation ("com.madgag:animated-gif-lib:1.4")

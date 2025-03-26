@@ -3,7 +3,6 @@ package cn.netdiscovery.monica.http
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
-import io.ktor.client.plugins.logging.*
 import io.ktor.client.plugins.HttpTimeout
 
 /**
@@ -19,11 +18,9 @@ val httpClient by lazy {
     HttpClient(CIO) {
         install(ContentNegotiation) // 安装内容协商插件（可选）
 
-        install(Logging) { // 安装日志插件
-            level = LogLevel.HEADERS
-        }
         install(HttpTimeout) { // 设置超时
             requestTimeoutMillis = 30000
+            connectTimeoutMillis = 30000
         }
     }
 }

@@ -14,7 +14,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.currentTime
 import cn.netdiscovery.monica.utils.extensions.getUniqueFile
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
-import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.kotlin.coroutines.IO
@@ -48,8 +48,8 @@ class PreviewViewModel {
     fun loadUrl(picUrl:String, state: ApplicationState) {
         logger.info("load picUrl: $picUrl")
 
-        state.scope.launch {
-            loadingDisplayWithSuspend {
+        state.scope.launchWithSuspendLoading {
+            try {
                 val byteArray = httpClient.get(picUrl).readRawBytes()
 
                 val bufferedImage = ByteArrayInputStream(byteArray).use { inputStream ->
@@ -58,6 +58,7 @@ class PreviewViewModel {
 
                 state.rawImage = bufferedImage
                 state.currentImage = state.rawImage
+            } catch (_: Exception) {
             }
         }
     }

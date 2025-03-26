@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.utils.extensions
 
 import cn.netdiscovery.monica.utils.loadingDisplay
+import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.*
 
@@ -16,5 +17,12 @@ fun CoroutineScope.launchWithLoading(block:()->Unit) {
 
     this.launch(IO) {
         loadingDisplay(block)
+    }
+}
+
+fun CoroutineScope.launchWithSuspendLoading(block:suspend ()->Unit) {
+
+    this.launch(IO) {
+        loadingDisplayWithSuspend(block)
     }
 }

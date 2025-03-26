@@ -6,13 +6,12 @@ import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.doFilter
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.extensions.safelyConvertToInt
-import cn.netdiscovery.monica.utils.loadingDisplayWithSuspend
 import filterNames
 import org.slf4j.Logger
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.ext.get
-import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -32,38 +31,36 @@ class FilterViewModel {
      * 保存滤镜参数，并调用滤镜效果
      */
     fun applyFilter(state:ApplicationState, index:Int, paramMap:HashMap<Pair<String, String>, String>) {
-        state.scope.launch {
-            loadingDisplayWithSuspend {
-                val tempImage = state.currentImage!!
+        state.scope.launchWithSuspendLoading {
+            val tempImage = state.currentImage!!
 
-                val filterName = filterNames[index]
+            val filterName = filterNames[index]
 
-                val list = mutableListOf<Param>()
-                paramMap.forEach { (t, u) ->
-                    val value = when(t.second) {
-                        "Int"    -> u.safelyConvertToInt()?:0
-                        "Float"  -> u.toFloat()
-                        "Double" -> u.toDouble()
-                        else     -> u
-                    }
-
-                    list.add(Param(t.first, t.second, value))
+            val list = mutableListOf<Param>()
+            paramMap.forEach { (t, u) ->
+                val value = when(t.second) {
+                    "Int"    -> u.safelyConvertToInt()?:0
+                    "Float"  -> u.toFloat()
+                    "Double" -> u.toDouble()
+                    else     -> u
                 }
 
-                // 按照参数名首字母进行排序
-                list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
-
-                val filterParam = rxCache.get<FilterParam>(filterName)?.data
-                filterParam?.params = list
-                rxCache.saveOrUpdate(filterName, filterParam) // 保存滤镜参数
-
-                val array:MutableList<Any> = list.map { it.value }.toMutableList()
-                logger.info("filterName: $filterName, array: $array")
-
-                state.currentImage = doFilter(filterName,array,state)
-
-                state.addQueue(tempImage)
+                list.add(Param(t.first, t.second, value))
             }
+
+            // 按照参数名首字母进行排序
+            list.sortWith { o1, o2 -> collator.compare(o1.key, o2.key); }
+
+            val filterParam = rxCache.get<FilterParam>(filterName)?.data
+            filterParam?.params = list
+            rxCache.saveOrUpdate(filterName, filterParam) // 保存滤镜参数
+
+            val array:MutableList<Any> = list.map { it.value }.toMutableList()
+            logger.info("filterName: $filterName, array: $array")
+
+            state.currentImage = doFilter(filterName,array,state)
+
+            state.addQueue(tempImage)
         }
     }
 
