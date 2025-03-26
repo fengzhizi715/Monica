@@ -4,7 +4,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
-import cn.netdiscovery.monica.http.HttpConnectionClient
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
@@ -57,8 +56,6 @@ private var topToastMessage by mutableStateOf("")
 private var showCenterToast by mutableStateOf(false)
 private var centerToastMessage by mutableStateOf("")
 var showGeneralSettings by mutableStateOf(false)
-
-lateinit var client: HttpConnectionClient
 
 lateinit var mAppKoin: Koin
 
@@ -306,8 +303,6 @@ private fun initData() {
     if (filterMaps.isEmpty()) {
         initFilterMap()
     }
-
-    client = HttpConnectionClient(timeout, retryNum)
 
     logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
 
