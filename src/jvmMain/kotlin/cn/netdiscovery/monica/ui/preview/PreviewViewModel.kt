@@ -19,14 +19,11 @@ import cn.netdiscovery.monica.utils.logger
 import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.ext.get
-import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import kotlinx.coroutines.launch
 import org.slf4j.Logger
 import showTopToast
 import java.awt.Color
 import java.awt.Graphics
-import java.io.ByteArrayInputStream
 import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.JFileChooser
@@ -50,11 +47,8 @@ class PreviewViewModel {
 
         state.scope.launchWithSuspendLoading {
             try {
-                val byteArray = httpClient.get(picUrl).readRawBytes()
-
-                val bufferedImage = ByteArrayInputStream(byteArray).use { inputStream ->
-                    ImageIO.read(inputStream)
-                }
+                val inputStream = httpClient.get(picUrl).body?.byteStream()
+                val bufferedImage = ImageIO.read(inputStream)
 
                 state.rawImage = bufferedImage
                 state.currentImage = state.rawImage

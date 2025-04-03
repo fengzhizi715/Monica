@@ -75,18 +75,23 @@ kotlin {
                 implementation("ch.qos.logback:logback-access:${rootProject.extra["logback"]}")
 
                 // ktor
-                implementation("io.ktor:ktor-client-core:${rootProject.extra["ktor.version"]}") {
-                    exclude(group = "org.slf4j")
-                }
-                implementation("io.ktor:ktor-client-cio:${rootProject.extra["ktor.version"]}") {
-                    exclude(group = "org.slf4j")
-                }
-                implementation("io.ktor:ktor-client-content-negotiation:${rootProject.extra["ktor.version"]}") {
-                    exclude(group = "org.slf4j")
-                }
-                implementation("io.ktor:ktor-serialization-kotlinx-json:${rootProject.extra["ktor.version"]}") {
-                    exclude(group = "org.slf4j")
-                }
+//                implementation("io.ktor:ktor-client-core:${rootProject.extra["ktor.version"]}") {
+//                    exclude(group = "org.slf4j")
+//                }
+//                implementation("io.ktor:ktor-client-okhttp-jvm:${rootProject.extra["ktor.version"]}") {
+//                    exclude(group = "org.slf4j")
+//                }
+//                implementation("io.ktor:ktor-client-content-negotiation:${rootProject.extra["ktor.version"]}") {
+//                    exclude(group = "org.slf4j")
+//                }
+//                implementation("io.ktor:ktor-serialization-kotlinx-json:${rootProject.extra["ktor.version"]}") {
+//                    exclude(group = "org.slf4j")
+//                }
+                // okhttp
+                implementation("com.github.fengzhizi715.okhttp-extension:core:1.3.2")
+                implementation("com.github.fengzhizi715.okhttp-logging-interceptor:core:v1.1.4")
+                implementation ("com.squareup.okhttp3:okhttp:4.10.0")
+                implementation ("com.google.code.gson:gson:2.10.1")
 
                 // generate gif
                 implementation ("com.madgag:animated-gif-lib:1.4")
