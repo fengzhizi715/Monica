@@ -1,12 +1,22 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
+import cn.netdiscovery.http.core.utils.extension.asyncCall
+import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.Request
+import okhttp3.RequestBody
+import okio.BufferedSink
 import org.slf4j.Logger
-import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.IOException
+import javax.imageio.ImageIO
 
 /**
  *
@@ -31,13 +41,52 @@ class AIViewModel {
     }
 
     fun sketchDrawing(state: ApplicationState) {
-        state.scope.launchWithLoading {
+//        state.scope.launchWithLoading {
+//
+//            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+//                ImageProcess.sketchDrawing(byteArray)
+//            }, failure = { e ->
+//                logger.error("sketchDrawing is failed", e)
+//            })
+//        }
 
-            OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
-                ImageProcess.sketchDrawing(byteArray)
-            }, failure = { e ->
-                logger.error("sketchDrawing is failed", e)
-            })
+        if (state.currentImage == null) return
+
+        state.scope.launchWithSuspendLoading {
+            val format = state.rawImageFile!!.extension
+
+            val requestBody: RequestBody = object : RequestBody() {
+                override fun contentType(): MediaType? {
+                    return "image/jpeg".toMediaTypeOrNull()
+                }
+
+                override fun writeTo(sink: BufferedSink) {
+                    // 使用 try-with-resources 确保流关闭
+                    val outputStream = sink.outputStream()
+                    outputStream.use { outputStream ->
+
+                        if (!ImageIO.write(state.currentImage, format, outputStream)) {
+                            throw IOException("Unsupported image format: $format")
+                        }
+                    }
+                }
+            }
+
+            val request: Request = Request.Builder()
+                .url( "${state.algorithmUrlText}api/sketchDrawing")
+                .post(requestBody)
+                .build()
+
+            try {
+                httpClient.okHttpClient().asyncCall { request }.get().use { response->
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
+                        ImageIO.read(inputStream)
+                    }
+                }
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
         }
     }
 }

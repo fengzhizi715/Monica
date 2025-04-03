@@ -57,7 +57,7 @@ val httpClient by lazy {
 //        .baseUrl("http://localhost:8080")
         .allTimeouts(DEFAULT_CONN_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .addInterceptor(loggingInterceptor)
-        .addInterceptor(CurlLoggingInterceptor())
+//        .addInterceptor(CurlLoggingInterceptor())
         .serializer(GsonSerializer())
         .jsonConverter(GlobalRequestJSONConverter::class)
         .responseMapper(StringResponseMapper::class)
