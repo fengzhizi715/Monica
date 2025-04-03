@@ -12,5 +12,6 @@ data class GeneralSettings(
     var outputBoxR: Int,
     var outputBoxG: Int,
     var outputBoxB: Int,
-    var size: Int
+    var size: Int,
+    var algorithmUrl: String
 )

@@ -19,6 +19,7 @@ import org.koin.compose.koinInject
 import picUrl
 import showCenterToast
 import showTopToast
+import cn.netdiscovery.monica.utils.extensions.isValidUrl
 
 /**
  *
@@ -127,6 +128,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var gText by remember { mutableStateOf(state.outputBoxGText.toString()) }
     var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
+    var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
 
     AlertDialog(onDismissRequest = {},
         title = {
@@ -160,6 +162,14 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
+                    Text("算法服务的地址")
+
+                    basicTextFieldWithTitle(titleText = "url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
+                        algorithmUrlText = str
+                    }
+                }
+
+                Row(modifier = Modifier.padding(top = 20.dp)) {
                     confirmButton(enabled = true, "初始化滤镜的参数配置") {
                         initFilterParamsConfig()
                         onClick()
@@ -182,6 +192,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.outputBoxGText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                 state.outputBoxBText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
                 state.sizeText       = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
+                state.algorithmUrlText = (getValidateField(block = {
+                    if (algorithmUrlText.isValidUrl()) {
+                        algorithmUrlText
+                    } else {
+                        throw RuntimeException()
+                    }
+                } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button).toString()
 
                 state.saveGeneralSettings()
 
