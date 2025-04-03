@@ -30,13 +30,52 @@ class AIViewModel {
     private val logger: Logger = logger<AIViewModel>()
 
     fun faceDetect(state: ApplicationState) {
-        state.scope.launchWithLoading {
+//        state.scope.launchWithLoading {
+//
+//            OpenCVManager.invokeCV(state, action = { byteArray ->
+//                ImageProcess.faceDetect(byteArray)
+//            }, failure = { e ->
+//                logger.error("faceDetect is failed", e)
+//            })
+//        }
 
-            OpenCVManager.invokeCV(state, action = { byteArray ->
-                ImageProcess.faceDetect(byteArray)
-            }, failure = { e ->
-                logger.error("faceDetect is failed", e)
-            })
+        if (state.currentImage == null) return
+
+        state.scope.launchWithSuspendLoading {
+            val format = state.rawImageFile!!.extension
+
+            val requestBody: RequestBody = object : RequestBody() {
+                override fun contentType(): MediaType? {
+                    return "image/jpeg".toMediaTypeOrNull()
+                }
+
+                override fun writeTo(sink: BufferedSink) {
+                    // 使用 try-with-resources 确保流关闭
+                    val outputStream = sink.outputStream()
+                    outputStream.use { outputStream ->
+
+                        if (!ImageIO.write(state.currentImage, format, outputStream)) {
+                            throw IOException("Unsupported image format: $format")
+                        }
+                    }
+                }
+            }
+
+            val request: Request = Request.Builder()
+                .url( "${state.algorithmUrlText}api/faceDetect")
+                .post(requestBody)
+                .build()
+
+            try {
+                httpClient.okHttpClient().asyncCall { request }.get().use { response->
+                    state.addQueue(state.currentImage!!)
+                    state.currentImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
+                        ImageIO.read(inputStream)
+                    }
+                }
+            } catch (e:Exception){
+                e.printStackTrace()
+            }
         }
     }
 

@@ -36,9 +36,6 @@ val buildTime:String by lazy {
 
 const val previewWidth = 750
 
-const val timeout = 6000
-const val retryNum = 3
-
 
 const val KEY_CROP_FIRST = "key_crop_first"
 const val KEY_CROP_SECOND = "key_crop_second"

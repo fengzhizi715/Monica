@@ -87,7 +87,6 @@ https://juejin.cn/column/7396157773312065574
 
 # 五. TODO List：
 
-* 模型部署到云端
 * 重构形状绘制模块(绘制完的 Shape 支持拖动）
 * 解决 Mac 打包的问题
 * 支持 GPU 推理
