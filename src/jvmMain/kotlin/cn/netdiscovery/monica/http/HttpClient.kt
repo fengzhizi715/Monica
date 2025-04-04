@@ -11,6 +11,8 @@ import cn.netdiscovery.http.core.response.StringResponseMapper
 import cn.netdiscovery.http.interceptor.LoggingInterceptor
 import cn.netdiscovery.http.interceptor.log.LogManager
 import cn.netdiscovery.http.interceptor.log.LogProxy
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.util.concurrent.TimeUnit
 
 
@@ -25,6 +27,8 @@ import java.util.concurrent.TimeUnit
 
 const val DEFAULT_CONN_TIMEOUT = 30
 
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 val loggingInterceptor by lazy {
     LogManager.logProxy(object : LogProxy {  // 必须要实现 LogProxy ，否则无法打印网络请求的 request 、response
         override fun e(tag: String, msg: String) {
@@ -34,11 +38,11 @@ val loggingInterceptor by lazy {
         }
 
         override fun i(tag: String, msg: String) {
-            println("$tag:$msg")
+            logger.info("$tag:$msg")
         }
 
         override fun d(tag: String, msg: String) {
-            println("$tag:$msg")
+            logger.info("$tag:$msg")
         }
     })
 

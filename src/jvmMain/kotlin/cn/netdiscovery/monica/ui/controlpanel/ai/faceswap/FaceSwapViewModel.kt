@@ -142,7 +142,6 @@ class FaceSwapViewModel {
                 .addFormDataPart("target", targetFileName, targetFile.asRequestBody("image/jpeg".toMediaType()))
                 .build()
 
-            // 构建请求
             val request = Request.Builder()
                 .url("${state.algorithmUrlText}api/faceSwap?status=$status")
                 .post(requestBody)
