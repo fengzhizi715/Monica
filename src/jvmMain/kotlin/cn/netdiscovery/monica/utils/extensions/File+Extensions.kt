@@ -1,6 +1,11 @@
+@file:Suppress("UNREACHABLE_CODE")
+
 package cn.netdiscovery.monica.utils.extensions
 
 import java.io.File
+import javax.imageio.ImageIO
+import javax.imageio.ImageReader
+import javax.imageio.stream.ImageInputStream
 
 /**
  *
@@ -25,4 +30,18 @@ fun File.getUniqueFile(sourceFile: File = File("")): File {
     }
 
     return newFile
+}
+
+
+fun File.getImageFormat(): String? {
+    val inputStream: ImageInputStream = ImageIO.createImageInputStream(this) ?: return null
+    val readers: Iterator<ImageReader> = ImageIO.getImageReaders(inputStream)
+    return if (readers.hasNext()) {
+        val reader = readers.next()
+        val format = reader.formatName
+        reader.dispose()
+        format
+    } else {
+        null
+    }
 }

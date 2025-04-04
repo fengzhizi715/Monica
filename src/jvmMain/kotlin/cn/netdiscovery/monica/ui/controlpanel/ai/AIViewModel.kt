@@ -5,6 +5,7 @@ import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
@@ -42,7 +43,7 @@ class AIViewModel {
         if (state.currentImage == null) return
 
         state.scope.launchWithSuspendLoading {
-            val format = state.rawImageFile!!.extension
+            val format = state.rawImageFile!!.getImageFormat()
 
             val requestBody: RequestBody = object : RequestBody() {
                 override fun contentType(): MediaType? {
@@ -62,7 +63,7 @@ class AIViewModel {
             }
 
             val request: Request = Request.Builder()
-                .url( "${state.algorithmUrlText}api/faceLandMark")
+                .url( "${state.algorithmUrlText}api/faceDetect")
                 .post(requestBody)
                 .build()
 
@@ -92,7 +93,7 @@ class AIViewModel {
         if (state.currentImage == null) return
 
         state.scope.launchWithSuspendLoading {
-            val format = state.rawImageFile!!.extension
+            val format = state.rawImageFile!!.getImageFormat()
 
             val requestBody: RequestBody = object : RequestBody() {
                 override fun contentType(): MediaType? {

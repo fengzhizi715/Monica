@@ -10,6 +10,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVSuccess
+import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
@@ -69,7 +70,7 @@ class FaceSwapViewModel {
         if (image == null || file == null) return
 
         state.scope.launchWithSuspendLoading {
-            val format = file.extension
+            val format = file.getImageFormat()
 
             val requestBody: RequestBody = object : RequestBody() {
                 override fun contentType(): MediaType? {
