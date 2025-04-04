@@ -62,7 +62,7 @@ class AIViewModel {
             }
 
             val request: Request = Request.Builder()
-                .url( "${state.algorithmUrlText}api/faceDetect")
+                .url( "${state.algorithmUrlText}api/faceLandMark")
                 .post(requestBody)
                 .build()
 

@@ -3,15 +3,27 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.faceswap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cn.netdiscovery.http.core.utils.extension.asyncCall
+import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
+import okhttp3.MediaType
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.Request
+import okhttp3.RequestBody
+import okio.BufferedSink
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import java.io.ByteArrayInputStream
+import java.io.File
+import java.io.IOException
+import javax.imageio.ImageIO
 
 /**
  *
@@ -25,6 +37,7 @@ class FaceSwapViewModel {
     private val logger: Logger = logger<FaceSwapViewModel>()
 
     var targetImage: BufferedImage? by mutableStateOf(null)
+    var targetImageFile: File? = null
     var lastTargetImage: BufferedImage? by mutableStateOf(null)
 
     fun clearTargetImage() {
@@ -37,19 +50,59 @@ class FaceSwapViewModel {
         }
     }
 
-    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, success:CVSuccess) {
+    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null, success:CVSuccess) {
 
-        if (image!=null) {
-            state.scope.launchWithLoading {
-                OpenCVManager.invokeCV(image,
-                    action = {
-                        val scalar = state.toOutputBoxScalar()
-                        ImageProcess.faceLandMark(it, scalar)
-                    },
-                    success = { success.invoke(it) },
-                    failure = { e->
-                        logger.error("faceLandMark is failed", e)
-                    })
+//        if (image!=null) {
+//            state.scope.launchWithLoading {
+//                OpenCVManager.invokeCV(image,
+//                    action = {
+//                        val scalar = state.toOutputBoxScalar()
+//                        ImageProcess.faceLandMark(it, scalar)
+//                    },
+//                    success = { success.invoke(it) },
+//                    failure = { e->
+//                        logger.error("faceLandMark is failed", e)
+//                    })
+//            }
+//        }
+
+        if (image == null || file == null) return
+
+        state.scope.launchWithSuspendLoading {
+            val format = file.extension
+
+            val requestBody: RequestBody = object : RequestBody() {
+                override fun contentType(): MediaType? {
+                    return "image/jpeg".toMediaTypeOrNull()
+                }
+
+                override fun writeTo(sink: BufferedSink) {
+                    // 使用 try-with-resources 确保流关闭
+                    val outputStream = sink.outputStream()
+                    outputStream.use { outputStream ->
+
+                        if (!ImageIO.write(image, format, outputStream)) {
+                            throw IOException("Unsupported image format: $format")
+                        }
+                    }
+                }
+            }
+
+            val request: Request = Request.Builder()
+                .url( "${state.algorithmUrlText}api/faceLandMark")
+                .post(requestBody)
+                .build()
+
+            try {
+                httpClient.okHttpClient().asyncCall { request }.get().use { response->
+                    val bufferedImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
+                        ImageIO.read(inputStream)
+                    }
+
+                    success.invoke(bufferedImage)
+                }
+            } catch (e:Exception){
+                e.printStackTrace()
             }
         }
     }

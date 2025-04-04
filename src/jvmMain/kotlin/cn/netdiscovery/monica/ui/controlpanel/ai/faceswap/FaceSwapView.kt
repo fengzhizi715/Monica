@@ -108,7 +108,7 @@ fun faceSwap(state: ApplicationState) {
                                     buttonModifier = Modifier,
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
-                                        viewModel.faceLandMark(state, state.currentImage) {
+                                        viewModel.faceLandMark(state, state.currentImage, state.rawImageFile) {
                                             state.addQueue(state.currentImage!!)
                                             state.currentImage = it
                                         }
@@ -133,6 +133,7 @@ fun faceSwap(state: ApplicationState) {
                     onClick = {
                         chooseImage(state) { file ->
                             viewModel.targetImage = BufferedImages.load(file)
+                            viewModel.targetImageFile = file
                         }
                     },
                     enabled = viewModel.targetImage == null
@@ -182,7 +183,7 @@ fun faceSwap(state: ApplicationState) {
                                     buttonModifier = Modifier,
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
-                                        viewModel.faceLandMark(state, viewModel.targetImage) {
+                                        viewModel.faceLandMark(state, viewModel.targetImage, viewModel.targetImageFile) {
                                             viewModel.lastTargetImage = viewModel.targetImage
                                             viewModel.targetImage = it
                                         }
