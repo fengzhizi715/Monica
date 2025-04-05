@@ -176,7 +176,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     confirmButton(enabled = true, "检测算法服务器状态") {
                         status = try {
 
-                            val baseUrl = state.algorithmUrlText.ifEmpty { algorithmUrlText }
+                            val baseUrl = algorithmUrlText
                             if (httpClient.get(url = "${baseUrl}health").code == 200) {
                                 1
                             } else {

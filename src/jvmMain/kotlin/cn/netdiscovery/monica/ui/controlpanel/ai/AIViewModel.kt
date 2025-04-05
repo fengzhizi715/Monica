@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.utils.logger
 import okhttp3.Request
 import okhttp3.RequestBody
 import org.slf4j.Logger
+import showCenterToast
 
 /**
  *
@@ -40,6 +41,7 @@ class AIViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
+                showCenterToast("算法服务异常")
             })
         }
     }
@@ -63,6 +65,7 @@ class AIViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
+                showCenterToast("算法服务异常")
             })
         }
     }
