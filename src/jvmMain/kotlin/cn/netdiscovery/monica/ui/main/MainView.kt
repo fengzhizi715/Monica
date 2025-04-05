@@ -1,12 +1,15 @@
 package cn.netdiscovery.monica.ui.main
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
+import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
@@ -129,6 +132,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
+    var status by remember { mutableStateOf(-1) }
 
     AlertDialog(onDismissRequest = {},
         title = {
@@ -164,6 +168,27 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row(modifier = Modifier.padding(top = 20.dp)) {
                     basicTextFieldWithTitle(titleText = "算法服务url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
                         algorithmUrlText = str
+                    }
+                }
+
+                Row(modifier = Modifier.padding(top = 20.dp)) {
+
+                    confirmButton(enabled = true, "检测算法服务器状态") {
+                        status = try {
+                            if (httpClient.get(url = "${state.algorithmUrlText}health").code == 200) {
+                                1
+                            } else {
+                                0
+                            }
+                        } catch (e:Exception) {
+                            0
+                        }
+                    }
+
+                    if (status == 1) {
+                        Text("算法服务可用", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterVertically))
+                    } else if (status == 0) {
+                        Text("算法服务不可用", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterVertically), color = Color.Red)
                     }
                 }
 
