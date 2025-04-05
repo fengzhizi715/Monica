@@ -217,7 +217,12 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.sizeText       = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
                 state.algorithmUrlText = (getValidateField(block = {
                     if (algorithmUrlText.isValidUrl()) {
-                        algorithmUrlText
+
+                        if (algorithmUrlText.last() == '/') {
+                            algorithmUrlText
+                        } else {
+                            algorithmUrlText + "/"
+                        }
                     } else {
                         throw RuntimeException()
                     }
