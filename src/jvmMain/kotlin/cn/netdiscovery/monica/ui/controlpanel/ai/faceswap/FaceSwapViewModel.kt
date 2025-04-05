@@ -4,27 +4,22 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.http.core.utils.extension.asyncCall
+import cn.netdiscovery.monica.http.createRequest
+import cn.netdiscovery.monica.http.createRequestBody
 import cn.netdiscovery.monica.http.httpClient
-import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
-import cn.netdiscovery.monica.opencv.ImageProcess
-import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
-import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaType
-import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.asRequestBody
-import okio.BufferedSink
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
 import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.IOException
 import javax.imageio.ImageIO
 
 /**
@@ -54,75 +49,27 @@ class FaceSwapViewModel {
 
     fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null, success:CVSuccess) {
 
-//        if (image!=null) {
-//            state.scope.launchWithLoading {
-//                OpenCVManager.invokeCV(image,
-//                    action = {
-//                        val scalar = state.toOutputBoxScalar()
-//                        ImageProcess.faceLandMark(it, scalar)
-//                    },
-//                    success = { success.invoke(it) },
-//                    failure = { e->
-//                        logger.error("faceLandMark is failed", e)
-//                    })
-//            }
-//        }
-
         if (image == null || file == null) return
 
         state.scope.launchWithSuspendLoading {
-            val format = file.getImageFormat()
+            createRequest(request = {
+                val format = state.rawImageFile!!.getImageFormat()?:"jpg"
 
-            val requestBody: RequestBody = object : RequestBody() {
-                override fun contentType(): MediaType? {
-                    return "image/jpeg".toMediaTypeOrNull()
-                }
+                val requestBody: RequestBody = createRequestBody(state.currentImage!!,format)
 
-                override fun writeTo(sink: BufferedSink) {
-                    // 使用 try-with-resources 确保流关闭
-                    val outputStream = sink.outputStream()
-                    outputStream.use { outputStream ->
-
-                        if (!ImageIO.write(image, format, outputStream)) {
-                            throw IOException("Unsupported image format: $format")
-                        }
-                    }
-                }
-            }
-
-            val request: Request = Request.Builder()
-                .url( "${state.algorithmUrlText}api/faceLandMark")
-                .post(requestBody)
-                .build()
-
-            try {
-                httpClient.okHttpClient().asyncCall { request }.get().use { response->
-                    val bufferedImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
-                        ImageIO.read(inputStream)
-                    }
-
-                    success.invoke(bufferedImage)
-                }
-            } catch (e:Exception){
-                e.printStackTrace()
-            }
+                Request.Builder()
+                    .url( "${state.algorithmUrlText}api/faceLandMark")
+                    .post(requestBody)
+                    .build()
+            }, success = {
+                success.invoke(it)
+            }, failure = {
+                logger.error(it.message)
+            })
         }
     }
 
     fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean, success:CVSuccess) {
-
-//        if (image!=null && target!=null) {
-//            state.scope.launchWithLoading {
-//                val srcByteArray = image.image2ByteArray()
-//
-//                OpenCVManager.invokeCV(target,
-//                    action = { ImageProcess.faceSwap(srcByteArray, it, status) },
-//                    success = { success.invoke(it) },
-//                    failure = { e->
-//                        logger.error("faceSwap is failed", e)
-//                    })
-//            }
-//        }
 
         if (image == null || target == null) return
 
@@ -135,32 +82,25 @@ class FaceSwapViewModel {
             val srcFile = File(srcFileName)
             val targetFile = File(targetFileName)
 
-            // 构建 multipart 请求体
-            val requestBody = MultipartBody.Builder()
+            createRequest(request = {
+                // 构建 multipart 请求体
+                val requestBody = MultipartBody.Builder()
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("src", srcFileName, srcFile.asRequestBody("image/jpeg".toMediaType()))
                 .addFormDataPart("target", targetFileName, targetFile.asRequestBody("image/jpeg".toMediaType()))
                 .build()
 
-            val request = Request.Builder()
-                .url("${state.algorithmUrlText}api/faceSwap?status=$status")
-                .post(requestBody)
-                .build()
-
-            try {
-                httpClient.okHttpClient().asyncCall { request }.get().use { response->
-                    val bufferedImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
-                        ImageIO.read(inputStream)
-                    }
-
-                    success.invoke(bufferedImage)
-
-                    srcFile.delete()
-                    targetFile.delete()
-                }
-            } catch (e:Exception){
-                e.printStackTrace()
-            }
+                Request.Builder()
+                    .url("${state.algorithmUrlText}api/faceSwap?status=$status")
+                    .post(requestBody)
+                    .build()
+            }, success = {
+                success.invoke(it)
+                srcFile.delete()
+                targetFile.delete()
+            }, failure = {
+                logger.error(it.message)
+            })
         }
     }
 
