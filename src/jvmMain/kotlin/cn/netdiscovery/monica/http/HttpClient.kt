@@ -1,11 +1,6 @@
 package cn.netdiscovery.monica.http
 
-import cn.netdiscovery.http.core.HttpClient
 import cn.netdiscovery.http.core.HttpClientBuilder
-import cn.netdiscovery.http.core.interceptors.CurlLoggingInterceptor
-import cn.netdiscovery.http.core.monitor.HttpClientMonitor
-import cn.netdiscovery.http.core.monitor.MonitorData
-import cn.netdiscovery.http.core.monitor.NetMonitorCallback
 import cn.netdiscovery.http.core.request.converter.GlobalRequestJSONConverter
 import cn.netdiscovery.http.core.response.StringResponseMapper
 import cn.netdiscovery.http.interceptor.LoggingInterceptor
@@ -61,7 +56,6 @@ val httpClient by lazy {
 //        .baseUrl("http://localhost:8080")
         .allTimeouts(DEFAULT_CONN_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .addInterceptor(loggingInterceptor)
-//        .addInterceptor(CurlLoggingInterceptor())
         .serializer(GsonSerializer())
         .jsonConverter(GlobalRequestJSONConverter::class)
         .responseMapper(StringResponseMapper::class)
