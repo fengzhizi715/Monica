@@ -5,7 +5,6 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.imageprocess.BufferedImages
-import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.initFilterMap
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
@@ -35,7 +34,6 @@ import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.chooseImage
-import com.safframework.kotlin.coroutines.runInBackground
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -305,20 +303,6 @@ private fun initData() {
     }
 
     logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
-
-    if (isProVersion) {
-        runInBackground { // 初始化人脸检测的模块
-            OpenCVManager.initFaceDetectModule()
-        }
-
-        runInBackground { // 初始化生成素描画的模块
-            OpenCVManager.initSketchDrawingModule()
-        }
-
-        runInBackground { // 初始化换脸的模块
-            OpenCVManager.initFaceSwapModule()
-        }
-    }
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
