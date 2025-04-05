@@ -175,7 +175,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
                     confirmButton(enabled = true, "检测算法服务器状态") {
                         status = try {
-                            if (httpClient.get(url = "${state.algorithmUrlText}health").code == 200) {
+
+                            val baseUrl = state.algorithmUrlText.ifEmpty { algorithmUrlText }
+                            if (httpClient.get(url = "${baseUrl}health").code == 200) {
                                 1
                             } else {
                                 0
