@@ -3,10 +3,8 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.faceswap
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import cn.netdiscovery.http.core.utils.extension.asyncCall
 import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
-import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVSuccess
@@ -18,9 +16,7 @@ import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.RequestBody.Companion.asRequestBody
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
-import java.io.ByteArrayInputStream
 import java.io.File
-import javax.imageio.ImageIO
 
 /**
  *

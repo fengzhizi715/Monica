@@ -162,9 +162,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 20.dp)) {
-                    Text("算法服务的地址")
-
-                    basicTextFieldWithTitle(titleText = "url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "算法服务url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
                         algorithmUrlText = str
                     }
                 }
