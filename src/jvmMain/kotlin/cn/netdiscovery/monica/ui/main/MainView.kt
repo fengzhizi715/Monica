@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.ui.main
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -17,6 +16,7 @@ import cn.netdiscovery.monica.ui.controlpanel.controlPanel
 import cn.netdiscovery.monica.ui.preview.preview
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.confirmButton
+import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.utils.*
 import org.koin.compose.koinInject
 import picUrl
@@ -133,15 +133,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
     var status by remember { mutableStateOf(-1) }
+    var isInitFilterParams by mutableStateOf(false)
+    var isClearCacheData by mutableStateOf(false)
 
     AlertDialog(onDismissRequest = {},
         title = {
-            Text("Monica 通用设置", fontSize = subTitleTextSize)
+            Text("Monica 通用设置",modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
         },
         text = {
             Column {
-
-                Row {
+                Row(modifier = Modifier.padding(start = 12.dp)) {
                     Text("通用输出框颜色设置:")
 
                     basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), modifier = Modifier.padding(top = 5.dp), titleText = "R", value = rText, width = 80.dp) { str ->
@@ -157,7 +158,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp)) {
+                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp)) {
                     Text("通用区域大小设置(只用于打码、马赛克):")
 
                     basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
@@ -165,14 +166,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp)) {
+                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp)) {
                     basicTextFieldWithTitle(titleText = "算法服务url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
                         algorithmUrlText = str
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp)) {
-
+                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
                     confirmButton(enabled = true, "检测算法服务器状态") {
                         status = try {
                             if (httpClient.get(url = "${state.algorithmUrlText}health").code == 200) {
@@ -186,26 +186,24 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
 
                     if (status == 1) {
-                        Text("算法服务可用", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterVertically))
+                        Text("算法服务可用", modifier = Modifier.padding(start = 10.dp))
                     } else if (status == 0) {
-                        Text("算法服务不可用", modifier = Modifier.padding(start = 10.dp).align(Alignment.CenterVertically), color = Color.Red)
+                        Text("算法服务不可用", modifier = Modifier.padding(start = 10.dp), color = Color.Red)
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp)) {
-                    confirmButton(enabled = true, "初始化滤镜的参数配置") {
-                        initFilterParamsConfig()
-                        onClick()
-                        showCenterToast("初始化滤镜的参数配置成功")
-                    }
+                Row(modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(isInitFilterParams, onCheckedChange = {
+                        isInitFilterParams = it
+                    })
+                    Text(text = "初始化滤镜的参数配置")
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp)) {
-                    confirmButton(enabled = true, "清空所有缓存数据") {
-                        clearData()
-                        onClick()
-                        showCenterToast("清空所有缓存数据成功")
-                    }
+                Row(modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Checkbox(isClearCacheData, onCheckedChange = {
+                        isClearCacheData = it
+                    })
+                    Text(text = "清空所有缓存数据")
                 }
             }
         },
@@ -224,6 +222,14 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button).toString()
 
                 state.saveGeneralSettings()
+
+                if (isInitFilterParams) {
+                    initFilterParamsConfig()
+                }
+
+                if (isClearCacheData) {
+                    clearData()
+                }
 
                 onClick()
             }) {
