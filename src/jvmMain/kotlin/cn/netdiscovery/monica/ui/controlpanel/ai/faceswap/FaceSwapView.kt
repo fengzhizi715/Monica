@@ -225,10 +225,12 @@ fun faceSwap(state: ApplicationState) {
                 onClick = {
 
                     if (state.currentImage!=null && viewModel.targetImage!=null) {
-                        viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value) {
+                        viewModel.faceSwap(state, state.currentImage, viewModel.targetImage, selectedOption.value, success = {
                             viewModel.lastTargetImage = viewModel.targetImage
                             viewModel.targetImage = it
-                        }
+                        }, failure = {
+                            showToast("算法服务异常")
+                        })
                     }
                 })
 

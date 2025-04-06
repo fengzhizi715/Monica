@@ -44,7 +44,9 @@ class FaceSwapViewModel {
         }
     }
 
-    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null, success:CVSuccess, failure:CVFailure) {
+    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null,
+                     success:CVSuccess,
+                     failure:CVFailure) {
 
         if (image == null || file == null) return
 
@@ -67,7 +69,9 @@ class FaceSwapViewModel {
         }
     }
 
-    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean, success:CVSuccess) {
+    fun faceSwap(state: ApplicationState, image: BufferedImage?=null, target: BufferedImage?=null, status:Boolean,
+                 success:CVSuccess,
+                 failure:CVFailure) {
 
         if (image == null || target == null) return
 
@@ -98,6 +102,7 @@ class FaceSwapViewModel {
                 targetFile.delete()
             }, failure = {
                 logger.error(it.message)
+                failure.invoke(it)
             })
         }
     }
