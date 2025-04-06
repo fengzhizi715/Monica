@@ -82,7 +82,7 @@
   },
   {
     "name": "CropFilter",
-    "desc": null,
+    "desc": "具有裁剪效果的滤镜",
     "remark": null,
     "params": [
       { "key": "x", "type": "Int", "value": 0 },
@@ -332,7 +332,7 @@
   },
   {
     "name": "SharpenFilter",
-    "desc": null,
+    "desc": "具有简单锐化的滤镜",
     "remark": null,
     "params": []
   },
@@ -385,7 +385,7 @@
   },
   {
     "name": "USMFilter",
-    "desc": null,
+    "desc": "USM 锐化效果的滤镜",
     "remark": null,
     "params": [
       { "key": "radius", "type": "Float", "value": 2.0 },
@@ -395,7 +395,7 @@
   },
   {
     "name": "VariableBlurFilter",
-    "desc": null,
+    "desc": "使用可变模糊半径模糊图像的滤镜",
     "remark": null,
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
