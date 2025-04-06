@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -31,6 +32,9 @@ import org.koin.compose.koinInject
  * @date: 2024/8/25 13:02
  * @version: V1.0 <描述当前版本功能>
  */
+private var showToast by mutableStateOf(false)
+private var toastMessage by mutableStateOf("")
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
@@ -108,10 +112,12 @@ fun faceSwap(state: ApplicationState) {
                                     buttonModifier = Modifier,
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
-                                        viewModel.faceLandMark(state, state.currentImage, state.rawImageFile) {
+                                        viewModel.faceLandMark(state, state.currentImage, state.rawImageFile, success = {
                                             state.addQueue(state.currentImage!!)
                                             state.currentImage = it
-                                        }
+                                        }, failure = {
+                                            showToast("算法服务异常")
+                                        })
                                     })
 
                                 toolTipButton(text = "删除 source 的图",
@@ -183,10 +189,12 @@ fun faceSwap(state: ApplicationState) {
                                     buttonModifier = Modifier,
                                     iconModifier = Modifier.size(20.dp),
                                     onClick = {
-                                        viewModel.faceLandMark(state, viewModel.targetImage, viewModel.targetImageFile) {
+                                        viewModel.faceLandMark(state, viewModel.targetImage, viewModel.targetImageFile, success = {
                                             viewModel.lastTargetImage = viewModel.targetImage
                                             viewModel.targetImage = it
-                                        }
+                                        }, failure = {
+                                            showToast("算法服务异常")
+                                        })
                                     })
 
                                 toolTipButton(text = "删除 target 的图",
@@ -241,6 +249,12 @@ fun faceSwap(state: ApplicationState) {
             showLoading()
         }
 
+        if (showToast) {
+            centerToast(message = toastMessage) {
+                showToast = false
+            }
+        }
+
         if (showSwapFaceSettings.value) {
             AlertDialog(onDismissRequest = {},
                 title = {
@@ -274,4 +288,9 @@ fun faceSwap(state: ApplicationState) {
                 })
         }
     }
+}
+
+private fun showToast(message: String) {
+    toastMessage = message
+    showToast = true
 }

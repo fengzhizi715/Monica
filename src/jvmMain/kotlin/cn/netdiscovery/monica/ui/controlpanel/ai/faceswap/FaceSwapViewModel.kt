@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
 import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.CVFailure
 import cn.netdiscovery.monica.utils.CVSuccess
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
@@ -43,7 +44,7 @@ class FaceSwapViewModel {
         }
     }
 
-    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null, success:CVSuccess) {
+    fun faceLandMark(state: ApplicationState, image: BufferedImage?=null, file: File?=null, success:CVSuccess, failure:CVFailure) {
 
         if (image == null || file == null) return
 
@@ -61,6 +62,7 @@ class FaceSwapViewModel {
                 success.invoke(it)
             }, failure = {
                 logger.error(it.message)
+                failure.invoke(it)
             })
         }
     }
