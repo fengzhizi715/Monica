@@ -356,7 +356,7 @@
   },
   {
     "name": "SpotlightFilter",
-    "desc": null,
+    "desc": "光源退化效果的滤镜",
     "remark": null,
     "params": [
       { "key": "factor", "type": "Int", "value": 1 }
@@ -364,7 +364,7 @@
   },
   {
     "name": "StrokeAreaFilter",
-    "desc": null,
+    "desc": "铅笔画效果的滤镜",
     "remark": null,
     "params": [
       { "key": "ksize", "type": "Double", "value": 10.0 }
