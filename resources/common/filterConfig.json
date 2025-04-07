@@ -285,7 +285,7 @@
   },
   {
     "name": "OilPaintFilter",
-    "desc": null,
+    "desc": "油画风格的滤镜",
     "remark": null,
     "params": [
       { "key": "intensity", "type": "Int", "value": 40 },
@@ -326,7 +326,7 @@
   },
   {
     "name": "SepiaToneFilter",
-    "desc": null,
+    "desc": "怀旧/老照片风格的滤镜",
     "remark": null,
     "params": []
   },
