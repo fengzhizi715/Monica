@@ -8,6 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
+import cn.netdiscovery.monica.http.healthCheck
 import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
@@ -175,7 +176,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         status = try {
 
                             val baseUrl = algorithmUrlText
-                            if (httpClient.get(url = "${baseUrl}health").code == 200) {
+                            if (healthCheck(baseUrl)) {
                                 1
                             } else {
                                 0
@@ -219,7 +220,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         if (algorithmUrlText.last() == '/') {
                             algorithmUrlText
                         } else {
-                            algorithmUrlText + "/"
+                            "$algorithmUrlText/"
                         }
                     } else {
                         throw RuntimeException()

@@ -65,7 +65,6 @@ val loggingInterceptor by lazy {
 
 val httpClient by lazy {
     HttpClientBuilder()
-//        .baseUrl("http://localhost:8080")
         .allTimeouts(DEFAULT_CONN_TIMEOUT.toLong(), TimeUnit.SECONDS)
         .addInterceptor(loggingInterceptor)
         .serializer(GsonSerializer())
@@ -73,6 +72,8 @@ val httpClient by lazy {
         .responseMapper(StringResponseMapper::class)
         .build()
 }
+
+fun healthCheck(baseUrl:String):Boolean = httpClient.get(url = "${baseUrl}health").code == 200
 
 fun createRequestBody(image: BufferedImage, format:String): RequestBody {
     return object : RequestBody() {
