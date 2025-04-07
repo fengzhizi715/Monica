@@ -1,9 +1,15 @@
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
+import cn.netdiscovery.monica.http.healthCheck
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.initFilterMap
@@ -61,17 +67,17 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 fun main() = application {
 
-    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
-    LaunchedEffect(Unit) {
-        initData()
-    }
-
     val trayState = rememberTrayState()
 
     val applicationState = rememberApplicationState(
         rememberCoroutineScope(),
         trayState
     )
+
+    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
+    LaunchedEffect(Unit) {
+        initData(applicationState)
+    }
 
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
@@ -288,7 +294,7 @@ fun showCenterToast(message: String) {
  * 3. 加载 opencv 的图像处理库
  * 4. 加载深度学习相关的模型
  */
-private fun initData() {
+private fun initData(state:ApplicationState) {
 
     logger.info("os = $os, arch = $arch, osVersion = $osVersion, javaVersion = $javaVersion, javaVendor = $javaVendor, monicaVersion = $appVersion, kotlinVersion = $kotlinVersion")
 
@@ -303,6 +309,26 @@ private fun initData() {
     }
 
     logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
+
+    if (state.algorithmUrlText.isNotEmpty()) {
+
+        val status = try {
+            val baseUrl = state.algorithmUrlText
+            if (healthCheck(baseUrl)) {
+                1
+            } else {
+                0
+            }
+        } catch (e:Exception) {
+            0
+        }
+
+        if (status == 1) {
+            logger.info("算法服务可用")
+        } else {
+            logger.info("算法服务不可用")
+        }
+    }
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
