@@ -1,13 +1,13 @@
 [
   {
     "name": "AverageFilter",
-    "desc": null,
+    "desc": "使用均值滤波的滤镜",
     "remark": null,
     "params": []
   },
   {
     "name": "BilateralFilter",
-    "desc": "双边滤波效果的滤镜",
+    "desc": "使用双边滤波的滤镜",
     "remark": null,
     "params": [
       { "key": "ds", "type": "Double", "value": 1.0 },
@@ -46,7 +46,7 @@
   },
   {
     "name": "ColorFilter",
-    "desc": null,
+    "desc": "色彩效果的滤镜",
     "remark": "ColorFilter 支持选择0-11，共12种风格。\n0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
     "params": [
       { "key": "style", "type": "Int", "value": 0 }
@@ -123,7 +123,7 @@
   },
   {
     "name": "FastBlur2D",
-    "desc": null,
+    "desc": "具有快速模糊效果的滤镜",
     "remark": null,
     "params": [
       { "key": "ksize", "type": "Int", "value": 5 }
@@ -140,7 +140,7 @@
   },
   {
     "name": "GammaFilter",
-    "desc": null,
+    "desc": "Gamma校正的滤镜",
     "remark": null,
     "params": [
       { "key": "gamma", "type": "Double", "value": 0.5 }
@@ -170,7 +170,7 @@
   },
   {
     "name": "GrayFilter",
-    "desc": null,
+    "desc": "灰度效果的滤镜",
     "remark": null,
     "params": []
   },
@@ -200,7 +200,7 @@
   },
   {
     "name": "LaplaceSharpenFilter",
-    "desc": null,
+    "desc": "Laplace锐化效果的滤镜",
     "remark": null,
     "params": []
   },
@@ -250,7 +250,7 @@
   },
   {
     "name": "MosaicFilter",
-    "desc": null,
+    "desc": "具有马赛克效果的滤镜",
     "remark": null,
     "params": [
       { "key": "r", "type": "Int", "value": 3 }
@@ -332,7 +332,7 @@
   },
   {
     "name": "SharpenFilter",
-    "desc": "具有简单锐化的滤镜",
+    "desc": "具有简单锐化效果的滤镜",
     "remark": null,
     "params": []
   },
@@ -427,7 +427,7 @@
   },
   {
     "name": "WhiteImageFilter",
-    "desc": null,
+    "desc": "增白亮度的滤镜",
     "remark": null,
     "params": [
       { "key": "beta", "type": "Double", "value": 1.1 }
