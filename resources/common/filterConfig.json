@@ -7,7 +7,7 @@
   },
   {
     "name": "BilateralFilter",
-    "desc": null,
+    "desc": "双边滤波效果的滤镜",
     "remark": null,
     "params": [
       { "key": "ds", "type": "Double", "value": 1.0 },
@@ -16,7 +16,7 @@
   },
   {
     "name": "BlockFilter",
-    "desc": null,
+    "desc": "像素化效果的滤镜",
     "remark": null,
     "params": [
       { "key": "blockSize", "type": "Int", "value": 2 }
@@ -24,7 +24,7 @@
   },
   {
     "name": "BoxBlurFilter",
-    "desc": null,
+    "desc": "使用Box blur算法的滤镜",
     "remark": null,
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
@@ -34,7 +34,7 @@
   },
   {
     "name": "BumpFilter",
-    "desc": null,
+    "desc": "边缘浮雕效果的滤镜",
     "remark": null,
     "params": []
   },
@@ -62,7 +62,7 @@
   },
   {
     "name": "ConBriFilter",
-    "desc": "修改对比度、亮度的滤镜",
+    "desc": "调整对比度、亮度的滤镜",
     "remark": null,
     "params": [
       { "key": "brightness", "type": "Float", "value": 1.0 },
@@ -101,7 +101,7 @@
   },
   {
     "name": "EmbossFilter",
-    "desc": null,
+    "desc": "浮雕效果的滤镜",
     "remark": null,
     "params": [
       { "key": "colorConstant", "type": "Int", "value": 100 }
@@ -258,7 +258,7 @@
   },
   {
     "name": "MotionFilter",
-    "desc": null,
+    "desc": "移动模糊效果的滤镜",
     "remark": null,
     "params": [
       { "key": "angle", "type": "Float", "value": 0.0 },
@@ -268,7 +268,7 @@
   },
   {
     "name": "NatureFilter",
-    "desc": null,
+    "desc": "自然风格的滤镜",
     "remark": "NatureFilter 支持选择1-8，共8种风格。\n1:ATMOSPHERE STYLE,2:BURN STYLE,3:FOG STYLE,\n4:FREEZE STYLE,5:LAVA STYLE,6:METAL STYLE,\n7:OCEAN STYLE,8:WATER STYLE",
     "params": [
       { "key": "style", "type": "Int", "value": 1 }

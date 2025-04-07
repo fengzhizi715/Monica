@@ -250,16 +250,17 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
-            "WhiteImageFilter" -> {
-                val filter = WhiteImageFilter(array[0] as Double)
-                filter.printConstructorParamsWithValues()
-                filter.transform(state.currentImage!!)
-            }
             "WaterFilter" -> {
                 val filter = WaterFilter(array[5] as Float, array[0] as Float, array[3] as Float, array[1] as Float, array[2] as Float, array[4] as Float)
                 filter.printConstructorParamsWithValues()
                 filter.transform(state.currentImage!!)
             }
+            "WhiteImageFilter" -> {
+                val filter = WhiteImageFilter(array[0] as Double)
+                filter.printConstructorParamsWithValues()
+                filter.transform(state.currentImage!!)
+            }
+
 
             else -> {
                 state.currentImage!!
