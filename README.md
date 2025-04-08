@@ -69,7 +69,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 > 模型下载下来，存放在工程的 /resources/common/ 目录下
 
 
-深度学习相关的模型，支持在服务端部署，可以通过 http 来调用算法服务。
+深度学习相关的模型，目前支持在服务端部署可以通过 http 来调用算法服务。http 服务的源码也在：https://github.com/fengzhizi715/MonicaImageProcess
 
 
 # 四. 更多详情
