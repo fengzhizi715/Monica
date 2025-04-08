@@ -310,15 +310,15 @@ private fun initData(state:ApplicationState) {
         val status = try {
             val baseUrl = state.algorithmUrlText
             if (healthCheck(baseUrl)) {
-                1
+                STATUS_HTTP_SERVER_OK
             } else {
-                0
+                STATUS_HTTP_SERVER_FAILED
             }
         } catch (e:Exception) {
-            0
+            STATUS_HTTP_SERVER_FAILED
         }
 
-        if (status == 1) {
+        if (status == STATUS_HTTP_SERVER_OK) {
             logger.info("算法服务可用")
         } else {
             logger.info("算法服务不可用")

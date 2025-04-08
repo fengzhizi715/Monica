@@ -41,3 +41,6 @@ const val KEY_CROP_FIRST = "key_crop_first"
 const val KEY_CROP_SECOND = "key_crop_second"
 const val KEY_CROP = "key_crop"
 const val KEY_GENERAL_SETTINGS = "key_general_settings"
+
+const val STATUS_HTTP_SERVER_OK = 1
+const val STATUS_HTTP_SERVER_FAILED = 0

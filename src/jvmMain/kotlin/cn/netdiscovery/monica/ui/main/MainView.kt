@@ -177,16 +177,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                             val baseUrl = algorithmUrlText
                             if (healthCheck(baseUrl)) {
-                                1
+                                STATUS_HTTP_SERVER_OK
                             } else {
-                                0
+                                STATUS_HTTP_SERVER_FAILED
                             }
                         } catch (e:Exception) {
-                            0
+                            STATUS_HTTP_SERVER_FAILED
                         }
                     }
 
-                    if (status == 1) {
+                    if (status == STATUS_HTTP_SERVER_OK) {
                         Text("算法服务可用", modifier = Modifier.padding(start = 10.dp))
                     } else if (status == 0) {
                         Text("算法服务不可用", modifier = Modifier.padding(start = 10.dp), color = Color.Red)
