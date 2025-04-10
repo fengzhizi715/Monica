@@ -158,6 +158,13 @@ fun filter(state: ApplicationState) {
                             }
                         })
 
+                    toolTipButton(text = "取消",
+                        painter = painterResource("images/filters/cancel.png"),
+                        onClick = {
+                            viewModel.job?.cancel()
+                            loadingDisplay = false
+                        })
+
                     toolTipButton(text = "保存",
                         painter = painterResource("images/doodle/save.png"),
                         onClick = {

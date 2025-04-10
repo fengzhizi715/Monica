@@ -12,6 +12,7 @@ import filterNames
 import org.slf4j.Logger
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.ext.get
+import kotlinx.coroutines.Job
 import java.util.*
 
 /**
@@ -26,12 +27,13 @@ import java.util.*
 class FilterViewModel {
 
     private val logger: Logger = logger<FilterViewModel>()
+    var job:Job? = null
 
     /**
      * 保存滤镜参数，并调用滤镜效果
      */
     fun applyFilter(state:ApplicationState, index:Int, paramMap:HashMap<Pair<String, String>, String>) {
-        state.scope.launchWithSuspendLoading {
+        job = state.scope.launchWithSuspendLoading {
             val tempImage = state.currentImage!!
 
             val filterName = filterNames[index]

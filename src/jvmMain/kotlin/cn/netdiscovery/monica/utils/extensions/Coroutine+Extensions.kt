@@ -20,9 +20,9 @@ fun CoroutineScope.launchWithLoading(block:()->Unit) {
     }
 }
 
-fun CoroutineScope.launchWithSuspendLoading(block:suspend ()->Unit) {
+fun CoroutineScope.launchWithSuspendLoading(block:suspend ()->Unit): Job {
 
-    this.launch(IO) {
+    return this.launch(IO) {
         loadingDisplayWithSuspend(block)
     }
 }
