@@ -41,7 +41,6 @@ import org.koin.core.Koin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-
 val filterNames = mutableListOf<String>()
 val filterMaps = mutableMapOf<String, String>()
 
