@@ -35,7 +35,6 @@ import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.chooseImage
-import java.lang.Thread.UncaughtExceptionHandler
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -116,10 +115,10 @@ fun main() = application {
         }
     )
 
-    Thread.setDefaultUncaughtExceptionHandler(UncaughtExceptionHandler { _, throwable ->
+    Thread.setDefaultUncaughtExceptionHandler{ _, throwable ->
 
         logger.error("全局异常捕获", throwable)
-    })
+    }
 
     Window(onCloseRequest = ::exitApplication,
         title = "Monica 图片编辑器 $appVersion",
