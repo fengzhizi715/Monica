@@ -106,17 +106,19 @@ class ShapeDrawingViewModel {
         polygons.forEach {
             val polygon = it.value
 
-            if (polygon.points[0]!=null && polygon.points[0] != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(polygon.points[0] , polygon.shapeProperties.color)
-            }
+            if (polygon.points.isNotEmpty()) {
+                if (polygon.points[0] != Offset.Unspecified && !saveFlag) {
+                    canvasDrawer.point(polygon.points[0] , polygon.shapeProperties.color)
+                }
 
-            val style = Style(null, polygon.shapeProperties.color, polygon.shapeProperties.border, null, fill = polygon.shapeProperties.fill, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true)
-            if (polygon.points.size>1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(polygon.points[1] , polygon.shapeProperties.color)
-                canvasDrawer.line(polygon.points[0], polygon.points[1], style)
-            }
+                val style = Style(null, polygon.shapeProperties.color, polygon.shapeProperties.border, null, fill = polygon.shapeProperties.fill, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true)
+                if (polygon.points.size>1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
+                    canvasDrawer.point(polygon.points[1] , polygon.shapeProperties.color)
+                    canvasDrawer.line(polygon.points[0], polygon.points[1], style)
+                }
 
-            canvasDrawer.polygon(polygon.points, style)
+                canvasDrawer.polygon(polygon.points, style)
+            }
         }
 
         texts.forEach {
