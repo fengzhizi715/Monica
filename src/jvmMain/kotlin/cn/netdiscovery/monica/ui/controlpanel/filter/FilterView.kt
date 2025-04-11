@@ -158,7 +158,7 @@ fun filter(state: ApplicationState) {
                             }
                         })
 
-                    toolTipButton(text = "取消",
+                    toolTipButton(text = "取消滤镜操作",
                         painter = painterResource("images/filters/cancel.png"),
                         onClick = {
                             viewModel.job?.cancel()
