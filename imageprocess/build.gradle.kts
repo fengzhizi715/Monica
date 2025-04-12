@@ -16,8 +16,8 @@ dependencies {
     implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["kotlinx.coroutines.core.version"]}")
 
     // twelvemonkeys
-    implementation("com.twelvemonkeys.imageio:imageio-core:3.12.0")
-    implementation("com.twelvemonkeys.imageio:imageio-jpeg:3.12.0")
+    implementation("com.twelvemonkeys.imageio:imageio-core:${rootProject.extra["twelvemonkeys"]}")
+    implementation("com.twelvemonkeys.imageio:imageio-jpeg:${rootProject.extra["twelvemonkeys"]}")
 }
 
 tasks.test {
