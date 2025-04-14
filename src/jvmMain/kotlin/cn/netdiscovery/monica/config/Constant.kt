@@ -21,9 +21,9 @@ val openCVVersion by lazy { // OpenCV 的版本
     ImageProcess.getOpenCVVersion()
 }
 
-val onnxRuntimeVersion by lazy { // ONNXRuntime 的版本
-    ImageProcess.getONNXRuntimeVersion()
-}
+//val onnxRuntimeVersion by lazy { // ONNXRuntime 的版本
+//    ImageProcess.getONNXRuntimeVersion()
+//}
 
 val width = (previewWidth * 2.toFloat()).dp
 val height = 1000.dp

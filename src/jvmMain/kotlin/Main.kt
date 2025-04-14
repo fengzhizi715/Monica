@@ -307,7 +307,7 @@ private fun initData(state:ApplicationState) {
         initFilterMap()
     }
 
-    logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion, ONNXRuntime Version = $onnxRuntimeVersion")
+    logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion")
 
     if (state.algorithmUrlText.isNotEmpty()) {
 
