@@ -6,7 +6,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import cn.netdiscovery.monica.config.isProVersion
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -58,29 +57,27 @@ fun aiView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(OpenCVDebugStatus)
             })
 
-        if (isProVersion) {
-            toolTipButton(text = "人脸检测",
-                painter = painterResource("images/ai/face_detect.png"),
-                enable = { state.isAI },
-                onClick = {
-                    state.currentStatus = FaceDetectStatus
-                    viewModel.faceDetect(state)
-                })
+        toolTipButton(text = "人脸检测",
+            painter = painterResource("images/ai/face_detect.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = FaceDetectStatus
+                viewModel.faceDetect(state)
+            })
 
-            toolTipButton(text = "生成素描画",
-                painter = painterResource("images/ai/sketch_drawing.png"),
-                enable = { state.isAI },
-                onClick = {
-                    state.currentStatus = SketchDrawingStatus
-                    viewModel.sketchDrawing(state)
-                })
+        toolTipButton(text = "生成素描画",
+            painter = painterResource("images/ai/sketch_drawing.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.currentStatus = SketchDrawingStatus
+                viewModel.sketchDrawing(state)
+            })
 
-            toolTipButton(text = "人脸替换",
-                painter = painterResource("images/ai/face_swap.png"),
-                enable = { state.isAI },
-                onClick = {
-                    state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
-                })
-        }
+        toolTipButton(text = "人脸替换",
+            painter = painterResource("images/ai/face_swap.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
+            })
     }
 }

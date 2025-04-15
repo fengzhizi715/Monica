@@ -289,9 +289,8 @@ fun showCenterToast(message: String) {
 /**
  * 初始化数据，只初始一次，包括：
  * 1. 加载滤镜的配置
- * 2. 初始化 HttpConnectionClient
- * 3. 加载 opencv 的图像处理库
- * 4. 加载深度学习相关的模型
+ * 2. 加载 opencv 的图像处理库
+ * 3. 校验算法服务
  */
 private fun initData(state:ApplicationState) {
 
