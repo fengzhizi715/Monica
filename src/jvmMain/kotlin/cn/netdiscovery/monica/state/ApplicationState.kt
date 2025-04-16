@@ -44,6 +44,7 @@ const val OpenCVDebugStatus: Int = 15
 const val FaceDetectStatus: Int = 16
 const val SketchDrawingStatus: Int = 17
 const val FaceSwapStatus: Int = 18
+const val CartoonStatus: Int = 19
 
 
 @Composable

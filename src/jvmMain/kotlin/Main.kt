@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
+import cn.netdiscovery.monica.ui.controlpanel.cartoon.cartoon
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
@@ -220,6 +221,9 @@ fun main() = application {
                     OpenCVDebugStatus -> {
                         CVState.clearAllStatus()
                     }
+                    CartoonStatus -> {
+
+                    }
                 }
 
                 applicationState.closePreviewWindow()
@@ -269,6 +273,10 @@ fun main() = application {
                 OpenCVDebugStatus -> {
                     logger.info("enter OpenCVDebugView")
                     experiment(applicationState)
+                }
+                CartoonStatus -> {
+                    logger.info("enter CartoonView")
+                    cartoon(applicationState)
                 }
                 else -> {}
             }
@@ -339,5 +347,6 @@ private fun getWindowsTitle(state: ApplicationState):String = when(state.current
     FilterStatus          -> "使用滤镜"
     OpenCVDebugStatus     -> "简单 CV 算法的快速验证"
     FaceSwapStatus        -> "人脸替换"
+    CartoonStatus         -> "图像动漫化"
     else                  -> "放大预览"
 }

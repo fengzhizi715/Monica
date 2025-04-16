@@ -79,5 +79,12 @@ fun aiView(state: ApplicationState) {
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
             })
+
+        toolTipButton(text = "动漫化",
+            painter = painterResource("images/ai/cartoon.png"),
+            enable = { state.isAI },
+            onClick = {
+                state.togglePreviewWindowAndUpdateStatus(CartoonStatus)
+            })
     }
 }
