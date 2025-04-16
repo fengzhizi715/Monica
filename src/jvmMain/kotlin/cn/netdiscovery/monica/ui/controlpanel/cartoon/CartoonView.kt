@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -48,7 +49,7 @@ fun cartoon(state: ApplicationState) {
     ) {
 
         Row (
-            modifier = Modifier.fillMaxSize().padding(bottom = 160.dp, end = 400.dp),
+            modifier = Modifier.fillMaxSize().padding(bottom = 160.dp, end = 90.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
@@ -91,6 +92,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
+                        viewModel.convertCartoon(state,1)
                     }
                 ) {
                     Text(
@@ -104,6 +106,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
+                        viewModel.convertCartoon(state,2)
                     }
                 ) {
                     Text(
@@ -117,6 +120,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
+                        viewModel.convertCartoon(state,3)
                     }
                 ) {
                     Text(
@@ -130,6 +134,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
+                        viewModel.convertCartoon(state,4)
                     }
                 ) {
                     Text(
@@ -143,6 +148,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
+                        viewModel.convertCartoon(state,5)
                     }
                 ) {
                     Text(
@@ -154,64 +160,21 @@ fun cartoon(state: ApplicationState) {
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(450.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
-//            Column {
-//                if (filterSelectedIndex.value>=0) {
-//                    subTitle(text = "${filterNames[filterSelectedIndex.value]} 滤镜", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
-//                    generateFilterParams(filterSelectedIndex.value)
-//                    generateFilterRemark(filterSelectedIndex.value)
-//                } else {
-//                    subTitle(text = "请先选择一款滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
-//                }
-//            }
-//
-//            Box(
-//                modifier = Modifier.fillMaxSize(),
-//                contentAlignment = Alignment.BottomCenter // 将内容对齐到底部中心
-//            ) {
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .padding(10.dp),
-//                    horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
-//                ) {
-//                    toolTipButton(text = "预览效果",
-//                        enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
-//                        painter = painterResource("images/filters/preview.png"),
-//                        onClick = {
-//                            viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
-//                        })
-//
-//                    toolTipButton(text = "上一步",
-//                        painter = painterResource("images/doodle/previous_step.png"),
-//                        onClick = {
-//                            state.getLastImage()?.let {
-//                                state.currentImage = it
-//                            }
-//                        })
-//
-//                    toolTipButton(text = "取消滤镜操作",
-//                        painter = painterResource("images/filters/cancel.png"),
-//                        onClick = {
-//                            viewModel.job?.cancel()
-//                            loadingDisplay = false
-//                        })
-//
-//                    toolTipButton(text = "保存",
-//                        painter = painterResource("images/doodle/save.png"),
-//                        onClick = {
-//                            viewModel.clear()
-//                            state.closePreviewWindow()
-//                        })
-//
-//                    toolTipButton(text = "删除原图",
-//                        painter = painterResource("images/preview/delete.png"),
-//                        onClick = {
-//                            state.clearImage()
-//                        })
-//                }
-//            }
+            toolTipButton(text = "上一步",
+                painter = painterResource("images/doodle/revoke.png"),
+                onClick = {
+                    state.getLastImage()?.let {
+                        state.currentImage = it
+                    }
+                })
+
+            toolTipButton(text = "保存",
+                painter = painterResource("images/doodle/save.png"),
+                onClick = {
+                    state.closePreviewWindow()
+                })
         }
 
 //        if (loadingDisplay) {
