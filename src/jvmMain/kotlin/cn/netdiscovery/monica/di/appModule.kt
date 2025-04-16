@@ -11,6 +11,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageDenoi
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MorphologicalOperationsViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
+import cn.netdiscovery.monica.ui.controlpanel.cartoon.CartoonViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.doodle.DoodleViewModel
@@ -48,4 +49,5 @@ val viewModelModule = module {
     singleOf(::MorphologicalOperationsViewModel)
     singleOf(::MatchTemplateViewModel)
     singleOf(::GenerateGifViewModel)
+    singleOf(::CartoonViewModel)
 }
