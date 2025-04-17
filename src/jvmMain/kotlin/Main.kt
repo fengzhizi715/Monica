@@ -190,7 +190,8 @@ fun main() = application {
             (applicationState.currentStatus != GenerateGifStatus
                     && applicationState.currentStatus != FilterStatus
                     && applicationState.currentStatus != FaceSwapStatus
-                    && applicationState.currentStatus != OpenCVDebugStatus)) {
+                    && applicationState.currentStatus != OpenCVDebugStatus
+                    && applicationState.currentStatus != CartoonStatus)) {
             showTopToast("请先选择图像")
 
             return@application

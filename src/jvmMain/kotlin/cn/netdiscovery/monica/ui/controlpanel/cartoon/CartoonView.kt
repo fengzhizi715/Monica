@@ -161,10 +161,17 @@ fun cartoon(state: ApplicationState) {
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+        rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+
+            toolTipButton(text = "删除",
+                painter = painterResource("images/preview/delete.png"),
+                iconModifier = Modifier.size(36.dp),
+                onClick = {
+                    state.clearImage()
+                })
 
             toolTipButton(text = "上一步",
-                painter = painterResource("images/doodle/revoke.png"),
+                painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
                     state.getLastImage()?.let {
                         state.currentImage = it
