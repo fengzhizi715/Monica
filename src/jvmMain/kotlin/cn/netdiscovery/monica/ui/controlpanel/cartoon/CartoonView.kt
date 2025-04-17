@@ -23,6 +23,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
+import loadingDisplay
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -177,8 +178,8 @@ fun cartoon(state: ApplicationState) {
                 })
         }
 
-//        if (loadingDisplay) {
-//            showLoading()
-//        }
+        if (loadingDisplay) {
+            showLoading()
+        }
     }
 }
