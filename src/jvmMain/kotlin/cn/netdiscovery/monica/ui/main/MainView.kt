@@ -174,7 +174,12 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     confirmButton(enabled = true, "检测算法服务器状态") {
                         status = try {
 
-                            val baseUrl = algorithmUrlText
+                            val baseUrl = if (algorithmUrlText.last() == '/') {
+                                algorithmUrlText
+                            } else {
+                                "$algorithmUrlText/"
+                            }
+
                             if (healthCheck(baseUrl)) {
                                 STATUS_HTTP_SERVER_OK
                             } else {
