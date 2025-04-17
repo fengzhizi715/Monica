@@ -23,7 +23,7 @@ class CartoonViewModel {
 
     private val logger: Logger = logger<CartoonViewModel>()
 
-    fun convertCartoon(state: ApplicationState, type:Int, failure: CVFailure) {
+    fun convert2Cartoon(state: ApplicationState, type:Int, failure: CVFailure) {
         if (state.currentImage == null) return
 
         state.scope.launchWithSuspendLoading {

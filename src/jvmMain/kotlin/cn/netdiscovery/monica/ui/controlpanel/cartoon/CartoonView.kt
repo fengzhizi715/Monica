@@ -98,7 +98,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,1) {
+                        viewModel.convert2Cartoon(state,1) {
                             showToast("算法服务异常")
                         }
                     }
@@ -114,7 +114,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,2) {
+                        viewModel.convert2Cartoon(state,2) {
                             showToast("算法服务异常")
                         }
                     }
@@ -130,7 +130,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,3) {
+                        viewModel.convert2Cartoon(state,3) {
                             showToast("算法服务异常")
                         }
                     }
@@ -146,7 +146,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,4) {
+                        viewModel.convert2Cartoon(state,4) {
                             showToast("算法服务异常")
                         }
                     }
@@ -162,7 +162,7 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,5) {
+                        viewModel.convert2Cartoon(state,5) {
                             showToast("算法服务异常")
                         }
                     }
