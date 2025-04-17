@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.cartoon
 import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.CVFailure
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
@@ -22,7 +23,7 @@ class CartoonViewModel {
 
     private val logger: Logger = logger<CartoonViewModel>()
 
-    fun convertCartoon(state: ApplicationState, type:Int) {
+    fun convertCartoon(state: ApplicationState, type:Int, failure: CVFailure) {
         if (state.currentImage == null) return
 
         state.scope.launchWithSuspendLoading {
@@ -41,6 +42,7 @@ class CartoonViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
+                failure.invoke(it)
             })
         }
     }

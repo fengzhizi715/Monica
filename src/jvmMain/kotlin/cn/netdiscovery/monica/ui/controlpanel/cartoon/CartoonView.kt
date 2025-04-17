@@ -9,9 +9,11 @@ import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -37,6 +39,9 @@ import org.slf4j.LoggerFactory
  * @version: V1.0 <描述当前版本功能>
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
+private var showToast by mutableStateOf(false)
+private var toastMessage by mutableStateOf("")
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -93,7 +98,9 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,1)
+                        viewModel.convertCartoon(state,1) {
+                            showToast("算法服务异常")
+                        }
                     }
                 ) {
                     Text(
@@ -107,7 +114,9 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,2)
+                        viewModel.convertCartoon(state,2) {
+                            showToast("算法服务异常")
+                        }
                     }
                 ) {
                     Text(
@@ -121,7 +130,9 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,3)
+                        viewModel.convertCartoon(state,3) {
+                            showToast("算法服务异常")
+                        }
                     }
                 ) {
                     Text(
@@ -135,7 +146,9 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,4)
+                        viewModel.convertCartoon(state,4) {
+                            showToast("算法服务异常")
+                        }
                     }
                 ) {
                     Text(
@@ -149,7 +162,9 @@ fun cartoon(state: ApplicationState) {
                     elevation = 16.dp,
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
-                        viewModel.convertCartoon(state,5)
+                        viewModel.convertCartoon(state,5) {
+                            showToast("算法服务异常")
+                        }
                     }
                 ) {
                     Text(
@@ -188,5 +203,16 @@ fun cartoon(state: ApplicationState) {
         if (loadingDisplay) {
             showLoading()
         }
+
+        if (showToast) {
+            centerToast(message = toastMessage) {
+                showToast = false
+            }
+        }
     }
+}
+
+private fun showToast(message: String) {
+    toastMessage = message
+    showToast = true
 }
