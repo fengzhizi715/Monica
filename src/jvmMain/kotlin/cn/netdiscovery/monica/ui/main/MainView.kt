@@ -214,11 +214,11 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
         },
         confirmButton = {
             Button(onClick = {
-                state.outputBoxRText = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
-                state.outputBoxGText = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
-                state.outputBoxBText = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
-                state.sizeText       = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
-                state.algorithmUrlText = (getValidateField(block = {
+                state.outputBoxRText   = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
+                state.outputBoxGText   = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
+                state.outputBoxBText   = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
+                state.sizeText         = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
+                state.algorithmUrlText = getValidateField(block = {
                     if (algorithmUrlText.isValidUrl()) {
 
                         if (algorithmUrlText.last() == '/') {
@@ -229,7 +229,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     } else {
                         throw RuntimeException()
                     }
-                } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button).toString()
+                } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
 
                 state.saveGeneralSettings()
 
