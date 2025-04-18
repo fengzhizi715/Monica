@@ -261,7 +261,6 @@ suspend fun doFilter(filterName:String, array:MutableList<Any>, state: Applicati
                 filter.transform(state.currentImage!!)
             }
 
-
             else -> {
                 state.currentImage!!
             }

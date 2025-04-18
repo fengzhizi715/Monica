@@ -7,6 +7,7 @@ import cn.netdiscovery.monica.http.httpClient
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
 import cn.netdiscovery.monica.imageprocess.utils.extension.*
+import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
@@ -245,7 +246,7 @@ class PreviewViewModel {
             state.scope.launch(IO) {
                 val outputPath = it[0].absolutePath
                 val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
-                state.currentImage!!.saveImage(saveFile)
+                writeImageFile(state.currentImage!!, saveFile.absolutePath, "jpg")
 
                 showTopToast("图像保存成功")
             }

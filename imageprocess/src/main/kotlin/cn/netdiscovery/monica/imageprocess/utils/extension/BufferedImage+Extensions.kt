@@ -14,6 +14,7 @@ import kotlin.math.cos
 import kotlin.math.floor
 import kotlin.math.sin
 
+
 /**
  *
  * @FileName:
@@ -60,6 +61,7 @@ fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
 fun BufferedImage.saveImage(saveFile: File) {
     writeImageFile(this@saveImage,saveFile.absolutePath)
 }
+
 
 /**
  * 对图像裁剪 ROI 区域

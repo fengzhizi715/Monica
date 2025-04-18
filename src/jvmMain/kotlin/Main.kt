@@ -222,9 +222,6 @@ fun main() = application {
                     OpenCVDebugStatus -> {
                         CVState.clearAllStatus()
                     }
-                    CartoonStatus -> {
-
-                    }
                 }
 
                 applicationState.closePreviewWindow()
