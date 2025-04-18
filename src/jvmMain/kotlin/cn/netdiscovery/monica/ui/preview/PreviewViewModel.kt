@@ -246,7 +246,10 @@ class PreviewViewModel {
             state.scope.launch(IO) {
                 val outputPath = it[0].absolutePath
                 val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
-                writeImageFile(state.currentImage!!, saveFile.absolutePath, "jpg")
+
+                val format = state.rawImageFile?.extension?:"jpg"
+
+                writeImageFile(state.currentImage!!, saveFile.absolutePath, format)
 
                 showTopToast("图像保存成功")
             }
