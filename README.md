@@ -45,7 +45,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 
 ## 3.1 CV 算法
 
-本地的算法库：
+CV 算法的地址：
 https://github.com/fengzhizi715/MonicaImageProcess
 
 目前只在 Mac、Windows 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境是在 MacOS 下)
@@ -62,9 +62,9 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 ## 3.2 深度学习的服务
 
-深度学习相关的模型，目前在服务端部署可以通过 http 来调用算法服务。
+深度学习相关服务的源码：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
-http 服务的源码也在：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
+Monica 以通过 http 来调用算法服务实现推理。
 
 
 # 四. 更多详情
