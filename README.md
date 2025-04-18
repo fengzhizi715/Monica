@@ -43,6 +43,8 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 
 # 三. CV 算法 && 调用深度学习的模型
 
+## 3.1 CV 算法
+
 本地的算法库：
 https://github.com/fengzhizi715/MonicaImageProcess
 
@@ -58,18 +60,11 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | opencv_world481.dll | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
 
 
-> 目前，有三个模型没有提交到 github，主要是太大了。每个都超过了 100 M 我把他们放到百度网盘
-> 
-> 链接: https://pan.baidu.com/s/15XhVHKi-vPGjB2hYa33v_A?pwd=d9mm
-> 
-> 链接: https://pan.baidu.com/s/1cZvMSuOGxl8CuyHdJM27kw?pwd=9mun
-> 
-> 链接: https://pan.baidu.com/s/10bIlCT08XPtUd_GBOGH6cw?pwd=xu4f
-> 
-> 模型下载下来，存放在工程的 /resources/common/ 目录下
+## 3.2 深度学习的服务
 
+深度学习相关的模型，目前在服务端部署可以通过 http 来调用算法服务。
 
-深度学习相关的模型，目前支持在服务端部署可以通过 http 来调用算法服务。http 服务的源码也在：https://github.com/fengzhizi715/MonicaImageProcess
+http 服务的源码也在：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
 
 # 四. 更多详情
