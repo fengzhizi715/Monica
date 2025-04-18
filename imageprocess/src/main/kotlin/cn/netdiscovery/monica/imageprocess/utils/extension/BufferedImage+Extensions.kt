@@ -55,13 +55,6 @@ fun BufferedImage.isEqualTo(image: BufferedImage): Boolean {
     return true
 }
 
-/**
- * 通用的，保存图像的方法
- */
-fun BufferedImage.saveImage(saveFile: File) {
-    writeImageFile(this@saveImage,saveFile.absolutePath)
-}
-
 
 /**
  * 对图像裁剪 ROI 区域
