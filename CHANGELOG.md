@@ -4,7 +4,7 @@ Monica
 Version 1.0.8
 ---
 2025-4-20
-* 修复保存 png 图像保存的 bug
+* 修复保存 png 图像出错的 bug
 
 Version 1.0.7
 ---
