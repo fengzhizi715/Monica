@@ -46,6 +46,8 @@ object ImageProcess {
         } else if (isWindows) {
             System.load("${loadPath}opencv_world481.dll")
             System.load("${loadPath}MonicaImageProcess.dll")
+        } else {
+            System.load("${loadPath}libMonicaImageProcess.so")
         }
     }
 
