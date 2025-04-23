@@ -207,46 +207,4 @@ object ImageProcess {
      * 模版匹配
      */
     external fun matchTemplate(src: ByteArray, template: ByteArray, scalar:IntArray, matchTemplateSettings: MatchTemplateSettings):IntArray
-
-
-    //-------------------------------------------------------------------
-    // 调用深度学习模型相关
-    //-------------------------------------------------------------------
-    /**
-     * 初始化人脸检测模块
-     */
-    external fun initFaceDetect(faceProto:String,faceModel:String,
-                                ageProto:String, ageModel:String,
-                                genderProto:String,genderModel:String)
-
-    /**
-     * 人脸检测
-     */
-    external fun faceDetect(src: ByteArray):IntArray
-
-    /**
-     * 初始化生成素描画模块
-     */
-    external fun initSketchDrawing(modelPath:String)
-
-    /**
-     * 生成素描画
-     */
-    external fun sketchDrawing(src: ByteArray):IntArray
-
-    /**
-     * 初始化换脸模块
-     */
-    external fun initFaceSwap(yolov8FaceModelPath:String, face68LandmarksModePath:String,
-                              faceEmbeddingModePath:String, faceSwapModePath:String, faceSwapModePath2:String, faceEnhanceModePath:String)
-
-    /**
-     * 人脸 landmark 提取
-     */
-    external fun faceLandMark(src: ByteArray, scalar:IntArray):IntArray
-
-    /**
-     * 替换人脸，将 src 中的人脸替换到 target 中，并展示 target 的图片。
-     */
-    external fun faceSwap(src: ByteArray, target: ByteArray, status: Boolean):IntArray
 }
