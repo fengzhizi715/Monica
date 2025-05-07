@@ -18,8 +18,8 @@ import javax.imageio.ImageIO
  * 把 BufferedImage 转换成文件，便于调试时使用
  */
 @Throws(IOException::class)
-fun writeImageFile(bi: BufferedImage, fileName:String, formatName:String = "png") {
-    ImageIO.write(bi, formatName, File(fileName))
+fun writeImageFile(bi: BufferedImage, fileName:String, formatName:String = "png"):Boolean {
+    return ImageIO.write(bi, formatName, File(fileName))
 }
 
 fun clamp(c: Int): Int {

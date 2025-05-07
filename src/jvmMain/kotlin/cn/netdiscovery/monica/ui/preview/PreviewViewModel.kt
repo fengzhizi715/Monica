@@ -13,11 +13,11 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.currentTime
+import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.getUniqueFile
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
-import cn.netdiscovery.monica.utils.showFileSelector
 import com.safframework.kotlin.coroutines.IO
 import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.launch
@@ -25,9 +25,12 @@ import org.slf4j.Logger
 import showTopToast
 import java.awt.Color
 import java.awt.Graphics
+import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import javax.swing.JFileChooser
+import javax.swing.*
+import javax.swing.filechooser.FileNameExtensionFilter
+
 
 /**
  *
@@ -238,25 +241,50 @@ class PreviewViewModel {
     }
 
     fun saveImage(state: ApplicationState) {
-        showFileSelector(
-            isMultiSelection = false,
-            selectionMode = JFileChooser.DIRECTORIES_ONLY,
-            selectionFileFilter = null
-        ) {
-            state.scope.launch(IO) {
-                val outputPath = it[0].absolutePath
-                val saveFile = File(outputPath).getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
+        val chooser = JFileChooser()
+        chooser.dialogTitle = "导出图像"
 
-                val format = state.rawImageFile?.extension?:"jpg"
+        // 添加格式选项
+        val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
+        val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
+        chooser.addChoosableFileFilter(pngFilter)
+        chooser.addChoosableFileFilter(jpgFilter)
+        chooser.fileFilter = pngFilter // 默认选择 PNG
 
-                writeImageFile(state.currentImage!!, saveFile.absolutePath, format)
+        val result = chooser.showSaveDialog(null)
 
-                showTopToast("图像保存成功")
+        if (result == JFileChooser.APPROVE_OPTION) {
+            val selectedFile = chooser.selectedFile
+            val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
+            val format = selectedFilter.extensions[0] // "png" or "jpg"
+
+            val outputFile = if (selectedFile.name.lowercase().endsWith(".${format}")) {
+                selectedFile
+            } else {
+                File(selectedFile.parent, "${selectedFile.name}.${format}")
             }
+            val saveFile = outputFile.getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
+
+            val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") convertToRGB(state.currentImage!!) else state.currentImage!!
+
+            val b = writeImageFile(finalImage, saveFile.absolutePath, format)
+
+            if (b)
+                showTopToast("图像保存成功")
+            else
+                showTopToast("图像保存失败")
         }
     }
 
     fun clearImage(state: ApplicationState) {
         state.clearImage()
+    }
+
+    fun convertToRGB(image: BufferedImage): BufferedImage {
+        val rgbImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
+        val g = rgbImage.createGraphics()
+        g.drawImage(image, 0, 0, Color.WHITE, null) // 用白色背景填充透明区域
+        g.dispose()
+        return rgbImage
     }
 }

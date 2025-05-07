@@ -1,13 +1,11 @@
 package cn.netdiscovery.monica.imageprocess.utils.extension
 
 import cn.netdiscovery.monica.imageprocess.ImageInfo
-import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
-import java.io.File
 import javax.imageio.ImageIO
 import kotlin.math.abs
 import kotlin.math.cos
