@@ -12,9 +12,7 @@ import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.currentTime
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
-import cn.netdiscovery.monica.utils.extensions.getUniqueFile
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
@@ -263,11 +261,10 @@ class PreviewViewModel {
             } else {
                 File(selectedFile.parent, "${selectedFile.name}.${format}")
             }
-            val saveFile = outputFile.getUniqueFile(state.rawImageFile?: File("${currentTime()}.png"))
 
             val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") convertToRGB(state.currentImage!!) else state.currentImage!!
 
-            val b = writeImageFile(finalImage, saveFile.absolutePath, format)
+            val b = writeImageFile(finalImage, outputFile.absolutePath, format)
 
             if (b)
                 showTopToast("图像保存成功")

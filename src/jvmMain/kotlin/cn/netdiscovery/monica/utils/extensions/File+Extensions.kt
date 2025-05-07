@@ -1,5 +1,3 @@
-@file:Suppress("UNREACHABLE_CODE")
-
 package cn.netdiscovery.monica.utils.extensions
 
 import java.io.File
@@ -15,23 +13,6 @@ import javax.imageio.stream.ImageInputStream
  * @date:  2025/2/28 23:03
  * @version: V1.0 <描述当前版本功能>
  */
-
-fun File.getUniqueFile(sourceFile: File = File("")): File {
-    var newFile = this
-
-    if (newFile.isDirectory) {
-        newFile = File(newFile, sourceFile.name)
-    }
-
-    var index = 1
-    while (newFile.exists()) {
-        newFile = File(newFile.parentFile, "${newFile.nameWithoutExtension}($index).${newFile.extension}")
-        index++
-    }
-
-    return newFile
-}
-
 
 fun File.getImageFormat(): String? {
     val inputStream: ImageInputStream = ImageIO.createImageInputStream(this) ?: return null
