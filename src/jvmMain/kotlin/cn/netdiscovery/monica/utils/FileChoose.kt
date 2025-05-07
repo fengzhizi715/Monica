@@ -1,10 +1,7 @@
 package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.awt.ComposeWindow
-import cn.netdiscovery.monica.imageprocess.utils.extension.convertToRGB
-import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory

@@ -24,10 +24,8 @@ import org.slf4j.Logger
 import showTopToast
 import java.awt.Color
 import java.awt.Graphics
-import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
-import javax.swing.*
 import javax.swing.filechooser.FileNameExtensionFilter
 
 
@@ -242,39 +240,6 @@ class PreviewViewModel {
     fun saveImage(state: ApplicationState) {
 
         state.currentImage?.let {
-//            val chooser = JFileChooser()
-//            chooser.dialogTitle = "导出图像"
-//
-//            // 添加格式选项
-//            val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
-//            val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
-//            chooser.addChoosableFileFilter(pngFilter)
-//            chooser.addChoosableFileFilter(jpgFilter)
-//            chooser.fileFilter = pngFilter // 默认选择 PNG
-//
-//            val result = chooser.showSaveDialog(null)
-//
-//            if (result == JFileChooser.APPROVE_OPTION) {
-//                val selectedFile = chooser.selectedFile
-//                val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
-//                val format = selectedFilter.extensions[0] // "png" or "jpg"
-//
-//                val outputFile = if (selectedFile.name.lowercase().endsWith(".${format}")) {
-//                    selectedFile
-//                } else {
-//                    File(selectedFile.parent, "${selectedFile.name}.${format}")
-//                }
-//
-//                val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
-//
-//                val b = writeImageFile(finalImage, outputFile.absolutePath, format)
-//
-//                if (b)
-//                    showTopToast("图像保存成功")
-//                else
-//                    showTopToast("图像保存失败")
-//            }
-
             exportFileSelector { chooser ->
                 val selectedFile = chooser.selectedFile
                 val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
