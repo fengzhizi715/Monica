@@ -1,7 +1,10 @@
 package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.awt.ComposeWindow
+import cn.netdiscovery.monica.imageprocess.utils.extension.convertToRGB
+import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -72,6 +75,27 @@ fun showFileSelector(
                 val resultArray = arrayOf(this.selectedFile)
                 onFileSelected(resultArray)
             }
+        }
+    }
+}
+
+fun exportFileSelector(
+    onFileSelected: (JFileChooser) -> Unit
+) {
+    JFileChooser().apply {
+        this.dialogTitle = "导出图像"
+
+        // 添加格式选项
+        val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
+        val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
+        this.addChoosableFileFilter(pngFilter)
+        this.addChoosableFileFilter(jpgFilter)
+        this.fileFilter = pngFilter // 默认选择 PNG
+
+        val result = this.showSaveDialog(null)
+
+        if (result == JFileChooser.APPROVE_OPTION) {
+            onFileSelected(this)
         }
     }
 }

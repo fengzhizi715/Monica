@@ -12,6 +12,7 @@ import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.exportFileSelector
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
@@ -239,37 +240,61 @@ class PreviewViewModel {
     }
 
     fun saveImage(state: ApplicationState) {
-        val chooser = JFileChooser()
-        chooser.dialogTitle = "导出图像"
 
-        // 添加格式选项
-        val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
-        val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
-        chooser.addChoosableFileFilter(pngFilter)
-        chooser.addChoosableFileFilter(jpgFilter)
-        chooser.fileFilter = pngFilter // 默认选择 PNG
+        state.currentImage?.let {
+//            val chooser = JFileChooser()
+//            chooser.dialogTitle = "导出图像"
+//
+//            // 添加格式选项
+//            val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
+//            val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
+//            chooser.addChoosableFileFilter(pngFilter)
+//            chooser.addChoosableFileFilter(jpgFilter)
+//            chooser.fileFilter = pngFilter // 默认选择 PNG
+//
+//            val result = chooser.showSaveDialog(null)
+//
+//            if (result == JFileChooser.APPROVE_OPTION) {
+//                val selectedFile = chooser.selectedFile
+//                val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
+//                val format = selectedFilter.extensions[0] // "png" or "jpg"
+//
+//                val outputFile = if (selectedFile.name.lowercase().endsWith(".${format}")) {
+//                    selectedFile
+//                } else {
+//                    File(selectedFile.parent, "${selectedFile.name}.${format}")
+//                }
+//
+//                val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
+//
+//                val b = writeImageFile(finalImage, outputFile.absolutePath, format)
+//
+//                if (b)
+//                    showTopToast("图像保存成功")
+//                else
+//                    showTopToast("图像保存失败")
+//            }
 
-        val result = chooser.showSaveDialog(null)
+            exportFileSelector { chooser ->
+                val selectedFile = chooser.selectedFile
+                val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
+                val format = selectedFilter.extensions[0] // "png" or "jpg"
 
-        if (result == JFileChooser.APPROVE_OPTION) {
-            val selectedFile = chooser.selectedFile
-            val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
-            val format = selectedFilter.extensions[0] // "png" or "jpg"
+                val outputFile = if (selectedFile.name.lowercase().endsWith(".${format}")) {
+                    selectedFile
+                } else {
+                    File(selectedFile.parent, "${selectedFile.name}.${format}")
+                }
 
-            val outputFile = if (selectedFile.name.lowercase().endsWith(".${format}")) {
-                selectedFile
-            } else {
-                File(selectedFile.parent, "${selectedFile.name}.${format}")
+                val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
+
+                val b = writeImageFile(finalImage, outputFile.absolutePath, format)
+
+                if (b)
+                    showTopToast("图像保存成功")
+                else
+                    showTopToast("图像保存失败")
             }
-
-            val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
-
-            val b = writeImageFile(finalImage, outputFile.absolutePath, format)
-
-            if (b)
-                showTopToast("图像保存成功")
-            else
-                showTopToast("图像保存失败")
         }
     }
 
