@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.imageprocess.utils.extension
 
 import cn.netdiscovery.monica.imageprocess.ImageInfo
+import java.awt.Color
 import java.awt.Image
 import java.awt.RenderingHints
 import java.awt.geom.AffineTransform
@@ -132,4 +133,12 @@ fun BufferedImage.resize(width:Int, height:Int): BufferedImage {
         g2d.dispose()
     }
     return resizedImage
+}
+
+fun BufferedImage.convertToRGB(): BufferedImage {
+    val rgbImage = BufferedImage(this.width, this.height, BufferedImage.TYPE_INT_RGB)
+    val g = rgbImage.createGraphics()
+    g.drawImage(this, 0, 0, Color.WHITE, null) // 用白色背景填充透明区域
+    g.dispose()
+    return rgbImage
 }

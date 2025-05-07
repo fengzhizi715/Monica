@@ -262,7 +262,7 @@ class PreviewViewModel {
                 File(selectedFile.parent, "${selectedFile.name}.${format}")
             }
 
-            val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") convertToRGB(state.currentImage!!) else state.currentImage!!
+            val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
 
             val b = writeImageFile(finalImage, outputFile.absolutePath, format)
 
@@ -275,13 +275,5 @@ class PreviewViewModel {
 
     fun clearImage(state: ApplicationState) {
         state.clearImage()
-    }
-
-    fun convertToRGB(image: BufferedImage): BufferedImage {
-        val rgbImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_RGB)
-        val g = rgbImage.createGraphics()
-        g.drawImage(image, 0, 0, Color.WHITE, null) // 用白色背景填充透明区域
-        g.dispose()
-        return rgbImage
     }
 }
