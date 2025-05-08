@@ -12,7 +12,7 @@ import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.exportFileSelector
+import cn.netdiscovery.monica.utils.exportImage
 import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
@@ -240,7 +240,7 @@ class PreviewViewModel {
     fun saveImage(state: ApplicationState) {
 
         state.currentImage?.let {
-            exportFileSelector { chooser ->
+            exportImage { chooser ->
                 val selectedFile = chooser.selectedFile
                 val selectedFilter = chooser.fileFilter as FileNameExtensionFilter
                 val format = selectedFilter.extensions[0] // "png" or "jpg"

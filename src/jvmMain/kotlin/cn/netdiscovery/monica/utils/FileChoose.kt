@@ -43,7 +43,7 @@ fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
     )
 }
 
-fun showFileSelector(
+private fun showFileSelector(
     suffixList: Array<String> = legalSuffixList,
     isMultiSelection: Boolean = true,
     selectionMode: Int = JFileChooser.FILES_AND_DIRECTORIES, // 可以选择目录和文件
@@ -76,7 +76,7 @@ fun showFileSelector(
     }
 }
 
-fun exportFileSelector(
+fun exportImage(
     onFileSelected: (JFileChooser) -> Unit
 ) {
     JFileChooser().apply {
