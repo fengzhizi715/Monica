@@ -22,6 +22,26 @@ fun writeImageFile(bi: BufferedImage, fileName:String, formatName:String = "png"
     return ImageIO.write(bi, formatName, File(fileName))
 }
 
+
+fun writeImageFileAsWebP(bi: BufferedImage, fileName:String):Boolean {
+
+    val writers = ImageIO.getImageWritersByFormatName("webp")
+    if (!writers.hasNext()) {
+        println("不支持 WebP 格式，请确保 webp-imageio 插件已添加。")
+        return false
+    }
+
+    val writer = writers.next()
+    val output = ImageIO.createImageOutputStream(File(fileName))
+    writer.output = output
+
+    writer.write(null, javax.imageio.IIOImage(bi, null, null), null)
+
+    output.close()
+    writer.dispose()
+    return true
+}
+
 fun clamp(c: Int): Int {
     return if (c > 255) 255 else if (c < 0) 0 else c
 }

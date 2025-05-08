@@ -85,8 +85,10 @@ fun exportImage(
         // 添加格式选项
         val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")
         val jpgFilter = FileNameExtensionFilter("JPG 图像 (*.jpg)", "jpg")
+        val webpFilter = FileNameExtensionFilter("Webp 图像 (*.webp)", "webp")
         this.addChoosableFileFilter(pngFilter)
         this.addChoosableFileFilter(jpgFilter)
+        this.addChoosableFileFilter(webpFilter)
         this.fileFilter = pngFilter // 默认选择 PNG
 
         val result = this.showSaveDialog(null)

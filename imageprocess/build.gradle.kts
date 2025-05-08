@@ -18,6 +18,9 @@ dependencies {
     // twelvemonkeys
     implementation("com.twelvemonkeys.imageio:imageio-core:${rootProject.extra["twelvemonkeys"]}")
     implementation("com.twelvemonkeys.imageio:imageio-jpeg:${rootProject.extra["twelvemonkeys"]}")
+
+    // webp
+    implementation("org.sejda.imageio:webp-imageio:0.1.5")
 }
 
 tasks.test {
