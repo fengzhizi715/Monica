@@ -82,7 +82,6 @@ kotlin {
 
                 // generate gif
                 implementation ("com.madgag:animated-gif-lib:1.4")
-
             }
         }
         val jvmTest by getting

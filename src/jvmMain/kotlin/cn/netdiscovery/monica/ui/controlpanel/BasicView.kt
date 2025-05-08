@@ -123,7 +123,6 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = ResizeStatus
             })
 
-
         toolTipButton(text = "图像错切",
             painter = painterResource("images/controlpanel/shearing.png"),
             enable = { state.isBasic },
