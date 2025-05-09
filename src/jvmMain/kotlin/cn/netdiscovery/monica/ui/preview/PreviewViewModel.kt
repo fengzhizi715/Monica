@@ -8,6 +8,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.blur.FastBlur2D
 import cn.netdiscovery.monica.imageprocess.utils.extension.*
 import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
+import cn.netdiscovery.monica.imageprocess.utils.writeImageFileAsWebP
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
@@ -251,9 +252,27 @@ class PreviewViewModel {
                     File(selectedFile.parent, "${selectedFile.name}.${format}")
                 }
 
-                val finalImage = if (format == "jpg" && state.rawImageFile?.getImageFormat() != ".jpg") state.currentImage!!.convertToRGB() else state.currentImage!!
+                val b = when(format) {
+                    "jpg" -> {
+                        val finalImage = if (state.rawImageFile?.getImageFormat() != ".jpg") {
+                            state.currentImage!!.convertToRGB()
+                        } else state.currentImage!!
 
-                val b = writeImageFile(finalImage, outputFile.absolutePath, format)
+                        writeImageFile(finalImage, outputFile.absolutePath, format)
+                    }
+
+                    "png" -> {
+                        writeImageFile(state.currentImage!!, outputFile.absolutePath, format)
+                    }
+
+                    "webp" -> {
+                        writeImageFileAsWebP(state.currentImage!!, outputFile.absolutePath)
+                    }
+
+                    else -> {
+                        writeImageFile(state.currentImage!!, outputFile.absolutePath, format)
+                    }
+                }
 
                 if (b)
                     showTopToast("图像保存成功")
