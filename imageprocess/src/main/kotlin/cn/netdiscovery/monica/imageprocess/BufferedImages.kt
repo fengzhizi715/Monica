@@ -59,10 +59,10 @@ class BufferedImages {
 
             println("format: $format")
 
-            if (format == "svg") {
-                return loadFixedSvgAsImage(file)?:ImageIO.read(file)
+            return if (format == "svg") {
+                loadFixedSvgAsImage(file)?:ImageIO.read(file)
             } else {
-                return ImageIO.read(file)
+                ImageIO.read(file)
             }
         }
 
