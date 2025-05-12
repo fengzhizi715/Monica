@@ -21,6 +21,7 @@ val openCVVersion by lazy { // OpenCV 的版本
     ImageProcess.getOpenCVVersion()
 }
 
+val previewWidth = 750
 val width = (previewWidth * 2.toFloat()).dp
 val height = 1000.dp
 val loadingWidth = (previewWidth*2*0.7).dp

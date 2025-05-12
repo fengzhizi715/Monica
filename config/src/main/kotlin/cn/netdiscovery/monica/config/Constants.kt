@@ -34,8 +34,6 @@ val buildTime:String by lazy {
     dateformat.format(time)
 }
 
-const val previewWidth = 750
-
 
 const val KEY_CROP_FIRST = "key_crop_first"
 const val KEY_CROP_SECOND = "key_crop_second"
