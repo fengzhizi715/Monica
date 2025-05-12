@@ -21,6 +21,13 @@ dependencies {
 
     // webp
     implementation("org.sejda.imageio:webp-imageio:0.1.5")
+
+    // svg
+    implementation("org.apache.xmlgraphics:batik-transcoder:${rootProject.extra["batik"]}")
+    implementation("org.apache.xmlgraphics:batik-codec:${rootProject.extra["batik"]}")
+    implementation("org.apache.xmlgraphics:batik-dom:${rootProject.extra["batik"]}")
+    implementation("org.apache.xmlgraphics:batik-svggen:${rootProject.extra["batik"]}")
+    implementation("org.apache.xmlgraphics:batik-parser:${rootProject.extra["batik"]}")
 }
 
 tasks.test {

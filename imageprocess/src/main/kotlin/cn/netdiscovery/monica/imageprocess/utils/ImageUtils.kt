@@ -1,9 +1,18 @@
 package cn.netdiscovery.monica.imageprocess.utils
 
+import org.apache.batik.anim.dom.SAXSVGDocumentFactory
+import org.apache.batik.transcoder.TranscoderInput
+import org.apache.batik.transcoder.TranscoderOutput
+import org.apache.batik.transcoder.image.ImageTranscoder
+import org.apache.batik.util.XMLResourceDescriptor
+import org.w3c.dom.Document
+import org.w3c.dom.Element
 import java.awt.image.BufferedImage
-import java.io.File
-import java.io.IOException
+import java.io.*
 import javax.imageio.ImageIO
+import javax.xml.transform.TransformerFactory
+import javax.xml.transform.dom.DOMSource
+import javax.xml.transform.stream.StreamResult
 
 /**
  *
@@ -40,6 +49,68 @@ fun writeImageFileAsWebP(bi: BufferedImage, fileName:String):Boolean {
     output.close()
     writer.dispose()
     return true
+}
+
+fun loadAndFixSvg(inputSvgFile: File): Document {
+    val parser = XMLResourceDescriptor.getXMLParserClassName()
+    val factory = SAXSVGDocumentFactory(parser)
+    val doc = factory.createDocument(inputSvgFile.toURI().toString())
+
+    val svgNS = "http://www.w3.org/2000/svg"
+    val xlinkNS = "http://www.w3.org/1999/xlink"
+    val useTags = doc.getElementsByTagNameNS(svgNS, "use")
+
+    val toRemove = mutableListOf<Element>()
+    for (i in 0 until useTags.length) {
+        val use = useTags.item(i) as Element
+        val href = use.getAttributeNS(xlinkNS, "href")
+        if (href.isNullOrBlank()) {
+            toRemove.add(use)
+        }
+    }
+
+    toRemove.forEach { it.parentNode?.removeChild(it) }
+    println("清除非法 <use> 标签数: ${toRemove.size}")
+    return doc
+}
+
+fun svgDocumentToBufferedImage(doc: Document, width: Float? = null, height: Float? = null): BufferedImage? {
+    var image: BufferedImage? = null
+
+    val transcoder = object : ImageTranscoder() {
+        override fun createImage(w: Int, h: Int): BufferedImage {
+            return BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB)
+        }
+
+        override fun writeImage(img: BufferedImage, output: TranscoderOutput?) {
+            image = img
+        }
+    }
+
+    if (width != null) transcoder.addTranscodingHint(ImageTranscoder.KEY_WIDTH, width)
+    if (height != null) transcoder.addTranscodingHint(ImageTranscoder.KEY_HEIGHT, height)
+
+    val inputStream = ByteArrayOutputStream().use { baos ->
+        val transformer = TransformerFactory.newInstance().newTransformer()
+        transformer.transform(DOMSource(doc), StreamResult(baos))
+        ByteArrayInputStream(baos.toByteArray())
+    }
+
+    val input = TranscoderInput(inputStream)
+
+    try {
+        transcoder.transcode(input, null)
+    } catch (e: Exception) {
+        e.printStackTrace()
+        return null
+    }
+
+    return image
+}
+
+fun loadFixedSvgAsImage(inputFile: File, width: Float? = null, height: Float? = null): BufferedImage? {
+    val doc = loadAndFixSvg(inputFile)
+    return svgDocumentToBufferedImage(doc, width, height)
 }
 
 fun clamp(c: Int): Int {

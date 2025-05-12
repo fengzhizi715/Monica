@@ -5,11 +5,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
+import cn.netdiscovery.monica.imageprocess.utils.extension.getImageFormat
 import cn.netdiscovery.monica.imageprocess.utils.writeImageFile
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVFailure
 import cn.netdiscovery.monica.utils.CVSuccess
-import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
 import okhttp3.*

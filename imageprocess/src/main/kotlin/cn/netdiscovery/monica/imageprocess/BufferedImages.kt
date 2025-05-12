@@ -1,5 +1,7 @@
 package cn.netdiscovery.monica.imageprocess
 
+import cn.netdiscovery.monica.imageprocess.utils.extension.getImageFormat
+import cn.netdiscovery.monica.imageprocess.utils.loadFixedSvgAsImage
 import java.awt.image.BufferedImage
 import java.io.File
 import java.io.InputStream
@@ -51,7 +53,18 @@ class BufferedImages {
 
         fun load(input: InputStream): BufferedImage = ImageIO.read(input)
 
-        fun load(file: File): BufferedImage = ImageIO.read(file)
+        fun load(file: File): BufferedImage {
+
+            val format = file.getImageFormat()?:"jpg"
+
+            println("format: $format")
+
+            if (format == "svg") {
+                return loadFixedSvgAsImage(file)?:ImageIO.read(file)
+            } else {
+                return ImageIO.read(file)
+            }
+        }
 
         fun load(path: String): BufferedImage = load(File(path))
     }

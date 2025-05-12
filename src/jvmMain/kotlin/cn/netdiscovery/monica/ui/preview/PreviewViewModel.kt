@@ -14,7 +14,6 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.exportImage
-import cn.netdiscovery.monica.utils.extensions.getImageFormat
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
