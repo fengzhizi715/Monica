@@ -16,7 +16,7 @@ import javax.imageio.stream.ImageInputStream
 
 fun File.getImageFormat(): String? {
 
-    // 判断是否为 SVG 文件：扩展名 + 内容中存在成对的 <svg> 和 </svg> 标签
+    // 判断是否为 svg 文件：扩展名 + 内容中存在成对的 <svg> 和 </svg> 标签
     if (extension.equals("svg", ignoreCase = true)) {
         val content = readText().lowercase()
         if ("<svg" in content && "</svg>" in content) {
