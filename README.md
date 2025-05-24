@@ -90,8 +90,8 @@ https://juejin.cn/column/7396157773312065574
 * 解决 Mac 打包的问题
 * 增加商品美化的功能
 * 重构形状绘制模块
-* 升级 Compose desktop 版本
 * 优化软件的各种体验
+* 升级 Compose desktop 版本
 * 升级第三方库(特别是自己维护的库)
 
 
