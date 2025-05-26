@@ -41,6 +41,8 @@ import org.koin.compose.koinInject
 import org.koin.core.Koin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import java.util.*
+import javax.imageio.ImageIO
 
 val filterNames = mutableListOf<String>()
 val filterMaps = mutableMapOf<String, String>()
@@ -333,6 +335,9 @@ private fun initData(state:ApplicationState) {
             logger.info("算法服务不可用")
         }
     }
+
+    val formats = ImageIO.getReaderFormatNames()
+    logger.info("support format: ${formats.contentToString()}")
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
