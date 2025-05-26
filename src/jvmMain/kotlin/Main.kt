@@ -316,6 +316,9 @@ private fun initData(state:ApplicationState) {
 
     logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion")
 
+    val formats = ImageIO.getReaderFormatNames()
+    logger.info("support format: ${formats.contentToString()}")
+
     if (state.algorithmUrlText.isNotEmpty()) {
 
         val status = try {
@@ -335,9 +338,6 @@ private fun initData(state:ApplicationState) {
             logger.info("算法服务不可用")
         }
     }
-
-    val formats = ImageIO.getReaderFormatNames()
-    logger.info("support format: ${formats.contentToString()}")
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
