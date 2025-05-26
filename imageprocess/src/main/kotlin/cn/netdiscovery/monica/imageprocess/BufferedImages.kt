@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.imageprocess
 
+import cn.netdiscovery.monica.imageprocess.utils.extension.convertToRGB
 import cn.netdiscovery.monica.imageprocess.utils.extension.getImageFormat
 import cn.netdiscovery.monica.imageprocess.utils.loadFixedSvgAsImage
 import java.awt.image.BufferedImage
@@ -59,10 +60,12 @@ class BufferedImages {
 
             println("format: $format")
 
-            return if (format == "svg") {
-                loadFixedSvgAsImage(file)?:ImageIO.read(file)
-            } else {
-                ImageIO.read(file)
+            return when(format) {
+                "svg" -> loadFixedSvgAsImage(file)?:ImageIO.read(file)
+                "hdr","HDR" -> {
+                    ImageIO.read(file).convertToRGB()
+                }
+                else -> ImageIO.read(file)
             }
         }
 
