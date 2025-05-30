@@ -1,9 +1,9 @@
 package cn.netdiscovery.monica.ui.main
 
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.dropFileTarget
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
+import cn.netdiscovery.monica.utils.getBufferedImage
 import cn.netdiscovery.monica.utils.legalSuffixList
 import java.io.File
 
@@ -24,7 +24,7 @@ class MainViewModel {
                 if (filePath != null) {
                     val file = File(filePath)
                     if (file.isFile && file.extension in legalSuffixList) {
-                        state.rawImage = BufferedImages.load(file)
+                        state.rawImage = getBufferedImage(file)
                         state.currentImage = state.rawImage
                         state.rawImageFile = file
                     }
