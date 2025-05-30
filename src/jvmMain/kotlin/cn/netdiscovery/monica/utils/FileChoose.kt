@@ -25,7 +25,7 @@ import javax.swing.filechooser.FileNameExtensionFilter
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val legalSuffixList: Array<String> = arrayOf("jpg", "jpeg", "png","webp","svg", "hdr")
+val legalSuffixList: Array<String> = arrayOf("jpg", "jpeg", "png","webp","svg", "hdr", "cr2", "cr3")
 
 fun chooseImage(state: ApplicationState, block:(file: File)->Unit) {
     showFileSelector(

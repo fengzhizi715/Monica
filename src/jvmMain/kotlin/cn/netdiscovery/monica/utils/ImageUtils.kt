@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import cn.netdiscovery.monica.domain.RawImage
 import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
@@ -22,6 +23,13 @@ import java.awt.image.BufferedImage
  * @date: 2024/4/26 22:11
  * @version: V1.0 <描述当前版本功能>
  */
+fun rawImageToBuffered(raw: RawImage): BufferedImage {
+    val image = BufferedImage(raw.width, raw.height, BufferedImage.TYPE_3BYTE_BGR)
+    val raster = image.raster
+    raster.setDataElements(0, 0, raw.width, raw.height, raw.data)
+    return image
+}
+
 
 suspend fun doFilter(filterName:String, array:MutableList<Any>, state: ApplicationState):BufferedImage {
 

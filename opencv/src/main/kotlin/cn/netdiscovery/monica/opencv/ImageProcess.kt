@@ -1,13 +1,9 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.domain.ColorCorrectionSettings
-import cn.netdiscovery.monica.domain.ContourDisplaySettings
-import cn.netdiscovery.monica.domain.ContourFilterSettings
-import cn.netdiscovery.monica.domain.MatchTemplateSettings
-import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import cn.netdiscovery.monica.config.arch
 import cn.netdiscovery.monica.config.isMac
 import cn.netdiscovery.monica.config.isWindows
+import cn.netdiscovery.monica.domain.*
 import java.io.File
 
 /**
@@ -202,4 +198,14 @@ object ImageProcess {
      * 模版匹配
      */
     external fun matchTemplate(src: ByteArray, template: ByteArray, scalar:IntArray, matchTemplateSettings: MatchTemplateSettings):IntArray
+
+    /**
+     * 识别 raw 文件的格式
+     */
+    external fun detectRawFormat(path: String): String
+
+    /**
+     * 加载相机拍摄的图片，例如 cr2、cr3 格式的图像
+     */
+    external fun decodeRawToBuffer(path: String): RawImage?
 }

@@ -18,12 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.BlurStatus
 import cn.netdiscovery.monica.state.MosaicStatus
 import cn.netdiscovery.monica.state.ZoomPreviewStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.rawImageToBuffered
 import org.koin.compose.koinInject
 
 
@@ -49,7 +51,18 @@ fun preview(
         elevation = 4.dp,
         onClick = {
             chooseImage(state) { file ->
-                state.rawImage = BufferedImages.load(file)
+
+                val rawFormat = ImageProcess.detectRawFormat(file.absolutePath)
+
+                state.rawImage = if (rawFormat != "Unknown") {
+                    val rawImage = ImageProcess.decodeRawToBuffer(file.absolutePath)
+                    if (rawImage!=null) {
+                        rawImageToBuffered(rawImage)
+                    } else {
+                        BufferedImages.load(file)
+                    }
+                } else BufferedImages.load(file)
+
                 state.currentImage = state.rawImage
                 state.rawImageFile = file
             }
