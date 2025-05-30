@@ -3,17 +3,20 @@ package cn.netdiscovery.monica.utils
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.domain.RawImage
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.printConstructorParamsWithValues
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage
+import java.io.File
 
 /**
  *
@@ -23,6 +26,26 @@ import java.awt.image.BufferedImage
  * @date: 2024/4/26 22:11
  * @version: V1.0 <描述当前版本功能>
  */
+
+fun getBufferedImage(file: File): BufferedImage {
+
+    val filePath = file.absolutePath
+
+    // 先判断是否是相机拍的 RAW 文件
+    val rawFormat = ImageProcess.detectRawFormat(filePath)
+
+    return if (rawFormat != "Unknown") { // 针对 RAW 文件 先转换成 RawImage 对象
+        val rawImage = ImageProcess.decodeRawToBuffer(filePath)
+        if (rawImage!=null) {
+            rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
+        } else {
+            BufferedImages.load(file)
+        }
+    } else { // 非 RAW 文件
+        BufferedImages.load(file)
+    }
+}
+
 fun rawImageToBuffered(raw: RawImage): BufferedImage {
     val image = BufferedImage(raw.width, raw.height, BufferedImage.TYPE_3BYTE_BGR)
     val raster = image.raster
