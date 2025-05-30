@@ -36,6 +36,7 @@ import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.getBufferedImage
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -96,7 +97,7 @@ fun main() = application {
                 text = "打开本地图片",
                 onClick = {
                     chooseImage(applicationState) { file ->
-                        applicationState.rawImage = BufferedImages.load(file)
+                        applicationState.rawImage = getBufferedImage(file)
                         applicationState.currentImage = applicationState.rawImage
                         applicationState.rawImageFile = file
                     }

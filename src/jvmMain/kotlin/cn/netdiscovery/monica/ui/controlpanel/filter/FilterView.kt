@@ -25,6 +25,7 @@ import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.collator
 import cn.netdiscovery.monica.utils.extensions.safelyConvertToInt
+import cn.netdiscovery.monica.utils.getBufferedImage
 import filterMaps
 import filterNames
 import loadingDisplay
@@ -69,7 +70,7 @@ fun filter(state: ApplicationState) {
                 elevation = 4.dp,
                 onClick = {
                     chooseImage(state) { file ->
-                        state.rawImage = BufferedImages.load(file)
+                        state.rawImage = getBufferedImage(file)
                         state.currentImage = state.rawImage
                         state.rawImageFile = file
                     }

@@ -21,6 +21,7 @@ import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
 import org.koin.compose.koinInject
 
@@ -62,7 +63,7 @@ fun faceSwap(state: ApplicationState) {
                     elevation = 4.dp,
                     onClick = {
                         chooseImage(state) { file ->
-                            state.rawImage = BufferedImages.load(file)
+                            state.rawImage = getBufferedImage(file)
                             state.currentImage = state.rawImage
                             state.rawImageFile = file
                         }
@@ -138,7 +139,7 @@ fun faceSwap(state: ApplicationState) {
                     elevation = 4.dp,
                     onClick = {
                         chooseImage(state) { file ->
-                            viewModel.targetImage = BufferedImages.load(file)
+                            viewModel.targetImage = getBufferedImage(file)
                             viewModel.targetImageFile = file
                         }
                     },

@@ -53,7 +53,6 @@ fun rawImageToBuffered(raw: RawImage): BufferedImage {
     return image
 }
 
-
 suspend fun doFilter(filterName:String, array:MutableList<Any>, state: ApplicationState):BufferedImage {
 
     return withContext(IO) {

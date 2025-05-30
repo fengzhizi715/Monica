@@ -22,6 +22,7 @@ import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.getBufferedImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -75,7 +76,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                     elevation = 4.dp,
                     onClick = {
                         chooseImage(state) { file ->
-                            CVState.templateImage = BufferedImages.load(file)
+                            CVState.templateImage = getBufferedImage(file)
                         }
                     },
                     enabled = CVState.templateImage == null

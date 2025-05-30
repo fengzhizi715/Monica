@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
 
 /**
@@ -173,7 +174,7 @@ fun experiment(state: ApplicationState) {
                         elevation = 4.dp,
                         onClick = {
                             chooseImage(state) { file ->
-                                state.rawImage = BufferedImages.load(file)
+                                state.rawImage = getBufferedImage(file)
                                 state.currentImage = state.rawImage
                                 state.rawImageFile = file
                             }
