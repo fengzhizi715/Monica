@@ -64,7 +64,6 @@ lateinit var mAppKoin: Koin
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 fun main() = application {
-
     val trayState = rememberTrayState()
 
     val applicationState = rememberApplicationState(

@@ -110,6 +110,7 @@ compose.desktop {
             copyright = "© 2024 Tony Shen. All rights reserved."
 
             jvmArgs += listOf("-Xms4G","-Xmx4G")
+            jvmArgs += listOf("-Dlogback.debug=true")
 
             includeAllModules = true    //包含所有模块
 
