@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-val isProVersion = true
+val isProVersion = false
 
 buildConfig {
     useKotlinOutput { topLevelConstants = true }
