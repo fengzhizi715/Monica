@@ -1,4 +1,4 @@
-plugins {
+ plugins {
     kotlin("jvm")
     id("com.github.gmazzo.buildconfig") version "5.4.0"
 }

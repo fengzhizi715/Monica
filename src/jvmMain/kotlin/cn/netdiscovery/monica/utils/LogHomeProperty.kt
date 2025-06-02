@@ -15,30 +15,8 @@ import cn.netdiscovery.monica.config.workDirectory
  */
 class LogHomeProperty : PropertyDefinerBase() {
 
-    private val LOG_HOME: String by lazy {
-        // 推荐写入用户目录下，避免 / 目录写入失败
-        if (BuildConfig.IS_PRO_VERSION) {
-            val dirPath = "$workDirectory/Library/Logs/Monica/"
-
-            val dir = File(dirPath)
-            if (!dir.exists()) {
-                dir.mkdirs()
-            }
-
-            dirPath
-        } else {
-            val dirPath = workDirectory + File.separator + "log"
-            val dir = File(dirPath)
-
-            if (!dir.isDirectory) {
-                dir.mkdirs()
-            }
-
-            dirPath + File.separator
-        }
-    }
-
     override fun getPropertyValue(): String {
-        return LOG_HOME
+
+        return AppDirs.logDir.absolutePath + File.separator
     }
 }
