@@ -24,3 +24,7 @@ val isMac by lazy {
 val isWindows by lazy {
     os.startsWith("Win")
 }
+
+val isLinux by lazy {
+    os.contains("nux") || os.contains("nix")
+}
