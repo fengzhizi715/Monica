@@ -316,9 +316,6 @@ private fun initData(state:ApplicationState) {
 
     logger.info("MonicaImageProcess Version = $imageProcessVersion, OpenCV Version = $openCVVersion")
 
-    val formats = ImageIO.getReaderFormatNames()
-    logger.info("support format: ${formats.contentToString()}")
-
     if (state.algorithmUrlText.isNotEmpty()) {
 
         val status = try {
