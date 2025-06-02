@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.rxcache
 
 import Monica.config.BuildConfig
 import cn.netdiscovery.monica.config.workDirectory
+import cn.netdiscovery.monica.utils.AppDirs
 import com.safframework.rxcache.RxCache
 import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.ext.persistence
@@ -20,17 +21,7 @@ import java.io.File
 val rxCache: RxCache by lazy {
     RxCache.config {
         RxCache.Builder().memory(FIFOMemoryImpl()).persistence {
-            val cacheDirectory = if (BuildConfig.IS_PRO_VERSION) {
-                File(workDirectory, "Library/Caches/Monica/rxcache")
-            } else {
-                File(workDirectory,"rxcache")
-            }
-
-            if (!cacheDirectory.exists()) {
-                cacheDirectory.mkdirs()
-            }
-
-            OkioImpl(cacheDirectory)
+            OkioImpl(AppDirs.cacheDir)
         }
     }
 

@@ -16,6 +16,7 @@ val osVersion: String = System.getProperty("os.version")
 val javaVersion: String = System.getProperty("java.version")
 val javaVendor: String = System.getProperty("java.vendor")
 val workDirectory: String = System.getProperty("user.dir")
+val userHome: String = System.getProperty("user.home")
 
 val isMac by lazy {
     os.contains("Mac")
