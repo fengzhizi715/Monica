@@ -102,7 +102,7 @@ compose.desktop {
         }
         nativeDistributions {
             outputBaseDir.set(mOutputDir)   //build/output
-            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Deb)
+            targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Rpm)
             appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
             packageName = "Monica"
             packageVersion = "${rootProject.extra["app.version"]}"

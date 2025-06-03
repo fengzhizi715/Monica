@@ -61,7 +61,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | libMonicaImageProcess_aarch64.dylib | 0.2.1 | 基于 m 芯片的 Mac OS 下编译好的算法库     |
 | MonicaImageProcess.dll              |       | Windows 下编译好的算法库需要依赖 opencv_world481.dll |
 | opencv_world481.dll                 |       | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库 |
-| libMonicaImageProcess.so            | 0.2.0 | Linux 下编译好的算法库                          |
+| libMonicaImageProcess.so            | 0.2.1 | Linux 下编译好的算法库                          |
 
 
 ## 3.2 深度学习的服务
