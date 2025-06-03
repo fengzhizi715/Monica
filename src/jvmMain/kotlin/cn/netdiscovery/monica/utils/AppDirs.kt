@@ -26,8 +26,16 @@ object AppDirs {
                 }
             }
 
-            isLinux -> "$userHome/.cache/$appName"
+            isLinux -> {
+                if (BuildConfig.IS_PRO_VERSION) {
+                    "$userHome/.cache/$appName"
+                } else {
+                    "$workDirectory/rxcache"
+                }
+            }
+
             isWindows -> "${getWindowsAppData()}/$appName/Cache"
+
             else -> "$userHome/.cache/$appName"
         }
         createDir(path)
@@ -43,8 +51,16 @@ object AppDirs {
                 }
             }
 
-            isLinux -> "$userHome/.local/share/$appName/logs"
+            isLinux -> {
+                if (BuildConfig.IS_PRO_VERSION) {
+                    "$userHome/.local/share/$appName/logs"
+                } else {
+                    "$workDirectory/log"
+                }
+            }
+
             isWindows -> "${getWindowsAppData()}/$appName/Logs"
+
             else -> "$userHome/.local/share/$appName/logs"
         }
         createDir(path)
