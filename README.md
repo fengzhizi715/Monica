@@ -67,6 +67,8 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 ## 3.2 深度学习的服务
 
+Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务
+
 深度学习相关服务的源码：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
 Monica 通过 http 来调用算法服务，实现推理。

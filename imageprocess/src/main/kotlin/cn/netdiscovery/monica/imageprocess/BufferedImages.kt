@@ -1,12 +1,6 @@
 package cn.netdiscovery.monica.imageprocess
 
-import cn.netdiscovery.monica.imageprocess.utils.extension.convertToRGB
-import cn.netdiscovery.monica.imageprocess.utils.extension.getImageFormat
-import cn.netdiscovery.monica.imageprocess.utils.loadFixedSvgAsImage
 import java.awt.image.BufferedImage
-import java.io.File
-import java.io.InputStream
-import javax.imageio.ImageIO
 
 /**
  *
