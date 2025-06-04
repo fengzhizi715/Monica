@@ -40,6 +40,7 @@ object ImageProcess {
                 System.load("${loadPath}libMonicaImageProcess.dylib")
             }
         } else if (isWindows) {
+            System.load("${loadPath}libraw.dll")
             System.load("${loadPath}opencv_world481.dll")
             System.load("${loadPath}MonicaImageProcess.dll")
         } else {
