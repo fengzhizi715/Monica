@@ -76,14 +76,8 @@ Monica 通过 http 来调用算法服务，实现推理。
 
 Monica 还有很多有意思的功能没有来得及介绍，欢迎体验、使用、提意见和需求。
 
-目前，还不提供安装包。不过可自行编译，后续版本会提供 Windows、Linux、MasOS 等各个平台对应的安装包。
 
-Windows 用户的体验安装包: 
-> 链接: https://pan.baidu.com/s/1QrauiGLKUtozkKKB4JKLiQ?pwd=u9jn
-> 
-> 由于是体验版本，少了一些深度学习相关的功能。
-
-在如下的专栏，有相关文章的介绍
+在下面的专栏，有相关的系列文章
 
 https://juejin.cn/column/7396157773312065574
 

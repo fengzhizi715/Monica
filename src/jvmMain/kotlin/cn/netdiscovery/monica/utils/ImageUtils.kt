@@ -3,7 +3,6 @@ package cn.netdiscovery.monica.utils
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.domain.RawImage
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
@@ -17,6 +16,8 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.printConstructorParamsWithValues
 import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.withContext
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
@@ -29,13 +30,14 @@ import javax.imageio.ImageIO
  * @date: 2024/4/26 22:11
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 fun getBufferedImage(file: File): BufferedImage {
 
     val filePath = file.absolutePath
 
     val imageFormat = ImageFormatDetector.detectFormat(file)
-    println("format: $imageFormat")
+    logger.info("format: $imageFormat")
 
     if (imageFormat.isRaw()) {
         val rawImage = ImageProcess.decodeRawToBuffer(filePath)
