@@ -34,7 +34,13 @@ object AppDirs {
                 }
             }
 
-            isWindows -> "${getWindowsAppData()}/$appName/Cache"
+            isWindows -> {
+                if (BuildConfig.IS_PRO_VERSION) {
+                    "${getWindowsAppData()}/$appName/Cache"
+                } else {
+                    "$workDirectory/rxcache"
+                }
+            }
 
             else -> "$userHome/.cache/$appName"
         }
@@ -59,7 +65,13 @@ object AppDirs {
                 }
             }
 
-            isWindows -> "${getWindowsAppData()}/$appName/Logs"
+            isWindows -> {
+                if (BuildConfig.IS_PRO_VERSION) {
+                    "${getWindowsAppData()}/$appName/Logs"
+                } else {
+                    "$workDirectory/log"
+                }
+            }
 
             else -> "$userHome/.local/share/$appName/logs"
         }
