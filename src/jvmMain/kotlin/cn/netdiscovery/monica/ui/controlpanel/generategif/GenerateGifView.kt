@@ -18,6 +18,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
+import cn.netdiscovery.monica.utils.getBufferedImage
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import java.io.File
@@ -89,7 +90,7 @@ fun generateGif(state: ApplicationState) {
                                 Card(modifier = Modifier.padding(10.dp), shape = RoundedCornerShape(8.dp)) {
 
                                     Column(modifier = Modifier.padding(4.dp), horizontalAlignment = Alignment.CenterHorizontally) {
-                                        val bitmap = remember(imageFile) { BufferedImages.load(imageFile).toComposeImageBitmap() }
+                                        val bitmap = remember(imageFile) { getBufferedImage(imageFile).toComposeImageBitmap() }
 
                                         Image(painter = BitmapPainter(bitmap), contentDescription = imageFile.name, modifier = Modifier.size(100.dp))
 

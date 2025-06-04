@@ -51,24 +51,5 @@ class BufferedImages {
             bi.setRGB(0, 0, width, height, pixels, 0, width)
             return bi
         }
-
-        fun load(input: InputStream): BufferedImage = ImageIO.read(input)
-
-        fun load(file: File): BufferedImage {
-
-            val format = file.getImageFormat()?:"jpg"
-
-//            println("format: $format")
-
-            return when(format) {
-                "svg" -> loadFixedSvgAsImage(file)?:ImageIO.read(file)
-                "hdr","HDR" -> {
-                    ImageIO.read(file).convertToRGB()
-                }
-                else -> ImageIO.read(file)
-            }
-        }
-
-        fun load(path: String): BufferedImage = load(File(path))
     }
 }
