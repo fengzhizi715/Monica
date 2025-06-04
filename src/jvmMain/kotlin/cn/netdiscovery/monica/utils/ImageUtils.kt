@@ -10,6 +10,8 @@ import cn.netdiscovery.monica.imageprocess.filter.blur.*
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.SharpenFilter
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.USMFilter
+import cn.netdiscovery.monica.imageprocess.utils.extension.convertToRGB
+import cn.netdiscovery.monica.imageprocess.utils.loadFixedSvgAsImage
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.printConstructorParamsWithValues
@@ -17,6 +19,7 @@ import com.safframework.kotlin.coroutines.IO
 import kotlinx.coroutines.withContext
 import java.awt.image.BufferedImage
 import java.io.File
+import javax.imageio.ImageIO
 
 /**
  *
@@ -31,18 +34,27 @@ fun getBufferedImage(file: File): BufferedImage {
 
     val filePath = file.absolutePath
 
-    // 先判断是否是相机拍的 RAW 文件
-    val rawFormat = ImageProcess.detectRawFormat(filePath)
+    val imageFormat = ImageFormatDetector.detectFormat(file)
+    println("format: $imageFormat")
 
-    return if (rawFormat != "Unknown") { // 针对 RAW 文件 先转换成 RawImage 对象
+    if (imageFormat.isRaw()) {
         val rawImage = ImageProcess.decodeRawToBuffer(filePath)
         if (rawImage!=null) {
-            rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
+            return rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
         } else {
-            BufferedImages.load(file)
+            throw RuntimeException("Image format is not supported")
         }
-    } else { // 非 RAW 文件
-        BufferedImages.load(file)
+    } else {
+        return when(imageFormat) {
+            ImageFormat.SVG -> loadFixedSvgAsImage(file) ?: ImageIO.read(file)
+            ImageFormat.HDR -> {
+                ImageIO.read(file).convertToRGB()
+            }
+            ImageFormat.JPEG, ImageFormat.PNG, ImageFormat.WEBP -> {
+                ImageIO.read(file)
+            }
+            else -> throw RuntimeException("Unsupported image format: $imageFormat")
+        }
     }
 }
 

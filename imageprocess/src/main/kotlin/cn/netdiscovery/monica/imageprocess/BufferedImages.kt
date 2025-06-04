@@ -58,7 +58,7 @@ class BufferedImages {
 
             val format = file.getImageFormat()?:"jpg"
 
-            println("format: $format")
+//            println("format: $format")
 
             return when(format) {
                 "svg" -> loadFixedSvgAsImage(file)?:ImageIO.read(file)
