@@ -42,6 +42,9 @@ object ImageProcess {
             }
         } else if (isWindows) {
             System.load("${loadPath}libraw.dll")
+            System.load("${loadPath}libde265.dll")
+            System.load("${loadPath}aom.dll")
+            System.load("${loadPath}heif.dll")
             System.load("${loadPath}opencv_world481.dll")
             System.load("${loadPath}MonicaImageProcess.dll")
         } else {
