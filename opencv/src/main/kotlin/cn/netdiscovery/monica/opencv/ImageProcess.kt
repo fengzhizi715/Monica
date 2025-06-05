@@ -4,6 +4,7 @@ import cn.netdiscovery.monica.config.arch
 import cn.netdiscovery.monica.config.isMac
 import cn.netdiscovery.monica.config.isWindows
 import cn.netdiscovery.monica.domain.*
+import java.awt.image.BufferedImage
 import java.io.File
 
 /**
@@ -201,12 +202,12 @@ object ImageProcess {
     external fun matchTemplate(src: ByteArray, template: ByteArray, scalar:IntArray, matchTemplateSettings: MatchTemplateSettings):IntArray
 
     /**
-     * 识别 raw 文件的格式
-     */
-    external fun detectRawFormat(path: String): String
-
-    /**
-     * 加载相机拍摄的图片，例如 cr2、cr3 格式的图像
+     * 解码相机拍摄的图片，例如 cr2、cr3 格式的图像
      */
     external fun decodeRawToBuffer(path: String): RawImage?
+
+    /**
+     * 解码 heif 格式的图像
+     */
+    external fun decodeHeif(path: String): HeifImage?
 }
