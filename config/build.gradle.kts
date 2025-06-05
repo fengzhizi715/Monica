@@ -7,7 +7,7 @@ repositories {
     mavenCentral()
 }
 
-val isProVersion = false
+val isProVersion = false // true 为打包的版本，false 是本地开发的版本
 
 buildConfig {
     useKotlinOutput { topLevelConstants = true }
