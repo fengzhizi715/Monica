@@ -15,7 +15,6 @@ Monica 是一款跨平台的桌面图像编辑软件。它支持多种图像格�
 
 
 # 二. 功能
-Monica 目前还处于开发阶段，当前提供的基础功能：
 
 ## 2.1 基础功能
 * 支持导入多种图像格式：JPG、PNG、WebP、SVG、HDR、HEIC
@@ -33,7 +32,6 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 * 支持将多张图片生成 gif
 
 ## 2.2 高级功能
-
 * 人脸检测(人脸、性别、年龄)
 * 生成素描画
 * 替换人脸
@@ -51,7 +49,7 @@ Monica 目前还处于开发阶段，当前提供的基础功能：
 CV 算法的地址：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前在 Mac、Windows、Linux 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。(在开发过程中 MacOS 的算法库会比较新，因为我的开发环境是在 MacOS 下)
+目前在 Mac、Windows、Linux 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。
 
 其中
 
@@ -67,11 +65,11 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 ## 3.2 深度学习的服务
 
-Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务
-
-深度学习相关服务的源码：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
+深度学习的服务部署在云端， Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务。
 
 Monica 通过 http 来调用算法服务，实现推理。
+
+深度学习相关服务的源码和模型：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
 
 # 四. 更多详情
