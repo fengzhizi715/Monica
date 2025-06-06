@@ -3,12 +3,12 @@
 # 一. 简介
 Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供现代化、可扩展、可二次开发的图像编辑体验。
 
-其技术栈如下：
-* Kotlin 编写 UI(Kotlin Compose Desktop 作为 UI 框架)
-* 基于 mvvm 模式，依赖注入使用 koin，编译使用 JDK 17
-* 部分算法使用 Kotlin 实现
-* 传统的 CV 算法使用 OpenCV C++ 来实现，Kotlin 通过 jni 来调用。
-* 深度学习的模型，主要使用 ONNXRuntime 来部署和加速，使用 C++ 实现。
+🧪 技术栈
+* UI 框架：Kotlin Compose Multiplatform (Desktop)
+* 图像处理：OpenCV
+* 深度学习推理：ONNX Runtime
+* 后端语言：Kotlin / C++
+* 构建工具：Gradle / CMake
 
 ![](images/screenshot.png)
 ![](images/screenshot-version.png)
@@ -90,9 +90,8 @@ Monica 通过 http 来调用算法服务，实现推理。
 * 增加人脸美颜的功能
 * 重构形状绘制模块
 * 增加商品美化的功能
-* 增加读取 EXIF 信息
 * 优化软件的各种体验
-* 升级 Compose desktop 版本
+* 升级 Kotlin 以及 Compose desktop 版本
 * 升级第三方库(特别是自己维护的库)
 
 
@@ -100,18 +99,22 @@ Monica 通过 http 来调用算法服务，实现推理。
 欢迎任何形式的贡献，包括但不限于功能开发、Bug 修复、文档完善和使用反馈。
 
 
-# 六. 更新日志
+# 六. 许可证
+本项目基于 Apache License 2.0 开源。
+
+
+# 七. 更新日志
 
 请查看 [CHANGELOG](CHANGELOG.md) 文件
 
 
-# 七. 联系方式：
+# 八. 联系方式：
 
 wechat：fengzhizi715
 
 Email：fengzhizi715@126.com
 
 
-# 八. Star History
+# 九. Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)
