@@ -45,9 +45,11 @@ M 芯片：过两天提供
 # 📸 项目截图
 ![](images/screenshot.png)
 ![](images/screenshot-version.png)
+![](images/4-2.png)
+![](images/5-2.png)
+![](images/7-2.png)
 
-
-更多截图可以访问: [功能详见](FUNCTION.md)
+更多截图可以访问: [详细功能介绍](FUNCTION.md)
 
 也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
 
