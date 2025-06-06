@@ -1,4 +1,4 @@
-**Monica** 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供现代化、可扩展、可二次开发的图像编辑体验。
+**Monica** 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供可扩展、可二次开发的图像编辑体验。
 
 # 🧪 技术栈
 * **UI 框架**：Kotlin Compose Multiplatform (Desktop)
@@ -32,7 +32,7 @@
 
 # 📦 安装与运行
 
-## macOS
+## macOS 安装包
 ### Intel 芯片：
 Monica-1.0.9.dmg
 
@@ -41,12 +41,12 @@ Monica-1.0.9.dmg
 ### M 芯片：
 过两天提供
 
-## CentOS
+## CentOS 安装包
 monica-1.0.9-1.x86_64.rpm
 
 下载链接: https://pan.baidu.com/s/1X0B-dQGtXzJI3tN8Yz8z5g?pwd=xuwx
 
-## Windows
+## Windows 安装包
 Monica-1.0.9.exe
 
 下载链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
