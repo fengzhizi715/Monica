@@ -33,9 +33,13 @@
 # 📦 安装与运行
 
 ## MacOS
-Intel 芯片：
+### Intel 芯片：
+Monica-1.0.9.dmg
 
-M 芯片：过两天提供
+链接: https://pan.baidu.com/s/1Rp-XlcvYQJcRxUJ0OamMgw?pwd=72ye
+
+### M 芯片：
+过两天提供
 
 ## CentOS
 monica-1.0.9-1.x86_64.rpm
