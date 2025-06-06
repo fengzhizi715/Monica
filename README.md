@@ -32,11 +32,11 @@
 
 # 📦 安装与运行
 
-## MacOS
+## macOS
 ### Intel 芯片：
 Monica-1.0.9.dmg
 
-链接: https://pan.baidu.com/s/1Rp-XlcvYQJcRxUJ0OamMgw?pwd=72ye
+下载链接: https://pan.baidu.com/s/1Rp-XlcvYQJcRxUJ0OamMgw?pwd=72ye
 
 ### M 芯片：
 过两天提供
@@ -44,12 +44,12 @@ Monica-1.0.9.dmg
 ## CentOS
 monica-1.0.9-1.x86_64.rpm
 
-链接: https://pan.baidu.com/s/1X0B-dQGtXzJI3tN8Yz8z5g?pwd=xuwx
+下载链接: https://pan.baidu.com/s/1X0B-dQGtXzJI3tN8Yz8z5g?pwd=xuwx
 
 ## Windows
 Monica-1.0.9.exe
 
-链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
+下载链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
 
 # 📸 项目截图
 ![](images/screenshot.png)
