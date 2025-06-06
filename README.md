@@ -30,11 +30,6 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 * 替换人脸
 * 多种风格的漫画生成
 
-
-更为详细的功能: [功能详见](FUNCTION.md)
-
-也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
-
 # 📦 安装与运行
 
 
@@ -42,6 +37,10 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 ![](images/screenshot.png)
 ![](images/screenshot-version.png)
 
+
+更为截图: [功能详见](FUNCTION.md)
+
+也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
 
 # 📁 CV 算法 && 深度学习的服务
 
