@@ -14,7 +14,7 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 ![](images/screenshot-version.png)
 
 
-# 功能列表
+# 🔧 功能列表
 
 ## 🖼️ 图像处理功能
 * 支持导入：JPG、PNG、WebP、SVG、HDR、HEIC
@@ -42,12 +42,12 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 
 也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
 
-# 三. 安装与运行
+# 📦 安装与运行
 
 
-# 四. CV 算法 && 深度学习的服务
+# 📁 CV 算法 && 深度学习的服务
 
-## 4.1 CV 算法
+## CV 算法
 
 CV 算法的地址：
 https://github.com/fengzhizi715/MonicaImageProcess
@@ -66,7 +66,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | libMonicaImageProcess.so            | 0.2.1 | Linux 下编译好的算法库                           | 使用 CLion 编译              |
 
 
-## 4.2 深度学习的服务
+## 深度学习的服务
 
 深度学习的服务部署在云端， Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务。
 
@@ -77,7 +77,7 @@ Monica 通过 http 来调用算法服务，实现推理。
 > 我并没有来得及在云端部署相关服务，感兴趣可以下载在本地编译和部署
 
 
-# 五. 项目计划：
+# 🗺️ 项目计划：
 * - [x] 多格式导入导出支持
 * - [x] 图像基础编辑功能
 * - [x] 深度学习模块集成
@@ -94,15 +94,15 @@ Monica 通过 http 来调用算法服务，实现推理。
 * 升级第三方库(特别是自己维护的库)
 
 
-# 六. 贡献方式
+# 🤝 贡献方式
 欢迎任何形式的贡献，包括但不限于功能开发、Bug 修复、文档完善和使用反馈。
 
 
-# 七. 许可证
+# 📝 开源协议
 本项目基于 Apache License 2.0 开源。
 
 
-# 八. 更新日志
+# 更新日志
 
 请查看 [CHANGELOG](CHANGELOG.md) 文件
 
