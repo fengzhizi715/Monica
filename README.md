@@ -1,6 +1,6 @@
 # Monica
 
-# 一. 简介
+# 简介
 Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供现代化、可扩展、可二次开发的图像编辑体验。
 
 🧪 技术栈
@@ -14,9 +14,9 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 ![](images/screenshot-version.png)
 
 
-# 二. 功能列表
+# 功能列表
 
-## 2.1 🖼️ 图像处理功能
+## 🖼️ 图像处理功能
 * 支持导入：JPG、PNG、WebP、SVG、HDR、HEIC
 * 支持相机 RAW 文件导入：CR2、CR3 等
 * 支持导出：JPG、PNG、WebP
@@ -31,7 +31,7 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 * 多图合成 GIF
 * 快速验证 OpenCV 算法，支持简单算法的调参
 
-## 2.2 🤖 深度学习增强功能
+## 🤖 深度学习增强功能
 * 人脸检测(人脸、性别、年龄)
 * 图像生成素描画
 * 替换人脸
@@ -107,13 +107,13 @@ Monica 通过 http 来调用算法服务，实现推理。
 请查看 [CHANGELOG](CHANGELOG.md) 文件
 
 
-# 九. 联系方式：
+# 联系方式：
 
 wechat：fengzhizi715
 
 Email：fengzhizi715@126.com
 
 
-# 十. Star History
+# 📈 Star History
 
 [![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)
