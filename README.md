@@ -1,7 +1,7 @@
 # Monica
 
 # 一. 简介
-Monica 是一款跨平台的桌面图像编辑软件。它支持多种图像格式（包括 RAW），集成了传统图像处理和深度学习功能，旨在提供高效、灵活的图像编辑体验。
+Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供现代化、可扩展、可二次开发的图像编辑体验。
 
 其技术栈如下：
 * Kotlin 编写 UI(Kotlin Compose Desktop 作为 UI 框架)
@@ -14,35 +14,34 @@ Monica 是一款跨平台的桌面图像编辑软件。它支持多种图像格�
 ![](images/screenshot-version.png)
 
 
-# 二. 功能
+# 二. 功能列表
 
-## 2.1 基础功能
-* 支持导入多种图像格式：JPG、PNG、WebP、SVG、HDR、HEIC
-* 支持导入相机 RAW 文件：CR2、CR3 等
-* 支持导出成 JPG、PNG、WebP 格式的图像
-* 支持图像放大预览。
-* 支持对图像进行局部模糊、打马赛克。
-* 支持对图像进行涂鸦，并保存涂鸦的结果。
-* 支持对图像绘制各种形状和动态添加文字，并保存结果。
-* 支持图像取色功能。
-* 支持图像的翻转、旋转、缩放、错切。
-* 支持各种形状的裁剪，并保存裁剪的结果。
-* 支持调整图像的对比度、色调、饱和度、亮度、色温、高光、阴影等。
-* 提供 50 多款滤镜，且大多数滤镜可以单独调参。
-* 支持将多张图片生成 gif
-
-## 2.2 高级功能
-* 人脸检测(人脸、性别、年龄)
-* 生成素描画
-* 替换人脸
-* 生成多种风格的漫画
+## 2.1 图像处理功能
+* 支持导入：JPG、PNG、WebP、SVG、HDR、HEIC
+* 支持相机 RAW 文件导入：CR2、CR3 等
+* 支持导出：JPG、PNG、WebP
+* 图像放大预览
+* 局部模糊、打马赛克
+* 涂鸦、绘制形状、添加文字
+* 图像取色
+* 图像几何变换：翻转、旋转、缩放、错切
+* 支持各种形状的裁剪
+* 调整参数：对比度、色调、饱和度、亮度、色温、高光、阴影
+* 50+ 可调节滤镜
+* 多图合成 GIF
 * 快速验证 OpenCV 算法，支持简单算法的调参
+
+## 2.2 深度学习增强功能
+* 人脸检测(人脸、性别、年龄)
+* 图像生成素描画
+* 替换人脸
+* 多种风格的漫画生成
 
 
 详细的功能由于截图较多，跳转到单独的页面。[功能详见](FUNCTION.md)
 
 
-# 三. CV 算法 && 调用深度学习的模型
+# 三. CV 算法 && 深度学习的服务
 
 ## 3.1 CV 算法
 
@@ -59,8 +58,8 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | libMonicaImageProcess_aarch64.dylib | 0.2.1 | 基于 m 芯片的 Mac OS 下编译好的算法库                 | 使用 CLion 编译              |
 | libraw.dll                          |       | Windows 下使用的 LibRaw 库                    | 来自 LibRaw 库(已编译好的dll文件)  |
 | aom.dll、libde265.dll、heif.dll      |       | Windows 下基于 Libheif 源码及其依赖库编译出来的 dll 文件  | 使用 cmake 基于源码编译          |
-| MonicaImageProcess.dll              |       | Windows 下编译好的算法库需要依赖 opencv_world481.dll | 使用 Visual Studio 2022 编译 |
-| opencv_world481.dll                 | 0.2.1 | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库  | 使用 Visual Studio 2022 编译 |
+| MonicaImageProcess.dll              | 0.2.1 | Windows 下编译好的算法库需要依赖 opencv_world481.dll | 使用 Visual Studio 2022 编译 |
+| opencv_world481.dll                 |       | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库  | 使用 Visual Studio 2022 编译 |
 | libMonicaImageProcess.so            | 0.2.1 | Linux 下编译好的算法库                           | 使用 CLion 编译              |
 
 
