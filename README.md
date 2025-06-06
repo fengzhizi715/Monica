@@ -1,15 +1,11 @@
 Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图像格式（包括相机 RAW），还集成了传统图像处理和基于深度学习的图像增强功能，提供现代化、可扩展、可二次开发的图像编辑体验。
 
-# 🧪  技术栈
+# 🧪 技术栈
 * **UI 框架**：Kotlin Compose Multiplatform (Desktop)
 * **图像处理**：OpenCV
 * **深度学习推理**：ONNX Runtime
 * **后端语言**：Kotlin / C++
 * **构建工具**：Gradle / CMake
-
-![](images/screenshot.png)
-![](images/screenshot-version.png)
-
 
 # ✨ 功能列表
 
@@ -40,6 +36,11 @@ Monica 是一款跨平台的桌面图像编辑软件。它不仅支持多种图�
 也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
 
 # 📦 安装与运行
+
+
+# 📸 项目截图
+![](images/screenshot.png)
+![](images/screenshot-version.png)
 
 
 # 📁 CV 算法 && 深度学习的服务
