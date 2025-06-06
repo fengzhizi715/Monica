@@ -38,9 +38,14 @@ Intel 芯片：
 M 芯片：过两天提供
 
 ## CentOS
+monica-1.0.9-1.x86_64.rpm
+
+链接: https://pan.baidu.com/s/1X0B-dQGtXzJI3tN8Yz8z5g?pwd=xuwx
 
 ## Windows
+Monica-1.0.9.exe
 
+链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
 
 # 📸 项目截图
 ![](images/screenshot.png)
