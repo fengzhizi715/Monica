@@ -2,8 +2,8 @@ package cn.netdiscovery.monica.ui.controlpanel.ai
 
 import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
-import cn.netdiscovery.monica.imageprocess.utils.extension.getImageFormat
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.ImageFormatDetector
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import cn.netdiscovery.monica.utils.logger
 import okhttp3.Request
@@ -28,7 +28,7 @@ class AIViewModel {
         state.scope.launchWithSuspendLoading {
 
             createRequest(request = {
-                val format = state.rawImageFile!!.getImageFormat()?:"jpg"
+                val format = ImageFormatDetector.getImageFormat(state.rawImageFile!!)?:"jpg"
 
                 val requestBody: RequestBody = createRequestBody(state.currentImage!!,format)
 
@@ -52,7 +52,7 @@ class AIViewModel {
         state.scope.launchWithSuspendLoading {
 
             createRequest(request = {
-                val format = state.rawImageFile!!.getImageFormat()?:"jpg"
+                val format = ImageFormatDetector.getImageFormat(state.rawImageFile!!)?:"jpg"
 
                 val requestBody: RequestBody = createRequestBody(state.currentImage!!,format)
 

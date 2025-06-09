@@ -13,6 +13,7 @@ import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.utils.ImageFormatDetector
 import cn.netdiscovery.monica.utils.exportImage
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
@@ -253,7 +254,7 @@ class PreviewViewModel {
 
                 val b = when(format) {
                     "jpg" -> {
-                        val finalImage = if (state.rawImageFile?.getImageFormat() != ".jpg") {
+                        val finalImage = if (ImageFormatDetector.getImageFormat(state.rawImageFile!!) != ".jpg") {
                             state.currentImage!!.convertToRGB()
                         } else state.currentImage!!
 

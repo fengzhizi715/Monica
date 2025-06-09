@@ -10,7 +10,7 @@ import java.nio.charset.StandardCharsets
  *          cn.netdiscovery.monica.utils.ImageFormatDetector
  * @author: Tony Shen
  * @date: 2025/6/4 16:29
- * @version: V1.0 <描述当前版本功能>
+ * @version: V1.0 基于文件的文件头，来判断文件的格式
  */
 enum class ImageFormat {
     JPEG, PNG, WEBP, HEIC, AVIF, BMP, TIFF, GIF,
@@ -89,6 +89,16 @@ object ImageFormatDetector {
             header.startsWith("49492A00") || header.startsWith("4D4D002A") -> ImageFormat.TIFF
 
             else -> ImageFormat.UNKNOWN
+        }
+    }
+
+    fun getImageFormat(file: File): String? {
+        val imageFormat = detectFormat(file)
+
+        return if (imageFormat!=ImageFormat.UNKNOWN) {
+            imageFormat.name.lowercase()
+        } else {
+            null
         }
     }
 
