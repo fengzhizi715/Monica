@@ -4,6 +4,7 @@ import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.domain.HeifImage
 import cn.netdiscovery.monica.domain.RawImage
+import cn.netdiscovery.monica.exception.MonicaException
 import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
@@ -45,7 +46,7 @@ fun getBufferedImage(file: File): BufferedImage {
         if (rawImage!=null) {
             return rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
         } else {
-            throw RuntimeException("Image format is not supported")
+            throw MonicaException("Image format is not supported")
         }
     } else {
         return when(imageFormat) {
@@ -61,22 +62,22 @@ fun getBufferedImage(file: File): BufferedImage {
                 if (image!=null) {
                     heifImageToBuffered(image)
                 }  else {
-                    throw RuntimeException("Image format is not supported")
+                    throw MonicaException("Image format is not supported")
                 }
             }
-            else -> throw RuntimeException("Unsupported image format: $imageFormat")
+            else -> throw MonicaException("Unsupported image format: $imageFormat")
         }
     }
 }
 
-fun rawImageToBuffered(raw: RawImage): BufferedImage {
+private fun rawImageToBuffered(raw: RawImage): BufferedImage {
     val image = BufferedImage(raw.width, raw.height, BufferedImage.TYPE_3BYTE_BGR)
     val raster = image.raster
     raster.setDataElements(0, 0, raw.width, raw.height, raw.data)
     return image
 }
 
-fun heifImageToBuffered(image: HeifImage): BufferedImage {
+private fun heifImageToBuffered(image: HeifImage): BufferedImage {
     val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_ARGB)
     bufferedImage.setRGB(0, 0, image.width, image.height, image.pixels, 0, image.width)
     return bufferedImage
