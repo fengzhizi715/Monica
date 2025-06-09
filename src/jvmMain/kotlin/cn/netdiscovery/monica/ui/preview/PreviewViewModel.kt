@@ -254,7 +254,7 @@ class PreviewViewModel {
 
                 val b = when(format) {
                     "jpg" -> {
-                        val finalImage = if (ImageFormatDetector.getImageFormat(state.rawImageFile!!) != ".jpg") {
+                        val finalImage = if (ImageFormatDetector.getImageFormat(state.rawImageFile!!) != "jpeg") {
                             state.currentImage!!.convertToRGB()
                         } else state.currentImage!!
 

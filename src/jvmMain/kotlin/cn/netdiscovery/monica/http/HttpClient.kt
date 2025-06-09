@@ -84,7 +84,7 @@ fun createRequestBody(image: BufferedImage, format:String): RequestBody {
         override fun writeTo(sink: BufferedSink) {
             // 使用 try-with-resources 确保流关闭
             val outputStream = sink.outputStream()
-            outputStream.use { it ->
+            outputStream.use {
 
                 if (!ImageIO.write(image, format, it)) {
                     throw IOException("Unsupported image format: $format")
