@@ -69,6 +69,8 @@ class FilterViewModel {
     fun clear() {
         filterSelectedIndex.value = -1
         filterTempMap.clear()
-        job?.cancel()
+        if (job !=null && !job!!.isCancelled) {
+            job?.cancel()
+        }
     }
 }
