@@ -33,7 +33,8 @@
 # 📦 安装与运行
 
 ## 运行方式
-可以通过源码进行编译和运行，使用的 IDE:  IntelliJ IDEA CE
+可以通过源码进行编译和运行，使用的 IDE:  IntelliJ IDEA、IntelliJ IDEA CE
+
 ```
 git clone https://github.com/fengzhizi715/Monica.git
 ```
