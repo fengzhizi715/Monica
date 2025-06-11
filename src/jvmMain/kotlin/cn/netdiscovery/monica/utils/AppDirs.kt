@@ -20,7 +20,7 @@ object AppDirs {
         val path = when {
             isMac -> {
                 if (BuildConfig.IS_PRO_VERSION) {
-                    "$workDirectory/Library/Caches/$appName/rxcache"
+                    "$userHome/Library/Caches/$appName/rxcache"
                 } else {
                     "$workDirectory/rxcache"
                 }
@@ -51,7 +51,7 @@ object AppDirs {
         val path = when {
             isMac -> {
                 if (BuildConfig.IS_PRO_VERSION) {
-                    "$workDirectory/Library/Logs/$appName"
+                    "$userHome/Library/Logs/$appName"
                 } else {
                     "$workDirectory/log"
                 }
