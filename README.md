@@ -111,8 +111,7 @@ Monica 通过 http 来调用算法服务，实现推理。
 * 增加人脸美颜的功能
 * 重构形状绘制模块
 * 增加商品美化的功能
-* 升级 Kotlin 以及 Compose desktop 版本
-* 升级第三方库(特别是自己维护的库)
+* 升级 Kotlin 、 Compose desktop、第三方库
 * 国际化
 
 
