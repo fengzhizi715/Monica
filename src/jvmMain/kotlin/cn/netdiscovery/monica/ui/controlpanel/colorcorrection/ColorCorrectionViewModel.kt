@@ -75,12 +75,10 @@ class ColorCorrectionViewModel {
     }
 
     /**
-     * 保存图像，清空状态
+     * 保存图像
      */
     fun save(action: Action) {
         action.invoke()
-
-        clearAllStatus()
     }
 
     fun clearAllStatus() {

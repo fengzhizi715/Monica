@@ -126,10 +126,10 @@ fun experiment(state: ApplicationState) {
 
     PageLifecycle(
         onInit = {
-            logger.info("experiment 启动时初始化")
+            logger.info("OpenCVDebugView 启动时初始化")
         },
         onDisposeEffect = {
-            logger.info("experiment 关闭时释放资源")
+            logger.info("OpenCVDebugView 关闭时释放资源")
             CVState.clearAllStatus()
         }
     )

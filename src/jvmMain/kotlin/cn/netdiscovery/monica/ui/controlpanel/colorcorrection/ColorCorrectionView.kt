@@ -18,11 +18,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.extensions.to2fStr
 import loadingDisplay
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import kotlin.math.roundToInt
 
 /**
@@ -33,6 +36,8 @@ import kotlin.math.roundToInt
  * @date: 2024/11/5 15:05
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 var colorCorrectionSettings = ColorCorrectionSettings()
 
 @OptIn(ExperimentalMaterialApi::class)
@@ -43,6 +48,16 @@ fun colorCorrection(state: ApplicationState) {
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
     val enableSlider = !loadingDisplay
+
+    PageLifecycle(
+        onInit = {
+            logger.info("ColorCorrectionView 启动时初始化")
+        },
+        onDisposeEffect = {
+            logger.info("ColorCorrectionView 关闭时释放资源")
+            viewModel.clearAllStatus()
+        }
+    )
 
     Box(
         Modifier.fillMaxSize(),

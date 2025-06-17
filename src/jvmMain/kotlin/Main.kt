@@ -80,7 +80,6 @@ fun main() = application {
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
     lateinit var faceSwapModel: FaceSwapViewModel
-    lateinit var colorCorrectionViewModel: ColorCorrectionViewModel
 
     Tray(
         state = trayState,
@@ -135,7 +134,6 @@ fun main() = application {
             previewViewModel         = koinInject()
             cropViewModel            = koinInject()
             faceSwapModel            = koinInject()
-            colorCorrectionViewModel = koinInject()
 
             applicationState.window  = window
 
@@ -210,9 +208,6 @@ fun main() = application {
                     }
                     CropSizeStatus -> {
                         cropViewModel.clearCropImageView()
-                    }
-                    ColorCorrectionStatus -> {
-                        colorCorrectionViewModel.clearAllStatus()
                     }
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
