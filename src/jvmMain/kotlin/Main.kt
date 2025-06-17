@@ -1,4 +1,7 @@
-import androidx.compose.runtime.*
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
@@ -10,15 +13,12 @@ import cn.netdiscovery.monica.rxcache.initFilterMap
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.*
-import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.CVState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.cartoon.cartoon
-import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ColorCorrectionViewModel
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
-import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.controlpanel.filter.filter
@@ -79,7 +79,6 @@ fun main() = application {
     )
 
     lateinit var previewViewModel: PreviewViewModel
-    lateinit var faceSwapModel: FaceSwapViewModel
 
     Tray(
         state = trayState,
@@ -132,7 +131,6 @@ fun main() = application {
             modules(viewModelModule)
         }) {
             previewViewModel         = koinInject()
-            faceSwapModel            = koinInject()
 
             applicationState.window  = window
 
@@ -205,9 +203,6 @@ fun main() = application {
                     ShapeDrawingStatus -> {
                         showTopToast("想要保存形状绘制的结果，需要点击保存按钮")
                     }
-//                    FaceSwapStatus -> {
-//                        faceSwapModel.clearTargetImage()
-//                    }
                 }
 
                 applicationState.closePreviewWindow()
