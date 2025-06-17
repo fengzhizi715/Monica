@@ -206,9 +206,6 @@ fun main() = application {
                     ShapeDrawingStatus -> {
                         showTopToast("想要保存形状绘制的结果，需要点击保存按钮")
                     }
-                    CropSizeStatus -> {
-                        cropViewModel.clearCropImageView()
-                    }
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
                     }

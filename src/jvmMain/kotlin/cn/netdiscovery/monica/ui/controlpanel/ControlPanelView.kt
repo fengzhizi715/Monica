@@ -7,8 +7,6 @@ import androidx.compose.material.Card
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.config.isMac
-import cn.netdiscovery.monica.config.isWindows
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.aiView
 import cn.netdiscovery.monica.ui.widget.divider

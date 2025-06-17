@@ -24,10 +24,13 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.OutlineType
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.model.RectCropShape
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.setting.*
+import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.OnCropPropertiesChange
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -37,6 +40,8 @@ import org.koin.compose.koinInject
  * @date: 2024/5/27 14:00
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 val cropTypes = mutableListOf(CropType.Dynamic, CropType.Static)
 var cropTypesIndex = mutableStateOf(0)
 
@@ -76,6 +81,16 @@ fun cropImage(state: ApplicationState) {
             listOf(imageBitmap)
         )
     }
+
+    PageLifecycle(
+        onInit = {
+            logger.info("CropImageView 启动时初始化")
+        },
+        onDisposeEffect = {
+            logger.info("CropImageView 关闭时释放资源")
+            cropViewModel.clearCropImageView()
+        }
+    )
 
     Box(
         modifier = Modifier
@@ -140,8 +155,6 @@ fun cropImage(state: ApplicationState) {
             showCroppedImageDialog(imageBitmap = it,
             onConfirm = {
                 showCropDialog = !showCropDialog
-
-                cropViewModel.clearCropImageView()
 
                 state.addQueue(state.currentImage!!)
                 state.currentImage = it.toAwtImage()
