@@ -54,6 +54,16 @@ fun filter(state: ApplicationState) {
 
     val viewModel: FilterViewModel = koinInject()
 
+    PageLifecycle(
+        onInit = {
+            logger.info("FilterView 启动时初始化")
+        },
+        onDisposeEffect = {
+            logger.info("FilterView 关闭时释放资源")
+            viewModel.clear()
+        }
+    )
+
     Box(
         Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center

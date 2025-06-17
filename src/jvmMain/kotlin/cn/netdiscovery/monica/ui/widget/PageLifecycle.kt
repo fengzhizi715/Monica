@@ -15,16 +15,15 @@ import androidx.compose.runtime.DisposableEffect
 @Composable
 fun PageLifecycle(
     onInit: suspend () -> Unit,
-    onDispose: () -> Unit
+    onDisposeEffect: () -> Unit
 ) {
     LaunchedEffect(Unit) {
         onInit()
     }
 
     DisposableEffect(Unit) {
-        onDispose()
         onDispose {
-
+            onDisposeEffect()
         }
     }
 }

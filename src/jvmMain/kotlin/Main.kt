@@ -21,7 +21,6 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.colorPick
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.CropViewModel
 import cn.netdiscovery.monica.ui.controlpanel.cropimage.cropImage
 import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
-import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
 import cn.netdiscovery.monica.ui.controlpanel.filter.filter
 import cn.netdiscovery.monica.ui.controlpanel.generategif.generateGif
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
@@ -69,17 +68,12 @@ fun main() = application {
         trayState
     )
 
-//    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
-//    LaunchedEffect(Unit) {
-//        initData(applicationState)
-//    }
-
     PageLifecycle(
         onInit = {
             logger.info("首页启动时初始化")
             initData(applicationState)
         },
-        onDispose = {
+        onDisposeEffect = {
         }
     )
 
@@ -87,7 +81,6 @@ fun main() = application {
     lateinit var cropViewModel: CropViewModel
     lateinit var faceSwapModel: FaceSwapViewModel
     lateinit var colorCorrectionViewModel: ColorCorrectionViewModel
-    lateinit var filterViewModel: FilterViewModel
 
     Tray(
         state = trayState,
@@ -143,7 +136,6 @@ fun main() = application {
             cropViewModel            = koinInject()
             faceSwapModel            = koinInject()
             colorCorrectionViewModel = koinInject()
-            filterViewModel          = koinInject()
 
             applicationState.window  = window
 
@@ -222,9 +214,9 @@ fun main() = application {
                     ColorCorrectionStatus -> {
                         colorCorrectionViewModel.clearAllStatus()
                     }
-                    FilterStatus -> {
-                        filterViewModel.clear()
-                    }
+//                    FilterStatus -> {
+//                        filterViewModel.clear()
+//                    }
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
                     }
