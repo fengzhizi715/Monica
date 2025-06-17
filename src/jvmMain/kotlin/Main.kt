@@ -217,9 +217,6 @@ fun main() = application {
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
                     }
-                    OpenCVDebugStatus -> {
-                        CVState.clearAllStatus()
-                    }
                 }
 
                 applicationState.closePreviewWindow()

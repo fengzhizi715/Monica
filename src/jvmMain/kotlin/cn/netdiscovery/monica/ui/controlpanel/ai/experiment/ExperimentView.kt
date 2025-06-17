@@ -19,6 +19,8 @@ import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -28,6 +30,7 @@ import loadingDisplay
  * @date: 2024/9/23 19:37
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 private var showVerifyToast by mutableStateOf(false)
 private var verifyToastMessage by mutableStateOf("")
@@ -120,6 +123,17 @@ fun experiment(state: ApplicationState) {
     val screens = Screen.entries
     val navController by rememberNavController(Screen.Home.name)
     val currentScreen by remember { navController.currentScreen }
+
+    PageLifecycle(
+        onInit = {
+            logger.info("experiment 启动时初始化")
+        },
+        onDisposeEffect = {
+            logger.info("experiment 关闭时释放资源")
+            CVState.clearAllStatus()
+        }
+    )
+
 
     Box(
         Modifier.fillMaxSize(),
@@ -219,7 +233,6 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/doodle/save.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
-                            CVState.clearAllStatus()
                             state.togglePreviewWindow(false)
                         })
                 }
