@@ -52,9 +52,9 @@ class FaceSwapViewModel {
 
         state.scope.launchWithSuspendLoading {
             createRequest(request = {
-                val format = ImageFormatDetector.getImageFormat(state.rawImageFile!!)?:"jpg"
+                val format = ImageFormatDetector.getImageFormat(file)?:"jpg"
 
-                val requestBody: RequestBody = createRequestBody(state.currentImage!!,format)
+                val requestBody: RequestBody = createRequestBody(image ,format)
 
                 Request.Builder()
                     .url( "${state.algorithmUrlText}api/faceLandMark")

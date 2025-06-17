@@ -14,7 +14,7 @@ import androidx.compose.runtime.DisposableEffect
  */
 
 /**
- * 页面生命周期钩子，用于在页面进入时执行初始化逻辑，在页面移除时释放资源。
+ * 页面生命周期钩子，用于页面级别的生命周期管理。在页面进入时执行初始化逻辑，在页面移除时释放资源。
  *
  *  @param onInit 页面进入时的初始化逻辑（支持 suspend 函数）
  *  @param onDisposeEffect 页面被移除时的清理逻辑（同步函数）
