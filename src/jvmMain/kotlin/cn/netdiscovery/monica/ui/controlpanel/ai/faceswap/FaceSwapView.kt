@@ -15,14 +15,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.centerToast
-import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
-import cn.netdiscovery.monica.ui.widget.showLoading
-import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -32,6 +31,8 @@ import org.koin.compose.koinInject
  * @date: 2024/8/25 13:02
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 private var showToast by mutableStateOf(false)
 private var toastMessage by mutableStateOf("")
 
@@ -43,6 +44,16 @@ fun faceSwap(state: ApplicationState) {
 
     val showSwapFaceSettings = remember { mutableStateOf(false) }
     val selectedOption = remember { mutableStateOf(false) }
+
+    PageLifecycle(
+        onInit = {
+            logger.info("FaceSwapView 启动时初始化")
+        },
+        onDisposeEffect = {
+            logger.info("FaceSwapView 关闭时释放资源")
+            viewModel.clearTargetImage()
+        }
+    )
 
     Box(
         Modifier.fillMaxSize(),
@@ -241,7 +252,6 @@ fun faceSwap(state: ApplicationState) {
                     if (viewModel.targetImage!=null) {
                         state.addQueue(state.currentImage!!)
                         state.currentImage = viewModel.targetImage
-                        viewModel.clearTargetImage()
                     }
                     state.togglePreviewWindow(false)
                 })

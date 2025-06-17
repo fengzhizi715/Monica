@@ -74,11 +74,11 @@ fun main() = application {
             initData(applicationState)
         },
         onDisposeEffect = {
+            logger.info("首页关闭")
         }
     )
 
     lateinit var previewViewModel: PreviewViewModel
-    lateinit var cropViewModel: CropViewModel
     lateinit var faceSwapModel: FaceSwapViewModel
 
     Tray(
@@ -132,7 +132,6 @@ fun main() = application {
             modules(viewModelModule)
         }) {
             previewViewModel         = koinInject()
-            cropViewModel            = koinInject()
             faceSwapModel            = koinInject()
 
             applicationState.window  = window
@@ -206,9 +205,9 @@ fun main() = application {
                     ShapeDrawingStatus -> {
                         showTopToast("想要保存形状绘制的结果，需要点击保存按钮")
                     }
-                    FaceSwapStatus -> {
-                        faceSwapModel.clearTargetImage()
-                    }
+//                    FaceSwapStatus -> {
+//                        faceSwapModel.clearTargetImage()
+//                    }
                 }
 
                 applicationState.closePreviewWindow()
