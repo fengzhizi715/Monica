@@ -16,7 +16,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
@@ -179,7 +178,6 @@ fun filter(state: ApplicationState) {
                     toolTipButton(text = "保存",
                         painter = painterResource("images/doodle/save.png"),
                         onClick = {
-                            viewModel.clear()
                             state.closePreviewWindow()
                         })
 

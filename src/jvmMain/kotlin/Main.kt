@@ -214,9 +214,6 @@ fun main() = application {
                     ColorCorrectionStatus -> {
                         colorCorrectionViewModel.clearAllStatus()
                     }
-//                    FilterStatus -> {
-//                        filterViewModel.clear()
-//                    }
                     FaceSwapStatus -> {
                         faceSwapModel.clearTargetImage()
                     }
