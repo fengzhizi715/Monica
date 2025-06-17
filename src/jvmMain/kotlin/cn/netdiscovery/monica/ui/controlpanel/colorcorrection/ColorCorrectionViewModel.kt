@@ -96,7 +96,9 @@ class ColorCorrectionViewModel {
 
         colorCorrectionSettings = ColorCorrectionSettings()
 
-        ImageProcess.deleteColorCorrection(cppObjectPtr)
-        cppObjectPtr = 0
+        if (cppObjectPtr !=0L ) {
+            ImageProcess.deleteColorCorrection(cppObjectPtr)
+            cppObjectPtr = 0
+        }
     }
 }
