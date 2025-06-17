@@ -5,7 +5,6 @@ import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.http.healthCheck
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.initFilterMap
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
@@ -32,6 +31,7 @@ import cn.netdiscovery.monica.ui.main.openURLDialog
 import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
+import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.topToast
@@ -42,8 +42,6 @@ import org.koin.compose.koinInject
 import org.koin.core.Koin
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import java.util.*
-import javax.imageio.ImageIO
 
 val filterNames = mutableListOf<String>()
 val filterMaps = mutableMapOf<String, String>()
@@ -71,10 +69,19 @@ fun main() = application {
         trayState
     )
 
-    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
-    LaunchedEffect(Unit) {
-        initData(applicationState)
-    }
+//    // 使用 LaunchedEffect 在应用启动时执行一次初始化操作
+//    LaunchedEffect(Unit) {
+//        initData(applicationState)
+//    }
+
+    PageLifecycle(
+        onInit = {
+            logger.info("首页启动时初始化")
+            initData(applicationState)
+        },
+        onDispose = {
+        }
+    )
 
     lateinit var previewViewModel: PreviewViewModel
     lateinit var cropViewModel: CropViewModel
