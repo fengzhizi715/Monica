@@ -90,7 +90,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 ## 深度学习的服务
 
-深度学习的服务部署在云端， Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务。(Monica 通过 http 来调用算法服务，实现推理)
+深度学习的服务部署在云端， Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务。(Monica 通过 http 协议来调用算法服务，实现推理)
 
 深度学习相关服务的源码和模型：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
@@ -109,7 +109,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 * 增加人脸美颜的功能
 * 重构形状绘制模块
 * 增加商品美化的功能
-* 升级 Kotlin、Compose desktop、第三方库的版本
+* 升级 Kotlin Compose desktop、第三方库的版本
 * 国际化
 
 
