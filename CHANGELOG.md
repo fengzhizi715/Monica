@@ -1,6 +1,12 @@
 Monica
 ===
 
+Version 1.1.0
+---
+2025-6-25
+* 在 macOS 上从零构建 libheif + OpenCV 图像处理库，而不是依赖 brew 安装的库
+* 优化代码
+
 Version 1.0.9
 ---
 2025-6-6
