@@ -49,7 +49,7 @@ Monica-arm64-1.1.0.dmg
 链接: https://pan.baidu.com/s/1wPgG6jJFwMYrDted8O-Jpw?pwd=ykh1
 
 ## CentOS 安装包
-过两天提供
+稍后提供
 
 ## Windows 安装包
 Monica-1.0.9.exe 
@@ -82,13 +82,10 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 | 库名                                  | 版本号   | 描述                                       | 备注                       |
 |-------------------------------------|-------|------------------------------------------|--------------------------|
-| libMonicaImageProcess.dylib         | 0.2.1 | 基于 intel 芯片的 Mac OS 下编译好的算法库             | 使用 CLion 编译              |
-| libMonicaImageProcess_aarch64.dylib | 0.2.1 | 基于 m 芯片的 Mac OS 下编译好的算法库                 | 使用 CLion 编译              |
-| libraw.dll                          |       | Windows 下使用的 LibRaw 库                    | 来自 LibRaw 库(已编译好的dll文件)  |
-| aom.dll、libde265.dll、heif.dll      |       | Windows 下基于 Libheif 源码及其依赖库编译出来的 dll 文件  | 使用 cmake 基于源码编译          |
+| libMonicaImageProcess.dylib         | 0.2.1 | macOS 下编译好的算法库                           | 使用 CLion 编译              |
+| libopencv_world.4.10.0.dylib        |       | macOS 下基于 OpenCV 4.10.0 源码编译的 OpenCV 库   | 使用 cmake 编译              |
 | MonicaImageProcess.dll              | 0.2.1 | Windows 下编译好的算法库需要依赖 opencv_world481.dll | 使用 Visual Studio 2022 编译 |
 | opencv_world481.dll                 |       | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库  | 使用 Visual Studio 2022 编译 |
-| libMonicaImageProcess.so            | 0.2.1 | Linux 下编译好的算法库                           | 使用 CLion 编译              |
 
 
 ## 深度学习的服务
