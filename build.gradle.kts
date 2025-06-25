@@ -104,7 +104,7 @@ compose.desktop {
             outputBaseDir.set(mOutputDir)   //build/output
             targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Exe, TargetFormat.Rpm)
             appResourcesRootDir.set(project.layout.projectDirectory.dir("resources"))
-            packageName = "Monica"
+            packageName = "Monica-$targetArch"
             packageVersion = "${rootProject.extra["app.version"]}"
             description = "Monica is a cross-platform image editor"
             copyright = "© 2024 Tony Shen. All rights reserved."
