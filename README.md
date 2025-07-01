@@ -106,6 +106,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 近期的 TODO : 
 
+* 拆分 UI 组件模块
 * 增加人脸美颜的功能
 * 重构形状绘制模块
 * 优化 UI
