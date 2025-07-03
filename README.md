@@ -77,7 +77,7 @@ Monica-1.0.9.exe
 CV 算法的地址：
 https://github.com/fengzhizi715/MonicaImageProcess
 
-目前在 Mac、Windows、Linux 环境下编译的了相关的算法库，Kotlin 通过 jni 来调用该算法库。
+目前在 Mac、Windows 环境下编译好了相关的算法库，Kotlin 通过 jni 来调用该算法库。
 
 
 | 库名                                   | 版本号 | 描述                                                 | 备注                             |
