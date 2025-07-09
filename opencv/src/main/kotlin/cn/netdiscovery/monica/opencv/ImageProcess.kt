@@ -1,10 +1,8 @@
 package cn.netdiscovery.monica.opencv
 
-import cn.netdiscovery.monica.config.arch
 import cn.netdiscovery.monica.config.isMac
 import cn.netdiscovery.monica.config.isWindows
 import cn.netdiscovery.monica.domain.*
-import java.awt.image.BufferedImage
 import java.io.File
 
 /**
