@@ -42,10 +42,12 @@ git clone https://github.com/fengzhizi715/Monica.git
 ## macOS 安装包
 ### Intel 芯片：
 Monica-x64-1.1.1.dmg
+
 链接: https://pan.baidu.com/s/1hGtCz-vQ8lPTCpmLPr2Fsw?pwd=tywb
 
 ### M 芯片：
 Monica-arm64-1.1.0.dmg
+
 链接: https://pan.baidu.com/s/1awjFjUltpsviPeZRKP1Stg?pwd=7txk
 
 ## CentOS 安装包
@@ -53,6 +55,7 @@ Monica-arm64-1.1.0.dmg
 
 ## Windows 安装包
 Monica-1.0.9.exe 
+
 链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
 
 # 📸 项目截图
