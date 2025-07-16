@@ -1,11 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Button
-import androidx.compose.material.Checkbox
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +15,6 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.FilterStatus
 import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
-import cn.netdiscovery.monica.ui.widget.subTitle
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -55,7 +52,7 @@ fun filterView(state: ApplicationState) {
         }
     )
 
-    Column(modifier = Modifier.fillMaxWidth()){
+    Column(modifier = Modifier.fillMaxWidth()) {
         Button(
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
             enabled = state.isFilter,
