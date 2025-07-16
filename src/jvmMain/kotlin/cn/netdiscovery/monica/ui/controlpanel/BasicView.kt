@@ -8,12 +8,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
-import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
-import cn.netdiscovery.monica.ui.widget.confirmButton
-import cn.netdiscovery.monica.ui.widget.subTitle
-import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -35,8 +33,12 @@ fun basicView(state: ApplicationState) {
 
     val viewModel: PreviewViewModel = koinInject()
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isBasic, onCheckedChange = {
+    checkBoxWithTitle(
+        text = "基础功能",
+        color = Color.Black,
+        checked = state.isBasic,
+        fontSize = subTitleTextSize,
+        onCheckedChange = {
             state.isBasic = it
 
             if (!state.isBasic) {
@@ -50,9 +52,8 @@ fun basicView(state: ApplicationState) {
                 state.isFilter = false
                 state.isAI = false
             }
-        })
-        subTitle(text = "基础功能", color = Color.Black)
-    }
+        }
+    )
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         toolTipButton(text = "图像模糊",
