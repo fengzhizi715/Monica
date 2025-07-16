@@ -16,6 +16,10 @@ import androidx.compose.ui.graphics.Color
  * @date: 2024/10/28 13:50
  * @version: V1.0 <描述当前版本功能>
  */
+
+/**
+ * 封装 Checkbox
+ */
 @Composable
 fun checkBoxWithTitle(text: String,
                       textModify:Modifier = Modifier,

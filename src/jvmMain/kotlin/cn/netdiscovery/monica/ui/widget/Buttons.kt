@@ -32,25 +32,26 @@ val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosi
 const val VIEW_CLICK_INTERVAL_TIME = 1000 // View 的 click 方法的两次点击间隔时间
 
 /**
- * 防止 view 的重复点击，默认是 1s 间隔，不同的 view 可以有不同的间隔时间。
+ * 可复用的点击节流函数，支持状态隔离、高精度时间、加载状态拦截与过滤函数。
  */
 @Composable
-inline fun composeClick(
-    time: Int = VIEW_CLICK_INTERVAL_TIME,
-    crossinline filter: () -> Boolean = { true },
-    crossinline onClick: Action
+fun rememberThrottledClick(
+    intervalMs: Int = VIEW_CLICK_INTERVAL_TIME,
+    isLoading: Boolean = false,
+    filter: () -> Boolean = { true },
+    onClick: Action
 ): Action {
-    var lastClickTime by remember { mutableStateOf(value = 0L) } // 使用remember函数记录上次点击的时间
+    // 使用 nanoTime，避免 system time 被修改时导致节流失效
+    var lastClickNanoTime by remember { mutableStateOf(0L) }
+    val intervalNs = intervalMs * 1_000_000L
 
     return {
-        val currentTimeMillis = System.currentTimeMillis()
-        if (currentTimeMillis - lastClickTime >= time) {          // 判断点击间隔,如果在间隔内则不回调
+        val now = System.nanoTime()
+        val elapsed = now - lastClickNanoTime
 
-            if (filter.invoke()) {
-                onClick()
-            }
-
-            lastClickTime = currentTimeMillis
+        if (elapsed >= intervalNs && !isLoading && filter()) {
+            lastClickNanoTime = now
+            onClick()
         }
     }
 }
@@ -87,7 +88,7 @@ fun toolTipButton(
     ) {
         IconButton(
             modifier = buttonModifier,
-            onClick =  composeClick { // 防止重复点击，1秒内只有1次点击是有效的
+            onClick =  rememberThrottledClick { // 防止重复点击，1秒内只有1次点击是有效的
 
                 logger.info("点击了 $text 按钮")
                 onClick()
@@ -110,7 +111,7 @@ fun confirmButton(enabled:Boolean,
                   onClick: () -> Unit) {
     Button(
         modifier = modifier,
-        onClick = composeClick {
+        onClick = rememberThrottledClick {
             onClick.invoke()
         },
         enabled = enabled

@@ -12,7 +12,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
@@ -133,7 +132,6 @@ fun experiment(state: ApplicationState) {
             CVState.clearAllStatus()
         }
     )
-
 
     Box(
         Modifier.fillMaxSize(),
@@ -260,11 +258,11 @@ fun experimentViewVerifyToast(message: String) {
 }
 
 @Composable
-inline fun experimentViewClick(
+fun experimentViewClick(
     state: ApplicationState,
-    crossinline onClick: Action
+    onClick: Action
 ): Action {
-    return composeClick(filter = {
+    return rememberThrottledClick(filter = {
         if (state.currentImage == null) {
             experimentViewVerifyToast("请先选择图像")
             false

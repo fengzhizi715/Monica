@@ -13,7 +13,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.ui.widget.composeClick
+import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
 import cn.netdiscovery.monica.ui.widget.subTitle
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -55,7 +55,7 @@ fun generalSettingsView(state: ApplicationState) {
         Button(
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
             enabled = state.isGeneralSettings,
-            onClick = composeClick {
+            onClick = rememberThrottledClick {
                 showGeneralSettings = true
             }
         ) {
