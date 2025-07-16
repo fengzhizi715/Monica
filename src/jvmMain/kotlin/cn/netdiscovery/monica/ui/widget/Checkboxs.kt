@@ -7,6 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.material.MaterialTheme
 
 /**
  *
@@ -17,23 +20,54 @@ import androidx.compose.ui.graphics.Color
  * @version: V1.0 <描述当前版本功能>
  */
 
-/**
- * 封装 Checkbox
- */
+
 @Composable
-fun checkBoxWithTitle(text: String,
-                      textModify:Modifier = Modifier,
-                      color: Color = Color.Unspecified,
-                      checked: Boolean,
-                      onCheckedChange: ((Boolean) -> Unit)?,
-                      ) {
-
-    Row {
-        Checkbox(checked, onCheckedChange = {
-            onCheckedChange?.invoke(it)
-        })
-
-        Text(text, modifier = textModify.align(Alignment.CenterVertically), color = color)
+fun checkBoxWithTitle(
+    text: String,
+    modifier: Modifier = Modifier,
+    textModifier: Modifier = Modifier,
+    color: Color = Color.Unspecified,
+    checked: Boolean,
+    onCheckedChange: ((Boolean) -> Unit)?,
+    fontSize: TextUnit = MaterialTheme.typography.body1.fontSize,
+    fontWeight: FontWeight? = null
+) {
+    Row(
+        modifier = modifier,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Checkbox(
+            checked = checked,
+            onCheckedChange = { onCheckedChange?.invoke(it) }
+        )
+        Text(
+            text = text,
+            modifier = textModifier,
+            color = color,
+            fontSize = fontSize,
+            fontWeight = fontWeight
+        )
     }
-
 }
+
+
+///**
+// * 封装 Checkbox
+// */
+//@Composable
+//fun checkBoxWithTitle(text: String,
+//                      textModify:Modifier = Modifier,
+//                      color: Color = Color.Unspecified,
+//                      checked: Boolean,
+//                      onCheckedChange: ((Boolean) -> Unit)?,
+//                      ) {
+//
+//    Row {
+//        Checkbox(checked, onCheckedChange = {
+//            onCheckedChange?.invoke(it)
+//        })
+//
+//        Text(text, modifier = textModify.align(Alignment.CenterVertically), color = color)
+//    }
+//
+//}

@@ -86,18 +86,16 @@ fun binaryImage(state: ApplicationState, title: String) {
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = "阈值分割", color = Color.Black)
 
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("阈值化类型", checked = CVState.isThreshType, onCheckedChange = {
-                    CVState.isThreshType = it
+            checkBoxWithTitle("阈值化类型", checked = CVState.isThreshType, onCheckedChange = {
+                CVState.isThreshType = it
 
-                    if (!CVState.isThreshType) {
-                        typeSelectedOption = "Null"
-                        logger.info("取消了阈值化类型")
-                    } else {
-                        logger.info("勾选了阈值化类型")
-                    }
-                })
-            }
+                if (!CVState.isThreshType) {
+                    typeSelectedOption = "Null"
+                    logger.info("取消了阈值化类型")
+                } else {
+                    logger.info("勾选了阈值化类型")
+                }
+            })
 
             Row {
                 typeSelectTags.forEach {
@@ -111,22 +109,19 @@ fun binaryImage(state: ApplicationState, title: String) {
                 }
             }
 
-            Row(modifier = Modifier.padding(top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("全局阈值分割", checked = CVState.isThreshSegment, onCheckedChange = {
-                    CVState.isThreshSegment = it
+            checkBoxWithTitle("全局阈值分割", modifier = Modifier.padding(top = 10.dp), checked = CVState.isThreshSegment, onCheckedChange = {
+                CVState.isThreshSegment = it
 
-                    if (!CVState.isThreshSegment) {
-                        thresholdSelectedOption = "Null"
-                        logger.info("取消了全局阈值分割")
-                    } else {
-                        CVState.isAdaptiveThresh = false
-                        adaptiveMethodSelectedOption = "Null"
-                        clearAdaptiveThreshParams()
-                        logger.info("勾选了全局阈值分割")
-                    }
-                })
-            }
+                if (!CVState.isThreshSegment) {
+                    thresholdSelectedOption = "Null"
+                    logger.info("取消了全局阈值分割")
+                } else {
+                    CVState.isAdaptiveThresh = false
+                    adaptiveMethodSelectedOption = "Null"
+                    clearAdaptiveThreshParams()
+                    logger.info("勾选了全局阈值分割")
+                }
+            })
 
             Row {
                 thresholdSelectTags.forEach {
@@ -140,22 +135,19 @@ fun binaryImage(state: ApplicationState, title: String) {
                 }
             }
 
-            Row(modifier = Modifier.padding(top = 10.dp),
-                verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("自适应阈值分割", Modifier, checked = CVState.isAdaptiveThresh, onCheckedChange = {
-                    CVState.isAdaptiveThresh = it
+            checkBoxWithTitle("自适应阈值分割", modifier = Modifier.padding(top = 10.dp), checked = CVState.isAdaptiveThresh, onCheckedChange = {
+                CVState.isAdaptiveThresh = it
 
-                    if (!CVState.isAdaptiveThresh) {
-                        adaptiveMethodSelectedOption = "Null"
-                        clearAdaptiveThreshParams()
-                        logger.info("取消了自适应阈值分割")
-                    } else {
-                        CVState.isThreshSegment = false
-                        thresholdSelectedOption = "Null"
-                        logger.info("勾选了自适应阈值分割")
-                    }
-                })
-            }
+                if (!CVState.isAdaptiveThresh) {
+                    adaptiveMethodSelectedOption = "Null"
+                    clearAdaptiveThreshParams()
+                    logger.info("取消了自适应阈值分割")
+                } else {
+                    CVState.isThreshSegment = false
+                    thresholdSelectedOption = "Null"
+                    logger.info("勾选了自适应阈值分割")
+                }
+            })
 
             Row {
                 Text("自适应阈值算法", modifier = Modifier.align(Alignment.CenterVertically))
