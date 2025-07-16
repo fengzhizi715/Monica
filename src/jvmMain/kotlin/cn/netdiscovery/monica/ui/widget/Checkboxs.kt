@@ -20,7 +20,6 @@ import androidx.compose.material.MaterialTheme
  * @version: V1.0 <描述当前版本功能>
  */
 
-
 @Composable
 fun checkBoxWithTitle(
     text: String,
@@ -49,25 +48,3 @@ fun checkBoxWithTitle(
         )
     }
 }
-
-
-///**
-// * 封装 Checkbox
-// */
-//@Composable
-//fun checkBoxWithTitle(text: String,
-//                      textModify:Modifier = Modifier,
-//                      color: Color = Color.Unspecified,
-//                      checked: Boolean,
-//                      onCheckedChange: ((Boolean) -> Unit)?,
-//                      ) {
-//
-//    Row {
-//        Checkbox(checked, onCheckedChange = {
-//            onCheckedChange?.invoke(it)
-//        })
-//
-//        Text(text, modifier = textModify.align(Alignment.CenterVertically), color = color)
-//    }
-//
-//}
