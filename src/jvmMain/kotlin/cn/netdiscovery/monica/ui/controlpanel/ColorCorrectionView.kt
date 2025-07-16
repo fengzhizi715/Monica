@@ -12,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.ColorCorrectionStatus
+import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
 import cn.netdiscovery.monica.ui.widget.subTitle
 import org.slf4j.Logger
@@ -32,8 +34,12 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun colorCorrectionView(state: ApplicationState) {
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isColorCorrection, onCheckedChange = {
+    checkBoxWithTitle(
+        text = "图像调色",
+        color = Color.Black,
+        checked = state.isColorCorrection,
+        fontSize = subTitleTextSize,
+        onCheckedChange = {
             state.isColorCorrection = it
 
             if (!state.isColorCorrection) {
@@ -47,9 +53,9 @@ fun colorCorrectionView(state: ApplicationState) {
                 state.isFilter = false
                 state.isAI = false
             }
-        })
-        subTitle(text = "图像调色", color = Color.Black)
-    }
+        }
+    )
+
     Column(modifier = Modifier.fillMaxWidth()){
         Button(
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),

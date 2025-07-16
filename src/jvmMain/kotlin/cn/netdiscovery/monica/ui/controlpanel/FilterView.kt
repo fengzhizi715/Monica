@@ -12,8 +12,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.FilterStatus
+import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
 import cn.netdiscovery.monica.ui.widget.subTitle
 import org.slf4j.Logger
@@ -32,8 +34,12 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun filterView(state: ApplicationState) {
 
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isFilter, onCheckedChange = {
+    checkBoxWithTitle(
+        text = "滤镜",
+        color = Color.Black,
+        checked = state.isFilter,
+        fontSize = subTitleTextSize,
+        onCheckedChange = {
             state.isFilter = it
 
             if (!state.isFilter) {
@@ -46,9 +52,9 @@ fun filterView(state: ApplicationState) {
                 state.isColorCorrection = false
                 state.isAI = false
             }
-        })
-        subTitle(text = "滤镜", color = Color.Black)
-    }
+        }
+    )
+
     Column(modifier = Modifier.fillMaxWidth()){
         Button(
             modifier = Modifier.align(Alignment.End).padding(start = 15.dp),
