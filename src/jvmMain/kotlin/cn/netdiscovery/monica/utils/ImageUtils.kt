@@ -42,7 +42,7 @@ fun getBufferedImage(file: File): BufferedImage {
     logger.info("format: $imageFormat")
 
     if (imageFormat.isRaw()) {
-        val rawImage = ImageProcess.decodeRawToBuffer(filePath)
+        val rawImage = ImageProcess.decodeRawToBuffer(filePath, true)
         if (rawImage!=null) {
             return rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
         } else {

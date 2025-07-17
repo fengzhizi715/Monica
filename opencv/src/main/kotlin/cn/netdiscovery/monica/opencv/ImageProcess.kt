@@ -201,7 +201,7 @@ object ImageProcess {
     /**
      * 解码相机拍摄的图片，例如 cr2、cr3 格式的图像
      */
-    external fun decodeRawToBuffer(path: String): RawImage?
+    external fun decodeRawToBuffer(path: String, isPreview: Boolean): RawImage?
 
     /**
      * 解码 heif 格式的图像
