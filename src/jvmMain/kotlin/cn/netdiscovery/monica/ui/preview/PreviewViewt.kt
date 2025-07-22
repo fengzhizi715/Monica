@@ -49,7 +49,8 @@ fun preview(
         elevation = 4.dp,
         onClick = {
             chooseImage(state) { file ->
-                state.rawImage = getBufferedImage(file)
+                val image = getBufferedImage(file, state)
+                state.rawImage = image
                 state.currentImage = state.rawImage
                 state.rawImageFile = file
             }

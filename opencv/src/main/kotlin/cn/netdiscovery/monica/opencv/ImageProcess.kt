@@ -199,12 +199,27 @@ object ImageProcess {
     external fun matchTemplate(src: ByteArray, template: ByteArray, scalar:IntArray, matchTemplateSettings: MatchTemplateSettings):IntArray
 
     /**
-     * 解码相机拍摄的图片，例如 cr2、cr3 格式的图像
+     * 解码相机拍摄的图片(例如 cr2、cr3 格式的图像) 用于图像
      */
-    external fun decodeRawToBuffer(path: String, isPreview: Boolean): RawImage?
+    external fun decodeRawToBufferForPreView(path: String): DecodedPreviewImage?
+
+    /**
+     * 解码相机拍摄的图片，并进行调色，调色完之后更新 PyramidImage
+     */
+    external fun decodeRawAndColorCorrection(path: String, nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): IntArray
+
+    /**
+     * 使用 PyramidImage 中的原图数据进行调色，调色完之后更新 PyramidImage。所有的操作都在 C++ 层实现，保证速度。
+     */
+    external fun colorCorrectionWithPyramidImage(nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): IntArray
+
+    /**
+     * 删除 PyramidImage 对象
+     */
+    external fun deletePyramidImage(nativePtr:Long): Long
 
     /**
      * 解码 heif 格式的图像
      */
-    external fun decodeHeif(path: String): HeifImage?
+    external fun decodeHeif(path: String): DecodedPreviewImage?
 }

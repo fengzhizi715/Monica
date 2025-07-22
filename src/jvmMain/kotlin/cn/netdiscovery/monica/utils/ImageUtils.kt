@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import cn.netdiscovery.monica.domain.HeifImage
 import cn.netdiscovery.monica.domain.RawImage
 import cn.netdiscovery.monica.exception.MonicaException
-import cn.netdiscovery.monica.imageprocess.filter.PosterizeFilter
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.*
 import cn.netdiscovery.monica.imageprocess.filter.blur.*
 import cn.netdiscovery.monica.imageprocess.filter.sharpen.LaplaceSharpenFilter
@@ -34,6 +34,66 @@ import javax.imageio.ImageIO
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
+fun getBufferedImage(file: File, state: ApplicationState): BufferedImage {
+
+    val filePath = file.absolutePath
+
+    val imageFormat = ImageFormatDetector.detectFormat(file)
+    logger.info("format: $imageFormat")
+
+    if (imageFormat.isRaw()) {
+        try {
+            val decodedPreviewImage = ImageProcess.decodeRawToBufferForPreView(filePath)
+            if (decodedPreviewImage!=null) {
+                state.nativeImageInfo = decodedPreviewImage
+                state.rawImageFormat = imageFormat
+
+                val outPixels = decodedPreviewImage.previewImage
+                val width = decodedPreviewImage.width
+                val height = decodedPreviewImage.height
+                val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+                return image
+            } else {
+                throw MonicaException("Image format is not supported")
+            }
+        } catch (e:Exception) {
+            logger.error("decode raw image failed", e)
+            throw MonicaException("decode raw image failed")
+        }
+    } else {
+        return when(imageFormat) {
+            ImageFormat.SVG -> loadFixedSvgAsImage(file) ?: ImageIO.read(file)
+            ImageFormat.HDR -> {
+                ImageIO.read(file).convertToRGB()
+            }
+            ImageFormat.JPEG, ImageFormat.PNG, ImageFormat.WEBP -> {
+                ImageIO.read(file)
+            }
+            ImageFormat.HEIC -> {
+                try {
+                    val decodedPreviewImage = ImageProcess.decodeHeif(filePath)
+                    if (decodedPreviewImage!=null) {
+                        state.nativeImageInfo = decodedPreviewImage
+                        state.rawImageFormat = imageFormat
+
+                        val outPixels = decodedPreviewImage.previewImage
+                        val width = decodedPreviewImage.width
+                        val height = decodedPreviewImage.height
+                        val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+                        return image
+                    }  else {
+                        throw MonicaException("Image format is not supported")
+                    }
+                } catch (e: Exception) {
+                    logger.error("decode heif image failed", e)
+                    throw MonicaException("decode heif image failed")
+                }
+            }
+            else -> throw MonicaException("Unsupported image format: $imageFormat")
+        }
+    }
+}
+
 fun getBufferedImage(file: File): BufferedImage {
 
     val filePath = file.absolutePath
@@ -42,9 +102,13 @@ fun getBufferedImage(file: File): BufferedImage {
     logger.info("format: $imageFormat")
 
     if (imageFormat.isRaw()) {
-        val rawImage = ImageProcess.decodeRawToBuffer(filePath, true)
-        if (rawImage!=null) {
-            return rawImageToBuffered(rawImage) // 再把 RawImage 对象转换成 BufferedImage
+        val decodedPreviewImage = ImageProcess.decodeRawToBufferForPreView(filePath)
+        if (decodedPreviewImage!=null) {
+            val outPixels = decodedPreviewImage.previewImage
+            val width = decodedPreviewImage.width
+            val height = decodedPreviewImage.height
+            val image = BufferedImages.toBufferedImage(outPixels,width,height,BufferedImage.TYPE_INT_ARGB)
+            return image
         } else {
             throw MonicaException("Image format is not supported")
         }
@@ -58,9 +122,13 @@ fun getBufferedImage(file: File): BufferedImage {
                 ImageIO.read(file)
             }
             ImageFormat.HEIC -> {
-                val image = ImageProcess.decodeHeif(filePath)
-                if (image!=null) {
-                    heifImageToBuffered(image)
+                val decodedPreviewImage = ImageProcess.decodeHeif(filePath)
+                if (decodedPreviewImage!=null) {
+                    val outPixels = decodedPreviewImage.previewImage
+                    val width = decodedPreviewImage.width
+                    val height = decodedPreviewImage.height
+                    val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+                    return image
                 }  else {
                     throw MonicaException("Image format is not supported")
                 }
@@ -70,7 +138,7 @@ fun getBufferedImage(file: File): BufferedImage {
     }
 }
 
-private fun rawImageToBuffered(raw: RawImage): BufferedImage {
+fun rawImageToBuffered(raw: RawImage): BufferedImage {
     val image = BufferedImage(raw.width, raw.height, BufferedImage.TYPE_3BYTE_BGR)
     val raster = image.raster
     raster.setDataElements(0, 0, raw.width, raw.height, raw.data)

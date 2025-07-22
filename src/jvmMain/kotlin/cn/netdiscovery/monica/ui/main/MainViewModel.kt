@@ -24,7 +24,8 @@ class MainViewModel {
                 if (filePath != null) {
                     val file = File(filePath)
                     if (file.isFile && file.extension in legalSuffixList) {
-                        state.rawImage = getBufferedImage(file)
+                        val image = getBufferedImage(file, state)
+                        state.rawImage = image
                         state.currentImage = state.rawImage
                         state.rawImageFile = file
                     }

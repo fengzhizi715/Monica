@@ -4,14 +4,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.manager.OpenCVManager
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.utils.Action
-import cn.netdiscovery.monica.utils.CVSuccess
+import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
-import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
@@ -75,10 +74,60 @@ class ColorCorrectionViewModel {
     }
 
     /**
-     * 保存图像
+     * 保存图像。
+     * 对于原始 RAW 图像，需要解码全尺寸的图像。使用最后的调色参数进行调色，然后再保存
      */
-    fun save(action: Action) {
-        action.invoke()
+    fun save(state: ApplicationState, action: Action) {
+
+        val imageFormat = state.rawImageFormat
+
+        if (imageFormat!=null && imageFormat.isRaw()) {
+            state.scope.launchWithLoading {
+
+                if (!state.nativeFullImageProcessed) {
+                    val filePath = state.rawImageFile?.absolutePath!!
+                    val nativePtr = state.nativeImageInfo?.nativePtr!!
+
+                    val width = state.nativeImageInfo?.width!!
+                    val height = state.nativeImageInfo?.height!!
+
+                    // 获取全尺寸的 raw 图像，更新金字塔对象，完成调色返回 IntArray 对象
+                    val outPixels = ImageProcess.decodeRawAndColorCorrection(filePath, nativePtr, colorCorrectionSettings, cppObjectPtr)
+                    val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+
+                    state.nativeFullImageProcessed = true
+                    state.currentImage = image
+                    state.togglePreviewWindow(false)
+                } else {
+                    val nativePtr = state.nativeImageInfo?.nativePtr!!
+
+                    val width = state.nativeImageInfo?.width!!
+                    val height = state.nativeImageInfo?.height!!
+
+                    // 更新金字塔对象，完成调色返回 IntArray 对象
+                    val outPixels = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
+                    val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+                    state.currentImage = image
+                    state.togglePreviewWindow(false)
+                }
+            }
+        } else if (imageFormat!=null && imageFormat == ImageFormat.HEIC) {
+            state.scope.launchWithLoading {
+
+                val nativePtr = state.nativeImageInfo?.nativePtr!!
+
+                val width = state.nativeImageInfo?.width!!
+                val height = state.nativeImageInfo?.height!!
+
+                // 更新金字塔对象，完成调色返回 IntArray 对象
+                val outPixels = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
+                val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
+                state.currentImage = image
+                state.togglePreviewWindow(false)
+            }
+        } else {
+            action.invoke()
+        }
     }
 
     fun clearAllStatus() {

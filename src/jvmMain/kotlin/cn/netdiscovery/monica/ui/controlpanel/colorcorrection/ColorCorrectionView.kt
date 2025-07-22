@@ -320,7 +320,7 @@ fun colorCorrection(state: ApplicationState) {
                             painter = painterResource("images/doodle/save.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                viewModel.save {
+                                viewModel.save(state) {
                                     state.currentImage = cachedImage
                                     state.togglePreviewWindow(false)
                                 }

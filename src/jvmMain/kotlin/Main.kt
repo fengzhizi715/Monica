@@ -75,6 +75,8 @@ fun main() = application {
         },
         onDisposeEffect = {
             logger.info("首页关闭")
+
+            applicationState.clearImage()
         }
     )
 
@@ -94,7 +96,8 @@ fun main() = application {
                 text = "打开本地图片",
                 onClick = {
                     chooseImage(applicationState) { file ->
-                        applicationState.rawImage = getBufferedImage(file)
+                        val image = getBufferedImage(file, applicationState)
+                        applicationState.rawImage = image
                         applicationState.currentImage = applicationState.rawImage
                         applicationState.rawImageFile = file
                     }

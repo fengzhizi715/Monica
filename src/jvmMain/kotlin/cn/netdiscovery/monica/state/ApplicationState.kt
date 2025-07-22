@@ -5,8 +5,11 @@ import androidx.compose.ui.awt.ComposeWindow
 import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
+import cn.netdiscovery.monica.domain.DecodedPreviewImage
 import cn.netdiscovery.monica.domain.GeneralSettings
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
+import cn.netdiscovery.monica.utils.ImageFormat
 import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.CoroutineScope
 import java.awt.image.BufferedImage
@@ -63,6 +66,9 @@ class ApplicationState(val scope:CoroutineScope,
     var rawImage: BufferedImage? by mutableStateOf(null)
     var currentImage: BufferedImage? by mutableStateOf( rawImage )
     var rawImageFile: File? = null
+    var rawImageFormat: ImageFormat? = null
+    var nativeImageInfo: DecodedPreviewImage? = null
+    var nativeFullImageProcessed: Boolean = false
 
     // 表示用于点击了哪个功能
     var currentStatus by mutableStateOf(0)
@@ -133,6 +139,14 @@ class ApplicationState(val scope:CoroutineScope,
         this.rawImage = null
         this.currentImage = null
         this.rawImageFile = null
+        this.rawImageFormat = null
+        this.nativeFullImageProcessed = false
+
+        val nativePtr = this.nativeImageInfo?.nativePtr
+        if (nativePtr!=null && nativePtr>0) {
+            ImageProcess.deletePyramidImage(nativePtr)
+        }
+        this.nativeImageInfo = null
     }
 
     fun showTray(
