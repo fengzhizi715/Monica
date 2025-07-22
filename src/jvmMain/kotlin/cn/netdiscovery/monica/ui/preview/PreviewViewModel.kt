@@ -25,6 +25,7 @@ import org.slf4j.Logger
 import showTopToast
 import java.awt.Color
 import java.awt.Graphics
+import java.awt.image.BufferedImage
 import java.io.File
 import javax.imageio.ImageIO
 import javax.swing.filechooser.FileNameExtensionFilter
@@ -252,6 +253,20 @@ class PreviewViewModel {
                     File(selectedFile.parent, "${selectedFile.name}.${format}")
                 }
 
+                val nativePtr = state.nativeImageInfo?.nativePtr
+
+                val nativeImage = if (nativePtr!=null && nativePtr!=0L) {
+                    ImageProcess.getNativeImage(nativePtr)
+                } else {
+                    null
+                }
+
+                val savedImage = if (nativeImage!=null) {
+                    BufferedImages.toBufferedImage(nativeImage.pixels, nativeImage.width, nativeImage.height, BufferedImage.TYPE_INT_ARGB)
+                } else {
+                    state.currentImage!!
+                }
+
                 val b = when(format) {
                     "jpg" -> {
                         val finalImage = if (ImageFormatDetector.getImageFormat(state.rawImageFile!!) != "jpeg") {
@@ -262,15 +277,15 @@ class PreviewViewModel {
                     }
 
                     "png" -> {
-                        writeImageFile(state.currentImage!!, outputFile.absolutePath, format)
+                        writeImageFile(savedImage, outputFile.absolutePath, format)
                     }
 
                     "webp" -> {
-                        writeImageFileAsWebP(state.currentImage!!, outputFile.absolutePath)
+                        writeImageFileAsWebP(savedImage, outputFile.absolutePath)
                     }
 
                     else -> {
-                        writeImageFile(state.currentImage!!, outputFile.absolutePath, format)
+                        writeImageFile(savedImage, outputFile.absolutePath, format)
                     }
                 }
 

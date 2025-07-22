@@ -101,11 +101,13 @@ class ColorCorrectionViewModel {
                 } else {
                     val nativePtr = state.nativeImageInfo?.nativePtr!!
 
-                    // 更新金字塔对象，完成调色返回 IntArray 对象
-                    val nativeImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
-                    val image = BufferedImages.toBufferedImage(nativeImage.pixels, nativeImage.width, nativeImage.height, BufferedImage.TYPE_INT_ARGB)
-                    state.currentImage = image
-                    state.togglePreviewWindow(false)
+                    // 更新金字塔对象，完成调色返回预览对象
+                    val previewImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
+                    if (previewImage!=null) {
+                        val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
+                        state.currentImage = image
+                        state.togglePreviewWindow(false)
+                    }
                 }
             }
         } else if (imageFormat!=null && imageFormat == ImageFormat.HEIC) {
@@ -113,11 +115,13 @@ class ColorCorrectionViewModel {
 
                 val nativePtr = state.nativeImageInfo?.nativePtr!!
 
-                // 更新金字塔对象，完成调色返回 IntArray 对象
-                val nativeImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
-                val image = BufferedImages.toBufferedImage(nativeImage.pixels, nativeImage.width, nativeImage.height, BufferedImage.TYPE_INT_ARGB)
-                state.currentImage = image
-                state.togglePreviewWindow(false)
+                // 更新金字塔对象，完成调色返回预览对象
+                val previewImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
+                if (previewImage!=null) {
+                    val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
+                    state.currentImage = image
+                    state.togglePreviewWindow(false)
+                }
             }
         } else {
             action.invoke()
