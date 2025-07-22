@@ -66,7 +66,7 @@ fun cartoon(state: ApplicationState) {
                 elevation = 4.dp,
                 onClick = {
                     chooseImage(state) { file ->
-                        state.rawImage = getBufferedImage(file)
+                        state.rawImage = getBufferedImage(file, state)
                         state.currentImage = state.rawImage
                         state.rawImageFile = file
                     }
