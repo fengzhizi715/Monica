@@ -209,6 +209,7 @@ object ImageProcess {
     external fun decodeRawAndColorCorrection(path: String, nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): IntArray
 
     /**
+     * 针对 raw 文件、heic 文件
      * 使用 PyramidImage 中的原图数据进行调色，调色完之后更新 PyramidImage。所有的操作都在 C++ 层实现，保证速度。
      */
     external fun colorCorrectionWithPyramidImage(nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): IntArray

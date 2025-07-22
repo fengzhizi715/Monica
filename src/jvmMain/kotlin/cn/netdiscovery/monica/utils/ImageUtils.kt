@@ -2,8 +2,6 @@ package cn.netdiscovery.monica.utils
 
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toComposeImageBitmap
-import cn.netdiscovery.monica.domain.HeifImage
-import cn.netdiscovery.monica.domain.RawImage
 import cn.netdiscovery.monica.exception.MonicaException
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.filter.*
@@ -136,19 +134,6 @@ fun getBufferedImage(file: File): BufferedImage {
             else -> throw MonicaException("Unsupported image format: $imageFormat")
         }
     }
-}
-
-fun rawImageToBuffered(raw: RawImage): BufferedImage {
-    val image = BufferedImage(raw.width, raw.height, BufferedImage.TYPE_3BYTE_BGR)
-    val raster = image.raster
-    raster.setDataElements(0, 0, raw.width, raw.height, raw.data)
-    return image
-}
-
-private fun heifImageToBuffered(image: HeifImage): BufferedImage {
-    val bufferedImage = BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_ARGB)
-    bufferedImage.setRGB(0, 0, image.width, image.height, image.pixels, 0, image.width)
-    return bufferedImage
 }
 
 suspend fun doFilter(filterName:String, array:MutableList<Any>, state: ApplicationState):BufferedImage {
