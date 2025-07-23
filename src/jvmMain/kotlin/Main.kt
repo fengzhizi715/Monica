@@ -14,7 +14,6 @@ import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.experiment
-import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.FaceSwapViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.faceswap.faceSwap
 import cn.netdiscovery.monica.ui.controlpanel.cartoon.cartoon
 import cn.netdiscovery.monica.ui.controlpanel.colorcorrection.colorCorrection
