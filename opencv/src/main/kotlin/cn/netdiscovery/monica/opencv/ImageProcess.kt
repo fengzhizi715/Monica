@@ -204,17 +204,21 @@ object ImageProcess {
     external fun decodeRawToBufferForPreView(path: String): DecodedPreviewImage?
 
     /**
-     * 解码相机拍摄的图片，并进行调色，调色完之后更新 PyramidImage
+     * 解码相机拍摄的图片，并进行调色，调色完之后更新 PyramidImage 然后给 Kotlin 层返回 DecodedPreviewImage 对象。
      */
-    external fun decodeRawAndColorCorrection(path: String, nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): IntArray
+    external fun decodeRawAndColorCorrection(path: String, nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): DecodedPreviewImage?
 
     /**
      * 针对 raw 文件、heic 文件
-     * 使用 PyramidImage 中的原图数据进行调色，调色完之后更新 PyramidImage。所有的操作都在 C++ 层实现，保证速度。
+     * 使用 PyramidImage 中的原图数据进行调色，调色完之后更新 PyramidImage 然后给 Kotlin 层返回 DecodedPreviewImage 对象。
+     * 所有的操作都在 C++ 层实现，确保速度。
      */
     external fun colorCorrectionWithPyramidImage(nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): DecodedPreviewImage?
 
 
+    /**
+     * raw 文件、heic 文件，保存的时候通过 jni 获取原图的信息，然后进行保存。
+     */
     external fun getNativeImage(nativePtr:Long): NativeImage?
 
     /**

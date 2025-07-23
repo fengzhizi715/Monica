@@ -74,8 +74,7 @@ class ColorCorrectionViewModel {
     }
 
     /**
-     * 保存图像。
-     * 对于原始 RAW 图像，需要解码全尺寸的图像。使用最后的调色参数进行调色，然后再保存
+     * 保存图像
      */
     fun save(state: ApplicationState, action: Action) {
 
@@ -88,16 +87,14 @@ class ColorCorrectionViewModel {
                     val filePath = state.rawImageFile?.absolutePath!!
                     val nativePtr = state.nativeImageInfo?.nativePtr!!
 
-                    val width = state.nativeImageInfo?.width!!
-                    val height = state.nativeImageInfo?.height!!
-
-                    // 获取全尺寸的 raw 图像，更新金字塔对象，完成调色返回 IntArray 对象
-                    val outPixels = ImageProcess.decodeRawAndColorCorrection(filePath, nativePtr, colorCorrectionSettings, cppObjectPtr)
-                    val image = BufferedImages.toBufferedImage(outPixels, width, height, BufferedImage.TYPE_INT_ARGB)
-
-                    state.nativeFullImageProcessed = true
-                    state.currentImage = image
-                    state.togglePreviewWindow(false)
+                    // 获取全尺寸的 raw 图像，更新金字塔对象，完成调色返回预览对象
+                    val previewImage = ImageProcess.decodeRawAndColorCorrection(filePath, nativePtr, colorCorrectionSettings, cppObjectPtr)
+                    if (previewImage!=null) {
+                        val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
+                        state.currentImage = image
+                        state.nativeFullImageProcessed = true
+                        state.togglePreviewWindow(false)
+                    }
                 } else {
                     val nativePtr = state.nativeImageInfo?.nativePtr!!
 

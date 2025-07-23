@@ -143,7 +143,7 @@ class ApplicationState(val scope:CoroutineScope,
         this.nativeFullImageProcessed = false
 
         val nativePtr = this.nativeImageInfo?.nativePtr
-        if (nativePtr!=null && nativePtr>0) {
+        if (nativePtr!=null && nativePtr !=0L) {
             ImageProcess.deletePyramidImage(nativePtr)
         }
         this.nativeImageInfo = null

@@ -25,6 +25,8 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 
 /**
@@ -35,6 +37,8 @@ import org.koin.compose.koinInject
  * @date: 2024/4/26 11:09
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun preview(
