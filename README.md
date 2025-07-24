@@ -54,7 +54,7 @@ Monica-arm64-1.1.1.dmg
 稍后提供
 
 ## Windows 安装包
-Monica-1.0.9.exe 
+Monica-1.0.9.exe (最近没有 windows 电脑稍后提供最新的版本)
 
 链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
 
@@ -87,7 +87,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 |---------------------------------------|-------|------------------------------------------------------|---------------------------------|
 | libMonicaImageProcess.dylib           | 0.2.2 | macOS 下编译好的算法库                                  | 使用 CLion 编译                  |
 | libopencv_world.4.10.0.dylib          |       | macOS 下基于 OpenCV 4.10.0 源码编译的 OpenCV 库          | 使用 cmake 编译                  |
-| MonicaImageProcess.dll                | 0.2.2 | Windows 下编译好的算法库需要依赖 opencv_world481.dll      | 使用 Visual Studio 2022 编译     |
+| MonicaImageProcess.dll                | 0.2.0 | Windows 下编译好的算法库需要依赖 opencv_world481.dll      | 使用 Visual Studio 2022 编译     |
 | opencv_world481.dll                   |       | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库         | 使用 Visual Studio 2022 编译     |
 
 
