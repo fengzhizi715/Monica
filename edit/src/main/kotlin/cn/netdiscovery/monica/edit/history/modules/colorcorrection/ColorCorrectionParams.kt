@@ -22,7 +22,7 @@ data class ColorCorrectionParams(
     val corner: Int = 0,
     val status: Int = 0 // 1 ~ 9 表示最近调整项，可选
 ) {
-    
+
     fun toMap(): Map<String, Any> = mapOf(
         "contrast" to contrast,
         "hue" to hue,
