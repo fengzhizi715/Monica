@@ -14,13 +14,13 @@ import java.awt.image.BufferedImage
  */
 class ColorCorrectionProcessor(private val originalImage: BufferedImage): ParameterizedProcessor<ColorCorrectionSettings, BufferedImage> {
 
+    private var currentParams: ColorCorrectionSettings = ColorCorrectionSettings()
+
     override fun applyParams(params: ColorCorrectionSettings) {
-        TODO("Not yet implemented")
+        currentParams = params
     }
 
-    override fun getCurrentParams(): ColorCorrectionSettings {
-        TODO("Not yet implemented")
-    }
+    override fun getCurrentParams(): ColorCorrectionSettings = currentParams
 
     override fun process(): BufferedImage {
         TODO("Not yet implemented")
