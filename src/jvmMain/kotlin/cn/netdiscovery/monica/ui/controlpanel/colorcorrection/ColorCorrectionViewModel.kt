@@ -4,6 +4,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionProcessor
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.manager.OpenCVManager
@@ -41,6 +42,8 @@ class ColorCorrectionViewModel {
     private var cppObjectPtr:Long = 0
 
     private var init:AtomicBoolean = AtomicBoolean(false)
+
+    private var processor: ColorCorrectionProcessor? = null
 
     /**
      * 封装图像调色的方法
