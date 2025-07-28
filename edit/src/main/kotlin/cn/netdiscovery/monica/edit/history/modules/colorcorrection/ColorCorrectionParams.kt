@@ -8,7 +8,7 @@ import cn.netdiscovery.monica.domain.ColorCorrectionSettings
  *          cn.netdiscovery.monica.edit.history.modules.colorcorrection.ColorCorrectionParams
  * @author: Tony Shen
  * @date:  2025/7/27 13:16
- * @version: V1.0 <描述当前版本功能>
+ * @version: V1.0 调色参数封装
  */
 data class ColorCorrectionParams(
     val contrast: Int = 255,
