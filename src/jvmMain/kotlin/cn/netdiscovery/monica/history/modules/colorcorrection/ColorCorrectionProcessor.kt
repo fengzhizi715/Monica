@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.edit.history.modules.colorcorrection
+package cn.netdiscovery.monica.history.modules.colorcorrection
 
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.edit.history.core.ParameterizedProcessor
@@ -7,7 +7,7 @@ import java.awt.image.BufferedImage
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.edit.history.modules.colorcorrection.ColorCorrectionProcessor
+ *          cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionProcessor
  * @author: Tony Shen
  * @date: 2025/7/28 19:31
  * @version: V1.0 <描述当前版本功能>

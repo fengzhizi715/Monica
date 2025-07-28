@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.edit.history.modules.colorcorrection
+package cn.netdiscovery.monica.history.modules.colorcorrection
 
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.edit.history.modules.colorcorrection.ColorCorrectionParams
+ *          cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
  * @author: Tony Shen
  * @date:  2025/7/27 13:16
  * @version: V1.0 调色参数封装

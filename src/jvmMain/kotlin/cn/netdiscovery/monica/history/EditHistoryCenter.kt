@@ -1,9 +1,9 @@
-package cn.netdiscovery.monica.edit.history.core
+package cn.netdiscovery.monica.history
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.edit.history.core.EditHistoryCenter
+ *          cn.netdiscovery.monica.history.EditHistoryCenter
  * @author: Tony Shen
  * @date: 2025/7/28 13:47
  * @version: V1.0 全局的编辑历史协调器，用于管理多个模块的历史记录，例如图像调整、涂鸦 等。

@@ -1,11 +1,11 @@
-package cn.netdiscovery.monica.edit.history.core
+package cn.netdiscovery.monica.history
 
 import kotlinx.coroutines.*
 
 /**
  *
  * @FileName:
- *          cn.netdiscovery.monica.edit.history.core.EditHistoryManager
+ *          cn.netdiscovery.monica.history.EditHistoryManager
  * @author: Tony Shen
  * @date: 2025/7/28 13:40
  * @version: V1.0 管理每个编辑会话的历史记录栈，包括撤销和重做功能。
