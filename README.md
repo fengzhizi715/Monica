@@ -41,20 +41,20 @@ git clone https://github.com/fengzhizi715/Monica.git
 
 ## macOS 安装包
 ### Intel 芯片：
-Monica-x64-1.1.1.dmg
+Monica-x64-1.1.2.dmg
 
-链接: https://pan.baidu.com/s/1hGtCz-vQ8lPTCpmLPr2Fsw?pwd=tywb
+链接: https://pan.baidu.com/s/1Mo0h7pLfHxxAWX7q9Dm8CA?pwd=krfr
 
 ### M 芯片：
-Monica-arm64-1.1.1.dmg
+Monica-arm64-1.1.2.dmg
 
-链接: https://pan.baidu.com/s/1awjFjUltpsviPeZRKP1Stg?pwd=7txk
+链接: https://pan.baidu.com/s/1mAGgIQCx7x4dKo3JP_L4vQ?pwd=evb2
 
 ## CentOS 安装包
 稍后提供
 
 ## Windows 安装包
-Monica-1.0.9.exe (最近没有 windows 电脑稍后提供最新的版本)
+Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 
 链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
 
