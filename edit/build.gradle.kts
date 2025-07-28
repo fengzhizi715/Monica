@@ -10,6 +10,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation ("org.jetbrains.kotlin:kotlin-stdlib")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-core:${rootProject.extra["kotlinx.coroutines.core.version"]}")
 
     implementation(project(":domain"))
 }
