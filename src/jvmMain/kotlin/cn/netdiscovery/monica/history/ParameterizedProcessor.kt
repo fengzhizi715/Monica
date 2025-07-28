@@ -14,5 +14,5 @@ interface ParameterizedProcessor<T, R> {
 
     fun getCurrentParams(): T
 
-    fun process(): R
+    suspend fun process(): R
 }
