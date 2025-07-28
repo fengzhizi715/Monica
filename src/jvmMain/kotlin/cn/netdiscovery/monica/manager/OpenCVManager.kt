@@ -2,12 +2,15 @@ package cn.netdiscovery.monica.manager
 
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.toImageInfo
-import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVAction
 import cn.netdiscovery.monica.utils.CVFailure
 import cn.netdiscovery.monica.utils.CVSuccess
+import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlin.coroutines.resumeWithException
+import kotlin.coroutines.resume
 import java.awt.image.BufferedImage
+
 
 /**
  *
@@ -70,4 +73,25 @@ object OpenCVManager {
             failure.invoke(e)
         }
     }
+
+    suspend fun invokeCVAsync(
+        image: BufferedImage,
+        type: Int = BufferedImage.TYPE_INT_ARGB,
+        action: CVAction
+    ): BufferedImage = suspendCancellableCoroutine { cont ->
+        invokeCV(
+            image = image,
+            type = type,
+            action = action,
+            success = { result ->
+                if (cont.isActive) cont.resume(result)
+            },
+            failure = { e ->
+                if (cont.isActive) cont.resumeWithException(e)
+            }
+        )
+    }
+
+
+
 }
