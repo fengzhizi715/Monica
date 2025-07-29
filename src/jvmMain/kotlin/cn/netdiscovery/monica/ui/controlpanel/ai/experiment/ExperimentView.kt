@@ -12,11 +12,15 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.MODULE_OPENCV
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
+import com.safframework.rxcache.utils.GsonUtils
 import loadingDisplay
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -231,6 +235,10 @@ fun experiment(state: ApplicationState) {
                         painter = painterResource("images/doodle/save.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
+
+                            val records = EditHistoryCenter.getManager<CVParams>(MODULE_OPENCV).getOperationLog()
+                            logger.info("records = ${GsonUtils.toJson(records)}")
+
                             state.togglePreviewWindow(false)
                         })
                 }

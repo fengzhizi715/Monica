@@ -2,8 +2,8 @@ package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
 import cn.netdiscovery.monica.config.MODULE_OPENCV
 import cn.netdiscovery.monica.history.EditHistoryCenter
-import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.opencv.CVParams
+import cn.netdiscovery.monica.history.modules.opencv.recordCVOperation
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
@@ -29,11 +29,7 @@ class BinaryImageViewModel {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
 
-                val operation = "cvtGray"
-                val params = CVParams(operation = operation)
-                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
-                manager.push(params, entry)
-                manager.logOnly(entry)
+                manager.recordCVOperation(operation = "cvtGray", description = "灰度化") {}
 
                 ImageProcess.cvtGray(byteArray)
             }, failure = { e ->
@@ -59,14 +55,10 @@ class BinaryImageViewModel {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
 
-                val operation = "threshold"
-                val params = CVParams(operation = operation).apply {
+                manager.recordCVOperation(operation = "threshold", description = "阈值分割") {
                     this.parameters["thresholdType1"] = thresholdType1
                     this.parameters["thresholdType2"] = thresholdType2
                 }
-                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
-                manager.push(params, entry)
-                manager.logOnly(entry)
 
                 ImageProcess.threshold(byteArray, thresholdType1, thresholdType2)
             }, failure = { e ->
@@ -92,14 +84,10 @@ class BinaryImageViewModel {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
 
-                val operation = "adaptiveThreshold"
-                val params = CVParams(operation = operation).apply {
+                manager.recordCVOperation(operation = "adaptiveThreshold", description = "自适应阈值分割") {
                     this.parameters["adaptiveMethod"] = adaptiveMethod
                     this.parameters["thresholdType"] = thresholdType
                 }
-                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
-                manager.push(params, entry)
-                manager.logOnly(entry)
 
                 ImageProcess.adaptiveThreshold(byteArray, adaptiveMethod, thresholdType, blockSize, c)
             }, failure = { e ->
@@ -112,8 +100,7 @@ class BinaryImageViewModel {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
 
-                val operation = "inRange"
-                val params = CVParams(operation = operation).apply {
+                manager.recordCVOperation(operation = "inRange", description = "颜色分割") {
                     this.parameters["hmin"]=hmin
                     this.parameters["smin"]=smin
                     this.parameters["vmin"]=vmin
@@ -121,9 +108,6 @@ class BinaryImageViewModel {
                     this.parameters["smax"]=smax
                     this.parameters["vmax"]=vmax
                 }
-                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
-                manager.push(params, entry)
-                manager.logOnly(entry)
 
                 ImageProcess.inRange(byteArray, hmin, smin, vmin, hmax, smax, vmax)
             }, failure = { e ->
