@@ -111,6 +111,20 @@ class BinaryImageViewModel {
     fun inRange(state: ApplicationState, hmin:Int, smin:Int, vmin:Int, hmax:Int, smax:Int, vmax:Int) {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+
+                val operation = "inRange"
+                val params = CVParams(operation = operation).apply {
+                    this.parameters["hmin"]=hmin
+                    this.parameters["smin"]=smin
+                    this.parameters["vmin"]=vmin
+                    this.parameters["hmax"]=hmax
+                    this.parameters["smax"]=smax
+                    this.parameters["vmax"]=vmax
+                }
+                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
+                manager.push(params, entry)
+                manager.logOnly(entry)
+
                 ImageProcess.inRange(byteArray, hmin, smin, vmin, hmax, smax, vmax)
             }, failure = { e ->
                 logger.error("inRange is failed", e)
