@@ -1,6 +1,8 @@
 package cn.netdiscovery.monica.history
 
+import cn.netdiscovery.monica.utils.logger
 import kotlinx.coroutines.*
+import org.slf4j.Logger
 
 /**
  *
@@ -12,6 +14,8 @@ import kotlinx.coroutines.*
  */
 class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
                             private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)) {
+
+    private val logger: Logger = logger<EditHistoryManager<T>>()
 
     private val undoStack = ArrayDeque<Pair<T, HistoryEntry>>()
     private val redoStack = ArrayDeque<Pair<T, HistoryEntry>>()
@@ -35,15 +39,24 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         redoStack.clear()
     }
 
-    /**
-     * 防抖版本的 push，避免在频繁操作过程中记录太多中间状态。
-     */
-    fun pushDebounced(state: T, entry: HistoryEntry) {
+    fun pushDebouncedAsync(
+        entry: HistoryEntry,
+        block: suspend () -> T,
+        onError: ((Throwable) -> Unit)? = null
+    ) {
         debounceJob?.cancel()
         debounceJob = coroutineScope.launch {
             delay(debounceDelayMillis)
-            withContext(Dispatchers.Main) {
-                push(state, entry)
+            try {
+                val state = block()
+                withContext(Dispatchers.Main) {
+                    push(state, entry)
+                }
+            } catch (e: CancellationException) {
+                throw e // 正常传递取消
+            } catch (e: Exception) {
+                logger.error("pushDebouncedAsync failed: ${e.message}", e)
+                onError?.invoke(e)
             }
         }
     }
