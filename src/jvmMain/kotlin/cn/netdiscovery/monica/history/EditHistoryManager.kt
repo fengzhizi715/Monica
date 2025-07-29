@@ -39,6 +39,9 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         redoStack.clear()
     }
 
+    /**
+     * 防抖版本的 push，避免在频繁操作过程中记录太多中间状态。
+     */
     fun pushDebouncedAsync(
         entry: HistoryEntry,
         block: suspend () -> T,

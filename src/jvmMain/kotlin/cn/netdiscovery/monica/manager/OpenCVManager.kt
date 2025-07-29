@@ -6,7 +6,9 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.CVAction
 import cn.netdiscovery.monica.utils.CVFailure
 import cn.netdiscovery.monica.utils.CVSuccess
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.suspendCancellableCoroutine
+import kotlinx.coroutines.withContext
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.resume
 import java.awt.image.BufferedImage
@@ -48,6 +50,30 @@ object OpenCVManager {
             }
         }
     }
+
+    suspend fun invokeCVWithStateSuspend(
+        state: ApplicationState,
+        type: Int = BufferedImage.TYPE_INT_ARGB,
+        action: CVAction
+    ): BufferedImage = suspendCancellableCoroutine { cont ->
+
+        invokeCV(
+            state = state,
+            type = type,
+            action = action,
+            failure = { e ->
+                if (cont.isActive) cont.resumeWithException(e)
+            }
+        )
+
+        if (state.currentImage != null) {
+            cont.resume(state.currentImage!!)
+        } else {
+            cont.resumeWithException(IllegalStateException("OpenCV 处理失败，图像为空"))
+        }
+    }
+
+
 
     /**
      * 封装调用 OpenCV 的方法
