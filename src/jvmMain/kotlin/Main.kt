@@ -7,6 +7,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.window.*
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
+import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.http.healthCheck
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.initFilterMap
@@ -76,6 +77,9 @@ fun main() = application {
             logger.info("首页关闭")
 
             applicationState.clearImage()
+            EditHistoryCenter.clearAll()
+
+            logger.info("释放全部资源")
         }
     )
 
