@@ -4,14 +4,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.EditHistoryManager
+import cn.netdiscovery.monica.history.HistoryEntry
+import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionProcessor
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
-import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.*
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
@@ -45,6 +49,8 @@ class ColorCorrectionViewModel {
 
     private var processor: ColorCorrectionProcessor? = null
 
+    private val manager = EditHistoryCenter.getManager<ColorCorrectionParams>("colorCorrection")
+
     /**
      * 封装图像调色的方法
      * @param state   当前应用的 state
@@ -59,7 +65,7 @@ class ColorCorrectionViewModel {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
 
-        state.scope.launchWithLoading {
+        state.scope.launchWithSuspendLoading {
             if (!init.get()) {
                 init.set(true)
 
@@ -67,12 +73,22 @@ class ColorCorrectionViewModel {
                 cppObjectPtr = ImageProcess.initColorCorrection(byteArray)
             }
 
-            OpenCVManager.invokeCV(image,
-                action  = { byteArray -> ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr) },
-                success = { success.invoke(it) },
-                failure = { e ->
-                    logger.error("colorCorrection is failed", e)
-                })
+            if (processor == null || processor?.image !== image) {
+                processor = ColorCorrectionProcessor(image, cppObjectPtr)
+            }
+
+            processor?.applyParams(colorCorrectionSettings)
+
+            val result = processor?.process()
+
+            if (result != null) {
+                success.invoke(result)
+
+                val params = ColorCorrectionParams.fromSettings(colorCorrectionSettings)
+                manager.push(params, HistoryEntry(module = "color", operation = "colorCorrection", parameters = params.toMap()))
+            } else {
+                logger.error("colorCorrection is failed")
+            }
         }
     }
 
@@ -147,5 +163,7 @@ class ColorCorrectionViewModel {
             ImageProcess.deleteColorCorrection(cppObjectPtr)
             cppObjectPtr = 0
         }
+
+        processor = null
     }
 }

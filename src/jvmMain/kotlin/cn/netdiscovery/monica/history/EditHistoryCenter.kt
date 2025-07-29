@@ -1,5 +1,8 @@
 package cn.netdiscovery.monica.history
 
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+
 /**
  *
  * @FileName:
@@ -13,9 +16,9 @@ object EditHistoryCenter {
     private val historyMap = mutableMapOf<String, EditHistoryManager<Any>>()
 
     @Suppress("UNCHECKED_CAST")
-    fun <T> getManager(key: String): EditHistoryManager<T> {
+    fun <T> getManager(key: String, scope: CoroutineScope? = null): EditHistoryManager<T> {
         return historyMap.getOrPut(key) {
-            EditHistoryManager<Any>()
+            EditHistoryManager<Any>(coroutineScope = scope ?: CoroutineScope(Dispatchers.Default))
         } as EditHistoryManager<T>
     }
 
