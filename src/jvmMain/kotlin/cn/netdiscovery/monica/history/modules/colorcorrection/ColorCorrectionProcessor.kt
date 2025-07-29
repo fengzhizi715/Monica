@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.history.modules.colorcorrection
 
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.ParameterizedProcessor
+import cn.netdiscovery.monica.manager.OpenCVManager
+import cn.netdiscovery.monica.opencv.ImageProcess
 import java.awt.image.BufferedImage
 
 /**
@@ -12,7 +14,7 @@ import java.awt.image.BufferedImage
  * @date: 2025/7/28 19:31
  * @version: V1.0 <描述当前版本功能>
  */
-class ColorCorrectionProcessor(private val originalImage: BufferedImage):
+class ColorCorrectionProcessor(val image: BufferedImage, val cppObjectPtr: Long):
     ParameterizedProcessor<ColorCorrectionSettings, BufferedImage> {
 
     private var currentParams: ColorCorrectionSettings = ColorCorrectionSettings()
@@ -24,6 +26,10 @@ class ColorCorrectionProcessor(private val originalImage: BufferedImage):
     override fun getCurrentParams(): ColorCorrectionSettings = currentParams
 
     override suspend fun process(): BufferedImage {
-        TODO("Not yet implemented")
+
+        return OpenCVManager.invokeCVSuspend(
+            image = image,
+            action = { byteArray -> ImageProcess.colorCorrection(byteArray, currentParams, cppObjectPtr) }
+        )
     }
 }

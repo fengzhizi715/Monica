@@ -13,37 +13,37 @@ import kotlinx.coroutines.*
 class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
                             private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.Default)) {
 
-    private val undoStack = ArrayDeque<T>()
-    private val redoStack = ArrayDeque<T>()
-
-    private var debounceJob: Job? = null
-    private val debounceDelayMillis = 300L
+    private val undoStack = ArrayDeque<Pair<T, HistoryEntry>>()
+    private val redoStack = ArrayDeque<Pair<T, HistoryEntry>>()
 
     val canUndo: Boolean get() = undoStack.isNotEmpty()
     val canRedo: Boolean get() = redoStack.isNotEmpty()
+
+    private var debounceJob: Job? = null
+    private val debounceDelayMillis = 300L
 
     fun clear() {
         undoStack.clear()
         redoStack.clear()
     }
 
-    fun pushState(state: T) {
+    fun push(state: T, entry: HistoryEntry) {
         if (undoStack.size >= maxHistorySize) {
             undoStack.removeFirst()
         }
-        undoStack.addLast(state)
+        undoStack.addLast(state to entry)
         redoStack.clear()
     }
 
     /**
-     * 防抖版本的 pushState，避免在频繁拖动过程中记录太多中间状态。
+     * 防抖版本的 push，避免在频繁操作过程中记录太多中间状态。
      */
-    fun pushStateDebounced(state: T) {
+    fun pushDebounced(state: T, entry: HistoryEntry) {
         debounceJob?.cancel()
         debounceJob = coroutineScope.launch {
             delay(debounceDelayMillis)
             withContext(Dispatchers.Main) {
-                pushState(state)
+                push(state, entry)
             }
         }
     }
@@ -51,27 +51,28 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
     /**
      * 撤销
      */
-    fun undo(currentState: T): T? {
+    fun undo(currentState: T, currentEntry: HistoryEntry): Pair<T, HistoryEntry>? {
         if (canUndo) {
-            val previous = undoStack.removeLast()
-            redoStack.addLast(currentState)
-            return previous
+            val last = undoStack.removeLast()
+            redoStack.addLast(currentState to currentEntry)
+            return last
         }
         return null
     }
 
+
     /**
      * 重做
      */
-    fun redo(currentState: T): T? {
+    fun redo(currentState: T, currentEntry: HistoryEntry): Pair<T, HistoryEntry>? {
         if (canRedo) {
             val next = redoStack.removeLast()
-            undoStack.addLast(currentState)
+            undoStack.addLast(currentState to currentEntry)
             return next
         }
         return null
     }
 
-    fun peekUndo(): T? = undoStack.lastOrNull()
-    fun peekRedo(): T? = redoStack.lastOrNull()
+    fun peekUndoEntry(): HistoryEntry? = undoStack.lastOrNull()?.second
+    fun peekRedoEntry(): HistoryEntry? = redoStack.lastOrNull()?.second
 }
