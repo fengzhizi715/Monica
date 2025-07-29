@@ -10,5 +10,5 @@ package cn.netdiscovery.monica.history.modules.opencv
  */
 data class CVParams(
     val operation: String = "",
-    val parameters: Map<String, Any>  = emptyMap()
+    val parameters: MutableMap<String, Any> = HashMap()
 )

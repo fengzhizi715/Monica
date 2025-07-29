@@ -1,7 +1,11 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
-import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.config.MODULE_OPENCV
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.HistoryEntry
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
 import cn.netdiscovery.monica.manager.OpenCVManager
+import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
@@ -18,11 +22,19 @@ import java.awt.image.BufferedImage
  */
 class BinaryImageViewModel {
     private val logger: Logger = logger<BinaryImageViewModel>()
+    private val manager = EditHistoryCenter.getManager<CVParams>(MODULE_OPENCV)
 
     fun cvtGray(state: ApplicationState) {
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_GRAY, action = { byteArray ->
+
+                val operation = "cvtGray"
+                val params = CVParams(operation = operation)
+                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
+                manager.push(params, entry)
+                manager.logOnly(entry)
+
                 ImageProcess.cvtGray(byteArray)
             }, failure = { e ->
                 logger.error("cvtGray is failed", e)
@@ -46,6 +58,16 @@ class BinaryImageViewModel {
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+
+                val operation = "threshold"
+                val params = CVParams(operation = operation).apply {
+                    this.parameters["thresholdType1"] = thresholdType1
+                    this.parameters["thresholdType2"] = thresholdType2
+                }
+                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
+                manager.push(params, entry)
+                manager.logOnly(entry)
+
                 ImageProcess.threshold(byteArray, thresholdType1, thresholdType2)
             }, failure = { e ->
                 logger.error("threshold is failed", e)

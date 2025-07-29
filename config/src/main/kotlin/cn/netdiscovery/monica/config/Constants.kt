@@ -42,3 +42,6 @@ const val KEY_GENERAL_SETTINGS = "key_general_settings"
 
 const val STATUS_HTTP_SERVER_OK = 1
 const val STATUS_HTTP_SERVER_FAILED = 0
+
+const val MODULE_COLOR = "module_color"
+const val MODULE_OPENCV = "module_opencv"

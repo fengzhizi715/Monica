@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.history.HistoryEntry
@@ -31,6 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 class ColorCorrectionViewModel {
 
     private val logger: Logger = logger<ColorCorrectionViewModel>()
+    private val manager = EditHistoryCenter.getManager<ColorCorrectionParams>(MODULE_COLOR)
 
     var contrast by mutableStateOf(255f )
     var hue by mutableStateOf(180f )
@@ -45,8 +47,6 @@ class ColorCorrectionViewModel {
     private var cppObjectPtr:Long = 0
 
     private var init:AtomicBoolean = AtomicBoolean(false)
-
-    private val manager = EditHistoryCenter.getManager<ColorCorrectionParams>("color")
 
     /**
      * 封装图像调色的方法
@@ -73,7 +73,7 @@ class ColorCorrectionViewModel {
             OpenCVManager.invokeCV(image,
                 action  = { byteArray ->
                     val params = ColorCorrectionParams.fromSettings(colorCorrectionSettings)
-                    manager.push(params, HistoryEntry(module = "color", operation = "colorCorrection", parameters = params.toMap()))
+                    manager.push(params, HistoryEntry(module = MODULE_COLOR, operation = "colorCorrection", parameters = params.toMap()))
 
                     ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
                 },

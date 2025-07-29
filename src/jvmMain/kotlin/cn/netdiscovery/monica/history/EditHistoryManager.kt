@@ -19,6 +19,7 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
 
     private val undoStack = ArrayDeque<Pair<T, HistoryEntry>>()
     private val redoStack = ArrayDeque<Pair<T, HistoryEntry>>()
+    private val operationLog = mutableListOf<HistoryEntry>()
 
     val canUndo: Boolean get() = undoStack.isNotEmpty()
     val canRedo: Boolean get() = redoStack.isNotEmpty()
@@ -38,6 +39,15 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         undoStack.addLast(state to entry)
         redoStack.clear()
     }
+
+    fun logOnly(entry: HistoryEntry) {
+        operationLog.add(entry)
+        if (operationLog.size > maxHistorySize) {
+            operationLog.removeAt(0)
+        }
+    }
+
+    fun getOperationLog(): List<HistoryEntry> = operationLog.toList()
 
     /**
      * 防抖版本的 push，避免在频繁操作过程中记录太多中间状态。
