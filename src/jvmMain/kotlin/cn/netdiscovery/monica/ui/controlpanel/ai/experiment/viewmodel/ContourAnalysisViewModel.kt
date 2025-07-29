@@ -1,9 +1,13 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
+import cn.netdiscovery.monica.config.MODULE_OPENCV
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.ContourDisplaySettings
 import cn.netdiscovery.monica.domain.ContourFilterSettings
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
+import cn.netdiscovery.monica.history.modules.opencv.recordCVOperation
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
@@ -11,6 +15,7 @@ import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import kotlin.collections.set
 
 /**
  *
@@ -22,6 +27,7 @@ import java.awt.image.BufferedImage
  */
 class ContourAnalysisViewModel {
     private val logger: Logger = logger<ContourAnalysisViewModel>()
+    private val manager = EditHistoryCenter.getManager<CVParams>(MODULE_OPENCV)
 
     fun contourAnalysis(state: ApplicationState, contourFilterSettings: ContourFilterSettings, contourDisplaySettings: ContourDisplaySettings) {
 
@@ -33,6 +39,11 @@ class ContourAnalysisViewModel {
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = type, action = { byteArray ->
                 val srcByteArray = state.rawImage!!.image2ByteArray()
+
+                manager.recordCVOperation(operation = "contourAnalysis", description = "轮廓分析") {
+                    this.parameters["contourFilterSettings"] = "${GsonUtils.toJson(contourFilterSettings)}"
+                    this.parameters["contourDisplaySettings"] = "${GsonUtils.toJson(contourDisplaySettings)}"
+                }
 
                 val scalar = state.toOutputBoxScalar()
 
