@@ -40,6 +40,9 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         redoStack.clear()
     }
 
+    /**
+     * 只记录真正的操作, 便于后续支持视图或者全局的历史视图
+     */
     fun logOnly(entry: HistoryEntry) {
         operationLog.add(entry)
         if (operationLog.size > maxHistorySize) {

@@ -91,6 +91,16 @@ class BinaryImageViewModel {
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+
+                val operation = "adaptiveThreshold"
+                val params = CVParams(operation = operation).apply {
+                    this.parameters["adaptiveMethod"] = adaptiveMethod
+                    this.parameters["thresholdType"] = thresholdType
+                }
+                val entry = HistoryEntry(module = MODULE_OPENCV, operation = operation, parameters = params.parameters)
+                manager.push(params, entry)
+                manager.logOnly(entry)
+
                 ImageProcess.adaptiveThreshold(byteArray, adaptiveMethod, thresholdType, blockSize, c)
             }, failure = { e ->
                 logger.error("adaptiveThreshold is failed", e)
