@@ -74,7 +74,7 @@ object OpenCVManager {
         }
     }
 
-    suspend fun invokeCVAsync(
+    suspend fun invokeCVSuspend(
         image: BufferedImage,
         type: Int = BufferedImage.TYPE_INT_ARGB,
         action: CVAction
@@ -91,7 +91,4 @@ object OpenCVManager {
             }
         )
     }
-
-
-
 }
