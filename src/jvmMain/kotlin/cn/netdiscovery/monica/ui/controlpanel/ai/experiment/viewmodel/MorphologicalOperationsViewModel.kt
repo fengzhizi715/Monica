@@ -1,14 +1,19 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
+import cn.netdiscovery.monica.config.MODULE_OPENCV
 import cn.netdiscovery.monica.manager.OpenCVManager
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
+import cn.netdiscovery.monica.history.modules.opencv.recordCVOperation
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.logger
 import com.safframework.rxcache.utils.GsonUtils
 import org.slf4j.Logger
 import java.awt.image.BufferedImage
+import kotlin.collections.set
 
 /**
  *
@@ -20,6 +25,7 @@ import java.awt.image.BufferedImage
  */
 class MorphologicalOperationsViewModel {
     private val logger: Logger = logger<MorphologicalOperationsViewModel>()
+    private val manager = EditHistoryCenter.getManager<CVParams>(MODULE_OPENCV)
 
     fun morphologyEx(state: ApplicationState, morphologicalOperationSettings: MorphologicalOperationSettings) {
 
@@ -27,6 +33,10 @@ class MorphologicalOperationsViewModel {
 
         state.scope.launchWithLoading {
             OpenCVManager.invokeCV(state, type = BufferedImage.TYPE_BYTE_BINARY, action = { byteArray ->
+
+                manager.recordCVOperation(operation = "morphologyEx", description = "形态学操作") {
+                    this.parameters["morphologicalOperationSettings"] = morphologicalOperationSettings
+                }
 
                 ImageProcess.morphologyEx(byteArray, morphologicalOperationSettings)
             }, failure = { e ->
