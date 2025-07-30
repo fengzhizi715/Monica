@@ -219,7 +219,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         }
                     } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
                 } else ""
-                
+
                 state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() } , failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
 
                 state.saveGeneralSettings()
