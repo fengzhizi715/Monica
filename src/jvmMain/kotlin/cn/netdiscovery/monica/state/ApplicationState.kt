@@ -89,12 +89,13 @@ class ApplicationState(val scope:CoroutineScope,
     var outputBoxBText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.outputBoxB?:0)
 
     var sizeText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.size?:100)
+    var maxHistorySizeText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.maxHistorySize?:20)
     var algorithmUrlText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.algorithmUrl?:"")
 
     fun toOutputBoxScalar() = intArrayOf(outputBoxBText, outputBoxGText, outputBoxRText)
 
     fun saveGeneralSettings() {
-        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText, sizeText, algorithmUrlText))
+        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText, sizeText, maxHistorySizeText,algorithmUrlText))
     }
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)

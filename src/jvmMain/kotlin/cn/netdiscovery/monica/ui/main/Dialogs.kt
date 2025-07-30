@@ -107,6 +107,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var gText by remember { mutableStateOf(state.outputBoxGText.toString()) }
     var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
+    var maxHistorySizeText by remember { mutableStateOf(state.maxHistorySizeText.toString()) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
     var status by remember { mutableStateOf(-1) }
     var isInitFilterParams by mutableStateOf(false)
@@ -134,7 +135,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp)) {
+                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
                     Text("通用区域大小设置(只用于打码、马赛克):")
 
                     basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
@@ -142,13 +143,21 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp)) {
+                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
+                    Text("单个模块最大历史记录:")
+
+                    basicTextFieldWithTitle(titleText = "maxHistorySize", modifier = Modifier.padding(top = 5.dp), value = maxHistorySizeText, width = 80.dp) { str ->
+                        maxHistorySizeText = str
+                    }
+                }
+
+                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
                     basicTextFieldWithTitle(titleText = "算法服务url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
                         algorithmUrlText = str
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
+                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
                     confirmButton(enabled = true, "检测算法服务器状态") {
                         status = try {
 
@@ -175,14 +184,14 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(isInitFilterParams, onCheckedChange = {
                         isInitFilterParams = it
                     })
                     Text(text = "初始化滤镜的参数配置")
                 }
 
-                Row(modifier = Modifier.padding(top = 20.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(isClearCacheData, onCheckedChange = {
                         isClearCacheData = it
                     })
@@ -196,18 +205,22 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.outputBoxGText   = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                 state.outputBoxBText   = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
                 state.sizeText         = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
-                state.algorithmUrlText = getValidateField(block = {
-                    if (algorithmUrlText.isValidUrl()) {
+                state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
+                    getValidateField(block = {
+                        if (algorithmUrlText.isValidUrl()) {
 
-                        if (algorithmUrlText.last() == '/') {
-                            algorithmUrlText
+                            if (algorithmUrlText.last() == '/') {
+                                algorithmUrlText
+                            } else {
+                                "$algorithmUrlText/"
+                            }
                         } else {
-                            "$algorithmUrlText/"
+                            throw RuntimeException()
                         }
-                    } else {
-                        throw RuntimeException()
-                    }
-                } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
+                    } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
+                } else ""
+                
+                state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() } , failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
 
                 state.saveGeneralSettings()
 

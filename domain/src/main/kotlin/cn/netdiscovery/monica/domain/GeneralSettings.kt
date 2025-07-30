@@ -13,5 +13,6 @@ data class GeneralSettings(
     var outputBoxG: Int,
     var outputBoxB: Int,
     var size: Int,
+    var maxHistorySize: Int,
     var algorithmUrl: String
 )
