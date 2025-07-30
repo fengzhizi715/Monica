@@ -47,7 +47,7 @@ fun history(state: ApplicationState, title: String) {
         historyEntries.addAll(viewModel.getOperationLog())
     }
 
-    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
+    Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
 
         CVHistoryList(historyEntries)
@@ -69,7 +69,7 @@ fun CVHistoryList(history: List<HistoryEntry>) {
 
 @Composable
 fun HistoryItem(entry: HistoryEntry) {
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
         Text(
             text = "操作: ${entry.operation}",
         )
