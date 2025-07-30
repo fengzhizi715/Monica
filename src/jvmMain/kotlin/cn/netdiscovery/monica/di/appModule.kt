@@ -6,6 +6,7 @@ import cn.netdiscovery.monica.ui.controlpanel.ai.AIViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.BinaryImageViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
+import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.HistoryViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageEnhanceViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageDenoisingViewModel
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
@@ -48,6 +49,7 @@ val viewModelModule = module {
     singleOf(::ImageDenoisingViewModel)
     singleOf(::MorphologicalOperationsViewModel)
     singleOf(::MatchTemplateViewModel)
+    singleOf(::HistoryViewModel)
     singleOf(::GenerateGifViewModel)
     singleOf(::CartoonViewModel)
 }
