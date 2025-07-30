@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.HistoryViewModel
+import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.formatTimestamp
 import org.koin.compose.koinInject
@@ -61,7 +62,7 @@ fun CVHistoryList(history: List<HistoryEntry>) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(history) { entry ->
                 HistoryItem(entry)
-                Divider(modifier = Modifier.padding(vertical = 8.dp))
+                divider()
             }
         }
     }
@@ -78,7 +79,7 @@ fun HistoryItem(entry: HistoryEntry) {
         )
         Text(
             text = "参数: ${entry.parameters.entries.joinToString { "${it.key}=${it.value}" }}",
-            maxLines = 2,
+            maxLines = 6,
             overflow = TextOverflow.Ellipsis
         )
         if (entry.description.isNotEmpty()) {
