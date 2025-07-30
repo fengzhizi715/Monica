@@ -76,6 +76,10 @@ enum class Screen(
     MatchTemplate(
         label = "模版匹配",
         resourcePath = "images/ai/match_template.png"
+    ),
+    History(
+        label = "调参历史",
+        resourcePath = "images/ai/history.png"
     )
 }
 
@@ -115,6 +119,10 @@ fun customNavigationHost(
 
         composable(Screen.MatchTemplate.name) {
             matchTemplate(state, Screen.MatchTemplate.label)
+        }
+
+        composable(Screen.History.name) {
+            history(state, Screen.History.label)
         }
     }.build()
 }
