@@ -45,7 +45,6 @@ fun history(state: ApplicationState, title: String) {
     LaunchedEffect(Unit) {
         historyEntries.clear()
         historyEntries.addAll(viewModel.getOperationLog())
-        logger.info("historyEntries size = ${historyEntries.size}")
     }
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp)) {
