@@ -1,5 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel
 
+import cn.netdiscovery.monica.config.MODULE_OPENCV
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.HistoryEntry
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
 import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 
@@ -13,5 +17,10 @@ import org.slf4j.Logger
  */
 class HistoryViewModel {
     private val logger: Logger = logger<HistoryViewModel>()
+    private val manager = EditHistoryCenter.getManager<CVParams>(MODULE_OPENCV)
 
+    fun getOperationLog():List<HistoryEntry>{
+
+        return manager.getOperationLog().asReversed()
+    }
 }
