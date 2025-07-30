@@ -231,6 +231,7 @@ fun experiment(state: ApplicationState) {
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
                             state.getLastImage()?.let {
+                                CVState.clearAllStatus()
                                 state.currentImage = it
                             }
                         })

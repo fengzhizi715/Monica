@@ -41,8 +41,8 @@ class ContourAnalysisViewModel {
                 val srcByteArray = state.rawImage!!.image2ByteArray()
 
                 manager.recordCVOperation(operation = "contourAnalysis", description = "轮廓分析") {
-                    this.parameters["contourFilterSettings"] = "${GsonUtils.toJson(contourFilterSettings)}"
-                    this.parameters["contourDisplaySettings"] = "${GsonUtils.toJson(contourDisplaySettings)}"
+                    this.parameters["contourFilterSettings"] = contourFilterSettings
+                    this.parameters["contourDisplaySettings"] = contourDisplaySettings
                 }
 
                 val scalar = state.toOutputBoxScalar()
