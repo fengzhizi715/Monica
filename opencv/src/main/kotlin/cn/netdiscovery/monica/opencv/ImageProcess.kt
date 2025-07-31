@@ -215,6 +215,10 @@ object ImageProcess {
      */
     external fun colorCorrectionWithPyramidImage(nativePtr:Long, colorCorrectionSettings: ColorCorrectionSettings, cppObjectPtr:Long): DecodedPreviewImage?
 
+    /**
+     * 解码大图（主要针对 jpg、png、webp 格式的大图），并返回 DecodedPreviewImage 对象
+     */
+    external fun decodeLargeImageToBufferForPreView(path: String): DecodedPreviewImage?
 
     /**
      * raw 文件、heic 文件，保存的时候通过 jni 获取原图的信息，然后进行保存。

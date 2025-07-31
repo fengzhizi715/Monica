@@ -12,7 +12,7 @@ data class DecodedPreviewImage(
     val nativePtr: Long,  // 对应 MonicaImageProcess 中 PyramidImage 对象的指针地址
     val width: Int,
     val height: Int,
-    val previewImage: IntArray
+    val previewImage: IntArray // 返回金字塔第一层的图像
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
