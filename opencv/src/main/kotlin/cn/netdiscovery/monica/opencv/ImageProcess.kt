@@ -218,6 +218,7 @@ object ImageProcess {
 
     /**
      * raw 文件、heic 文件，保存的时候通过 jni 获取原图的信息，然后进行保存。
+     * 该函数通过指针获取 Native 的 PyramidImage 对象，再返回原图的信息。
      */
     external fun getNativeImage(nativePtr:Long): NativeImage?
 
