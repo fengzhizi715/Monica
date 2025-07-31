@@ -113,6 +113,34 @@ fun loadFixedSvgAsImage(inputFile: File, width: Float? = null, height: Float? = 
     return svgDocumentToBufferedImage(doc, width, height)
 }
 
+/**
+ * 在无需解码整张图片的情况下，获取图像的尺寸
+ */
+fun getImageDimension(file: File): Pair<Int, Int>? {
+    ImageIO.createImageInputStream(file)?.use { input ->
+        val readers = ImageIO.getImageReaders(input)
+        if (readers.hasNext()) {
+            val reader = readers.next()
+            reader.input = input
+            val width = reader.getWidth(0)
+            val height = reader.getHeight(0)
+            reader.dispose()
+            return width to height
+        }
+    }
+    return null
+}
+
+/**
+ * 判断图像是否大图
+ */
+fun isLargeImage(width: Int, height: Int): Boolean {
+    val pixelCount = width * height
+    val longSide = maxOf(width, height)
+
+    return pixelCount > 12_000_000 || longSide > 4000 // 1200 万像素或长边超 4000px
+}
+
 fun clamp(c: Int): Int {
     return if (c > 255) 255 else if (c < 0) 0 else c
 }
