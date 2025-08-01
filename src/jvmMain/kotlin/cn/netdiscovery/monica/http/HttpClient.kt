@@ -99,14 +99,13 @@ fun createRequest(request: ()->Request,
                   failure: CVFailure) {
 
     try {
-        httpClient.okHttpClient().asyncCall { request.invoke() }.get().use { response->
+        httpClient.okHttpClient().asyncCall { request.invoke() }
+            .get()
+            .use { response->
 
-            val bufferedImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream ->
-                ImageIO.read(inputStream)
+                val bufferedImage = ByteArrayInputStream(response.body?.bytes()).use { inputStream -> ImageIO.read(inputStream) }
+                success.invoke(bufferedImage)
             }
-
-            success.invoke(bufferedImage)
-        }
     } catch (e:Exception){
         e.printStackTrace()
         failure.invoke(e)
