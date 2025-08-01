@@ -1,11 +1,9 @@
 package cn.netdiscovery.monica.history.modules.colorcorrection
 
 import cn.netdiscovery.monica.config.MODULE_COLOR
-import cn.netdiscovery.monica.config.MODULE_OPENCV
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryManager
 import cn.netdiscovery.monica.history.HistoryEntry
-import cn.netdiscovery.monica.history.modules.opencv.CVParams
 
 /**
  *
