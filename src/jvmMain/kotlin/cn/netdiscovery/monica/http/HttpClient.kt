@@ -75,6 +75,9 @@ val httpClient by lazy {
 
 fun healthCheck(baseUrl:String):Boolean = httpClient.get(url = "${baseUrl}health").code == 200
 
+/**
+ * 封装 RequestBody
+ */
 fun createRequestBody(image: BufferedImage, format:String): RequestBody {
     return object : RequestBody() {
         override fun contentType(): MediaType? {
@@ -94,12 +97,16 @@ fun createRequestBody(image: BufferedImage, format:String): RequestBody {
     }
 }
 
+/**
+ * 封装 http 请求
+ */
 fun createRequest(request: ()->Request,
                   success: CVSuccess,
                   failure: CVFailure) {
 
     try {
-        httpClient.okHttpClient().asyncCall { request.invoke() }
+        httpClient.okHttpClient()
+            .asyncCall { request.invoke() }
             .get()
             .use { response->
 
