@@ -109,6 +109,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 近期的 TODO : 
 
+* 设计多轮自然语言调色的对话，实现调色
 * 重构形状绘制模块
 * 增加人脸美颜的功能
 * 增加图像压缩的功能
