@@ -8,6 +8,7 @@ import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
+import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.manager.OpenCVManager
@@ -72,8 +73,7 @@ class ColorCorrectionViewModel {
 
             OpenCVManager.invokeCV(image,
                 action  = { byteArray ->
-                    val params = ColorCorrectionParams.fromSettings(colorCorrectionSettings)
-                    manager.push(params, HistoryEntry(module = MODULE_COLOR, operation = "colorCorrection", parameters = params.toMap()))
+                    manager.recordColorCorrection(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
 
                     ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
                 },

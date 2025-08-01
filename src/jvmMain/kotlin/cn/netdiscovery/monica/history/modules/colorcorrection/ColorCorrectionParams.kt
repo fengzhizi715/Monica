@@ -1,6 +1,11 @@
 package cn.netdiscovery.monica.history.modules.colorcorrection
 
+import cn.netdiscovery.monica.config.MODULE_COLOR
+import cn.netdiscovery.monica.config.MODULE_OPENCV
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.history.EditHistoryManager
+import cn.netdiscovery.monica.history.HistoryEntry
+import cn.netdiscovery.monica.history.modules.opencv.CVParams
 
 /**
  *
@@ -69,4 +74,16 @@ data class ColorCorrectionParams(
                 status = settings.status
             )
     }
+}
+
+fun <T> EditHistoryManager<T>.recordColorCorrection(
+    module: String = MODULE_COLOR,
+    operation: String,
+    description: String = "",
+    colorCorrectionSettings: ColorCorrectionSettings
+) {
+    val params = ColorCorrectionParams.fromSettings(colorCorrectionSettings)
+    val entry = HistoryEntry(module = MODULE_COLOR, operation = operation, parameters = params.toMap())
+    push(params as T, entry)
+    logOnly(entry)
 }
