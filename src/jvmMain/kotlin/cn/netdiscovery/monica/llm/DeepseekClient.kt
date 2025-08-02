@@ -2,6 +2,7 @@ package cn.netdiscovery.monica.llm
 
 import cn.netdiscovery.http.core.utils.extension.asyncCall
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.exception.MonicaException
 import cn.netdiscovery.monica.http.httpClient
 import com.safframework.rxcache.utils.GsonUtils
 import jdk.javadoc.internal.doclets.formats.html.markup.HtmlStyle
@@ -29,7 +30,7 @@ suspend fun applyInstructionWithLLM(
     session: DialogSession,
     instruction: String,
     apiKey: String
-): ColorCorrectionSettings {
+): ColorCorrectionSettings? {
     val prompt = buildString {
         append("当前图像的参数如下：\n")
         append(GsonUtils.toJson(session.currentSettings))
@@ -49,13 +50,17 @@ suspend fun applyInstructionWithLLM(
         body = payload
     )
 
-    val json = extractJson(responseJson)
-    println("json = $json")
-    val responseObj = GsonUtils.fromJson<ColorCorrectionSettings>(json, ColorCorrectionSettings::class.java)
+    try {
+        val json = extractJson(responseJson)
+        val responseObj = GsonUtils.fromJson<ColorCorrectionSettings>(json, ColorCorrectionSettings::class.java)
 
-    session.currentSettings = responseObj
-    session.history.add(mapOf("user" to instruction))
-    return responseObj
+        session.currentSettings = responseObj
+        session.history.add(mapOf("user" to instruction))
+        return responseObj
+    } catch (e: Exception) {
+        
+        return null
+    }
 }
 
 fun extractJson(jsonData: String): String {
@@ -64,8 +69,10 @@ fun extractJson(jsonData: String): String {
 
     if (content.isNotEmpty()) {
         content = content.replace("```json","").replace("```","")
+        return content
+    } else {
+        throw MonicaException("无法获取调色的参数")
     }
-    return content
 }
 
 fun sendPostJson(url: String, headers: Map<String, String>, body: Any): String {
