@@ -58,7 +58,7 @@ suspend fun applyInstructionWithLLM(
         session.history.add(mapOf("user" to instruction))
         return responseObj
     } catch (e: Exception) {
-        
+
         return null
     }
 }
