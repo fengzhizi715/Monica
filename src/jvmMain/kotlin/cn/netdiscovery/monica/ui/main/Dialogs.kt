@@ -108,6 +108,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var bText by remember { mutableStateOf(state.outputBoxBText.toString()) }
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
     var maxHistorySizeText by remember { mutableStateOf(state.maxHistorySizeText.toString()) }
+    var deepSeekApiKeyText by remember { mutableStateOf(state.deepSeekApiKeyText) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
     var status by remember { mutableStateOf(-1) }
     var isInitFilterParams by mutableStateOf(false)
@@ -136,24 +137,28 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "通用区域大小设置(只用于打码、马赛克): size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "通用区域大小设置(只用于打码、马赛克): size", modifier = Modifier.padding(top = 3.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
                     }
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "单个模块最大历史记录: maxHistorySize", modifier = Modifier.padding(top = 5.dp), value = maxHistorySizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "单个模块最大历史记录: maxHistorySize", modifier = Modifier.padding(top = 3.dp), value = maxHistorySizeText, width = 80.dp) { str ->
                         maxHistorySizeText = str
                     }
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "算法服务url:", modifier = Modifier.padding(top = 5.dp), value = algorithmUrlText, width = 400.dp) { str ->
-                        algorithmUrlText = str
+                    basicTextFieldWithTitle(titleText = "deepseek: api key", modifier = Modifier.padding(top = 3.dp), value = deepSeekApiKeyText, width = 400.dp) { str ->
+                        deepSeekApiKeyText = str
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
+                Column(modifier = Modifier.padding(top = 10.dp, start = 12.dp), horizontalAlignment = Alignment.Start) {
+                    basicTextFieldWithTitle(titleText = "算法服务url:", value = algorithmUrlText, width = 400.dp) { str ->
+                        algorithmUrlText = str
+                    }
+
                     confirmButton(enabled = algorithmUrlText.isNotEmpty(), "检测算法服务状态") {
                         status = try {
                             val baseUrl = if (algorithmUrlText.last() == '/') {
@@ -200,6 +205,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 state.outputBoxGText   = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                 state.outputBoxBText   = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
                 state.sizeText         = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
+                state.deepSeekApiKeyText = deepSeekApiKeyText
                 state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
                     getValidateField(block = {
                         if (algorithmUrlText.isValidUrl()) {

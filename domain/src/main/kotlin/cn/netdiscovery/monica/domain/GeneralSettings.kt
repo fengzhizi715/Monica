@@ -14,5 +14,6 @@ data class GeneralSettings(
     var outputBoxB: Int,
     var size: Int,
     var maxHistorySize: Int,
+    var deepSeekApiKey: String,
     var algorithmUrl: String
 )
