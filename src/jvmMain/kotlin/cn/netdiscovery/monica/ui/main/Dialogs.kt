@@ -136,17 +136,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    Text("通用区域大小设置(只用于打码、马赛克):")
-
-                    basicTextFieldWithTitle(titleText = "size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "通用区域大小设置(只用于打码、马赛克): size", modifier = Modifier.padding(top = 5.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
                     }
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    Text("单个模块最大历史记录:")
-
-                    basicTextFieldWithTitle(titleText = "maxHistorySize", modifier = Modifier.padding(top = 5.dp), value = maxHistorySizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = "单个模块最大历史记录: maxHistorySize", modifier = Modifier.padding(top = 5.dp), value = maxHistorySizeText, width = 80.dp) { str ->
                         maxHistorySizeText = str
                     }
                 }
