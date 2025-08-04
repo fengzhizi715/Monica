@@ -50,7 +50,8 @@ suspend fun applyInstructionWithLLM(
 
     val responseJson = sendPostJson(
         url = "https://api.deepseek.com/chat/completions",
-        headers = mapOf("Content-Type" to "application/json", "Authorization" to "Bearer $apiKey"),
+        headers = mapOf("Content-Type" to "application/json",
+            "Authorization" to "Bearer $apiKey"),
         body = payload
     )
 
