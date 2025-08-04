@@ -158,9 +158,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp),verticalAlignment = Alignment.CenterVertically) {
-                    confirmButton(enabled = true, "检测算法服务器状态") {
+                    confirmButton(enabled = algorithmUrlText.isNotEmpty(), "检测算法服务状态") {
                         status = try {
-
                             val baseUrl = if (algorithmUrlText.last() == '/') {
                                 algorithmUrlText
                             } else {
@@ -184,14 +183,14 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                 }
 
-                Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(isInitFilterParams, onCheckedChange = {
                         isInitFilterParams = it
                     })
                     Text(text = "初始化滤镜的参数配置")
                 }
 
-                Row(modifier = Modifier.padding(top = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(isClearCacheData, onCheckedChange = {
                         isClearCacheData = it
                     })
