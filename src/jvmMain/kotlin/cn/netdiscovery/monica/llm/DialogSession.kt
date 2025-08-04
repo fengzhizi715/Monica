@@ -13,5 +13,6 @@ import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 data class DialogSession(
     val systemPrompt: String,
     var currentSettings: ColorCorrectionSettings,
-    val history: MutableList<Map<String, String>> = mutableListOf()
+//    val history: MutableList<Map<String, String>> = mutableListOf()
+    val history: MutableList<Pair<String, ColorCorrectionSettings>> = mutableListOf()
 )
