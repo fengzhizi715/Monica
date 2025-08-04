@@ -49,6 +49,18 @@ class ColorCorrectionViewModel {
 
     private var init:AtomicBoolean = AtomicBoolean(false)
 
+    fun updateParams(params: ColorCorrectionSettings) {
+        contrast = params.contrast.toFloat()
+        hue = params.hue.toFloat()
+        saturation = params.saturation.toFloat()
+        lightness = params.lightness.toFloat()
+        temperature = params.temperature.toFloat()
+        highlight = params.highlight.toFloat()
+        shadow = params.shadow.toFloat()
+        sharpen = params.sharpen.toFloat()
+        corner = params.corner.toFloat()
+    }
+
     /**
      * 封装图像调色的方法
      * @param state   当前应用的 state

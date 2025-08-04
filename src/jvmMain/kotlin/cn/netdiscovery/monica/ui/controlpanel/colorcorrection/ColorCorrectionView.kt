@@ -17,6 +17,8 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.llm.DialogSession
+import cn.netdiscovery.monica.llm.systemPromptForColorCorrection
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.showLoading
@@ -39,6 +41,7 @@ import kotlin.math.roundToInt
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 var colorCorrectionSettings = ColorCorrectionSettings()
+private var showLLMDialog by mutableStateOf(false)
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
@@ -48,6 +51,8 @@ fun colorCorrection(state: ApplicationState) {
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
     val enableSlider = !loadingDisplay
+
+    val session = remember { DialogSession(systemPromptForColorCorrection, colorCorrectionSettings) }
 
     PageLifecycle(
         onInit = {
@@ -330,7 +335,7 @@ fun colorCorrection(state: ApplicationState) {
                             painter = painterResource("images/colorcorrection/chatbot.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                
+                                showLLMDialog = true
                             })
                     }
                 }
@@ -339,6 +344,16 @@ fun colorCorrection(state: ApplicationState) {
 
         if (loadingDisplay) {
             showLoading()
+        }
+
+        if (showLLMDialog) {
+            NaturalLanguageDialog(showLLMDialog, session, state.deepSeekApiKeyText, onDismissRequest = {
+                showLLMDialog = false
+            }) {
+                colorCorrectionSettings = it
+                viewModel.updateParams(colorCorrectionSettings)
+                viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image -> cachedImage = image }
+            }
         }
     }
 }
