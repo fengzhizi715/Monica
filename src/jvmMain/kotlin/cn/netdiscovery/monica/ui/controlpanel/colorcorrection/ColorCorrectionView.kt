@@ -325,6 +325,13 @@ fun colorCorrection(state: ApplicationState) {
                                     state.togglePreviewWindow(false)
                                 }
                             })
+
+                        toolTipButton(text = "基于 LLM 进行调色",
+                            painter = painterResource("images/colorcorrection/chatbot.png"),
+                            iconModifier = Modifier.size(36.dp),
+                            onClick = {
+                                
+                            })
                     }
                 }
             }
