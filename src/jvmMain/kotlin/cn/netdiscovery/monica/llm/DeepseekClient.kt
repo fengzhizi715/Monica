@@ -60,7 +60,7 @@ suspend fun applyInstructionWithLLM(
         val responseObj = GsonUtils.fromJson<ColorCorrectionSettings>(json, ColorCorrectionSettings::class.java)
 
         session.currentSettings = responseObj
-        session.history.add(Pair(instruction, responseObj))
+        session.history.add(Pair(instruction, responseObj)) // 保存用户指令、调色参数
         return responseObj
     } catch (e: Exception) {
         logger.error("responseJson = $responseJson")
