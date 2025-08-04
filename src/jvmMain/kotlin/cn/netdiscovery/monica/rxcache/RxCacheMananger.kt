@@ -1,14 +1,11 @@
 package cn.netdiscovery.monica.rxcache
 
-import Monica.config.BuildConfig
-import cn.netdiscovery.monica.config.workDirectory
 import cn.netdiscovery.monica.utils.AppDirs
 import com.safframework.rxcache.RxCache
 import com.safframework.rxcache.ext.get
 import com.safframework.rxcache.ext.persistence
 import com.safframework.rxcache.memory.impl.FIFOMemoryImpl
 import com.safframework.rxcache.persistence.okio.OkioImpl
-import java.io.File
 
 /**
  *
@@ -33,4 +30,7 @@ fun getFilterParam(filterName:String):List<Param>? = rxCache.get<FilterParam>(fi
 
 fun getFilterRemark(filterName:String):String? = rxCache.get<FilterParam>(filterName)?.data?.remark
 
+/**
+ * 清空缓存所有数据
+ */
 fun clearData() = rxCache.clear()

@@ -115,7 +115,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
     AlertDialog(onDismissRequest = {},
         title = {
-            Text("Monica 通用设置",modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
+            Text("Monica 通用设置", modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
         },
         text = {
             Column {
