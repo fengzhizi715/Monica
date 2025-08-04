@@ -47,7 +47,7 @@ fun NaturalLanguageDialog(
             text = {
                 Column(modifier = Modifier.fillMaxWidth().heightIn(min = 200.dp, max = 500.dp)) {
 
-                    // 🔁 上下文对话记录区
+                    // 上下文对话记录区
                     if (session.history.isNotEmpty()) {
                         LazyColumn(
                             modifier = Modifier
