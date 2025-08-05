@@ -109,11 +109,10 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 近期的 TODO : 
 
-* 多轮自然语言调色的对话，实现调色
 * 重构形状绘制模块
+* 优化 UI
 * 增加人脸美颜的功能
 * 增加图像压缩的功能
-* 优化 UI
 * 国际化
 * 升级 Kotlin Compose desktop、第三方库的版本
 
