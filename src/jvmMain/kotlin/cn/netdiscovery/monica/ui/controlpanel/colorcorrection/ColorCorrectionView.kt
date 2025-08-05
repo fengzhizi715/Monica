@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -12,9 +11,9 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toPainter
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.llm.DialogSession
@@ -54,6 +53,9 @@ fun colorCorrection(state: ApplicationState) {
 
     val session = remember { DialogSession(systemPromptForColorCorrection, colorCorrectionSettings) }
 
+    val clickPoints = remember { mutableStateListOf<ClickPoint>() }
+    var currentLabel by remember { mutableStateOf(1) }
+
     PageLifecycle(
         onInit = {
             logger.info("ColorCorrectionView 启动时初始化")
@@ -81,12 +83,17 @@ fun colorCorrection(state: ApplicationState) {
                 },
                 enabled = true
             ) {
-                Image(
-                    painter = cachedImage.toPainter(),
-                    contentDescription = null,
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
+                ClickableImage(
+                    imageBitmap = cachedImage.toComposeImageBitmap(),
+                    originalSize = IntSize(cachedImage.width, cachedImage.height),
+                    clickPoints = clickPoints,
+                    currentLabel = currentLabel,
+                    onAddClickPoint = { point ->
+                        clickPoints += point
+                    },
+                    modifier = Modifier.fillMaxSize()
                 )
+
             }
 
             Row(modifier = Modifier.weight(0.6f)
