@@ -111,9 +111,9 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 * 重构形状绘制模块
 * 增加人脸美颜的功能
-* 增加图像压缩的功能
 * 国际化
 * 升级 Kotlin Compose desktop、第三方库的版本
+* 增加图像压缩的功能
 
 
 # 🤝 贡献方式
