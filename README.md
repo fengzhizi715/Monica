@@ -97,7 +97,7 @@ https://github.com/fengzhizi715/MonicaImageProcess
 
 深度学习相关服务的源码和模型：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
-> 我并没有来得及在云端部署相关服务，感兴趣可以下载在本地编译和部署
+> 我没有在云端部署相关服务，感兴趣可以下载在本地编译和部署
 
 
 # 💻 项目计划：
