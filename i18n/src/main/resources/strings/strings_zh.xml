@@ -150,7 +150,7 @@
            <string name="algorithm_service_url">算法服务url:</string>
            <string name="init_filter_params">初始化滤镜的参数配置</string>
            <string name="clear_cache_data">清空所有缓存数据</string>
-           <string name="reset_to_system_language">重置为系统语言</string>
+           <string name="reset_to_system_language">重置</string>
            
            <!-- 基础功能 -->
            <string name="x_direction">x 方向</string>

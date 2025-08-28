@@ -150,7 +150,7 @@
     <string name="algorithm_service_url">Algorithm Service URL:</string>
     <string name="init_filter_params">Initialize filter parameter configuration</string>
     <string name="clear_cache_data">Clear all cache data</string>
-    <string name="reset_to_system_language">Reset to System Language</string>
+    <string name="reset_to_system_language">Reset</string>
     
     <!-- Basic functions -->
     <string name="x_direction">X Direction</string>

@@ -221,7 +221,6 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         modifier = Modifier.padding(end = 8.dp),
                         onClick = {
                             i18nState.toggleLanguage()
-                            showTopToast("语言已切换")
                         }
                     ) {
                         Text(i18nState.getToggleButtonText())
@@ -231,7 +230,6 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     Button(
                         onClick = {
                             i18nState.resetToSystemLanguage()
-                            showTopToast("语言已重置为系统语言")
                         }
                     ) {
                         Text(i18nState.getString("reset_to_system_language"))
