@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.utils
 import androidx.compose.ui.awt.ComposeWindow
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.awt.datatransfer.DataFlavor
@@ -80,7 +81,7 @@ fun exportImage(
     onFileSelected: (JFileChooser) -> Unit
 ) {
     JFileChooser().apply {
-        this.dialogTitle = "导出图像"
+        this.dialogTitle = LocalizationManager.getString("export_image")
 
         // 添加格式选项
         val pngFilter = FileNameExtensionFilter("PNG 图像 (*.png)", "png")

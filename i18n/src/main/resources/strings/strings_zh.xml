@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- 主窗口和菜单 -->
+    <string name="app_name">Monica</string>
+    <string name="app_description">Monica 是一个跨平台图像编辑器</string>
+    <string name="software_version_info">软件版本信息</string>
+    <string name="open_local_image">打开本地图片</string>
+    <string name="load_network_image">加载网络图片</string>
+    <string name="save_image">保存图像</string>
+    <string name="exit">退出</string>
+    
+    <!-- 控制面板 -->
+    <string name="control_panel">控制面板</string>
+    <string name="general_settings">通用设置</string>
+    <string name="basic_functions">基础功能</string>
+    <string name="color_correction">图像调色</string>
+    <string name="filter_effects">滤镜效果</string>
+    <string name="ai_laboratory">AI 实验室</string>
+    
+    <!-- 通用设置 -->
+    <string name="settings">设置</string>
+    <string name="monica_general_settings">Monica 通用设置</string>
+    <string name="update">更新</string>
+    <string name="close">关闭</string>
+    <string name="cancel">取消</string>
+    <string name="confirm">确定</string>
+    
+    <!-- 基础功能 -->
+    <string name="image_blur">图像模糊</string>
+    <string name="image_mosaic">图像马赛克</string>
+    <string name="image_doodle">图像涂鸦</string>
+    <string name="shape_drawing">形状绘制</string>
+    <string name="color_picker">图像取色</string>
+    <string name="crop_image">图像裁剪</string>
+    <string name="generate_gif">生成GIF</string>
+    
+    <!-- 形状绘制 -->
+    <string name="select_color">选择颜色</string>
+    <string name="change_properties">属性更改</string>
+    <string name="line">线段</string>
+    <string name="circle">圆形</string>
+    <string name="triangle">三角形</string>
+    <string name="rectangle">矩形</string>
+    <string name="polygon">多边形</string>
+    <string name="add_text">添加文字</string>
+    <string name="save">保存</string>
+    
+    <!-- 涂鸦功能 -->
+    <string name="brush">画笔</string>
+    <string name="eraser">橡皮擦</string>
+    <string name="clear">清除</string>
+    
+    <!-- 图像调色 -->
+    <string name="natural_language_color">自然语言调色</string>
+    <string name="enter_color_instruction">请输入调色指令</string>
+    <string name="color_parameters_updated">更新参数：%s</string>
+    
+    <!-- 滤镜效果 -->
+    <string name="filter_effects">滤镜效果</string>
+    <string name="filter_parameters">滤镜参数</string>
+    
+    <!-- AI 实验室 -->
+    <string name="ai_laboratory_description">AI 实验室</string>
+    <string name="simple_cv_algorithm">简单 CV 算法的快速验证</string>
+    <string name="face_detection">人脸检测</string>
+    <string name="generate_sketch">生成素描画</string>
+    <string name="face_swap">人脸替换</string>
+    <string name="anime_style">动漫化</string>
+    
+    <!-- AI 实验页面 -->
+    <string name="home">首页</string>
+    <string name="binary_image">二值化</string>
+    <string name="edge_detection">边缘检测</string>
+    <string name="contour_analysis">轮廓分析</string>
+    <string name="image_enhance">图像增强</string>
+    <string name="image_denoising">图像降噪</string>
+    <string name="morphological_operations">形态学操作</string>
+    <string name="match_template">模版匹配</string>
+    <string name="parameter_history">调参历史</string>
+    
+    <!-- 裁剪功能 -->
+    <string name="crop_type">裁剪类型</string>
+    <string name="content_scale">内容缩放</string>
+    <string name="aspect_ratio">宽高比</string>
+    <string name="crop_frame">裁剪框架</string>
+    <string name="crop_properties_settings">裁剪属性设置</string>
+    <string name="confirm_crop">确认裁剪</string>
+    <string name="dismiss_crop">取消裁剪</string>
+    
+    <!-- 对话框和提示 -->
+    <string name="loading">加载中...</string>
+    <string name="error">错误</string>
+    <string name="success">成功</string>
+    <string name="warning">警告</string>
+    <string name="info">信息</string>
+    
+    <!-- 属性设置 -->
+    <string name="alpha">透明度</string>
+    <string name="font_size">字体大小</string>
+    <string name="fill">填充</string>
+    <string name="border">边框</string>
+    <string name="stroke_width">描边宽度</string>
+    
+    <!-- 网络图片加载 -->
+    <string name="load_network_image_dialog">加载网络图片</string>
+    <string name="enter_image_url">请输入图片URL</string>
+    <string name="load">加载</string>
+    <string name="url_invalid">URL格式无效</string>
+    
+    <!-- 版本信息 -->
+    <string name="version_info">版本信息</string>
+    <string name="copyright">© 2024 Tony Shen. All rights reserved.</string>
+    
+               <!-- 状态和消息 -->
+           <string name="basic_function_cancelled">取消了基础功能</string>
+           <string name="basic_function_selected">勾选了基础功能</string>
+           <string name="general_settings_cancelled">取消了通用设置</string>
+           <string name="general_settings_selected">勾选了通用设置</string>
+           <string name="color_correction_cancelled">取消了图像调色</string>
+           <string name="color_correction_selected">勾选了图像调色</string>
+           <string name="filter_cancelled">取消了滤镜效果</string>
+           <string name="filter_selected">勾选了滤镜效果</string>
+           <string name="ai_laboratory_cancelled">取消了 AI 实验室</string>
+           <string name="ai_laboratory_selected">勾选了 AI 实验室</string>
+           
+           <!-- 工具提示 -->
+           <string name="simple_cv_tooltip">简单 CV 算法的快速验证</string>
+           <string name="face_detect_tooltip">人脸检测</string>
+           <string name="sketch_drawing_tooltip">生成素描画</string>
+           <string name="face_swap_tooltip">人脸替换</string>
+           <string name="anime_style_tooltip">动漫化</string>
+           
+           <!-- 对话框和按钮 -->
+           <string name="confirm">确定</string>
+           <string name="cancel">取消</string>
+           <string name="close">关闭</string>
+           <string name="restore">恢复</string>
+           
+           <!-- 版本信息 -->
+           <string name="monica_software_info">Monica 软件信息</string>
+           <string name="monica_version_info">Monica 版本: %s, %s, 编译时间: %s</string>
+           <string name="opencv_version_info">OpenCV 版本: %s, 本地算法库: %s</string>
+           <string name="copyright_info">版权信息: Copyright 2024-Present，Tony Shen</string>
+           <string name="github_url">Github 地址: https://github.com/fengzhizi715/Monica</string>
+           
+           <!-- 设置相关 -->
+           <string name="output_box_color_settings">通用输出框颜色设置:</string>
+           <string name="area_size_settings">通用区域大小设置(只用于打码、马赛克): size</string>
+           <string name="max_history_size">单个模块最大历史记录: maxHistorySize</string>
+           <string name="algorithm_service_url">算法服务url:</string>
+           <string name="init_filter_params">初始化滤镜的参数配置</string>
+           <string name="clear_cache_data">清空所有缓存数据</string>
+           <string name="reset_to_system_language">重置为系统语言</string>
+           
+           <!-- 基础功能 -->
+           <string name="x_direction">x 方向</string>
+           <string name="y_direction">y 方向</string>
+           
+           <!-- 滤镜效果 -->
+           <string name="select_filter">请选择下列滤镜</string>
+           <string name="filter_name">%s 滤镜</string>
+           <string name="select_filter_first">请先选择一款滤镜</string>
+           
+           <!-- 动漫化 -->
+           <string name="select_anime_style">请选择下列动漫风格</string>
+           
+           <!-- GIF生成 -->
+           <string name="add_image_first">请先添加图片</string>
+           <string name="select_images">选择下列图片</string>
+           <string name="gif_generation_strategy">gif 生成策略</string>
+           <string name="gif_width">gif 宽</string>
+           <string name="gif_height">gif 高</string>
+           <string name="frame_interval">每一帧间隔 (ms)</string>
+           <string name="loop_playback">是否循环播放</string>
+           
+           <!-- 自然语言调色 -->
+           <string name="natural_language_color_correction">自然语言调色</string>
+           <string name="enter_color_instruction">请输入调色指令</string>
+           
+           <!-- AI实验相关 -->
+           <string name="gaussian_filter">高斯滤波</string>
+           <string name="median_filter">中值滤波</string>
+           <string name="gaussian_bilateral_filter">高斯双边滤波</string>
+           <string name="mean_shift_filter">均值迁移滤波</string>
+           <string name="grayscale_image">灰度图像</string>
+           <string name="threshold_segmentation">阈值分割</string>
+           <string name="canny_edge_detection">Canny 边缘检测</string>
+           <string name="color_image_segmentation">彩色图像分割</string>
+           <string name="template">模版</string>
+           <string name="matching_method">匹配方式</string>
+           <string name="rotation">旋转</string>
+           <string name="min_angle">最小角度</string>
+           <string name="max_angle">最大角度</string>
+           <string name="angle_step">角度步长</string>
+           <string name="scale">尺度</string>
+           <string name="min_scale">最小尺度</string>
+           <string name="max_scale">最大尺度</string>
+           <string name="scale_step">尺度步长</string>
+           <string name="template_matching_params">模版匹配相关参数</string>
+           <string name="threshold">阈值</string>
+           <string name="nms_params">NMS 相关参数</string>
+           <string name="score_threshold">分数阈值</string>
+           <string name="nms_threshold">非极大值抑制阈值</string>
+           <string name="filter_settings">过滤设置</string>
+           <string name="min_perimeter">最小值</string>
+           <string name="max_perimeter">最大值</string>
+           <string name="min_area">最小值</string>
+           <string name="max_area">最大值</string>
+           <string name="min_roundness">最小值</string>
+           <string name="max_roundness">最大值</string>
+           <string name="min_aspect_ratio">最小值</string>
+           <string name="max_aspect_ratio">最大值</string>
+           <string name="display_settings">显示设置</string>
+           <string name="operation_element">操作元素</string>
+           <string name="structural_element">结构元素</string>
+           <string name="width">宽度</string>
+           <string name="height">高度</string>
+           <string name="histogram_equalization">直方图均衡化</string>
+           <string name="clahe">限制对比度自适应直方图均衡(clahe)</string>
+           <string name="gamma_transform">gamma 变换</string>
+           <string name="laplace_sharpening">Laplace 锐化</string>
+           <string name="usm_sharpening">USM 锐化</string>
+           <string name="automatic_color_balance">自动色彩均衡</string>
+           <string name="edge_detection_operator">边缘检测算子</string>
+           
+           <!-- 人脸替换 -->
+           <string name="replace_target_face_count">替换 target 中人脸的数量</string>
+           
+           <!-- 通用提示 -->
+           <string name="click_to_select_image">请点击选择图像</string>
+           
+           <!-- 窗口标题 -->
+           <string name="monica_image_editor">Monica 图片编辑器</string>
+           <string name="notification">通知</string>
+           <string name="export_image">导出图像</string>
+           
+           <!-- 图像增强相关 -->
+           <string name="histogram_equalization">直方图均衡化</string>
+           <string name="clahe">限制对比度自适应直方图均衡(clahe)</string>
+           <string name="gamma_transform">gamma 变换</string>
+           <string name="laplace_sharpening">Laplace 锐化</string>
+           <string name="usm_sharpening">USM 锐化</string>
+           <string name="automatic_color_balance">自动色彩均衡</string>
+           
+           <!-- 形态学操作 -->
+           <string name="operation_element">操作元素</string>
+           <string name="structural_element">结构元素</string>
+           
+           <!-- 轮廓分析 -->
+           <string name="filter_settings">过滤设置</string>
+           <string name="display_settings">显示设置</string>
+           
+           <!-- 边缘检测 -->
+           <string name="edge_detection_operator">边缘检测算子</string>
+           
+           <!-- 通用标签 -->
+           <string name="min_value">最小值</string>
+           <string name="max_value">最大值</string>
+</resources>

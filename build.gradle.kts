@@ -49,6 +49,7 @@ kotlin {
                 implementation(project(":config"))
                 implementation(project(":imageprocess"))
                 implementation(project(":opencv"))
+                implementation(project(":i18n"))
 
                 implementation ("org.jetbrains.kotlin:kotlin-reflect")
 

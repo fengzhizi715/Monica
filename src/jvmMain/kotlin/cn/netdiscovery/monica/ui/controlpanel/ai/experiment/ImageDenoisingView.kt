@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageDenoisingViewModel
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
@@ -34,6 +35,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun imageDenoising(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: ImageDenoisingViewModel = koinInject()
 
     var gaussianBlurKSizeText by remember { mutableStateOf("") }
@@ -53,7 +55,7 @@ fun imageDenoising(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
 
         Column {
-            subTitleWithDivider(text = "高斯滤波", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("gaussian_filter"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "ksize", gaussianBlurKSizeText) { str ->
@@ -79,12 +81,12 @@ fun imageDenoising(state: ApplicationState, title: String) {
                     viewModel.gaussianBlur(state, ksize, sigmaX, sigmaY)
                 }
             ) {
-                Text(text = "高斯滤波", color = Color.Unspecified)
+                Text(text = i18nState.getString("gaussian_filter"), color = Color.Unspecified)
             }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "中值滤波", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("median_filter"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "ksize", medianBlurKSizeText) { str ->
@@ -105,7 +107,7 @@ fun imageDenoising(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "高斯双边滤波", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("gaussian_bilateral_filter"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "d", dText) { str ->
@@ -136,7 +138,7 @@ fun imageDenoising(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "均值迁移滤波", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("mean_shift_filter"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "sp", spText) { str ->

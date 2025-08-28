@@ -6,6 +6,7 @@ import androidx.compose.ui.window.Notification
 import androidx.compose.ui.window.TrayState
 import cn.netdiscovery.monica.config.KEY_GENERAL_SETTINGS
 import cn.netdiscovery.monica.domain.DecodedPreviewImage
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
@@ -153,7 +154,7 @@ class ApplicationState(val scope:CoroutineScope,
 
     fun showTray(
         msg: String,
-        title: String = "通知",
+        title: String = LocalizationManager.getString("notification"),
         type: Notification.Type = Notification.Type.Info
     ) {
         val notification = Notification(title, msg, type)

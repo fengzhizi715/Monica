@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.ContourDisplaySettings
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.domain.ContourFilterSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
 import cn.netdiscovery.monica.ui.widget.*
@@ -34,6 +35,7 @@ var contourDisplaySettings:ContourDisplaySettings = ContourDisplaySettings()
 
 @Composable
 fun contourAnalysis(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: ContourAnalysisViewModel = koinInject()
 
     var minPerimeterText by remember { mutableStateOf("") }
@@ -84,7 +86,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column{
-            subTitleWithDivider(text = "过滤设置", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("filter_settings"), color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 checkBoxWithTitle("周长", Modifier.padding(end = 50.dp), checked = CVState.isContourPerimeter, onCheckedChange = {
@@ -95,7 +97,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 })
 
-                basicTextFieldWithTitle(titleText = "最小值", minPerimeterText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_value"), minPerimeterText) { str ->
                     if (CVState.isContourPerimeter) {
                         minPerimeterText = str
 
@@ -104,7 +106,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 }
 
-                basicTextFieldWithTitle(titleText = "最大值", maxPerimeterText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_value"), maxPerimeterText) { str ->
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText = str
 
@@ -123,7 +125,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 })
 
-                basicTextFieldWithTitle(titleText = "最小值", minAreaText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_value"), minAreaText) { str ->
                     if (CVState.isContourArea) {
                         minAreaText = str
 
@@ -132,7 +134,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 }
 
-                basicTextFieldWithTitle(titleText = "最大值", maxAreaText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_value"), maxAreaText) { str ->
                     if (CVState.isContourArea) {
                         maxAreaText = str
 
@@ -151,7 +153,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 })
 
-                basicTextFieldWithTitle(titleText = "最小值", minRoundnessText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_value"), minRoundnessText) { str ->
                     if (CVState.isContourRoundness) {
                         minRoundnessText = str
 
@@ -160,7 +162,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 }
 
-                basicTextFieldWithTitle(titleText = "最大值", maxRoundnessText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_value"), maxRoundnessText) { str ->
                     if (CVState.isContourRoundness) {
                         maxRoundnessText = str
 
@@ -179,7 +181,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 })
 
-                basicTextFieldWithTitle(titleText = "最小值", minAspectRatioText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_value"), minAspectRatioText) { str ->
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText = str
 
@@ -188,7 +190,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     }
                 }
 
-                basicTextFieldWithTitle(titleText = "最大值", maxAspectRatioText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_value"), maxAspectRatioText) { str ->
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText = str
 
@@ -200,7 +202,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "显示设置", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("display_settings"), color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 checkBoxWithTitle("原图显示", Modifier.padding(end = 50.dp), checked = CVState.showOriginalImage, onCheckedChange = {

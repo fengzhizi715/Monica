@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ImageEnhanceViewModel
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
@@ -34,6 +35,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun imageEnhance(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: ImageEnhanceViewModel = koinInject()
 
     var clipLimitText by remember { mutableStateOf("4") }
@@ -52,7 +54,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column {
-            subTitleWithDivider(text = "直方图均衡化", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("histogram_equalization"), color = Color.Black)
 
             Button(
                 modifier = Modifier.align(Alignment.End),
@@ -66,7 +68,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "限制对比度自适应直方图均衡(clahe)", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("clahe"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "clipLimit", clipLimitText) { str ->
@@ -92,7 +94,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "gamma 变换", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("gamma_transform"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "gamma", gammaText) { str ->
@@ -113,7 +115,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "Laplace 锐化", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("laplace_sharpening"), color = Color.Black)
 
             Button(
                 modifier = Modifier.align(Alignment.End),
@@ -127,7 +129,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "USM 锐化", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("usm_sharpening"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "Radius", radiusText) { str ->
@@ -158,7 +160,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "自动色彩均衡", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("automatic_color_balance"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "Ratio", ratioText) { str ->

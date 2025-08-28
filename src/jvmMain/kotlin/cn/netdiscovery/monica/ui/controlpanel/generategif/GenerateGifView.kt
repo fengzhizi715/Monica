@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
@@ -39,6 +40,7 @@ private val height = 600.dp // 上传图片的区域
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun generateGif(state: ApplicationState) {
+    val i18nState = rememberI18nState()
     val viewModel: GenerateGifViewModel = koinInject()
 
     var selectedImages by remember { mutableStateOf<List<File>>(emptyList()) }
@@ -64,7 +66,7 @@ fun generateGif(state: ApplicationState) {
             }},
             modifier = Modifier.padding(10.dp).width(300.dp).height(150.dp), shape = RoundedCornerShape(8.dp))  {
             Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically) {
-                Text("请先添加图片")
+                Text(i18nState.getString("add_image_first"))
             }
         }
     }
@@ -76,7 +78,7 @@ fun generateGif(state: ApplicationState) {
         Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
             if (selectedImages.isNotEmpty()) {
-                subTitle(modifier = Modifier.padding(start = 20.dp), text = "选择下列图片", color = Color.Black)
+                subTitle(modifier = Modifier.padding(start = 20.dp), text = i18nState.getString("select_images"), color = Color.Black)
 
                 Box(modifier = Modifier.height(height).fillMaxWidth()) {
                     LazyVerticalGrid(
@@ -139,26 +141,26 @@ fun generateGif(state: ApplicationState) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-            subTitleWithDivider(text = "gif 生成策略", color = Color.Black)
+                            subTitleWithDivider(text = i18nState.getString("gif_generation_strategy"), color = Color.Black)
 
             Row {
-                basicTextFieldWithTitle(titleText = "gif 宽", widthText, Modifier.padding(end = 20.dp)) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("gif_width"), widthText, Modifier.padding(end = 20.dp)) { str ->
                     widthText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "gif 高", heightText, Modifier.padding(end = 20.dp)) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("gif_height"), heightText, Modifier.padding(end = 20.dp)) { str ->
                     heightText = str
                 }
             }
 
             Row(modifier = Modifier.padding(top = 20.dp)) {
-                basicTextFieldWithTitle(titleText = "每一帧间隔 (ms)", frameDelayText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("frame_interval"), frameDelayText) { str ->
                     frameDelayText = str
                 }
             }
 
             Row(modifier = Modifier.padding(top = 16.dp), verticalAlignment = Alignment.CenterVertically) {
-                Text("是否循环播放")
+                Text(i18nState.getString("loop_playback"))
                 Checkbox(checked = loopEnabled, onCheckedChange = { loopEnabled = it })
             }
 

@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.rxcache.Param
 import cn.netdiscovery.monica.rxcache.getFilterParam
 import cn.netdiscovery.monica.rxcache.getFilterRemark
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.collator
@@ -50,7 +51,7 @@ val filterTempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun filter(state: ApplicationState) {
-
+    val i18nState = rememberI18nState()
     val viewModel: FilterViewModel = koinInject()
 
     PageLifecycle(
@@ -89,7 +90,7 @@ fun filter(state: ApplicationState) {
                 if (state.currentImage == null) {
                     Text(
                         modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                        text = "请点击选择图像",
+                        text = i18nState.getString("click_to_select_image"),
                         textAlign = TextAlign.Center,
                         fontSize = 24.sp
                     )
@@ -105,7 +106,7 @@ fun filter(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
-            subTitle(text = "请选择下列滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+            subTitle(text = i18nState.getString("select_filter"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 filterNames.forEachIndexed{ index, label ->
@@ -135,11 +136,11 @@ fun filter(state: ApplicationState) {
 
             Column {
                 if (filterSelectedIndex.value>=0) {
-                    subTitle(text = "${filterNames[filterSelectedIndex.value]} 滤镜", modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
+                    subTitle(text = i18nState.getString("filter_name", filterNames[filterSelectedIndex.value]), modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
                     generateFilterParams(filterSelectedIndex.value)
                     generateFilterRemark(filterSelectedIndex.value)
                 } else {
-                    subTitle(text = "请先选择一款滤镜", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+                    subTitle(text = i18nState.getString("select_filter_first"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
                 }
             }
 

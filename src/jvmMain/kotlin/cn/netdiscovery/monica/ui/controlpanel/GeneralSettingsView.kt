@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.subTitleTextSize
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
@@ -30,9 +31,10 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun generalSettingsView(state: ApplicationState) {
+    val i18nState = rememberI18nState()
 
     checkBoxWithTitle(
-        text = "通用设置",
+        text = i18nState.getString("general_settings"),
         color = Color.Black,
         checked = state.isGeneralSettings,
         fontSize = subTitleTextSize,
@@ -41,9 +43,9 @@ fun generalSettingsView(state: ApplicationState) {
 
             if (!state.isGeneralSettings) {
                 state.resetCurrentStatus()
-                logger.info("取消了通用设置")
+                logger.info(i18nState.getString("general_settings_cancelled"))
             } else {
-                logger.info("勾选了通用设置")
+                logger.info(i18nState.getString("general_settings_selected"))
 
                 state.isBasic = false
                 state.isColorCorrection = false
@@ -61,7 +63,7 @@ fun generalSettingsView(state: ApplicationState) {
                 showGeneralSettings = true
             }
         ) {
-            Text(text = "设置", color = Color.Unspecified)
+            Text(text = i18nState.getString("settings"), color = Color.Unspecified)
         }
     }
 }

@@ -9,6 +9,8 @@ import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.di.viewModelModule
 import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.http.healthCheck
+import cn.netdiscovery.monica.i18n.LocalizationManager
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 import cn.netdiscovery.monica.rxcache.getFilterNames
 import cn.netdiscovery.monica.rxcache.initFilterMap
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
@@ -90,13 +92,13 @@ fun main() = application {
         icon = painterResource("images/launcher.ico"),
         menu = {
             Item(
-                text = "软件版本信息",
+                text = LocalizationManager.getString("software_version_info"),
                 onClick = {
                     showVersion = true
                 },
             )
             Item(
-                text = "打开本地图片",
+                text = LocalizationManager.getString("open_local_image"),
                 onClick = {
                     chooseImage(applicationState) { file ->
                         val image = getBufferedImage(file, applicationState)
@@ -107,13 +109,13 @@ fun main() = application {
                 },
             )
             Item(
-                text = "加载网络图片",
+                text = LocalizationManager.getString("load_network_image"),
                 onClick = {
                     openURLDialog = true
                 },
             )
             Item(
-                text = "保存图像",
+                text = LocalizationManager.getString("save_image"),
                 onClick = {
                     previewViewModel.saveImage(applicationState)
                 },
@@ -127,7 +129,7 @@ fun main() = application {
     }
 
     Window(onCloseRequest = ::exitApplication,
-        title = "Monica 图片编辑器 $appVersion",
+        title = "${LocalizationManager.getString("monica_image_editor")} $appVersion",
         state = rememberWindowState(width = width, height = height).apply {
             position = WindowPosition(Alignment.BottomCenter)
         }) {

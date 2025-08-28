@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MorphologicalOperationsViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
@@ -40,7 +41,7 @@ var morphologicalOperationSettings: MorphologicalOperationSettings = Morphologic
 
 @Composable
 fun morphologicalOperations(state: ApplicationState, title: String) {
-
+    val i18nState = rememberI18nState()
     val viewModel: MorphologicalOperationsViewModel = koinInject()
 
     var operatingElementOption by remember { mutableStateOf("Null") }
@@ -53,7 +54,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
 
         Column {
-            subTitleWithDivider(text = "操作元素", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("operation_element"), color = Color.Black)
 
             Row {
                 tagList1.forEach {
@@ -86,7 +87,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "结构元素", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("structural_element"), color = Color.Black)
 
             Row {
                 structuralElementsTag.forEach {
@@ -106,11 +107,11 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
             Row(modifier = Modifier.padding(top = 20.dp)) {
                 Text(modifier = Modifier.width(70.dp), text = "结构元素：", color = Color.Unspecified)
 
-                basicTextFieldWithTitle(titleText = "宽度", widthText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("width"), widthText) { str ->
                     widthText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "高度", heightText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("height"), heightText) { str ->
                     heightText = str
                 }
             }

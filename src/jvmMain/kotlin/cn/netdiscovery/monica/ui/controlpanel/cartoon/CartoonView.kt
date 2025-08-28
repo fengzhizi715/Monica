@@ -23,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
@@ -47,7 +48,7 @@ private var toastMessage by mutableStateOf("")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun cartoon(state: ApplicationState) {
-
+    val i18nState = rememberI18nState()
     val viewModel: CartoonViewModel = koinInject()
 
     Box(
@@ -76,7 +77,7 @@ fun cartoon(state: ApplicationState) {
                 if (state.currentImage == null) {
                     Text(
                         modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                        text = "请点击选择图像",
+                        text = i18nState.getString("click_to_select_image"),
                         textAlign = TextAlign.Center,
                         fontSize = 24.sp
                     )
@@ -92,7 +93,7 @@ fun cartoon(state: ApplicationState) {
         }
 
         Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
-            subTitle(text = "请选择下列动漫风格", modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+            subTitle(text = i18nState.getString("select_anime_style"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
             desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
                 Card(

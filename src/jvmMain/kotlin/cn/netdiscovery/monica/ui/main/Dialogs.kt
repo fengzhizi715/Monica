@@ -9,6 +9,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.http.healthCheck
+import cn.netdiscovery.monica.i18n.Language
+import cn.netdiscovery.monica.i18n.LocalizationManager
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
@@ -34,11 +37,13 @@ import picUrl
  */
 @Composable
 fun openURLDialog(onConfirm: Action, onDismiss: Action) {
+    val i18nState = rememberI18nState()
+    
     AlertDialog(
         modifier = Modifier.width(600.dp).height(200.dp),
         onDismissRequest = onDismiss,
         title = {
-            Text(text = "加载网络图片")
+            Text(text = i18nState.getString("load_network_image_dialog"))
         },
         text = {
             Column(
@@ -57,7 +62,7 @@ fun openURLDialog(onConfirm: Action, onDismiss: Action) {
                     onConfirm.invoke()
                 }
             ) {
-                Text("确定")
+                Text(i18nState.getString("confirm"))
             }
         },
         dismissButton = {
@@ -66,7 +71,7 @@ fun openURLDialog(onConfirm: Action, onDismiss: Action) {
                     onDismiss.invoke()
                 }
             ) {
-                Text("取消")
+                Text(i18nState.getString("cancel"))
             }
         }
     )
@@ -74,34 +79,37 @@ fun openURLDialog(onConfirm: Action, onDismiss: Action) {
 
 @Composable
 fun showVersionInfo(onClick: Action) {
+    val i18nState = rememberI18nState()
+    
     AlertDialog(onDismissRequest = {},
         title = {
-            Text("Monica 软件信息")
+            Text(i18nState.getString("monica_software_info"))
         },
         text = {
             Column {
                 val versionInfo = if (isProVersion) "正式版本" else "测试版本"
-                Text("Monica 版本: $appVersion, $versionInfo, 编译时间: $buildTime")
+                Text(i18nState.getString("monica_version_info", appVersion, versionInfo, buildTime))
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
                 Text("Kotlin: $kotlinVersion, Compose Desktop: $composeVersion")
-                Text("OpenCV 版本: $openCVVersion, 本地算法库: $imageProcessVersion")
-                Text("版权信息: Copyright 2024-Present，Tony Shen")
+                Text(i18nState.getString("opencv_version_info", openCVVersion, imageProcessVersion))
+                Text(i18nState.getString("copyright_info"))
                 Text("Wechat: fengzhizi715")
-                Text("Github 地址: https://github.com/fengzhizi715/Monica")
+                Text(i18nState.getString("github_url"))
             }
         },
         confirmButton = {
             Button(onClick = {
                 onClick.invoke()
             }) {
-                Text("关闭")
+                Text(i18nState.getString("close"))
             }
         })
 }
 
 @Composable
 fun generalSettings(state: ApplicationState, onClick: Action) {
+    val i18nState = rememberI18nState()
 
     var rText by remember { mutableStateOf(state.outputBoxRText.toString()) }
     var gText by remember { mutableStateOf(state.outputBoxGText.toString()) }
@@ -116,12 +124,12 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
     AlertDialog(onDismissRequest = {},
         title = {
-            Text("Monica 通用设置", modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
+            Text(i18nState.getString("monica_general_settings"), modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
         },
         text = {
             Column {
                 Row(modifier = Modifier.padding(start = 12.dp)) {
-                    Text("通用输出框颜色设置:")
+                    Text(i18nState.getString("output_box_color_settings"))
 
                     basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), modifier = Modifier.padding(top = 5.dp), titleText = "R", value = rText, width = 80.dp) { str ->
                         rText = str
@@ -137,13 +145,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "通用区域大小设置(只用于打码、马赛克): size", modifier = Modifier.padding(top = 3.dp), value = sizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = i18nState.getString("area_size_settings"), modifier = Modifier.padding(top = 3.dp), value = sizeText, width = 80.dp) { str ->
                         sizeText = str
                     }
                 }
 
                 Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "单个模块最大历史记录: maxHistorySize", modifier = Modifier.padding(top = 3.dp), value = maxHistorySizeText, width = 80.dp) { str ->
+                    basicTextFieldWithTitle(titleText = i18nState.getString("max_history_size"), modifier = Modifier.padding(top = 3.dp), value = maxHistorySizeText, width = 80.dp) { str ->
                         maxHistorySizeText = str
                     }
                 }
@@ -155,7 +163,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 }
 
                 Column(modifier = Modifier.padding(top = 10.dp, start = 12.dp), horizontalAlignment = Alignment.Start) {
-                    basicTextFieldWithTitle(titleText = "算法服务url:", value = algorithmUrlText, width = 400.dp) { str ->
+                    basicTextFieldWithTitle(titleText = i18nState.getString("algorithm_service_url"), value = algorithmUrlText, width = 400.dp) { str ->
                         algorithmUrlText = str
                     }
 
@@ -188,14 +196,46 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     Checkbox(isInitFilterParams, onCheckedChange = {
                         isInitFilterParams = it
                     })
-                    Text(text = "初始化滤镜的参数配置")
+                    Text(text = i18nState.getString("init_filter_params"))
                 }
 
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Checkbox(isClearCacheData, onCheckedChange = {
                         isClearCacheData = it
                     })
-                    Text(text = "清空所有缓存数据")
+                    Text(text = i18nState.getString("clear_cache_data"))
+                }
+
+                // 语言设置
+                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp), verticalAlignment = Alignment.CenterVertically) {
+                    Text("语言设置: ", modifier = Modifier.padding(end = 8.dp))
+                    
+                    // 显示当前语言
+                    Text(
+                        text = i18nState.getLanguageDisplayName(),
+                        modifier = Modifier.padding(end = 16.dp)
+                    )
+                    
+                    // 语言切换按钮
+                    Button(
+                        modifier = Modifier.padding(end = 8.dp),
+                        onClick = {
+                            i18nState.toggleLanguage()
+                            showTopToast("语言已切换")
+                        }
+                    ) {
+                        Text(i18nState.getToggleButtonText())
+                    }
+                    
+                    // 重置为系统语言按钮
+                    Button(
+                        onClick = {
+                            i18nState.resetToSystemLanguage()
+                            showTopToast("语言已重置为系统语言")
+                        }
+                    ) {
+                        Text(i18nState.getString("reset_to_system_language"))
+                    }
                 }
             }
         },
@@ -235,13 +275,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                 onClick()
             }) {
-                Text("更新")
+                Text(i18nState.getString("update"))
             }
 
             Button(onClick = {
                 onClick()
             }) {
-                Text("关闭")
+                Text(i18nState.getString("close"))
             }
         })
 }

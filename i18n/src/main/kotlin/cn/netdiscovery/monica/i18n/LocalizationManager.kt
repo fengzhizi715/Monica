@@ -1,6 +1,5 @@
 package cn.netdiscovery.monica.i18n
 
-import androidx.compose.runtime.*
 import java.util.prefs.Preferences
 
 /**
@@ -13,8 +12,26 @@ object LocalizationManager {
     private const val LANGUAGE_KEY = "selected_language"
 
     // 当前语言状态
-    private val _currentLanguage = mutableStateOf(getSavedLanguage())
-    val currentLanguage: State<Language> = _currentLanguage
+    private var _currentLanguage = getSavedLanguage()
+    val currentLanguage: Language
+        get() = _currentLanguage
+
+    // 语言变化监听器列表
+    private val languageChangeListeners = mutableListOf<() -> Unit>()
+
+    /**
+     * 添加语言变化监听器
+     */
+    fun addLanguageChangeListener(listener: () -> Unit) {
+        languageChangeListeners.add(listener)
+    }
+
+    /**
+     * 移除语言变化监听器
+     */
+    fun removeLanguageChangeListener(listener: () -> Unit) {
+        languageChangeListeners.remove(listener)
+    }
 
     /**
      * 获取保存的语言设置
@@ -32,8 +49,23 @@ object LocalizationManager {
      * 设置当前语言
      */
     fun setLanguage(language: Language) {
-        _currentLanguage.value = language
-        prefs.put(LANGUAGE_KEY, language.code)
+        if (_currentLanguage != language) {
+            _currentLanguage = language
+            prefs.put(LANGUAGE_KEY, language.code)
+            prefs.flush() // 确保设置立即保存
+            // 清除缓存，强制重新加载资源
+            clearCache()
+            // 通知所有监听器语言已变化
+            languageChangeListeners.forEach { it.invoke() }
+        }
+    }
+
+    /**
+     * 清除资源缓存
+     */
+    private fun clearCache() {
+        chineseXmlResource = null
+        englishXmlResource = null
     }
 
     // XML资源缓存
@@ -64,7 +96,7 @@ object LocalizationManager {
      * 获取当前语言的字符串资源
      */
     fun getString(key: String): String {
-        val xmlResource = getXmlResource(_currentLanguage.value)
+        val xmlResource = getXmlResource(_currentLanguage)
         return xmlResource.get(key)
     }
 
@@ -72,20 +104,31 @@ object LocalizationManager {
      * 获取带参数的字符串资源
      */
     fun getString(key: String, vararg args: Any): String {
-        val xmlResource = getXmlResource(_currentLanguage.value)
+        val xmlResource = getXmlResource(_currentLanguage)
         return xmlResource.get(key, *args)
     }
+
+    /**
+     * 获取所有支持的语言
+     */
+    fun getSupportedLanguages(): List<Language> = Language.values().toList()
+
+    /**
+     * 获取当前语言代码
+     */
+    fun getCurrentLanguageCode(): String = _currentLanguage.code
+
+    /**
+     * 获取当前语言显示名称
+     */
+    fun getCurrentLanguageDisplayName(): String = _currentLanguage.displayName
 }
 
 /**
- * Compose中使用的国际化Hook
+ * 获取当前语言的字符串资源
  */
-@Composable
-fun rememberStrings(): StringResource {
-    val currentLanguage by LocalizationManager.currentLanguage
-    return remember(currentLanguage) {
-        StringResource(currentLanguage)
-    }
+fun getCurrentStringResource(): StringResource {
+    return StringResource(LocalizationManager.currentLanguage)
 }
 
 /**
@@ -111,4 +154,9 @@ class StringResource(private val language: Language) {
      * 获取XML资源信息
      */
     fun getXmlResourceInfo(): String = xmlResource.getResourceInfo()
+
+    /**
+     * 获取所有可用的键
+     */
+    fun getAllKeys(): Set<String> = xmlResource.getAllKeys()
 }

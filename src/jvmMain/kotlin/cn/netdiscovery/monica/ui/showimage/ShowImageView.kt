@@ -16,6 +16,7 @@ import androidx.compose.ui.layout.layout
 import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.utils.extensions.to2fStr
 
 /**
@@ -30,6 +31,7 @@ import cn.netdiscovery.monica.utils.extensions.to2fStr
 fun showImage(
     state: ApplicationState
 ) {
+    val i18nState = rememberI18nState()
     var angle   by remember { mutableStateOf(0f) }  // 旋转角度
     var scale   by remember { mutableStateOf(1f) }  // 缩放
     var offsetX by remember { mutableStateOf(0f) }  // x偏移
@@ -88,7 +90,7 @@ fun showImage(
                         matrix = Matrix()
                     },
                 ) {
-                    Text("恢复")
+                    Text(i18nState.getString("restore"))
                 }
             }
 

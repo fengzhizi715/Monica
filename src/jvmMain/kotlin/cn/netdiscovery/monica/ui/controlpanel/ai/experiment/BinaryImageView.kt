@@ -14,6 +14,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.BinaryImageViewModel
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
@@ -38,6 +39,7 @@ val adaptiveMethodSelectTags = arrayListOf("ADAPTIVE_THRESH_MEAN_C", "ADAPTIVE_T
 
 @Composable
 fun binaryImage(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: BinaryImageViewModel = koinInject()
     val edgeDetectionViewModel: EdgeDetectionViewModel = koinInject()
 
@@ -68,7 +70,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column {
-            subTitleWithDivider(text = "灰度图像", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("grayscale_image"), color = Color.Black)
 
             Button(
                 modifier = Modifier.align(Alignment.End),
@@ -84,7 +86,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "阈值分割", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("threshold_segmentation"), color = Color.Black)
 
             checkBoxWithTitle("阈值化类型", checked = CVState.isThreshType, onCheckedChange = {
                 CVState.isThreshType = it
@@ -222,7 +224,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "Canny 边缘检测", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("canny_edge_detection"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)){
                 basicTextFieldWithTitle(titleText = "threshold1", threshold1Text) { str ->
@@ -255,7 +257,7 @@ fun binaryImage(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "彩色图像分割", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("color_image_segmentation"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
                 basicTextFieldWithTitle(titleText = "hmin", hminText) { str ->

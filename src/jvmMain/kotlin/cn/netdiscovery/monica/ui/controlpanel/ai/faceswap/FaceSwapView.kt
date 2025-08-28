@@ -15,6 +15,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.state.ApplicationState
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
@@ -39,7 +40,7 @@ private var toastMessage by mutableStateOf("")
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun faceSwap(state: ApplicationState) {
-
+    val i18nState = rememberI18nState()
     val viewModel: FaceSwapViewModel = koinInject()
 
     val showSwapFaceSettings = remember { mutableStateOf(false) }
@@ -83,7 +84,7 @@ fun faceSwap(state: ApplicationState) {
                     if (state.currentImage == null) {
                         Text(
                             modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                            text = "请点击选择图像",
+                            text = i18nState.getString("click_to_select_image"),
                             textAlign = TextAlign.Center
                         )
                     } else {
@@ -270,7 +271,7 @@ fun faceSwap(state: ApplicationState) {
         if (showSwapFaceSettings.value) {
             AlertDialog(onDismissRequest = {},
                 title = {
-                    Text("替换 target 中人脸的数量")
+                    Text(i18nState.getString("replace_target_face_count"))
                 },
                 text = {
                     Column {
@@ -295,7 +296,7 @@ fun faceSwap(state: ApplicationState) {
                     Button(onClick = {
                         showSwapFaceSettings.value = false
                     }) {
-                        Text("关闭")
+                        Text(i18nState.getString("close"))
                     }
                 })
         }

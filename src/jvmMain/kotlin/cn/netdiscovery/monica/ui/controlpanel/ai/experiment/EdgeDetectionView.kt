@@ -12,6 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -34,6 +35,7 @@ val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "Do
 
 @Composable
 fun edgeDetection(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: EdgeDetectionViewModel = koinInject()
 
     var firstDerivativeOperatorSelectedOption  by remember { mutableStateOf("Null") }
@@ -63,7 +65,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally) , text = title, color = Color.Black)
 
         Column{
-            subTitleWithDivider(text = "边缘检测算子", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("edge_detection_operator"), color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Checkbox(CVState.isFirstDerivativeOperator, onCheckedChange = {

@@ -17,7 +17,7 @@ enum class Language(val code: String, val displayName: String, val flag: String)
             return when (systemLang) {
                 "zh" -> CHINESE
                 "en" -> ENGLISH
-                else -> ENGLISH // 默认英文
+                else -> CHINESE // 默认中文，因为项目主要面向中文用户
             }
         }
     }

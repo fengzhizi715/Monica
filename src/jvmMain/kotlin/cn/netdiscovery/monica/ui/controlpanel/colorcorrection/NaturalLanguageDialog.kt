@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.llm.DialogSession
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.llm.applyInstructionWithLLM
 import cn.netdiscovery.monica.ui.widget.divider
 import kotlinx.coroutines.*
@@ -36,6 +37,7 @@ fun NaturalLanguageDialog(
     onDismissRequest: () -> Unit,
     onConfirm: (ColorCorrectionSettings) -> Unit
 ) {
+    val i18nState = rememberI18nState()
     var inputText by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -43,7 +45,7 @@ fun NaturalLanguageDialog(
     if (visible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = { Text("自然语言调色") },
+            title = { Text(i18nState.getString("natural_language_color_correction")) },
             text = {
                 Column(modifier = Modifier.fillMaxWidth().heightIn(min = 200.dp, max = 500.dp)) {
 
@@ -69,7 +71,7 @@ fun NaturalLanguageDialog(
                     OutlinedTextField(
                         value = inputText,
                         onValueChange = { inputText = it },
-                        label = { Text("请输入调色指令") },
+                        label = { Text(i18nState.getString("enter_color_instruction")) },
                         singleLine = false,
                         maxLines = 4,
                         modifier = Modifier.fillMaxWidth()
@@ -112,12 +114,12 @@ fun NaturalLanguageDialog(
                     },
                     enabled = inputText.isNotBlank() && !loading
                 ) {
-                    Text("确定")
+                    Text(i18nState.getString("confirm"))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismissRequest) {
-                    Text("取消")
+                    Text(i18nState.getString("cancel"))
                 }
             }
         )

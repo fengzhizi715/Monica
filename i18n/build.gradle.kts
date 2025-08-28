@@ -1,7 +1,5 @@
 plugins {
     kotlin("jvm")
-    id("org.jetbrains.compose")
-    id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
 }
 
 repositories {
@@ -16,11 +14,8 @@ java {
 
 dependencies {
     testImplementation(kotlin("test"))
+    testImplementation("junit:junit:4.13.2")
     implementation ("org.jetbrains.kotlin:kotlin-stdlib")
-
-    implementation(compose.desktop.currentOs)
-    implementation(compose.runtime)
-    implementation(compose.foundation)
 
     // log config
     implementation("ch.qos.logback:logback-classic:${rootProject.extra["logback"]}")

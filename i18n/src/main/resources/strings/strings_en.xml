@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<resources>
+    <!-- Main window and menu -->
+    <string name="app_name">Monica</string>
+    <string name="app_description">Monica is a cross-platform image editor</string>
+    <string name="software_version_info">Software Version Info</string>
+    <string name="open_local_image">Open Local Image</string>
+    <string name="load_network_image">Load Network Image</string>
+    <string name="save_image">Save Image</string>
+    <string name="exit">Exit</string>
+    
+    <!-- Control panel -->
+    <string name="control_panel">Control Panel</string>
+    <string name="general_settings">General Settings</string>
+    <string name="basic_functions">Basic Functions</string>
+    <string name="color_correction">Color Correction</string>
+    <string name="filter_effects">Filter Effects</string>
+    <string name="ai_laboratory">AI Laboratory</string>
+    
+    <!-- General settings -->
+    <string name="settings">Settings</string>
+    <string name="monica_general_settings">Monica General Settings</string>
+    <string name="update">Update</string>
+    <string name="close">Close</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
+    
+    <!-- Basic functions -->
+    <string name="image_blur">Image Blur</string>
+    <string name="image_mosaic">Image Mosaic</string>
+    <string name="image_doodle">Image Doodle</string>
+    <string name="shape_drawing">Shape Drawing</string>
+    <string name="color_picker">Color Picker</string>
+    <string name="crop_image">Crop Image</string>
+    <string name="generate_gif">Generate GIF</string>
+    
+    <!-- Shape drawing -->
+    <string name="select_color">Select Color</string>
+    <string name="change_properties">Change Properties</string>
+    <string name="line">Line</string>
+    <string name="circle">Circle</string>
+    <string name="triangle">Triangle</string>
+    <string name="rectangle">Rectangle</string>
+    <string name="polygon">Polygon</string>
+    <string name="add_text">Add Text</string>
+    <string name="save">Save</string>
+    
+    <!-- Doodle function -->
+    <string name="brush">Brush</string>
+    <string name="eraser">Eraser</string>
+    <string name="clear">Clear</string>
+    
+    <!-- Color correction -->
+    <string name="natural_language_color">Natural Language Color</string>
+    <string name="enter_color_instruction">Enter color instruction</string>
+    <string name="color_parameters_updated">Parameters updated: %s</string>
+    
+    <!-- Filter effects -->
+    <string name="filter_effects">Filter Effects</string>
+    <string name="filter_parameters">Filter Parameters</string>
+    
+    <!-- AI Laboratory -->
+    <string name="ai_laboratory_description">AI Laboratory</string>
+    <string name="simple_cv_algorithm">Simple CV Algorithm Quick Validation</string>
+    <string name="face_detection">Face Detection</string>
+    <string name="generate_sketch">Generate Sketch</string>
+    <string name="face_swap">Face Swap</string>
+    <string name="anime_style">Anime Style</string>
+    
+    <!-- AI experiment pages -->
+    <string name="home">Home</string>
+    <string name="binary_image">Binary Image</string>
+    <string name="edge_detection">Edge Detection</string>
+    <string name="contour_analysis">Contour Analysis</string>
+    <string name="image_enhance">Image Enhancement</string>
+    <string name="image_denoising">Image Denoising</string>
+    <string name="morphological_operations">Morphological Operations</string>
+    <string name="match_template">Template Matching</string>
+    <string name="parameter_history">Parameter History</string>
+    
+    <!-- Crop function -->
+    <string name="crop_type">Crop Type</string>
+    <string name="content_scale">Content Scale</string>
+    <string name="aspect_ratio">Aspect Ratio</string>
+    <string name="crop_frame">Crop Frame</string>
+    <string name="crop_properties_settings">Crop Properties Settings</string>
+    <string name="confirm_crop">Confirm</string>
+    <string name="dismiss_crop">Dismiss</string>
+    
+    <!-- Dialogs and prompts -->
+    <string name="loading">Loading...</string>
+    <string name="error">Error</string>
+    <string name="success">Success</string>
+    <string name="warning">Warning</string>
+    <string name="info">Info</string>
+    
+    <!-- Property settings -->
+    <string name="alpha">Alpha</string>
+    <string name="font_size">Font Size</string>
+    <string name="fill">Fill</string>
+    <string name="border">Border</string>
+    <string name="stroke_width">Stroke Width</string>
+    
+    <!-- Network image loading -->
+    <string name="load_network_image_dialog">Load Network Image</string>
+    <string name="enter_image_url">Enter image URL</string>
+    <string name="load">Load</string>
+    <string name="url_invalid">Invalid URL format</string>
+    
+    <!-- Version info -->
+    <string name="version_info">Version Info</string>
+    <string name="copyright">© 2024 Tony Shen. All rights reserved.</string>
+    
+    <!-- Status and messages -->
+    <string name="basic_function_cancelled">Basic functions cancelled</string>
+    <string name="basic_function_selected">Basic functions selected</string>
+    <string name="general_settings_cancelled">General settings cancelled</string>
+    <string name="general_settings_selected">General settings selected</string>
+    <string name="color_correction_cancelled">Color correction cancelled</string>
+    <string name="color_correction_selected">Color correction selected</string>
+    <string name="filter_cancelled">Filter effects cancelled</string>
+    <string name="filter_selected">Filter effects selected</string>
+    <string name="ai_laboratory_cancelled">AI laboratory cancelled</string>
+    <string name="ai_laboratory_selected">AI laboratory selected</string>
+    
+    <!-- Tooltips -->
+    <string name="simple_cv_tooltip">Simple CV Algorithm Quick Validation</string>
+    <string name="face_detect_tooltip">Face Detection</string>
+    <string name="sketch_drawing_tooltip">Generate Sketch</string>
+    <string name="face_swap_tooltip">Face Swap</string>
+    <string name="anime_style_tooltip">Anime Style</string>
+    
+    <!-- Dialog and buttons -->
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="close">Close</string>
+    <string name="restore">Restore</string>
+    
+    <!-- Version info -->
+    <string name="monica_software_info">Monica Software Information</string>
+    <string name="monica_version_info">Monica Version: %s, %s, Build Time: %s</string>
+    <string name="opencv_version_info">OpenCV Version: %s, Local Algorithm Library: %s</string>
+    <string name="copyright_info">Copyright: Copyright 2024-Present, Tony Shen</string>
+    <string name="github_url">Github URL: https://github.com/fengzhizi715/Monica</string>
+    
+    <!-- Settings related -->
+    <string name="output_box_color_settings">Output Box Color Settings:</string>
+    <string name="area_size_settings">Area Size Settings (for blur/mosaic): size</string>
+    <string name="max_history_size">Max History Size per Module: maxHistorySize</string>
+    <string name="algorithm_service_url">Algorithm Service URL:</string>
+    <string name="init_filter_params">Initialize filter parameter configuration</string>
+    <string name="clear_cache_data">Clear all cache data</string>
+    <string name="reset_to_system_language">Reset to System Language</string>
+    
+    <!-- Basic functions -->
+    <string name="x_direction">X Direction</string>
+    <string name="y_direction">Y Direction</string>
+    
+    <!-- Filter effects -->
+    <string name="select_filter">Please select a filter</string>
+    <string name="filter_name">%s Filter</string>
+    <string name="select_filter_first">Please select a filter first</string>
+    
+    <!-- Anime style -->
+    <string name="select_anime_style">Please select an anime style</string>
+    
+    <!-- GIF generation -->
+    <string name="add_image_first">Please add images first</string>
+    <string name="select_images">Select images</string>
+    <string name="gif_generation_strategy">GIF Generation Strategy</string>
+    <string name="gif_width">GIF Width</string>
+    <string name="gif_height">GIF Height</string>
+    <string name="frame_interval">Frame Interval (ms)</string>
+    <string name="loop_playback">Loop Playback</string>
+    
+    <!-- Natural language color correction -->
+    <string name="natural_language_color_correction">Natural Language Color Correction</string>
+    <string name="enter_color_instruction">Please enter color instruction</string>
+    
+    <!-- AI experiment related -->
+    <string name="gaussian_filter">Gaussian Filter</string>
+    <string name="median_filter">Median Filter</string>
+    <string name="gaussian_bilateral_filter">Gaussian Bilateral Filter</string>
+    <string name="mean_shift_filter">Mean Shift Filter</string>
+    <string name="grayscale_image">Grayscale Image</string>
+    <string name="threshold_segmentation">Threshold Segmentation</string>
+    <string name="canny_edge_detection">Canny Edge Detection</string>
+    <string name="color_image_segmentation">Color Image Segmentation</string>
+    <string name="template">Template</string>
+    <string name="matching_method">Matching Method</string>
+    <string name="rotation">Rotation</string>
+    <string name="min_angle">Min Angle</string>
+    <string name="max_angle">Max Angle</string>
+    <string name="angle_step">Angle Step</string>
+    <string name="scale">Scale</string>
+    <string name="min_scale">Min Scale</string>
+    <string name="max_scale">Max Scale</string>
+    <string name="scale_step">Scale Step</string>
+    <string name="template_matching_params">Template Matching Parameters</string>
+    <string name="threshold">Threshold</string>
+    <string name="nms_params">NMS Parameters</string>
+    <string name="score_threshold">Score Threshold</string>
+    <string name="nms_threshold">NMS Threshold</string>
+    <string name="filter_settings">Filter Settings</string>
+    <string name="min_perimeter">Min Value</string>
+    <string name="max_perimeter">Max Value</string>
+    <string name="min_area">Min Value</string>
+    <string name="max_area">Max Value</string>
+    <string name="min_roundness">Min Value</string>
+    <string name="max_roundness">Max Value</string>
+    <string name="min_aspect_ratio">Min Value</string>
+    <string name="max_aspect_ratio">Max Value</string>
+    <string name="display_settings">Display Settings</string>
+    <string name="operation_element">Operation Element</string>
+    <string name="structural_element">Structural Element</string>
+    <string name="width">Width</string>
+    <string name="height">Height</string>
+    <string name="histogram_equalization">Histogram Equalization</string>
+    <string name="clahe">Contrast Limited Adaptive Histogram Equalization (CLAHE)</string>
+    <string name="gamma_transform">Gamma Transform</string>
+    <string name="laplace_sharpening">Laplace Sharpening</string>
+    <string name="usm_sharpening">USM Sharpening</string>
+    <string name="automatic_color_balance">Automatic Color Balance</string>
+    <string name="edge_detection_operator">Edge Detection Operator</string>
+    
+    <!-- Face swap -->
+    <string name="replace_target_face_count">Replace face count in target</string>
+    
+    <!-- Common prompts -->
+    <string name="click_to_select_image">Click to select image</string>
+    
+    <!-- Window titles -->
+    <string name="monica_image_editor">Monica Image Editor</string>
+    <string name="notification">Notification</string>
+    <string name="export_image">Export Image</string>
+    
+    <!-- Image enhancement related -->
+    <string name="histogram_equalization">Histogram Equalization</string>
+    <string name="clahe">Contrast Limited Adaptive Histogram Equalization (CLAHE)</string>
+    <string name="gamma_transform">Gamma Transform</string>
+    <string name="laplace_sharpening">Laplace Sharpening</string>
+    <string name="usm_sharpening">USM Sharpening</string>
+    <string name="automatic_color_balance">Automatic Color Balance</string>
+    
+    <!-- Morphological operations -->
+    <string name="operation_element">Operation Element</string>
+    <string name="structural_element">Structural Element</string>
+    
+    <!-- Contour analysis -->
+    <string name="filter_settings">Filter Settings</string>
+    <string name="display_settings">Display Settings</string>
+    
+    <!-- Edge detection -->
+    <string name="edge_detection_operator">Edge Detection Operator</string>
+    
+    <!-- Common labels -->
+    <string name="min_value">Min Value</string>
+    <string name="max_value">Max Value</string>
+</resources>

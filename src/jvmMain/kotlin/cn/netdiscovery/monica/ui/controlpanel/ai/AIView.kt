@@ -6,6 +6,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.widget.subTitle
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -25,7 +26,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun aiView(state: ApplicationState) {
-
+    val i18nState = rememberI18nState()
     val viewModel: AIViewModel = koinInject()
 
     Row(verticalAlignment = Alignment.CenterVertically) {
@@ -34,9 +35,9 @@ fun aiView(state: ApplicationState) {
 
             if (!state.isAI) {
                 state.resetCurrentStatus()
-                logger.info("取消了 AI 实验室")
+                logger.info(i18nState.getString("ai_laboratory_cancelled"))
             } else {
-                logger.info("勾选了 AI 实验室")
+                logger.info(i18nState.getString("ai_laboratory_selected"))
 
                 state.isGeneralSettings = false
                 state.isBasic = false
@@ -44,20 +45,20 @@ fun aiView(state: ApplicationState) {
                 state.isFilter = false
             }
         })
-        subTitle(text = "AI 实验室", color = Color.Black)
+        subTitle(text = i18nState.getString("ai_laboratory"), color = Color.Black)
     }
 
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
-        toolTipButton(text = "简单 CV 算法的快速验证",
+        toolTipButton(text = i18nState.getString("simple_cv_algorithm"),
             painter = painterResource("images/ai/experiment.png"),
             enable = { state.isAI },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(OpenCVDebugStatus)
             })
 
-        toolTipButton(text = "人脸检测",
+        toolTipButton(text = i18nState.getString("face_detection"),
             painter = painterResource("images/ai/face_detect.png"),
             enable = { state.isAI },
             onClick = {
@@ -65,7 +66,7 @@ fun aiView(state: ApplicationState) {
                 viewModel.faceDetect(state)
             })
 
-        toolTipButton(text = "生成素描画",
+        toolTipButton(text = i18nState.getString("generate_sketch"),
             painter = painterResource("images/ai/sketch_drawing.png"),
             enable = { state.isAI },
             onClick = {
@@ -73,14 +74,14 @@ fun aiView(state: ApplicationState) {
                 viewModel.sketchDrawing(state)
             })
 
-        toolTipButton(text = "人脸替换",
+        toolTipButton(text = i18nState.getString("face_swap"),
             painter = painterResource("images/ai/face_swap.png"),
             enable = { state.isAI },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
             })
 
-        toolTipButton(text = "动漫化",
+        toolTipButton(text = i18nState.getString("anime_style"),
             painter = painterResource("images/ai/cartoon.png"),
             enable = { state.isAI },
             onClick = {

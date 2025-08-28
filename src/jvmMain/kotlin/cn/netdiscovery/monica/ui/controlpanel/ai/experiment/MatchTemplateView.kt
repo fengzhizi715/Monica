@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MatchTemplateSettings
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
@@ -45,7 +46,7 @@ var matchTemplateSettings: MatchTemplateSettings = MatchTemplateSettings()
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun matchTemplate(state: ApplicationState, title: String) {
-
+    val i18nState = rememberI18nState()
     val viewModel: MatchTemplateViewModel = koinInject()
 
     var matchingMethodOption by remember { mutableStateOf("原图匹配") }
@@ -65,7 +66,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
 
         Column {
-            subTitleWithDivider(text = "模版", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("template"), color = Color.Black)
 
             Row {
                 Text(modifier = Modifier.width(100.dp).padding(top = 10.dp), text = "导入模版：", color = Color.Unspecified)
@@ -117,7 +118,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "匹配方式", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("matching_method"), color = Color.Black)
 
             Row {
                 matchingMethodTag.forEach {
@@ -137,60 +138,60 @@ fun matchTemplate(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "旋转", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("rotation"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
-                basicTextFieldWithTitle(titleText = "最小角度", angleStartText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_angle"), angleStartText) { str ->
                     angleStartText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "最大角度", angleEndText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_angle"), angleEndText) { str ->
                     angleEndText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "角度步长", angleStepText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("angle_step"), angleStepText) { str ->
                     angleStepText = str
                 }
             }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "尺度", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("scale"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
-                basicTextFieldWithTitle(titleText = "最小尺度", scaleStartText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("min_scale"), scaleStartText) { str ->
                     scaleStartText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "最大尺度", scaleEndText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("max_scale"), scaleEndText) { str ->
                     scaleEndText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "尺度步长", scaleStepText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("scale_step"), scaleStepText) { str ->
                     scaleStepText = str
                 }
             }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "模版匹配相关参数", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("template_matching_params"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 20.dp, bottom = 20.dp)) {
-                basicTextFieldWithTitle(titleText = "阈值", matchTemplateThresholdText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("threshold"), matchTemplateThresholdText) { str ->
                     matchTemplateThresholdText = str
                 }
             }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = "NMS 相关参数", color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("nms_params"), color = Color.Black)
 
             Row(modifier = Modifier.padding(top = 20.dp)) {
-                basicTextFieldWithTitle(titleText = "分数阈值", scoreThresholdText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("score_threshold"), scoreThresholdText) { str ->
                     scoreThresholdText = str
                 }
 
-                basicTextFieldWithTitle(titleText = "非极大值抑制阈值", nmsThresholdText) { str ->
+                basicTextFieldWithTitle(titleText = i18nState.getString("nms_threshold"), nmsThresholdText) { str ->
                     nmsThresholdText = str
                 }
             }

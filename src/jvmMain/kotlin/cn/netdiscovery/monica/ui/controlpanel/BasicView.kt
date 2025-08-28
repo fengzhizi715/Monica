@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.subTitleTextSize
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.widget.*
@@ -30,11 +31,11 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun basicView(state: ApplicationState) {
-
+    val i18nState = rememberI18nState()
     val viewModel: PreviewViewModel = koinInject()
 
     checkBoxWithTitle(
-        text = "基础功能",
+        text = i18nState.getString("basic_functions"),
         color = Color.Black,
         checked = state.isBasic,
         fontSize = subTitleTextSize,
@@ -43,9 +44,9 @@ fun basicView(state: ApplicationState) {
 
             if (!state.isBasic) {
                 state.resetCurrentStatus()
-                logger.info("取消了基础功能")
+                logger.info(i18nState.getString("basic_function_cancelled"))
             } else {
-                logger.info("勾选了基础功能")
+                logger.info(i18nState.getString("basic_function_selected"))
 
                 state.isGeneralSettings = false
                 state.isColorCorrection = false
@@ -56,42 +57,42 @@ fun basicView(state: ApplicationState) {
     )
 
     Row(verticalAlignment = Alignment.CenterVertically) {
-        toolTipButton(text = "图像模糊",
+        toolTipButton(text = i18nState.getString("image_blur"),
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = BlurStatus
             })
 
-        toolTipButton(text = "图像马赛克",
+        toolTipButton(text = i18nState.getString("image_mosaic"),
             painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = MosaicStatus
             })
 
-        toolTipButton(text = "图像涂鸦",
+        toolTipButton(text = i18nState.getString("image_doodle"),
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(DoodleStatus)
             })
 
-        toolTipButton(text = "形状绘制",
+        toolTipButton(text = i18nState.getString("shape_drawing"),
             painter = painterResource("images/controlpanel/shape-drawing.png"),
             enable = { state.isBasic },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(ShapeDrawingStatus)
             })
 
-        toolTipButton(text = "图像取色",
+        toolTipButton(text = i18nState.getString("color_picker"),
             painter = painterResource("images/controlpanel/color-picker.png"),
             enable = { state.isBasic },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
             })
 
-        toolTipButton(text = "生成gif",
+        toolTipButton(text = i18nState.getString("generate_gif"),
             painter = painterResource("images/controlpanel/gif.png"),
             enable = { state.isBasic },
             onClick = {
@@ -187,6 +188,7 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
 
 @Composable
 private fun generateShearingParams(state: ApplicationState, viewModel: PreviewViewModel) {
+    val i18nState = rememberI18nState()
 
     var xText by remember {
         mutableStateOf("${0}")
@@ -197,11 +199,11 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
     }
 
     Row {
-        basicTextFieldWithTitle(titleText = "x 方向", xText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = i18nState.getString("x_direction"), xText, Modifier.padding(top = 5.dp)) { str ->
             xText = str
         }
 
-        basicTextFieldWithTitle(titleText = "y 方向", yText, Modifier.padding(top = 5.dp)) { str ->
+        basicTextFieldWithTitle(titleText = i18nState.getString("y_direction"), yText, Modifier.padding(top = 5.dp)) { str ->
             yText = str
         }
     }
