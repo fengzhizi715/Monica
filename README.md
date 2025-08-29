@@ -110,9 +110,9 @@ https://github.com/fengzhizi715/MonicaImageProcess
 近期的 TODO : 
 
 * 重构形状绘制模块
+* 重构所有的 UI
 * 增加人脸美颜的功能
 * 升级 Kotlin Compose desktop、第三方库的版本
-* 国际化
 * 增加图像压缩的功能
 
 
