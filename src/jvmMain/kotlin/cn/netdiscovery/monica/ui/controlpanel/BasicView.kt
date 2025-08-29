@@ -102,7 +102,7 @@ fun basicView(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
 
-        toolTipButton(text = "图像翻转",
+                        toolTipButton(text = i18nState.getString("image_flip"),
             painter = painterResource("images/controlpanel/flip.png"),
             enable = { state.isBasic },
             onClick = {
@@ -110,7 +110,7 @@ fun basicView(state: ApplicationState) {
                 viewModel.flip(state)
             })
 
-        toolTipButton(text = "图像旋转",
+                        toolTipButton(text = i18nState.getString("image_rotate"),
             painter = painterResource("images/controlpanel/rotate.png"),
             enable = { state.isBasic },
             onClick = {
@@ -118,21 +118,21 @@ fun basicView(state: ApplicationState) {
                 viewModel.rotate(state)
             })
 
-        toolTipButton(text = "图像缩放",
+                        toolTipButton(text = i18nState.getString("image_scale"),
             painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = ResizeStatus
             })
 
-        toolTipButton(text = "图像错切",
+                        toolTipButton(text = i18nState.getString("image_shear"),
             painter = painterResource("images/controlpanel/shearing.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = ShearingStatus
             })
 
-        toolTipButton(text = "图像裁剪",
+                        toolTipButton(text = i18nState.getString("image_crop"),
             painter = painterResource("images/controlpanel/crop.png"),
             enable = { state.isBasic },
             onClick = {
@@ -152,6 +152,7 @@ fun basicView(state: ApplicationState) {
 
 @Composable
 private fun generateResizeParams(state: ApplicationState, viewModel: PreviewViewModel) {
+    val i18nState = rememberI18nState()
 
     var widthText by remember {
         mutableStateOf("${state.currentImage?.width?:400}")
@@ -178,8 +179,8 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
     ) {
         confirmButton(state.isBasic) {
 
-            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast("width 需要 int 类型") }) ?: return@confirmButton
-            val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast("height 需要 int 类型") }) ?: return@confirmButton
+                            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast(i18nState.getString("width_needs_int")) }) ?: return@confirmButton
+                val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast(i18nState.getString("height_needs_int")) }) ?: return@confirmButton
             viewModel.resize(width, height, state)
         }
     }
@@ -215,8 +216,8 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
     ) {
         confirmButton(state.isBasic) {
 
-            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast("x 方向 需要 float 类型") }) ?: return@confirmButton
-            val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast("y 方向 需要 float 类型") }) ?: return@confirmButton
+                            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast(i18nState.getString("x_direction_needs_float")) }) ?: return@confirmButton
+                val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast(i18nState.getString("y_direction_needs_float")) }) ?: return@confirmButton
             viewModel.shearing(x, y, state)
         }
     }

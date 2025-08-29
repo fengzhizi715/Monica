@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.ColorCorrectionStatus
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
 import org.slf4j.Logger
@@ -30,9 +31,10 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun colorCorrectionView(state: ApplicationState) {
+    val i18nState = rememberI18nState()
 
     checkBoxWithTitle(
-        text = "图像调色",
+        text = i18nState.getString("image_color_correction"),
         color = Color.Black,
         checked = state.isColorCorrection,
         fontSize = subTitleTextSize,
@@ -61,7 +63,7 @@ fun colorCorrectionView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(ColorCorrectionStatus)
             }
         ) {
-            Text(text = "进入图像调色界面", color = Color.Unspecified)
+            Text(text = i18nState.getString("enter_image_color_correction"), color = Color.Unspecified)
         }
     }
 }

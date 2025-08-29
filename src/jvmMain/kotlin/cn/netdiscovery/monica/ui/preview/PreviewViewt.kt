@@ -19,6 +19,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.BlurStatus
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.state.MosaicStatus
 import cn.netdiscovery.monica.state.ZoomPreviewStatus
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -71,6 +72,7 @@ fun preview(
 
 @Composable
 private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
+    val i18nState = rememberI18nState()
     if (state.currentImage == null) return
 
     Column(
@@ -110,32 +112,32 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            toolTipButton(text = "恢复最初",
+                            toolTipButton(text = i18nState.getString("restore_original"),
                 painter = painterResource("images/preview/initial_picture.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     viewModel.recoverImage(state)
                 })
 
-            toolTipButton(text = "上一步",
+                            toolTipButton(text = i18nState.getString("previous_step"),
                 painter = painterResource("images/preview/reduction.png"),
                 onClick = {
                     viewModel.getLastImage(state)
                 })
 
-            toolTipButton(text = "放大预览",
+                            toolTipButton(text = i18nState.getString("enlarge_preview"),
                 painter = painterResource("images/preview/zoom.png"),
                 onClick = {
                     state.togglePreviewWindowAndUpdateStatus(ZoomPreviewStatus)
                 })
 
-            toolTipButton(text = "保存",
+                            toolTipButton(text = i18nState.getString("save"),
                 painter = painterResource("images/preview/save.png"),
                 onClick = {
                     viewModel.saveImage(state)
                 })
 
-            toolTipButton(text = "删除",
+                            toolTipButton(text = i18nState.getString("delete"),
                 painter = painterResource("images/preview/delete.png"),
                 onClick = {
                     viewModel.clearImage(state)
@@ -146,13 +148,14 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
 
 @Composable
 private fun chooseImage() {
+    val i18nState = rememberI18nState()
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(
-            text = "请点击选择图像或拖拽图像至此",
+            text = i18nState.getString("click_to_select_image_or_drag"),
             textAlign = TextAlign.Center
         )
     }

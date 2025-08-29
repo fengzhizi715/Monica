@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.utils.Action
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import cn.netdiscovery.monica.i18n.LocalizationManager
 
 /**
  *
@@ -106,7 +107,7 @@ fun toolTipButton(
 
 @Composable
 fun confirmButton(enabled:Boolean,
-                  text:String = "确定",
+                  text:String = LocalizationManager.getString("confirm"),
                   modifier:Modifier = Modifier,
                   onClick: () -> Unit) {
     Button(

@@ -14,6 +14,7 @@ import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.ImageFormatDetector
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.utils.exportImage
 import cn.netdiscovery.monica.utils.extensions.launchWithLoading
 import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
@@ -290,9 +291,9 @@ class PreviewViewModel {
                 }
 
                 if (b)
-                    showTopToast("图像保存成功")
+                    showTopToast(LocalizationManager.getString("image_save_success"))
                 else
-                    showTopToast("图像保存失败")
+                    showTopToast(LocalizationManager.getString("image_save_failed"))
             }
         }
     }

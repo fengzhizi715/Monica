@@ -23,7 +23,6 @@
     <string name="update">Update</string>
     <string name="close">Close</string>
     <string name="cancel">Cancel</string>
-    <string name="confirm">Confirm</string>
     
     <!-- Basic functions -->
     <string name="image_blur">Image Blur</string>
@@ -56,7 +55,6 @@
     <string name="color_parameters_updated">Parameters updated: %s</string>
     
     <!-- Filter effects -->
-    <string name="filter_effects">Filter Effects</string>
     <string name="filter_parameters">Filter Parameters</string>
     
     <!-- AI Laboratory -->
@@ -131,10 +129,6 @@
     <string name="anime_style_tooltip">Anime Style</string>
     
     <!-- Dialog and buttons -->
-    <string name="confirm">Confirm</string>
-    <string name="cancel">Cancel</string>
-    <string name="close">Close</string>
-    <string name="restore">Restore</string>
     
     <!-- Version info -->
     <string name="monica_software_info">Monica Software Information</string>
@@ -256,4 +250,113 @@
     <!-- Common labels -->
     <string name="min_value">Min Value</string>
     <string name="max_value">Max Value</string>
+    
+    <!-- Buttons and operations -->
+    <string name="restore">Restore</string>
+    <string name="restore_original">Restore Original</string>
+    <string name="previous_step">Previous Step</string>
+    <string name="enlarge_preview">Enlarge Preview</string>
+    <string name="delete">Delete</string>
+    
+    <!-- Image operations -->
+    <string name="image_color_correction">Image Color Correction</string>
+    <string name="enter_image_color_correction">Enter Image Color Correction Interface</string>
+    <string name="image_flip">Image Flip</string>
+    <string name="image_rotate">Image Rotate</string>
+    <string name="image_scale">Image Scale</string>
+    <string name="image_shear">Image Shear</string>
+    <string name="image_crop">Image Crop</string>
+    
+    <!-- Anime styles -->
+    <string name="miyazaki_style">Miyazaki Style</string>
+    <string name="japanese_portrait_style">Japanese Portrait Style</string>
+    <string name="black_white_line_art">Black &amp; White Line Art</string>
+    <string name="shinkai_style">Shinkai Style</string>
+    <string name="cute_style">Cute Style</string>
+    
+    <!-- Algorithm service -->
+    <string name="algorithm_service_error">Algorithm Service Error</string>
+    
+    <!-- Image processing algorithms -->
+    <string name="gaussian_filter">Gaussian Filter</string>
+    <string name="median_filter">Median Filter</string>
+    <string name="gaussian_bilateral_filter">Gaussian Bilateral Filter</string>
+    <string name="mean_shift_filter">Mean Shift Filter</string>
+    <string name="image_grayscale">Image Grayscale</string>
+    <string name="threshold_type">Threshold Type</string>
+    <string name="global_threshold_segmentation">Global Threshold Segmentation</string>
+    <string name="adaptive_threshold_segmentation">Adaptive Threshold Segmentation</string>
+    <string name="adaptive_threshold_algorithm">Adaptive Threshold Algorithm</string>
+    <string name="threshold_segmentation">Threshold Segmentation</string>
+    <string name="canny_edge_detection">Canny Edge Detection</string>
+    
+    <!-- Edge detection operators -->
+    <string name="roberts_operator">Roberts Operator</string>
+    <string name="prewitt_operator">Prewitt Operator</string>
+    <string name="sobel_operator">Sobel Operator</string>
+    <string name="laplace_operator">Laplace Operator</string>
+    <string name="log_operator">LoG Operator</string>
+    <string name="dog_operator">DoG Operator</string>
+    <string name="first_derivative_operator">First Derivative Operator</string>
+    <string name="second_derivative_operator">Second Derivative Operator</string>
+    <string name="first_derivative_edge_detection">First Derivative Edge Detection</string>
+    <string name="second_derivative_edge_detection">Second Derivative Edge Detection</string>
+    <string name="canny_operator">Canny Operator</string>
+    <string name="canny_edge_detection_full">Canny Edge Detection</string>
+    
+    <!-- Prompt messages -->
+    <string name="click_to_select_image_or_drag">Click to select image or drag image here</string>
+    <string name="image_save_success">Image saved successfully</string>
+    <string name="image_save_failed">Image save failed</string>
+    <string name="please_select_first_derivative_operator">Please select first derivative operator type</string>
+    <string name="please_select_second_derivative_operator">Please select second derivative operator type</string>
+    <string name="please_select_threshold_type">Please select threshold type</string>
+    <string name="please_select_global_threshold_segmentation">Please select global threshold segmentation type</string>
+    <string name="please_select_adaptive_threshold_algorithm">Please select adaptive threshold algorithm type</string>
+    <string name="please_select_threshold_type_and_segmentation">Please select threshold type and global threshold segmentation or adaptive threshold segmentation</string>
+    
+    <!-- Parameter validation errors -->
+    <string name="ksize_needs_int">ksize needs int type</string>
+    <string name="sigma_x_needs_double">sigmaX needs double type</string>
+    <string name="sigma_y_needs_double">sigmaY needs double type</string>
+    <string name="d_needs_int">d needs int type</string>
+    <string name="sigma_color_needs_double">sigmaColor needs double type</string>
+    <string name="sigma_space_needs_double">sigmaSpace needs double type</string>
+    <string name="sp_needs_double">sp needs double type</string>
+    <string name="sr_needs_double">sr needs double type</string>
+    <string name="width_needs_int">width needs int type</string>
+    <string name="height_needs_int">height needs int type</string>
+    <string name="x_direction_needs_float">x direction needs float type</string>
+    <string name="y_direction_needs_float">y direction needs float type</string>
+    <string name="block_size_needs_int">blockSize needs int type</string>
+    <string name="c_needs_int">c needs int type</string>
+    <string name="threshold1_needs_double">threshold1 needs double type</string>
+    <string name="threshold2_needs_double">threshold2 needs double type</string>
+    <string name="aperture_size_needs_int">apertureSize needs int type</string>
+    <string name="hmin_needs_int">hmin needs int type</string>
+    <string name="smin_needs_int">smin needs int type</string>
+    <string name="vmin_needs_int">vmin needs int type</string>
+    <string name="hmax_needs_int">hmax needs int type</string>
+    <string name="smax_needs_int">smax needs int type</string>
+    <string name="vmax_needs_int">vmax needs int type</string>
+    
+    <!-- Additional parameter validation errors -->
+    <string name="sigma1_needs_double">sigma1 needs double type</string>
+    <string name="sigma2_needs_double">sigma2 needs double type</string>
+    <string name="size_needs_int">size needs int type</string>
+    
+    <!-- Natural language color correction -->
+    <string name="update_parameters">🤖 Update Parameters:</string>
+    <string name="request_failed">Request failed:</string>
+    <string name="unknown_error">Unknown error</string>
+    <string name="contrast">Contrast</string>
+    <string name="hue">Hue</string>
+    <string name="saturation">Saturation</string>
+    <string name="lightness">Lightness</string>
+    <string name="temperature">Temperature</string>
+    <string name="highlight">Highlight</string>
+    <string name="shadow">Shadow</string>
+    <string name="sharpen">Sharpen</string>
+    <string name="corner">Corner</string>
+    <string name="no_significant_changes">No significant changes</string>
 </resources>

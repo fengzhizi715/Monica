@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
 import org.koin.compose.koinInject
@@ -30,8 +31,8 @@ import java.awt.image.BufferedImage
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val firstDerivativeOperatorTags = arrayListOf("Roberts算子", "Prewitt算子", "Sobel算子")
-val secondDerivativeOperatorTags = arrayListOf("Laplace算子", "LoG算子", "DoG算子")
+val firstDerivativeOperatorTags = arrayListOf(LocalizationManager.getString("roberts_operator"), LocalizationManager.getString("prewitt_operator"), LocalizationManager.getString("sobel_operator"))
+val secondDerivativeOperatorTags = arrayListOf(LocalizationManager.getString("laplace_operator"), LocalizationManager.getString("log_operator"), LocalizationManager.getString("dog_operator"))
 
 @Composable
 fun edgeDetection(state: ApplicationState, title: String) {
@@ -80,7 +81,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                         clearDoGParams()
                     }
                 })
-                Text("一阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
+                Text(i18nState.getString("first_derivative_operator"), modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
@@ -101,19 +102,19 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     Button(
                         onClick = experimentViewClick(state) {
                             if (firstDerivativeOperatorSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择一阶导数算子类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_first_derivative_operator"))
                                 return@experimentViewClick
                             }
 
                             when(firstDerivativeOperatorSelectedOption) {
-                                "Roberts算子" -> viewModel.roberts(state)
-                                "Prewitt算子" -> viewModel.prewitt(state)
-                                "Sobel算子"   -> viewModel.sobel(state)
+                                firstDerivativeOperatorTags[0] -> viewModel.roberts(state)
+                                firstDerivativeOperatorTags[1] -> viewModel.prewitt(state)
+                                firstDerivativeOperatorTags[2] -> viewModel.sobel(state)
                                 else         -> {}
                             }
                         }
                     ) {
-                        Text(text = "一阶导数算子边缘检测", color = Color.Unspecified)
+                        Text(text = i18nState.getString("first_derivative_edge_detection"), color = Color.Unspecified)
                     }
                 }
             }
@@ -130,7 +131,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                         clearCannyParams()
                     }
                 })
-                Text("二阶导数算子", modifier = Modifier.align(Alignment.CenterVertically))
+                Text(i18nState.getString("second_derivative_operator"), modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row {
@@ -151,30 +152,29 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     Button(
                         onClick = experimentViewClick(state) {
                             if (secondDerivativeOperatorSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择二阶导数算子类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_second_derivative_operator"))
                                 return@experimentViewClick
                             }
 
                             when(secondDerivativeOperatorSelectedOption) {
-                                "Laplace算子" -> viewModel.laplace(state)
-                                "LoG算子"     -> viewModel.log(state)
-                                "DoG算子"     -> {
-                                    val sigma1 = getValidateField(block = { sigma1Text.toDouble() } , failed = { experimentViewVerifyToast("sigma1 需要 double 类型") }) ?: return@experimentViewClick
-                                    val sigma2 = getValidateField(block = { sigma2Text.toDouble() } , failed = { experimentViewVerifyToast("sigma2 需要 double 类型") }) ?: return@experimentViewClick
-                                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
-
+                                secondDerivativeOperatorTags[0] -> viewModel.laplace(state)
+                                secondDerivativeOperatorTags[1] -> viewModel.log(state)
+                                secondDerivativeOperatorTags[2] -> {
+                                    val sigma1 = getValidateField(block = { sigma1Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma1_needs_double")) }) ?: return@experimentViewClick
+                                    val sigma2 = getValidateField(block = { sigma2Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma2_needs_double")) }) ?: return@experimentViewClick
+                                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("size_needs_int")) }) ?: return@experimentViewClick
                                     viewModel.dog(state, sigma1, sigma2, size)
                                 }
                                 else         -> {}
                             }
                         }
                     ) {
-                        Text(text = "二阶导数算子边缘检测", color = Color.Unspecified)
+                        Text(text = i18nState.getString("second_derivative_edge_detection"), color = Color.Unspecified)
                     }
                 }
             }
 
-            if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption == "DoG算子") {
+            if (CVState.isSecondDerivativeOperator && secondDerivativeOperatorSelectedOption == secondDerivativeOperatorTags[2]) {
                 Row {
                     basicTextFieldWithTitle(titleText = "sigma1", sigma1Text) { str ->
                         if (CVState.isSecondDerivativeOperator) {
@@ -208,7 +208,7 @@ fun edgeDetection(state: ApplicationState, title: String) {
                         clearDoGParams()
                     }
                 })
-                Text("Canny算子", modifier = Modifier.align(Alignment.CenterVertically))
+                Text(i18nState.getString("canny_operator"), modifier = Modifier.align(Alignment.CenterVertically))
             }
 
             Row(modifier = Modifier.padding(top = 10.dp)) {
@@ -229,15 +229,15 @@ fun edgeDetection(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() }, failed = { experimentViewVerifyToast("threshold1 需要 double 类型") }) ?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() }, failed = { experimentViewVerifyToast("threshold2 需要 double 类型") }) ?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() }, failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") }) ?: return@experimentViewClick
+                                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() }, failed = { experimentViewVerifyToast(i18nState.getString("threshold1_needs_double")) }) ?: return@experimentViewClick
+                val threshold2 = getValidateField(block = { threshold2Text.toDouble() }, failed = { experimentViewVerifyToast(i18nState.getString("threshold2_needs_double")) }) ?: return@experimentViewClick
+                val apertureSize = getValidateField(block = { apertureSizeText.toInt() }, failed = { experimentViewVerifyToast(i18nState.getString("aperture_size_needs_int")) }) ?: return@experimentViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
                 }
             ) {
-                Text(text = "Canny 边缘检测", color = Color.Unspecified)
+                Text(text = i18nState.getString("canny_edge_detection_full"), color = Color.Unspecified)
             }
         }
     }

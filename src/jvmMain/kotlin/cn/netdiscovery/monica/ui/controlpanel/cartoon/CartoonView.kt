@@ -101,12 +101,12 @@ fun cartoon(state: ApplicationState) {
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
                         viewModel.convert2Cartoon(state,1) {
-                            showToast("算法服务异常")
+                            showToast(i18nState.getString("algorithm_service_error"))
                         }
                     }
                 ) {
                     Text(
-                        text = "宫崎骏风格", fontSize = 22.sp,
+                        text = i18nState.getString("miyazaki_style"), fontSize = 22.sp,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.width(200.dp).wrapContentSize(Alignment.Center)
                     )
@@ -117,12 +117,12 @@ fun cartoon(state: ApplicationState) {
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
                         viewModel.convert2Cartoon(state,2) {
-                            showToast("算法服务异常")
+                            showToast(i18nState.getString("algorithm_service_error"))
                         }
                     }
                 ) {
                     Text(
-                        text = "日系人像风格", fontSize = 22.sp,
+                        text = i18nState.getString("japanese_portrait_style"), fontSize = 22.sp,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.width(200.dp).wrapContentSize(Alignment.Center)
                     )
@@ -133,12 +133,12 @@ fun cartoon(state: ApplicationState) {
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
                         viewModel.convert2Cartoon(state,3) {
-                            showToast("算法服务异常")
+                            showToast(i18nState.getString("algorithm_service_error"))
                         }
                     }
                 ) {
                     Text(
-                        text = "黑白线稿", fontSize = 22.sp,
+                        text = i18nState.getString("black_white_line_art"), fontSize = 22.sp,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.width(200.dp).wrapContentSize(Alignment.Center)
                     )
@@ -149,12 +149,12 @@ fun cartoon(state: ApplicationState) {
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
                         viewModel.convert2Cartoon(state,4) {
-                            showToast("算法服务异常")
+                            showToast(i18nState.getString("algorithm_service_error"))
                         }
                     }
                 ) {
                     Text(
-                        text = "新海诚风格", fontSize = 22.sp,
+                        text = i18nState.getString("shinkai_style"), fontSize = 22.sp,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.width(200.dp).wrapContentSize(Alignment.Center)
                     )
@@ -165,12 +165,12 @@ fun cartoon(state: ApplicationState) {
                     modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
 
                         viewModel.convert2Cartoon(state,5) {
-                            showToast("算法服务异常")
+                            showToast(i18nState.getString("algorithm_service_error"))
                         }
                     }
                 ) {
                     Text(
-                        text = "可爱风格", fontSize = 22.sp,
+                        text = i18nState.getString("cute_style"), fontSize = 22.sp,
                         color = MaterialTheme.colors.primary,
                         modifier = Modifier.width(200.dp).wrapContentSize(Alignment.Center)
                     )
@@ -180,14 +180,14 @@ fun cartoon(state: ApplicationState) {
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
 
-            toolTipButton(text = "删除",
+            toolTipButton(text = i18nState.getString("delete"),
                 painter = painterResource("images/preview/delete.png"),
                 iconModifier = Modifier.size(36.dp),
                 onClick = {
                     state.clearImage()
                 })
 
-            toolTipButton(text = "上一步",
+            toolTipButton(text = i18nState.getString("previous_step"),
                 painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
                     state.getLastImage()?.let {
@@ -195,7 +195,7 @@ fun cartoon(state: ApplicationState) {
                     }
                 })
 
-            toolTipButton(text = "保存",
+            toolTipButton(text = i18nState.getString("save"),
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
                     state.closePreviewWindow()

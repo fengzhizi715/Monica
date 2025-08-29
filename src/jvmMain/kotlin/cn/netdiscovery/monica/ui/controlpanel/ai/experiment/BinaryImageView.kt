@@ -81,14 +81,14 @@ fun binaryImage(state: ApplicationState, title: String) {
                     }
                 }
             ) {
-                Text(text = "图像灰度化", color = Color.Unspecified)
+                Text(text = i18nState.getString("image_grayscale"), color = Color.Unspecified)
             }
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
             subTitleWithDivider(text = i18nState.getString("threshold_segmentation"), color = Color.Black)
 
-            checkBoxWithTitle("阈值化类型", checked = CVState.isThreshType, onCheckedChange = {
+            checkBoxWithTitle(i18nState.getString("threshold_type"), checked = CVState.isThreshType, onCheckedChange = {
                 CVState.isThreshType = it
 
                 if (!CVState.isThreshType) {
@@ -111,7 +111,7 @@ fun binaryImage(state: ApplicationState, title: String) {
                 }
             }
 
-            checkBoxWithTitle("全局阈值分割", modifier = Modifier.padding(top = 10.dp), checked = CVState.isThreshSegment, onCheckedChange = {
+            checkBoxWithTitle(i18nState.getString("global_threshold_segmentation"), modifier = Modifier.padding(top = 10.dp), checked = CVState.isThreshSegment, onCheckedChange = {
                 CVState.isThreshSegment = it
 
                 if (!CVState.isThreshSegment) {
@@ -137,7 +137,7 @@ fun binaryImage(state: ApplicationState, title: String) {
                 }
             }
 
-            checkBoxWithTitle("自适应阈值分割", modifier = Modifier.padding(top = 10.dp), checked = CVState.isAdaptiveThresh, onCheckedChange = {
+            checkBoxWithTitle(i18nState.getString("adaptive_threshold_segmentation"), modifier = Modifier.padding(top = 10.dp), checked = CVState.isAdaptiveThresh, onCheckedChange = {
                 CVState.isAdaptiveThresh = it
 
                 if (!CVState.isAdaptiveThresh) {
@@ -152,7 +152,7 @@ fun binaryImage(state: ApplicationState, title: String) {
             })
 
             Row {
-                Text("自适应阈值算法", modifier = Modifier.align(Alignment.CenterVertically))
+                Text(i18nState.getString("adaptive_threshold_algorithm"), modifier = Modifier.align(Alignment.CenterVertically))
 
                 adaptiveMethodSelectTags.forEach {
                     RadioButton(
@@ -187,39 +187,39 @@ fun binaryImage(state: ApplicationState, title: String) {
                         if (CVState.isThreshType && CVState.isThreshSegment) {
 
                             if (typeSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择阈值化类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_threshold_type"))
                                 return@experimentViewClick
                             }
 
                             if (thresholdSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择全局阈值分割类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_global_threshold_segmentation"))
                                 return@experimentViewClick
                             }
 
                             viewModel.threshold(state, typeSelectedOption, thresholdSelectedOption)
                         } else if (CVState.isThreshType && CVState.isAdaptiveThresh) {
                             if (typeSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择阈值化类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_threshold_type"))
                                 return@experimentViewClick
                             }
 
                             if (adaptiveMethodSelectedOption == "Null") {
-                                experimentViewVerifyToast("请选择自适应阈值算法类型")
+                                experimentViewVerifyToast(i18nState.getString("please_select_adaptive_threshold_algorithm"))
                                 return@experimentViewClick
                             }
 
-                            val blockSize = getValidateField(block = { blockSizeText.toInt() } , failed = { experimentViewVerifyToast("blockSize 需要 int 类型") })?: return@experimentViewClick
+                            val blockSize = getValidateField(block = { blockSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("block_size_needs_int")) })?: return@experimentViewClick
 
-                            val c = getValidateField(block = { cText.toInt() } , failed = { experimentViewVerifyToast("c 需要 int 类型") })?: return@experimentViewClick
+                            val c = getValidateField(block = { cText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("c_needs_int")) })?: return@experimentViewClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption, typeSelectedOption, blockSize, c)
                         } else {
-                            experimentViewVerifyToast("请选择阈值化类型以及全局阈值分割 或 自适应阈值分割")
+                            experimentViewVerifyToast(i18nState.getString("please_select_threshold_type_and_segmentation"))
                         }
                     }
                 }
             ) {
-                Text(text = "阈值分割", color = Color.Unspecified)
+                Text(text = i18nState.getString("threshold_segmentation"), color = Color.Unspecified)
             }
         }
 
@@ -244,15 +244,15 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() } , failed = { experimentViewVerifyToast("threshold1 需要 double 类型") })?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() } , failed = { experimentViewVerifyToast("threshold2 需要 double 类型") })?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() } , failed = { experimentViewVerifyToast("apertureSize 需要 int 类型") })?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold1_needs_double")) })?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold2_needs_double")) })?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("aperture_size_needs_int")) })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
                 }
             ) {
-                Text(text = "Canny 边缘检测", color = Color.Unspecified)
+                Text(text = i18nState.getString("canny_edge_detection"), color = Color.Unspecified)
             }
         }
 

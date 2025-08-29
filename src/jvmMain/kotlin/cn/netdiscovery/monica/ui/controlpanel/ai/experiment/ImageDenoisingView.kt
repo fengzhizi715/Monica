@@ -75,9 +75,9 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val ksize = getValidateField(block = { gaussianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast("ksize 需要 int 类型") }) ?: return@experimentViewClick
-                    val sigmaX = getValidateField(block = { sigmaXText.toDouble() } , failed = { experimentViewVerifyToast("sigmaX 需要 double 类型") }) ?: return@experimentViewClick
-                    val sigmaY = getValidateField(block = { sigmaYText.toDouble() } , failed = { experimentViewVerifyToast("sigmaY 需要 double 类型") }) ?: return@experimentViewClick
+                                val ksize = getValidateField(block = { gaussianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ksize_needs_int")) }) ?: return@experimentViewClick
+            val sigmaX = getValidateField(block = { sigmaXText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_x_needs_double")) }) ?: return@experimentViewClick
+            val sigmaY = getValidateField(block = { sigmaYText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_y_needs_double")) }) ?: return@experimentViewClick
                     viewModel.gaussianBlur(state, ksize, sigmaX, sigmaY)
                 }
             ) {
@@ -98,11 +98,11 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val ksize = getValidateField(block = { medianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast("ksize 需要 int 类型") }) ?: return@experimentViewClick
+                    val ksize = getValidateField(block = { medianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ksize_needs_int")) }) ?: return@experimentViewClick
                     viewModel.medianBlur(state, ksize)
                 }
             ) {
-                Text(text = "中值滤波", color = Color.Unspecified)
+                Text(text = i18nState.getString("median_filter"), color = Color.Unspecified)
             }
         }
 
@@ -127,13 +127,13 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val d = getValidateField(block = { dText.toInt() } , failed = { experimentViewVerifyToast("d 需要 int 类型") }) ?: return@experimentViewClick
-                    val sigmaColor = getValidateField(block = { sigmaColorText.toDouble() } , failed = { experimentViewVerifyToast("sigmaColor 需要 double 类型") }) ?: return@experimentViewClick
-                    val sigmaSpace = getValidateField(block = { sigmaSpaceText.toDouble() } , failed = { experimentViewVerifyToast("sigmaSpace 需要 double 类型") }) ?: return@experimentViewClick
+                                val d = getValidateField(block = { dText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("d_needs_int")) }) ?: return@experimentViewClick
+            val sigmaColor = getValidateField(block = { sigmaColorText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_color_needs_double")) }) ?: return@experimentViewClick
+            val sigmaSpace = getValidateField(block = { sigmaSpaceText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_space_needs_double")) }) ?: return@experimentViewClick
                     viewModel.bilateralFilter(state, d, sigmaColor, sigmaSpace)
                 }
             ) {
-                Text(text = "高斯双边滤波", color = Color.Unspecified)
+                Text(text = i18nState.getString("gaussian_bilateral_filter"), color = Color.Unspecified)
             }
         }
 
@@ -154,12 +154,12 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val sp = getValidateField(block = { spText.toDouble() } , failed = { experimentViewVerifyToast("sp 需要 double 类型") }) ?: return@experimentViewClick
-                    val sr = getValidateField(block = { srText.toDouble() } , failed = { experimentViewVerifyToast("sr 需要 double 类型") }) ?: return@experimentViewClick
+                                val sp = getValidateField(block = { spText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sp_needs_double")) }) ?: return@experimentViewClick
+            val sr = getValidateField(block = { srText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sr_needs_double")) }) ?: return@experimentViewClick
                     viewModel.pyrMeanShiftFiltering(state, sp, sr)
                 }
             ) {
-                Text(text = "均值迁移滤波", color = Color.Unspecified)
+                Text(text = i18nState.getString("mean_shift_filter"), color = Color.Unspecified)
             }
         }
     }
