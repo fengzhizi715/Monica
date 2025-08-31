@@ -24,7 +24,10 @@ import cn.netdiscovery.monica.ui.widget.properties.ExposedSelectionMenu
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss: () -> Unit) {
+fun ShapeDrawingPropertiesMenuDialog(
+    shapeProperties: ShapeProperties, 
+    onDismiss: (ShapeProperties) -> Unit
+) {
 
     var alpha    by remember { mutableStateOf(shapeProperties.alpha) }
     var fontSize by remember { mutableStateOf(shapeProperties.fontSize) }
@@ -32,7 +35,14 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
     var border   by remember { mutableStateOf(shapeProperties.border) }
 
     Dialog(onDismissRequest = {
-        onDismiss.invoke()
+        // 返回更新后的属性
+        val updatedProperties = shapeProperties.copy(
+            alpha = alpha,
+            fontSize = fontSize,
+            fill = fill,
+            border = border
+        )
+        onDismiss(updatedProperties)
     }) {
 
         Card(
@@ -52,7 +62,6 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
                     value = alpha,
                     onValueChange = {
                         alpha = it
-                        shapeProperties.alpha = alpha
                     },
                     valueRange = 0f..1f,
                     onValueChangeFinished = {}
@@ -68,7 +77,6 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
                     value = fontSize,
                     onValueChange = {
                         fontSize = it
-                        shapeProperties.fontSize = fontSize
                     },
                     valueRange = 1f..100f,
                     onValueChangeFinished = {}
@@ -86,8 +94,6 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
                             1 -> true
                             else -> false
                         }
-
-                        shapeProperties.fill = fill
                     }
                 )
 
@@ -109,8 +115,6 @@ fun ShapeDrawingPropertiesMenuDialog(shapeProperties: ShapeProperties, onDismiss
                             4 -> Border.Line
                             else -> Border.No
                         }
-
-                        shapeProperties.border = border
                     }
                 )
             }

@@ -436,12 +436,19 @@ fun shapeDrawing(state: ApplicationState) {
 
         if (showColorDialog) {
             ColorSelectionDialog(
-                properties.color,
+                currentShapeProperty.color,
                 onDismiss = { showColorDialog = !showColorDialog },
                 onNegativeClick = { showColorDialog = !showColorDialog },
                 onPositiveClick = { color: Color ->
                     showColorDialog = !showColorDialog
-                    properties.color = color
+                    currentShapeProperty = currentShapeProperty.copy(color = color)
+                    // 更新当前文字的颜色，让颜色立即生效
+                    if (currentPosition != null && texts.containsKey(currentPosition)) {
+                        texts[currentPosition] = texts[currentPosition]!!.copy(
+                            shapeProperties = texts[currentPosition]!!.shapeProperties.copy(color = color)
+                        )
+                    }
+                    logger.info("颜色已更新: $color")
                 }
             )
         }
@@ -468,8 +475,12 @@ fun shapeDrawing(state: ApplicationState) {
 
         if (showPropertiesDialog) {
 
-            ShapeDrawingPropertiesMenuDialog(currentShapeProperty) {
-                texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+            ShapeDrawingPropertiesMenuDialog(currentShapeProperty) { updatedProperties ->
+                // 更新全局属性
+                currentShapeProperty = updatedProperties
+                // 更新当前文字
+                texts[currentPosition] = Text(currentPosition, text, updatedProperties)
+                logger.info("属性已更新: fontSize=${updatedProperties.fontSize}, alpha=${updatedProperties.alpha}, fill=${updatedProperties.fill}, border=${updatedProperties.border}")
                 showPropertiesDialog = false
             }
         }

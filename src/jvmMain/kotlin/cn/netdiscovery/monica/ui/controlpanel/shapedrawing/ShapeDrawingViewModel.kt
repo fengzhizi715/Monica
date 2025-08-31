@@ -13,136 +13,50 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.TextDrawer
 
 /**
- *
- * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ShapeDrawingViewModel
- * @author: Tony Shen
- * @date: 2024/11/21 16:09
- * @version: V1.0 <描述当前版本功能>
+ * 形状绘制视图模型
+ * 负责管理各种几何形状的绘制逻辑
+ * 
+ * @author Tony Shen
+ * @date 2024/11/21 16:09
+ * @version V1.0
  */
 class ShapeDrawingViewModel {
 
-    fun drawShape(canvasDrawer:CanvasDrawer,
-                  lines: Map<Offset, Line>,
-                  circles: Map<Offset, Circle>,
-                  triangles: Map<Offset, Triangle>,
-                  rectangles: Map<Offset, Rectangle>,
-                  polygons: Map<Offset, Polygon>,
-                  texts: Map<Offset, Text>,
-                  saveFlag: Boolean = false) {
-
-        lines.forEach {
-
-            val line = it.value
-
-            if (line.from != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(line.from, line.shapeProperties.color)
-            }
-
-            if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
-                val style = Style(null, line.shapeProperties.color, line.shapeProperties.border, null, fill = line.shapeProperties.fill, scale = 1f, alpha = line.shapeProperties.alpha, bounded = true)
-                canvasDrawer.line(line.from,line.to, style)
-            }
-        }
-
-        circles.forEach {
-
-            val circle = it.value
-
-            if (circle.center != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(circle.center, circle.shapeProperties.color)
-            }
-
-            val style = Style(null, circle.shapeProperties.color, circle.shapeProperties.border, null, fill = circle.shapeProperties.fill, scale = 1f, alpha = circle.shapeProperties.alpha, bounded = true)
-            canvasDrawer.circle(circle.center, circle.radius, style)
-        }
-
-        triangles.forEach {
-            val triangle = it.value
-
-            if (triangle.first != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(triangle.first, triangle.shapeProperties.color)
-            }
-
-            val style = Style(null, triangle.shapeProperties.color, triangle.shapeProperties.border, null, fill = triangle.shapeProperties.fill, scale = 1f, alpha = triangle.shapeProperties.alpha, bounded = true)
-
-            if (triangle.second != Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
-                canvasDrawer.line(triangle.first,triangle.second, style)
-            }
-
-            if (triangle.first != Offset.Unspecified && triangle.second != Offset.Unspecified && triangle.third != Offset.Unspecified) {
-                val list = mutableListOf<Offset>().apply {
-                    add(triangle.first)
-                    add(triangle.second!!)
-                    add(triangle.third!!)
-                }
-
-                canvasDrawer.polygon(list, style)
-            }
-        }
-
-        rectangles.forEach {
-            val rect = it.value
-
-            if (rect.rectFirst!=Offset.Unspecified && !saveFlag) {
-                canvasDrawer.point(rect.rectFirst, rect.shapeProperties.color)
-            }
-
-            if (rect.tl!=Offset.Unspecified && rect.bl!=Offset.Unspecified && rect.br!=Offset.Unspecified && rect.tr!=Offset.Unspecified) {
-                val list = mutableListOf<Offset>().apply {
-                    add(rect.tl)
-                    add(rect.bl)
-                    add(rect.br)
-                    add(rect.tr)
-                }
-
-                val style = Style(null, rect.shapeProperties.color, rect.shapeProperties.border, null, fill = rect.shapeProperties.fill, scale = 1f, alpha = rect.shapeProperties.alpha, bounded = true)
-
-                canvasDrawer.polygon(list, style)
-            }
-        }
-
-        polygons.forEach {
-            val polygon = it.value
-
-            if (polygon.points.isNotEmpty()) {
-                if (polygon.points[0] != Offset.Unspecified && !saveFlag) {
-                    canvasDrawer.point(polygon.points[0] , polygon.shapeProperties.color)
-                }
-
-                val style = Style(null, polygon.shapeProperties.color, polygon.shapeProperties.border, null, fill = polygon.shapeProperties.fill, scale = 1f, alpha = polygon.shapeProperties.alpha, bounded = true)
-                if (polygon.points.size>1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
-                    canvasDrawer.point(polygon.points[1] , polygon.shapeProperties.color)
-                    canvasDrawer.line(polygon.points[0], polygon.points[1], style)
-                }
-
-                canvasDrawer.polygon(polygon.points, style)
-            }
-        }
-
-        texts.forEach {
-            val text = it.value
-
-            if (text.point!= Offset.Unspecified) {
-                val list = mutableListOf<String>().apply {
-                    add(text.message)
-                }
-                canvasDrawer.text(text.point, list, text.shapeProperties.color, text.shapeProperties.fontSize)
-            }
-        }
+    /**
+     * 绘制所有形状到画布
+     */
+    fun drawShape(
+        canvasDrawer: CanvasDrawer,
+        lines: Map<Offset, Line>,
+        circles: Map<Offset, Circle>,
+        triangles: Map<Offset, Triangle>,
+        rectangles: Map<Offset, Rectangle>,
+        polygons: Map<Offset, Polygon>,
+        texts: Map<Offset, Text>,
+        saveFlag: Boolean = false
+    ) {
+        drawLines(canvasDrawer, lines, saveFlag)
+        drawCircles(canvasDrawer, circles, saveFlag)
+        drawTriangles(canvasDrawer, triangles, saveFlag)
+        drawRectangles(canvasDrawer, rectangles, saveFlag)
+        drawPolygons(canvasDrawer, polygons, saveFlag)
+        drawTexts(canvasDrawer, texts)
     }
 
-    fun saveCanvasToBitmap(density: Density,
-                           lines: Map<Offset, Line>,
-                           circles: Map<Offset, Circle>,
-                           triangles: Map<Offset, Triangle>,
-                           rectangles: Map<Offset, Rectangle>,
-                           polygons: Map<Offset, Polygon>,
-                           texts: Map<Offset, Text>,
-                           image: ImageBitmap,
-                           state: ApplicationState) {
-
+    /**
+     * 保存画布为位图
+     */
+    fun saveCanvasToBitmap(
+        density: Density,
+        lines: Map<Offset, Line>,
+        circles: Map<Offset, Circle>,
+        triangles: Map<Offset, Triangle>,
+        rectangles: Map<Offset, Rectangle>,
+        polygons: Map<Offset, Polygon>,
+        texts: Map<Offset, Text>,
+        image: ImageBitmap,
+        state: ApplicationState
+    ) {
         val bitmapWidth = image.width
         val bitmapHeight = image.height
 
@@ -158,11 +72,136 @@ class ShapeDrawingViewModel {
             size = size
         ) {
             state.closePreviewWindow()
-
-            drawShape(canvasDrawer,lines,circles,triangles,rectangles, polygons,texts, true)
+            drawShape(canvasDrawer, lines, circles, triangles, rectangles, polygons, texts, true)
         }
 
         state.addQueue(state.currentImage!!)
         state.currentImage = image.toAwtImage()
+    }
+
+    // 私有方法：绘制线条
+    private fun drawLines(canvasDrawer: CanvasDrawer, lines: Map<Offset, Line>, saveFlag: Boolean) {
+        lines.forEach { (_, line) ->
+            if (line.from != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(line.from, line.shapeProperties.color)
+            }
+
+            if (line.from != Offset.Unspecified && line.to != Offset.Unspecified) {
+                val style = createStyle(line.shapeProperties)
+                canvasDrawer.line(line.from, line.to, style)
+            }
+        }
+    }
+
+    // 私有方法：绘制圆形
+    private fun drawCircles(canvasDrawer: CanvasDrawer, circles: Map<Offset, Circle>, saveFlag: Boolean) {
+        circles.forEach { (_, circle) ->
+            if (circle.center != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(circle.center, circle.shapeProperties.color)
+            }
+
+            if (circle.center != Offset.Unspecified) {
+                val style = createStyle(circle.shapeProperties)
+                canvasDrawer.circle(circle.center, circle.radius, style)
+            }
+        }
+    }
+
+    // 私有方法：绘制三角形
+    private fun drawTriangles(canvasDrawer: CanvasDrawer, triangles: Map<Offset, Triangle>, saveFlag: Boolean) {
+        triangles.forEach { (_, triangle) ->
+            if (triangle.first != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(triangle.first, triangle.shapeProperties.color)
+            }
+
+            val style = createStyle(triangle.shapeProperties)
+
+            // 绘制三角形的边
+            if (triangle.second != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(triangle.second!!, triangle.shapeProperties.color)
+                canvasDrawer.line(triangle.first, triangle.second, style)
+            }
+
+            // 绘制完整的三角形
+            if (isValidTriangle(triangle)) {
+                val points = listOf(triangle.first, triangle.second!!, triangle.third!!)
+                canvasDrawer.polygon(points, style)
+            }
+        }
+    }
+
+    // 私有方法：绘制矩形
+    private fun drawRectangles(canvasDrawer: CanvasDrawer, rectangles: Map<Offset, Rectangle>, saveFlag: Boolean) {
+        rectangles.forEach { (_, rect) ->
+            if (rect.rectFirst != Offset.Unspecified && !saveFlag) {
+                canvasDrawer.point(rect.rectFirst, rect.shapeProperties.color)
+            }
+
+            if (isValidRectangle(rect)) {
+                val points = listOf(rect.tl, rect.bl, rect.br, rect.tr)
+                val style = createStyle(rect.shapeProperties)
+                canvasDrawer.polygon(points, style)
+            }
+        }
+    }
+
+    // 私有方法：绘制多边形
+    private fun drawPolygons(canvasDrawer: CanvasDrawer, polygons: Map<Offset, Polygon>, saveFlag: Boolean) {
+        polygons.forEach { (_, polygon) ->
+            if (polygon.points.isNotEmpty()) {
+                if (polygon.points[0] != Offset.Unspecified && !saveFlag) {
+                    canvasDrawer.point(polygon.points[0], polygon.shapeProperties.color)
+                }
+
+                val style = createStyle(polygon.shapeProperties)
+                
+                // 绘制多边形的边
+                if (polygon.points.size > 1 && polygon.points[1] != Offset.Unspecified && !saveFlag) {
+                    canvasDrawer.point(polygon.points[1], polygon.shapeProperties.color)
+                    canvasDrawer.line(polygon.points[0], polygon.points[1], style)
+                }
+
+                canvasDrawer.polygon(polygon.points, style)
+            }
+        }
+    }
+
+    // 私有方法：绘制文本
+    private fun drawTexts(canvasDrawer: CanvasDrawer, texts: Map<Offset, Text>) {
+        texts.forEach { (_, text) ->
+            if (text.point != Offset.Unspecified) {
+                val textList = listOf(text.message)
+                canvasDrawer.text(text.point, textList, text.shapeProperties.color, text.shapeProperties.fontSize)
+            }
+        }
+    }
+
+    // 私有方法：创建样式对象
+    private fun createStyle(properties: cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties): Style {
+        return Style(
+            name = null,
+            color = properties.color,
+            border = properties.border,
+            equalityGroup = null,
+            fill = properties.fill,
+            scale = 1f,
+            alpha = properties.alpha,
+            bounded = true
+        )
+    }
+
+    // 私有方法：验证三角形是否有效
+    private fun isValidTriangle(triangle: Triangle): Boolean {
+        return triangle.first != Offset.Unspecified && 
+               triangle.second != Offset.Unspecified && 
+               triangle.third != Offset.Unspecified
+    }
+
+    // 私有方法：验证矩形是否有效
+    private fun isValidRectangle(rect: Rectangle): Boolean {
+        return rect.tl != Offset.Unspecified && 
+               rect.bl != Offset.Unspecified && 
+               rect.br != Offset.Unspecified && 
+               rect.tr != Offset.Unspecified
     }
 }

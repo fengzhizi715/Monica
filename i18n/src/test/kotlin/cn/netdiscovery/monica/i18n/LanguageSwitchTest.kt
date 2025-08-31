@@ -86,3 +86,5 @@ class LanguageSwitchTest {
         LocalizationManager.setLanguage(originalLanguage)
     }
 }
+
+
