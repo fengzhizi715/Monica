@@ -151,6 +151,7 @@
     <string name="y_direction">Y Direction</string>
     
     <!-- Filter effects -->
+    <string name="filter">Filter</string>
     <string name="select_filter">Please select a filter</string>
     <string name="filter_name">%s Filter</string>
     <string name="select_filter_first">Please select a filter first</string>

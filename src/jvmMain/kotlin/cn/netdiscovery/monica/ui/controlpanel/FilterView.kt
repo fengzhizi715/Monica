@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.config.subTitleTextSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.FilterStatus
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.checkBoxWithTitle
 import cn.netdiscovery.monica.ui.widget.rememberThrottledClick
 import org.slf4j.Logger
@@ -31,8 +32,10 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun filterView(state: ApplicationState) {
 
+    val i18nState = rememberI18nState()
+
     checkBoxWithTitle(
-        text = "滤镜",
+        text = i18nState.getString("filter"),
         color = Color.Black,
         checked = state.isFilter,
         fontSize = subTitleTextSize,
