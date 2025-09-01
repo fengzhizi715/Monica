@@ -260,7 +260,7 @@
     
     <!-- Image operations -->
     <string name="image_color_correction">Image Color Correction</string>
-    <string name="enter_image_color_correction">Enter Image Color Correction Interface</string>
+    <string name="enter_image_color_correction">Image Color Correction Interface</string>
     <string name="image_flip">Image Flip</string>
     <string name="image_rotate">Image Rotate</string>
     <string name="image_scale">Image Scale</string>

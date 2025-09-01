@@ -259,8 +259,8 @@
     <string name="delete">删除</string>
     
     <!-- 图像 operations -->
-    <string name="image_color_correction">图像 图像调色</string>
-    <string name="enter_image_color_correction">Enter 图像 图像调色 界面</string>
+    <string name="image_color_correction">图像调色</string>
+    <string name="enter_image_color_correction">图像调色界面</string>
     <string name="image_flip">图像翻转</string>
     <string name="image_rotate">图像旋转</string>
     <string name="image_scale">图像 缩放</string>
