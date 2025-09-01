@@ -79,7 +79,7 @@ class ShapeDrawingViewModel {
         state.currentImage = image.toAwtImage()
     }
 
-    // 私有方法：绘制线条
+    // 绘制线条
     private fun drawLines(canvasDrawer: CanvasDrawer, lines: Map<Offset, Line>, saveFlag: Boolean) {
         lines.forEach { (_, line) ->
             if (line.from != Offset.Unspecified && !saveFlag) {
@@ -93,7 +93,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：绘制圆形
+    // 绘制圆形
     private fun drawCircles(canvasDrawer: CanvasDrawer, circles: Map<Offset, Circle>, saveFlag: Boolean) {
         circles.forEach { (_, circle) ->
             if (circle.center != Offset.Unspecified && !saveFlag) {
@@ -107,7 +107,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：绘制三角形
+    // 绘制三角形
     private fun drawTriangles(canvasDrawer: CanvasDrawer, triangles: Map<Offset, Triangle>, saveFlag: Boolean) {
         triangles.forEach { (_, triangle) ->
             if (triangle.first != Offset.Unspecified && !saveFlag) {
@@ -130,7 +130,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：绘制矩形
+    // 绘制矩形
     private fun drawRectangles(canvasDrawer: CanvasDrawer, rectangles: Map<Offset, Rectangle>, saveFlag: Boolean) {
         rectangles.forEach { (_, rect) ->
             if (rect.rectFirst != Offset.Unspecified && !saveFlag) {
@@ -145,7 +145,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：绘制多边形
+    // 绘制多边形
     private fun drawPolygons(canvasDrawer: CanvasDrawer, polygons: Map<Offset, Polygon>, saveFlag: Boolean) {
         polygons.forEach { (_, polygon) ->
             if (polygon.points.isNotEmpty()) {
@@ -166,7 +166,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：绘制文本
+    // 绘制文本
     private fun drawTexts(canvasDrawer: CanvasDrawer, texts: Map<Offset, Text>) {
         texts.forEach { (_, text) ->
             if (text.point != Offset.Unspecified) {
@@ -176,7 +176,7 @@ class ShapeDrawingViewModel {
         }
     }
 
-    // 私有方法：创建样式对象
+    // 创建样式对象
     private fun createStyle(properties: cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties): Style {
         return Style(
             name = null,
@@ -190,14 +190,14 @@ class ShapeDrawingViewModel {
         )
     }
 
-    // 私有方法：验证三角形是否有效
+    // 验证三角形是否有效
     private fun isValidTriangle(triangle: Triangle): Boolean {
         return triangle.first != Offset.Unspecified && 
                triangle.second != Offset.Unspecified && 
                triangle.third != Offset.Unspecified
     }
 
-    // 私有方法：验证矩形是否有效
+    // 验证矩形是否有效
     private fun isValidRectangle(rect: Rectangle): Boolean {
         return rect.tl != Offset.Unspecified && 
                rect.bl != Offset.Unspecified && 
