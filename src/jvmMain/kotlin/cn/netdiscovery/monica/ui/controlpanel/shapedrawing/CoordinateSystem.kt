@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.ui.controlpanel.shapedrawing
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Density
+import cn.netdiscovery.monica.ui.controlpanel.ai.AIViewModel
+import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import kotlin.math.sqrt
@@ -16,7 +18,7 @@ import kotlin.math.pow
  * @version V1.0
  */
 object CoordinateSystem {
-    private val logger: Logger = LoggerFactory.getLogger(CoordinateSystem::class.java)
+    private val logger: Logger = logger<CoordinateSystem>()
     
     /**
      * 坐标验证结果
@@ -25,15 +27,6 @@ object CoordinateSystem {
         val isValid: Boolean,
         val message: String = "",
         val correctedOffset: Offset? = null
-    )
-    
-    /**
-     * 边界检查结果
-     */
-    data class BoundaryCheckResult(
-        val isInBounds: Boolean,
-        val message: String = "",
-        val clampedOffset: Offset? = null
     )
     
     /**
@@ -60,64 +53,6 @@ object CoordinateSystem {
                 ValidationResult(true, "坐标有效")
             }
         }
-    }
-    
-    /**
-     * 检查坐标是否在边界内，如果不在则返回修正后的坐标
-     */
-    fun checkBoundary(offset: Offset, imageWidth: Int, imageHeight: Int): BoundaryCheckResult {
-        if (offset == Offset.Unspecified) {
-            return BoundaryCheckResult(false, "坐标未指定")
-        }
-        
-        val clampedX = offset.x.coerceIn(0f, imageWidth.toFloat())
-        val clampedY = offset.y.coerceIn(0f, imageHeight.toFloat())
-        
-        val isInBounds = offset.x == clampedX && offset.y == clampedY
-        
-        return if (isInBounds) {
-            BoundaryCheckResult(true, "坐标在边界内")
-        } else {
-            BoundaryCheckResult(
-                false, 
-                "坐标已修正: 原坐标(${offset.x}, ${offset.y}) -> 修正坐标($clampedX, $clampedY)",
-                Offset(clampedX, clampedY)
-            )
-        }
-    }
-    
-    /**
-     * 将画布坐标转换为图像坐标
-     * @param canvasOffset 画布坐标（以画布中心为原点）
-     * @param imageWidth 图像宽度
-     * @param imageHeight 图像高度
-     * @return 图像坐标（以左上角为原点）
-     */
-    fun canvasToImage(canvasOffset: Offset, imageWidth: Int, imageHeight: Int): Offset {
-        val halfWidth = imageWidth / 2f
-        val halfHeight = imageHeight / 2f
-        
-        return Offset(
-            x = halfWidth + canvasOffset.x,
-            y = halfHeight + canvasOffset.y
-        )
-    }
-    
-    /**
-     * 将图像坐标转换为画布坐标
-     * @param imageOffset 图像坐标（以左上角为原点）
-     * @param imageWidth 图像宽度
-     * @param imageHeight 图像高度
-     * @return 画布坐标（以画布中心为原点）
-     */
-    fun imageToCanvas(imageOffset: Offset, imageWidth: Int, imageHeight: Int): Offset {
-        val halfWidth = imageWidth / 2f
-        val halfHeight = imageHeight / 2f
-        
-        return Offset(
-            x = imageOffset.x - halfWidth,
-            y = imageOffset.y - halfHeight
-        )
     }
     
     /**
@@ -167,16 +102,6 @@ object CoordinateSystem {
     }
     
     /**
-     * 获取图像边界
-     */
-    fun getImageBounds(imageWidth: Int, imageHeight: Int): Pair<Offset, Offset> {
-        return Pair(
-            Offset(0f, 0f),  // 左上角
-            Offset(imageWidth.toFloat(), imageHeight.toFloat())  // 右下角
-        )
-    }
-    
-    /**
      * 计算两点之间的距离
      */
     fun calculateDistance(point1: Offset, point2: Offset): Float {
@@ -208,22 +133,6 @@ object CoordinateSystem {
             ValidationResult(true, "形状边界有效")
         } else {
             ValidationResult(false, "形状包含超出边界的点: $invalidPoints")
-        }
-    }
-    
-    /**
-     * 修正形状坐标到边界内
-     */
-    fun clampShapeToBoundary(
-        points: List<Offset>, 
-        imageWidth: Int, 
-        imageHeight: Int
-    ): List<Offset> {
-        return points.map { point ->
-            Offset(
-                x = point.x.coerceIn(0f, imageWidth.toFloat()),
-                y = point.y.coerceIn(0f, imageHeight.toFloat())
-            )
         }
     }
 }
