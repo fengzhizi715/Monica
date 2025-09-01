@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory
 import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.CoordinateSystem
 
 /**
  *
@@ -92,12 +93,20 @@ fun shapeDrawing(state: ApplicationState) {
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
+    
+    // 跟踪最后一个绘制的形状
+    var lastDrawnShapeKey by remember { mutableStateOf<Offset?>(null) }
+    var lastDrawnShapeType by remember { mutableStateOf<String?>(null) }
 
 
     var currentShapeProperty by remember { mutableStateOf(ShapeProperties()) }
     val properties by rememberUpdatedState(newValue = currentShapeProperty)
 
-    val image = state.currentImage!!.toComposeImageBitmap()
+    // 安全处理图像，统一坐标系统
+    val image = state.currentImage?.toComposeImageBitmap() ?: run {
+        logger.error("当前图像为空，无法进行绘制")
+        return
+    }
 
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
@@ -105,8 +114,11 @@ fun shapeDrawing(state: ApplicationState) {
 
 
     fun clear() {
+        // 保存当前颜色设置
+        val currentColor = currentShapeProperty.color
+        
         shape = ShapeEnum.NotAShape
-        currentShapeProperty = ShapeProperties()
+        currentShapeProperty = currentShapeProperty.copy(color = currentColor)
 
         currentLineStart = Offset.Unspecified
         currentLineEnd = Offset.Unspecified
@@ -128,6 +140,63 @@ fun shapeDrawing(state: ApplicationState) {
         currentPolygonPoints.clear()
 
         text = ""
+        
+        // 重置最后一个形状的跟踪
+        lastDrawnShapeKey = null
+        lastDrawnShapeType = null
+        
+        logger.info("已清理形状数据，保留颜色: $currentColor")
+    }
+
+    /**
+     * 更新最后一个绘制的形状的颜色
+     */
+    fun updateLastDrawnShapeColor(newColor: Color) {
+        val key = lastDrawnShapeKey
+        val type = lastDrawnShapeType
+        
+        if (key != null && type != null) {
+            when (type) {
+                "Line" -> {
+                    if (lines.containsKey(key)) {
+                        lines[key] = lines[key]!!.copy(shapeProperties = lines[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个线段颜色: $newColor")
+                    }
+                }
+                "Circle" -> {
+                    if (circles.containsKey(key)) {
+                        circles[key] = circles[key]!!.copy(shapeProperties = circles[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个圆形颜色: $newColor")
+                    }
+                }
+                "Triangle" -> {
+                    if (triangles.containsKey(key)) {
+                        triangles[key] = triangles[key]!!.copy(shapeProperties = triangles[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个三角形颜色: $newColor")
+                    }
+                }
+                "Rectangle" -> {
+                    if (rectangles.containsKey(key)) {
+                        rectangles[key] = rectangles[key]!!.copy(shapeProperties = rectangles[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个矩形颜色: $newColor")
+                    }
+                }
+                "Polygon" -> {
+                    if (polygons.containsKey(key)) {
+                        polygons[key] = polygons[key]!!.copy(shapeProperties = polygons[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个多边形颜色: $newColor")
+                    }
+                }
+                "Text" -> {
+                    if (texts.containsKey(key)) {
+                        texts[key] = texts[key]!!.copy(shapeProperties = texts[key]!!.shapeProperties.copy(color = newColor))
+                        logger.info("已更新最后一个文字颜色: $newColor")
+                    }
+                }
+            }
+        } else {
+            logger.warn("没有找到最后一个绘制的形状")
+        }
     }
 
     /**
@@ -293,7 +362,7 @@ fun shapeDrawing(state: ApplicationState) {
                             }
 
                             ShapeEnum.Circle -> {
-                                currentCircleRadius = calcCircleRadius(currentCircleCenter, currentPosition)
+                                currentCircleRadius = CoordinateSystem.calculateCircleRadius(currentCircleCenter, currentPosition)
                                 circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
                             }
 
@@ -328,25 +397,81 @@ fun shapeDrawing(state: ApplicationState) {
                     MotionEvent.Up -> {
                         when(shape) {
                             ShapeEnum.Line -> {
-                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
+                                // 验证线段坐标
+                                val startValidation = CoordinateSystem.validateOffset(currentLineStart, bitmapWidth, bitmapHeight)
+                                val endValidation = CoordinateSystem.validateOffset(currentLineEnd, bitmapWidth, bitmapHeight)
+                                
+                                if (startValidation.isValid && endValidation.isValid) {
+                                    lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
+                                    lastDrawnShapeKey = currentLineStart
+                                    lastDrawnShapeType = "Line"
+                                    logger.info("添加线段: ${currentLineStart} -> ${currentLineEnd}")
+                                } else {
+                                    logger.warn("线段坐标无效: ${startValidation.message}, ${endValidation.message}")
+                                }
                             }
 
                             ShapeEnum.Circle -> {
-                                circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
+                                // 验证圆形坐标
+                                val centerValidation = CoordinateSystem.validateOffset(currentCircleCenter, bitmapWidth, bitmapHeight)
+                                
+                                if (centerValidation.isValid && currentCircleRadius > 0) {
+                                    circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
+                                    lastDrawnShapeKey = currentCircleCenter
+                                    lastDrawnShapeType = "Circle"
+                                    logger.info("添加圆形: 中心=${currentCircleCenter}, 半径=${currentCircleRadius}")
+                                } else {
+                                    logger.warn("圆形坐标无效: ${centerValidation.message}")
+                                }
                             }
 
                             ShapeEnum.Triangle -> {
-                                if (currentTriangleFirst != Offset.Unspecified) {
+                                // 验证三角形坐标
+                                val firstValidation = CoordinateSystem.validateOffset(currentTriangleFirst, bitmapWidth, bitmapHeight)
+                                val secondValidation = CoordinateSystem.validateOffset(currentTriangleSecond, bitmapWidth, bitmapHeight)
+                                val thirdValidation = CoordinateSystem.validateOffset(currentTriangleThird, bitmapWidth, bitmapHeight)
+                                
+                                if (firstValidation.isValid && secondValidation.isValid && thirdValidation.isValid) {
                                     triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
+                                    lastDrawnShapeKey = currentTriangleFirst
+                                    lastDrawnShapeType = "Triangle"
+                                    logger.info("添加三角形: ${currentTriangleFirst}, ${currentTriangleSecond}, ${currentTriangleThird}")
+                                } else {
+                                    logger.warn("三角形坐标无效: ${firstValidation.message}, ${secondValidation.message}, ${thirdValidation.message}")
                                 }
                             }
 
                             ShapeEnum.Rectangle -> {
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
+                                // 验证矩形坐标
+                                val tlValidation = CoordinateSystem.validateOffset(currentRectTL, bitmapWidth, bitmapHeight)
+                                val brValidation = CoordinateSystem.validateOffset(currentRectBR, bitmapWidth, bitmapHeight)
+                                
+                                if (tlValidation.isValid && brValidation.isValid) {
+                                    rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
+                                    lastDrawnShapeKey = currentRectFirst
+                                    lastDrawnShapeType = "Rectangle"
+                                    logger.info("添加矩形: ${currentRectTL} -> ${currentRectBR}")
+                                } else {
+                                    logger.warn("矩形坐标无效: ${tlValidation.message}, ${brValidation.message}")
+                                }
                             }
 
                             ShapeEnum.Polygon -> {
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
+                                // 验证多边形坐标
+                                if (currentPolygonPoints.size >= 3) {
+                                    val boundaryValidation = CoordinateSystem.validateShapeBoundary(currentPolygonPoints.toList(), bitmapWidth, bitmapHeight)
+                                    
+                                    if (boundaryValidation.isValid) {
+                                        polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
+                                        lastDrawnShapeKey = currentPolygonFirst
+                                        lastDrawnShapeType = "Polygon"
+                                        logger.info("添加多边形: ${currentPolygonPoints.size}个顶点")
+                                    } else {
+                                        logger.warn("多边形边界无效: ${boundaryValidation.message}")
+                                    }
+                                } else {
+                                    logger.warn("多边形顶点数量不足: ${currentPolygonPoints.size} < 3")
+                                }
                             }
 
                             else -> Unit
@@ -442,12 +567,8 @@ fun shapeDrawing(state: ApplicationState) {
                 onPositiveClick = { color: Color ->
                     showColorDialog = !showColorDialog
                     currentShapeProperty = currentShapeProperty.copy(color = color)
-                    // 更新当前文字的颜色，让颜色立即生效
-                    if (currentPosition != null && texts.containsKey(currentPosition)) {
-                        texts[currentPosition] = texts[currentPosition]!!.copy(
-                            shapeProperties = texts[currentPosition]!!.shapeProperties.copy(color = color)
-                        )
-                    }
+                    // 只更新最后一个绘制的形状的颜色
+                    updateLastDrawnShapeColor(color)
                     logger.info("颜色已更新: $color")
                 }
             )
@@ -462,13 +583,28 @@ fun shapeDrawing(state: ApplicationState) {
                 onTextChanged = {
                     text = it
                 }, onDragged = { offset ->
-                    val x = halfWidth.toFloat()  + offset.x - 110*density.density
-                    val y = halfHeight.toFloat() + offset.y - 35*density.density
-                    currentPosition = Offset(x,y)
+                    // 使用统一的坐标系统计算文本位置
+                    currentPosition = CoordinateSystem.calculateTextPosition(
+                        dragOffset = offset,
+                        imageWidth = bitmapWidth,
+                        imageHeight = bitmapHeight,
+                        density = density,
+                        textFieldWidth = 250f,
+                        textFieldHeight = 130f
+                    )
 
-                    // logger.info("currentPosition = $currentPosition")
+                    logger.info("文本位置已计算: $currentPosition")
 
-                    texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+                    // 验证文本位置
+                    val textValidation = CoordinateSystem.validateOffset(currentPosition, bitmapWidth, bitmapHeight)
+                    if (textValidation.isValid) {
+                        texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+                        lastDrawnShapeKey = currentPosition
+                        lastDrawnShapeType = "Text"
+                        logger.info("添加文字: '$text' 在位置 $currentPosition")
+                    } else {
+                        logger.warn("文本位置无效: ${textValidation.message}")
+                    }
                     showDraggableTextField = false
                 })
         }
@@ -488,6 +624,3 @@ fun shapeDrawing(state: ApplicationState) {
 }
 
 
-private fun calcCircleRadius(center:Offset, position: Offset):Float {
-    return sqrt((abs(position.x - center.x).pow(2) + abs(position.y - center.y).pow(2)).toDouble()).toFloat()
-}
