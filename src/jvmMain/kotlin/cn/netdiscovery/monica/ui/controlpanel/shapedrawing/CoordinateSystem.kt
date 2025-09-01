@@ -57,13 +57,14 @@ object CoordinateSystem {
     
     /**
      * 计算文本位置（考虑文本尺寸和边界）
-     * @param dragOffset 拖拽偏移量
+     * @param dragOffset 拖拽偏移量（画布坐标，以画布中心为原点）
      * @param imageWidth 图像宽度
      * @param imageHeight 图像高度
      * @param density 屏幕密度
      * @param textFieldWidth 文本输入框宽度
      * @param textFieldHeight 文本输入框高度
-     * @return 文本在图像中的位置
+     * @param fontSize 字体大小（用于文本居中对齐）
+     * @return 文本在Canvas中的位置（Canvas坐标，以Canvas左上角为原点）
      */
     fun calculateTextPosition(
         dragOffset: Offset,
@@ -71,26 +72,77 @@ object CoordinateSystem {
         imageHeight: Int,
         density: Density,
         textFieldWidth: Float = 250f,
-        textFieldHeight: Float = 130f
+        textFieldHeight: Float = 130f,
+        fontSize: Float = 40f
     ): Offset {
-        val halfWidth = imageWidth / 2f
-        val halfHeight = imageHeight / 2f
-        
         // 计算文本输入框的实际像素尺寸
         val textFieldWidthPx = textFieldWidth * density.density
         val textFieldHeightPx = textFieldHeight * density.density
         
-        // 计算文本在图像中的位置（文本左上角）
-        val x = halfWidth + dragOffset.x - textFieldWidthPx / 2
-        val y = halfHeight + dragOffset.y - textFieldHeightPx / 2
+        // 用户拖拽的是画布坐标（以画布中心为原点）
+        // 我们需要将其转换为Canvas坐标（以Canvas左上角为原点）
+        // Canvas的尺寸是 imageWidth x imageHeight，中心在 (imageWidth/2, imageHeight/2)
+        val canvasCenterX = imageWidth / 2f
+        val canvasCenterY = imageHeight / 2f
+        
+        // 将画布中心坐标转换为Canvas左上角坐标
+        // 直接使用拖拽位置，让文本显示在拖拽位置
+        val canvasX = canvasCenterX + dragOffset.x
+        val canvasY = canvasCenterY + dragOffset.y
         
         // 确保文本不会超出图像边界
-        val clampedX = x.coerceIn(0f, imageWidth - textFieldWidthPx)
-        val clampedY = y.coerceIn(0f, imageHeight - textFieldHeightPx)
+        val clampedX = canvasX.coerceIn(0f, imageWidth - textFieldWidthPx)
+        val clampedY = canvasY.coerceIn(0f, imageHeight - textFieldHeightPx)
         
-        logger.info("文本位置计算: 拖拽偏移=$dragOffset, 图像尺寸=${imageWidth}x${imageHeight}, 密度=${density.density}, 文本框尺寸=${textFieldWidthPx}x${textFieldHeightPx}, 计算位置=($x, $y), 最终位置=(${clampedX}, ${clampedY})")
+        val canvasPosition = Offset(clampedX, clampedY)
         
-        return Offset(clampedX, clampedY)
+        logger.info("文本位置计算: 画布偏移=$dragOffset, Canvas中心=($canvasCenterX, $canvasCenterY), 计算位置=($canvasX, $canvasY), 修正位置=($clampedX, $clampedY), 最终Canvas位置=$canvasPosition")
+        
+        // 添加详细调试信息
+        println("=== 文本位置计算详细分析 ===")
+        println("1. 用户拖拽偏移: $dragOffset")
+        println("2. Canvas中心: ($canvasCenterX, $canvasCenterY)")
+        println("3. 计算位置: ($canvasX, $canvasY)")
+        println("4. 修正位置: ($clampedX, $clampedY)")
+        println("5. 最终Canvas位置: $canvasPosition")
+        println("6. 文本框尺寸: ${textFieldWidthPx}x${textFieldHeightPx}")
+        println("================================")
+        
+        return canvasPosition
+    }
+    
+    /**
+     * 将画布坐标转换为图像坐标
+     * @param canvasOffset 画布坐标（以画布中心为原点）
+     * @param imageWidth 图像宽度
+     * @param imageHeight 图像高度
+     * @return 图像坐标（以左上角为原点）
+     */
+    fun canvasToImage(canvasOffset: Offset, imageWidth: Int, imageHeight: Int): Offset {
+        val halfWidth = imageWidth / 2f
+        val halfHeight = imageHeight / 2f
+        
+        return Offset(
+            x = halfWidth + canvasOffset.x,
+            y = halfHeight + canvasOffset.y
+        )
+    }
+    
+    /**
+     * 将图像坐标转换为画布坐标
+     * @param imageOffset 图像坐标（以左上角为原点）
+     * @param imageWidth 图像宽度
+     * @param imageHeight 图像高度
+     * @return 画布坐标（以画布中心为原点）
+     */
+    fun imageToCanvas(imageOffset: Offset, imageWidth: Int, imageHeight: Int): Offset {
+        val halfWidth = imageWidth / 2f
+        val halfHeight = imageHeight / 2f
+        
+        return Offset(
+            x = imageOffset.x - halfWidth,
+            y = imageOffset.y - halfHeight
+        )
     }
     
     /**

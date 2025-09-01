@@ -113,13 +113,19 @@ fun shapeDrawing(state: ApplicationState) {
     var showDraggableTextField by remember { mutableStateOf(false) }
 
 
+    /**
+     * 清除当前绘制状态，但保留已完成的形状
+     * 这个函数只清除临时状态，不会影响已经绘制完成的形状
+     */
     fun clear() {
         // 保存当前颜色设置
         val currentColor = currentShapeProperty.color
         
+        // 只清除绘制状态，不清除已完成的形状
         shape = ShapeEnum.NotAShape
         currentShapeProperty = currentShapeProperty.copy(color = currentColor)
 
+        // 清除临时绘制状态
         currentLineStart = Offset.Unspecified
         currentLineEnd = Offset.Unspecified
 
@@ -139,13 +145,33 @@ fun shapeDrawing(state: ApplicationState) {
         currentPolygonFirst = Offset.Unspecified
         currentPolygonPoints.clear()
 
+        // 清除临时文本输入
         text = ""
         
         // 重置最后一个形状的跟踪
         lastDrawnShapeKey = null
         lastDrawnShapeType = null
         
-        logger.info("已清理形状数据，保留颜色: $currentColor")
+        logger.info("已清理临时绘制状态，保留所有已完成的形状，保留颜色: $currentColor")
+    }
+    
+    /**
+     * 清除所有已完成的形状（危险操作）
+     * 这个函数会清除所有已经绘制完成的形状，包括文字
+     */
+    fun clearAllShapes() {
+        lines.clear()
+        circles.clear()
+        triangles.clear()
+        rectangles.clear()
+        polygons.clear()
+        texts.clear()
+        
+        // 重置最后一个形状的跟踪
+        lastDrawnShapeKey = null
+        lastDrawnShapeType = null
+        
+        logger.info("已清除所有已完成的形状")
     }
 
     /**
@@ -548,10 +574,15 @@ fun shapeDrawing(state: ApplicationState) {
                 painter = painterResource("images/shapedrawing/text.png"),
                 onClick = {
                     showDraggableTextField = true
-
-                    clear()
+                    // 移除clear()调用，保留之前添加的文字
                 })
 
+            toolTipButton(text = "清除所有",
+                painter = painterResource("images/doodle/brush.png"),
+                onClick = {
+                    clearAllShapes()
+                })
+                
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
@@ -590,18 +621,22 @@ fun shapeDrawing(state: ApplicationState) {
                         imageHeight = bitmapHeight,
                         density = density,
                         textFieldWidth = 250f,
-                        textFieldHeight = 130f
+                        textFieldHeight = 130f,
+                        fontSize = currentShapeProperty.fontSize
                     )
 
                     logger.info("文本位置已计算: $currentPosition")
 
-                    // 验证文本位置
+                    // 验证文本位置（现在currentPosition是Canvas坐标）
                     val textValidation = CoordinateSystem.validateOffset(currentPosition, bitmapWidth, bitmapHeight)
                     if (textValidation.isValid) {
                         texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
                         lastDrawnShapeKey = currentPosition
                         lastDrawnShapeType = "Text"
-                        logger.info("添加文字: '$text' 在位置 $currentPosition")
+                        logger.info("添加文字: '$text' 在Canvas位置 $currentPosition")
+                        
+                        // 清空文本框内容，为下次输入做准备
+                        text = ""
                     } else {
                         logger.warn("文本位置无效: ${textValidation.message}")
                     }
