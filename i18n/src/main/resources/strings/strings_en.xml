@@ -170,7 +170,6 @@
     
     <!-- Natural language color correction -->
     <string name="natural_language_color_correction">Natural Language Color Correction</string>
-    <string name="enter_color_instruction">Please enter color instruction</string>
     
     <!-- AI experiment related -->
     <string name="gaussian_filter">Gaussian Filter</string>
@@ -230,21 +229,9 @@
     <string name="export_image">Export Image</string>
     
     <!-- Image enhancement related -->
-    <string name="histogram_equalization">Histogram Equalization</string>
-    <string name="clahe">Contrast Limited Adaptive Histogram Equalization (CLAHE)</string>
-    <string name="gamma_transform">Gamma Transform</string>
-    <string name="laplace_sharpening">Laplace Sharpening</string>
-    <string name="usm_sharpening">USM Sharpening</string>
-    <string name="automatic_color_balance">Automatic Color Balance</string>
     
-    <!-- Morphological operations -->
-    <string name="operation_element">Operation Element</string>
-    <string name="structural_element">Structural Element</string>
     
     <!-- Contour analysis -->
-    <string name="filter_settings">Filter Settings</string>
-    <string name="display_settings">Display Settings</string>
-    
     <!-- Edge detection -->
     <string name="edge_detection_operator">Edge Detection Operator</string>
     
@@ -252,7 +239,6 @@
     <string name="min_value">Min Value</string>
     <string name="max_value">Max Value</string>
     
-    <!-- Buttons and operations -->
     <string name="restore">Restore</string>
     <string name="restore_original">Restore Original</string>
     <string name="previous_step">Previous Step</string>
@@ -276,26 +262,15 @@
     <string name="cute_style">Cute Style</string>
     
     <!-- Algorithm service -->
-    <string name="algorithm_service_error">Algorithm Service Error</string>
-    
-    <!-- Image processing algorithms -->
-    <string name="gaussian_filter">Gaussian Filter</string>
     <string name="median_filter">Median Filter</string>
     <string name="gaussian_bilateral_filter">Gaussian Bilateral Filter</string>
     <string name="mean_shift_filter">Mean Shift Filter</string>
     <string name="image_grayscale">Image Grayscale</string>
     <string name="threshold_type">Threshold Type</string>
-    <string name="global_threshold_segmentation">Global Threshold Segmentation</string>
-    <string name="adaptive_threshold_segmentation">Adaptive Threshold Segmentation</string>
-    <string name="adaptive_threshold_algorithm">Adaptive Threshold Algorithm</string>
-    <string name="threshold_segmentation">Threshold Segmentation</string>
-    <string name="canny_edge_detection">Canny Edge Detection</string>
     
     <!-- Edge detection operators -->
-    <string name="roberts_operator">Roberts Operator</string>
     <string name="prewitt_operator">Prewitt Operator</string>
     <string name="sobel_operator">Sobel Operator</string>
-    <string name="laplace_operator">Laplace Operator</string>
     <string name="log_operator">LoG Operator</string>
     <string name="dog_operator">DoG Operator</string>
     <string name="first_derivative_operator">First Derivative Operator</string>
@@ -375,38 +350,18 @@
     <string name="experiment_match_template">Template Matching</string>
     <string name="experiment_history">Parameter History</string>
     
-    <!-- Experiment page common operations -->
     <string name="click_to_select_image">Please click to select image</string>
-    <string name="delete">Delete</string>
-    <string name="undo">Undo</string>
-    <string name="save">Save</string>
-    <string name="please_select_image_first">Please select image first</string>
-    
-    <string name="color_image_segmentation">Color Image Segmentation</string>
     
     <string name="min_value">Min Value</string>
     <string name="max_value">Max Value</string>
-    
-    <string name="contour_analysis">Contour Analysis</string>
     
     <!-- Binary image page -->
     <string name="grayscale_image">Grayscale Image</string>
     <string name="image_grayscale">Image Grayscale</string>
     <string name="threshold_type">Threshold Type</string>
-    <string name="global_threshold_segmentation">Global Threshold Segmentation</string>
-    <string name="adaptive_threshold_segmentation">Adaptive Threshold Segmentation</string>
-    <string name="adaptive_threshold_algorithm">Adaptive Threshold Algorithm</string>
-    <string name="please_select_threshold_type">Please select threshold type</string>
-    <string name="please_select_global_threshold_segmentation">Please select global threshold segmentation</string>
-    <string name="please_select_adaptive_threshold_algorithm">Please select adaptive threshold algorithm</string>
     <string name="please_select_threshold_type_and_segmentation">Please select threshold type and global threshold segmentation or adaptive threshold segmentation</string>
     <string name="please_binarize_image_first">Please binarize the current image first</string>
-    
-    <!-- Edge detection page -->
-    <string name="edge_detection_operator">Edge Detection Operator</string>
     <string name="first_derivative_operator">First Derivative Operator</string>
-    <string name="second_derivative_operator">Second Derivative Operator</string>
-    <string name="canny_operator">Canny Operator</string>
     <string name="please_select_first_derivative_operator">Please select first derivative operator type</string>
     <string name="please_select_second_derivative_operator">Please select second derivative operator type</string>
     <string name="please_select_canny_operator">Please select Canny operator</string>
@@ -417,12 +372,9 @@
     <string name="perimeter">Perimeter</string>
     <string name="area">Area</string>
     <string name="roundness">Roundness</string>
-    <string name="aspect_ratio">Aspect Ratio</string>
     <string name="show_original_image">Show Original Image</string>
     <string name="show_bounding_rect">Show Bounding Rectangle</string>
-    <string name="show_min_area_rect">Show Minimum Area Rectangle</string>
     <string name="show_center">Show Center</string>
-    <string name="perimeter_min_needs_double">Perimeter minimum needs double type</string>
     <string name="perimeter_max_needs_double">Perimeter maximum needs double type</string>
     <string name="area_min_needs_double">Area minimum needs double type</string>
     <string name="area_max_needs_double">Area maximum needs double type</string>
@@ -436,8 +388,6 @@
     <string name="aspect_ratio_at_least_one_value">Aspect ratio needs at least one minimum or maximum value</string>
     <string name="please_binarize_image_first_for_contour">Please binarize the current image first</string>
     
-    <!-- Image enhancement page -->
-    <string name="histogram_equalization">Histogram Equalization</string>
     <string name="gamma_transform">Gamma Transform</string>
     <string name="laplace_sharpen">Laplace Sharpen</string>
     <string name="usm_sharpen">USM Sharpen</string>
@@ -455,7 +405,6 @@
     <string name="structural_elements">Structural Elements</string>
     <string name="erosion">Erosion</string>
     <string name="dilation">Dilation</string>
-    <string name="opening">Opening</string>
     <string name="closing">Closing</string>
     <string name="morphological_gradient">Morphological Gradient</string>
     <string name="top_hat">Top Hat</string>

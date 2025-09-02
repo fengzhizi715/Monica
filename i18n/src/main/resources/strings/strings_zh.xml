@@ -170,7 +170,6 @@
     
     <!-- Natural language color correction -->
     <string name="natural_language_color_correction">自然语言图像调色</string>
-    <string name="enter_color_instruction">请输入调色指令</string>
     
     <!-- AI experiment related -->
     <string name="gaussian_filter">高斯滤波</string>
@@ -230,23 +229,10 @@
     <string name="export_image">导出图片</string>
     
     <!-- 图像 enhancement related -->
-    <string name="histogram_equalization">直方图均衡化</string>
-    <string name="clahe">对比度 受限自适应 直方图均衡化 (CLAHE)</string>
-    <string name="gamma_transform">伽马变换</string>
-    <string name="laplace_sharpening">拉普拉斯锐化</string>
-    <string name="usm_sharpening">USM 锐化</string>
-    <string name="automatic_color_balance">自动色彩平衡</string>
     
     <!-- Morphological operations -->
-    <string name="operation_element">操作元素</string>
-    <string name="structural_element">结构元素</string>
     
     <!-- Contour analysis -->
-    <string name="filter_settings">过滤设置</string>
-    <string name="display_settings">显示设置</string>
-    
-    <!-- Edge detection -->
-    <string name="edge_detection_operator">边缘检测 算子</string>
     
     <!-- Common labels -->
     <string name="min_value">最小值</string>
@@ -279,17 +265,11 @@
     <string name="algorithm_service_error">算法 服务 错误</string>
     
     <!-- 图像 processing algorithms -->
-    <string name="gaussian_filter">高斯滤波</string>
-    <string name="median_filter">中值滤波</string>
-    <string name="gaussian_bilateral_filter">高斯双边滤波</string>
-    <string name="mean_shift_filter">均值漂移滤波</string>
     <string name="image_grayscale">图像灰度化</string>
     <string name="threshold_type">阈值 类型</string>
     <string name="global_threshold_segmentation">全局 阈值分割</string>
     <string name="adaptive_threshold_segmentation">自适应 阈值分割</string>
     <string name="adaptive_threshold_algorithm">自适应 阈值 算法</string>
-    <string name="threshold_segmentation">阈值分割</string>
-    <string name="canny_edge_detection">Canny 边缘检测</string>
     
     <!-- Edge detection operators -->
     <string name="roberts_operator">Roberts 算子</string>
@@ -376,40 +356,10 @@
     <string name="experiment_history">调参历史</string>
     
     <!-- 实验页面通用操作 -->
-    <string name="click_to_select_image">请点击选择图像</string>
-    <string name="delete">删除</string>
-    <string name="undo">撤回</string>
-    <string name="save">保存</string>
     <string name="please_select_image_first">请先选择图像</string>
     
-    <string name="color_image_segmentation">彩色图像分割</string>
-    
-    <string name="min_value">最小值</string>
-    <string name="max_value">最大值</string>
-    
-    <string name="contour_analysis">轮廓分析</string>
-    
     <!-- 二值化页面 -->
-    <string name="grayscale_image">灰度图像</string>
-    <string name="image_grayscale">图像灰度化</string>
-    <string name="threshold_type">阈值类型</string>
-    <string name="global_threshold_segmentation">全局阈值分割</string>
-    <string name="adaptive_threshold_segmentation">自适应阈值分割</string>
-    <string name="adaptive_threshold_algorithm">自适应阈值算法</string>
-    <string name="please_select_threshold_type">请选择阈值化类型</string>
-    <string name="please_select_global_threshold_segmentation">请选择全局阈值分割</string>
-    <string name="please_select_adaptive_threshold_algorithm">请选择自适应阈值算法</string>
-    <string name="please_select_threshold_type_and_segmentation">请选择阈值化类型和全局阈值分割或自适应阈值分割</string>
     <string name="please_binarize_image_first">请先将当前图像进行二值化</string>
-    
-    <!-- 边缘检测页面 -->
-    <string name="edge_detection_operator">边缘检测算子</string>
-    <string name="first_derivative_operator">一阶导数算子</string>
-    <string name="second_derivative_operator">二阶导数算子</string>
-    <string name="canny_operator">Canny算子</string>
-    <string name="please_select_first_derivative_operator">请选择一阶导数算子类型</string>
-    <string name="please_select_second_derivative_operator">请选择二阶导数算子类型</string>
-    <string name="please_select_canny_operator">请选择Canny算子</string>
     
     <!-- 轮廓分析页面 -->
     <string name="contour_filter_settings">轮廓过滤设置</string>
@@ -417,7 +367,6 @@
     <string name="perimeter">周长</string>
     <string name="area">面积</string>
     <string name="roundness">圆度</string>
-    <string name="aspect_ratio">长宽比</string>
     <string name="show_original_image">原图显示</string>
     <string name="show_bounding_rect">外接矩形</string>
     <string name="show_min_area_rect">最小外接矩形</string>
@@ -437,8 +386,6 @@
     <string name="please_binarize_image_first_for_contour">请先将当前图像进行二值化</string>
     
     <!-- 图像增强页面 -->
-    <string name="histogram_equalization">直方图均衡化</string>
-    <string name="gamma_transform">gamma 变换</string>
     <string name="laplace_sharpen">Laplace 锐化</string>
     <string name="usm_sharpen">USM 锐化</string>
     <string name="auto_color_balance">自动色彩均衡</string>
@@ -461,10 +408,8 @@
     <string name="top_hat">顶帽</string>
     <string name="black_hat">黑帽</string>
     <string name="hit_miss">击中击不中</string>
-    <string name="rectangle">矩形</string>
     <string name="cross">十字交叉</string>
     <string name="ellipse">椭圆形</string>
-    <string name="structural_element">结构元素：</string>
     <string name="width_needs_int_for_morph">width 需要 int 类型</string>
     <string name="height_needs_int_for_morph">height 需要 int 类型</string>
     
