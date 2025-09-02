@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.ui.widget.subTitle
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 
 /**
  *
@@ -23,6 +24,7 @@ import cn.netdiscovery.monica.ui.widget.subTitle
 
 @Composable
 fun experimentHome() {
+    val i18nState = rememberI18nState()
 
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp, top = 10.dp),
             verticalArrangement = Arrangement.Center,
@@ -33,6 +35,6 @@ fun experimentHome() {
             modifier = Modifier)
 
         subTitle(modifier = Modifier.padding(top = 20.dp),
-            text = "本模块的算法使用 OpenCV C++ 实现，目前只适用于一些简单 CV 算法的快速验证和调参。")
+            text = i18nState.getString("experiment_home_description"))
     }
 }

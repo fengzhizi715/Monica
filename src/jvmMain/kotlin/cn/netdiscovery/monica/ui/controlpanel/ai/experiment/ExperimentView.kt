@@ -18,6 +18,8 @@ import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -38,45 +40,49 @@ private var verifyToastMessage by mutableStateOf("")
  * Screens
  */
 enum class Screen(
-    val label: String,
+    private val labelKey: String,
     val resourcePath: String
 ) {
     Home(
-        label = "首页",
+        labelKey = "experiment_home",
         resourcePath = "images/ai/home.png"
     ),
     BinaryImage(
-        label = "二值化",
+        labelKey = "experiment_binary_image",
         resourcePath = "images/ai/binary_image.png"
     ),
     EdgeDetection(
-        label = "边缘检测",
+        labelKey = "experiment_edge_detection",
         resourcePath = "images/ai/edge_detection.png"
     ),
     ContourAnalysis(
-        label = "轮廓分析",
+        labelKey = "experiment_contour_analysis",
         resourcePath = "images/ai/contour_analysis.png"
     ),
     ImageEnhance(
-        label = "图像增强",
+        labelKey = "experiment_image_enhance",
         resourcePath = "images/ai/image_enhance.png"
     ),
     ImageDenoising(
-        label = "图像降噪",
+        labelKey = "experiment_image_denoising",
         resourcePath = "images/ai/image_convolution.png"
     ),
     MorphologicalOperations(
-        label = "形态学操作",
+        labelKey = "experiment_morphological_operations",
         resourcePath = "images/ai/morphological_operations.png"
     ),
     MatchTemplate(
-        label = "模版匹配",
+        labelKey = "experiment_match_template",
         resourcePath = "images/ai/match_template.png"
     ),
     History(
-        label = "调参历史",
+        labelKey = "experiment_history",
         resourcePath = "images/ai/history.png"
-    )
+    );
+    
+    fun getLabel(): String {
+        return LocalizationManager.getString(labelKey)
+    }
 }
 
 @Composable
@@ -90,35 +96,35 @@ fun customNavigationHost(
         }
 
         composable(Screen.BinaryImage.name) {
-            binaryImage(state, Screen.BinaryImage.label)
+            binaryImage(state, Screen.BinaryImage.getLabel())
         }
 
         composable(Screen.EdgeDetection.name) {
-            edgeDetection(state, Screen.EdgeDetection.label)
+            edgeDetection(state, Screen.EdgeDetection.getLabel())
         }
 
         composable(Screen.ContourAnalysis.name) {
-            contourAnalysis(state, Screen.ContourAnalysis.label)
+            contourAnalysis(state, Screen.ContourAnalysis.getLabel())
         }
 
         composable(Screen.ImageEnhance.name) {
-            imageEnhance(state, Screen.ImageEnhance.label)
+            imageEnhance(state, Screen.ImageEnhance.getLabel())
         }
 
         composable(Screen.ImageDenoising.name) {
-            imageDenoising(state, Screen.ImageDenoising.label)
+            imageDenoising(state, Screen.ImageDenoising.getLabel())
         }
 
         composable(Screen.MorphologicalOperations.name) {
-            morphologicalOperations(state, Screen.MorphologicalOperations.label)
+            morphologicalOperations(state, Screen.MorphologicalOperations.getLabel())
         }
 
         composable(Screen.MatchTemplate.name) {
-            matchTemplate(state, Screen.MatchTemplate.label)
+            matchTemplate(state, Screen.MatchTemplate.getLabel())
         }
 
         composable(Screen.History.name) {
-            history(state, Screen.History.label)
+            history(state, Screen.History.getLabel())
         }
     }.build()
 }
@@ -126,6 +132,7 @@ fun customNavigationHost(
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun experiment(state: ApplicationState) {
+    val i18nState = rememberI18nState()
 
     val screens = Screen.entries
     val navController by rememberNavController(Screen.Home.name)
@@ -160,13 +167,13 @@ fun experiment(state: ApplicationState) {
                             Icon(
                                 painter = painterResource(it.resourcePath),
                                 modifier = Modifier.width(25.dp).height(25.dp),
-                                contentDescription = it.label
+                                contentDescription = it.getLabel()
                             )
                         },
                         label = {
-                            Text(it.label)
+                            Text(it.getLabel())
                         },
-                        modifier = Modifier.width(100.dp),
+                        modifier = Modifier.width(100.dp).height(80.dp),
                         alwaysShowLabel = true,
                         onClick = {
                             navController.navigate(it.name)
@@ -204,7 +211,7 @@ fun experiment(state: ApplicationState) {
                         if (state.currentImage == null) {
                             Text(
                                 modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                                text = "请点击选择图像",
+                                text = i18nState.getString("click_to_select_image"),
                                 textAlign = TextAlign.Center
                             )
                         } else {
@@ -219,14 +226,14 @@ fun experiment(state: ApplicationState) {
                 }
 
                 rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
-                    toolTipButton(text = "删除",
+                    toolTipButton(text = i18nState.getString("delete"),
                         painter = painterResource("images/preview/delete.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
                             state.clearImage()
                         })
 
-                    toolTipButton(text = "撤回",
+                    toolTipButton(text = i18nState.getString("undo"),
                         painter = painterResource("images/doodle/previous_step.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
@@ -235,7 +242,7 @@ fun experiment(state: ApplicationState) {
                             }
                         })
 
-                    toolTipButton(text = "保存",
+                    toolTipButton(text = i18nState.getString("save"),
                         painter = painterResource("images/doodle/save.png"),
                         iconModifier = Modifier.size(36.dp),
                         onClick = {
@@ -270,9 +277,11 @@ fun experimentViewClick(
     state: ApplicationState,
     onClick: Action
 ): Action {
+    val i18nState = rememberI18nState()
+    
     return rememberThrottledClick(filter = {
         if (state.currentImage == null) {
-            experimentViewVerifyToast("请先选择图像")
+            experimentViewVerifyToast(i18nState.getString("please_select_image_first"))
             false
         } else {
             true

@@ -360,4 +360,145 @@
     <string name="sharpen">锐化</string>
     <string name="corner">暗角</string>
     <string name="no_significant_changes">无明显修改</string>
+    
+    <!-- AI 实验页面相关 -->
+    <string name="experiment_home_description">本模块的算法使用 OpenCV C++ 实现，目前只适用于一些简单 CV 算法的快速验证和调参。</string>
+    
+    <!-- 实验页面导航 -->
+    <string name="experiment_home">首页</string>
+    <string name="experiment_binary_image">二值化</string>
+    <string name="experiment_edge_detection">边缘检测</string>
+    <string name="experiment_contour_analysis">轮廓分析</string>
+    <string name="experiment_image_enhance">图像增强</string>
+    <string name="experiment_image_denoising">图像降噪</string>
+    <string name="experiment_morphological_operations">形态学操作</string>
+    <string name="experiment_match_template">模版匹配</string>
+    <string name="experiment_history">调参历史</string>
+    
+    <!-- 实验页面通用操作 -->
+    <string name="click_to_select_image">请点击选择图像</string>
+    <string name="delete">删除</string>
+    <string name="undo">撤回</string>
+    <string name="save">保存</string>
+    <string name="please_select_image_first">请先选择图像</string>
+    
+    <string name="color_image_segmentation">彩色图像分割</string>
+    
+    <string name="min_value">最小值</string>
+    <string name="max_value">最大值</string>
+    
+    <string name="contour_analysis">轮廓分析</string>
+    
+    <!-- 二值化页面 -->
+    <string name="grayscale_image">灰度图像</string>
+    <string name="image_grayscale">图像灰度化</string>
+    <string name="threshold_type">阈值类型</string>
+    <string name="global_threshold_segmentation">全局阈值分割</string>
+    <string name="adaptive_threshold_segmentation">自适应阈值分割</string>
+    <string name="adaptive_threshold_algorithm">自适应阈值算法</string>
+    <string name="please_select_threshold_type">请选择阈值化类型</string>
+    <string name="please_select_global_threshold_segmentation">请选择全局阈值分割</string>
+    <string name="please_select_adaptive_threshold_algorithm">请选择自适应阈值算法</string>
+    <string name="please_select_threshold_type_and_segmentation">请选择阈值化类型和全局阈值分割或自适应阈值分割</string>
+    <string name="please_binarize_image_first">请先将当前图像进行二值化</string>
+    
+    <!-- 边缘检测页面 -->
+    <string name="edge_detection_operator">边缘检测算子</string>
+    <string name="first_derivative_operator">一阶导数算子</string>
+    <string name="second_derivative_operator">二阶导数算子</string>
+    <string name="canny_operator">Canny算子</string>
+    <string name="please_select_first_derivative_operator">请选择一阶导数算子类型</string>
+    <string name="please_select_second_derivative_operator">请选择二阶导数算子类型</string>
+    <string name="please_select_canny_operator">请选择Canny算子</string>
+    
+    <!-- 轮廓分析页面 -->
+    <string name="contour_filter_settings">轮廓过滤设置</string>
+    <string name="contour_display_settings">轮廓显示设置</string>
+    <string name="perimeter">周长</string>
+    <string name="area">面积</string>
+    <string name="roundness">圆度</string>
+    <string name="aspect_ratio">长宽比</string>
+    <string name="show_original_image">原图显示</string>
+    <string name="show_bounding_rect">外接矩形</string>
+    <string name="show_min_area_rect">最小外接矩形</string>
+    <string name="show_center">质心</string>
+    <string name="perimeter_min_needs_double">周长最小值需要 double 类型</string>
+    <string name="perimeter_max_needs_double">周长最大值需要 double 类型</string>
+    <string name="area_min_needs_double">面积最小值需要 double 类型</string>
+    <string name="area_max_needs_double">面积最大值需要 double 类型</string>
+    <string name="roundness_min_needs_double">圆度最小值需要 double 类型</string>
+    <string name="roundness_max_needs_double">圆度最大值需要 double 类型</string>
+    <string name="aspect_ratio_min_needs_double">长宽比最小值需要 double 类型</string>
+    <string name="aspect_ratio_max_needs_double">长宽比最大值需要 double 类型</string>
+    <string name="perimeter_at_least_one_value">周长至少输入一个最小值或最大值</string>
+    <string name="area_at_least_one_value">面积至少输入一个最小值或最大值</string>
+    <string name="roundness_at_least_one_value">圆度至少输入一个最小值或最大值</string>
+    <string name="aspect_ratio_at_least_one_value">长宽比至少输入一个最小值或最大值</string>
+    <string name="please_binarize_image_first_for_contour">请先将当前图像进行二值化</string>
+    
+    <!-- 图像增强页面 -->
+    <string name="histogram_equalization">直方图均衡化</string>
+    <string name="gamma_transform">gamma 变换</string>
+    <string name="laplace_sharpen">Laplace 锐化</string>
+    <string name="usm_sharpen">USM 锐化</string>
+    <string name="auto_color_balance">自动色彩均衡</string>
+    <string name="clip_limit_needs_double">clipLimit 需要 double 类型</string>
+    <string name="size_needs_int_for_enhance">size 需要 int 类型</string>
+    <string name="gamma_needs_float">gamma 需要 float 类型</string>
+    <string name="radius_needs_int">Radius 需要 int 类型</string>
+    <string name="threshold_needs_int">Threshold 需要 int 类型</string>
+    <string name="amount_needs_int">Amount 需要 int 类型</string>
+    <string name="ratio_needs_int">Ratio 需要 int 类型</string>
+    
+    <!-- 形态学操作页面 -->
+    <string name="operating_elements">操作元素</string>
+    <string name="structural_elements">结构元素</string>
+    <string name="erosion">腐蚀</string>
+    <string name="dilation">膨胀</string>
+    <string name="opening">开操作</string>
+    <string name="closing">闭操作</string>
+    <string name="morphological_gradient">形态学梯度</string>
+    <string name="top_hat">顶帽</string>
+    <string name="black_hat">黑帽</string>
+    <string name="hit_miss">击中击不中</string>
+    <string name="rectangle">矩形</string>
+    <string name="cross">十字交叉</string>
+    <string name="ellipse">椭圆形</string>
+    <string name="structural_element">结构元素：</string>
+    <string name="width_needs_int_for_morph">width 需要 int 类型</string>
+    <string name="height_needs_int_for_morph">height 需要 int 类型</string>
+    
+    <!-- 模版匹配页面 -->
+    <string name="original_image_matching">原图匹配</string>
+    <string name="grayscale_matching">灰度匹配</string>
+    <string name="edge_matching">边缘匹配</string>
+    <string name="import_template">导入模版：</string>
+    <string name="delete_source_image">删除 source 的图</string>
+    <string name="please_import_template_first">请先导入模版文件</string>
+    <string name="angle_start_needs_int">angleStart 需要 int 类型， 且 angleStart &gt;= 0</string>
+    <string name="angle_end_needs_int">angleEnd 需要 int 类型， 且 angleEnd &lt;= 360</string>
+    <string name="angle_step_needs_int">angleStep 需要 int 类型， 且 angleStep &gt; 0</string>
+    <string name="scale_start_needs_double">scaleStart 需要 double 类型， 且 scaleStart &gt;= 0</string>
+    <string name="scale_end_needs_double">scaleEnd 需要 double 类型， 且 scaleStart &lt;= 1.0</string>
+    <string name="scale_step_needs_double">scaleStep 需要 double 类型， 且 scaleStep &gt; 0</string>
+    <string name="match_template_threshold_needs_double">matchTemplateThreshold 需要 double 类型， 且 matchTemplateThreshold &gt;= 0</string>
+    <string name="score_threshold_needs_float">scoreThreshold 需要 float 类型， 且 scoreThreshold &gt;= 0</string>
+    <string name="nms_threshold_needs_float">nmsThreshold 需要 float 类型， 且 nmsThreshold &gt;= 0</string>
+    <string name="template_matching">模版匹配</string>
+    
+    <!-- 历史记录页面 -->
+    <string name="operation">操作</string>
+    <string name="time">时间</string>
+    <string name="parameters">参数</string>
+    <string name="description">描述</string>
+    
+    <!-- 日志信息 -->
+    <string name="threshold_type_cancelled">取消了阈值化类型</string>
+    <string name="threshold_type_selected">勾选了阈值化类型</string>
+    <string name="global_threshold_cancelled">取消了全局阈值分割</string>
+    <string name="global_threshold_selected">勾选了全局阈值分割</string>
+    <string name="adaptive_threshold_cancelled">取消了自适应阈值分割</string>
+    <string name="adaptive_threshold_selected">勾选了自适应阈值分割</string>
+    <string name="opencv_debug_view_init">OpenCVDebugView 启动时初始化</string>
+    <string name="opencv_debug_view_dispose">OpenCVDebugView 关闭时释放资源</string>
 </resources>

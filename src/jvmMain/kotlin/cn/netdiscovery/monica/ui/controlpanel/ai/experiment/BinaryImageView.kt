@@ -291,19 +291,19 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
-                        val hmin = getValidateField(block = { hminText.toInt() } , failed = { experimentViewVerifyToast("hmin 需要 int 类型") })?: return@experimentViewClick
-                        val smin = getValidateField(block = { sminText.toInt() } , failed = { experimentViewVerifyToast("smin 需要 int 类型") })?: return@experimentViewClick
-                        val vmin = getValidateField(block = { vminText.toInt() } , failed = { experimentViewVerifyToast("vmin 需要 int 类型") })?: return@experimentViewClick
+                        val hmin = getValidateField(block = { hminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("hmin_needs_int")) })?: return@experimentViewClick
+                        val smin = getValidateField(block = { sminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("smin_needs_int")) })?: return@experimentViewClick
+                        val vmin = getValidateField(block = { vminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("vmin_needs_int")) })?: return@experimentViewClick
 
-                        val hmax = getValidateField(block = { hmaxText.toInt() } , failed = { experimentViewVerifyToast("hmax 需要 int 类型") })?: return@experimentViewClick
-                        val smax = getValidateField(block = { smaxText.toInt() } , failed = { experimentViewVerifyToast("smax 需要 int 类型") })?: return@experimentViewClick
-                        val vmax = getValidateField(block = { vmaxText.toInt() } , failed = { experimentViewVerifyToast("vmax 需要 int 类型") })?: return@experimentViewClick
+                        val hmax = getValidateField(block = { hmaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("hmax_needs_int")) })?: return@experimentViewClick
+                        val smax = getValidateField(block = { smaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("smax_needs_int")) })?: return@experimentViewClick
+                        val vmax = getValidateField(block = { vmaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("vmax_needs_int")) })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }
                 }
             ) {
-                Text(text = "彩色图像分割", color = Color.Unspecified)
+                Text(text = i18nState.getString("color_image_segmentation"), color = Color.Unspecified)
             }
         }
     }

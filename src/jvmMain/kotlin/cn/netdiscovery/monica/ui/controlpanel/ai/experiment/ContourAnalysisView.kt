@@ -89,7 +89,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
             subTitleWithDivider(text = i18nState.getString("filter_settings"), color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("周长", Modifier.padding(end = 50.dp), checked = CVState.isContourPerimeter, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("perimeter"), Modifier.padding(end = 50.dp), checked = CVState.isContourPerimeter, onCheckedChange = {
                     CVState.isContourPerimeter = it
 
                     if (!CVState.isContourPerimeter) {
@@ -101,7 +101,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourPerimeter) {
                         minPerimeterText = str
 
-                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.toDouble() } , failed = { experimentViewVerifyToast("周长最小值需要 double 类型") })
+                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("perimeter_min_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -110,14 +110,14 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText = str
 
-                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.toDouble() } , failed = { experimentViewVerifyToast("周长最大值需要 double 类型") })
+                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("perimeter_max_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("面积", Modifier.padding(end = 50.dp), checked = CVState.isContourArea, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("area"), Modifier.padding(end = 50.dp), checked = CVState.isContourArea, onCheckedChange = {
                     CVState.isContourArea = it
 
                     if (!CVState.isContourArea) {
@@ -129,7 +129,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourArea) {
                         minAreaText = str
 
-                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.toDouble() } , failed = { experimentViewVerifyToast("面积最小值需要 double 类型") })
+                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("area_min_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -138,14 +138,14 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourArea) {
                         maxAreaText = str
 
-                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.toDouble() } , failed = { experimentViewVerifyToast("面积最大值需要 double 类型") })
+                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("area_max_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("圆度", Modifier.padding(end = 50.dp), checked = CVState.isContourRoundness, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("roundness"), Modifier.padding(end = 50.dp), checked = CVState.isContourRoundness, onCheckedChange = {
                     CVState.isContourRoundness = it
 
                     if (!CVState.isContourRoundness) {
@@ -157,7 +157,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourRoundness) {
                         minRoundnessText = str
 
-                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.toDouble() } , failed = { experimentViewVerifyToast("圆度最小值需要 double 类型") })
+                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("roundness_min_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -166,14 +166,14 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourRoundness) {
                         maxRoundnessText = str
 
-                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.toDouble() } , failed = { experimentViewVerifyToast("圆度最大值需要 double 类型") })
+                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("roundness_max_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
             }
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("长宽比", Modifier.padding(end = 35.dp), checked = CVState.isContourAspectRatio, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("aspect_ratio"), Modifier.padding(end = 35.dp), checked = CVState.isContourAspectRatio, onCheckedChange = {
                     CVState.isContourAspectRatio = it
 
                     if (!CVState.isContourAspectRatio) {
@@ -185,7 +185,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText = str
 
-                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast("长宽比最小值需要 double 类型") })
+                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("aspect_ratio_min_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -194,7 +194,7 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText = str
 
-                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast("长宽比最大值需要 double 类型") })
+                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("aspect_ratio_max_needs_double")) })
                             ?: return@basicTextFieldWithTitle
                     }
                 }
@@ -202,25 +202,25 @@ fun contourAnalysis(state: ApplicationState, title: String) {
         }
 
         Column(modifier = Modifier.padding(top = 20.dp)) {
-            subTitleWithDivider(text = i18nState.getString("display_settings"), color = Color.Black)
+            subTitleWithDivider(text = i18nState.getString("contour_display_settings"), color = Color.Black)
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                checkBoxWithTitle("原图显示", Modifier.padding(end = 50.dp), checked = CVState.showOriginalImage, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("show_original_image"), Modifier.padding(end = 50.dp), checked = CVState.showOriginalImage, onCheckedChange = {
                     contourDisplaySettings.showOriginalImage = it
                     CVState.showOriginalImage = it
                 })
 
-                checkBoxWithTitle("外接矩形", Modifier.padding(end = 50.dp), checked = CVState.showBoundingRect, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("show_bounding_rect"), Modifier.padding(end = 50.dp), checked = CVState.showBoundingRect, onCheckedChange = {
                     contourDisplaySettings.showBoundingRect = it
                     CVState.showBoundingRect = it
                 })
 
-                checkBoxWithTitle("最小外接矩形",Modifier.padding(end = 50.dp), checked = CVState.showMinAreaRect, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("show_min_area_rect"),Modifier.padding(end = 50.dp), checked = CVState.showMinAreaRect, onCheckedChange = {
                     contourDisplaySettings.showMinAreaRect = it
                     CVState.showMinAreaRect = it
                 })
 
-                checkBoxWithTitle("质心",Modifier.padding(end = 50.dp), checked = CVState.showCenter, onCheckedChange = {
+                checkBoxWithTitle(i18nState.getString("show_center"),Modifier.padding(end = 50.dp), checked = CVState.showCenter, onCheckedChange = {
                     contourDisplaySettings.showCenter = it
                     CVState.showCenter = it
                 })
@@ -234,39 +234,39 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                 if(state.currentImage?.type == BufferedImage.TYPE_BYTE_BINARY) {
                     if (CVState.isContourPerimeter) {
                         if (contourFilterSettings.minPerimeter == 0.0 && contourFilterSettings.maxPerimeter == 0.0) {
-                            experimentViewVerifyToast("周长至少输入一个最小值或最大值")
+                            experimentViewVerifyToast(i18nState.getString("perimeter_at_least_one_value"))
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourArea) {
                         if (contourFilterSettings.minArea == 0.0 && contourFilterSettings.maxArea == 0.0) {
-                            experimentViewVerifyToast("面积至少输入一个最小值或最大值")
+                            experimentViewVerifyToast(i18nState.getString("area_at_least_one_value"))
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourRoundness) {
                         if (contourFilterSettings.minRoundness == 0.0 && contourFilterSettings.maxRoundness == 0.0) {
-                            experimentViewVerifyToast("圆度至少输入一个最小值或最大值")
+                            experimentViewVerifyToast(i18nState.getString("roundness_at_least_one_value"))
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourAspectRatio) {
                         if (contourFilterSettings.minAspectRatio == 0.0 && contourFilterSettings.maxAspectRatio == 0.0) {
-                            experimentViewVerifyToast("长宽比至少输入一个最小值或最大值")
+                            experimentViewVerifyToast(i18nState.getString("aspect_ratio_at_least_one_value"))
                             return@experimentViewClick
                         }
                     }
 
                     viewModel.contourAnalysis(state, contourFilterSettings, contourDisplaySettings)
                 } else {
-                    experimentViewVerifyToast("请先将当前图像进行二值化")
+                    experimentViewVerifyToast(i18nState.getString("please_binarize_image_first_for_contour"))
                 }
             }
         ) {
-            Text(text = "轮廓分析", color = Color.Unspecified)
+            Text(text = i18nState.getString("contour_analysis"), color = Color.Unspecified)
         }
     }
 }
