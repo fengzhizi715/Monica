@@ -35,7 +35,7 @@ fun filterView(state: ApplicationState) {
     val i18nState = rememberI18nState()
 
     checkBoxWithTitle(
-        text = i18nState.getString("filter"),
+        text = i18nState.getString("filter_effects"),
         color = Color.Black,
         checked = state.isFilter,
         fontSize = subTitleTextSize,
@@ -63,7 +63,7 @@ fun filterView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(FilterStatus)
             }
         ) {
-            Text(text = "进入滤镜界面", color = Color.Unspecified)
+            Text(text = i18nState.getString("enter_filter"), color = Color.Unspecified)
         }
     }
 }

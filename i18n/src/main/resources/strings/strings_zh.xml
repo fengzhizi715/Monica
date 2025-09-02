@@ -151,7 +151,7 @@
     <string name="y_direction">Y 方向</string>
     
     <!-- 过滤 effects -->
-    <string name="filter">滤镜</string>
+    <string name="enter_filter">进入滤镜界面</string>
     <string name="select_filter">请选择滤镜</string>
     <string name="filter_name">%s 滤镜</string>
     <string name="select_filter_first">请先选择滤镜</string>
@@ -261,7 +261,7 @@
     
     <!-- 图像 operations -->
     <string name="image_color_correction">图像调色</string>
-    <string name="enter_image_color_correction">图像调色界面</string>
+    <string name="enter_image_color_correction">进入图像调色界面</string>
     <string name="image_flip">图像翻转</string>
     <string name="image_rotate">图像旋转</string>
     <string name="image_scale">图像 缩放</string>

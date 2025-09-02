@@ -151,7 +151,7 @@
     <string name="y_direction">Y Direction</string>
     
     <!-- Filter effects -->
-    <string name="filter">Filter</string>
+    <string name="enter_filter">Enter Filter Interface</string>
     <string name="select_filter">Please select a filter</string>
     <string name="filter_name">%s Filter</string>
     <string name="select_filter_first">Please select a filter first</string>
@@ -261,7 +261,7 @@
     
     <!-- Image operations -->
     <string name="image_color_correction">Image Color Correction</string>
-    <string name="enter_image_color_correction">Image Color Correction Interface</string>
+    <string name="enter_image_color_correction">Enter Image Color Correction Interface</string>
     <string name="image_flip">Image Flip</string>
     <string name="image_rotate">Image Rotate</string>
     <string name="image_scale">Image Scale</string>
