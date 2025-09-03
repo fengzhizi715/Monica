@@ -130,3 +130,4 @@ rm "$ZH_TEMP" "$EN_TEMP"
 
 echo ""
 echo "=== 位置比对完成 ==="
+

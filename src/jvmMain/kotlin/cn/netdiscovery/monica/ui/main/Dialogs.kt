@@ -1,12 +1,19 @@
 package cn.netdiscovery.monica.ui.main
 
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.http.healthCheck
 import cn.netdiscovery.monica.i18n.Language
@@ -122,164 +129,433 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var isInitFilterParams by mutableStateOf(false)
     var isClearCacheData by mutableStateOf(false)
 
-    AlertDialog(onDismissRequest = {},
+    AlertDialog(
+        onDismissRequest = {},
+        modifier = Modifier.width(900.dp).height(750.dp),
         title = {
-            Text(i18nState.getString("monica_general_settings"), modifier = Modifier.padding(start = 12.dp), fontSize = subTitleTextSize, color = Color.Black)
+            Row(
+                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = i18nState.getString("monica_general_settings"),
+                    fontSize = 18.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = Color.Black
+                )
+            }
         },
         text = {
-            Column {
-                Row(modifier = Modifier.padding(start = 12.dp)) {
-                    Text(i18nState.getString("output_box_color_settings"))
-
-                    basicTextFieldWithTitle(textModifier = Modifier.padding(start = 20.dp), modifier = Modifier.padding(top = 5.dp), titleText = "R", value = rText, width = 80.dp) { str ->
-                        rText = str
-                    }
-
-                    basicTextFieldWithTitle(titleText = "G",  modifier = Modifier.padding(top = 5.dp), value = gText, width = 80.dp) { str ->
-                        gText = str
-                    }
-
-                    basicTextFieldWithTitle(titleText = "B", modifier = Modifier.padding(top = 5.dp), value = bText, width = 80.dp) { str ->
-                        bText = str
-                    }
-                }
-
-                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = i18nState.getString("area_size_settings"), modifier = Modifier.padding(top = 3.dp), value = sizeText, width = 80.dp) { str ->
-                        sizeText = str
-                    }
-                }
-
-                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = i18nState.getString("max_history_size"), modifier = Modifier.padding(top = 3.dp), value = maxHistorySizeText, width = 80.dp) { str ->
-                        maxHistorySizeText = str
-                    }
-                }
-
-                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp)) {
-                    basicTextFieldWithTitle(titleText = "deepseek: api key", modifier = Modifier.padding(top = 3.dp), value = deepSeekApiKeyText, width = 400.dp) { str ->
-                        deepSeekApiKeyText = str
-                    }
-                }
-
-                Column(modifier = Modifier.padding(top = 10.dp, start = 12.dp), horizontalAlignment = Alignment.Start) {
-                    basicTextFieldWithTitle(titleText = i18nState.getString("algorithm_service_url"), value = algorithmUrlText, width = 400.dp) { str ->
-                        algorithmUrlText = str
-                    }
-
-                    confirmButton(enabled = algorithmUrlText.isNotEmpty(), "检测算法服务状态") {
-                        status = try {
-                            val baseUrl = if (algorithmUrlText.last() == '/') {
-                                algorithmUrlText
-                            } else {
-                                "$algorithmUrlText/"
+            Column(
+                modifier = Modifier.fillMaxWidth().verticalScroll(rememberScrollState()),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                // 输出框颜色设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = i18nState.getString("output_box_color_settings"),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            // RGB颜色预览
+                            Box(
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .background(
+                                        Color(
+                                            red = (rText.toIntOrNull() ?: 255).coerceIn(0, 255) / 255f,
+                                            green = (gText.toIntOrNull() ?: 0).coerceIn(0, 255) / 255f,
+                                            blue = (bText.toIntOrNull() ?: 0).coerceIn(0, 255) / 255f
+                                        ),
+                                        shape = RoundedCornerShape(6.dp)
+                                    )
+                                    .border(2.dp, Color.Gray, RoundedCornerShape(6.dp))
+                            )
+                            
+                            // RGB输入框
+                            Row(
+                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                            ) {
+                                basicTextFieldWithTitle(
+                                    titleText = "R",
+                                    value = rText,
+                                    width = 80.dp
+                                ) { str ->
+                                    rText = str
+                                }
+                                
+                                basicTextFieldWithTitle(
+                                    titleText = "G",
+                                    value = gText,
+                                    width = 80.dp
+                                ) { str ->
+                                    gText = str
+                                }
+                                
+                                basicTextFieldWithTitle(
+                                    titleText = "B",
+                                    value = bText,
+                                    width = 80.dp
+                                ) { str ->
+                                    bText = str
+                                }
                             }
-
-                            if (healthCheck(baseUrl)) {
-                                STATUS_HTTP_SERVER_OK
-                            } else {
-                                STATUS_HTTP_SERVER_FAILED
-                            }
-                        } catch (e:Exception) {
-                            STATUS_HTTP_SERVER_FAILED
                         }
                     }
+                }
 
-                    if (status == STATUS_HTTP_SERVER_OK) {
-                        Text("算法服务可用", modifier = Modifier.padding(start = 10.dp))
-                    } else if (status == 0) {
-                        Text("算法服务不可用", modifier = Modifier.padding(start = 10.dp), color = Color.Red)
+                // 区域大小设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = i18nState.getString("area_size_settings"),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        basicTextFieldWithTitle(
+                            titleText = "Size",
+                            value = sizeText,
+                            width = 150.dp
+                        ) { str ->
+                            sizeText = str
+                        }
                     }
                 }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(isInitFilterParams, onCheckedChange = {
-                        isInitFilterParams = it
-                    })
-                    Text(text = i18nState.getString("init_filter_params"))
+                // 历史记录大小设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = i18nState.getString("max_history_size"),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        basicTextFieldWithTitle(
+                            titleText = "Max History",
+                            value = maxHistorySizeText,
+                            width = 150.dp
+                        ) { str ->
+                            maxHistorySizeText = str
+                        }
+                    }
                 }
 
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(isClearCacheData, onCheckedChange = {
-                        isClearCacheData = it
-                    })
-                    Text(text = i18nState.getString("clear_cache_data"))
+                // DeepSeek API设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "DeepSeek API Key",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        basicTextFieldWithTitle(
+                            titleText = "API Key",
+                            value = deepSeekApiKeyText,
+                            width = 500.dp
+                        ) { str ->
+                            deepSeekApiKeyText = str
+                        }
+                    }
+                }
+
+                // 算法服务设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = i18nState.getString("algorithm_service_url"),
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        basicTextFieldWithTitle(
+                            titleText = "URL",
+                            value = algorithmUrlText,
+                            width = 500.dp
+                        ) { str ->
+                            algorithmUrlText = str
+                        }
+                        
+                        Row(
+                            modifier = Modifier.padding(top = 12.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Button(
+                                enabled = algorithmUrlText.isNotEmpty(),
+                                onClick = {
+                                    status = try {
+                                        val baseUrl = if (algorithmUrlText.last() == '/') {
+                                            algorithmUrlText
+                                        } else {
+                                            "$algorithmUrlText/"
+                                        }
+
+                                        if (healthCheck(baseUrl)) {
+                                            STATUS_HTTP_SERVER_OK
+                                        } else {
+                                            STATUS_HTTP_SERVER_FAILED
+                                        }
+                                    } catch (e: Exception) {
+                                        STATUS_HTTP_SERVER_FAILED
+                                    }
+                                },
+                                modifier = Modifier.padding(end = 16.dp)
+                            ) {
+                                Text("检测服务状态")
+                            }
+                            
+                            // 状态指示器
+                            when (status) {
+                                STATUS_HTTP_SERVER_OK -> {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            "✓",
+                                            color = Color.Green,
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            "算法服务可用",
+                                            color = Color.Green,
+                                            fontSize = 14.sp,
+                                            modifier = Modifier.padding(start = 6.dp)
+                                        )
+                                    }
+                                }
+                                STATUS_HTTP_SERVER_FAILED -> {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text(
+                                            "✗",
+                                            color = Color.Red,
+                                            fontSize = 18.sp,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                        Text(
+                                            "算法服务不可用",
+                                            color = Color.Red,
+                                            fontSize = 14.sp,
+                                            modifier = Modifier.padding(start = 6.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                // 选项设置
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
+                    ) {
+                        Text(
+                            text = "选项设置",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        ) {
+                            Checkbox(
+                                checked = isInitFilterParams,
+                                onCheckedChange = { isInitFilterParams = it }
+                            )
+                            Text(
+                                text = i18nState.getString("init_filter_params"),
+                                fontSize = 14.sp
+                            )
+                        }
+                        
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Checkbox(
+                                checked = isClearCacheData,
+                                onCheckedChange = { isClearCacheData = it }
+                            )
+                            Text(
+                                text = i18nState.getString("clear_cache_data"),
+                                fontSize = 14.sp
+                            )
+                        }
+                    }
                 }
 
                 // 语言设置
-                Row(modifier = Modifier.padding(top = 10.dp, start = 12.dp), verticalAlignment = Alignment.CenterVertically) {
-                    Text("语言设置: ", modifier = Modifier.padding(end = 8.dp))
-                    
-                    // 显示当前语言
-                    Text(
-                        text = i18nState.getLanguageDisplayName(),
-                        modifier = Modifier.padding(end = 16.dp)
-                    )
-                    
-                    // 语言切换按钮
-                    Button(
-                        modifier = Modifier.padding(end = 8.dp),
-                        onClick = {
-                            i18nState.toggleLanguage()
-                        }
+                Card(
+                    modifier = Modifier.fillMaxWidth(),
+                    elevation = 2.dp,
+                    shape = RoundedCornerShape(8.dp)
+                ) {
+                    Column(
+                        modifier = Modifier.padding(16.dp)
                     ) {
-                        Text(i18nState.getToggleButtonText())
-                    }
-                    
-                    // 重置为系统语言按钮
-                    Button(
-                        onClick = {
-                            i18nState.resetToSystemLanguage()
+                        Text(
+                            text = "语言设置",
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.Medium,
+                            color = Color.Black,
+                            modifier = Modifier.padding(bottom = 12.dp)
+                        )
+                        
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(bottom = 16.dp)
+                        ) {
+                            Text(
+                                text = "当前语言: ",
+                                fontSize = 14.sp,
+                                modifier = Modifier.padding(end = 8.dp)
+                            )
+                            
+                            Text(
+                                text = i18nState.getLanguageDisplayName(),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Blue,
+                                modifier = Modifier.padding(end = 16.dp)
+                            )
                         }
-                    ) {
-                        Text(i18nState.getString("reset_to_system_language"))
+                        
+                        Row(
+                            horizontalArrangement = Arrangement.spacedBy(12.dp)
+                        ) {
+                            Button(
+                                onClick = { i18nState.toggleLanguage() },
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(i18nState.getToggleButtonText())
+                            }
+                            
+                            Button(
+                                onClick = { i18nState.resetToSystemLanguage() },
+                                modifier = Modifier.weight(1f)
+                            ) {
+                                Text(i18nState.getString("reset_to_system_language"))
+                            }
+                        }
                     }
                 }
             }
         },
         confirmButton = {
-            Button(onClick = {
-                state.outputBoxRText   = getValidateField(block = { rText.toInt() } , failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
-                state.outputBoxGText   = getValidateField(block = { gText.toInt() } , failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
-                state.outputBoxBText   = getValidateField(block = { bText.toInt() } , failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
-                state.sizeText         = getValidateField(block = { sizeText.toInt() } , failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
-                state.deepSeekApiKeyText = deepSeekApiKeyText
-                state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
-                    getValidateField(block = {
-                        if (algorithmUrlText.isValidUrl()) {
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Button(
+                    onClick = {
+                        state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
+                        state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
+                        state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
+                        state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
+                        state.deepSeekApiKeyText = deepSeekApiKeyText
+                        state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
+                            getValidateField(block = {
+                                if (algorithmUrlText.isValidUrl()) {
+                                    if (algorithmUrlText.last() == '/') {
+                                        algorithmUrlText
+                                    } else {
+                                        "$algorithmUrlText/"
+                                    }
+                                } else {
+                                    throw RuntimeException()
+                                }
+                            }, failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
+                        } else ""
 
-                            if (algorithmUrlText.last() == '/') {
-                                algorithmUrlText
-                            } else {
-                                "$algorithmUrlText/"
-                            }
-                        } else {
-                            throw RuntimeException()
+                        state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
+
+                        state.saveGeneralSettings()
+
+                        if (isInitFilterParams) {
+                            initFilterParamsConfig()
                         }
-                    } , failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
-                } else ""
 
-                state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() } , failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
+                        if (isClearCacheData) {
+                            clearData()
+                        }
 
-                state.saveGeneralSettings()
-
-                if (isInitFilterParams) {
-                    initFilterParamsConfig()
+                        onClick()
+                    },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Blue,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(i18nState.getString("update"))
                 }
 
-                if (isClearCacheData) {
-                    clearData()
+                Button(
+                    onClick = { onClick() },
+                    colors = ButtonDefaults.buttonColors(
+                        backgroundColor = Color.Gray,
+                        contentColor = Color.White
+                    )
+                ) {
+                    Text(i18nState.getString("close"))
                 }
-
-                onClick()
-            }) {
-                Text(i18nState.getString("update"))
             }
-
-            Button(onClick = {
-                onClick()
-            }) {
-                Text(i18nState.getString("close"))
-            }
-        })
+        }
+    )
 }
