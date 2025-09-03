@@ -32,10 +32,10 @@ show_help() {
     echo "  -a, --auto-fix     自动修复重复项（保留第一次出现的版本）"
     echo ""
     echo "示例:"
-    echo "  $0 strings_zh.xml                    # 检查文件"
-    echo "  $0 -a strings_zh.xml                 # 自动修复重复项"
-    echo "  $0 -v -d strings_zh.xml              # 详细检查，不修改"
-    echo "  $0 -a -n strings_zh.xml strings_en.xml  # 自动修复多个文件，不备份"
+    echo "  $0 src/main/resources/strings/strings_zh.xml                    # 检查文件"
+    echo "  $0 -a src/main/resources/strings/strings_zh.xml                 # 自动修复重复项"
+    echo "  $0 -v -d src/main/resources/strings/strings_zh.xml              # 详细检查，不修改"
+    echo "  $0 -a -n src/main/resources/strings/strings_zh.xml src/main/resources/strings/strings_en.xml  # 自动修复多个文件，不备份"
 }
 
 # 解析命令行参数
