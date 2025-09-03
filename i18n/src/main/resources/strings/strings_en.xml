@@ -128,8 +128,6 @@
     <string name="face_swap_tooltip">Face Swap</string>
     <string name="anime_style_tooltip">Anime Style</string>
     
-    <!-- Dialog and buttons -->
-    
     <!-- Version info -->
     <string name="monica_software_info">Monica Software Information</string>
     <string name="monica_version_info">Monica Version: %s, %s, Build Time: %s</string>
@@ -228,13 +226,6 @@
     <string name="notification">Notification</string>
     <string name="export_image">Export Image</string>
     
-    <!-- Image enhancement related -->
-    
-    
-    <!-- Contour analysis -->
-    <!-- Edge detection -->
-    <string name="edge_detection_operator">Edge Detection Operator</string>
-    
     <!-- Common labels -->
     <string name="min_value">Min Value</string>
     <string name="max_value">Max Value</string>
@@ -262,9 +253,6 @@
     <string name="cute_style">Cute Style</string>
     
     <!-- Algorithm service -->
-    <string name="median_filter">Median Filter</string>
-    <string name="gaussian_bilateral_filter">Gaussian Bilateral Filter</string>
-    <string name="mean_shift_filter">Mean Shift Filter</string>
     <string name="image_grayscale">Image Grayscale</string>
     <string name="threshold_type">Threshold Type</string>
     
@@ -350,20 +338,8 @@
     <string name="experiment_match_template">Template Matching</string>
     <string name="experiment_history">Parameter History</string>
     
-    <string name="click_to_select_image">Please click to select image</string>
-    
-    <string name="min_value">Min Value</string>
-    <string name="max_value">Max Value</string>
-    
     <!-- Binary image page -->
-    <string name="grayscale_image">Grayscale Image</string>
-    <string name="image_grayscale">Image Grayscale</string>
-    <string name="threshold_type">Threshold Type</string>
-    <string name="please_select_threshold_type_and_segmentation">Please select threshold type and global threshold segmentation or adaptive threshold segmentation</string>
     <string name="please_binarize_image_first">Please binarize the current image first</string>
-    <string name="first_derivative_operator">First Derivative Operator</string>
-    <string name="please_select_first_derivative_operator">Please select first derivative operator type</string>
-    <string name="please_select_second_derivative_operator">Please select second derivative operator type</string>
     <string name="please_select_canny_operator">Please select Canny operator</string>
     
     <!-- Contour analysis page -->
@@ -388,7 +364,6 @@
     <string name="aspect_ratio_at_least_one_value">Aspect ratio needs at least one minimum or maximum value</string>
     <string name="please_binarize_image_first_for_contour">Please binarize the current image first</string>
     
-    <string name="gamma_transform">Gamma Transform</string>
     <string name="laplace_sharpen">Laplace Sharpen</string>
     <string name="usm_sharpen">USM Sharpen</string>
     <string name="auto_color_balance">Auto Color Balance</string>
@@ -410,10 +385,8 @@
     <string name="top_hat">Top Hat</string>
     <string name="black_hat">Black Hat</string>
     <string name="hit_miss">Hit Miss</string>
-    <string name="rectangle">Rectangle</string>
     <string name="cross">Cross</string>
     <string name="ellipse">Ellipse</string>
-    <string name="structural_element">Structural Element:</string>
     <string name="width_needs_int_for_morph">width needs int type</string>
     <string name="height_needs_int_for_morph">height needs int type</string>
     
@@ -450,4 +423,24 @@
     <string name="adaptive_threshold_selected">Adaptive threshold segmentation selected</string>
     <string name="opencv_debug_view_init">OpenCVDebugView initialization on startup</string>
     <string name="opencv_debug_view_dispose">OpenCVDebugView resource cleanup on close</string>
+    
+    <!-- Image enhancement page button texts -->
+    <string name="histogram_equalization_button">Histogram Equalization</string>
+    <string name="clahe_button">CLAHE</string>
+    <string name="gamma_transform_button">Gamma Transform</string>
+    <string name="laplace_sharpen_button">Laplace Sharpen</string>
+    <string name="usm_sharpen_button">USM Sharpen</string>
+    <string name="auto_color_balance_button">Auto Color Balance</string>
+    
+    <!-- Missing translations -->
+    <string name="adaptive_threshold_algorithm">Adaptive Threshold Algorithm</string>
+    <string name="adaptive_threshold_segmentation">Adaptive Threshold Segmentation</string>
+    <string name="algorithm_service_error">Algorithm Service Error</string>
+    <string name="global_threshold_segmentation">Global Threshold Segmentation</string>
+    <string name="laplace_operator">Laplace Operator</string>
+    <string name="opening">Opening</string>
+    <string name="perimeter_min_needs_double">Perimeter minimum needs double type</string>
+    <string name="please_select_image_first">Please select image first</string>
+    <string name="roberts_operator">Roberts Operator</string>
+    <string name="show_min_area_rect">Show Minimum Area Rectangle</string>
 </resources>

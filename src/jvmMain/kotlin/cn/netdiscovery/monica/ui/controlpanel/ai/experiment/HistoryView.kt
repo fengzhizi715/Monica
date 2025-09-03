@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.HistoryViewModel
+import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.divider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.formatTimestamp
@@ -38,6 +39,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 
 @Composable
 fun history(state: ApplicationState, title: String) {
+    val i18nState = rememberI18nState()
     val viewModel: HistoryViewModel = koinInject()
 
     val historyEntries = remember { mutableStateListOf<HistoryEntry>() }
@@ -50,17 +52,17 @@ fun history(state: ApplicationState, title: String) {
     Column (modifier = Modifier.fillMaxSize().padding(start = 20.dp, end =  20.dp)) {
         title(modifier = Modifier.align(Alignment.CenterHorizontally), text = title, color = Color.Black)
 
-        CVHistoryList(historyEntries)
+        CVHistoryList(historyEntries, i18nState)
     }
 }
 
 @Composable
-fun CVHistoryList(history: List<HistoryEntry>) {
+fun CVHistoryList(history: List<HistoryEntry>, i18nState: cn.netdiscovery.monica.ui.i18n.I18nState) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
         LazyColumn(modifier = Modifier.fillMaxSize()) {
             items(history) { entry ->
-                HistoryItem(entry)
+                HistoryItem(entry, i18nState)
                 divider()
             }
         }
@@ -68,22 +70,22 @@ fun CVHistoryList(history: List<HistoryEntry>) {
 }
 
 @Composable
-fun HistoryItem(entry: HistoryEntry) {
+fun HistoryItem(entry: HistoryEntry, i18nState: cn.netdiscovery.monica.ui.i18n.I18nState) {
     Column(modifier = Modifier.padding(start = 8.dp, end = 8.dp)) {
         Text(
-            text = "操作: ${entry.operation}",
+            text = "${i18nState.getString("operation")}: ${entry.operation}",
         )
         Text(
-            text = "时间: ${formatTimestamp.format(Date(entry.timestamp))}",
+            text = "${i18nState.getString("time")}: ${formatTimestamp.format(Date(entry.timestamp))}",
         )
         Text(
-            text = "参数: ${entry.parameters.entries.joinToString { "${it.key}=${it.value}" }}",
+            text = "${i18nState.getString("parameters")}: ${entry.parameters.entries.joinToString { "${it.key}=${it.value}" }}",
             maxLines = 6,
             overflow = TextOverflow.Ellipsis
         )
         if (entry.description.isNotEmpty()) {
             Text(
-                text = "描述: ${entry.description}"
+                text = "${i18nState.getString("description")}: ${entry.description}"
             )
         }
     }

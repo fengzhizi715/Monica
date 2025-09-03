@@ -12,6 +12,7 @@ import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MorphologicalOperationSettings
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MorphologicalOperationsViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
@@ -32,8 +33,21 @@ import java.awt.image.BufferedImage
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val operatingElementsTag = arrayListOf("腐蚀", "膨胀", "开操作", "闭操作", "形态学梯度", "顶帽", "黑帽", "击中击不中")
-val structuralElementsTag = arrayListOf("矩形","十字交叉","椭圆形")
+val operatingElementsTag = arrayListOf(
+    LocalizationManager.getString("erosion"),
+    LocalizationManager.getString("dilation"),
+    LocalizationManager.getString("opening"),
+    LocalizationManager.getString("closing"),
+    LocalizationManager.getString("morphological_gradient"),
+    LocalizationManager.getString("top_hat"),
+    LocalizationManager.getString("black_hat"),
+    LocalizationManager.getString("hit_miss")
+)
+val structuralElementsTag = arrayListOf(
+    LocalizationManager.getString("rectangle"),
+    LocalizationManager.getString("cross"),
+    LocalizationManager.getString("ellipse")
+)
 val tagList1 = operatingElementsTag.take(4)
 val tagList2 = operatingElementsTag.takeLast(4)
 
@@ -45,7 +59,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
     val viewModel: MorphologicalOperationsViewModel = koinInject()
 
     var operatingElementOption by remember { mutableStateOf("Null") }
-    var structuralElementOption by remember { mutableStateOf("矩形") }
+    var structuralElementOption by remember { mutableStateOf(LocalizationManager.getString("rectangle")) }
 
     var widthText by remember { mutableStateOf("3") }
     var heightText by remember { mutableStateOf("3") }
@@ -105,7 +119,7 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
             }
 
             Row(modifier = Modifier.padding(top = 20.dp)) {
-                Text(modifier = Modifier.width(70.dp), text = "结构元素：", color = Color.Unspecified)
+                Text(modifier = Modifier.width(70.dp), text = i18nState.getString("structural_element") + "：", color = Color.Unspecified)
 
                 basicTextFieldWithTitle(titleText = i18nState.getString("width"), widthText) { str ->
                     widthText = str
@@ -122,18 +136,18 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
             onClick = experimentViewClick(state) {
 
                 if(state.currentImage?.type == BufferedImage.TYPE_BYTE_BINARY) {
-                    val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast("width 需要 int 类型") }) ?: return@experimentViewClick
-                    val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast("height 需要 int 类型") }) ?: return@experimentViewClick
+                    val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("width_needs_int_for_morph")) }) ?: return@experimentViewClick
+                    val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("height_needs_int_for_morph")) }) ?: return@experimentViewClick
 
                     morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
 
                     viewModel.morphologyEx(state, morphologicalOperationSettings)
                 } else {
-                    experimentViewVerifyToast("请先将当前图像进行二值化")
+                    experimentViewVerifyToast(i18nState.getString("please_binarize_image_first"))
                 }
             }
         ) {
-            Text(text = "形态学操作", color = Color.Unspecified)
+            Text(text = i18nState.getString("morphological_operations"), color = Color.Unspecified)
         }
     }
 }

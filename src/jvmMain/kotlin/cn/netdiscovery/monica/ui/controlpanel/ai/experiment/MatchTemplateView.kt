@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.domain.MatchTemplateSettings
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
+import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.MatchTemplateViewModel
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
@@ -39,7 +40,11 @@ import org.slf4j.LoggerFactory
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-val matchingMethodTag = arrayListOf("原图匹配","灰度匹配","边缘匹配")
+val matchingMethodTag = arrayListOf(
+    LocalizationManager.getString("original_image_matching"),
+    LocalizationManager.getString("grayscale_matching"),
+    LocalizationManager.getString("edge_matching")
+)
 
 var matchTemplateSettings: MatchTemplateSettings = MatchTemplateSettings()
 
@@ -49,7 +54,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
     val i18nState = rememberI18nState()
     val viewModel: MatchTemplateViewModel = koinInject()
 
-    var matchingMethodOption by remember { mutableStateOf("原图匹配") }
+    var matchingMethodOption by remember { mutableStateOf(LocalizationManager.getString("original_image_matching")) }
 
     var angleStartText by remember { mutableStateOf("0") }
     var angleEndText by remember { mutableStateOf("360") }
@@ -69,7 +74,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
             subTitleWithDivider(text = i18nState.getString("template"), color = Color.Black)
 
             Row {
-                Text(modifier = Modifier.width(100.dp).padding(top = 10.dp), text = "导入模版：", color = Color.Unspecified)
+                Text(modifier = Modifier.width(100.dp).padding(top = 10.dp), text = i18nState.getString("import_template"), color = Color.Unspecified)
 
                 Card(
                     modifier = Modifier.padding(10.dp).width(150.dp).height(150.dp),
@@ -85,7 +90,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                     if (CVState.templateImage == null) {
                         Text(
                             modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                            text = "请点击选择图像",
+                            text = i18nState.getString("click_to_select_image"),
                             textAlign = TextAlign.Center
                         )
                     } else {
@@ -103,7 +108,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                             }
 
                             Row(modifier = Modifier.align(Alignment.TopEnd)) {
-                                toolTipButton(text = "删除 source 的图",
+                                toolTipButton(text = i18nState.getString("delete_source_image"),
                                     painter = painterResource("images/preview/delete.png"),
                                     buttonModifier = Modifier,
                                     iconModifier = Modifier.size(20.dp),
@@ -202,39 +207,39 @@ fun matchTemplate(state: ApplicationState, title: String) {
             onClick = experimentViewClick(state) {
 
                 if (CVState.templateImage == null) {
-                    experimentViewVerifyToast("请先导入模版文件")
+                    experimentViewVerifyToast(i18nState.getString("please_import_template_first"))
                     return@experimentViewClick
                 }
 
                 val angleStart = getValidateField(block = { angleStartText.toInt() } ,
                     condition = { it in 0..360 },
-                    failed = { experimentViewVerifyToast("angleStart 需要 int 类型， 且 angleStart >= 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("angle_start_needs_int")) }) ?: return@experimentViewClick
                 val angleEnd = getValidateField(block = { angleEndText.toInt() } ,
                     condition = { it in 0..360 },
-                    failed = { experimentViewVerifyToast("angleEnd 需要 int 类型， 且 angleEnd <= 360") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("angle_end_needs_int")) }) ?: return@experimentViewClick
                 val angleStep = getValidateField(block = { angleStepText.toInt() } ,
                     condition = { it > 0 },
-                    failed = { experimentViewVerifyToast("angleStep 需要 int 类型， 且 angleStep > 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("angle_step_needs_int")) }) ?: return@experimentViewClick
 
                 val scaleStart = getValidateField(block = { scaleStartText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast("scaleStart 需要 double 类型， 且 scaleStart >= 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("scale_start_needs_double")) }) ?: return@experimentViewClick
                 val scaleEnd = getValidateField(block = { scaleEndText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast("scaleEnd 需要 double 类型， 且 scaleStart <= 1.0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("scale_end_needs_double")) }) ?: return@experimentViewClick
                 val scaleStep = getValidateField(block = { scaleStepText.toDouble() } ,
                     condition = { it > 0 },
-                    failed = { experimentViewVerifyToast("scaleStep 需要 double 类型， 且 scaleStep > 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("scale_step_needs_double")) }) ?: return@experimentViewClick
 
                 val matchTemplateThreshold = getValidateField(block = { matchTemplateThresholdText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast("matchTemplateThreshold 需要 double 类型， 且 matchTemplateThreshold >= 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("match_template_threshold_needs_double")) }) ?: return@experimentViewClick
                 val scoreThreshold = getValidateField(block = { scoreThresholdText.toFloat() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast("scoreThreshold 需要 float 类型， 且 scoreThreshold >= 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("score_threshold_needs_float")) }) ?: return@experimentViewClick
                 val nmsThreshold = getValidateField(block = { nmsThresholdText.toFloat() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast("nmsThreshold 需要 float 类型， 且 nmsThreshold >= 0") }) ?: return@experimentViewClick
+                    failed = { experimentViewVerifyToast(i18nState.getString("nms_threshold_needs_float")) }) ?: return@experimentViewClick
 
                 matchTemplateSettings = matchTemplateSettings.copy(angleStart = angleStart, angleEnd = angleEnd, angleStep = angleStep,
                     scaleStart = scaleStart, scaleEnd = scaleEnd, scaleStep = scaleStep,
@@ -243,7 +248,7 @@ fun matchTemplate(state: ApplicationState, title: String) {
                 viewModel.matchTemplate(state, matchTemplateSettings)
             }
         ) {
-            Text(text = "模版匹配", color = Color.Unspecified)
+            Text(text = i18nState.getString("template_matching"), color = Color.Unspecified)
         }
     }
 }

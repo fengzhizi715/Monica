@@ -128,8 +128,6 @@
     <string name="face_swap_tooltip">人脸替换</string>
     <string name="anime_style_tooltip">动漫风格</string>
     
-    <!-- 对话框和按钮 -->
-    
     <!-- 版本信息 -->
     <string name="monica_software_info">Monica 软件信息</string>
     <string name="monica_version_info">Monica 版本：%s，%s，构建时间：%s</string>
@@ -228,12 +226,6 @@
     <string name="notification">通知</string>
     <string name="export_image">导出图片</string>
     
-    <!-- 图像 enhancement related -->
-    
-    <!-- Morphological operations -->
-    
-    <!-- Contour analysis -->
-    
     <!-- Common labels -->
     <string name="min_value">最小值</string>
     <string name="max_value">最大值</string>
@@ -280,8 +272,8 @@
     <string name="dog_operator">DoG 算子</string>
     <string name="first_derivative_operator">一阶导数算子</string>
     <string name="second_derivative_operator">二阶导数算子</string>
-    <string name="first_derivative_edge_detection">First Derivative 边缘检测</string>
-    <string name="second_derivative_edge_detection">Second Derivative 边缘检测</string>
+    <string name="first_derivative_edge_detection">一阶导数边缘检测</string>
+    <string name="second_derivative_edge_detection">二阶导数边缘检测</string>
     <string name="canny_operator">Canny 算子</string>
     <string name="canny_edge_detection_full">Canny 边缘检测</string>
     
@@ -446,4 +438,15 @@
     <string name="adaptive_threshold_selected">勾选了自适应阈值分割</string>
     <string name="opencv_debug_view_init">OpenCVDebugView 启动时初始化</string>
     <string name="opencv_debug_view_dispose">OpenCVDebugView 关闭时释放资源</string>
+    
+    <!-- 图像增强页面按钮文本 -->
+    <string name="histogram_equalization_button">直方图均衡化</string>
+    <string name="clahe_button">CLAHE</string>
+    <string name="gamma_transform_button">伽马变换</string>
+    <string name="laplace_sharpen_button">Laplace 锐化</string>
+    <string name="usm_sharpen_button">USM 锐化</string>
+    <string name="auto_color_balance_button">自动色彩均衡</string>
+    
+    <!-- 缺失的翻译 -->
+    <string name="please_select_canny_operator">请选择 Canny 算子</string>
 </resources>

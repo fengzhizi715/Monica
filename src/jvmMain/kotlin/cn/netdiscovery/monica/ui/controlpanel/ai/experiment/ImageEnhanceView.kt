@@ -63,7 +63,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
                     viewModel.equalizeHist(state)
                 }
             ) {
-                Text(text = "直方图均衡化", color = Color.Unspecified)
+                Text(text = i18nState.getString("histogram_equalization_button"), color = Color.Unspecified)
             }
         }
 
@@ -84,12 +84,12 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val clipLimit = getValidateField(block = { clipLimitText.toDouble() } , failed = { experimentViewVerifyToast("clipLimit 需要 double 类型") }) ?: return@experimentViewClick
-                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast("size 需要 int 类型") }) ?: return@experimentViewClick
+                    val clipLimit = getValidateField(block = { clipLimitText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("clip_limit_needs_double")) }) ?: return@experimentViewClick
+                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("size_needs_int_for_enhance")) }) ?: return@experimentViewClick
                     viewModel.clahe(state, clipLimit, size)
                 }
             ) {
-                Text(text = "clahe", color = Color.Unspecified)
+                Text(text = i18nState.getString("clahe_button"), color = Color.Unspecified)
             }
         }
 
@@ -106,11 +106,11 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val gamma = getValidateField(block = { gammaText.toFloat() } , failed = { experimentViewVerifyToast("gamma 需要 float 类型") }) ?: return@experimentViewClick
+                    val gamma = getValidateField(block = { gammaText.toFloat() } , failed = { experimentViewVerifyToast(i18nState.getString("gamma_needs_float")) }) ?: return@experimentViewClick
                     viewModel.gammaCorrection(state, gamma)
                 }
             ) {
-                Text(text = "gamma 变换", color = Color.Unspecified)
+                Text(text = i18nState.getString("gamma_transform_button"), color = Color.Unspecified)
             }
         }
 
@@ -124,7 +124,7 @@ fun imageEnhance(state: ApplicationState, title: String) {
                     viewModel.laplaceSharpening(state)
                 }
             ) {
-                Text(text = "Laplace 锐化", color = Color.Unspecified)
+                Text(text = i18nState.getString("laplace_sharpen_button"), color = Color.Unspecified)
             }
         }
 
@@ -149,13 +149,13 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val radius = getValidateField(block = { radiusText.toInt() } , failed = { experimentViewVerifyToast("Radius 需要 int 类型") }) ?: return@experimentViewClick
-                    val threshold = getValidateField(block = { thresholdText.toInt() } , failed = { experimentViewVerifyToast("Threshold 需要 int 类型") }) ?: return@experimentViewClick
-                    val amount = getValidateField(block = { amountText.toInt() } , failed = { experimentViewVerifyToast("Amount 需要 int 类型") }) ?: return@experimentViewClick
+                    val radius = getValidateField(block = { radiusText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("radius_needs_int")) }) ?: return@experimentViewClick
+                    val threshold = getValidateField(block = { thresholdText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold_needs_int")) }) ?: return@experimentViewClick
+                    val amount = getValidateField(block = { amountText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("amount_needs_int")) }) ?: return@experimentViewClick
                     viewModel.unsharpMask(state, radius, threshold, amount)
                 }
             ) {
-                Text(text = "USM 锐化", color = Color.Unspecified)
+                Text(text = i18nState.getString("usm_sharpen_button"), color = Color.Unspecified)
             }
         }
 
@@ -176,12 +176,12 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val ratio = getValidateField(block = { ratioText.toInt() } , failed = { experimentViewVerifyToast("Ratio 需要 int 类型") }) ?: return@experimentViewClick
-                    val radius = getValidateField(block = { aceRadiusText.toInt() } , failed = { experimentViewVerifyToast("Radius 需要 int 类型") }) ?: return@experimentViewClick
+                    val ratio = getValidateField(block = { ratioText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ratio_needs_int")) }) ?: return@experimentViewClick
+                    val radius = getValidateField(block = { aceRadiusText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("radius_needs_int")) }) ?: return@experimentViewClick
                     viewModel.ace(state, ratio, radius)
                 }
             ) {
-                Text(text = "自动色彩均衡", color = Color.Unspecified)
+                Text(text = i18nState.getString("auto_color_balance_button"), color = Color.Unspecified)
             }
         }
     }
