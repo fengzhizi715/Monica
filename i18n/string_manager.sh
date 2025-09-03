@@ -19,6 +19,7 @@ BACKUP=true
 AUTO_FIX=false
 COMPARE_MODE=false
 CLEANUP_MODE=false
+POSITION_MODE=false
 
 # 显示帮助信息
 show_help() {
@@ -29,6 +30,7 @@ show_help() {
     echo "模式选项:"
     echo "  -c, --cleanup      清理模式：检查并清理重复项"
     echo "  -m, --compare      比对模式：比对中英文文件差异"
+    echo "  -p, --position     位置比对模式：检查相同key的行号是否一致"
     echo "  -a, --all          全功能模式：清理 + 比对"
     echo ""
     echo "清理模式选项:"
@@ -41,6 +43,7 @@ show_help() {
     echo "  $0 -c src/main/resources/strings/strings_zh.xml                    # 清理单个文件"
     echo "  $0 -c -f src/main/resources/strings/strings_zh.xml                 # 自动修复重复项"
     echo "  $0 -m                                                              # 比对中英文文件"
+    echo "  $0 -p                                                              # 检查行号一致性"
     echo "  $0 -a -f                                                            # 全功能模式，自动修复"
     echo "  $0 -c -v -d src/main/resources/strings/*.xml                       # 详细检查，不修改"
 }
@@ -64,6 +67,10 @@ parse_args() {
             -a|--all)
                 CLEANUP_MODE=true
                 COMPARE_MODE=true
+                shift
+                ;;
+            -p|--position)
+                POSITION_MODE=true
                 shift
                 ;;
             -v|--verbose)
@@ -316,8 +323,139 @@ cleanup_mode() {
     return $has_errors
 }
 
-# 比对模式主函数
-compare_mode() {
+# 位置比对模式主函数
+position_compare_mode() {
+    local zh_file="src/main/resources/strings/strings_zh.xml"
+    local en_file="src/main/resources/strings/strings_en.xml"
+    
+    echo "=== 中英文字符串资源文件位置比对 ==="
+    echo ""
+    
+    # 检查文件是否存在
+    if [[ ! -f "$zh_file" ]]; then
+        echo -e "${RED}错误: 中文文件不存在: $zh_file${NC}"
+        return 1
+    fi
+    
+    if [[ ! -f "$en_file" ]]; then
+        echo -e "${RED}错误: 英文文件不存在: $en_file${NC}"
+        return 1
+    fi
+    
+    # 创建临时文件存储key和行号的映射
+    local zh_temp=$(mktemp)
+    local en_temp=$(mktemp)
+    
+    echo "1. 提取中文文件中的key和行号..."
+    grep -n 'name="[^"]*"' "$zh_file" | sed 's/^\([0-9]*\):.*name="\([^"]*\)".*/\1:\2/' > "$zh_temp"
+    
+    echo "2. 提取英文文件中的key和行号..."
+    grep -n 'name="[^"]*"' "$en_file" | sed 's/^\([0-9]*\):.*name="\([^"]*\)".*/\1:\2/' > "$en_temp"
+    
+    echo "3. 统计信息..."
+    local zh_count=$(wc -l < "$zh_temp")
+    local en_count=$(wc -l < "$en_temp")
+    echo "中文文件字符串数量: $zh_count"
+    echo "英文文件字符串数量: $en_count"
+    echo ""
+    
+    # 找出共同的key
+    local common_keys=$(comm -12 <(cut -d: -f2 "$zh_temp" | sort) <(cut -d: -f2 "$en_temp" | sort))
+    local common_count=$(echo "$common_keys" | wc -l)
+    echo "4. 共同key数量: $common_count"
+    echo ""
+    
+    # 检查行号差异
+    local mismatched_count=0
+    local max_diff=0
+    local total_diff=0
+    
+    echo "5. 检查行号一致性..."
+    echo "$common_keys" | while read key; do
+        local zh_line=$(grep ":$key$" "$zh_temp" | cut -d: -f1)
+        local en_line=$(grep ":$key$" "$en_temp" | cut -d: -f1)
+        
+        if [[ -n "$zh_line" && -n "$en_line" ]]; then
+            local diff=$((zh_line - en_line))
+            local abs_diff=${diff#-}  # 取绝对值
+            
+            if [[ $abs_diff -gt 0 ]]; then
+                mismatched_count=$((mismatched_count + 1))
+                total_diff=$((total_diff + abs_diff))
+                
+                if [[ $abs_diff -gt $max_diff ]]; then
+                    max_diff=$abs_diff
+                fi
+                
+                if [[ "$VERBOSE" == true ]]; then
+                    echo -e "${YELLOW}行号不匹配: $key${NC}"
+                    echo "  中文文件第${zh_line}行"
+                    echo "  英文文件第${en_line}行"
+                    echo "  差异: $diff 行"
+                    echo ""
+                fi
+            fi
+        fi
+    done
+    
+    # 由于while循环在子shell中执行，我们需要用其他方式统计
+    local actual_mismatched=$(echo "$common_keys" | while read key; do
+        local zh_line=$(grep ":$key$" "$zh_temp" | cut -d: -f1)
+        local en_line=$(grep ":$key$" "$en_temp" | cut -d: -f1)
+        
+        if [[ -n "$zh_line" && -n "$en_line" ]]; then
+            local diff=$((zh_line - en_line))
+            local abs_diff=${diff#-}
+            
+            if [[ $abs_diff -gt 0 ]]; then
+                echo "1"
+            fi
+        fi
+    done | wc -l)
+    
+    local actual_total_diff=$(echo "$common_keys" | while read key; do
+        local zh_line=$(grep ":$key$" "$zh_temp" | cut -d: -f1)
+        local en_line=$(grep ":$key$" "$en_temp" | cut -d: -f1)
+        
+        if [[ -n "$zh_line" && -n "$en_line" ]]; then
+            local diff=$((zh_line - en_line))
+            local abs_diff=${diff#-}
+            echo "$abs_diff"
+        fi
+    done | awk '{sum+=$1} END {print sum}')
+    
+    local actual_max_diff=$(echo "$common_keys" | while read key; do
+        local zh_line=$(grep ":$key$" "$zh_temp" | cut -d: -f1)
+        local en_line=$(grep ":$key$" "$en_temp" | cut -d: -f1)
+        
+        if [[ -n "$zh_line" && -n "$en_line" ]]; then
+            local diff=$((zh_line - en_line))
+            local abs_diff=${diff#-}
+            echo "$abs_diff"
+        fi
+    done | sort -n | tail -1)
+    
+    echo "6. 位置比对结果:"
+    if [[ $actual_mismatched -eq 0 ]]; then
+        echo -e "${GREEN}✅ 所有共同key的行号都一致！${NC}"
+    else
+        echo -e "${YELLOW}⚠️  发现 $actual_mismatched 个key的行号不一致${NC}"
+        echo "  最大行号差异: $actual_max_diff 行"
+        echo "  平均行号差异: $(echo "scale=1; $actual_total_diff / $actual_mismatched" | bc 2>/dev/null || echo "N/A") 行"
+        
+        if [[ "$VERBOSE" == false ]]; then
+            echo ""
+            echo "使用 -v 选项查看详细的不匹配信息"
+        fi
+    fi
+    
+    # 清理临时文件
+    rm "$zh_temp" "$en_temp"
+    
+    echo ""
+    echo "=== 位置比对完成 ==="
+    echo ""
+}
     local zh_file="src/main/resources/strings/strings_zh.xml"
     local en_file="src/main/resources/strings/strings_en.xml"
     
