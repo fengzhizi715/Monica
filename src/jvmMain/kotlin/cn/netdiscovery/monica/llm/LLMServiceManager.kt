@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.llm
 
+import androidx.compose.runtime.*
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.exception.MonicaException
 import org.slf4j.Logger
@@ -16,12 +17,25 @@ import org.slf4j.LoggerFactory
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 /**
+ * 记住 LLM 服务管理器实例
+ */
+@Composable
+fun rememberLLMServiceManager(): LLMServiceManager {
+    return remember { LLMServiceManager() }
+}
+
+/**
  * LLM 服务提供商枚举
  */
 enum class LLMProvider {
     DEEPSEEK,
     GEMINI
 }
+
+/**
+ * LLM 服务管理器
+ * 统一管理不同的 LLM 服务提供商
+ */
 
 /**
  * LLM 服务管理器
