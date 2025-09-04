@@ -64,7 +64,7 @@ class LLMServiceManager {
      * @param apiKey API 密钥
      * @return 是否有效
      */
-    suspend fun validateApiKey(provider: LLMProvider, apiKey: String): Boolean {
+    fun validateApiKey(provider: LLMProvider, apiKey: String): Boolean {
         return try {
             when (provider) {
                 LLMProvider.DEEPSEEK -> validateDeepSeekApiKey(apiKey)
@@ -75,48 +75,12 @@ class LLMServiceManager {
             false
         }
     }
-    
-    /**
-     * 获取服务提供商显示名称
-     * 
-     * @param provider LLM 服务提供商
-     * @return 显示名称
-     */
-    fun getProviderDisplayName(provider: LLMProvider): String {
-        return when (provider) {
-            LLMProvider.DEEPSEEK -> "DeepSeek"
-            LLMProvider.GEMINI -> "Gemini"
-        }
-    }
-    
-    /**
-     * 获取所有可用的服务提供商
-     * 
-     * @return 服务提供商列表
-     */
-    fun getAvailableProviders(): List<LLMProvider> {
-        return LLMProvider.values().toList()
-    }
-    
-    /**
-     * 检查服务提供商是否可用
-     * 
-     * @param provider LLM 服务提供商
-     * @param apiKey API 密钥
-     * @return 是否可用
-     */
-    suspend fun isProviderAvailable(provider: LLMProvider, apiKey: String): Boolean {
-        if (apiKey.isBlank()) {
-            return false
-        }
-        return validateApiKey(provider, apiKey)
-    }
 }
 
 /**
  * 扩展函数：验证 DeepSeek API 密钥
  */
-private suspend fun validateDeepSeekApiKey(apiKey: String): Boolean {
+private fun validateDeepSeekApiKey(apiKey: String): Boolean {
     // 这里可以实现一个简单的 API 调用来验证密钥
     // 暂时返回 true，实际项目中可以调用一个简单的 API 端点
     return apiKey.isNotBlank()
@@ -125,7 +89,7 @@ private suspend fun validateDeepSeekApiKey(apiKey: String): Boolean {
 /**
  * 扩展函数：验证 Gemini API 密钥
  */
-private suspend fun validateGeminiApiKey(apiKey: String): Boolean {
+private fun validateGeminiApiKey(apiKey: String): Boolean {
     // 这里可以实现一个简单的 API 调用来验证密钥
     // 暂时返回 true，实际项目中可以调用一个简单的 API 端点
     return apiKey.isNotBlank()

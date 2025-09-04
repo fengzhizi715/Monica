@@ -19,10 +19,7 @@ import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.llm.DialogSession
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.i18n.I18nState
-import cn.netdiscovery.monica.llm.applyInstructionWithLLM
-import cn.netdiscovery.monica.llm.applyInstructionWithGemini
 import cn.netdiscovery.monica.llm.LLMProvider
-import cn.netdiscovery.monica.llm.LLMServiceManager
 import cn.netdiscovery.monica.llm.rememberLLMServiceManager
 import cn.netdiscovery.monica.ui.widget.divider
 import kotlinx.coroutines.*
