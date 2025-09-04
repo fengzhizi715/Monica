@@ -25,6 +25,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.extensions.drawWithLayer
+import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import org.koin.compose.koinInject
 
 /**
@@ -65,11 +66,8 @@ fun drawImage(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.Center
     ) {
-        val bitmapWidth = image.width
-        val bitmapHeight = image.height
-
-        val width = (bitmapWidth/density.density).dp
-        val height = (bitmapHeight/density.density).dp
+        // 使用统一的图片尺寸计算
+        val (width, height) = ImageSizeCalculator.calculateImageSize(state)
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),

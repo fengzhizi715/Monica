@@ -15,6 +15,7 @@ import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.widget.ColorDisplay
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.widget.ImageColorDetector
+import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 
 /**
  *
@@ -42,8 +43,13 @@ fun colorPick(state: ApplicationState) {
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.Center
     ) {
+        // 使用统一的图片尺寸计算
+        val (width, height) = ImageSizeCalculator.calculateImageSize(state)
+        
         ImageColorDetector(
-            modifier = Modifier.fillMaxWidth().aspectRatio(16 / 9f),
+            modifier = Modifier
+                .width(width)
+                .height(height),
             contentScale = ContentScale.Fit,
             colorNameParser = colorNameParser,
             imageBitmap = image,

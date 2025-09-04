@@ -16,6 +16,12 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.animation.core.*
+import androidx.compose.animation.*
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.delay
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.CanvasDrawer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
@@ -37,6 +43,7 @@ import kotlin.math.abs
 import kotlin.math.pow
 import kotlin.math.sqrt
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.CoordinateSystem
+import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 
 /**
  *
@@ -47,6 +54,20 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.CoordinateSystem
  * @version: V1.0 <描述当前版本功能>
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
+/**
+ * 动画形状数据类
+ */
+data class AnimatedShape(
+    val key: String,
+    val shapeType: String,
+    val startTime: Long,
+    val duration: Long = 500L,
+    val startScale: Float = 0.5f,
+    val endScale: Float = 1.0f,
+    val startAlpha: Float = 0.3f,
+    val endAlpha: Float = 1.0f
+)
 
 @Composable
 fun shapeDrawing(state: ApplicationState) {
@@ -97,6 +118,22 @@ fun shapeDrawing(state: ApplicationState) {
     // 跟踪最后一个绘制的形状
     var lastDrawnShapeKey by remember { mutableStateOf<Offset?>(null) }
     var lastDrawnShapeType by remember { mutableStateOf<String?>(null) }
+    
+    // 动画状态
+    var animatedShapes by remember { mutableStateOf<Map<String, AnimatedShape>>(emptyMap()) }
+    var animationProgress by remember { mutableStateOf(0f) }
+    
+    // 动画控制器
+    val animationController = rememberInfiniteTransition(label = "shapeAnimation")
+    val animatedProgress by animationController.animateFloat(
+        initialValue = 0f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(
+            animation = tween(1000, easing = LinearEasing),
+            repeatMode = RepeatMode.Restart
+        ),
+        label = "shapeAnimationProgress"
+    )
 
 
     var currentShapeProperty by remember { mutableStateOf(ShapeProperties()) }
@@ -224,6 +261,138 @@ fun shapeDrawing(state: ApplicationState) {
             logger.warn("没有找到最后一个绘制的形状")
         }
     }
+    
+    /**
+     * 添加动画形状
+     */
+    fun addAnimatedShape(shapeType: String, key: Offset) {
+        val shapeKey = "${shapeType}_${key.x}_${key.y}"
+        val currentTime = System.currentTimeMillis()
+        
+        val animatedShape = AnimatedShape(
+            key = shapeKey,
+            shapeType = shapeType,
+            startTime = currentTime
+        )
+        
+        animatedShapes = animatedShapes + (shapeKey to animatedShape)
+        
+        // 5秒后移除动画
+        kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Default).launch {
+            delay(5000)
+            animatedShapes = animatedShapes - shapeKey
+        }
+        
+        logger.info("添加动画形状: $shapeType")
+    }
+    
+    /**
+     * 线性插值函数
+     */
+    fun lerp(start: Float, end: Float, fraction: Float): Float {
+        return start + (end - start) * fraction
+    }
+    
+    /**
+     * 绘制动画高亮效果
+     */
+    fun DrawScope.drawAnimationHighlight(animatedShape: AnimatedShape, scale: Float, alpha: Float) {
+        val key = animatedShape.key
+        val shapeType = animatedShape.shapeType
+        
+        // 根据形状类型获取位置和绘制动画效果
+        when (shapeType) {
+            "Line" -> {
+                val lineKey = Offset(
+                    key.split("_")[1].toFloat(),
+                    key.split("_")[2].toFloat()
+                )
+                if (lines.containsKey(lineKey)) {
+                    val line = lines[lineKey]!!
+                    drawLine(
+                        color = Color.Yellow.copy(alpha = alpha * 0.5f),
+                        start = line.from,
+                        end = line.to,
+                        strokeWidth = 8f * scale,
+                        cap = androidx.compose.ui.graphics.StrokeCap.Round
+                    )
+                }
+            }
+            "Circle" -> {
+                val circleKey = Offset(
+                    key.split("_")[1].toFloat(),
+                    key.split("_")[2].toFloat()
+                )
+                if (circles.containsKey(circleKey)) {
+                    val circle = circles[circleKey]!!
+                    drawCircle(
+                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                        radius = circle.radius * scale,
+                        center = circle.center
+                    )
+                }
+            }
+            "Triangle" -> {
+                val triangleKey = Offset(
+                    key.split("_")[1].toFloat(),
+                    key.split("_")[2].toFloat()
+                )
+                if (triangles.containsKey(triangleKey)) {
+                    val triangle = triangles[triangleKey]!!
+                    drawPath(
+                        path = androidx.compose.ui.graphics.Path().apply {
+                            moveTo(triangle.first.x, triangle.first.y)
+                            lineTo(triangle.second?.x ?: triangle.first.x, triangle.second?.y ?: triangle.first.y)
+                            lineTo(triangle.third?.x ?: triangle.first.x, triangle.third?.y ?: triangle.first.y)
+                            close()
+                        },
+                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                        style = Stroke(width = 6f * scale)
+                    )
+                }
+            }
+            "Rectangle" -> {
+                val rectKey = Offset(
+                    key.split("_")[1].toFloat(),
+                    key.split("_")[2].toFloat()
+                )
+                if (rectangles.containsKey(rectKey)) {
+                    val rect = rectangles[rectKey]!!
+                    drawRect(
+                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                        topLeft = rect.tl,
+                        size = androidx.compose.ui.geometry.Size(
+                            rect.br.x - rect.tl.x,
+                            rect.br.y - rect.tl.y
+                        )
+                    )
+                }
+            }
+            "Polygon" -> {
+                val polygonKey = Offset(
+                    key.split("_")[1].toFloat(),
+                    key.split("_")[2].toFloat()
+                )
+                if (polygons.containsKey(polygonKey)) {
+                    val polygon = polygons[polygonKey]!!
+                    if (polygon.points.isNotEmpty()) {
+                        val path = androidx.compose.ui.graphics.Path().apply {
+                            moveTo(polygon.points[0].x, polygon.points[0].y)
+                            polygon.points.drop(1).forEach { point ->
+                                lineTo(point.x, point.y)
+                            }
+                            close()
+                        }
+                        drawPath(
+                            path = path,
+                            color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                            style = Stroke(width = 6f * scale)
+                        )
+                    }
+                }
+            }
+        }
+    }
 
     /**
      * 确定三角形的坐标
@@ -287,14 +456,13 @@ fun shapeDrawing(state: ApplicationState) {
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
         contentAlignment = Alignment.Center
     ) {
-        val bitmapWidth = image.width
-        val bitmapHeight = image.height
-
-        val halfWidth = bitmapWidth/2
-        val halfHeight = bitmapHeight/2
-
-        val width = (bitmapWidth/density.density).dp
-        val height = (bitmapHeight/density.density).dp
+        // 使用统一的图片尺寸计算
+        val (width, height) = ImageSizeCalculator.calculateImageSize(state)
+        
+        // 获取图片的像素尺寸用于坐标验证
+        val imagePixelSize = ImageSizeCalculator.getImagePixelSize(state)
+        val bitmapWidth = imagePixelSize?.first ?: 0
+        val bitmapHeight = imagePixelSize?.second ?: 0
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),
@@ -431,6 +599,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
                                     lastDrawnShapeKey = currentLineStart
                                     lastDrawnShapeType = "Line"
+                                    addAnimatedShape("Line", currentLineStart)
                                     logger.info("添加线段: ${currentLineStart} -> ${currentLineEnd}")
                                 } else {
                                     logger.warn("线段坐标无效: ${startValidation.message}, ${endValidation.message}")
@@ -445,6 +614,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
                                     lastDrawnShapeKey = currentCircleCenter
                                     lastDrawnShapeType = "Circle"
+                                    addAnimatedShape("Circle", currentCircleCenter)
                                     logger.info("添加圆形: 中心=${currentCircleCenter}, 半径=${currentCircleRadius}")
                                 } else {
                                     logger.warn("圆形坐标无效: ${centerValidation.message}")
@@ -461,6 +631,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
                                     lastDrawnShapeKey = currentTriangleFirst
                                     lastDrawnShapeType = "Triangle"
+                                    addAnimatedShape("Triangle", currentTriangleFirst)
                                     logger.info("添加三角形: ${currentTriangleFirst}, ${currentTriangleSecond}, ${currentTriangleThird}")
                                 } else {
                                     logger.warn("三角形坐标无效: ${firstValidation.message}, ${secondValidation.message}, ${thirdValidation.message}")
@@ -476,6 +647,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                                     lastDrawnShapeKey = currentRectFirst
                                     lastDrawnShapeType = "Rectangle"
+                                    addAnimatedShape("Rectangle", currentRectFirst)
                                     logger.info("添加矩形: ${currentRectTL} -> ${currentRectBR}")
                                 } else {
                                     logger.warn("矩形坐标无效: ${tlValidation.message}, ${brValidation.message}")
@@ -491,6 +663,7 @@ fun shapeDrawing(state: ApplicationState) {
                                         polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
                                         lastDrawnShapeKey = currentPolygonFirst
                                         lastDrawnShapeType = "Polygon"
+                                        addAnimatedShape("Polygon", currentPolygonFirst)
                                         logger.info("添加多边形: ${currentPolygonPoints.size}个顶点")
                                     } else {
                                         logger.warn("多边形边界无效: ${boundaryValidation.message}")
@@ -512,6 +685,21 @@ fun shapeDrawing(state: ApplicationState) {
 
                 drawWithLayer {
                     viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons, texts)
+                    
+                    // 绘制动画效果
+                    val currentTime = System.currentTimeMillis()
+                    animatedShapes.forEach { (key, animatedShape) ->
+                        val elapsed = currentTime - animatedShape.startTime
+                        val progress = (elapsed.toFloat() / animatedShape.duration).coerceIn(0f, 1f)
+                        
+                        if (progress < 1f) {
+                            val scale = lerp(animatedShape.startScale, animatedShape.endScale, progress)
+                            val alpha = lerp(animatedShape.startAlpha, animatedShape.endAlpha, progress)
+                            
+                            // 绘制动画高亮效果
+                            drawAnimationHighlight(animatedShape, scale, alpha)
+                        }
+                    }
                 }
             }
         }
