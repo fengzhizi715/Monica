@@ -126,6 +126,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var sizeText by remember { mutableStateOf(state.sizeText.toString()) }
     var maxHistorySizeText by remember { mutableStateOf(state.maxHistorySizeText.toString()) }
     var deepSeekApiKeyText by remember { mutableStateOf(state.deepSeekApiKeyText) }
+    var geminiApiKeyText by remember { mutableStateOf(state.geminiApiKeyText) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
     var status by remember { mutableStateOf(-1) }
     var isInitFilterParams by mutableStateOf(false)
@@ -133,7 +134,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
     AlertDialog(
         onDismissRequest = {},
-        modifier = Modifier.width(900.dp).height(800.dp),
+        modifier = Modifier.width(900.dp).height(900.dp),
         title = {
             Text(
                 text = i18nState.getString("monica_general_settings"),
@@ -305,6 +306,33 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         }
                     }
 
+                    // Gemini API设置
+                    Card(
+                        modifier = Modifier.fillMaxWidth(),
+                        elevation = 2.dp,
+                        shape = RoundedCornerShape(8.dp)
+                    ) {
+                        Column(
+                            modifier = Modifier.padding(16.dp)
+                        ) {
+                            Text(
+                                text = i18nState.getString("gemini_api_key_title"),
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight.Medium,
+                                color = Color.Black,
+                                modifier = Modifier.padding(bottom = 12.dp)
+                            )
+                            
+                            basicTextFieldWithTitle(
+                                titleText = "API Key",
+                                value = geminiApiKeyText,
+                                width = 500.dp
+                            ) { str ->
+                                geminiApiKeyText = str
+                            }
+                        }
+                    }
+
                     // 算法服务设置
                     Card(
                         modifier = Modifier.fillMaxWidth(),
@@ -447,7 +475,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         }
                     }
 
-                    // 语言设置
+                    // 语言设置 - 确保在最后显示
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         elevation = 2.dp,
@@ -457,7 +485,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             modifier = Modifier.padding(16.dp)
                         ) {
                             Text(
-                                text = "语言设置",
+                                text = i18nState.getString("language_settings"),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black,
@@ -469,7 +497,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                 modifier = Modifier.padding(bottom = 16.dp)
                             ) {
                                 Text(
-                                    text = "当前语言: ",
+                                    text = i18nState.getString("current_language") + ": ",
                                     fontSize = 14.sp,
                                     modifier = Modifier.padding(end = 8.dp)
                                 )
@@ -504,7 +532,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
                     
                     // 底部额外间距，确保最后一个卡片不被按钮遮挡
-                    Spacer(modifier = Modifier.height(20.dp))
+                    Spacer(modifier = Modifier.height(40.dp))
                 }
                 
                 // 底部按钮区域 - 固定位置
@@ -522,6 +550,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
                             state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
                             state.deepSeekApiKeyText = deepSeekApiKeyText
+                            state.geminiApiKeyText = geminiApiKeyText
                             state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
                                 getValidateField(block = {
                                     if (algorithmUrlText.isValidUrl()) {
@@ -549,21 +578,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             }
 
                             onClick()
-                        },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.Blue,
-                            contentColor = Color.White
-                        )
+                        }
                     ) {
                         Text(i18nState.getString("update"))
                     }
 
                     Button(
-                        onClick = { onClick() },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = Color.Gray,
-                            contentColor = Color.White
-                        )
+                        onClick = { onClick() }
                     ) {
                         Text(i18nState.getString("close"))
                     }

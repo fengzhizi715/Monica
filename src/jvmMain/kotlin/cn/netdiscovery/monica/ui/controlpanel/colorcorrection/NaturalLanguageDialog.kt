@@ -10,6 +10,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,6 +20,10 @@ import cn.netdiscovery.monica.llm.DialogSession
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.i18n.I18nState
 import cn.netdiscovery.monica.llm.applyInstructionWithLLM
+import cn.netdiscovery.monica.llm.applyInstructionWithGemini
+import cn.netdiscovery.monica.llm.LLMProvider
+import cn.netdiscovery.monica.llm.LLMServiceManager
+import cn.netdiscovery.monica.llm.rememberLLMServiceManager
 import cn.netdiscovery.monica.ui.widget.divider
 import kotlinx.coroutines.*
 
@@ -34,14 +39,23 @@ import kotlinx.coroutines.*
 fun NaturalLanguageDialog(
     visible: Boolean,
     session: DialogSession,
-    apiKey: String,
+    deepSeekApiKey: String,
+    geminiApiKey: String,
     onDismissRequest: () -> Unit,
     onConfirm: (ColorCorrectionSettings) -> Unit
 ) {
     val i18nState = rememberI18nState()
+    val llmServiceManager = rememberLLMServiceManager()
     var inputText by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
+    var selectedProvider by remember { mutableStateOf(LLMProvider.DEEPSEEK) }
+    
+    // 检查当前选择的提供商是否有 API Key
+    val hasApiKey = when (selectedProvider) {
+        LLMProvider.DEEPSEEK -> deepSeekApiKey.isNotBlank()
+        LLMProvider.GEMINI -> geminiApiKey.isNotBlank()
+    }
 
     if (visible) {
         AlertDialog(
@@ -49,6 +63,52 @@ fun NaturalLanguageDialog(
             title = { Text(i18nState.getString("natural_language_color_correction")) },
             text = {
                 Column(modifier = Modifier.fillMaxWidth().heightIn(min = 200.dp, max = 500.dp)) {
+
+                    // AI 服务提供商选择
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = i18nState.getString("ai_provider_selection") + ": ",
+                            fontWeight = FontWeight.Medium
+                        )
+                        
+                        androidx.compose.material.RadioButton(
+                            selected = selectedProvider == LLMProvider.DEEPSEEK,
+                            onClick = { selectedProvider = LLMProvider.DEEPSEEK }
+                        )
+                        Text(
+                            text = i18nState.getString("ai_provider_deepseek"),
+                            modifier = Modifier.padding(end = 16.dp)
+                        )
+                        
+                        androidx.compose.material.RadioButton(
+                            selected = selectedProvider == LLMProvider.GEMINI,
+                            onClick = { selectedProvider = LLMProvider.GEMINI }
+                        )
+                        Text(text = i18nState.getString("ai_provider_gemini"))
+                    }
+                    
+                    // API Key 状态提示
+                    if (!hasApiKey) {
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Text(
+                                text = "⚠️ ",
+                                fontSize = 16.sp,
+                                color = Color(0xFFFF8C00), // Orange
+                                modifier = Modifier.padding(end = 4.dp)
+                            )
+                            Text(
+                                text = i18nState.getString("api_key_required"),
+                                fontSize = 12.sp,
+                                color = Color(0xFFFF8C00) // Orange
+                            )
+                        }
+                    }
 
                     // 上下文对话记录区
                     if (session.history.isNotEmpty()) {
@@ -96,7 +156,28 @@ fun NaturalLanguageDialog(
                         errorMessage = null
                         CoroutineScope(Dispatchers.IO).launch {
                             try {
-                                val updated = applyInstructionWithLLM(session, inputText, apiKey)
+                                val apiKey = when (selectedProvider) {
+                                    LLMProvider.DEEPSEEK -> deepSeekApiKey
+                                    LLMProvider.GEMINI -> geminiApiKey
+                                }
+                                
+                                // 检查 API Key 是否已配置
+                                if (apiKey.isBlank()) {
+                                    withContext(Dispatchers.Main) {
+                                        errorMessage = when (selectedProvider) {
+                                            LLMProvider.DEEPSEEK -> i18nState.getString("deepseek_api_key_missing")
+                                            LLMProvider.GEMINI -> i18nState.getString("gemini_api_key_missing")
+                                        }
+                                    }
+                                    return@launch
+                                }
+                                
+                                val updated = llmServiceManager.applyInstructionWithLLM(
+                                    provider = selectedProvider,
+                                    session = session,
+                                    instruction = inputText,
+                                    apiKey = apiKey
+                                )
 
                                 if (updated!=null) {
                                     onConfirm.invoke(updated)
@@ -113,7 +194,7 @@ fun NaturalLanguageDialog(
                             }
                         }
                     },
-                    enabled = inputText.isNotBlank() && !loading
+                    enabled = inputText.isNotBlank() && !loading && hasApiKey
                 ) {
                     Text(i18nState.getString("confirm"))
                 }

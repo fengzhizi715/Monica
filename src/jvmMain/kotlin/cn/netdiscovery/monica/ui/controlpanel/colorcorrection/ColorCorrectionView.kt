@@ -357,7 +357,7 @@ fun colorCorrection(state: ApplicationState) {
         }
 
         if (showLLMDialog) {
-            NaturalLanguageDialog(showLLMDialog, session, state.deepSeekApiKeyText, onDismissRequest = {
+            NaturalLanguageDialog(showLLMDialog, session, state.deepSeekApiKeyText, state.geminiApiKeyText, onDismissRequest = {
                 showLLMDialog = false
             }) {
                 colorCorrectionSettings = it

@@ -449,4 +449,26 @@
     
     <!-- 缺失的翻译 -->
     <string name="please_select_canny_operator">请选择 Canny 算子</string>
+    
+    <!-- Gemini API 设置 -->
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="gemini_api_key_title">Gemini API 密钥</string>
+    <string name="gemini_api_key_description">用于自然语言调色的 Gemini API 密钥</string>
+    <string name="ai_provider_selection">AI 服务提供商</string>
+    <string name="ai_provider_deepseek">DeepSeek</string>
+    <string name="ai_provider_gemini">Gemini</string>
+    <string name="select_ai_provider">选择 AI 服务提供商</string>
+    
+    <!-- 语言设置 -->
+    <string name="language_settings">语言设置</string>
+    <string name="current_language">当前语言</string>
+    
+    <!-- 通用按钮文本 -->
+    <string name="confirm">确认</string>
+    <string name="cancel">取消</string>
+    
+    <!-- API Key 提示信息 -->
+    <string name="deepseek_api_key_missing">请先在通用设置中配置 DeepSeek API Key</string>
+    <string name="gemini_api_key_missing">请先在通用设置中配置 Gemini API Key</string>
+    <string name="api_key_required">需要配置 API Key 才能使用此功能</string>
 </resources>

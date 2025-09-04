@@ -443,4 +443,26 @@
     <string name="please_select_image_first">Please select image first</string>
     <string name="roberts_operator">Roberts Operator</string>
     <string name="show_min_area_rect">Show Minimum Area Rectangle</string>
+    
+    <!-- Gemini API Settings -->
+    <string name="gemini_api_key">Gemini API Key</string>
+    <string name="gemini_api_key_title">Gemini API Key</string>
+    <string name="gemini_api_key_description">Gemini API key for natural language color correction</string>
+    <string name="ai_provider_selection">AI Service Provider</string>
+    <string name="ai_provider_deepseek">DeepSeek</string>
+    <string name="ai_provider_gemini">Gemini</string>
+    <string name="select_ai_provider">Select AI Service Provider</string>
+    
+    <!-- Language Settings -->
+    <string name="language_settings">Language Settings</string>
+    <string name="current_language">Current Language</string>
+    
+    <!-- Common button texts -->
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    
+    <!-- API Key prompt messages -->
+    <string name="deepseek_api_key_missing">Please configure DeepSeek API Key in general settings first</string>
+    <string name="gemini_api_key_missing">Please configure Gemini API Key in general settings first</string>
+    <string name="api_key_required">API Key is required to use this feature</string>
 </resources>

@@ -15,5 +15,6 @@ data class GeneralSettings(
     var size: Int,
     var maxHistorySize: Int,
     var deepSeekApiKey: String,
+    var geminiApiKey: String,
     var algorithmUrl: String
 )
