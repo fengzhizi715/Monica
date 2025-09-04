@@ -45,7 +45,7 @@ class LLMServiceManager {
         instruction: String,
         apiKey: String
     ): ColorCorrectionSettings? {
-        return when (provider) {
+        val result = when (provider) {
             LLMProvider.DEEPSEEK -> {
                 logger.info("使用 DeepSeek 进行自然语言调色")
                 applyInstructionWithLLM(session, instruction, apiKey)
@@ -55,6 +55,19 @@ class LLMServiceManager {
                 applyInstructionWithGemini(session, instruction, apiKey)
             }
         }
+        
+        // 如果调用成功，记录历史记录
+        result?.let { settings ->
+            val historyItem = ColorCorrectionHistoryItem(
+                userInstruction = instruction,
+                resultSettings = settings,
+                usedProvider = provider
+            )
+            session.history.add(historyItem)
+            logger.info("记录调色历史: 使用 ${provider.name} 处理指令 '$instruction'")
+        }
+        
+        return result
     }
     
     /**

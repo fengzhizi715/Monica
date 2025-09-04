@@ -46,7 +46,20 @@ fun NaturalLanguageDialog(
     var inputText by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
-    var selectedProvider by remember { mutableStateOf(LLMProvider.DEEPSEEK) }
+    
+    // 记住用户上次选择的 LLM 提供商
+    var selectedProvider by remember { 
+        mutableStateOf(session.lastUsedProvider ?: LLMProvider.DEEPSEEK) 
+    }
+    
+    // 当对话框打开时，如果有历史记录，尝试推断上次使用的提供商
+    LaunchedEffect(visible) {
+        if (visible && session.history.isNotEmpty()) {
+            // 从历史记录中推断上次使用的提供商
+            // 这里可以根据历史记录的特征来判断，暂时保持默认选择
+            // 未来可以考虑在 DialogSession 中添加 provider 字段来记录
+        }
+    }
     
     // 检查当前选择的提供商是否有 API Key
     val hasApiKey = when (selectedProvider) {
@@ -115,10 +128,28 @@ fun NaturalLanguageDialog(
                                 .weight(1f)
                                 .padding(4.dp)
                         ) {
-                            items(session.history) { (userText, response) ->
+                            items(session.history) { historyItem ->
                                 Column(modifier = Modifier.padding(vertical = 4.dp)) {
-                                    Text("👤 $userText", fontWeight = FontWeight.Bold)
-                                    Text(i18nState.getString("update_parameters") + formatSettingsDiff(response, i18nState), fontSize = 13.sp)
+                                    Row(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        verticalAlignment = Alignment.CenterVertically
+                                    ) {
+                                        Text("👤 ${historyItem.userInstruction}", fontWeight = FontWeight.Bold)
+                                        Spacer(modifier = Modifier.weight(1f))
+                                        // 显示使用的 LLM 提供商
+                                        Text(
+                                            text = when (historyItem.usedProvider) {
+                                                LLMProvider.DEEPSEEK -> "🤖 ${i18nState.getString("ai_provider_deepseek")}"
+                                                LLMProvider.GEMINI -> "🤖 ${i18nState.getString("ai_provider_gemini")}"
+                                            },
+                                            fontSize = 11.sp,
+                                            color = Color.Gray
+                                        )
+                                    }
+                                    Text(
+                                        i18nState.getString("update_parameters") + formatSettingsDiff(historyItem.resultSettings, i18nState), 
+                                        fontSize = 13.sp
+                                    )
                                 }
                             }
                         }
@@ -177,6 +208,8 @@ fun NaturalLanguageDialog(
                                 )
 
                                 if (updated!=null) {
+                                    // 记录本次使用的 LLM 提供商
+                                    session.lastUsedProvider = selectedProvider
                                     onConfirm.invoke(updated)
                                     onDismissRequest()
                                     inputText = ""

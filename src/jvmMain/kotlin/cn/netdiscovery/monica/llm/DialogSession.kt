@@ -13,5 +13,15 @@ import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 data class DialogSession(
     val systemPrompt: String,
     var currentSettings: ColorCorrectionSettings,
-    val history: MutableList<Pair<String, ColorCorrectionSettings>> = mutableListOf()
+    val history: MutableList<ColorCorrectionHistoryItem> = mutableListOf(),
+    var lastUsedProvider: LLMProvider? = null // 记录上次使用的 LLM 提供商
+)
+
+/**
+ * 调色历史记录项
+ */
+data class ColorCorrectionHistoryItem(
+    val userInstruction: String,
+    val resultSettings: ColorCorrectionSettings,
+    val usedProvider: LLMProvider
 )

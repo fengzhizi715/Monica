@@ -28,7 +28,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
  * 使用 Gemini API 进行自然语言调色
  */
 @Throws(MonicaException::class)
-suspend fun applyInstructionWithGemini(
+fun applyInstructionWithGemini(
     session: DialogSession,
     instruction: String,
     apiKey: String
@@ -63,7 +63,7 @@ suspend fun applyInstructionWithGemini(
         val responseObj = GsonUtils.fromJson<ColorCorrectionSettings>(json, ColorCorrectionSettings::class.java)
 
         session.currentSettings = responseObj
-        session.history.add(Pair(instruction, responseObj)) // 保存用户指令、调色参数
+        // 历史记录现在在 LLMServiceManager 中处理
         return responseObj
     } catch (e: Exception) {
         logger.error("responseJson = $responseJson")
