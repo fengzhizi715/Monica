@@ -459,10 +459,24 @@ fun shapeDrawing(state: ApplicationState) {
         // 使用统一的图片尺寸计算
         val (width, height) = ImageSizeCalculator.calculateImageSize(state)
         
-        // 获取图片的像素尺寸用于坐标验证
-        val imagePixelSize = ImageSizeCalculator.getImagePixelSize(state)
-        val bitmapWidth = imagePixelSize?.first ?: 0
-        val bitmapHeight = imagePixelSize?.second ?: 0
+        // 获取图片的显示像素尺寸用于坐标验证（而不是原始像素尺寸）
+        val displayPixelSize = ImageSizeCalculator.getImageDisplayPixelSize(state)
+        val bitmapWidth = displayPixelSize?.first ?: 0
+        val bitmapHeight = displayPixelSize?.second ?: 0
+        
+        // 如果无法获取有效尺寸，显示提示信息
+        if (bitmapWidth <= 0 || bitmapHeight <= 0) {
+            Box(
+                Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                androidx.compose.material.Text(
+                    text = "请先加载图片",
+                    color = androidx.compose.ui.graphics.Color.Gray
+                )
+            }
+            return
+        }
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),

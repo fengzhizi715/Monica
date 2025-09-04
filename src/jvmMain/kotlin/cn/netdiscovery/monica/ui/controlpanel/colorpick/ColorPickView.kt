@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.Text
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorData
 import cn.netdiscovery.monica.ui.controlpanel.colorpick.model.ColorNameParser
@@ -37,7 +38,22 @@ fun colorPick(state: ApplicationState) {
 
     var colorData by remember { mutableStateOf(ColorData(color = Color.Unspecified, name = ""))  }
 
-    val image = state.currentImage!!.toComposeImageBitmap()
+    // 安全获取图片，避免空指针异常
+    val image = state.currentImage?.toComposeImageBitmap()
+    
+    // 如果图片为空，显示提示信息
+    if (image == null) {
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "请先加载图片",
+                color = androidx.compose.ui.graphics.Color.Gray
+            )
+        }
+        return
+    }
 
     Box(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),

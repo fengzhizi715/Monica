@@ -6,8 +6,11 @@ import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import androidx.compose.ui.unit.IntSize
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -18,11 +21,21 @@ import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
  * @version: V1.0 <描述当前版本功能>
  */
 class DoodleViewModel {
+    
+    private val logger: Logger = LoggerFactory.getLogger(DoodleViewModel::class.java)
 
-    fun saveCanvasToBitmap(density:Density, paths: List<Pair<Path, PathProperties>>, image: ImageBitmap, state:ApplicationState) {
-
+    fun saveCanvasToBitmap(
+        density: Density, 
+        paths: List<Pair<Path, PathProperties>>, 
+        image: ImageBitmap, 
+        state: ApplicationState
+    ) {
+        logger.info("开始保存涂鸦到图片，路径数量: ${paths.size}")
+        
         val bitmapWidth = image.width
         val bitmapHeight = image.height
+        
+        logger.info("原始图片尺寸: ${bitmapWidth}x${bitmapHeight}")
 
         val drawScope = CanvasDrawScope()
         val size = Size(bitmapWidth.toFloat(), bitmapHeight.toFloat())
@@ -36,11 +49,14 @@ class DoodleViewModel {
         ) {
             state.closePreviewWindow()
 
-            paths.forEach {
+            // 先绘制原始图片
+            drawImage(image = image, dstSize = IntSize(bitmapWidth, bitmapHeight))
 
-                val path = it.first
-                val property = it.second
-
+            // 直接绘制路径，因为现在路径已经是基于原始图片尺寸的
+            paths.forEach { pathPair ->
+                val path = pathPair.first
+                val property = pathPair.second
+                
                 if (!property.eraseMode) {
                     drawPath(
                         color = property.color,
@@ -68,5 +84,6 @@ class DoodleViewModel {
 
         state.addQueue(state.currentImage!!)
         state.currentImage = image.toAwtImage()
+        logger.info("涂鸦保存完成")
     }
 }

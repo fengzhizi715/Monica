@@ -16,6 +16,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.material.Text
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
@@ -44,7 +45,9 @@ fun drawImage(
 
     val density = LocalDensity.current
 
-    val paths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
+    // 双路径系统：displayPaths用于显示，originalPaths用于保存
+    val displayPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
+    val originalPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
     val pathsUndone = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
@@ -52,7 +55,8 @@ fun drawImage(
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     // This is previous motion event before next touch is saved into this current position
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
-    var currentPath by remember { mutableStateOf(Path()) }
+    var currentDisplayPath by remember { mutableStateOf(Path()) }
+    var currentOriginalPath by remember { mutableStateOf(Path()) }
     var currentPathProperty by remember { mutableStateOf(PathProperties()) }
 
     var showColorDialog by remember { mutableStateOf(false) }
@@ -60,7 +64,22 @@ fun drawImage(
 
     val properties by rememberUpdatedState(newValue = currentPathProperty)
 
-    val image = state.currentImage!!.toComposeImageBitmap()
+    // 安全获取图片，避免空指针异常
+    val image = state.currentImage?.toComposeImageBitmap()
+    
+    // 如果图片为空，显示提示信息
+    if (image == null) {
+        Box(
+            Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            Text(
+                text = "请先加载图片",
+                color = androidx.compose.ui.graphics.Color.Gray
+            )
+        }
+        return
+    }
 
     Box(
         Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
@@ -68,6 +87,10 @@ fun drawImage(
     ) {
         // 使用统一的图片尺寸计算
         val (width, height) = ImageSizeCalculator.calculateImageSize(state)
+        
+        // 获取原始图片尺寸和显示尺寸，用于保存时的坐标转换
+        val originalSize = ImageSizeCalculator.getImagePixelSize(state)
+        val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),
@@ -106,18 +129,53 @@ fun drawImage(
                 when (motionEvent) {
 
                     MotionEvent.Down -> {
-                        currentPath.moveTo(currentPosition.x, currentPosition.y)
+                        // 显示路径使用显示坐标（用于实时显示）
+                        currentDisplayPath.moveTo(currentPosition.x, currentPosition.y)
+                        
+                        // 原始路径使用原始坐标（用于保存）
+                        val originalPosition = if (originalSize != null && displaySize != null) {
+                            val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
+                            val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
+                            Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
+                        } else {
+                            currentPosition
+                        }
+                        currentOriginalPath.moveTo(originalPosition.x, originalPosition.y)
+                        
                         previousPosition = currentPosition
                     }
 
                     MotionEvent.Move -> {
 
                         if (previousPosition != Offset.Unspecified) {
-                            currentPath.quadraticBezierTo(
+                            // 显示路径使用显示坐标（用于实时显示）
+                            currentDisplayPath.quadraticBezierTo(
                                 previousPosition.x,
                                 previousPosition.y,
                                 (previousPosition.x + currentPosition.x) / 2,
                                 (previousPosition.y + currentPosition.y) / 2
+                            )
+                            
+                            // 原始路径使用原始坐标（用于保存）
+                            val originalPosition = if (originalSize != null && displaySize != null) {
+                                val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
+                                val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
+                                Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
+                            } else {
+                                currentPosition
+                            }
+                            val originalPreviousPosition = if (originalSize != null && displaySize != null) {
+                                val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
+                                val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
+                                Offset(previousPosition.x * scaleX, previousPosition.y * scaleY)
+                            } else {
+                                previousPosition
+                            }
+                            currentOriginalPath.quadraticBezierTo(
+                                originalPreviousPosition.x,
+                                originalPreviousPosition.y,
+                                (originalPreviousPosition.x + originalPosition.x) / 2,
+                                (originalPreviousPosition.y + originalPosition.y) / 2
                             )
 
                             previousPosition = currentPosition
@@ -125,10 +183,26 @@ fun drawImage(
                     }
 
                     MotionEvent.Up -> {
-                        currentPath.lineTo(currentPosition.x, currentPosition.y)
+                        // 显示路径使用显示坐标（用于实时显示）
+                        currentDisplayPath.lineTo(currentPosition.x, currentPosition.y)
+                        
+                        // 原始路径使用原始坐标（用于保存）
+                        val originalPosition = if (originalSize != null && displaySize != null) {
+                            val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
+                            val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
+                            Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
+                        } else {
+                            currentPosition
+                        }
+                        currentOriginalPath.lineTo(originalPosition.x, originalPosition.y)
 
-                        paths.add(Pair(currentPath, currentPathProperty))
-                        currentPath = Path()
+                        // 同时保存显示路径和原始路径
+                        displayPaths.add(Pair(currentDisplayPath, currentPathProperty))
+                        originalPaths.add(Pair(currentOriginalPath, currentPathProperty))
+                        
+                        // 重置路径
+                        currentDisplayPath = Path()
+                        currentOriginalPath = Path()
                         currentPathProperty = PathProperties(
                             strokeWidth = currentPathProperty.strokeWidth,
                             color = currentPathProperty.color,
@@ -149,7 +223,8 @@ fun drawImage(
 
                 drawWithLayer {
 
-                    paths.forEach {
+                    // 绘制已完成的路径（使用显示路径）
+                    displayPaths.forEach {
 
                         val path = it.first
                         val property = it.second
@@ -178,12 +253,13 @@ fun drawImage(
                         }
                     }
 
+                    // 绘制当前正在绘制的路径（使用显示路径）
                     if (motionEvent != MotionEvent.Idle) {
 
                         if (!currentPathProperty.eraseMode) {
                             drawPath(
                                 color = currentPathProperty.color,
-                                path = currentPath,
+                                path = currentDisplayPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
                                     cap = currentPathProperty.strokeCap,
@@ -193,7 +269,7 @@ fun drawImage(
                         } else {
                             drawPath(
                                 color = Color.Transparent,
-                                path = currentPath,
+                                path = currentDisplayPath,
                                 style = Stroke(
                                     width = currentPathProperty.strokeWidth,
                                     cap = currentPathProperty.strokeCap,
@@ -231,11 +307,13 @@ fun drawImage(
             toolTipButton(text = "上一步",
                 painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
-                    val lastItem = paths.lastOrNull()
-                    lastItem?.let {
+                    val lastDisplayItem = displayPaths.lastOrNull()
+                    val lastOriginalItem = originalPaths.lastOrNull()
+                    lastDisplayItem?.let {
                         val lastPath = it.first
                         val lastPathProperty = it.second
-                        paths.removeLast()
+                        displayPaths.removeLast()
+                        originalPaths.removeLast()
                         pathsUndone.add(Pair(lastPath, lastPathProperty))
                     }
                 })
@@ -248,14 +326,15 @@ fun drawImage(
                         val lastPath = it.first
                         val lastPathProperty = it.second
                         pathsUndone.removeLast()
-                        paths.add(Pair(lastPath, lastPathProperty))
+                        displayPaths.add(Pair(lastPath, lastPathProperty))
+                        originalPaths.add(Pair(lastPath, lastPathProperty))
                     }
                 })
 
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    viewModel.saveCanvasToBitmap(density,paths,image, state)
+                    viewModel.saveCanvasToBitmap(density, originalPaths, image, state)
                 })
         }
 
