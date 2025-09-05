@@ -25,9 +25,10 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
-import cn.netdiscovery.monica.utils.extensions.drawWithLayer
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import org.koin.compose.koinInject
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  *
@@ -37,6 +38,8 @@ import org.koin.compose.koinInject
  * @date:  2024/5/19 21:11
  * @version: V1.0 <描述当前版本功能>
  */
+private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
+
 @Composable
 fun drawImage(
     state: ApplicationState
@@ -66,9 +69,7 @@ fun drawImage(
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
     var showEraserDialog by remember { mutableStateOf(false) }
-
-    // 直接使用 currentPathProperty，不使用 rememberUpdatedState
-
+    
     // 使用更直接的状态管理
     val drawingState = remember { mutableStateOf(Triple(MotionEvent.Idle, Offset.Unspecified, Path())) }
 
@@ -83,7 +84,7 @@ fun drawImage(
         ) {
             Text(
                 text = "请先加载图片",
-                color = androidx.compose.ui.graphics.Color.Gray
+                color = Color.Gray
             )
         }
         return
@@ -307,9 +308,22 @@ fun drawImage(
             toolTipButton(text = "清空画布",
                 painter = painterResource("images/doodle/save.png"), // 使用现有图标
                 onClick = {
+                    // 清空所有路径
                     displayPaths.clear()
                     originalPaths.clear()
                     pathsUndone.clear()
+                    
+                    // 重置当前绘制状态
+                    currentDisplayPath = Path()
+                    currentOriginalPath = Path()
+                    currentPosition = Offset.Unspecified
+                    previousPosition = Offset.Unspecified
+                    motionEvent = MotionEvent.Idle
+                    
+                    // 重置绘制状态，强制重绘
+                    drawingState.value = Triple(MotionEvent.Idle, Offset.Unspecified, Path())
+                    
+                    logger.info("画布已清空，所有状态已重置")
                 })
 
             toolTipButton(text = "保存",
