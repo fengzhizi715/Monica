@@ -77,21 +77,25 @@ fun shapeDrawing(state: ApplicationState) {
 
     var shape by remember { mutableStateOf(ShapeEnum.NotAShape) }
 
+    // 双坐标系统：displayShapes用于显示，originalShapes用于保存
     // 线段相关
     var currentLineStart by remember { mutableStateOf(Offset.Unspecified) }
     var currentLineEnd   by remember { mutableStateOf(Offset.Unspecified) }
-    val lines = remember { mutableStateMapOf<Offset, Line>() }
+    val displayLines = remember { mutableStateMapOf<Offset, Line>() }
+    val originalLines = remember { mutableStateMapOf<Offset, Line>() }
 
     // 圆相关
     var currentCircleCenter by remember { mutableStateOf(Offset.Unspecified) }
     var currentCircleRadius by remember { mutableStateOf(0.0f) }
-    val circles = remember { mutableStateMapOf<Offset, Circle>() }
+    val displayCircles = remember { mutableStateMapOf<Offset, Circle>() }
+    val originalCircles = remember { mutableStateMapOf<Offset, Circle>() }
 
     // 三角相关
     var currentTriangleFirst  by remember { mutableStateOf(Offset.Unspecified) }
     var currentTriangleSecond by remember { mutableStateOf(Offset.Unspecified) }
     var currentTriangleThird  by remember { mutableStateOf(Offset.Unspecified) }
-    val triangles = remember { mutableStateMapOf<Offset, Triangle>() }
+    val displayTriangles = remember { mutableStateMapOf<Offset, Triangle>() }
+    val originalTriangles = remember { mutableStateMapOf<Offset, Triangle>() }
 
     // 矩形相关
     var currentRectFirst by remember { mutableStateOf(Offset.Unspecified) }
@@ -99,16 +103,19 @@ fun shapeDrawing(state: ApplicationState) {
     var currentRectBR    by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectTR    by remember { mutableStateOf(Offset.Unspecified) }
     var currentRectBL    by remember { mutableStateOf(Offset.Unspecified) }
-    val rectangles = remember { mutableStateMapOf<Offset, Rectangle>() }
+    val displayRectangles = remember { mutableStateMapOf<Offset, Rectangle>() }
+    val originalRectangles = remember { mutableStateMapOf<Offset, Rectangle>() }
 
     // 多边形相关
     var currentPolygonFirst by remember { mutableStateOf(Offset.Unspecified) }
     var currentPolygonPoints = remember { mutableSetOf<Offset>() }
-    val polygons = remember { mutableStateMapOf<Offset, Polygon>() }
+    val displayPolygons = remember { mutableStateMapOf<Offset, Polygon>() }
+    val originalPolygons = remember { mutableStateMapOf<Offset, Polygon>() }
 
     // 文字相关
     var text by remember { mutableStateOf("") }
-    val texts = remember { mutableStateMapOf<Offset, Text>() }
+    val displayTexts = remember { mutableStateMapOf<Offset, Text>() }
+    val originalTexts = remember { mutableStateMapOf<Offset, Text>() }
 
     var currentPosition by remember { mutableStateOf(Offset.Unspecified) }
     var previousPosition by remember { mutableStateOf(Offset.Unspecified) }
@@ -197,18 +204,87 @@ fun shapeDrawing(state: ApplicationState) {
      * 这个函数会清除所有已经绘制完成的形状，包括文字
      */
     fun clearAllShapes() {
-        lines.clear()
-        circles.clear()
-        triangles.clear()
-        rectangles.clear()
-        polygons.clear()
-        texts.clear()
+        displayLines.clear()
+        originalLines.clear()
+        displayCircles.clear()
+        originalCircles.clear()
+        displayTriangles.clear()
+        originalTriangles.clear()
+        displayRectangles.clear()
+        originalRectangles.clear()
+        displayPolygons.clear()
+        originalPolygons.clear()
+        displayTexts.clear()
+        originalTexts.clear()
         
         // 重置最后一个形状的跟踪
         lastDrawnShapeKey = null
         lastDrawnShapeType = null
         
         logger.info("已清除所有已完成的形状")
+    }
+    
+    /**
+     * 坐标转换函数：显示坐标 -> 原始坐标
+     */
+    fun displayToOriginal(displayOffset: Offset, scaleX: Float, scaleY: Float): Offset {
+        return Offset(displayOffset.x * scaleX, displayOffset.y * scaleY)
+    }
+    
+    /**
+     * 转换线段坐标
+     */
+    fun convertLineToOriginal(displayLine: Line, scaleX: Float, scaleY: Float): Line {
+        val originalFrom = displayToOriginal(displayLine.from, scaleX, scaleY)
+        val originalTo = displayToOriginal(displayLine.to, scaleX, scaleY)
+        return Line(originalFrom, originalTo, displayLine.shapeProperties)
+    }
+    
+    /**
+     * 转换圆形坐标
+     */
+    fun convertCircleToOriginal(displayCircle: Circle, scaleX: Float, scaleY: Float): Circle {
+        val originalCenter = displayToOriginal(displayCircle.center, scaleX, scaleY)
+        val originalRadius = displayCircle.radius * ((scaleX + scaleY) / 2f) // 平均缩放半径
+        return Circle(originalCenter, originalRadius, displayCircle.shapeProperties)
+    }
+    
+    /**
+     * 转换三角形坐标
+     */
+    fun convertTriangleToOriginal(displayTriangle: Triangle, scaleX: Float, scaleY: Float): Triangle {
+        val originalFirst = displayToOriginal(displayTriangle.first, scaleX, scaleY)
+        val originalSecond = displayTriangle.second?.let { displayToOriginal(it, scaleX, scaleY) }
+        val originalThird = displayTriangle.third?.let { displayToOriginal(it, scaleX, scaleY) }
+        return Triangle(originalFirst, originalSecond, originalThird, displayTriangle.shapeProperties)
+    }
+    
+    /**
+     * 转换矩形坐标
+     */
+    fun convertRectangleToOriginal(displayRect: Rectangle, scaleX: Float, scaleY: Float): Rectangle {
+        val originalTl = displayToOriginal(displayRect.tl, scaleX, scaleY)
+        val originalBl = displayToOriginal(displayRect.bl, scaleX, scaleY)
+        val originalBr = displayToOriginal(displayRect.br, scaleX, scaleY)
+        val originalTr = displayToOriginal(displayRect.tr, scaleX, scaleY)
+        val originalFirst = displayToOriginal(displayRect.rectFirst, scaleX, scaleY)
+        return Rectangle(originalTl, originalBl, originalBr, originalTr, originalFirst, displayRect.shapeProperties)
+    }
+    
+    /**
+     * 转换多边形坐标
+     */
+    fun convertPolygonToOriginal(displayPolygon: Polygon, scaleX: Float, scaleY: Float): Polygon {
+        val originalPoints = displayPolygon.points.map { displayToOriginal(it, scaleX, scaleY) }
+        return Polygon(originalPoints, displayPolygon.shapeProperties)
+    }
+    
+    /**
+     * 转换文字坐标
+     */
+    fun convertTextToOriginal(displayText: Text, scaleX: Float, scaleY: Float): Text {
+        val originalPoint = displayToOriginal(displayText.point, scaleX, scaleY)
+        return Text(originalPoint, displayText.message, displayText.shapeProperties)
     }
 
     /**
@@ -221,38 +297,80 @@ fun shapeDrawing(state: ApplicationState) {
         if (key != null && type != null) {
             when (type) {
                 "Line" -> {
-                    if (lines.containsKey(key)) {
-                        lines[key] = lines[key]!!.copy(shapeProperties = lines[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayLines.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayLine = displayLines[key]!!.copy(shapeProperties = displayLines[key]!!.shapeProperties.copy(color = newColor))
+                        displayLines[key] = updatedDisplayLine
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalLine = originalLines[key]!!.copy(shapeProperties = originalLines[key]!!.shapeProperties.copy(color = newColor))
+                        originalLines[key] = updatedOriginalLine
+                        
                         logger.info("已更新最后一个线段颜色: $newColor")
                     }
                 }
                 "Circle" -> {
-                    if (circles.containsKey(key)) {
-                        circles[key] = circles[key]!!.copy(shapeProperties = circles[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayCircles.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayCircle = displayCircles[key]!!.copy(shapeProperties = displayCircles[key]!!.shapeProperties.copy(color = newColor))
+                        displayCircles[key] = updatedDisplayCircle
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalCircle = originalCircles[key]!!.copy(shapeProperties = originalCircles[key]!!.shapeProperties.copy(color = newColor))
+                        originalCircles[key] = updatedOriginalCircle
+                        
                         logger.info("已更新最后一个圆形颜色: $newColor")
                     }
                 }
                 "Triangle" -> {
-                    if (triangles.containsKey(key)) {
-                        triangles[key] = triangles[key]!!.copy(shapeProperties = triangles[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayTriangles.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayTriangle = displayTriangles[key]!!.copy(shapeProperties = displayTriangles[key]!!.shapeProperties.copy(color = newColor))
+                        displayTriangles[key] = updatedDisplayTriangle
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalTriangle = originalTriangles[key]!!.copy(shapeProperties = originalTriangles[key]!!.shapeProperties.copy(color = newColor))
+                        originalTriangles[key] = updatedOriginalTriangle
+                        
                         logger.info("已更新最后一个三角形颜色: $newColor")
                     }
                 }
                 "Rectangle" -> {
-                    if (rectangles.containsKey(key)) {
-                        rectangles[key] = rectangles[key]!!.copy(shapeProperties = rectangles[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayRectangles.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayRect = displayRectangles[key]!!.copy(shapeProperties = displayRectangles[key]!!.shapeProperties.copy(color = newColor))
+                        displayRectangles[key] = updatedDisplayRect
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalRect = originalRectangles[key]!!.copy(shapeProperties = originalRectangles[key]!!.shapeProperties.copy(color = newColor))
+                        originalRectangles[key] = updatedOriginalRect
+                        
                         logger.info("已更新最后一个矩形颜色: $newColor")
                     }
                 }
                 "Polygon" -> {
-                    if (polygons.containsKey(key)) {
-                        polygons[key] = polygons[key]!!.copy(shapeProperties = polygons[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayPolygons.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayPolygon = displayPolygons[key]!!.copy(shapeProperties = displayPolygons[key]!!.shapeProperties.copy(color = newColor))
+                        displayPolygons[key] = updatedDisplayPolygon
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalPolygon = originalPolygons[key]!!.copy(shapeProperties = originalPolygons[key]!!.shapeProperties.copy(color = newColor))
+                        originalPolygons[key] = updatedOriginalPolygon
+                        
                         logger.info("已更新最后一个多边形颜色: $newColor")
                     }
                 }
                 "Text" -> {
-                    if (texts.containsKey(key)) {
-                        texts[key] = texts[key]!!.copy(shapeProperties = texts[key]!!.shapeProperties.copy(color = newColor))
+                    if (displayTexts.containsKey(key)) {
+                        // 更新显示坐标系统中的颜色
+                        val updatedDisplayText = displayTexts[key]!!.copy(shapeProperties = displayTexts[key]!!.shapeProperties.copy(color = newColor))
+                        displayTexts[key] = updatedDisplayText
+                        
+                        // 同步更新原始坐标系统中的颜色
+                        val updatedOriginalText = originalTexts[key]!!.copy(shapeProperties = originalTexts[key]!!.shapeProperties.copy(color = newColor))
+                        originalTexts[key] = updatedOriginalText
+                        
                         logger.info("已更新最后一个文字颜色: $newColor")
                     }
                 }
@@ -307,8 +425,8 @@ fun shapeDrawing(state: ApplicationState) {
                     key.split("_")[1].toFloat(),
                     key.split("_")[2].toFloat()
                 )
-                if (lines.containsKey(lineKey)) {
-                    val line = lines[lineKey]!!
+                if (displayLines.containsKey(lineKey)) {
+                    val line = displayLines[lineKey]!!
                     drawLine(
                         color = Color.Yellow.copy(alpha = alpha * 0.5f),
                         start = line.from,
@@ -323,8 +441,8 @@ fun shapeDrawing(state: ApplicationState) {
                     key.split("_")[1].toFloat(),
                     key.split("_")[2].toFloat()
                 )
-                if (circles.containsKey(circleKey)) {
-                    val circle = circles[circleKey]!!
+                if (displayCircles.containsKey(circleKey)) {
+                    val circle = displayCircles[circleKey]!!
                     drawCircle(
                         color = Color.Yellow.copy(alpha = alpha * 0.3f),
                         radius = circle.radius * scale,
@@ -337,8 +455,8 @@ fun shapeDrawing(state: ApplicationState) {
                     key.split("_")[1].toFloat(),
                     key.split("_")[2].toFloat()
                 )
-                if (triangles.containsKey(triangleKey)) {
-                    val triangle = triangles[triangleKey]!!
+                if (displayTriangles.containsKey(triangleKey)) {
+                    val triangle = displayTriangles[triangleKey]!!
                     drawPath(
                         path = androidx.compose.ui.graphics.Path().apply {
                             moveTo(triangle.first.x, triangle.first.y)
@@ -356,8 +474,8 @@ fun shapeDrawing(state: ApplicationState) {
                     key.split("_")[1].toFloat(),
                     key.split("_")[2].toFloat()
                 )
-                if (rectangles.containsKey(rectKey)) {
-                    val rect = rectangles[rectKey]!!
+                if (displayRectangles.containsKey(rectKey)) {
+                    val rect = displayRectangles[rectKey]!!
                     drawRect(
                         color = Color.Yellow.copy(alpha = alpha * 0.3f),
                         topLeft = rect.tl,
@@ -373,8 +491,8 @@ fun shapeDrawing(state: ApplicationState) {
                     key.split("_")[1].toFloat(),
                     key.split("_")[2].toFloat()
                 )
-                if (polygons.containsKey(polygonKey)) {
-                    val polygon = polygons[polygonKey]!!
+                if (displayPolygons.containsKey(polygonKey)) {
+                    val polygon = displayPolygons[polygonKey]!!
                     if (polygon.points.isNotEmpty()) {
                         val path = androidx.compose.ui.graphics.Path().apply {
                             moveTo(polygon.points[0].x, polygon.points[0].y)
@@ -459,10 +577,21 @@ fun shapeDrawing(state: ApplicationState) {
         // 使用统一的图片尺寸计算
         val (width, height) = ImageSizeCalculator.calculateImageSize(state)
         
-        // 获取图片的显示像素尺寸用于坐标验证（而不是原始像素尺寸）
-        val displayPixelSize = ImageSizeCalculator.getImageDisplayPixelSize(state)
-        val bitmapWidth = displayPixelSize?.first ?: 0
-        val bitmapHeight = displayPixelSize?.second ?: 0
+        // 获取原始图片尺寸和显示尺寸，用于坐标转换
+        val originalSize = ImageSizeCalculator.getImagePixelSize(state)
+        val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
+        
+        // 预计算缩放比例，避免重复计算
+        val scaleX = if (originalSize != null && displaySize != null) {
+            originalSize.first.toFloat() / displaySize.first.toFloat()
+        } else 1f
+        val scaleY = if (originalSize != null && displaySize != null) {
+            originalSize.second.toFloat() / displaySize.second.toFloat()
+        } else 1f
+        
+        // 获取图片的显示像素尺寸用于坐标验证
+        val bitmapWidth = displaySize?.first ?: 0
+        val bitmapHeight = displaySize?.second ?: 0
         
         // 如果无法获取有效尺寸，显示提示信息
         if (bitmapWidth <= 0 || bitmapHeight <= 0) {
@@ -566,19 +695,19 @@ fun shapeDrawing(state: ApplicationState) {
                         when(shape) {
                             ShapeEnum.Line -> {
                                 currentLineEnd = currentPosition
-                                lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
+                                displayLines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
                             }
 
                             ShapeEnum.Circle -> {
                                 currentCircleRadius = CoordinateSystem.calculateCircleRadius(currentCircleCenter, currentPosition)
-                                circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
+                                displayCircles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
                             }
 
                             ShapeEnum.Triangle -> {
                                 determineCoordinatesOfTriangle()
 
                                 if (currentTriangleFirst != Offset.Unspecified && currentTriangleSecond != Offset.Unspecified && currentTriangleThird != Offset.Unspecified) {
-                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
+                                    displayTriangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
                                 }
                             }
 
@@ -587,13 +716,13 @@ fun shapeDrawing(state: ApplicationState) {
 
                                 determineCoordinatesOfRectangle()
 
-                                rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
+                                displayRectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
                             }
 
                             ShapeEnum.Polygon -> {
                                 currentPolygonPoints.add(currentPosition)
 
-                                polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(),  currentShapeProperty)
+                                displayPolygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(),  currentShapeProperty)
                             }
 
                             else -> Unit
@@ -610,7 +739,14 @@ fun shapeDrawing(state: ApplicationState) {
                                 val endValidation = CoordinateSystem.validateOffset(currentLineEnd, bitmapWidth, bitmapHeight)
                                 
                                 if (startValidation.isValid && endValidation.isValid) {
-                                    lines[currentLineStart] = Line(currentLineStart, currentLineEnd, currentShapeProperty)
+                                    // 保存到显示坐标系统
+                                    val displayLine = Line(currentLineStart, currentLineEnd, currentShapeProperty)
+                                    displayLines[currentLineStart] = displayLine
+                                    
+                                    // 转换并保存到原始坐标系统
+                                    val originalLine = convertLineToOriginal(displayLine, scaleX, scaleY)
+                                    originalLines[currentLineStart] = originalLine
+                                    
                                     lastDrawnShapeKey = currentLineStart
                                     lastDrawnShapeType = "Line"
                                     addAnimatedShape("Line", currentLineStart)
@@ -625,7 +761,14 @@ fun shapeDrawing(state: ApplicationState) {
                                 val centerValidation = CoordinateSystem.validateOffset(currentCircleCenter, bitmapWidth, bitmapHeight)
                                 
                                 if (centerValidation.isValid && currentCircleRadius > 0) {
-                                    circles[currentCircleCenter] = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
+                                    // 保存到显示坐标系统
+                                    val displayCircle = Circle(currentCircleCenter, currentCircleRadius, currentShapeProperty)
+                                    displayCircles[currentCircleCenter] = displayCircle
+                                    
+                                    // 转换并保存到原始坐标系统
+                                    val originalCircle = convertCircleToOriginal(displayCircle, scaleX, scaleY)
+                                    originalCircles[currentCircleCenter] = originalCircle
+                                    
                                     lastDrawnShapeKey = currentCircleCenter
                                     lastDrawnShapeType = "Circle"
                                     addAnimatedShape("Circle", currentCircleCenter)
@@ -642,7 +785,14 @@ fun shapeDrawing(state: ApplicationState) {
                                 val thirdValidation = CoordinateSystem.validateOffset(currentTriangleThird, bitmapWidth, bitmapHeight)
                                 
                                 if (firstValidation.isValid && secondValidation.isValid && thirdValidation.isValid) {
-                                    triangles[currentTriangleFirst] = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
+                                    // 保存到显示坐标系统
+                                    val displayTriangle = Triangle(currentTriangleFirst, currentTriangleSecond, currentTriangleThird, currentShapeProperty)
+                                    displayTriangles[currentTriangleFirst] = displayTriangle
+                                    
+                                    // 转换并保存到原始坐标系统
+                                    val originalTriangle = convertTriangleToOriginal(displayTriangle, scaleX, scaleY)
+                                    originalTriangles[currentTriangleFirst] = originalTriangle
+                                    
                                     lastDrawnShapeKey = currentTriangleFirst
                                     lastDrawnShapeType = "Triangle"
                                     addAnimatedShape("Triangle", currentTriangleFirst)
@@ -658,7 +808,14 @@ fun shapeDrawing(state: ApplicationState) {
                                 val brValidation = CoordinateSystem.validateOffset(currentRectBR, bitmapWidth, bitmapHeight)
                                 
                                 if (tlValidation.isValid && brValidation.isValid) {
-                                    rectangles[currentRectFirst] = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
+                                    // 保存到显示坐标系统
+                                    val displayRect = Rectangle(currentRectTL, currentRectBL, currentRectBR, currentRectTR, currentRectFirst, currentShapeProperty)
+                                    displayRectangles[currentRectFirst] = displayRect
+                                    
+                                    // 转换并保存到原始坐标系统
+                                    val originalRect = convertRectangleToOriginal(displayRect, scaleX, scaleY)
+                                    originalRectangles[currentRectFirst] = originalRect
+                                    
                                     lastDrawnShapeKey = currentRectFirst
                                     lastDrawnShapeType = "Rectangle"
                                     addAnimatedShape("Rectangle", currentRectFirst)
@@ -674,7 +831,14 @@ fun shapeDrawing(state: ApplicationState) {
                                     val boundaryValidation = CoordinateSystem.validateShapeBoundary(currentPolygonPoints.toList(), bitmapWidth, bitmapHeight)
                                     
                                     if (boundaryValidation.isValid) {
-                                        polygons[currentPolygonFirst] = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
+                                        // 保存到显示坐标系统
+                                        val displayPolygon = Polygon(currentPolygonPoints.toList(), currentShapeProperty)
+                                        displayPolygons[currentPolygonFirst] = displayPolygon
+                                        
+                                        // 转换并保存到原始坐标系统
+                                        val originalPolygon = convertPolygonToOriginal(displayPolygon, scaleX, scaleY)
+                                        originalPolygons[currentPolygonFirst] = originalPolygon
+                                        
                                         lastDrawnShapeKey = currentPolygonFirst
                                         lastDrawnShapeType = "Polygon"
                                         addAnimatedShape("Polygon", currentPolygonFirst)
@@ -698,7 +862,8 @@ fun shapeDrawing(state: ApplicationState) {
                 }
 
                 drawWithLayer {
-                    viewModel.drawShape(canvasDrawer,lines,circles,triangles,rectangles,polygons, texts)
+                    // 使用displayShapes进行显示
+                    viewModel.drawShape(canvasDrawer, displayLines, displayCircles, displayTriangles, displayRectangles, displayPolygons, displayTexts)
                     
                     // 绘制动画效果
                     val currentTime = System.currentTimeMillis()
@@ -788,7 +953,7 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    viewModel.saveCanvasToBitmap(density,lines,circles,triangles,rectangles,polygons, texts, image,state)
+                    viewModel.saveCanvasToBitmap(density, originalLines, originalCircles, originalTriangles, originalRectangles, originalPolygons, originalTexts, image, state)
                 })
         }
 
@@ -832,7 +997,14 @@ fun shapeDrawing(state: ApplicationState) {
                     // 验证文本位置（现在currentPosition是Canvas坐标）
                     val textValidation = CoordinateSystem.validateOffset(currentPosition, bitmapWidth, bitmapHeight)
                     if (textValidation.isValid) {
-                        texts[currentPosition] = Text(currentPosition, text, currentShapeProperty)
+                        // 保存到显示坐标系统
+                        val displayText = Text(currentPosition, text, currentShapeProperty)
+                        displayTexts[currentPosition] = displayText
+                        
+                        // 转换并保存到原始坐标系统
+                        val originalText = convertTextToOriginal(displayText, scaleX, scaleY)
+                        originalTexts[currentPosition] = originalText
+                        
                         lastDrawnShapeKey = currentPosition
                         lastDrawnShapeType = "Text"
                         logger.info("添加文字: '$text' 在Canvas位置 $currentPosition")
@@ -851,8 +1023,8 @@ fun shapeDrawing(state: ApplicationState) {
             ShapeDrawingPropertiesMenuDialog(currentShapeProperty) { updatedProperties ->
                 // 更新全局属性
                 currentShapeProperty = updatedProperties
-                // 更新当前文字
-                texts[currentPosition] = Text(currentPosition, text, updatedProperties)
+                // 更新当前文字（使用displayTexts）
+                displayTexts[currentPosition] = Text(currentPosition, text, updatedProperties)
                 logger.info("属性已更新: fontSize=${updatedProperties.fontSize}, alpha=${updatedProperties.alpha}, fill=${updatedProperties.fill}, border=${updatedProperties.border}")
                 showPropertiesDialog = false
             }
