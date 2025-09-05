@@ -48,7 +48,10 @@ fun drawImage(
     // 双路径系统：displayPaths用于显示，originalPaths用于保存
     val displayPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
     val originalPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
-    val pathsUndone = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
+    val pathsUndone = remember { mutableStateListOf<Pair<Pair<Path, PathProperties>, Pair<Path, PathProperties>>>() }
+    
+    // 撤销历史限制
+    val maxUndoHistory = 50
 
     var motionEvent by remember { mutableStateOf(MotionEvent.Idle) }
     // This is our motion event we get from touch motion
@@ -58,11 +61,16 @@ fun drawImage(
     var currentDisplayPath by remember { mutableStateOf(Path()) }
     var currentOriginalPath by remember { mutableStateOf(Path()) }
     var currentPathProperty by remember { mutableStateOf(PathProperties()) }
+    var eraserProperty by remember { mutableStateOf(PathProperties(strokeWidth = 20f, eraseMode = true)) }
 
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
+    var showEraserDialog by remember { mutableStateOf(false) }
 
-    val properties by rememberUpdatedState(newValue = currentPathProperty)
+    // 直接使用 currentPathProperty，不使用 rememberUpdatedState
+
+    // 使用更直接的状态管理
+    val drawingState = remember { mutableStateOf(Triple(MotionEvent.Idle, Offset.Unspecified, Path())) }
 
     // 安全获取图片，避免空指针异常
     val image = state.currentImage?.toComposeImageBitmap()
@@ -91,6 +99,14 @@ fun drawImage(
         // 获取原始图片尺寸和显示尺寸，用于保存时的坐标转换
         val originalSize = ImageSizeCalculator.getImagePixelSize(state)
         val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
+        
+        // 预计算缩放比例，避免重复计算
+        val scaleX = if (originalSize != null && displaySize != null) {
+            originalSize.first.toFloat() / displaySize.first.toFloat()
+        } else 1f
+        val scaleY = if (originalSize != null && displaySize != null) {
+            originalSize.second.toFloat() / displaySize.second.toFloat()
+        } else 1f
 
         Column(
             modifier = Modifier.align(Alignment.Center).width(width).height(height),
@@ -107,93 +123,50 @@ fun drawImage(
                     onDragStart = { pointerInputChange ->
                         motionEvent = MotionEvent.Down
                         currentPosition = pointerInputChange.position
-                        pointerInputChange.consume()
-                    },
-                    onDrag = { pointerInputChange ->
-                        motionEvent = MotionEvent.Move
-                        currentPosition = pointerInputChange.position
-                        pointerInputChange.consume()
-
-                    },
-                    onDragEnd = { pointerInputChange ->
-                        motionEvent = MotionEvent.Up
-                        pointerInputChange.consume()
-                    }
-                )
-
-            Canvas(modifier = drawModifier) {
-
-                this.drawImage(image = image,
-                    dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
-
-                when (motionEvent) {
-
-                    MotionEvent.Down -> {
+                        
                         // 显示路径使用显示坐标（用于实时显示）
                         currentDisplayPath.moveTo(currentPosition.x, currentPosition.y)
                         
                         // 原始路径使用原始坐标（用于保存）
-                        val originalPosition = if (originalSize != null && displaySize != null) {
-                            val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
-                            val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
-                            Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
-                        } else {
-                            currentPosition
-                        }
+                        val originalPosition = Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
                         currentOriginalPath.moveTo(originalPosition.x, originalPosition.y)
                         
+                        // 更新绘制状态
+                        drawingState.value = Triple(motionEvent, currentPosition, currentDisplayPath)
+                        
                         previousPosition = currentPosition
-                    }
-
-                    MotionEvent.Move -> {
-
+                        pointerInputChange.consume()
+                    },
+                    onDrag = { pointerInputChange ->
+                        val newPosition = pointerInputChange.position
+                        
+                        // 立即更新状态，确保实时响应
+                        motionEvent = MotionEvent.Move
+                        currentPosition = newPosition
+                        
                         if (previousPosition != Offset.Unspecified) {
                             // 显示路径使用显示坐标（用于实时显示）
-                            currentDisplayPath.quadraticBezierTo(
-                                previousPosition.x,
-                                previousPosition.y,
-                                (previousPosition.x + currentPosition.x) / 2,
-                                (previousPosition.y + currentPosition.y) / 2
-                            )
+                            currentDisplayPath.lineTo(currentPosition.x, currentPosition.y)
                             
                             // 原始路径使用原始坐标（用于保存）
-                            val originalPosition = if (originalSize != null && displaySize != null) {
-                                val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
-                                val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
-                                Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
-                            } else {
-                                currentPosition
-                            }
-                            val originalPreviousPosition = if (originalSize != null && displaySize != null) {
-                                val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
-                                val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
-                                Offset(previousPosition.x * scaleX, previousPosition.y * scaleY)
-                            } else {
-                                previousPosition
-                            }
-                            currentOriginalPath.quadraticBezierTo(
-                                originalPreviousPosition.x,
-                                originalPreviousPosition.y,
-                                (originalPreviousPosition.x + originalPosition.x) / 2,
-                                (originalPreviousPosition.y + originalPosition.y) / 2
-                            )
+                            val originalPosition = Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
+                            currentOriginalPath.lineTo(originalPosition.x, originalPosition.y)
 
                             previousPosition = currentPosition
+                            
+                            // 更新绘制状态，强制重绘
+                            drawingState.value = Triple(motionEvent, currentPosition, currentDisplayPath)
                         }
-                    }
-
-                    MotionEvent.Up -> {
+                        pointerInputChange.consume()
+                    },
+                    onDragEnd = { pointerInputChange ->
+                        motionEvent = MotionEvent.Up
+                        
                         // 显示路径使用显示坐标（用于实时显示）
                         currentDisplayPath.lineTo(currentPosition.x, currentPosition.y)
                         
                         // 原始路径使用原始坐标（用于保存）
-                        val originalPosition = if (originalSize != null && displaySize != null) {
-                            val scaleX = originalSize.first.toFloat() / displaySize.first.toFloat()
-                            val scaleY = originalSize.second.toFloat() / displaySize.second.toFloat()
-                            Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
-                        } else {
-                            currentPosition
-                        }
+                        val originalPosition = Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
                         currentOriginalPath.lineTo(originalPosition.x, originalPosition.y)
 
                         // 同时保存显示路径和原始路径
@@ -211,73 +184,77 @@ fun drawImage(
                             eraseMode = currentPathProperty.eraseMode
                         )
 
+                        // 限制撤销历史数量，防止内存溢出
+                        if (pathsUndone.size >= maxUndoHistory) {
+                            pathsUndone.removeAt(0)
+                        }
                         pathsUndone.clear()
 
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
                         motionEvent = MotionEvent.Idle
+                        pointerInputChange.consume()
                     }
+                )
 
-                    else -> Unit
+            Canvas(modifier = drawModifier) {
+
+                this.drawImage(image = image,
+                    dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
+
+                // 绘制已完成的路径（使用显示路径）
+                displayPaths.forEach {
+                    val path = it.first
+                    val property = it.second
+
+                    if (!property.eraseMode) {
+                        drawPath(
+                            color = property.color,
+                            path = path,
+                            style = Stroke(
+                                width = property.strokeWidth,
+                                cap = property.strokeCap,
+                                join = property.strokeJoin
+                            )
+                        )
+                    } else {
+                        drawPath(
+                            color = Color.Transparent,
+                            path = path,
+                            style = Stroke(
+                                width = property.strokeWidth,
+                                cap = property.strokeCap,
+                                join = property.strokeJoin
+                            ),
+                            blendMode = BlendMode.Clear
+                        )
+                    }
                 }
 
-                drawWithLayer {
-
-                    // 绘制已完成的路径（使用显示路径）
-                    displayPaths.forEach {
-
-                        val path = it.first
-                        val property = it.second
-
-                        if (!property.eraseMode) {
-                            drawPath(
-                                color = property.color,
-                                path = path,
-                                style = Stroke(
-                                    width = property.strokeWidth,
-                                    cap = property.strokeCap,
-                                    join = property.strokeJoin
-                                )
+                // 绘制当前正在绘制的路径（使用显示路径）
+                val (currentMotionEvent, currentPos, currentPath) = drawingState.value
+                if (currentMotionEvent != MotionEvent.Idle && currentPos != Offset.Unspecified) {
+                    if (!currentPathProperty.eraseMode) {
+                        drawPath(
+                            color = currentPathProperty.color,
+                            path = currentPath,
+                            style = Stroke(
+                                width = currentPathProperty.strokeWidth,
+                                cap = currentPathProperty.strokeCap,
+                                join = currentPathProperty.strokeJoin
                             )
-                        } else {
-                            drawPath(
-                                color = Color.Transparent,
-                                path = path,
-                                style = Stroke(
-                                    width = currentPathProperty.strokeWidth,
-                                    cap = currentPathProperty.strokeCap,
-                                    join = currentPathProperty.strokeJoin
-                                ),
-                                blendMode = BlendMode.Clear
-                            )
-                        }
-                    }
-
-                    // 绘制当前正在绘制的路径（使用显示路径）
-                    if (motionEvent != MotionEvent.Idle) {
-
-                        if (!currentPathProperty.eraseMode) {
-                            drawPath(
-                                color = currentPathProperty.color,
-                                path = currentDisplayPath,
-                                style = Stroke(
-                                    width = currentPathProperty.strokeWidth,
-                                    cap = currentPathProperty.strokeCap,
-                                    join = currentPathProperty.strokeJoin
-                                )
-                            )
-                        } else {
-                            drawPath(
-                                color = Color.Transparent,
-                                path = currentDisplayPath,
-                                style = Stroke(
-                                    width = currentPathProperty.strokeWidth,
-                                    cap = currentPathProperty.strokeCap,
-                                    join = currentPathProperty.strokeJoin
-                                ),
-                                blendMode = BlendMode.Clear
-                            )
-                        }
+                        )
+                    } else {
+                        drawPath(
+                            color = Color.Transparent,
+                            path = currentPath,
+                            style = Stroke(
+                                width = currentPathProperty.strokeWidth,
+                                cap = currentPathProperty.strokeCap,
+                                join = currentPathProperty.strokeJoin
+                            ),
+                            blendMode = BlendMode.Clear
+                        )
                     }
                 }
             }
@@ -301,7 +278,7 @@ fun drawImage(
             toolTipButton(text = "橡皮擦",
                 painter = painterResource("images/doodle/eraser.png"),
                 onClick = {
-                    currentPathProperty.eraseMode = true
+                    showEraserDialog = true
                 })
 
             toolTipButton(text = "上一步",
@@ -309,26 +286,30 @@ fun drawImage(
                 onClick = {
                     val lastDisplayItem = displayPaths.lastOrNull()
                     val lastOriginalItem = originalPaths.lastOrNull()
-                    lastDisplayItem?.let {
-                        val lastPath = it.first
-                        val lastPathProperty = it.second
+                    if (lastDisplayItem != null && lastOriginalItem != null) {
                         displayPaths.removeLast()
                         originalPaths.removeLast()
-                        pathsUndone.add(Pair(lastPath, lastPathProperty))
+                        pathsUndone.add(Pair(lastDisplayItem, lastOriginalItem))
                     }
                 })
 
             toolTipButton(text = "撤回",
                 painter = painterResource("images/doodle/revoke.png"),
                 onClick = {
-                    val lastUndoPath = pathsUndone.lastOrNull()
-                    lastUndoPath?.let {
-                        val lastPath = it.first
-                        val lastPathProperty = it.second
+                    val lastUndoPaths = pathsUndone.lastOrNull()
+                    lastUndoPaths?.let { (displayPath, originalPath) ->
                         pathsUndone.removeLast()
-                        displayPaths.add(Pair(lastPath, lastPathProperty))
-                        originalPaths.add(Pair(lastPath, lastPathProperty))
+                        displayPaths.add(displayPath)
+                        originalPaths.add(originalPath)
                     }
+                })
+
+            toolTipButton(text = "清空画布",
+                painter = painterResource("images/doodle/save.png"), // 使用现有图标
+                onClick = {
+                    displayPaths.clear()
+                    originalPaths.clear()
+                    pathsUndone.clear()
                 })
 
             toolTipButton(text = "保存",
@@ -340,19 +321,34 @@ fun drawImage(
 
         if (showColorDialog) {
             ColorSelectionDialog(
-                properties.color,
+                currentPathProperty.color,
                 onDismiss = { showColorDialog = !showColorDialog },
                 onNegativeClick = { showColorDialog = !showColorDialog },
                 onPositiveClick = { color: Color ->
                     showColorDialog = !showColorDialog
-                    properties.color = color
+                    currentPathProperty.color = color
                 }
             )
         }
 
         if (showPropertiesDialog) {
-            PropertiesMenuDialog(properties) {
+            PropertiesMenuDialog(currentPathProperty) {
                 showPropertiesDialog = !showPropertiesDialog
+            }
+        }
+
+        if (showEraserDialog) {
+            PropertiesMenuDialog(eraserProperty) {
+                showEraserDialog = !showEraserDialog
+                // 切换到橡皮擦模式
+                currentPathProperty = PathProperties(
+                    strokeWidth = eraserProperty.strokeWidth,
+                    color = eraserProperty.color,
+                    alpha = eraserProperty.alpha,
+                    strokeCap = eraserProperty.strokeCap,
+                    strokeJoin = eraserProperty.strokeJoin,
+                    eraseMode = eraserProperty.eraseMode
+                )
             }
         }
     }
