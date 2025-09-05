@@ -69,7 +69,7 @@ fun drawImage(
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
     var showEraserDialog by remember { mutableStateOf(false) }
-    
+
     // 使用更直接的状态管理
     val drawingState = remember { mutableStateOf(Triple(MotionEvent.Idle, Offset.Unspecified, Path())) }
 
@@ -262,6 +262,7 @@ fun drawImage(
         }
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
+            // 选择颜色
             toolTipButton(text = "选择颜色",
                 painter = painterResource("images/doodle/color.png"),
                 onClick = {
@@ -269,6 +270,7 @@ fun drawImage(
                     currentPathProperty.eraseMode = false
                 })
 
+            // 属性更改
             toolTipButton(text = "属性更改",
                 painter = painterResource("images/doodle/brush.png"),
                 onClick = {
@@ -276,12 +278,14 @@ fun drawImage(
                     currentPathProperty.eraseMode = false
                 })
 
+            // 橡皮擦
             toolTipButton(text = "橡皮擦",
                 painter = painterResource("images/doodle/eraser.png"),
                 onClick = {
                     showEraserDialog = true
                 })
 
+            // 上一步
             toolTipButton(text = "上一步",
                 painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
@@ -294,6 +298,7 @@ fun drawImage(
                     }
                 })
 
+            // 撤回
             toolTipButton(text = "撤回",
                 painter = painterResource("images/doodle/revoke.png"),
                 onClick = {
@@ -305,8 +310,9 @@ fun drawImage(
                     }
                 })
 
+            // 清空画布
             toolTipButton(text = "清空画布",
-                painter = painterResource("images/doodle/save.png"), // 使用现有图标
+                painter = painterResource("images/doodle/clear.png"),
                 onClick = {
                     // 清空所有路径
                     displayPaths.clear()
@@ -326,6 +332,7 @@ fun drawImage(
                     logger.info("画布已清空，所有状态已重置")
                 })
 
+            // 保存
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
