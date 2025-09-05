@@ -278,7 +278,7 @@
     <string name="canny_edge_detection_full">Canny 边缘检测</string>
     
     <!-- Prompt messages -->
-    <string name="click_to_select_image_or_drag">点击选择图片 or drag image here</string>
+    <string name="click_to_select_image_or_drag">请点击选择图像或拖拽图像至此</string>
     <string name="image_save_success">图像保存成功</string>
     <string name="image_save_failed">图像保存失败</string>
     <string name="please_select_first_derivative_operator">请选择一阶导数算子类型</string>

@@ -4,6 +4,8 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import cn.netdiscovery.monica.ui.controlpanel.filter.FilterViewModel
+import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -16,8 +18,8 @@ import org.slf4j.LoggerFactory
  * @version V1.0
  */
 object ImageSizeCalculator {
-    
-    private val logger: Logger = LoggerFactory.getLogger(ImageSizeCalculator::class.java)
+
+    private val logger: Logger = logger<ImageSizeCalculator>()
     
     // 默认最大尺寸配置 - 增加尺寸以支持更大的图片
     private const val DEFAULT_MAX_WIDTH_DP = 1600f  // 从1200增加到1600
@@ -120,16 +122,5 @@ object ImageSizeCalculator {
         } else {
             null
         }
-    }
-    
-    /**
-     * 获取图片的显示尺寸（像素）
-     * @param state 应用状态
-     * @return 图片的显示宽度和高度（像素）
-     */
-    @androidx.compose.runtime.Composable
-    fun getImageDisplayPixelSize(state: ApplicationState): Pair<Int, Int>? {
-        val density = LocalDensity.current.density
-        return getImageDisplayPixelSize(state, density)
     }
 }
