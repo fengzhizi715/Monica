@@ -945,7 +945,7 @@ fun shapeDrawing(state: ApplicationState) {
                 })
 
             toolTipButton(text = "清除所有",
-                painter = painterResource("images/doodle/brush.png"),
+                painter = painterResource("images/doodle/clear.png"),
                 onClick = {
                     clearAllShapes()
                 })

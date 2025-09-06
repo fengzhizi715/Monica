@@ -9,22 +9,23 @@ package cn.netdiscovery.monica.llm
  * @version: V1.0 <描述当前版本功能>
  */
 
+/**
+ * Gemini API 请求数据类
+ */
 data class GeminiRequest(
     val contents: List<GeminiContent>
 )
 
+/**
+ * Gemini API 内容数据类
+ */
 data class GeminiContent(
     val parts: List<GeminiPart>
 )
 
+/**
+ * Gemini API 部分数据类
+ */
 data class GeminiPart(
     val text: String
-)
-
-data class GeminiResponse(
-    val candidates: List<GeminiCandidate>?
-)
-
-data class GeminiCandidate(
-    val content: GeminiContent
 )

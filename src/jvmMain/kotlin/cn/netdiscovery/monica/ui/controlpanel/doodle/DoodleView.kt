@@ -53,6 +53,8 @@ fun drawImage(
     val originalPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
     val pathsUndone = remember { mutableStateListOf<Pair<Pair<Path, PathProperties>, Pair<Path, PathProperties>>>() }
     
+    // 移除缓存机制，简化撤销逻辑
+    
     // 撤销历史限制
     val maxUndoHistory = 50
 
@@ -146,12 +148,19 @@ fun drawImage(
                         currentPosition = newPosition
                         
                         if (previousPosition != Offset.Unspecified) {
+                            // 使用quadraticBezierTo绘制平滑曲线
+                            val midX = (previousPosition.x + currentPosition.x) / 2
+                            val midY = (previousPosition.y + currentPosition.y) / 2
+                            
                             // 显示路径使用显示坐标（用于实时显示）
-                            currentDisplayPath.lineTo(currentPosition.x, currentPosition.y)
+                            currentDisplayPath.quadraticBezierTo(previousPosition.x, previousPosition.y, midX, midY)
                             
                             // 原始路径使用原始坐标（用于保存）
                             val originalPosition = Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
-                            currentOriginalPath.lineTo(originalPosition.x, originalPosition.y)
+                            val originalPreviousPosition = Offset(previousPosition.x * scaleX, previousPosition.y * scaleY)
+                            val originalMidX = (originalPreviousPosition.x + originalPosition.x) / 2
+                            val originalMidY = (originalPreviousPosition.y + originalPosition.y) / 2
+                            currentOriginalPath.quadraticBezierTo(originalPreviousPosition.x, originalPreviousPosition.y, originalMidX, originalMidY)
 
                             previousPosition = currentPosition
                             
@@ -174,6 +183,8 @@ fun drawImage(
                         displayPaths.add(Pair(currentDisplayPath, currentPathProperty))
                         originalPaths.add(Pair(currentOriginalPath, currentPathProperty))
                         
+                        logger.info("路径已添加，当前路径数量: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
+                        
                         // 重置路径
                         currentDisplayPath = Path()
                         currentOriginalPath = Path()
@@ -189,7 +200,7 @@ fun drawImage(
                         if (pathsUndone.size >= maxUndoHistory) {
                             pathsUndone.removeAt(0)
                         }
-                        pathsUndone.clear()
+                        // 注意：不要清空撤销历史，让用户可以撤销之前的操作
 
                         currentPosition = Offset.Unspecified
                         previousPosition = currentPosition
@@ -199,14 +210,14 @@ fun drawImage(
                 )
 
             Canvas(modifier = drawModifier) {
-
                 this.drawImage(image = image,
                     dstSize = IntSize(width.toPx().toInt(), height.toPx().toInt()))
 
                 // 绘制已完成的路径（使用显示路径）
-                displayPaths.forEach {
-                    val path = it.first
-                    val property = it.second
+                // 使用key来确保路径变化时能正确重绘
+                displayPaths.forEachIndexed { index, pathPair ->
+                    val path = pathPair.first
+                    val property = pathPair.second
 
                     if (!property.eraseMode) {
                         drawPath(
@@ -282,6 +293,7 @@ fun drawImage(
             toolTipButton(text = "橡皮擦",
                 painter = painterResource("images/doodle/eraser.png"),
                 onClick = {
+                    logger.info("点击了橡皮擦按钮，打开橡皮擦对话框")
                     showEraserDialog = true
                 })
 
@@ -289,12 +301,23 @@ fun drawImage(
             toolTipButton(text = "上一步",
                 painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
-                    val lastDisplayItem = displayPaths.lastOrNull()
-                    val lastOriginalItem = originalPaths.lastOrNull()
-                    if (lastDisplayItem != null && lastOriginalItem != null) {
-                        displayPaths.removeLast()
-                        originalPaths.removeLast()
-                        pathsUndone.add(Pair(lastDisplayItem, lastOriginalItem))
+                    logger.info("撤销前状态: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
+                    if (displayPaths.isNotEmpty() && originalPaths.isNotEmpty()) {
+                        // 确保两个列表大小一致
+                        if (displayPaths.size == originalPaths.size) {
+                            val lastDisplayItem = displayPaths.removeLast()
+                            val lastOriginalItem = originalPaths.removeLast()
+                            pathsUndone.add(Pair(lastDisplayItem, lastOriginalItem))
+                            
+                            // 强制重绘：重置绘制状态
+                            drawingState.value = Triple(MotionEvent.Idle, Offset.Unspecified, Path())
+                            
+                            logger.info("撤销操作：移除了一个路径，当前路径数量: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
+                        } else {
+                            logger.warn("路径列表大小不一致: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
+                        }
+                    } else {
+                        logger.info("没有可撤销的操作: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
                     }
                 })
 
@@ -302,11 +325,18 @@ fun drawImage(
             toolTipButton(text = "撤回",
                 painter = painterResource("images/doodle/revoke.png"),
                 onClick = {
-                    val lastUndoPaths = pathsUndone.lastOrNull()
-                    lastUndoPaths?.let { (displayPath, originalPath) ->
-                        pathsUndone.removeLast()
+                    if (pathsUndone.isNotEmpty()) {
+                        val lastUndoPaths = pathsUndone.removeLast()
+                        val (displayPath, originalPath) = lastUndoPaths
                         displayPaths.add(displayPath)
                         originalPaths.add(originalPath)
+                        
+                        // 强制重绘：重置绘制状态
+                        drawingState.value = Triple(MotionEvent.Idle, Offset.Unspecified, Path())
+                        
+                        logger.info("重做操作：恢复了一个路径")
+                    } else {
+                        logger.info("没有可重做的操作")
                     }
                 })
 
@@ -353,24 +383,38 @@ fun drawImage(
         }
 
         if (showPropertiesDialog) {
-            PropertiesMenuDialog(currentPathProperty) {
-                showPropertiesDialog = !showPropertiesDialog
-            }
+            PropertiesMenuDialog(
+                pathOption = currentPathProperty, 
+                onDismiss = {
+                    showPropertiesDialog = false
+                },
+                title = "画笔设置"
+            )
         }
 
         if (showEraserDialog) {
-            PropertiesMenuDialog(eraserProperty) {
-                showEraserDialog = !showEraserDialog
-                // 切换到橡皮擦模式
-                currentPathProperty = PathProperties(
-                    strokeWidth = eraserProperty.strokeWidth,
-                    color = eraserProperty.color,
-                    alpha = eraserProperty.alpha,
-                    strokeCap = eraserProperty.strokeCap,
-                    strokeJoin = eraserProperty.strokeJoin,
-                    eraseMode = eraserProperty.eraseMode
-                )
-            }
+            PropertiesMenuDialog(
+                pathOption = eraserProperty, 
+                onDismiss = {
+                    logger.info("橡皮擦对话框被关闭（取消或点击外部）")
+                    showEraserDialog = false
+                }, 
+                onPropertiesChanged = { updatedEraserProperty ->
+                    logger.info("橡皮擦属性已更新，粗细: ${updatedEraserProperty.strokeWidth}")
+                    eraserProperty = updatedEraserProperty
+                    // 切换到橡皮擦模式
+                    currentPathProperty = PathProperties(
+                        strokeWidth = updatedEraserProperty.strokeWidth,
+                        color = updatedEraserProperty.color,
+                        alpha = updatedEraserProperty.alpha,
+                        strokeCap = updatedEraserProperty.strokeCap,
+                        strokeJoin = updatedEraserProperty.strokeJoin,
+                        eraseMode = updatedEraserProperty.eraseMode
+                    )
+                    logger.info("橡皮擦模式已激活，粗细: ${updatedEraserProperty.strokeWidth}")
+                },
+                title = "橡皮擦设置"
+            )
         }
     }
 }

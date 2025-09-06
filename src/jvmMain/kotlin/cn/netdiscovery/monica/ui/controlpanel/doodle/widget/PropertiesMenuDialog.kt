@@ -2,10 +2,12 @@ package cn.netdiscovery.monica.ui.controlpanel.doodle.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Button
 import androidx.compose.material.Card
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
@@ -32,7 +34,12 @@ import cn.netdiscovery.monica.ui.widget.properties.ExposedSelectionMenu
  * @version: V1.0 <描述当前版本功能>
  */
 @Composable
-fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
+fun PropertiesMenuDialog(
+    pathOption: PathProperties, 
+    onDismiss: () -> Unit,
+    onPropertiesChanged: (PathProperties) -> Unit = {},
+    title: String = "Properties"
+) {
 
     var strokeWidth by remember { mutableStateOf(pathOption.strokeWidth) }
     var strokeCap by remember { mutableStateOf(pathOption.strokeCap) }
@@ -43,12 +50,14 @@ fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
         Card(
             elevation = 2.dp,
             shape = RoundedCornerShape(8.dp),
-            modifier = Modifier.padding(vertical = 8.dp)
+            modifier = Modifier
+                .padding(vertical = 8.dp)
+                .height(400.dp)
         ) {
             Column(modifier = Modifier.padding(8.dp)) {
 
                 Text(
-                    text = "Properties",
+                    text = title,
                     color = Blue400,
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold,
@@ -86,7 +95,6 @@ fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
                     value = strokeWidth,
                     onValueChange = {
                         strokeWidth = it
-                        pathOption.strokeWidth = strokeWidth
                     },
                     valueRange = 1f..100f,
                     onValueChangeFinished = {}
@@ -106,9 +114,6 @@ fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
                             1 -> StrokeCap.Round
                             else -> StrokeCap.Square
                         }
-
-                        pathOption.strokeCap = strokeCap
-
                     }
                 )
 
@@ -127,10 +132,45 @@ fun PropertiesMenuDialog(pathOption: PathProperties, onDismiss: () -> Unit) {
                             1 -> StrokeJoin.Round
                             else -> StrokeJoin.Bevel
                         }
-
-                        pathOption.strokeJoin = strokeJoin
                     }
                 )
+                
+                // 添加确认和取消按钮
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp, vertical = 8.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            println("确认按钮被点击")
+                            onPropertiesChanged(
+                                PathProperties(
+                                    strokeWidth = strokeWidth,
+                                    color = pathOption.color,
+                                    alpha = pathOption.alpha,
+                                    strokeCap = strokeCap,
+                                    strokeJoin = strokeJoin,
+                                    eraseMode = pathOption.eraseMode
+                                )
+                            )
+                            onDismiss()
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("确认")
+                    }
+                    
+                    Button(
+                        onClick = {
+                            println("取消按钮被点击")
+                            onDismiss()
+                        },
+                        modifier = Modifier.weight(1f)
+                    ) {
+                        Text("取消")
+                    }
+                }
             }
         }
     }

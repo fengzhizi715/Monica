@@ -46,15 +46,21 @@
 - 更新显示设置选项
 - 更新按钮文本
 
+#### ✅ ColorCorrectionView.kt
+- 更新所有颜色校正参数标签（对比度、色调、饱和度、亮度、色温、高光、阴影、锐化、暗角）
+- 更新底部按钮文本（保存、自然语言调色）
+- 使用现有的国际化字符串资源
+
 ## 还需要完成的工作
 
 ### 待完成的页面
-- [ ] EdgeDetectionView.kt
-- [ ] ImageEnhanceView.kt  
-- [ ] ImageDenoisingView.kt
-- [ ] MorphologicalOperationsView.kt
-- [ ] MatchTemplateView.kt
-- [ ] HistoryView.kt
+- [x] EdgeDetectionView.kt
+- [x] ImageEnhanceView.kt  
+- [x] ImageDenoisingView.kt
+- [x] MorphologicalOperationsView.kt
+- [x] MatchTemplateView.kt
+- [x] HistoryView.kt
+- [x] ColorCorrectionView.kt
 
 ### 验证工作
 - [ ] 检查所有新添加的国际化字符串
