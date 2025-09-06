@@ -56,8 +56,6 @@ fun drawImage(
     // 分离当前绘制状态，避免与已完成路径的相互影响
     val currentDrawingPath = remember { mutableStateOf<Pair<Path, PathProperties>?>(null) }
     
-    // 移除缓存机制，简化撤销逻辑
-    
     // 撤销历史限制
     val maxUndoHistory = 50
 
