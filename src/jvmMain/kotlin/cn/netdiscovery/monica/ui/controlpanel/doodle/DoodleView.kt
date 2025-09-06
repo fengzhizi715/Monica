@@ -163,8 +163,11 @@ fun drawImage(
 
                             previousPosition = currentPosition
                             
-                            // 更新分离的绘制状态
-                            currentDrawingPath.value = Pair(currentDisplayPath, currentPathProperty)
+                            // 更新分离的绘制状态 - 创建新的Path对象确保实时更新
+                            val newDisplayPath = Path().apply {
+                                addPath(currentDisplayPath)
+                            }
+                            currentDrawingPath.value = Pair(newDisplayPath, currentPathProperty)
                         }
                         pointerInputChange.consume()
                     },
