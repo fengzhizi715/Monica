@@ -288,99 +288,6 @@ fun shapeDrawing(state: ApplicationState) {
     }
 
     /**
-     * 更新最后一个绘制的形状的颜色
-     */
-    fun updateLastDrawnShapeColor(newColor: Color) {
-        val key = lastDrawnShapeKey
-        val type = lastDrawnShapeType
-        
-        if (key != null && type != null) {
-            when (type) {
-                "Line" -> {
-                    if (displayLines.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayLine = displayLines[key]!!.copy(shapeProperties = displayLines[key]!!.shapeProperties.copy(color = newColor))
-                        displayLines[key] = updatedDisplayLine
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalLine = originalLines[key]!!.copy(shapeProperties = originalLines[key]!!.shapeProperties.copy(color = newColor))
-                        originalLines[key] = updatedOriginalLine
-                        
-                        logger.info("已更新最后一个线段颜色: $newColor")
-                    }
-                }
-                "Circle" -> {
-                    if (displayCircles.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayCircle = displayCircles[key]!!.copy(shapeProperties = displayCircles[key]!!.shapeProperties.copy(color = newColor))
-                        displayCircles[key] = updatedDisplayCircle
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalCircle = originalCircles[key]!!.copy(shapeProperties = originalCircles[key]!!.shapeProperties.copy(color = newColor))
-                        originalCircles[key] = updatedOriginalCircle
-                        
-                        logger.info("已更新最后一个圆形颜色: $newColor")
-                    }
-                }
-                "Triangle" -> {
-                    if (displayTriangles.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayTriangle = displayTriangles[key]!!.copy(shapeProperties = displayTriangles[key]!!.shapeProperties.copy(color = newColor))
-                        displayTriangles[key] = updatedDisplayTriangle
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalTriangle = originalTriangles[key]!!.copy(shapeProperties = originalTriangles[key]!!.shapeProperties.copy(color = newColor))
-                        originalTriangles[key] = updatedOriginalTriangle
-                        
-                        logger.info("已更新最后一个三角形颜色: $newColor")
-                    }
-                }
-                "Rectangle" -> {
-                    if (displayRectangles.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayRect = displayRectangles[key]!!.copy(shapeProperties = displayRectangles[key]!!.shapeProperties.copy(color = newColor))
-                        displayRectangles[key] = updatedDisplayRect
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalRect = originalRectangles[key]!!.copy(shapeProperties = originalRectangles[key]!!.shapeProperties.copy(color = newColor))
-                        originalRectangles[key] = updatedOriginalRect
-                        
-                        logger.info("已更新最后一个矩形颜色: $newColor")
-                    }
-                }
-                "Polygon" -> {
-                    if (displayPolygons.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayPolygon = displayPolygons[key]!!.copy(shapeProperties = displayPolygons[key]!!.shapeProperties.copy(color = newColor))
-                        displayPolygons[key] = updatedDisplayPolygon
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalPolygon = originalPolygons[key]!!.copy(shapeProperties = originalPolygons[key]!!.shapeProperties.copy(color = newColor))
-                        originalPolygons[key] = updatedOriginalPolygon
-                        
-                        logger.info("已更新最后一个多边形颜色: $newColor")
-                    }
-                }
-                "Text" -> {
-                    if (displayTexts.containsKey(key)) {
-                        // 更新显示坐标系统中的颜色
-                        val updatedDisplayText = displayTexts[key]!!.copy(shapeProperties = displayTexts[key]!!.shapeProperties.copy(color = newColor))
-                        displayTexts[key] = updatedDisplayText
-                        
-                        // 同步更新原始坐标系统中的颜色
-                        val updatedOriginalText = originalTexts[key]!!.copy(shapeProperties = originalTexts[key]!!.shapeProperties.copy(color = newColor))
-                        originalTexts[key] = updatedOriginalText
-                        
-                        logger.info("已更新最后一个文字颜色: $newColor")
-                    }
-                }
-            }
-        } else {
-            logger.warn("没有找到最后一个绘制的形状")
-        }
-    }
-    
-    /**
      * 添加动画形状
      */
     fun addAnimatedShape(shapeType: String, key: Offset) {
@@ -960,14 +867,12 @@ fun shapeDrawing(state: ApplicationState) {
         if (showColorDialog) {
             ColorSelectionDialog(
                 currentShapeProperty.color,
-                onDismiss = { showColorDialog = !showColorDialog },
-                onNegativeClick = { showColorDialog = !showColorDialog },
+                onDismiss = { showColorDialog = false },
+                onNegativeClick = { showColorDialog = false },
                 onPositiveClick = { color: Color ->
-                    showColorDialog = !showColorDialog
+                    showColorDialog = false
                     currentShapeProperty = currentShapeProperty.copy(color = color)
-                    // 只更新最后一个绘制的形状的颜色
-                    updateLastDrawnShapeColor(color)
-                    logger.info("颜色已更新: $color")
+                    logger.info("颜色已更改: ${color}")
                 }
             )
         }
