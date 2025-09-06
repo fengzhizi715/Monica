@@ -56,6 +56,8 @@ fun basicView(state: ApplicationState) {
     )
 
     Row(verticalAlignment = Alignment.CenterVertically) {
+
+        // 图像模糊
         toolTipButton(text = i18nState.getString("image_blur"),
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
@@ -63,6 +65,7 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = BlurStatus
             })
 
+        // 图像马赛克
         toolTipButton(text = i18nState.getString("image_mosaic"),
             painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
@@ -70,6 +73,7 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = MosaicStatus
             })
 
+        // 图像涂鸦
         toolTipButton(text = i18nState.getString("image_doodle"),
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
@@ -77,6 +81,7 @@ fun basicView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(DoodleStatus)
             })
 
+        // 形状绘制
         toolTipButton(text = i18nState.getString("shape_drawing"),
             painter = painterResource("images/controlpanel/shape-drawing.png"),
             enable = { state.isBasic },
@@ -84,6 +89,7 @@ fun basicView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(ShapeDrawingStatus)
             })
 
+        // 图像取色
         toolTipButton(text = i18nState.getString("color_picker"),
             painter = painterResource("images/controlpanel/color-picker.png"),
             enable = { state.isBasic },
@@ -91,6 +97,7 @@ fun basicView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(ColorPickStatus)
             })
 
+        // 生成gif
         toolTipButton(text = i18nState.getString("generate_gif"),
             painter = painterResource("images/controlpanel/gif.png"),
             enable = { state.isBasic },
@@ -101,7 +108,8 @@ fun basicView(state: ApplicationState) {
 
     Row(verticalAlignment = Alignment.CenterVertically) {
 
-                        toolTipButton(text = i18nState.getString("image_flip"),
+        // 图像翻转
+        toolTipButton(text = i18nState.getString("image_flip"),
             painter = painterResource("images/controlpanel/flip.png"),
             enable = { state.isBasic },
             onClick = {
@@ -109,7 +117,8 @@ fun basicView(state: ApplicationState) {
                 viewModel.flip(state)
             })
 
-                        toolTipButton(text = i18nState.getString("image_rotate"),
+        // 图像旋转
+        toolTipButton(text = i18nState.getString("image_rotate"),
             painter = painterResource("images/controlpanel/rotate.png"),
             enable = { state.isBasic },
             onClick = {
@@ -117,21 +126,24 @@ fun basicView(state: ApplicationState) {
                 viewModel.rotate(state)
             })
 
-                        toolTipButton(text = i18nState.getString("image_scale"),
+        // 图像缩放
+        toolTipButton(text = i18nState.getString("image_scale"),
             painter = painterResource("images/controlpanel/resize.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = ResizeStatus
             })
 
-                        toolTipButton(text = i18nState.getString("image_shear"),
+        // 图像错切
+        toolTipButton(text = i18nState.getString("image_shear"),
             painter = painterResource("images/controlpanel/shearing.png"),
             enable = { state.isBasic },
             onClick = {
                 state.currentStatus = ShearingStatus
             })
 
-                        toolTipButton(text = i18nState.getString("image_crop"),
+        // 图像裁剪
+        toolTipButton(text = i18nState.getString("image_crop"),
             painter = painterResource("images/controlpanel/crop.png"),
             enable = { state.isBasic },
             onClick = {
@@ -178,8 +190,8 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
     ) {
         confirmButton(state.isBasic) {
 
-                            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast(i18nState.getString("width_needs_int")) }) ?: return@confirmButton
-                val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast(i18nState.getString("height_needs_int")) }) ?: return@confirmButton
+            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast(i18nState.getString("width_needs_int")) }) ?: return@confirmButton
+            val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast(i18nState.getString("height_needs_int")) }) ?: return@confirmButton
             viewModel.resize(width, height, state)
         }
     }
@@ -215,8 +227,8 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
     ) {
         confirmButton(state.isBasic) {
 
-                            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast(i18nState.getString("x_direction_needs_float")) }) ?: return@confirmButton
-                val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast(i18nState.getString("y_direction_needs_float")) }) ?: return@confirmButton
+            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast(i18nState.getString("x_direction_needs_float")) }) ?: return@confirmButton
+            val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast(i18nState.getString("y_direction_needs_float")) }) ?: return@confirmButton
             viewModel.shearing(x, y, state)
         }
     }
