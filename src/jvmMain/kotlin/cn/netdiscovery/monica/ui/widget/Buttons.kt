@@ -30,7 +30,7 @@ import cn.netdiscovery.monica.i18n.LocalizationManager
  */
 val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-const val VIEW_CLICK_INTERVAL_TIME = 1000 // View 的 click 方法的两次点击间隔时间
+const val VIEW_CLICK_INTERVAL_TIME = 300 // View 的 click 方法的两次点击间隔时间，减少到300ms提高响应性
 
 /**
  * 可复用的点击节流函数，支持状态隔离、高精度时间、加载状态拦截与过滤函数。
@@ -63,7 +63,7 @@ fun toolTipButton(
     text:String,
     painter: Painter,
     buttonModifier: Modifier = Modifier.padding(5.dp),
-    iconModifier: Modifier = Modifier.size(36.dp),
+    iconModifier: Modifier = Modifier.size(40.dp), // 增加图标大小从36dp到40dp
     enable: ()-> Boolean = { true },
     onClick: Action,
 ) {
@@ -88,8 +88,8 @@ fun toolTipButton(
         )
     ) {
         IconButton(
-            modifier = buttonModifier,
-            onClick =  rememberThrottledClick { // 防止重复点击，1秒内只有1次点击是有效的
+            modifier = buttonModifier.padding(8.dp), // 增加额外的padding扩大点击区域
+            onClick =  rememberThrottledClick { // 防止重复点击，300ms内只有1次点击是有效的
 
                 logger.info("点击了 $text 按钮")
                 onClick()

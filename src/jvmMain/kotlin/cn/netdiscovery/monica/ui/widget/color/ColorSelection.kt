@@ -5,10 +5,14 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -78,16 +82,22 @@ fun ColorSlider(
     rgb: Float,
     onColorChanged: (Float) -> Unit
 ) {
+    val focusRequester = remember { FocusRequester() }
+    
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
 
         Text(text = title.substring(0, 1), color = titleColor, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.width(8.dp))
         Slider(
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(1f).focusRequester(focusRequester),
             value = rgb,
             onValueChange = { onColorChanged(it) },
             valueRange = valueRange,
-            onValueChangeFinished = {}
+            onValueChangeFinished = {},
+            colors = SliderDefaults.colors(
+                thumbColor = titleColor,
+                activeTrackColor = titleColor
+            )
         )
 
         Spacer(modifier = Modifier.width(8.dp))

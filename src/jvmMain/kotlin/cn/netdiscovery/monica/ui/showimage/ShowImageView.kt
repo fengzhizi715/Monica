@@ -9,6 +9,8 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.ContentScale
@@ -132,6 +134,8 @@ fun verticalSlider(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     colors: SliderColors = SliderDefaults.colors()
 ){
+    val focusRequester = remember { FocusRequester() }
+    
     Slider(
         colors = colors,
         interactionSource = interactionSource,
@@ -142,6 +146,7 @@ fun verticalSlider(
         value = value,
         onValueChange = onValueChange,
         modifier = Modifier
+            .focusRequester(focusRequester)
             .graphicsLayer {
                 rotationZ = 270f
                 transformOrigin = TransformOrigin(0f, 0f)

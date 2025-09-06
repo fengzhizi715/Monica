@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -118,7 +119,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.contrast.to2fStr(),
@@ -167,7 +169,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.saturation.to2fStr(),
@@ -192,7 +195,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.lightness.to2fStr(),
@@ -217,7 +221,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.temperature.to2fStr(),
@@ -242,7 +247,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.highlight.to2fStr(),
@@ -267,7 +273,8 @@ fun colorCorrection(state: ApplicationState) {
                                 },
                                 enabled = enableSlider,
                                 modifier = Modifier.weight(9f),
-                                valueRange = 0f..510f)
+                                valueRange = 0f..510f,
+                                colors = SliderDefaults.colors())
 
                             Text(
                                 text = viewModel.shadow.to2fStr(),

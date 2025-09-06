@@ -57,28 +57,15 @@ class DoodleViewModel {
                 val path = pathPair.first
                 val property = pathPair.second
                 
-                if (!property.eraseMode) {
-                    drawPath(
-                        color = property.color,
-                        path = path,
-                        style = Stroke(
-                            width = property.strokeWidth,
-                            cap = property.strokeCap,
-                            join = property.strokeJoin
-                        )
+                drawPath(
+                    color = property.color,
+                    path = path,
+                    style = Stroke(
+                        width = property.strokeWidth,
+                        cap = property.strokeCap,
+                        join = property.strokeJoin
                     )
-                } else {
-                    drawPath(
-                        color = Color.Transparent,
-                        path = path,
-                        style = Stroke(
-                            width = property.strokeWidth,
-                            cap = property.strokeCap,
-                            join = property.strokeJoin
-                        ),
-                        blendMode = BlendMode.Clear
-                    )
-                }
+                )
             }
         }
 

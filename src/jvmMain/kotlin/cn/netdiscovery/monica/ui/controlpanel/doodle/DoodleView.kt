@@ -178,21 +178,22 @@ fun drawImage(
                         currentOriginalPath.lineTo(originalPosition.x, originalPosition.y)
 
                         // 同时保存显示路径和原始路径
-                        displayPaths.add(Pair(currentDisplayPath, currentPathProperty))
-                        originalPaths.add(Pair(currentOriginalPath, currentPathProperty))
+                        // 创建PathProperties的副本，避免引用共享
+                        val pathPropertyCopy = PathProperties(
+                            strokeWidth = currentPathProperty.strokeWidth,
+                            color = currentPathProperty.color,
+                            strokeCap = currentPathProperty.strokeCap,
+                            strokeJoin = currentPathProperty.strokeJoin
+                        )
+                        displayPaths.add(Pair(currentDisplayPath, pathPropertyCopy))
+                        originalPaths.add(Pair(currentOriginalPath, pathPropertyCopy))
                         
                         logger.info("路径已添加，当前路径数量: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
                         
                         // 重置路径
                         currentDisplayPath = Path()
                         currentOriginalPath = Path()
-                        currentPathProperty = PathProperties(
-                            strokeWidth = currentPathProperty.strokeWidth,
-                            color = currentPathProperty.color,
-                            strokeCap = currentPathProperty.strokeCap,
-                            strokeJoin = currentPathProperty.strokeJoin,
-                            eraseMode = currentPathProperty.eraseMode
-                        )
+                        // 保持当前的颜色设置，不重置currentPathProperty
 
                         // 限制撤销历史数量，防止内存溢出
                         if (pathsUndone.size >= maxUndoHistory) {
@@ -217,55 +218,29 @@ fun drawImage(
                     val path = pathPair.first
                     val property = pathPair.second
 
-                    if (!property.eraseMode) {
-                        drawPath(
-                            color = property.color,
-                            path = path,
-                            style = Stroke(
-                                width = property.strokeWidth,
-                                cap = property.strokeCap,
-                                join = property.strokeJoin
-                            )
+                    drawPath(
+                        color = property.color,
+                        path = path,
+                        style = Stroke(
+                            width = property.strokeWidth,
+                            cap = property.strokeCap,
+                            join = property.strokeJoin
                         )
-                    } else {
-                        drawPath(
-                            color = Color.Transparent,
-                            path = path,
-                            style = Stroke(
-                                width = property.strokeWidth,
-                                cap = property.strokeCap,
-                                join = property.strokeJoin
-                            ),
-                            blendMode = BlendMode.Clear
-                        )
-                    }
+                    )
                 }
 
                 // 绘制当前正在绘制的路径（使用显示路径）
                 val (currentMotionEvent, currentPos, currentPath) = drawingState.value
                 if (currentMotionEvent != MotionEvent.Idle && currentPos != Offset.Unspecified) {
-                    if (!currentPathProperty.eraseMode) {
-                        drawPath(
-                            color = currentPathProperty.color,
-                            path = currentPath,
-                            style = Stroke(
-                                width = currentPathProperty.strokeWidth,
-                                cap = currentPathProperty.strokeCap,
-                                join = currentPathProperty.strokeJoin
-                            )
+                    drawPath(
+                        color = currentPathProperty.color,
+                        path = currentPath,
+                        style = Stroke(
+                            width = currentPathProperty.strokeWidth,
+                            cap = currentPathProperty.strokeCap,
+                            join = currentPathProperty.strokeJoin
                         )
-                    } else {
-                        drawPath(
-                            color = Color.Transparent,
-                            path = currentPath,
-                            style = Stroke(
-                                width = currentPathProperty.strokeWidth,
-                                cap = currentPathProperty.strokeCap,
-                                join = currentPathProperty.strokeJoin
-                            ),
-                            blendMode = BlendMode.Clear
-                        )
-                    }
+                    )
                 }
             }
         }
@@ -276,7 +251,6 @@ fun drawImage(
                 painter = painterResource("images/doodle/color.png"),
                 onClick = {
                     showColorDialog = true
-                    currentPathProperty.eraseMode = false
                 })
 
             // 属性更改
@@ -284,7 +258,6 @@ fun drawImage(
                 painter = painterResource("images/doodle/brush.png"),
                 onClick = {
                     showPropertiesDialog = true
-                    currentPathProperty.eraseMode = false
                 })
 
             // 上一步
@@ -363,10 +336,10 @@ fun drawImage(
         if (showColorDialog) {
             ColorSelectionDialog(
                 currentPathProperty.color,
-                onDismiss = { showColorDialog = !showColorDialog },
-                onNegativeClick = { showColorDialog = !showColorDialog },
+                onDismiss = { showColorDialog = false },
+                onNegativeClick = { showColorDialog = false },
                 onPositiveClick = { color: Color ->
-                    showColorDialog = !showColorDialog
+                    showColorDialog = false
                     currentPathProperty.color = color
                 }
             )
@@ -376,6 +349,10 @@ fun drawImage(
             PropertiesMenuDialog(
                 pathOption = currentPathProperty, 
                 onDismiss = {
+                    showPropertiesDialog = false
+                },
+                onPropertiesChanged = { updatedProperty ->
+                    currentPathProperty = updatedProperty
                     showPropertiesDialog = false
                 },
                 title = "画笔设置"

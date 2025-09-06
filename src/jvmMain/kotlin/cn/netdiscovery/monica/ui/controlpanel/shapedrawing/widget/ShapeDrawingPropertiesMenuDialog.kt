@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.Slider
+import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -64,7 +65,8 @@ fun ShapeDrawingPropertiesMenuDialog(
                         alpha = it
                     },
                     valueRange = 0f..1f,
-                    onValueChangeFinished = {}
+                    onValueChangeFinished = {},
+                    colors = SliderDefaults.colors()
                 )
 
                 Text(
@@ -79,7 +81,8 @@ fun ShapeDrawingPropertiesMenuDialog(
                         fontSize = it
                     },
                     valueRange = 1f..100f,
-                    onValueChangeFinished = {}
+                    onValueChangeFinished = {},
+                    colors = SliderDefaults.colors()
                 )
 
                 ExposedSelectionMenu(title = "fill",

@@ -17,6 +17,5 @@ class PathProperties(
     var color: Color = Color.Black,
     var alpha: Float = 1f,
     var strokeCap: StrokeCap = StrokeCap.Round,
-    var strokeJoin: StrokeJoin = StrokeJoin.Round,
-    var eraseMode: Boolean = false
+    var strokeJoin: StrokeJoin = StrokeJoin.Round
 )

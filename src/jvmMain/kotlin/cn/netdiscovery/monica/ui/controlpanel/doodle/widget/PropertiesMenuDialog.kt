@@ -13,6 +13,8 @@ import androidx.compose.material.Slider
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.StrokeJoin
@@ -44,6 +46,7 @@ fun PropertiesMenuDialog(
     var strokeWidth by remember { mutableStateOf(pathOption.strokeWidth) }
     var strokeCap by remember { mutableStateOf(pathOption.strokeCap) }
     var strokeJoin by remember { mutableStateOf(pathOption.strokeJoin) }
+    val focusRequester = remember { FocusRequester() }
 
     Dialog(onDismissRequest = onDismiss) {
 
@@ -97,7 +100,8 @@ fun PropertiesMenuDialog(
                         strokeWidth = it
                     },
                     valueRange = 1f..100f,
-                    onValueChangeFinished = {}
+                    onValueChangeFinished = {},
+                    modifier = Modifier.padding(horizontal = 12.dp).focusRequester(focusRequester)
                 )
 
                 ExposedSelectionMenu(title = "Stroke Cap",
@@ -150,8 +154,7 @@ fun PropertiesMenuDialog(
                                     color = pathOption.color,
                                     alpha = pathOption.alpha,
                                     strokeCap = strokeCap,
-                                    strokeJoin = strokeJoin,
-                                    eraseMode = pathOption.eraseMode
+                                    strokeJoin = strokeJoin
                                 )
                             )
                             onDismiss()
