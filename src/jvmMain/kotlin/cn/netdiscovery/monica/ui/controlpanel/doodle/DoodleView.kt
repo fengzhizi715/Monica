@@ -66,11 +66,9 @@ fun drawImage(
     var currentDisplayPath by remember { mutableStateOf(Path()) }
     var currentOriginalPath by remember { mutableStateOf(Path()) }
     var currentPathProperty by remember { mutableStateOf(PathProperties()) }
-    var eraserProperty by remember { mutableStateOf(PathProperties(strokeWidth = 20f, eraseMode = true)) }
 
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
-    var showEraserDialog by remember { mutableStateOf(false) }
 
     // 使用更直接的状态管理
     val drawingState = remember { mutableStateOf(Triple(MotionEvent.Idle, Offset.Unspecified, Path())) }
@@ -289,14 +287,6 @@ fun drawImage(
                     currentPathProperty.eraseMode = false
                 })
 
-            // 橡皮擦
-            toolTipButton(text = "橡皮擦",
-                painter = painterResource("images/doodle/eraser.png"),
-                onClick = {
-                    logger.info("点击了橡皮擦按钮，打开橡皮擦对话框")
-                    showEraserDialog = true
-                })
-
             // 上一步
             toolTipButton(text = "上一步",
                 painter = painterResource("images/doodle/previous_step.png"),
@@ -389,31 +379,6 @@ fun drawImage(
                     showPropertiesDialog = false
                 },
                 title = "画笔设置"
-            )
-        }
-
-        if (showEraserDialog) {
-            PropertiesMenuDialog(
-                pathOption = eraserProperty, 
-                onDismiss = {
-                    logger.info("橡皮擦对话框被关闭（取消或点击外部）")
-                    showEraserDialog = false
-                }, 
-                onPropertiesChanged = { updatedEraserProperty ->
-                    logger.info("橡皮擦属性已更新，粗细: ${updatedEraserProperty.strokeWidth}")
-                    eraserProperty = updatedEraserProperty
-                    // 切换到橡皮擦模式
-                    currentPathProperty = PathProperties(
-                        strokeWidth = updatedEraserProperty.strokeWidth,
-                        color = updatedEraserProperty.color,
-                        alpha = updatedEraserProperty.alpha,
-                        strokeCap = updatedEraserProperty.strokeCap,
-                        strokeJoin = updatedEraserProperty.strokeJoin,
-                        eraseMode = updatedEraserProperty.eraseMode
-                    )
-                    logger.info("橡皮擦模式已激活，粗细: ${updatedEraserProperty.strokeWidth}")
-                },
-                title = "橡皮擦设置"
             )
         }
     }
