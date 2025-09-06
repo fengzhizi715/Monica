@@ -12,10 +12,10 @@ import androidx.compose.ui.graphics.StrokeJoin
  * @date: 2024/6/14 15:57
  * @version: V1.0 <描述当前版本功能>
  */
-class PathProperties(
-    var strokeWidth: Float = 10f,
-    var color: Color = Color.Black,
-    var alpha: Float = 1f,
-    var strokeCap: StrokeCap = StrokeCap.Round,
-    var strokeJoin: StrokeJoin = StrokeJoin.Round
+data class PathProperties(
+    val strokeWidth: Float = 10f,
+    val color: Color = Color.Black,
+    val alpha: Float = 1f,
+    val strokeCap: StrokeCap = StrokeCap.Round,
+    val strokeJoin: StrokeJoin = StrokeJoin.Round
 )

@@ -53,6 +53,9 @@ fun drawImage(
     val originalPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
     val pathsUndone = remember { mutableStateListOf<Pair<Pair<Path, PathProperties>, Pair<Path, PathProperties>>>() }
     
+    // 分离当前绘制状态，避免与已完成路径的相互影响
+    val currentDrawingPath = remember { mutableStateOf<Pair<Path, PathProperties>?>(null) }
+    
     // 移除缓存机制，简化撤销逻辑
     
     // 撤销历史限制
@@ -132,8 +135,8 @@ fun drawImage(
                         val originalPosition = Offset(currentPosition.x * scaleX, currentPosition.y * scaleY)
                         currentOriginalPath.moveTo(originalPosition.x, originalPosition.y)
                         
-                        // 更新绘制状态
-                        drawingState.value = Triple(motionEvent, currentPosition, currentDisplayPath)
+                        // 更新分离的绘制状态
+                        currentDrawingPath.value = Pair(currentDisplayPath, currentPathProperty)
                         
                         previousPosition = currentPosition
                         pointerInputChange.consume()
@@ -162,8 +165,8 @@ fun drawImage(
 
                             previousPosition = currentPosition
                             
-                            // 更新绘制状态，强制重绘
-                            drawingState.value = Triple(motionEvent, currentPosition, currentDisplayPath)
+                            // 更新分离的绘制状态
+                            currentDrawingPath.value = Pair(currentDisplayPath, currentPathProperty)
                         }
                         pointerInputChange.consume()
                     },
@@ -181,7 +184,8 @@ fun drawImage(
                         // 创建PathProperties的副本，避免引用共享
                         val pathPropertyCopy = PathProperties(
                             strokeWidth = currentPathProperty.strokeWidth,
-                            color = currentPathProperty.color,
+                            color = Color(currentPathProperty.color.red, currentPathProperty.color.green, currentPathProperty.color.blue, currentPathProperty.color.alpha),
+                            alpha = currentPathProperty.alpha,
                             strokeCap = currentPathProperty.strokeCap,
                             strokeJoin = currentPathProperty.strokeJoin
                         )
@@ -189,6 +193,10 @@ fun drawImage(
                         originalPaths.add(Pair(currentOriginalPath, pathPropertyCopy))
                         
                         logger.info("路径已添加，当前路径数量: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
+                        logger.info("保存的路径颜色: ${pathPropertyCopy.color}")
+                        
+                        // 清空当前绘制状态
+                        currentDrawingPath.value = null
                         
                         // 重置路径
                         currentDisplayPath = Path()
@@ -229,16 +237,15 @@ fun drawImage(
                     )
                 }
 
-                // 绘制当前正在绘制的路径（使用显示路径）
-                val (currentMotionEvent, currentPos, currentPath) = drawingState.value
-                if (currentMotionEvent != MotionEvent.Idle && currentPos != Offset.Unspecified) {
+                // 绘制当前正在绘制的路径（使用分离的状态）
+                currentDrawingPath.value?.let { (currentPath, currentProps) ->
                     drawPath(
-                        color = currentPathProperty.color,
+                        color = currentProps.color,
                         path = currentPath,
                         style = Stroke(
-                            width = currentPathProperty.strokeWidth,
-                            cap = currentPathProperty.strokeCap,
-                            join = currentPathProperty.strokeJoin
+                            width = currentProps.strokeWidth,
+                            cap = currentProps.strokeCap,
+                            join = currentProps.strokeJoin
                         )
                     )
                 }
@@ -272,8 +279,8 @@ fun drawImage(
                             val lastOriginalItem = originalPaths.removeLast()
                             pathsUndone.add(Pair(lastDisplayItem, lastOriginalItem))
                             
-                            // 强制重绘：重置绘制状态
-                            drawingState.value = Triple(MotionEvent.Idle, Offset.Unspecified, Path())
+                            // 清空当前绘制状态
+                            currentDrawingPath.value = null
                             
                             logger.info("撤销操作：移除了一个路径，当前路径数量: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
                         } else {
@@ -340,7 +347,13 @@ fun drawImage(
                 onNegativeClick = { showColorDialog = false },
                 onPositiveClick = { color: Color ->
                     showColorDialog = false
-                    currentPathProperty.color = color
+                    currentPathProperty = currentPathProperty.copy(color = color)
+                    logger.info("颜色已更改: ${color}")
+                    
+                    // 更新当前绘制路径的颜色
+                    currentDrawingPath.value?.let { (path, props) ->
+                        currentDrawingPath.value = Pair(path, props.copy(color = color))
+                    }
                 }
             )
         }
@@ -354,6 +367,11 @@ fun drawImage(
                 onPropertiesChanged = { updatedProperty ->
                     currentPathProperty = updatedProperty
                     showPropertiesDialog = false
+                    
+                    // 更新当前绘制路径的属性
+                    currentDrawingPath.value?.let { (path, props) ->
+                        currentDrawingPath.value = Pair(path, updatedProperty)
+                    }
                 },
                 title = "画笔设置"
             )
