@@ -17,7 +17,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.animation.core.*
-import androidx.compose.animation.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import kotlinx.coroutines.launch
@@ -39,10 +38,6 @@ import cn.netdiscovery.monica.utils.extensions.drawWithLayer
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import kotlin.math.abs
-import kotlin.math.pow
-import kotlin.math.sqrt
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.CoordinateSystem
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 
 /**
@@ -1034,5 +1029,3 @@ fun shapeDrawing(state: ApplicationState) {
         }
     }
 }
-
-
