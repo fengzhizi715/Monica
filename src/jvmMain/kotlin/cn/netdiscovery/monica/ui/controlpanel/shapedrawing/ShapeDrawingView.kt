@@ -56,17 +56,19 @@ import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 /**
- * 动画形状数据类
+ * 优化的动画形状数据类
  */
 data class AnimatedShape(
     val key: String,
     val shapeType: String,
     val startTime: Long,
-    val duration: Long = 500L,
-    val startScale: Float = 0.5f,
-    val endScale: Float = 1.0f,
-    val startAlpha: Float = 0.3f,
-    val endAlpha: Float = 1.0f
+    val duration: Long = 800L, // 增加动画时长
+    val startScale: Float = 0.3f, // 更明显的缩放效果
+    val endScale: Float = 1.2f, // 稍微放大
+    val startAlpha: Float = 0.1f, // 更淡的起始透明度
+    val endAlpha: Float = 0.8f, // 更明显的结束透明度
+    val highlightColor: Color = Color.Cyan, // 使用青色高亮
+    val pulseEffect: Boolean = true // 添加脉冲效果
 )
 
 @Composable
@@ -126,17 +128,16 @@ fun shapeDrawing(state: ApplicationState) {
     var lastDrawnShapeKey by remember { mutableStateOf<Offset?>(null) }
     var lastDrawnShapeType by remember { mutableStateOf<String?>(null) }
     
-    // 动画状态
+    // 优化的动画状态管理
     var animatedShapes by remember { mutableStateOf<Map<String, AnimatedShape>>(emptyMap()) }
-    var animationProgress by remember { mutableStateOf(0f) }
     
-    // 动画控制器
+    // 使用 Compose 动画系统优化性能
     val animationController = rememberInfiniteTransition(label = "shapeAnimation")
     val animatedProgress by animationController.animateFloat(
         initialValue = 0f,
         targetValue = 1f,
         animationSpec = infiniteRepeatable(
-            animation = tween(1000, easing = LinearEasing),
+            animation = tween(800, easing = EaseInOutCubic), // 使用缓动函数
             repeatMode = RepeatMode.Restart
         ),
         label = "shapeAnimationProgress"
@@ -288,23 +289,55 @@ fun shapeDrawing(state: ApplicationState) {
     }
 
     /**
-     * 添加动画形状
+     * 优化的添加动画形状函数
      */
     fun addAnimatedShape(shapeType: String, key: Offset) {
         val shapeKey = "${shapeType}_${key.x}_${key.y}"
         val currentTime = System.currentTimeMillis()
         
-        val animatedShape = AnimatedShape(
-            key = shapeKey,
-            shapeType = shapeType,
-            startTime = currentTime
-        )
+        // 根据形状类型设置不同的动画参数
+        val animationParams = when (shapeType) {
+            "Circle" -> AnimatedShape(
+                key = shapeKey,
+                shapeType = shapeType,
+                startTime = currentTime,
+                duration = 1000L, // 圆形动画稍长
+                highlightColor = Color.Cyan
+            )
+            "Line" -> AnimatedShape(
+                key = shapeKey,
+                shapeType = shapeType,
+                startTime = currentTime,
+                duration = 600L, // 线段动画较短
+                highlightColor = Color.Magenta
+            )
+            "Triangle" -> AnimatedShape(
+                key = shapeKey,
+                shapeType = shapeType,
+                startTime = currentTime,
+                duration = 800L,
+                highlightColor = Color.Green
+            )
+            "Rectangle" -> AnimatedShape(
+                key = shapeKey,
+                shapeType = shapeType,
+                startTime = currentTime,
+                duration = 700L,
+                highlightColor = Color.Blue
+            )
+            else -> AnimatedShape(
+                key = shapeKey,
+                shapeType = shapeType,
+                startTime = currentTime,
+                highlightColor = Color.Yellow
+            )
+        }
         
-        animatedShapes = animatedShapes + (shapeKey to animatedShape)
+        animatedShapes = animatedShapes + (shapeKey to animationParams)
         
-        // 5秒后移除动画
+        // 动画结束后自动移除
         kotlinx.coroutines.CoroutineScope(kotlinx.coroutines.Dispatchers.Default).launch {
-            delay(5000)
+            delay(animationParams.duration + 200) // 稍微延长一点
             animatedShapes = animatedShapes - shapeKey
         }
         
@@ -312,18 +345,45 @@ fun shapeDrawing(state: ApplicationState) {
     }
     
     /**
-     * 线性插值函数
+     * 改进的缓动插值函数
      */
     fun lerp(start: Float, end: Float, fraction: Float): Float {
         return start + (end - start) * fraction
     }
     
     /**
-     * 绘制动画高亮效果
+     * 缓动函数 - 缓入缓出
+     */
+    fun easeInOutCubic(t: Float): Float {
+        return if (t < 0.5f) {
+            4f * t * t * t
+        } else {
+            val temp = -2f * t + 2f
+            1f - (temp * temp * temp) / 2f
+        }
+    }
+    
+    /**
+     * 脉冲效果函数
+     */
+    fun pulseEffect(progress: Float): Float {
+        return (kotlin.math.sin((progress * kotlin.math.PI * 4).toDouble()).toFloat() + 1f) / 2f
+    }
+    
+    /**
+     * 优化的绘制动画高亮效果
      */
     fun DrawScope.drawAnimationHighlight(animatedShape: AnimatedShape, scale: Float, alpha: Float) {
         val key = animatedShape.key
         val shapeType = animatedShape.shapeType
+        val highlightColor = animatedShape.highlightColor
+        
+        // 添加脉冲效果
+        val pulseAlpha = if (animatedShape.pulseEffect) {
+            alpha * (0.5f + 0.5f * pulseEffect(scale))
+        } else {
+            alpha
+        }
         
         // 根据形状类型获取位置和绘制动画效果
         when (shapeType) {
@@ -334,11 +394,19 @@ fun shapeDrawing(state: ApplicationState) {
                 )
                 if (displayLines.containsKey(lineKey)) {
                     val line = displayLines[lineKey]!!
+                    // 绘制多层效果
                     drawLine(
-                        color = Color.Yellow.copy(alpha = alpha * 0.5f),
+                        color = highlightColor.copy(alpha = pulseAlpha * 0.8f),
                         start = line.from,
                         end = line.to,
-                        strokeWidth = 8f * scale,
+                        strokeWidth = 12f * scale,
+                        cap = androidx.compose.ui.graphics.StrokeCap.Round
+                    )
+                    drawLine(
+                        color = Color.White.copy(alpha = pulseAlpha * 0.6f),
+                        start = line.from,
+                        end = line.to,
+                        strokeWidth = 6f * scale,
                         cap = androidx.compose.ui.graphics.StrokeCap.Round
                     )
                 }
@@ -350,10 +418,18 @@ fun shapeDrawing(state: ApplicationState) {
                 )
                 if (displayCircles.containsKey(circleKey)) {
                     val circle = displayCircles[circleKey]!!
+                    // 绘制外圈和内圈
                     drawCircle(
-                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                        color = highlightColor.copy(alpha = pulseAlpha * 0.4f),
+                        radius = circle.radius * scale * 1.2f,
+                        center = circle.center,
+                        style = Stroke(width = 4f * scale)
+                    )
+                    drawCircle(
+                        color = Color.White.copy(alpha = pulseAlpha * 0.6f),
                         radius = circle.radius * scale,
-                        center = circle.center
+                        center = circle.center,
+                        style = Stroke(width = 2f * scale)
                     )
                 }
             }
@@ -364,15 +440,21 @@ fun shapeDrawing(state: ApplicationState) {
                 )
                 if (displayTriangles.containsKey(triangleKey)) {
                     val triangle = displayTriangles[triangleKey]!!
+                    val path = androidx.compose.ui.graphics.Path().apply {
+                        moveTo(triangle.first.x, triangle.first.y)
+                        lineTo(triangle.second?.x ?: triangle.first.x, triangle.second?.y ?: triangle.first.y)
+                        lineTo(triangle.third?.x ?: triangle.first.x, triangle.third?.y ?: triangle.first.y)
+                        close()
+                    }
                     drawPath(
-                        path = androidx.compose.ui.graphics.Path().apply {
-                            moveTo(triangle.first.x, triangle.first.y)
-                            lineTo(triangle.second?.x ?: triangle.first.x, triangle.second?.y ?: triangle.first.y)
-                            lineTo(triangle.third?.x ?: triangle.first.x, triangle.third?.y ?: triangle.first.y)
-                            close()
-                        },
-                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
-                        style = Stroke(width = 6f * scale)
+                        path = path,
+                        color = highlightColor.copy(alpha = pulseAlpha * 0.5f),
+                        style = Stroke(width = 8f * scale)
+                    )
+                    drawPath(
+                        path = path,
+                        color = Color.White.copy(alpha = pulseAlpha * 0.7f),
+                        style = Stroke(width = 3f * scale)
                     )
                 }
             }
@@ -383,13 +465,21 @@ fun shapeDrawing(state: ApplicationState) {
                 )
                 if (displayRectangles.containsKey(rectKey)) {
                     val rect = displayRectangles[rectKey]!!
+                    val rectSize = androidx.compose.ui.geometry.Size(
+                        rect.br.x - rect.tl.x,
+                        rect.br.y - rect.tl.y
+                    )
                     drawRect(
-                        color = Color.Yellow.copy(alpha = alpha * 0.3f),
+                        color = highlightColor.copy(alpha = pulseAlpha * 0.4f),
                         topLeft = rect.tl,
-                        size = androidx.compose.ui.geometry.Size(
-                            rect.br.x - rect.tl.x,
-                            rect.br.y - rect.tl.y
-                        )
+                        size = rectSize,
+                        style = Stroke(width = 6f * scale)
+                    )
+                    drawRect(
+                        color = Color.White.copy(alpha = pulseAlpha * 0.6f),
+                        topLeft = rect.tl,
+                        size = rectSize,
+                        style = Stroke(width = 2f * scale)
                     )
                 }
             }
@@ -410,8 +500,13 @@ fun shapeDrawing(state: ApplicationState) {
                         }
                         drawPath(
                             path = path,
-                            color = Color.Yellow.copy(alpha = alpha * 0.3f),
-                            style = Stroke(width = 6f * scale)
+                            color = highlightColor.copy(alpha = pulseAlpha * 0.5f),
+                            style = Stroke(width = 8f * scale)
+                        )
+                        drawPath(
+                            path = path,
+                            color = Color.White.copy(alpha = pulseAlpha * 0.7f),
+                            style = Stroke(width = 3f * scale)
                         )
                     }
                 }
@@ -772,17 +867,20 @@ fun shapeDrawing(state: ApplicationState) {
                     // 使用displayShapes进行显示
                     viewModel.drawShape(canvasDrawer, displayLines, displayCircles, displayTriangles, displayRectangles, displayPolygons, displayTexts)
                     
-                    // 绘制动画效果
+                    // 优化的动画效果绘制
                     val currentTime = System.currentTimeMillis()
                     animatedShapes.forEach { (key, animatedShape) ->
                         val elapsed = currentTime - animatedShape.startTime
-                        val progress = (elapsed.toFloat() / animatedShape.duration).coerceIn(0f, 1f)
+                        val rawProgress = (elapsed.toFloat() / animatedShape.duration).coerceIn(0f, 1f)
                         
-                        if (progress < 1f) {
-                            val scale = lerp(animatedShape.startScale, animatedShape.endScale, progress)
-                            val alpha = lerp(animatedShape.startAlpha, animatedShape.endAlpha, progress)
+                        if (rawProgress < 1f) {
+                            // 使用缓动函数改进动画效果
+                            val easedProgress = easeInOutCubic(rawProgress)
                             
-                            // 绘制动画高亮效果
+                            val scale = lerp(animatedShape.startScale, animatedShape.endScale, easedProgress)
+                            val alpha = lerp(animatedShape.startAlpha, animatedShape.endAlpha, easedProgress)
+                            
+                            // 绘制优化的动画高亮效果
                             drawAnimationHighlight(animatedShape, scale, alpha)
                         }
                     }
