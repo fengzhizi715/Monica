@@ -15,20 +15,23 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
- *
- * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.colorcorrection.ClickableImage
- * @author: Tony Shen
- * @date: 2025/8/5 13:54
- * @version: V1.0 <描述当前版本功能>
+ * 可点击的图片组件，支持统一的图片尺寸显示
+ * 
+ * @author Tony Shen
+ * @date 2025/8/5 13:54
+ * @version V1.1 - 集成 ImageSizeCalculator 统一图片尺寸
  */
 data class ClickPoint(
     val x: Float,
     val y: Float,
     val label: Int // 1 = 前景, 0 = 背景
 )
+
+private val logger: Logger = LoggerFactory.getLogger("ClickableImage")
 
 @Composable
 fun ClickableImage(
@@ -45,12 +48,16 @@ fun ClickableImage(
         modifier = modifier
             .onGloballyPositioned { coordinates ->
                 imageSize = coordinates.size
+                logger.debug("ClickableImage 尺寸更新: ${imageSize.width}x${imageSize.height}")
             }
             .pointerInput(Unit) {
                 detectTapGestures { offset ->
                     val scaleX = originalSize.width.toFloat() / imageSize.width
                     val scaleY = originalSize.height.toFloat() / imageSize.height
                     val mappedOffset = Offset(offset.x * scaleX, offset.y * scaleY)
+                    
+                    logger.debug("点击坐标转换: 显示(${offset.x}, ${offset.y}) -> 原始(${mappedOffset.x}, ${mappedOffset.y})")
+                    
                     onAddClickPoint(ClickPoint(mappedOffset.x, mappedOffset.y, currentLabel))
                 }
             }

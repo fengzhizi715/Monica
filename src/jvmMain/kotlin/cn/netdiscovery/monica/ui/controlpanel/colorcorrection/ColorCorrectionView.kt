@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
+import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import cn.netdiscovery.monica.utils.extensions.to2fStr
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -47,6 +49,7 @@ private var showLLMDialog by mutableStateOf(false)
 @Composable
 fun colorCorrection(state: ApplicationState) {
     val viewModel: ColorCorrectionViewModel = koinInject()
+    val density = LocalDensity.current
 
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
@@ -56,6 +59,12 @@ fun colorCorrection(state: ApplicationState) {
 
     val clickPoints = remember { mutableStateListOf<ClickPoint>() }
     var currentLabel by remember { mutableStateOf(1) }
+    
+    // 使用统一的图片尺寸计算
+    val (imageWidth, imageHeight) = ImageSizeCalculator.calculateImageSize(state)
+    
+    // 获取原始图片尺寸和显示尺寸，用于坐标转换
+    val originalSize = ImageSizeCalculator.getImagePixelSize(state)
 
     PageLifecycle(
         onInit = {
@@ -77,7 +86,11 @@ fun colorCorrection(state: ApplicationState) {
             horizontalArrangement = Arrangement.Center
         ) {
             Card(
-                modifier = Modifier.padding(10.dp).weight(1.4f),
+                modifier = Modifier
+                    .padding(10.dp)
+                    .weight(1.4f)
+                    .width(imageWidth)
+                    .height(imageHeight),
                 shape = RoundedCornerShape(8.dp),
                 elevation = 4.dp,
                 onClick = {
@@ -86,7 +99,7 @@ fun colorCorrection(state: ApplicationState) {
             ) {
                 ClickableImage(
                     imageBitmap = cachedImage.toComposeImageBitmap(),
-                    originalSize = IntSize(cachedImage.width, cachedImage.height),
+                    originalSize = originalSize?.let { IntSize(it.first, it.second) } ?: IntSize(cachedImage.width, cachedImage.height),
                     clickPoints = clickPoints,
                     currentLabel = currentLabel,
                     onAddClickPoint = { point ->
