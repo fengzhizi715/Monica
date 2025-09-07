@@ -14,7 +14,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.BitmapPainter
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*
@@ -141,7 +140,8 @@ fun generateGif(state: ApplicationState) {
 
             Spacer(modifier = Modifier.height(16.dp))
 
-                            subTitleWithDivider(text = i18nState.getString("gif_generation_strategy"), color = Color.Black)
+            // gif 生成策略
+            subTitleWithDivider(text = i18nState.getString("gif_generation_strategy"), color = Color.Black)
 
             Row {
                 basicTextFieldWithTitle(titleText = i18nState.getString("gif_width"), widthText, Modifier.padding(end = 20.dp)) { str ->
@@ -154,6 +154,7 @@ fun generateGif(state: ApplicationState) {
             }
 
             Row(modifier = Modifier.padding(top = 20.dp)) {
+                // 每一帧间隔 (ms)
                 basicTextFieldWithTitle(titleText = i18nState.getString("frame_interval"), frameDelayText) { str ->
                     frameDelayText = str
                 }
