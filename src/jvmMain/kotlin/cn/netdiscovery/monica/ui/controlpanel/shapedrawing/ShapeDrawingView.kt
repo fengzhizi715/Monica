@@ -885,18 +885,21 @@ fun shapeDrawing(state: ApplicationState) {
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
 
+            // 选择颜色
             toolTipButton(text = "选择颜色",
                 painter = painterResource("images/doodle/color.png"),
                 onClick = {
                     showColorDialog = true
                 })
 
+            // 属性更改
             toolTipButton(text = "属性更改",
                 painter = painterResource("images/doodle/brush.png"),
                 onClick = {
                     showPropertiesDialog = true
                 })
 
+            // 线段
             toolTipButton(text = "线段",
                 painter = painterResource("images/shapedrawing/line.png"),
                 onClick = {
@@ -905,6 +908,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Line
                 })
 
+            // 圆形
             toolTipButton(text = "圆形",
                 painter = painterResource("images/shapedrawing/circle.png"),
                 onClick = {
@@ -913,6 +917,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Circle
                 })
 
+            // 三角形
             toolTipButton(text = "三角形",
                 painter = painterResource("images/shapedrawing/triangle.png"),
                 onClick = {
@@ -921,6 +926,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Triangle
                 })
 
+            // 矩形
             toolTipButton(text = "矩形",
                 painter = painterResource("images/shapedrawing/rectangle.png"),
                 onClick = {
@@ -929,6 +935,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Rectangle
                 })
 
+            // 多边形
             toolTipButton(text = "多边形",
                 painter = painterResource("images/shapedrawing/polygon.png"),
                 onClick = {
@@ -937,6 +944,7 @@ fun shapeDrawing(state: ApplicationState) {
                     shape = ShapeEnum.Polygon
                 })
 
+            // 添加文字
             toolTipButton(text = "添加文字",
                 painter = painterResource("images/shapedrawing/text.png"),
                 onClick = {
@@ -944,12 +952,14 @@ fun shapeDrawing(state: ApplicationState) {
                     // 移除clear()调用，保留之前添加的文字
                 })
 
+            // 清除所有
             toolTipButton(text = "清除所有",
                 painter = painterResource("images/doodle/clear.png"),
                 onClick = {
                     clearAllShapes()
                 })
-                
+
+            // 保存
             toolTipButton(text = "保存",
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
