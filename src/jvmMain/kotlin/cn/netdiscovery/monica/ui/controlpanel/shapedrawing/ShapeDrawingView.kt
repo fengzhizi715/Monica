@@ -105,7 +105,7 @@ fun shapeDrawing(state: ApplicationState) {
             ) {
                 androidx.compose.material.Text(
                     text = "请先加载图片",
-                    color = androidx.compose.ui.graphics.Color.Gray
+                    color = Color.Gray
                 )
             }
             return
