@@ -238,7 +238,7 @@ fun main() = application {
                     drawImage(applicationState)
                 }
                 ShapeDrawingStatus -> {
-                    logger.info("enter ShapeDrawingView")
+                    logger.info("enter ShapeDrawingViewRefactored")
                     shapeDrawing(applicationState)
                 }
                 CropSizeStatus -> {
