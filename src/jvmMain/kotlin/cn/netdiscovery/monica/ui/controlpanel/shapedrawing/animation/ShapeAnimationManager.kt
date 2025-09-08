@@ -46,6 +46,12 @@ class ShapeAnimationManager {
      * 添加动画形状
      */
     fun addAnimatedShape(shapeType: String, key: Offset) {
+        // 检查 key 是否有效
+        if (key == Offset.Unspecified) {
+            logger.warn("无法添加动画形状: key 是 Offset.Unspecified")
+            return
+        }
+        
         val shapeKey = "${shapeType}_${key.x}_${key.y}"
         val currentTime = System.currentTimeMillis()
         

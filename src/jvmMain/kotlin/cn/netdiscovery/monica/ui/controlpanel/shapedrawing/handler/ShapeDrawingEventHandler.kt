@@ -104,6 +104,10 @@ class ShapeDrawingEventHandler(
             state.addShape(state.currentLineStart, displayLine, originalLine)
             state.recordLastDrawnShape(state.currentLineStart, "Line")
             logger.info("添加线段: ${state.currentLineStart} -> ${state.currentLineEnd}")
+            
+            // 重置线段状态，准备下次绘制
+            state.clearCurrentDrawingState()
+            
             Pair(state.currentLineStart, displayLine)
         } else {
             logger.warn("线段坐标无效: ${startValidation.message}, ${endValidation.message}")
@@ -136,6 +140,10 @@ class ShapeDrawingEventHandler(
             state.addShape(state.currentCircleCenter, displayCircle, originalCircle)
             state.recordLastDrawnShape(state.currentCircleCenter, "Circle")
             logger.info("添加圆形: 中心=${state.currentCircleCenter}, 半径=${state.currentCircleRadius}")
+            
+            // 重置圆形状态，准备下次绘制
+            state.clearCurrentDrawingState()
+            
             Pair(state.currentCircleCenter, displayCircle)
         } else {
             logger.warn("圆形坐标无效: ${centerValidation.message}")
@@ -170,6 +178,10 @@ class ShapeDrawingEventHandler(
             state.addShape(state.currentTriangleFirst, displayTriangle, originalTriangle)
             state.recordLastDrawnShape(state.currentTriangleFirst, "Triangle")
             logger.info("添加三角形: ${state.currentTriangleFirst}, ${state.currentTriangleSecond}, ${state.currentTriangleThird}")
+            
+            // 重置三角形状态，准备下次绘制
+            state.clearCurrentDrawingState()
+            
             Pair(state.currentTriangleFirst, displayTriangle)
         } else {
             logger.warn("三角形坐标无效: ${firstValidation.message}, ${secondValidation.message}, ${thirdValidation.message}")
@@ -220,6 +232,10 @@ class ShapeDrawingEventHandler(
             state.addShape(state.currentRectFirst, displayRect, originalRect)
             state.recordLastDrawnShape(state.currentRectFirst, "Rectangle")
             logger.info("添加矩形: ${state.currentRectTL} -> ${state.currentRectBR}")
+            
+            // 重置矩形状态，准备下次绘制
+            state.clearCurrentDrawingState()
+            
             Pair(state.currentRectFirst, displayRect)
         } else {
             logger.warn("矩形坐标无效: ${tlValidation.message}, ${brValidation.message}")
@@ -298,6 +314,10 @@ class ShapeDrawingEventHandler(
                 state.addShape(state.currentPolygonFirst, displayPolygon, originalPolygon)
                 state.recordLastDrawnShape(state.currentPolygonFirst, "Polygon")
                 logger.info("添加多边形: ${state.currentPolygonPoints.size}个顶点")
+                
+                // 重置多边形状态，准备下次绘制
+                state.clearCurrentDrawingState()
+                
                 Pair(state.currentPolygonFirst, displayPolygon)
             } else {
                 logger.warn("多边形边界无效: ${boundaryValidation.message}")
