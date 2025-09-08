@@ -105,7 +105,8 @@
     <string name="url_invalid">Invalid URL format</string>
 
     <!-- Theme Settings -->
-    <string name="theme_settings">Theme Settings</string>
+    <string name="basic_settings">Basic Settings</string>
+    <string name="api_settings">API Settings</string>
     <string name="current_theme">Current Theme</string>
     <string name="select_theme">Select Theme</string>
     <string name="theme_light">Light Theme</string>

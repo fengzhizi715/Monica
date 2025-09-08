@@ -28,8 +28,9 @@ import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.desktopLazyRow
+import cn.netdiscovery.monica.i18n.LocalizationManager
+import cn.netdiscovery.monica.i18n.Language
 import cn.netdiscovery.monica.ui.theme.ColorTheme
-import cn.netdiscovery.monica.ui.theme.ThemeManager
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.extensions.isValidUrl
 import cn.netdiscovery.monica.utils.getValidateField
@@ -138,504 +139,555 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
     AlertDialog(
         onDismissRequest = {},
-        modifier = Modifier.width(900.dp).height(900.dp),
+        modifier = Modifier.width(1000.dp).height(800.dp),
         title = {
             Text(
                 text = i18nState.getString("monica_general_settings"),
-                fontSize = 16.sp,
+                fontSize = 18.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black
+                color = MaterialTheme.colors.primary
             )
         },
         text = {
-            Column(
-                modifier = Modifier.fillMaxWidth().fillMaxHeight(),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+            Box(
+                modifier = Modifier.fillMaxSize()
             ) {
-                // 可滚动的内容区域
+                // 主要内容区域 - 使用TabRow进行分组
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .weight(1f)
-                        .verticalScroll(rememberScrollState()),
-                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                    modifier = Modifier.fillMaxSize()
                 ) {
-                    // 输出框颜色设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
+                    // 标签页选择器
+                    val tabTitles = listOf(
+                        i18nState.getString("basic_settings"),
+                        i18nState.getString("api_settings"), 
+                        i18nState.getString("theme_settings"),
+                        i18nState.getString("language_settings")
+                    )
+                    var selectedTab by remember { mutableStateOf(0) }
+                    
+                    TabRow(
+                        selectedTabIndex = selectedTab,
+                        backgroundColor = MaterialTheme.colors.surface,
+                        contentColor = MaterialTheme.colors.primary
                     ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("output_box_color_settings"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            Row(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.spacedBy(16.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                // RGB颜色预览
-                                Box(
-                                    modifier = Modifier
-                                        .size(50.dp)
-                                        .background(
-                                            Color(
-                                                red = (rText.toIntOrNull() ?: 255).coerceIn(0, 255) / 255f,
-                                                green = (gText.toIntOrNull() ?: 0).coerceIn(0, 255) / 255f,
-                                                blue = (bText.toIntOrNull() ?: 0).coerceIn(0, 255) / 255f
-                                            ),
-                                            shape = RoundedCornerShape(6.dp)
-                                        )
-                                        .border(2.dp, Color.Gray, RoundedCornerShape(6.dp))
-                                )
-                                
-                                // RGB输入框
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
-                                ) {
-                                    basicTextFieldWithTitle(
-                                        titleText = "R",
-                                        value = rText,
-                                        width = 80.dp
-                                    ) { str ->
-                                        rText = str
-                                    }
-                                    
-                                    basicTextFieldWithTitle(
-                                        titleText = "G",
-                                        value = gText,
-                                        width = 80.dp
-                                    ) { str ->
-                                        gText = str
-                                    }
-                                    
-                                    basicTextFieldWithTitle(
-                                        titleText = "B",
-                                        value = bText,
-                                        width = 80.dp
-                                    ) { str ->
-                                        bText = str
-                                    }
+                        tabTitles.forEachIndexed { index, title ->
+                            Tab(
+                                selected = selectedTab == index,
+                                onClick = { selectedTab = index },
+                                text = { 
+                                    Text(
+                                        text = title,
+                                        fontSize = 12.sp,
+                                        fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                                    ) 
                                 }
-                            }
-                        }
-                    }
-
-                    // 区域大小设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("area_size_settings"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
                             )
-                            
-                            basicTextFieldWithTitle(
-                                titleText = "Size",
-                                value = sizeText,
-                                width = 150.dp
-                            ) { str ->
-                                sizeText = str
-                            }
-                        }
-                    }
-
-                    // 历史记录大小设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("max_history_size"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            basicTextFieldWithTitle(
-                                titleText = "Max History",
-                                value = maxHistorySizeText,
-                                width = 150.dp
-                            ) { str ->
-                                maxHistorySizeText = str
-                            }
-                        }
-                    }
-
-                    // DeepSeek API设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = "DeepSeek API Key",
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            basicTextFieldWithTitle(
-                                titleText = "API Key",
-                                value = deepSeekApiKeyText,
-                                width = 500.dp
-                            ) { str ->
-                                deepSeekApiKeyText = str
-                            }
-                        }
-                    }
-
-                    // Gemini API设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("gemini_api_key_title"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            basicTextFieldWithTitle(
-                                titleText = "API Key",
-                                value = geminiApiKeyText,
-                                width = 500.dp
-                            ) { str ->
-                                geminiApiKeyText = str
-                            }
-                        }
-                    }
-
-                    // 算法服务设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("algorithm_service_url"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            basicTextFieldWithTitle(
-                                titleText = "URL",
-                                value = algorithmUrlText,
-                                width = 500.dp
-                            ) { str ->
-                                algorithmUrlText = str
-                            }
-                            
-                            Row(
-                                modifier = Modifier.padding(top = 12.dp),
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Button(
-                                    enabled = algorithmUrlText.isNotEmpty(),
-                                    onClick = {
-                                        status = try {
-                                            val baseUrl = if (algorithmUrlText.last() == '/') {
-                                                algorithmUrlText
-                                            } else {
-                                                "$algorithmUrlText/"
-                                            }
-
-                                            if (healthCheck(baseUrl)) {
-                                                STATUS_HTTP_SERVER_OK
-                                            } else {
-                                                STATUS_HTTP_SERVER_FAILED
-                                            }
-                                        } catch (e: Exception) {
-                                            STATUS_HTTP_SERVER_FAILED
-                                        }
-                                    },
-                                    modifier = Modifier.padding(end = 16.dp)
-                                ) {
-                                    Text(i18nState.getString("check_service_status"))
-                                }
-                                
-                                // 状态指示器
-                                when (status) {
-                                    STATUS_HTTP_SERVER_OK -> {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Text(
-                                                "✓",
-                                                color = Color.Green,
-                                                fontSize = 18.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                            Text(
-                                                i18nState.getString("algorithm_service_available"),
-                                                color = Color.Green,
-                                                fontSize = 14.sp,
-                                                modifier = Modifier.padding(start = 6.dp)
-                                            )
-                                        }
-                                    }
-                                    STATUS_HTTP_SERVER_FAILED -> {
-                                        Row(
-                                            verticalAlignment = Alignment.CenterVertically
-                                        ) {
-                                            Text(
-                                                "✗",
-                                                color = Color.Red,
-                                                fontSize = 18.sp,
-                                                fontWeight = FontWeight.Bold
-                                            )
-                                            Text(
-                                                i18nState.getString("algorithm_service_unavailable"),
-                                                color = Color.Red,
-                                                fontSize = 14.sp,
-                                                modifier = Modifier.padding(start = 6.dp)
-                                            )
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // 选项设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("options_settings"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            ) {
-                                Checkbox(
-                                    checked = isInitFilterParams,
-                                    onCheckedChange = { isInitFilterParams = it }
-                                )
-                                Text(
-                                    text = i18nState.getString("init_filter_params"),
-                                    fontSize = 14.sp
-                                )
-                            }
-                            
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically
-                            ) {
-                                Checkbox(
-                                    checked = isClearCacheData,
-                                    onCheckedChange = { isClearCacheData = it }
-                                )
-                                Text(
-                                    text = i18nState.getString("clear_cache_data"),
-                                    fontSize = 14.sp
-                                )
-                            }
-                        }
-                    }
-
-                    // 主题设置
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 4.dp,
-                        shape = RoundedCornerShape(12.dp),
-                        backgroundColor = MaterialTheme.colors.surface
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(20.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("theme_settings"),
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colors.primary,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            Text(
-                                text = i18nState.getString("current_theme") + ": " + state.getCurrentThemeValue().getThemeDisplayName(),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = MaterialTheme.colors.onSurface,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            // 主题选择
-                            desktopLazyRow(
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            ) {
-                                Row(
-                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                ) {
-                                    ThemeManager.getAllThemes().forEach { theme ->
-                                        val isSelected = state.getCurrentThemeValue() == theme
-                                        
-                                        Card(
-                                            modifier = Modifier
-                                                .width(80.dp)
-                                                .height(60.dp)
-                                                .clickable { 
-                                                    state.setTheme(theme)
-                                                },
-                                            elevation = if (isSelected) 4.dp else 1.dp,
-                                            backgroundColor = if (isSelected) 
-                                                theme.primary.copy(alpha = 0.1f) 
-                                            else 
-                                                MaterialTheme.colors.surface,
-                                            shape = RoundedCornerShape(8.dp)
-                                        ) {
-                                            Column(
-                                                modifier = Modifier
-                                                    .fillMaxSize()
-                                                    .padding(8.dp),
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                verticalArrangement = Arrangement.Center
-                                            ) {
-                                                // 主题颜色预览
-                                                Box(
-                                                    modifier = Modifier
-                                                        .size(24.dp)
-                                                        .background(
-                                                            theme.primary,
-                                                            shape = RoundedCornerShape(4.dp)
-                                                        )
-                                                )
-                                                
-                                                Spacer(modifier = Modifier.height(4.dp))
-                                                
-                                                Text(
-                                                    text = when (theme) {
-                                                        ColorTheme.LIGHT -> i18nState.getString("theme_light")
-                                                        ColorTheme.DARK -> i18nState.getString("theme_dark")
-                                                        ColorTheme.BLUE -> i18nState.getString("theme_blue")
-                                                        ColorTheme.GREEN -> i18nState.getString("theme_green")
-                                                        ColorTheme.PURPLE -> i18nState.getString("theme_purple")
-                                                        ColorTheme.ORANGE -> i18nState.getString("theme_orange")
-                                                        ColorTheme.PINK -> i18nState.getString("theme_pink")
-                                                        else -> theme.getThemeDisplayName()
-                                                    },
-                                                    fontSize = 10.sp,
-                                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                                    color = if (isSelected) theme.primary else MaterialTheme.colors.onSurface,
-                                                    maxLines = 1,
-                                                    overflow = TextOverflow.Ellipsis
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    // 语言设置 - 确保在最后显示
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-                        elevation = 2.dp,
-                        shape = RoundedCornerShape(8.dp)
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(16.dp)
-                        ) {
-                            Text(
-                                text = i18nState.getString("language_settings"),
-                                fontSize = 14.sp,
-                                fontWeight = FontWeight.Medium,
-                                color = Color.Black,
-                                modifier = Modifier.padding(bottom = 12.dp)
-                            )
-                            
-                            Row(
-                                verticalAlignment = Alignment.CenterVertically,
-                                modifier = Modifier.padding(bottom = 16.dp)
-                            ) {
-                                Text(
-                                    text = i18nState.getString("current_language") + ": ",
-                                    fontSize = 14.sp,
-                                    modifier = Modifier.padding(end = 8.dp)
-                                )
-                                
-                                Text(
-                                    text = i18nState.getLanguageDisplayName(),
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium,
-                                    color = Color.Blue,
-                                    modifier = Modifier.padding(end = 16.dp)
-                                )
-                            }
-                            
-                            Row(
-                                horizontalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                Button(
-                                    onClick = { i18nState.toggleLanguage() },
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Text(i18nState.getToggleButtonText())
-                                }
-                                
-                                Button(
-                                    onClick = { i18nState.resetToSystemLanguage() },
-                                    modifier = Modifier.weight(1f)
-                                ) {
-                                    Text(i18nState.getString("reset_to_system_language"))
-                                }
-                            }
                         }
                     }
                     
-                    // 底部额外间距，确保最后一个卡片不被按钮遮挡
-                    Spacer(modifier = Modifier.height(40.dp))
+                    // 标签页内容
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(top = 16.dp)
+                    ) {
+                        when (selectedTab) {
+                            0 -> {
+                                // 基础设置
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .verticalScroll(rememberScrollState())
+                                        .padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    // 输出框颜色设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("output_box_color_settings"),
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(12.dp),
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                basicTextFieldWithTitle(
+                                                    titleText = "R",
+                                                    value = rText,
+                                                    onValueChange = { rText = it },
+                                                    modifier = Modifier.weight(1f)
+                                                )
+                                                basicTextFieldWithTitle(
+                                                    titleText = "G", 
+                                                    value = gText,
+                                                    onValueChange = { gText = it },
+                                                    modifier = Modifier.weight(1f)
+                                                )
+                                                basicTextFieldWithTitle(
+                                                    titleText = "B",
+                                                    value = bText,
+                                                    onValueChange = { bText = it },
+                                                    modifier = Modifier.weight(1f)
+                                                )
+                                            }
+                                        }
+                                    }
+                                    
+                                    // 区域大小设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("area_size_settings"),
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            basicTextFieldWithTitle(
+                                                titleText = "Size",
+                                                value = sizeText,
+                                                onValueChange = { sizeText = it },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                    }
+                                    
+                                    // 历史记录大小设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("max_history_size"),
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            basicTextFieldWithTitle(
+                                                titleText = "Max History Size",
+                                                value = maxHistorySizeText,
+                                                onValueChange = { maxHistorySizeText = it },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                    }
+                                    
+                                    // 选项设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "选项设置",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                            ) {
+                                                Checkbox(
+                                                    checked = isInitFilterParams,
+                                                    onCheckedChange = { isInitFilterParams = it }
+                                                )
+                                                Text("初始化滤镜参数配置")
+                                            }
+                                            
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically,
+                                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                                            ) {
+                                                Checkbox(
+                                                    checked = isClearCacheData,
+                                                    onCheckedChange = { isClearCacheData = it }
+                                                )
+                                                Text("清除缓存数据")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            1 -> {
+                                // API设置
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .verticalScroll(rememberScrollState())
+                                        .padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    // DeepSeek API设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("ai_provider_deepseek") + " API Key",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            basicTextFieldWithTitle(
+                                                titleText = "DeepSeek API Key",
+                                                value = deepSeekApiKeyText,
+                                                onValueChange = { deepSeekApiKeyText = it },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                    }
+                                    
+                                    // Gemini API设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("ai_provider_gemini") + " API Key",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            basicTextFieldWithTitle(
+                                                titleText = "Gemini API Key",
+                                                value = geminiApiKeyText,
+                                                onValueChange = { geminiApiKeyText = it },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                        }
+                                    }
+                                    
+                                    // 算法URL设置
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "算法服务URL",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            basicTextFieldWithTitle(
+                                                titleText = "Algorithm URL",
+                                                value = algorithmUrlText,
+                                                onValueChange = { algorithmUrlText = it },
+                                                modifier = Modifier.fillMaxWidth()
+                                            )
+                                            
+                                            Text(
+                                                text = "请输入完整的算法服务URL地址",
+                                                fontSize = 12.sp,
+                                                color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                                            )
+                                        }
+                                    }
+                                }
+                            }
+                            2 -> {
+                                // 主题设置
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    // 当前主题显示
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("current_theme"),
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Text(
+                                                text = state.getCurrentThemeValue().getThemeDisplayName(),
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = MaterialTheme.colors.onSurface
+                                            )
+                                        }
+                                    }
+                                    
+                                    // 主题选择
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = i18nState.getString("select_theme"),
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            desktopLazyRow(
+                                                modifier = Modifier.fillMaxWidth()
+                                            ) {
+                                                ColorTheme.values().forEach { theme ->
+                                                    Card(
+                                                        modifier = Modifier
+                                                            .width(120.dp)
+                                                            .height(80.dp)
+                                                            .clickable {
+                                                                state.setTheme(theme)
+                                                            },
+                                                        elevation = if (state.getCurrentThemeValue() == theme) 8.dp else 2.dp,
+                                                        shape = RoundedCornerShape(8.dp)
+                                                    ) {
+                                                        Box(
+                                                            modifier = Modifier
+                                                                .fillMaxSize()
+                                                                .background(
+                                                                    Brush.verticalGradient(
+                                                                        colors = listOf(
+                                                                            theme.primary,
+                                                                            theme.secondary
+                                                                        )
+                                                                    )
+                                                                ),
+                                                            contentAlignment = Alignment.Center
+                                                        ) {
+                                                            Text(
+                                                                text = theme.getThemeDisplayName(),
+                                                                color = theme.onPrimary,
+                                                                fontSize = 12.sp,
+                                                                fontWeight = FontWeight.Medium
+                                                            )
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    // 重置按钮
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "主题操作",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Button(
+                                                onClick = {
+                                                    state.setTheme(ColorTheme.LIGHT)
+                                                },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = MaterialTheme.colors.secondary
+                                                )
+                                            ) {
+                                                Text(i18nState.getString("reset_to_default_theme"))
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            3 -> {
+                                // 语言设置
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .padding(16.dp),
+                                    verticalArrangement = Arrangement.spacedBy(16.dp)
+                                ) {
+                                    // 当前语言显示
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "当前语言",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Text(
+                                                text = if (LocalizationManager.currentLanguage == Language.CHINESE) "中文" else "English",
+                                                fontSize = 16.sp,
+                                                fontWeight = FontWeight.Medium,
+                                                color = MaterialTheme.colors.onSurface
+                                            )
+                                        }
+                                    }
+                                    
+                                    // 语言切换
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                                            Text(
+                                                text = "语言切换",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Row(
+                                                horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                            ) {
+                                                Button(
+                                                    onClick = {
+                                                        LocalizationManager.setLanguage(Language.CHINESE)
+                                                    },
+                                                    modifier = Modifier.weight(1f),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = if (LocalizationManager.currentLanguage == Language.CHINESE) 
+                                                            MaterialTheme.colors.primary 
+                                                        else 
+                                                            MaterialTheme.colors.surface
+                                                    )
+                                                ) {
+                                                    Text(
+                                                        text = "中文",
+                                                        color = if (LocalizationManager.currentLanguage == Language.CHINESE) 
+                                                            MaterialTheme.colors.onPrimary 
+                                                        else 
+                                                            MaterialTheme.colors.onSurface
+                                                    )
+                                                }
+                                                
+                                                Button(
+                                                    onClick = {
+                                                        LocalizationManager.setLanguage(Language.ENGLISH)
+                                                    },
+                                                    modifier = Modifier.weight(1f),
+                                                    colors = ButtonDefaults.buttonColors(
+                                                        backgroundColor = if (LocalizationManager.currentLanguage == Language.ENGLISH) 
+                                                            MaterialTheme.colors.primary 
+                                                        else 
+                                                            MaterialTheme.colors.surface
+                                                    )
+                                                ) {
+                                                    Text(
+                                                        text = "English",
+                                                        color = if (LocalizationManager.currentLanguage == Language.ENGLISH) 
+                                                            MaterialTheme.colors.onPrimary 
+                                                        else 
+                                                            MaterialTheme.colors.onSurface
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    // 重置语言
+                                    Card(
+                                        modifier = Modifier.fillMaxWidth(),
+                                        elevation = 4.dp
+                                    ) {
+                                        Column(
+                                            modifier = Modifier.padding(16.dp),
+                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                        ) {
+                    Text(
+                                                text = "语言操作",
+                                                fontSize = 14.sp,
+                                                fontWeight = FontWeight.Bold,
+                                                color = MaterialTheme.colors.primary
+                                            )
+                                            
+                                            Button(
+                                                onClick = {
+                                                    LocalizationManager.setLanguage(Language.CHINESE)
+                                                },
+                                                modifier = Modifier.fillMaxWidth(),
+                                                colors = ButtonDefaults.buttonColors(
+                                                    backgroundColor = MaterialTheme.colors.secondary
+                                                )
+                                            ) {
+                                                Text("重置为中文")
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
                 }
                 
-                // 底部按钮区域 - 固定位置
+                // 底部按钮区域 - 固定在底部
                 Row(
-                    modifier = Modifier.fillMaxWidth().padding(top = 16.dp, bottom = 8.dp),
+                    modifier = Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .padding(16.dp)
+                        .background(
+                            MaterialTheme.colors.surface,
+                            RoundedCornerShape(8.dp)
+                        )
+                        .padding(12.dp),
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
@@ -647,53 +699,59 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
                             state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
                             state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
-                            state.deepSeekApiKeyText = deepSeekApiKeyText
+                state.deepSeekApiKeyText = deepSeekApiKeyText
                             state.geminiApiKeyText = geminiApiKeyText
-                            state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
-                                getValidateField(block = {
-                                    if (algorithmUrlText.isValidUrl()) {
-                                        if (algorithmUrlText.last() == '/') {
-                                            algorithmUrlText
-                                        } else {
-                                            "$algorithmUrlText/"
-                                        }
-                                    } else {
-                                        throw RuntimeException()
-                                    }
+                state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
+                    getValidateField(block = {
+                        if (algorithmUrlText.isValidUrl()) {
+                            if (algorithmUrlText.last() == '/') {
+                                algorithmUrlText
+                            } else {
+                                "$algorithmUrlText/"
+                            }
+                        } else {
+                            throw RuntimeException()
+                        }
                                 }, failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
-                            } else ""
+                } else ""
 
                             state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
 
-                            state.saveGeneralSettings()
+                state.saveGeneralSettings()
 
-                            if (isInitFilterParams) {
-                                initFilterParamsConfig()
-                            }
+                if (isInitFilterParams) {
+                    initFilterParamsConfig()
+                }
 
-                            if (isClearCacheData) {
-                                clearData()
-                            }
+                if (isClearCacheData) {
+                    clearData()
+                }
 
-                            onClick()
-                        }
+                onClick()
+                        },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.primary
+                        )
                     ) {
-                        Text(i18nState.getString("update"))
-                    }
+                Text(i18nState.getString("update"))
+            }
 
                     Button(
-                        onClick = { onClick() }
+                        onClick = { onClick() },
+                        colors = ButtonDefaults.buttonColors(
+                            backgroundColor = MaterialTheme.colors.secondary
+                        )
                     ) {
-                        Text(i18nState.getString("close"))
+                Text(i18nState.getString("close"))
                     }
                 }
             }
         },
         confirmButton = {
-            // 这里不需要内容，因为按钮已经在text中处理了
+            // 空内容，按钮在text中处理
         },
         dismissButton = {
-            // 这里不需要内容，因为按钮已经在text中处理了
+            // 空内容，按钮在text中处理
         }
     )
 }
