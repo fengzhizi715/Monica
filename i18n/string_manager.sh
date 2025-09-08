@@ -456,6 +456,9 @@ position_compare_mode() {
     echo "=== 位置比对完成 ==="
     echo ""
 }
+
+# 比对模式主函数
+compare_mode() {
     local zh_file="src/main/resources/strings/strings_zh.xml"
     local en_file="src/main/resources/strings/strings_en.xml"
     

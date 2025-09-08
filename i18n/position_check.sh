@@ -62,7 +62,12 @@ echo "$COMMON_KEYS" | while read key; do
     
     if [[ -n "$ZH_LINE" && -n "$EN_LINE" ]]; then
         DIFF=$((ZH_LINE - EN_LINE))
-        ABS_DIFF=${DIFF#-}  # 取绝对值
+        # 取绝对值
+        if [[ $DIFF -lt 0 ]]; then
+            ABS_DIFF=$((-DIFF))
+        else
+            ABS_DIFF=$DIFF
+        fi
         
         if [[ $ABS_DIFF -gt 0 ]]; then
             echo -e "${YELLOW}行号不匹配: $key${NC}"
@@ -81,7 +86,12 @@ ACTUAL_MISMATCHED=$(echo "$COMMON_KEYS" | while read key; do
     
     if [[ -n "$ZH_LINE" && -n "$EN_LINE" ]]; then
         DIFF=$((ZH_LINE - EN_LINE))
-        ABS_DIFF=${DIFF#-}
+        # 取绝对值
+        if [[ $DIFF -lt 0 ]]; then
+            ABS_DIFF=$((-DIFF))
+        else
+            ABS_DIFF=$DIFF
+        fi
         
         if [[ $ABS_DIFF -gt 0 ]]; then
             echo "1"
@@ -96,7 +106,12 @@ ACTUAL_TOTAL_DIFF=$(echo "$COMMON_KEYS" | while read key; do
     
     if [[ -n "$ZH_LINE" && -n "$EN_LINE" ]]; then
         DIFF=$((ZH_LINE - EN_LINE))
-        ABS_DIFF=${DIFF#-}
+        # 取绝对值
+        if [[ $DIFF -lt 0 ]]; then
+            ABS_DIFF=$((-DIFF))
+        else
+            ABS_DIFF=$DIFF
+        fi
         echo "$ABS_DIFF"
     fi
 done | awk '{sum+=$1} END {print sum}')
@@ -108,7 +123,12 @@ ACTUAL_MAX_DIFF=$(echo "$COMMON_KEYS" | while read key; do
     
     if [[ -n "$ZH_LINE" && -n "$EN_LINE" ]]; then
         DIFF=$((ZH_LINE - EN_LINE))
-        ABS_DIFF=${DIFF#-}
+        # 取绝对值
+        if [[ $DIFF -lt 0 ]]; then
+            ABS_DIFF=$((-DIFF))
+        else
+            ABS_DIFF=$DIFF
+        fi
         echo "$ABS_DIFF"
     fi
 done | sort -n | tail -1)

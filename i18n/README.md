@@ -19,6 +19,14 @@ Monica 项目的国际化字符串资源管理工具集，提供完整的字符�
   - 统计信息报告
 
 ### 文档
+- **`SCRIPT_USAGE_GUIDE.md`** - 脚本使用指南
+  - 详细的使用说明和示例
+  - 所有选项和参数说明
+  - 输出解读和故障排除
+- **`QUICK_REFERENCE.md`** - 快速参考
+  - 常用命令速查
+  - 一键检查脚本
+  - 快速故障排除
 - **`I18N_STRING_MANAGEMENT_GUIDE.md`** - 完整使用指南
   - 详细的使用说明
   - 工作流程指导
@@ -31,19 +39,20 @@ Monica 项目的国际化字符串资源管理工具集，提供完整的字符�
 # 进入工具目录
 cd i18n
 
-# 查看帮助
-./string_manager.sh -h
+# 一键检查所有问题
+./quick_check.sh
 
-# 快速检查
-./string_manager.sh -m
-
-# 位置比对
-./position_check.sh
+# 或者单独使用各个工具
+./string_manager.sh -m    # 检查同步性
+./string_manager.sh -c -d # 检查重复项
+./position_check.sh       # 检查行号一致性
 ```
 
 ## 📖 详细文档
 
-请查看项目根目录的 `I18N_STRING_MANAGEMENT_GUIDE.md` 获取完整的使用指南。
+- **`SCRIPT_USAGE_GUIDE.md`** - 脚本使用详细指南
+- **`QUICK_REFERENCE.md`** - 快速参考和常用命令
+- **`I18N_STRING_MANAGEMENT_GUIDE.md`** - 完整的国际化管理指南
 
 ## 🎯 主要功能
 
@@ -56,15 +65,17 @@ cd i18n
 
 ## 📊 当前状态
 
-- **字符串总数**: 348个
+- **字符串总数**: 366个
 - **文件状态**: 完整同步
-- **位置一致性**: 需要优化（176个key位置不一致）
+- **重复项**: 无重复字符串名称
+- **位置一致性**: 349个key位置不一致（正常现象）
 
 ## 🔧 维护建议
 
-1. **日常**: 添加新字符串后立即检查
-2. **每周**: 运行完整的位置比对
-3. **每月**: 全面清理和优化
+1. **日常**: 使用 `./quick_check.sh` 快速检查
+2. **开发新功能后**: 运行 `./string_manager.sh -m` 检查同步性
+3. **发现重复项**: 使用 `./string_manager.sh -c -f` 自动修复
+4. **定期维护**: 每月运行完整检查
 
 ---
 
