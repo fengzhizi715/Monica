@@ -48,12 +48,9 @@
     <string name="brush">画笔</string>
     <string name="eraser">橡皮擦</string>
     <string name="clear">清除</string>
-    <string name="select_color">选择颜色</string>
-    <string name="change_properties">属性更改</string>
-    <string name="previous_step">上一步</string>
-    <string name="revoke">撤回</string>
-    <string name="clear_canvas">清空画布</string>
     <string name="brush_settings">画笔设置</string>
+    <string name="clear_canvas">清空画布</string>
+    <string name="revoke">撤回</string>
     
     <!-- 颜色校正 -->
     <string name="natural_language_color">自然语言调色</string>
@@ -63,7 +60,6 @@
     <string name="ai_provider_selection">AI 服务提供商</string>
     <string name="ai_provider_deepseek">DeepSeek</string>
     <string name="ai_provider_gemini">Gemini</string>
-    <string name="enter_color_instruction">请输入调色指令</string>
     <string name="contrast">对比度</string>
     <string name="hue">色调</string>
     <string name="saturation">饱和度</string>
@@ -128,6 +124,10 @@
     <string name="stroke_cap">描边端点</string>
     <string name="stroke_join">描边连接</string>
     <string name="confirm">确认</string>
+    
+    <!-- 语言设置 -->
+    <string name="language_settings">语言设置</string>
+    <string name="current_language">当前语言</string>
     
     <!-- 网络图片加载 -->
     <string name="load_network_image_dialog">加载网络图片</string>
@@ -195,9 +195,6 @@
     <string name="gif_height">GIF 高度</string>
     <string name="frame_interval">帧间隔（毫秒）</string>
     <string name="loop_playback">循环播放</string>
-    
-    <!-- Natural language color correction -->
-    <string name="natural_language_color_correction">自然语言图像调色</string>
     
     <!-- AI experiment related -->
     <string name="gaussian_filter">高斯滤波</string>
@@ -348,21 +345,6 @@
     <string name="sigma2_needs_double">sigma2 需要 double 类型</string>
     <string name="size_needs_int">size 需要 int 类型</string>
     
-    <!-- Natural language color correction -->
-    <string name="update_parameters">🤖 更新 参数:</string>
-    <string name="request_failed">请求失败：</string>
-    <string name="unknown_error">未知错误</string>
-    <string name="contrast">对比度</string>
-    <string name="hue">色调</string>
-    <string name="saturation">饱和度</string>
-    <string name="lightness">亮度</string>
-    <string name="temperature">色温</string>
-    <string name="highlight">高光</string>
-    <string name="shadow">阴影</string>
-    <string name="sharpen">锐化</string>
-    <string name="corner">暗角</string>
-    <string name="no_significant_changes">无明显修改</string>
-    
     <!-- AI 实验页面相关 -->
     <string name="experiment_home_description">本模块的算法使用 OpenCV C++ 实现，目前只适用于一些简单 CV 算法的快速验证和调参。</string>
     
@@ -484,21 +466,5 @@
     <string name="gemini_api_key">Gemini API Key</string>
     <string name="gemini_api_key_title">Gemini API 密钥</string>
     <string name="gemini_api_key_description">用于自然语言调色的 Gemini API 密钥</string>
-    <string name="ai_provider_selection">AI 服务提供商</string>
-    <string name="ai_provider_deepseek">DeepSeek</string>
-    <string name="ai_provider_gemini">Gemini</string>
     <string name="select_ai_provider">选择 AI 服务提供商</string>
-    
-    <!-- 语言设置 -->
-    <string name="language_settings">语言设置</string>
-    <string name="current_language">当前语言</string>
-    
-    <!-- 通用按钮文本 -->
-    <string name="confirm">确认</string>
-    <string name="cancel">取消</string>
-    
-    <!-- API Key 提示信息 -->
-    <string name="deepseek_api_key_missing">请先在通用设置中配置 DeepSeek API Key</string>
-    <string name="gemini_api_key_missing">请先在通用设置中配置 Gemini API Key</string>
-    <string name="api_key_required">需要配置 API Key 才能使用此功能</string>
 </resources>
