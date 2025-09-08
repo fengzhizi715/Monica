@@ -7,7 +7,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,14 +17,11 @@ import androidx.compose.ui.unit.sp
 
 import cn.netdiscovery.monica.config.*
 import cn.netdiscovery.monica.http.healthCheck
-import cn.netdiscovery.monica.i18n.Language
-import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
-import cn.netdiscovery.monica.ui.widget.confirmButton
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.extensions.isValidUrl
 import cn.netdiscovery.monica.utils.getValidateField
