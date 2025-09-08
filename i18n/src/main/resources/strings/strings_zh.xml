@@ -148,6 +148,14 @@
     <!-- 用户提示 -->
     <string name="please_load_image_first">请先加载图片</string>
     
+    <!-- 滤镜模块相关 -->
+    <string name="preview_effect">预览效果</string>
+    <string name="previous_step">上一步</string>
+    <string name="cancel_filter_operation">取消滤镜操作</string>
+    <string name="save">保存</string>
+    <string name="delete_original_image">删除原图</string>
+    <string name="remark">备注</string>
+    
     <!-- 语言设置 -->
     <string name="language_settings">语言设置</string>
     <string name="current_language">当前语言</string>

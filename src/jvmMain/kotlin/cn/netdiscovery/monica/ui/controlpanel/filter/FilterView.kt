@@ -3,7 +3,9 @@ package cn.netdiscovery.monica.ui.controlpanel.filter
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -108,85 +110,113 @@ fun filter(state: ApplicationState) {
         Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
             subTitle(text = i18nState.getString("select_filter"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
 
-            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(100.dp)) {
+            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(120.dp)) {
                 filterNames.forEachIndexed{ index, label ->
-
+                    val isSelected = filterSelectedIndex.value == index
+                    
                     Card(
-                        elevation = 16.dp,
-                        modifier = Modifier.fillMaxSize().padding(start = 5.dp).clickable{
-                            filterSelectedIndex.value = index
-                        }
+                        elevation = if (isSelected) 8.dp else 4.dp,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(start = 5.dp)
+                            .clickable{
+                                filterSelectedIndex.value = index
+                            },
+                        backgroundColor = if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else MaterialTheme.colors.surface
                     ) {
-                        Column {
-                            Text(text = label, fontSize = 22.sp,
-                                color = MaterialTheme.colors.primary,
-                                modifier = Modifier
-                                    .padding(16.dp))
+                        Column(
+                            modifier = Modifier.padding(12.dp),
+                            verticalArrangement = Arrangement.Center
+                        ) {
+                            Text(
+                                text = label, 
+                                fontSize = 18.sp,
+                                color = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface,
+                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                modifier = Modifier.padding(bottom = 4.dp)
+                            )
 
-                            Text(text = filterMaps[label]?:"", fontSize = 16.sp,
-                                color = MaterialTheme.colors.primaryVariant,
-                                modifier = Modifier.align(Alignment.CenterHorizontally))
+                            Text(
+                                text = filterMaps[label]?:"", 
+                                fontSize = 14.sp,
+                                color = if (isSelected) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                maxLines = 2,
+                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
+                            )
                         }
                     }
                 }
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(450.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+        rightSideMenuBar(modifier = Modifier.width(400.dp).height(500.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
-            Column {
-                if (filterSelectedIndex.value>=0) {
-                    subTitle(text = i18nState.getString("filter_name", filterNames[filterSelectedIndex.value]), modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
-                    generateFilterParams(filterSelectedIndex.value)
-                    generateFilterRemark(filterSelectedIndex.value)
-                } else {
-                    subTitle(text = i18nState.getString("select_filter_first"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+            Box(modifier = Modifier.fillMaxSize()) {
+                // 主要内容区域 - 可滚动
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(bottom = 80.dp) // 为底部按钮预留空间
+                        .verticalScroll(rememberScrollState())
+                ) {
+                    if (filterSelectedIndex.value>=0) {
+                        subTitle(text = i18nState.getString("filter_name", filterNames[filterSelectedIndex.value]), modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
+                        generateFilterParams(filterSelectedIndex.value)
+                        generateFilterRemark(filterSelectedIndex.value, i18nState)
+                    } else {
+                        subTitle(text = i18nState.getString("select_filter_first"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
+                    }
                 }
-            }
 
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter // 将内容对齐到底部中心
-            ) {
-                Row(
+                // 底部按钮区域 - 固定在底部
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp),
-                    horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
+                        .height(80.dp)
+                        .align(Alignment.BottomCenter),
+                    contentAlignment = Alignment.Center
                 ) {
-                    toolTipButton(text = "预览效果",
-                        enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
-                        painter = painterResource("images/filters/preview.png"),
-                        onClick = {
-                            viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
-                        })
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(10.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
+                    ) {
+                        toolTipButton(text = i18nState.getString("preview_effect"),
+                            enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
+                            painter = painterResource("images/filters/preview.png"),
+                            onClick = {
+                                viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
+                            })
 
-                    toolTipButton(text = "上一步",
-                        painter = painterResource("images/doodle/previous_step.png"),
-                        onClick = {
-                            state.getLastImage()?.let {
-                                state.currentImage = it
-                            }
-                        })
+                        toolTipButton(text = i18nState.getString("previous_step"),
+                            painter = painterResource("images/doodle/previous_step.png"),
+                            onClick = {
+                                state.getLastImage()?.let {
+                                    state.currentImage = it
+                                }
+                            })
 
-                    toolTipButton(text = "取消滤镜操作",
-                        painter = painterResource("images/filters/cancel.png"),
-                        onClick = {
-                            viewModel.job?.cancel()
-                            loadingDisplay = false
-                        })
+                        toolTipButton(text = i18nState.getString("cancel_filter_operation"),
+                            painter = painterResource("images/filters/cancel.png"),
+                            onClick = {
+                                viewModel.job?.cancel()
+                                loadingDisplay = false
+                            })
 
-                    toolTipButton(text = "保存",
-                        painter = painterResource("images/doodle/save.png"),
-                        onClick = {
-                            state.closePreviewWindow()
-                        })
+                        toolTipButton(text = i18nState.getString("save"),
+                            painter = painterResource("images/doodle/save.png"),
+                            onClick = {
+                                state.closePreviewWindow()
+                            })
 
-                    toolTipButton(text = "删除原图",
-                        painter = painterResource("images/preview/delete.png"),
-                        onClick = {
-                            state.clearImage()
-                        })
+                        toolTipButton(text = i18nState.getString("delete_original_image"),
+                            painter = painterResource("images/preview/delete.png"),
+                            onClick = {
+                                state.clearImage()
+                            })
+                    }
                 }
             }
         }
@@ -226,12 +256,21 @@ private fun generateFilterParams(selectedIndex:Int) {
 
             filterTempMap[Pair(paramName, type)] = text
 
-            Row(
-                modifier = Modifier.padding(top = 15.dp, start = 10.dp)
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 10.dp, vertical = 8.dp),
+                elevation = 2.dp,
+                backgroundColor = MaterialTheme.colors.surface
             ) {
-                basicTextFieldWithTitle(titleText = paramName, text) { str ->
-                    text = str
-                    filterTempMap[Pair(paramName, type)] = text
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    basicTextFieldWithTitle(titleText = paramName, text) { str ->
+                        text = str
+                        filterTempMap[Pair(paramName, type)] = text
+                    }
                 }
             }
         }
@@ -239,7 +278,7 @@ private fun generateFilterParams(selectedIndex:Int) {
 }
 
 @Composable
-private fun generateFilterRemark(selectedIndex:Int) {
+private fun generateFilterRemark(selectedIndex:Int, i18nState: cn.netdiscovery.monica.ui.i18n.I18nState) {
     val filterName = filterNames[selectedIndex]
     val remark = getFilterRemark(filterName)
 
@@ -251,7 +290,7 @@ private fun generateFilterRemark(selectedIndex:Int) {
             backgroundColor = Color.LightGray
         ) {
             Column {
-                Text(text = "备注", modifier = Modifier.padding(top = 5.dp, start = 10.dp))
+                Text(text = i18nState.getString("remark"), modifier = Modifier.padding(top = 5.dp, start = 10.dp))
                 Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(10.dp))
             }
         }

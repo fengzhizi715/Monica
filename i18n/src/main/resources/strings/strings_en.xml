@@ -490,6 +490,14 @@
     <!-- User prompts -->
     <string name="please_load_image_first">Please load an image first</string>
     
+    <!-- Filter module related -->
+    <string name="preview_effect">Preview Effect</string>
+    <string name="previous_step">Previous Step</string>
+    <string name="cancel_filter_operation">Cancel Filter Operation</string>
+    <string name="save">Save</string>
+    <string name="delete_original_image">Delete Original Image</string>
+    <string name="remark">Remark</string>
+    
     <!-- API Key prompt messages -->
     <string name="deepseek_api_key_missing">Please configure DeepSeek API Key in general settings first</string>
     <string name="gemini_api_key_missing">Please configure Gemini API Key in general settings first</string>
