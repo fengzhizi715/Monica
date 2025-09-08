@@ -81,14 +81,14 @@ enum class SidebarItem(
         isEnabled = { state -> state.isAI },
         onClick = { state ->
             state.isAI = !state.isAI
-            if (!state.isAI) {
-                state.resetCurrentStatus()
-            } else {
-                state.isGeneralSettings = false
-                state.isBasic = false
-                state.isColorCorrection = false
-                state.isFilter = false
-            }
+//            if (!state.isAI) {
+//                state.resetCurrentStatus()
+//            } else {
+//                state.isGeneralSettings = false
+//                state.isBasic = false
+//                state.isColorCorrection = false
+//                state.isFilter = false
+//            }
         }
     )
 }

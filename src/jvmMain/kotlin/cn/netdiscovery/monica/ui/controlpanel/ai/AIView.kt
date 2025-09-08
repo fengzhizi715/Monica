@@ -28,37 +28,20 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 fun aiView(state: ApplicationState) {
     val i18nState = rememberI18nState()
     val viewModel: AIViewModel = koinInject()
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
-        Checkbox(state.isAI, onCheckedChange = {
-            state.isAI = it
-
-            if (!state.isAI) {
-                state.resetCurrentStatus()
-                logger.info(i18nState.getString("ai_laboratory_cancelled"))
-            } else {
-                logger.info(i18nState.getString("ai_laboratory_selected"))
-
-                state.isGeneralSettings = false
-                state.isBasic = false
-                state.isColorCorrection = false
-                state.isFilter = false
-            }
-        })
-        subTitle(text = i18nState.getString("ai_laboratory"), color = Color.Black)
-    }
-
+    
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
-        toolTipButton(text = i18nState.getString("simple_cv_algorithm"),
+        toolTipButton(
+            text = i18nState.getString("simple_cv_algorithm"),
             painter = painterResource("images/ai/experiment.png"),
             enable = { state.isAI },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(OpenCVDebugStatus)
             })
 
-        toolTipButton(text = i18nState.getString("face_detection"),
+        toolTipButton(
+            text = i18nState.getString("face_detection"),
             painter = painterResource("images/ai/face_detect.png"),
             enable = { state.isAI },
             onClick = {
@@ -66,7 +49,8 @@ fun aiView(state: ApplicationState) {
                 viewModel.faceDetect(state)
             })
 
-        toolTipButton(text = i18nState.getString("generate_sketch"),
+        toolTipButton(
+            text = i18nState.getString("generate_sketch"),
             painter = painterResource("images/ai/sketch_drawing.png"),
             enable = { state.isAI },
             onClick = {
@@ -81,6 +65,11 @@ fun aiView(state: ApplicationState) {
                 state.togglePreviewWindowAndUpdateStatus(FaceSwapStatus)
             })
 
+    }
+
+    Row (
+        verticalAlignment = Alignment.CenterVertically
+    ) {
         toolTipButton(text = i18nState.getString("anime_style"),
             painter = painterResource("images/ai/cartoon.png"),
             enable = { state.isAI },
