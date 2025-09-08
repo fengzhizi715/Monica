@@ -68,7 +68,7 @@ enum class SidebarItem(
         }
     ),
     FILTER(
-        titleKey = "filter",
+        titleKey = "filter_effects",
         iconPath = "images/controlpanel/settings.png",
         isEnabled = { state -> state.isFilter },
         onClick = { state ->
@@ -76,7 +76,7 @@ enum class SidebarItem(
         }
     ),
     AI_LAB(
-        titleKey = "ai_lab",
+        titleKey = "ai_laboratory",
         iconPath = "images/controlpanel/settings.png",
         isEnabled = { state -> state.isAI },
         onClick = { state ->
@@ -116,7 +116,7 @@ fun SidebarView(
         ) {
             // 标题
             Text(
-                text = i18nState.getString("monica"),
+                text = i18nState.getString("app_name"),
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colors.primary,

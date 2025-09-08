@@ -71,7 +71,7 @@ fun ContentPanel(
 
                 state.isFilter -> {
                     Text(
-                        text = i18nState.getString("filter"),
+                        text = i18nState.getString("filter_effects"),
                         style = MaterialTheme.typography.h6,
                         color = MaterialTheme.colors.primary
                     )
@@ -80,32 +80,11 @@ fun ContentPanel(
                 
                 state.isAI -> {
                     Text(
-                        text = i18nState.getString("ai_lab"),
+                        text = i18nState.getString("ai_laboratory"),
                         style = MaterialTheme.typography.h6,
                         color = MaterialTheme.colors.primary
                     )
                     aiView(state)
-                }
-
-                else -> {
-                    // 默认显示欢迎信息
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ) {
-                        Text(
-                            text = i18nState.getString("welcome_to_monica"),
-                            style = MaterialTheme.typography.h5,
-                            color = MaterialTheme.colors.primary
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        Text(
-                            text = i18nState.getString("select_function_from_sidebar"),
-                            style = MaterialTheme.typography.body1,
-                            color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
-                        )
-                    }
                 }
             }
         }
