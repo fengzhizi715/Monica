@@ -63,7 +63,7 @@ fun toolTipButton(
     text:String,
     painter: Painter,
     buttonModifier: Modifier = Modifier.padding(5.dp),
-    iconModifier: Modifier = Modifier.size(40.dp), // 增加图标大小从36dp到40dp
+    iconModifier: Modifier = Modifier.size(36.dp),
     enable: ()-> Boolean = { true },
     onClick: Action,
 ) {
@@ -88,7 +88,7 @@ fun toolTipButton(
         )
     ) {
         IconButton(
-            modifier = buttonModifier.padding(8.dp), // 增加额外的padding扩大点击区域
+            modifier = buttonModifier.padding(4.dp), // 增加额外的padding扩大点击区域
             onClick =  rememberThrottledClick { // 防止重复点击，300ms内只有1次点击是有效的
 
                 logger.info("点击了 $text 按钮")
