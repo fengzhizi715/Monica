@@ -33,32 +33,11 @@ fun basicView(state: ApplicationState) {
     val i18nState = rememberI18nState()
     val viewModel: PreviewViewModel = koinInject()
 
-    checkBoxWithTitle(
-        text = i18nState.getString("basic_functions"),
-        color = Color.Black,
-        checked = state.isBasic,
-        fontSize = subTitleTextSize,
-        onCheckedChange = {
-            state.isBasic = it
-
-            if (!state.isBasic) {
-                state.resetCurrentStatus()
-                logger.info(i18nState.getString("basic_function_cancelled"))
-            } else {
-                logger.info(i18nState.getString("basic_function_selected"))
-
-                state.isGeneralSettings = false
-                state.isColorCorrection = false
-                state.isFilter = false
-                state.isAI = false
-            }
-        }
-    )
-
     Row(verticalAlignment = Alignment.CenterVertically) {
 
         // 图像模糊
-        toolTipButton(text = i18nState.getString("image_blur"),
+        toolTipButton(
+            text = i18nState.getString("image_blur"),
             painter = painterResource("images/controlpanel/blur.png"),
             enable = { state.isBasic },
             onClick = {
@@ -66,7 +45,8 @@ fun basicView(state: ApplicationState) {
             })
 
         // 图像马赛克
-        toolTipButton(text = i18nState.getString("image_mosaic"),
+        toolTipButton(
+            text = i18nState.getString("image_mosaic"),
             painter = painterResource("images/controlpanel/mosaic.png"),
             enable = { state.isBasic },
             onClick = {
@@ -74,7 +54,8 @@ fun basicView(state: ApplicationState) {
             })
 
         // 图像涂鸦
-        toolTipButton(text = i18nState.getString("image_doodle"),
+        toolTipButton(
+            text = i18nState.getString("image_doodle"),
             painter = painterResource("images/controlpanel/doodle.png"),
             enable = { state.isBasic },
             onClick = {
@@ -82,13 +63,16 @@ fun basicView(state: ApplicationState) {
             })
 
         // 形状绘制
-        toolTipButton(text = i18nState.getString("shape_drawing"),
+        toolTipButton(
+            text = i18nState.getString("shape_drawing"),
             painter = painterResource("images/controlpanel/shape-drawing.png"),
             enable = { state.isBasic },
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(ShapeDrawingStatus)
             })
+    }
 
+    Row(verticalAlignment = Alignment.CenterVertically) {
         // 图像取色
         toolTipButton(text = i18nState.getString("color_picker"),
             painter = painterResource("images/controlpanel/color-picker.png"),
@@ -104,9 +88,6 @@ fun basicView(state: ApplicationState) {
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(GenerateGifStatus)
             })
-    }
-
-    Row(verticalAlignment = Alignment.CenterVertically) {
 
         // 图像翻转
         toolTipButton(text = i18nState.getString("image_flip"),
@@ -125,7 +106,9 @@ fun basicView(state: ApplicationState) {
                 state.currentStatus = RotateStatus
                 viewModel.rotate(state)
             })
+    }
 
+    Row(verticalAlignment = Alignment.CenterVertically) {
         // 图像缩放
         toolTipButton(text = i18nState.getString("image_scale"),
             painter = painterResource("images/controlpanel/resize.png"),

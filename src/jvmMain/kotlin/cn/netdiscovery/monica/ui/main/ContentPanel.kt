@@ -42,15 +42,6 @@ fun ContentPanel(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             when {
-                state.isGeneralSettings -> {
-                    Text(
-                        text = i18nState.getString("general_settings"),
-                        style = MaterialTheme.typography.h6,
-                        color = MaterialTheme.colors.primary
-                    )
-                    generalSettingsView(state)
-                }
-
                 state.isBasic -> {
                     Text(
                         text = i18nState.getString("basic_functions"),
@@ -58,24 +49,6 @@ fun ContentPanel(
                         color = MaterialTheme.colors.primary
                     )
                     basicView(state)
-                }
-                
-                state.isColorCorrection -> {
-                    Text(
-                        text = i18nState.getString("image_color_correction"),
-                        style = MaterialTheme.typography.h6,
-                        color = MaterialTheme.colors.primary
-                    )
-                    colorCorrectionView(state)
-                }
-
-                state.isFilter -> {
-                    Text(
-                        text = i18nState.getString("filter_effects"),
-                        style = MaterialTheme.typography.h6,
-                        color = MaterialTheme.colors.primary
-                    )
-                    filterView(state)
                 }
                 
                 state.isAI -> {

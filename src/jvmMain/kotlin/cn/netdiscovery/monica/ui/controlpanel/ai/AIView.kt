@@ -28,7 +28,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 fun aiView(state: ApplicationState) {
     val i18nState = rememberI18nState()
     val viewModel: AIViewModel = koinInject()
-    
+
     Row (
         verticalAlignment = Alignment.CenterVertically
     ) {
