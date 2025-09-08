@@ -31,7 +31,7 @@ data class AnimatedShape(
  * 负责管理形状绘制时的动画效果
  * 
  * @author Tony Shen
- * @date 2024/12/19
+ * @date 2025/9/8
  * @version V1.0
  */
 class ShapeAnimationManager {

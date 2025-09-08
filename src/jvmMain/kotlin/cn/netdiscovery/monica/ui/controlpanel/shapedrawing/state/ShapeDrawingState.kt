@@ -14,7 +14,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
  * 统一管理所有形状的状态，降低耦合度
  * 
  * @author Tony Shen
- * @date 2024/12/19
+ * @date 2025/9/8
  * @version V1.0
  */
 @Stable

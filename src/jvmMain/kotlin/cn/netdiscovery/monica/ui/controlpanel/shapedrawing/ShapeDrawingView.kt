@@ -182,10 +182,6 @@ fun shapeDrawing(state: ApplicationState) {
                         drawingState.displayPolygons, 
                         drawingState.displayTexts
                     )
-                    
-                    // 绘制动画效果
-                    // TODO: 暂时注释掉动画功能，先确保基本功能正常
-                    // this.drawAllAnimations(...)
                 }
             }
         }

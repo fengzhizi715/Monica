@@ -12,7 +12,7 @@ import kotlin.math.sqrt
  * 统一处理坐标转换、边界检查和验证
  * 
  * @author Tony Shen
- * @date 2024/11/21 16:09
+ * @date 2025/9/1 16:09
  * @version V1.0
  */
 object CoordinateSystem {
