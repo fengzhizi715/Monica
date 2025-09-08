@@ -41,6 +41,11 @@ enum class SidebarItem(
         isEnabled = { state -> state.isGeneralSettings },
         onClick = { state ->
             showGeneralSettings = true
+
+            state.isBasic = false
+            state.isColorCorrection = false
+            state.isFilter = false
+            state.isAI = false
         }
     ),
     BASIC_FUNCTIONS(
@@ -49,6 +54,11 @@ enum class SidebarItem(
         isEnabled = { state -> state.isBasic },
         onClick = { state ->
             state.isBasic = !state.isBasic
+
+            state.isGeneralSettings = false
+            state.isColorCorrection = false
+            state.isFilter = false
+            state.isAI = false
         }
     ),
     COLOR_CORRECTION(
@@ -57,6 +67,11 @@ enum class SidebarItem(
         isEnabled = { state -> state.isColorCorrection },
         onClick = { state ->
             state.togglePreviewWindowAndUpdateStatus(ColorCorrectionStatus)
+
+            state.isGeneralSettings = false
+            state.isBasic = false
+            state.isFilter = false
+            state.isAI = false
         }
     ),
     FILTER(
@@ -65,6 +80,11 @@ enum class SidebarItem(
         isEnabled = { state -> state.isFilter },
         onClick = { state ->
             state.togglePreviewWindowAndUpdateStatus(FilterStatus)
+
+            state.isBasic = false
+            state.isGeneralSettings = false
+            state.isColorCorrection = false
+            state.isAI = false
         }
     ),
     AI_LAB(
@@ -73,6 +93,11 @@ enum class SidebarItem(
         isEnabled = { state -> state.isAI },
         onClick = { state ->
             state.isAI = !state.isAI
+
+            state.isBasic = false
+            state.isGeneralSettings = false
+            state.isColorCorrection = false
+            state.isFilter = false
         }
     )
 }
