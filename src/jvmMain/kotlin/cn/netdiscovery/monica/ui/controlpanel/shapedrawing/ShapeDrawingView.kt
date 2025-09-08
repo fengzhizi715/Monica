@@ -40,6 +40,7 @@ import org.slf4j.LoggerFactory
 /**
  * 重构后的形状绘制视图
  * 通过模块化设计降低耦合度，提高可维护性
+ * 实现模式一：绘制完成后颜色不变
  * 
  * @author Tony Shen
  * @date 2024/12/19
@@ -105,7 +106,7 @@ fun shapeDrawing(state: ApplicationState) {
             ) {
                 androidx.compose.material.Text(
                     text = "请先加载图片",
-                    color = Color.Gray
+                    color = androidx.compose.ui.graphics.Color.Gray
                 )
             }
             return
@@ -182,6 +183,10 @@ fun shapeDrawing(state: ApplicationState) {
                         drawingState.displayPolygons, 
                         drawingState.displayTexts
                     )
+                    
+                    // 绘制动画效果
+                    // TODO: 暂时注释掉动画功能，先确保基本功能正常
+                    // this.drawAllAnimations(...)
                 }
             }
         }
@@ -248,8 +253,9 @@ fun shapeDrawing(state: ApplicationState) {
                 onNegativeClick = { showColorDialog = false },
                 onPositiveClick = { color: Color ->
                     showColorDialog = false
+                    // 模式一：只更新当前选择的颜色，不影响已绘制的形状
                     drawingState.updateColor(color)
-                    logger.info("颜色已更改: ${color}")
+                    logger.info("颜色已更改: ${color} (仅影响新绘制的形状)")
                 }
             )
         }
@@ -299,8 +305,9 @@ fun shapeDrawing(state: ApplicationState) {
         // 属性设置对话框
         if (showPropertiesDialog) {
             ShapeDrawingPropertiesMenuDialog(drawingState.currentShapeProperty) { updatedProperties ->
+                // 模式一：只更新当前选择的属性，不影响已绘制的形状
                 drawingState.updateShapeProperty(updatedProperties)
-                logger.info("属性已更新: fontSize=${updatedProperties.fontSize}, alpha=${updatedProperties.alpha}")
+                logger.info("属性已更新: fontSize=${updatedProperties.fontSize}, alpha=${updatedProperties.alpha} (仅影响新绘制的形状)")
                 showPropertiesDialog = false
             }
         }
