@@ -72,7 +72,7 @@ fun filter(state: ApplicationState) {
     ) {
 
         Row (
-            modifier = Modifier.fillMaxSize().padding(bottom = 160.dp, end = 400.dp),
+            modifier = Modifier.fillMaxSize().padding(bottom = 180.dp, end = 400.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
