@@ -217,27 +217,26 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 color = MaterialTheme.colors.primary
                                             )
                                             
-                                            Row(
-                                                horizontalArrangement = Arrangement.spacedBy(12.dp),
-                                                verticalAlignment = Alignment.CenterVertically
+                                            Column(
+                                                verticalArrangement = Arrangement.spacedBy(12.dp)
                                             ) {
                                                 basicTextFieldWithTitle(
                                                     titleText = "R",
                                                     value = rText,
                                                     onValueChange = { rText = it },
-                                                    modifier = Modifier.weight(1f)
+                                                    modifier = Modifier.fillMaxWidth()
                                                 )
                                                 basicTextFieldWithTitle(
                                                     titleText = "G", 
                                                     value = gText,
                                                     onValueChange = { gText = it },
-                                                    modifier = Modifier.weight(1f)
+                                                    modifier = Modifier.fillMaxWidth()
                                                 )
                                                 basicTextFieldWithTitle(
                                                     titleText = "B",
                                                     value = bText,
                                                     onValueChange = { bText = it },
-                                                    modifier = Modifier.weight(1f)
+                                                    modifier = Modifier.fillMaxWidth()
                                                 )
                                             }
                                         }
