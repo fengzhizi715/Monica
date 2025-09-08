@@ -27,6 +27,7 @@ import cn.netdiscovery.monica.rxcache.clearData
 import cn.netdiscovery.monica.rxcache.initFilterParamsConfig
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
+import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.ui.theme.ColorTheme
 import cn.netdiscovery.monica.ui.theme.ThemeManager
 import cn.netdiscovery.monica.utils.Action
@@ -505,62 +506,66 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             )
                             
                             // 主题选择
-                            LazyRow(
-                                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                            desktopLazyRow(
                                 modifier = Modifier.padding(bottom = 16.dp)
                             ) {
-                                items(ThemeManager.getAllThemes()) { theme ->
-                                    val isSelected = state.getCurrentThemeValue() == theme
-                                    
-                                    Card(
-                                        modifier = Modifier
-                                            .width(80.dp)
-                                            .height(60.dp)
-                                            .clickable { 
-                                                state.setTheme(theme)
-                                            },
-                                        elevation = if (isSelected) 4.dp else 1.dp,
-                                        backgroundColor = if (isSelected) 
-                                            theme.primary.copy(alpha = 0.1f) 
-                                        else 
-                                            MaterialTheme.colors.surface,
-                                        shape = RoundedCornerShape(8.dp)
-                                    ) {
-                                        Column(
+                                Row(
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    ThemeManager.getAllThemes().forEach { theme ->
+                                        val isSelected = state.getCurrentThemeValue() == theme
+                                        
+                                        Card(
                                             modifier = Modifier
-                                                .fillMaxSize()
-                                                .padding(8.dp),
-                                            horizontalAlignment = Alignment.CenterHorizontally,
-                                            verticalArrangement = Arrangement.Center
-                                        ) {
-                                            // 主题颜色预览
-                                            Box(
-                                                modifier = Modifier
-                                                    .size(24.dp)
-                                                    .background(
-                                                        theme.primary,
-                                                        shape = RoundedCornerShape(4.dp)
-                                                    )
-                                            )
-                                            
-                                            Spacer(modifier = Modifier.height(4.dp))
-                                            
-                                            Text(
-                                                text = when (theme) {
-                                                    ColorTheme.LIGHT -> i18nState.getString("theme_light")
-                                                    ColorTheme.DARK -> i18nState.getString("theme_dark")
-                                                    ColorTheme.BLUE -> i18nState.getString("theme_blue")
-                                                    ColorTheme.GREEN -> i18nState.getString("theme_green")
-                                                    ColorTheme.PURPLE -> i18nState.getString("theme_purple")
-                                                    ColorTheme.ORANGE -> i18nState.getString("theme_orange")
-                                                    ColorTheme.PINK -> i18nState.getString("theme_pink")
+                                                .width(80.dp)
+                                                .height(60.dp)
+                                                .clickable { 
+                                                    state.setTheme(theme)
                                                 },
-                                                fontSize = 10.sp,
-                                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                                color = if (isSelected) theme.primary else MaterialTheme.colors.onSurface,
-                                                maxLines = 1,
-                                                overflow = TextOverflow.Ellipsis
-                                            )
+                                            elevation = if (isSelected) 4.dp else 1.dp,
+                                            backgroundColor = if (isSelected) 
+                                                theme.primary.copy(alpha = 0.1f) 
+                                            else 
+                                                MaterialTheme.colors.surface,
+                                            shape = RoundedCornerShape(8.dp)
+                                        ) {
+                                            Column(
+                                                modifier = Modifier
+                                                    .fillMaxSize()
+                                                    .padding(8.dp),
+                                                horizontalAlignment = Alignment.CenterHorizontally,
+                                                verticalArrangement = Arrangement.Center
+                                            ) {
+                                                // 主题颜色预览
+                                                Box(
+                                                    modifier = Modifier
+                                                        .size(24.dp)
+                                                        .background(
+                                                            theme.primary,
+                                                            shape = RoundedCornerShape(4.dp)
+                                                        )
+                                                )
+                                                
+                                                Spacer(modifier = Modifier.height(4.dp))
+                                                
+                                                Text(
+                                                    text = when (theme) {
+                                                        ColorTheme.LIGHT -> i18nState.getString("theme_light")
+                                                        ColorTheme.DARK -> i18nState.getString("theme_dark")
+                                                        ColorTheme.BLUE -> i18nState.getString("theme_blue")
+                                                        ColorTheme.GREEN -> i18nState.getString("theme_green")
+                                                        ColorTheme.PURPLE -> i18nState.getString("theme_purple")
+                                                        ColorTheme.ORANGE -> i18nState.getString("theme_orange")
+                                                        ColorTheme.PINK -> i18nState.getString("theme_pink")
+                                                        else -> theme.getThemeDisplayName()
+                                                    },
+                                                    fontSize = 10.sp,
+                                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
+                                                    color = if (isSelected) theme.primary else MaterialTheme.colors.onSurface,
+                                                    maxLines = 1,
+                                                    overflow = TextOverflow.Ellipsis
+                                                )
+                                            }
                                         }
                                     }
                                 }
