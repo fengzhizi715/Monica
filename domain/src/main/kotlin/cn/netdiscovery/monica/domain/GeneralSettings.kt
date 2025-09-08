@@ -16,5 +16,6 @@ data class GeneralSettings(
     var maxHistorySize: Int,
     var deepSeekApiKey: String,
     var geminiApiKey: String,
-    var algorithmUrl: String
+    var algorithmUrl: String,
+    var themeId: String = "LIGHT"
 )

@@ -103,6 +103,19 @@
     <string name="enter_image_url">Enter image URL</string>
     <string name="load">Load</string>
     <string name="url_invalid">Invalid URL format</string>
+
+    <!-- Theme Settings -->
+    <string name="theme_settings">Theme Settings</string>
+    <string name="current_theme">Current Theme</string>
+    <string name="select_theme">Select Theme</string>
+    <string name="theme_light">Light Theme</string>
+    <string name="theme_dark">Dark Theme</string>
+    <string name="theme_blue">Blue Theme</string>
+    <string name="theme_green">Green Theme</string>
+    <string name="theme_purple">Purple Theme</string>
+    <string name="theme_orange">Orange Theme</string>
+    <string name="theme_pink">Pink Theme</string>
+    <string name="reset_to_default_theme">Reset to Default Theme</string>
     
     <!-- Version info -->
     <string name="version_info">Version Info</string>

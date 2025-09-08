@@ -162,6 +162,19 @@
     
     <!-- 网络图片加载 -->
     <string name="load_network_image_dialog">加载网络图片</string>
+
+    <!-- 主题设置 -->
+    <string name="theme_settings">主题设置</string>
+    <string name="current_theme">当前主题</string>
+    <string name="select_theme">选择主题</string>
+    <string name="theme_light">浅色主题</string>
+    <string name="theme_dark">深色主题</string>
+    <string name="theme_blue">蓝色主题</string>
+    <string name="theme_green">绿色主题</string>
+    <string name="theme_purple">紫色主题</string>
+    <string name="theme_orange">橙色主题</string>
+    <string name="theme_pink">粉色主题</string>
+    <string name="reset_to_default_theme">重置为默认主题</string>
     <string name="enter_image_url">请输入图片URL</string>
     <string name="load">加载</string>
     <string name="url_invalid">无效的URL格式</string>

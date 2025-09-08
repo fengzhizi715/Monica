@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.preview
+import cn.netdiscovery.monica.ui.theme.CustomMaterialTheme
 import org.koin.compose.koinInject
 
 /**
@@ -29,15 +30,15 @@ fun mainView(
 
     viewModel.dropFile(state)
 
-    MaterialTheme {
+    CustomMaterialTheme(theme = state.getCurrentThemeValue()) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0xFFF8FAFC), // 浅灰白色
-                            Color(0xFFF1F5F9)  // 稍深的灰白色
+                            MaterialTheme.colors.background,
+                            MaterialTheme.colors.surface
                         )
                     )
                 )

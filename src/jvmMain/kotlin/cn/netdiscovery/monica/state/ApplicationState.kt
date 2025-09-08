@@ -10,6 +10,8 @@ import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.domain.GeneralSettings
 import cn.netdiscovery.monica.opencv.ImageProcess
 import cn.netdiscovery.monica.rxcache.rxCache
+import cn.netdiscovery.monica.ui.theme.ColorTheme
+import cn.netdiscovery.monica.ui.theme.ThemeManager
 import cn.netdiscovery.monica.utils.ImageFormat
 import com.safframework.rxcache.ext.get
 import kotlinx.coroutines.CoroutineScope
@@ -95,11 +97,31 @@ class ApplicationState(val scope:CoroutineScope,
     var geminiApiKeyText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.geminiApiKey?:"")
     var algorithmUrlText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.algorithmUrl?:"")
 
+    // 主题设置
+    var currentTheme by mutableStateOf(
+        rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.themeId?.let { themeId ->
+            ThemeManager.getThemeById(themeId) ?: ColorTheme.LIGHT
+        } ?: ColorTheme.LIGHT
+    )
+
     fun toOutputBoxScalar() = intArrayOf(outputBoxBText, outputBoxGText, outputBoxRText)
 
     fun saveGeneralSettings() {
-        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText, sizeText, maxHistorySizeText, deepSeekApiKeyText, geminiApiKeyText, algorithmUrlText))
+        rxCache.saveOrUpdate(KEY_GENERAL_SETTINGS, GeneralSettings(outputBoxRText, outputBoxGText, outputBoxBText, sizeText, maxHistorySizeText, deepSeekApiKeyText, geminiApiKeyText, algorithmUrlText, currentTheme.getThemeId()))
     }
+
+    /**
+     * 切换主题
+     */
+    fun setTheme(theme: ColorTheme) {
+        currentTheme = theme
+        ThemeManager.setTheme(theme)
+    }
+
+    /**
+     * 获取当前主题
+     */
+    fun getCurrentThemeValue(): ColorTheme = currentTheme
 
     fun getLastImage():BufferedImage? = queue.pollFirst(1, TimeUnit.SECONDS)
 
