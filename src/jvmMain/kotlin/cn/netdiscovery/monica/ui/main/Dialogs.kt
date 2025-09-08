@@ -96,7 +96,7 @@ fun showVersionInfo(onClick: Action) {
         },
         text = {
             Column {
-                val versionInfo = if (isProVersion) "正式版本" else "测试版本"
+                val versionInfo = if (isProVersion) i18nState.getString("pro_version") else i18nState.getString("test_version")
                 Text(i18nState.getString("monica_version_info", appVersion, versionInfo, buildTime))
                 Text("OS: $os, $osVersion, $arch")
                 Text("JDK: $javaVersion, $javaVendor")
@@ -383,7 +383,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     },
                                     modifier = Modifier.padding(end = 16.dp)
                                 ) {
-                                    Text("检测服务状态")
+                                    Text(i18nState.getString("check_service_status"))
                                 }
                                 
                                 // 状态指示器
@@ -399,7 +399,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 fontWeight = FontWeight.Bold
                                             )
                                             Text(
-                                                "算法服务可用",
+                                                i18nState.getString("algorithm_service_available"),
                                                 color = Color.Green,
                                                 fontSize = 14.sp,
                                                 modifier = Modifier.padding(start = 6.dp)
@@ -417,7 +417,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 fontWeight = FontWeight.Bold
                                             )
                                             Text(
-                                                "算法服务不可用",
+                                                i18nState.getString("algorithm_service_unavailable"),
                                                 color = Color.Red,
                                                 fontSize = 14.sp,
                                                 modifier = Modifier.padding(start = 6.dp)
@@ -439,7 +439,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             modifier = Modifier.padding(16.dp)
                         ) {
                             Text(
-                                text = "选项设置",
+                                text = i18nState.getString("options_settings"),
                                 fontSize = 14.sp,
                                 fontWeight = FontWeight.Medium,
                                 color = Color.Black,

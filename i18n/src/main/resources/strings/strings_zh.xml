@@ -125,6 +125,29 @@
     <string name="stroke_join">描边连接</string>
     <string name="confirm">确认</string>
     
+    <!-- 版本信息 -->
+    <string name="pro_version">正式版本</string>
+    <string name="test_version">测试版本</string>
+    
+    <!-- 服务状态 -->
+    <string name="check_service_status">检测服务状态</string>
+    <string name="algorithm_service_available">算法服务可用</string>
+    <string name="algorithm_service_unavailable">算法服务不可用</string>
+    
+    <!-- 设置 -->
+    <string name="options_settings">选项设置</string>
+    
+    <!-- 验证错误 -->
+    <string name="r_needs_int">R 需要 int 类型</string>
+    <string name="g_needs_int">G 需要 int 类型</string>
+    <string name="b_needs_int">B 需要 int 类型</string>
+    <string name="size_needs_int">size 需要 int 类型</string>
+    <string name="max_history_size_needs_int">maxHistorySizeText 需要 int 类型</string>
+    <string name="please_enter_valid_url">请输入一个正确的 url</string>
+    
+    <!-- 用户提示 -->
+    <string name="please_load_image_first">请先加载图片</string>
+    
     <!-- 语言设置 -->
     <string name="language_settings">语言设置</string>
     <string name="current_language">当前语言</string>

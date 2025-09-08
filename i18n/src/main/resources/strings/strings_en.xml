@@ -467,6 +467,29 @@
     <string name="confirm">Confirm</string>
     <string name="cancel">Cancel</string>
     
+    <!-- Version info -->
+    <string name="pro_version">Pro Version</string>
+    <string name="test_version">Test Version</string>
+    
+    <!-- Service status -->
+    <string name="check_service_status">Check Service Status</string>
+    <string name="algorithm_service_available">Algorithm Service Available</string>
+    <string name="algorithm_service_unavailable">Algorithm Service Unavailable</string>
+    
+    <!-- Settings -->
+    <string name="options_settings">Options Settings</string>
+    
+    <!-- Validation errors -->
+    <string name="r_needs_int">R needs int type</string>
+    <string name="g_needs_int">G needs int type</string>
+    <string name="b_needs_int">B needs int type</string>
+    <string name="size_needs_int">size needs int type</string>
+    <string name="max_history_size_needs_int">maxHistorySizeText needs int type</string>
+    <string name="please_enter_valid_url">Please enter a valid url</string>
+    
+    <!-- User prompts -->
+    <string name="please_load_image_first">Please load an image first</string>
+    
     <!-- API Key prompt messages -->
     <string name="deepseek_api_key_missing">Please configure DeepSeek API Key in general settings first</string>
     <string name="gemini_api_key_missing">Please configure Gemini API Key in general settings first</string>
