@@ -22,7 +22,6 @@
     <string name="monica_general_settings">Monica General Settings</string>
     <string name="update">Update</string>
     <string name="close">Close</string>
-    <string name="cancel">Cancel</string>
     
     <!-- Basic functions -->
     <string name="image_blur">Image Blur</string>
@@ -456,6 +455,13 @@
     <!-- Language Settings -->
     <string name="language_settings">Language Settings</string>
     <string name="current_language">Current Language</string>
+    
+    <!-- Doodle Module -->
+    <string name="brush_settings">Brush Settings</string>
+    <string name="clear_canvas">Clear Canvas</string>
+    <string name="revoke">Revoke</string>
+    <string name="stroke_cap">Stroke Cap</string>
+    <string name="stroke_join">Stroke Join</string>
     
     <!-- Common button texts -->
     <string name="confirm">Confirm</string>

@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.widget.showLoading
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import cn.netdiscovery.monica.utils.extensions.to2fStr
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 import loadingDisplay
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -50,6 +51,7 @@ private var showLLMDialog by mutableStateOf(false)
 fun colorCorrection(state: ApplicationState) {
     val viewModel: ColorCorrectionViewModel = koinInject()
     val density = LocalDensity.current
+    val i18nState = getCurrentStringResource()
 
     var cachedImage by remember { mutableStateOf(state.currentImage!!) } // 缓存 state.currentImage
 
@@ -118,7 +120,7 @@ fun colorCorrection(state: ApplicationState) {
                     verticalArrangement = Arrangement.Center
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "对比度：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("contrast") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -143,7 +145,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "色调：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("hue") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -167,7 +169,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "饱和度：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("saturation") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -193,7 +195,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "亮度：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("lightness") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -219,7 +221,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "色温：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("temperature") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -245,7 +247,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "高光：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("highlight") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -271,7 +273,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "阴影：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("shadow") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -297,7 +299,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "锐化：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("sharpen") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -322,7 +324,7 @@ fun colorCorrection(state: ApplicationState) {
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = "暗角：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("corner") + "：", color = Color.Unspecified)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -348,7 +350,7 @@ fun colorCorrection(state: ApplicationState) {
 
                     // 底部菜单
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp)) {
-                        toolTipButton(text = "保存",
+                        toolTipButton(text = i18nState.get("save"),
                             painter = painterResource("images/doodle/save.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
@@ -358,7 +360,7 @@ fun colorCorrection(state: ApplicationState) {
                                 }
                             })
 
-                        toolTipButton(text = "自然语言调色",
+                        toolTipButton(text = i18nState.get("natural_language_color_correction"),
                             painter = painterResource("images/colorcorrection/chatbot.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {

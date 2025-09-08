@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -47,6 +48,7 @@ fun drawImage(
     val viewModel: DoodleViewModel = koinInject()
 
     val density = LocalDensity.current
+    val i18nState = getCurrentStringResource()
 
     // 双路径系统：displayPaths用于显示，originalPaths用于保存
     val displayPaths = remember { mutableStateListOf<Pair<Path, PathProperties>>() }
@@ -255,21 +257,21 @@ fun drawImage(
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
             // 选择颜色
-            toolTipButton(text = "选择颜色",
+            toolTipButton(text = i18nState.get("select_color"),
                 painter = painterResource("images/doodle/color.png"),
                 onClick = {
                     showColorDialog = true
                 })
 
             // 属性更改
-            toolTipButton(text = "属性更改",
+            toolTipButton(text = i18nState.get("change_properties"),
                 painter = painterResource("images/doodle/brush.png"),
                 onClick = {
                     showPropertiesDialog = true
                 })
 
             // 上一步
-            toolTipButton(text = "上一步",
+            toolTipButton(text = i18nState.get("previous_step"),
                 painter = painterResource("images/doodle/previous_step.png"),
                 onClick = {
                     logger.info("撤销前状态: displayPaths=${displayPaths.size}, originalPaths=${originalPaths.size}")
@@ -293,7 +295,7 @@ fun drawImage(
                 })
 
             // 撤回
-            toolTipButton(text = "撤回",
+            toolTipButton(text = i18nState.get("revoke"),
                 painter = painterResource("images/doodle/revoke.png"),
                 onClick = {
                     if (pathsUndone.isNotEmpty()) {
@@ -312,7 +314,7 @@ fun drawImage(
                 })
 
             // 清空画布
-            toolTipButton(text = "清空画布",
+            toolTipButton(text = i18nState.get("clear_canvas"),
                 painter = painterResource("images/doodle/clear.png"),
                 onClick = {
                     // 清空所有路径
@@ -334,7 +336,7 @@ fun drawImage(
                 })
 
             // 保存
-            toolTipButton(text = "保存",
+            toolTipButton(text = i18nState.get("save"),
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
                     viewModel.saveCanvasToBitmap(density, originalPaths, image, state)
@@ -374,7 +376,7 @@ fun drawImage(
                         currentDrawingPath.value = Pair(path, updatedProperty)
                     }
                 },
-                title = "画笔设置"
+                title = i18nState.get("brush_settings")
             )
         }
     }

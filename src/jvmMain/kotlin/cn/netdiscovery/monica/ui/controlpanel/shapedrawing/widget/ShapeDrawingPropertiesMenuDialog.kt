@@ -15,6 +15,7 @@ import androidx.compose.ui.window.Dialog
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.Border
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 import cn.netdiscovery.monica.ui.widget.properties.ExposedSelectionMenu
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 
 /**
  *
@@ -29,7 +30,7 @@ fun ShapeDrawingPropertiesMenuDialog(
     shapeProperties: ShapeProperties, 
     onDismiss: (ShapeProperties) -> Unit
 ) {
-
+    val i18nState = getCurrentStringResource()
     var alpha    by remember { mutableStateOf(shapeProperties.alpha) }
     var fontSize by remember { mutableStateOf(shapeProperties.fontSize) }
     var fill     by remember { mutableStateOf(shapeProperties.fill) }
@@ -54,7 +55,7 @@ fun ShapeDrawingPropertiesMenuDialog(
             Column(modifier = Modifier.padding(8.dp)) {
 
                 Text(
-                    text = "alpha: ${alpha}",
+                    text = i18nState.get("alpha") + ": ${alpha}",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
@@ -70,7 +71,7 @@ fun ShapeDrawingPropertiesMenuDialog(
                 )
 
                 Text(
-                    text = "fontSize: ${fontSize.toInt()}",
+                    text = i18nState.get("font_size") + ": ${fontSize.toInt()}",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
@@ -85,7 +86,7 @@ fun ShapeDrawingPropertiesMenuDialog(
                     colors = SliderDefaults.colors()
                 )
 
-                ExposedSelectionMenu(title = "fill",
+                ExposedSelectionMenu(title = i18nState.get("fill"),
                     index = when (fill) {
                         false -> 0
                         true -> 1
@@ -100,7 +101,7 @@ fun ShapeDrawingPropertiesMenuDialog(
                     }
                 )
 
-                ExposedSelectionMenu(title = "border",
+                ExposedSelectionMenu(title = i18nState.get("border"),
                     index = when (border) {
                         Border.No      -> 0
                         Border.Dot     -> 1

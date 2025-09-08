@@ -48,11 +48,38 @@
     <string name="brush">画笔</string>
     <string name="eraser">橡皮擦</string>
     <string name="clear">清除</string>
+    <string name="select_color">选择颜色</string>
+    <string name="change_properties">属性更改</string>
+    <string name="previous_step">上一步</string>
+    <string name="revoke">撤回</string>
+    <string name="clear_canvas">清空画布</string>
+    <string name="brush_settings">画笔设置</string>
     
     <!-- 颜色校正 -->
     <string name="natural_language_color">自然语言调色</string>
     <string name="enter_color_instruction">请输入调色指令</string>
     <string name="color_parameters_updated">参数已更新：%s</string>
+    <string name="natural_language_color_correction">自然语言图像调色</string>
+    <string name="ai_provider_selection">AI 服务提供商</string>
+    <string name="ai_provider_deepseek">DeepSeek</string>
+    <string name="ai_provider_gemini">Gemini</string>
+    <string name="enter_color_instruction">请输入调色指令</string>
+    <string name="contrast">对比度</string>
+    <string name="hue">色调</string>
+    <string name="saturation">饱和度</string>
+    <string name="lightness">亮度</string>
+    <string name="temperature">色温</string>
+    <string name="api_key_required">需要配置 API Key</string>
+    <string name="update_parameters">更新参数：</string>
+    <string name="deepseek_api_key_missing">DeepSeek API Key 未配置</string>
+    <string name="gemini_api_key_missing">Gemini API Key 未配置</string>
+    <string name="request_failed">请求失败：</string>
+    <string name="unknown_error">未知错误</string>
+    <string name="highlight">高光</string>
+    <string name="shadow">阴影</string>
+    <string name="sharpen">锐化</string>
+    <string name="corner">边角</string>
+    <string name="no_significant_changes">无明显变化</string>
     
     <!-- 滤镜效果 -->
     <string name="filter_parameters">滤镜参数</string>
@@ -98,6 +125,9 @@
     <string name="fill">填充</string>
     <string name="border">边框</string>
     <string name="stroke_width">描边宽度</string>
+    <string name="stroke_cap">描边端点</string>
+    <string name="stroke_join">描边连接</string>
+    <string name="confirm">确认</string>
     
     <!-- 网络图片加载 -->
     <string name="load_network_image_dialog">加载网络图片</string>

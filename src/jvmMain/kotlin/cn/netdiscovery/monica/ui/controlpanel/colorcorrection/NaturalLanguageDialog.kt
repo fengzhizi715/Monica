@@ -17,8 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.llm.DialogSession
-import cn.netdiscovery.monica.ui.i18n.rememberI18nState
-import cn.netdiscovery.monica.ui.i18n.I18nState
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 import cn.netdiscovery.monica.llm.LLMProvider
 import cn.netdiscovery.monica.llm.rememberLLMServiceManager
 import cn.netdiscovery.monica.ui.widget.divider
@@ -41,7 +40,7 @@ fun NaturalLanguageDialog(
     onDismissRequest: () -> Unit,
     onConfirm: (ColorCorrectionSettings) -> Unit
 ) {
-    val i18nState = rememberI18nState()
+    val i18nState = getCurrentStringResource()
     val llmServiceManager = rememberLLMServiceManager()
     var inputText by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(false) }
@@ -70,7 +69,7 @@ fun NaturalLanguageDialog(
     if (visible) {
         AlertDialog(
             onDismissRequest = onDismissRequest,
-            title = { Text(i18nState.getString("natural_language_color_correction")) },
+            title = { Text(i18nState.get("natural_language_color_correction")) },
             text = {
                 Column(modifier = Modifier.fillMaxWidth().heightIn(min = 200.dp, max = 500.dp)) {
 
@@ -80,7 +79,7 @@ fun NaturalLanguageDialog(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = i18nState.getString("ai_provider_selection") + ": ",
+                            text = i18nState.get("ai_provider_selection") + ": ",
                             fontWeight = FontWeight.Medium
                         )
                         
@@ -89,7 +88,7 @@ fun NaturalLanguageDialog(
                             onClick = { selectedProvider = LLMProvider.DEEPSEEK }
                         )
                         Text(
-                            text = i18nState.getString("ai_provider_deepseek"),
+                            text = i18nState.get("ai_provider_deepseek"),
                             modifier = Modifier.padding(end = 16.dp)
                         )
                         
@@ -97,7 +96,7 @@ fun NaturalLanguageDialog(
                             selected = selectedProvider == LLMProvider.GEMINI,
                             onClick = { selectedProvider = LLMProvider.GEMINI }
                         )
-                        Text(text = i18nState.getString("ai_provider_gemini"))
+                        Text(text = i18nState.get("ai_provider_gemini"))
                     }
                     
                     // API Key 状态提示
@@ -113,7 +112,7 @@ fun NaturalLanguageDialog(
                                 modifier = Modifier.padding(end = 4.dp)
                             )
                             Text(
-                                text = i18nState.getString("api_key_required"),
+                                text = i18nState.get("api_key_required"),
                                 fontSize = 12.sp,
                                 color = Color(0xFFFF8C00) // Orange
                             )
@@ -139,15 +138,15 @@ fun NaturalLanguageDialog(
                                         // 显示使用的 LLM 提供商
                                         Text(
                                             text = when (historyItem.usedProvider) {
-                                                LLMProvider.DEEPSEEK -> "🤖 ${i18nState.getString("ai_provider_deepseek")}"
-                                                LLMProvider.GEMINI -> "🤖 ${i18nState.getString("ai_provider_gemini")}"
+                                                LLMProvider.DEEPSEEK -> "🤖 ${i18nState.get("ai_provider_deepseek")}"
+                                                LLMProvider.GEMINI -> "🤖 ${i18nState.get("ai_provider_gemini")}"
                                             },
                                             fontSize = 11.sp,
                                             color = Color.Gray
                                         )
                                     }
                                     Text(
-                                        i18nState.getString("update_parameters") + formatSettingsDiff(historyItem.resultSettings, i18nState), 
+                                        i18nState.get("update_parameters") + formatSettingsDiff(historyItem.resultSettings, i18nState), 
                                         fontSize = 13.sp
                                     )
                                 }
@@ -160,7 +159,7 @@ fun NaturalLanguageDialog(
                     OutlinedTextField(
                         value = inputText,
                         onValueChange = { inputText = it },
-                        label = { Text(i18nState.getString("enter_color_instruction")) },
+                        label = { Text(i18nState.get("enter_color_instruction")) },
                         singleLine = false,
                         maxLines = 4,
                         modifier = Modifier.fillMaxWidth()
@@ -193,8 +192,8 @@ fun NaturalLanguageDialog(
                                 if (apiKey.isBlank()) {
                                     withContext(Dispatchers.Main) {
                                         errorMessage = when (selectedProvider) {
-                                            LLMProvider.DEEPSEEK -> i18nState.getString("deepseek_api_key_missing")
-                                            LLMProvider.GEMINI -> i18nState.getString("gemini_api_key_missing")
+                                            LLMProvider.DEEPSEEK -> i18nState.get("deepseek_api_key_missing")
+                                            LLMProvider.GEMINI -> i18nState.get("gemini_api_key_missing")
                                         }
                                     }
                                     return@launch
@@ -217,7 +216,7 @@ fun NaturalLanguageDialog(
                             } catch (e: Exception) {
                                 e.printStackTrace()
                                 withContext(Dispatchers.Main) {
-                                    errorMessage = i18nState.getString("request_failed") + (e.message ?: i18nState.getString("unknown_error"))
+                                    errorMessage = i18nState.get("request_failed") + (e.message ?: i18nState.get("unknown_error"))
                                 }
                             } finally {
                                 loading = false
@@ -226,12 +225,12 @@ fun NaturalLanguageDialog(
                     },
                     enabled = inputText.isNotBlank() && !loading && hasApiKey
                 ) {
-                    Text(i18nState.getString("confirm"))
+                    Text(i18nState.get("confirm"))
                 }
             },
             dismissButton = {
                 TextButton(onClick = onDismissRequest) {
-                    Text(i18nState.getString("cancel"))
+                    Text(i18nState.get("cancel"))
                 }
             }
         )
@@ -239,16 +238,16 @@ fun NaturalLanguageDialog(
 }
 
 @Composable
-private fun formatSettingsDiff(settings: ColorCorrectionSettings, i18nState: I18nState): String {
+private fun formatSettingsDiff(settings: ColorCorrectionSettings, i18nState: cn.netdiscovery.monica.i18n.StringResource): String {
     val list = mutableListOf<String>()
-    if (settings.status == 1) list.add("${i18nState.getString("contrast")} → ${settings.contrast}")
-    if (settings.status == 2) list.add("${i18nState.getString("hue")} → ${settings.hue}")
-    if (settings.status == 3) list.add("${i18nState.getString("saturation")} → ${settings.saturation}")
-    if (settings.status == 4) list.add("${i18nState.getString("lightness")} → ${settings.lightness}")
-    if (settings.status == 5) list.add("${i18nState.getString("temperature")} → ${settings.temperature}")
-    if (settings.status == 6) list.add("${i18nState.getString("highlight")} → ${settings.highlight}")
-    if (settings.status == 7) list.add("${i18nState.getString("shadow")} → ${settings.shadow}")
-    if (settings.status == 8) list.add("${i18nState.getString("sharpen")} → ${settings.sharpen}")
-    if (settings.status == 9) list.add("${i18nState.getString("corner")} → ${settings.corner}")
-    return if (list.isEmpty()) i18nState.getString("no_significant_changes") else list.joinToString()
+    if (settings.status == 1) list.add("${i18nState.get("contrast")} → ${settings.contrast}")
+    if (settings.status == 2) list.add("${i18nState.get("hue")} → ${settings.hue}")
+    if (settings.status == 3) list.add("${i18nState.get("saturation")} → ${settings.saturation}")
+    if (settings.status == 4) list.add("${i18nState.get("lightness")} → ${settings.lightness}")
+    if (settings.status == 5) list.add("${i18nState.get("temperature")} → ${settings.temperature}")
+    if (settings.status == 6) list.add("${i18nState.get("highlight")} → ${settings.highlight}")
+    if (settings.status == 7) list.add("${i18nState.get("shadow")} → ${settings.shadow}")
+    if (settings.status == 8) list.add("${i18nState.get("sharpen")} → ${settings.sharpen}")
+    if (settings.status == 9) list.add("${i18nState.get("corner")} → ${settings.corner}")
+    return if (list.isEmpty()) i18nState.get("no_significant_changes") else list.joinToString()
 }

@@ -26,6 +26,7 @@ import androidx.compose.ui.window.Dialog
 import cn.netdiscovery.monica.ui.controlpanel.doodle.model.PathProperties
 import cn.netdiscovery.monica.ui.widget.color.Blue400
 import cn.netdiscovery.monica.ui.widget.properties.ExposedSelectionMenu
+import cn.netdiscovery.monica.i18n.getCurrentStringResource
 
 /**
  *
@@ -42,7 +43,7 @@ fun PropertiesMenuDialog(
     onPropertiesChanged: (PathProperties) -> Unit = {},
     title: String = "Properties"
 ) {
-
+    val i18nState = getCurrentStringResource()
     var strokeWidth by remember { mutableStateOf(pathOption.strokeWidth) }
     var strokeCap by remember { mutableStateOf(pathOption.strokeCap) }
     var strokeJoin by remember { mutableStateOf(pathOption.strokeJoin) }
@@ -89,7 +90,7 @@ fun PropertiesMenuDialog(
                 }
 
                 Text(
-                    text = "Stroke Width ${strokeWidth.toInt()}",
+                    text = i18nState.get("stroke_width") + " ${strokeWidth.toInt()}",
                     fontSize = 16.sp,
                     modifier = Modifier.padding(horizontal = 12.dp)
                 )
@@ -104,7 +105,7 @@ fun PropertiesMenuDialog(
                     modifier = Modifier.padding(horizontal = 12.dp).focusRequester(focusRequester)
                 )
 
-                ExposedSelectionMenu(title = "Stroke Cap",
+                ExposedSelectionMenu(title = i18nState.get("stroke_cap"),
                     index = when (strokeCap) {
                         StrokeCap.Butt -> 0
                         StrokeCap.Round -> 1
@@ -121,7 +122,7 @@ fun PropertiesMenuDialog(
                     }
                 )
 
-                ExposedSelectionMenu(title = "Stroke Join",
+                ExposedSelectionMenu(title = i18nState.get("stroke_join"),
                     index = when (strokeJoin) {
                         StrokeJoin.Miter -> 0
                         StrokeJoin.Round -> 1
@@ -161,7 +162,7 @@ fun PropertiesMenuDialog(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("确认")
+                        Text(i18nState.get("confirm"))
                     }
                     
                     Button(
@@ -171,7 +172,7 @@ fun PropertiesMenuDialog(
                         },
                         modifier = Modifier.weight(1f)
                     ) {
-                        Text("取消")
+                        Text(i18nState.get("cancel"))
                     }
                 }
             }
