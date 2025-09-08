@@ -156,7 +156,7 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
         mutableStateOf("${state.currentImage?.height?:400}")
     }
 
-    Row {
+    Column {
         basicTextFieldWithTitle(titleText = "width", widthText, Modifier.padding(top = 5.dp)) { str ->
             widthText = str
         }
@@ -193,7 +193,7 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
         mutableStateOf("${0}")
     }
 
-    Row {
+    Column {
         basicTextFieldWithTitle(titleText = i18nState.getString("x_direction"), xText, Modifier.padding(top = 5.dp)) { str ->
             xText = str
         }
