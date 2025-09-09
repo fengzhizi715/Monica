@@ -214,8 +214,8 @@
     
     <!-- 设置相关 -->
     <string name="output_box_color_settings">输出框颜色设置：</string>
-    <string name="area_size_settings">区域大小设置（用于模糊/马赛克）：size</string>
-    <string name="max_history_size">每个模块的最大历史记录大小：maxHistorySize</string>
+    <string name="area_size_settings">区域大小设置（用于模糊/马赛克）：</string>
+    <string name="max_history_size">每个模块的最大历史记录大小：</string>
     <string name="algorithm_service_url">算法服务地址：</string>
     <string name="init_filter_params">初始化滤镜参数配置</string>
     <string name="clear_cache_data">清除所有缓存数据</string>

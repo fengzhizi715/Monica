@@ -152,8 +152,8 @@
     
     <!-- Settings related -->
     <string name="output_box_color_settings">Output Box Color Settings:</string>
-    <string name="area_size_settings">Area Size Settings (for blur/mosaic): size</string>
-    <string name="max_history_size">Max History Size per Module: maxHistorySize</string>
+    <string name="area_size_settings">Area Size Settings (for blur/mosaic):</string>
+    <string name="max_history_size">Max History Size per Module:</string>
     <string name="algorithm_service_url">Algorithm Service URL:</string>
     <string name="init_filter_params">Initialize filter parameter configuration</string>
     <string name="clear_cache_data">Clear all cache data</string>

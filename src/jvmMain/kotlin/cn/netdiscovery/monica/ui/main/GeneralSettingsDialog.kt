@@ -90,10 +90,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
         modifier = Modifier
             .width(1000.dp)
             .height(800.dp)
-            .background(
-                MaterialTheme.colors.surface,
-                RoundedCornerShape(16.dp)
-            ),
+            .background(MaterialTheme.colors.surface, RoundedCornerShape(16.dp)),
         text = {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -107,7 +104,6 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         text = i18nState.getString("monica_general_settings"),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-//                        color = MaterialTheme.colors.onSurface,
                         color = state.getCurrentThemeValue().primary,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -122,7 +118,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                             TabRowDefaults.Indicator(
                                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
                                 height = 3.dp,
-                                color = MaterialTheme.colors.primary
+                                color = state.getCurrentThemeValue().primary
                             )
                         }
                     ) {
@@ -137,7 +133,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                         fontSize = 14.sp,
                                         fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
                                         color = if (selectedTab == index) {
-                                            MaterialTheme.colors.primary
+                                            state.getCurrentThemeValue().primary
                                         } else {
                                             MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
                                         }
@@ -148,11 +144,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     }
 
                     // 标签页内容
-                    Box(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(top = 16.dp)
-                    ) {
+                    Box(modifier = Modifier.fillMaxSize().padding(top = 16.dp)) {
                         when (selectedTab) {
                             0 -> {
                                 // 基础设置
