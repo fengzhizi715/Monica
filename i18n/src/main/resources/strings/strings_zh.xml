@@ -166,6 +166,8 @@
     <!-- 主题设置 -->
     <string name="basic_settings">基础设置</string>
     <string name="api_settings">API设置</string>
+    <string name="theme_settings">主题设置</string>
+    <string name="language_settings">语言设置</string>
     <string name="current_theme">当前主题</string>
     <string name="select_theme">选择主题</string>
     <string name="theme_light">浅色主题</string>
@@ -511,5 +513,22 @@
     <string name="gemini_api_key">Gemini API Key</string>
     <string name="gemini_api_key_title">Gemini API 密钥</string>
     <string name="gemini_api_key_description">用于自然语言调色的 Gemini API 密钥</string>
-    <string name="select_ai_provider">选择 AI 服务提供商</string>
+    <string name="options_settings">选项设置</string>
+    <string name="init_filter_params_config">初始化滤镜参数配置</string>
+    <string name="clear_cache_data">清除缓存数据</string>
+    <string name="algorithm_service_url">算法服务URL</string>
+    <string name="enter_complete_algorithm_url">请输入完整的算法服务URL地址</string>
+    <string name="theme_operations">主题操作</string>
+    <string name="current_language">当前语言</string>
+    <string name="chinese">中文</string>
+    <string name="english">English</string>
+    <string name="language_switch">语言切换</string>
+    <string name="language_operations">语言操作</string>
+    <string name="reset_to_chinese">重置为中文</string>
+    <string name="r_needs_int">R 需要 int 类型</string>
+    <string name="g_needs_int">G 需要 int 类型</string>
+    <string name="b_needs_int">B 需要 int 类型</string>
+    <string name="size_needs_int">size 需要 int 类型</string>
+    <string name="enter_valid_url">请输入一个正确的 url</string>
+    <string name="max_history_size_needs_int">maxHistorySizeText 需要 int 类型</string>
 </resources>

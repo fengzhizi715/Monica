@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -136,18 +137,24 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var status by remember { mutableStateOf(-1) }
     var isInitFilterParams by mutableStateOf(false)
     var isClearCacheData by mutableStateOf(false)
+    var selectedTab by remember { mutableStateOf(0) }
+    
+    val tabTitles = listOf(
+        i18nState.getString("basic_settings"),
+        i18nState.getString("api_settings"),
+        i18nState.getString("theme_settings"),
+        i18nState.getString("language_settings")
+    )
 
     AlertDialog(
         onDismissRequest = {},
-        modifier = Modifier.width(1000.dp).height(800.dp),
-        title = {
-            Text(
-                text = i18nState.getString("monica_general_settings"),
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colors.primary
-            )
-        },
+        modifier = Modifier
+            .width(1000.dp)
+            .height(800.dp)
+            .background(
+                MaterialTheme.colors.surface,
+                RoundedCornerShape(16.dp)
+            ),
         text = {
             Box(
                 modifier = Modifier.fillMaxSize()
@@ -156,30 +163,40 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                 Column(
                     modifier = Modifier.fillMaxSize()
                 ) {
-                    // 标签页选择器
-                    val tabTitles = listOf(
-                        i18nState.getString("basic_settings"),
-                        i18nState.getString("api_settings"), 
-                        i18nState.getString("theme_settings"),
-                        i18nState.getString("language_settings")
+                    // 标题
+                    Text(
+                        text = i18nState.getString("monica_general_settings"),
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colors.onSurface,
+                        modifier = Modifier.padding(bottom = 16.dp)
                     )
-                    var selectedTab by remember { mutableStateOf(0) }
                     
+                    // 标签页选择器
                     TabRow(
                         selectedTabIndex = selectedTab,
+                        modifier = Modifier.fillMaxWidth(),
                         backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.primary
+                        contentColor = MaterialTheme.colors.primary,
+                        indicator = { tabPositions ->
+                            TabRowDefaults.Indicator(
+                                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
+                                height = 3.dp,
+                                color = MaterialTheme.colors.primary
+                            )
+                        }
                     ) {
                         tabTitles.forEachIndexed { index, title ->
                             Tab(
                                 selected = selectedTab == index,
                                 onClick = { selectedTab = index },
+                                modifier = Modifier.padding(vertical = 12.dp),
                                 text = { 
                                     Text(
                                         text = title,
-                                        fontSize = 12.sp,
+                                        fontSize = 14.sp,
                                         fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
-                                    ) 
+                                    )
                                 }
                             )
                         }
@@ -204,17 +221,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 输出框颜色设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("output_box_color_settings"),
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Column(
@@ -245,17 +264,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 区域大小设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("area_size_settings"),
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             basicTextFieldWithTitle(
@@ -270,17 +291,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 历史记录大小设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("max_history_size"),
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             basicTextFieldWithTitle(
@@ -295,17 +318,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 选项设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
-                                                text = "选项设置",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("options_settings"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Row(
@@ -316,7 +341,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     checked = isInitFilterParams,
                                                     onCheckedChange = { isInitFilterParams = it }
                                                 )
-                                                Text("初始化滤镜参数配置")
+                                                Text(i18nState.getString("init_filter_params_config"))
                                             }
                                             
                                             Row(
@@ -327,7 +352,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     checked = isClearCacheData,
                                                     onCheckedChange = { isClearCacheData = it }
                                                 )
-                                                Text("清除缓存数据")
+                                                Text(i18nState.getString("clear_cache_data"))
                                             }
                                         }
                                     }
@@ -345,17 +370,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // DeepSeek API设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("ai_provider_deepseek") + " API Key",
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             basicTextFieldWithTitle(
@@ -370,17 +397,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // Gemini API设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("ai_provider_gemini") + " API Key",
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             basicTextFieldWithTitle(
@@ -395,17 +424,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 算法URL设置
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
-                                                text = "算法服务URL",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("algorithm_service_url"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             basicTextFieldWithTitle(
@@ -416,7 +447,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                             )
                                             
                                             Text(
-                                                text = "请输入完整的算法服务URL地址",
+                                                text = i18nState.getString("enter_complete_algorithm_url"),
                                                 fontSize = 12.sp,
                                                 color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
                                             )
@@ -435,17 +466,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 当前主题显示
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("current_theme"),
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Text(
@@ -460,52 +493,58 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 主题选择
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("select_theme"),
-                                                fontSize = 14.sp,
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             desktopLazyRow(
                                                 modifier = Modifier.fillMaxWidth()
                                             ) {
-                                                ColorTheme.values().forEach { theme ->
-                                                    Card(
-                                                        modifier = Modifier
-                                                            .width(120.dp)
-                                                            .height(80.dp)
-                                                            .clickable {
-                                                                state.setTheme(theme)
-                                                            },
-                                                        elevation = if (state.getCurrentThemeValue() == theme) 8.dp else 2.dp,
-                                                        shape = RoundedCornerShape(8.dp)
-                                                    ) {
-                                                        Box(
+                                                Row(
+                                                    horizontalArrangement = Arrangement.spacedBy(12.dp)
+                                                ) {
+                                                    ColorTheme.values().forEach { theme ->
+                                                        Card(
                                                             modifier = Modifier
-                                                                .fillMaxSize()
-                                                                .background(
-                                                                    Brush.verticalGradient(
-                                                                        colors = listOf(
-                                                                            theme.primary,
-                                                                            theme.secondary
-                                                                        )
-                                                                    )
-                                                                ),
-                                                            contentAlignment = Alignment.Center
+                                                                .width(120.dp)
+                                                                .height(80.dp)
+                                                                .clickable {
+                                                                    state.setTheme(theme)
+                                                                },
+                                                            elevation = if (state.getCurrentThemeValue() == theme) 8.dp else 2.dp,
+                                                            shape = RoundedCornerShape(8.dp)
                                                         ) {
-                                                            Text(
-                                                                text = theme.getThemeDisplayName(),
-                                                                color = theme.onPrimary,
-                                                                fontSize = 12.sp,
-                                                                fontWeight = FontWeight.Medium
-                                                            )
+                                                            Box(
+                                                                modifier = Modifier
+                                                                    .fillMaxSize()
+                                                                    .background(
+                                                                        Brush.verticalGradient(
+                                                                            colors = listOf(
+                                                                                theme.primary,
+                                                                                theme.secondary
+                                                                            )
+                                                                        )
+                                                                    ),
+                                                                contentAlignment = Alignment.Center
+                                                            ) {
+                                                                Text(
+                                                                    text = theme.getThemeDisplayName(),
+                                                                    color = theme.onPrimary,
+                                                                    fontSize = 12.sp,
+                                                                    fontWeight = FontWeight.Medium
+                                                                )
+                                                            }
                                                         }
                                                     }
                                                 }
@@ -516,17 +555,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 重置按钮
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
-                                                text = "主题操作",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("theme_operations"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Button(
@@ -555,21 +596,23 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 当前语言显示
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
-                                                text = "当前语言",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("current_language"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Text(
-                                                text = if (LocalizationManager.currentLanguage == Language.CHINESE) "中文" else "English",
+                                                text = if (LocalizationManager.currentLanguage == Language.CHINESE) i18nState.getString("chinese") else i18nState.getString("english"),
                                                 fontSize = 16.sp,
                                                 fontWeight = FontWeight.Medium,
                                                 color = MaterialTheme.colors.onSurface
@@ -580,17 +623,19 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 语言切换
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
-                                                text = "语言切换",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("language_switch"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
                                             Row(
@@ -609,7 +654,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     )
                                                 ) {
                                                     Text(
-                                                        text = "中文",
+                                                        text = i18nState.getString("chinese"),
                                                         color = if (LocalizationManager.currentLanguage == Language.CHINESE) 
                                                             MaterialTheme.colors.onPrimary 
                                                         else 
@@ -644,21 +689,23 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     // 重置语言
                                     Card(
                                         modifier = Modifier.fillMaxWidth(),
-                                        elevation = 4.dp
+                                        elevation = 2.dp,
+                                        shape = RoundedCornerShape(12.dp),
+                                        backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(16.dp),
-                                            verticalArrangement = Arrangement.spacedBy(12.dp)
+                                            modifier = Modifier.padding(20.dp),
+                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                     Text(
-                                                text = "语言操作",
-                                                fontSize = 14.sp,
+                                                text = i18nState.getString("language_operations"),
+                                                fontSize = 16.sp,
                                                 fontWeight = FontWeight.Bold,
-                                                color = MaterialTheme.colors.primary
+                                                color = MaterialTheme.colors.onSurface
                                             )
                                             
-                                            Button(
-                                                onClick = {
+                    Button(
+                        onClick = {
                                                     LocalizationManager.setLanguage(Language.CHINESE)
                                                 },
                                                 modifier = Modifier.fillMaxWidth(),
@@ -666,7 +713,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     backgroundColor = MaterialTheme.colors.secondary
                                                 )
                                             ) {
-                                                Text("重置为中文")
+                                                Text(i18nState.getString("reset_to_chinese"))
                                             }
                                         }
                                     }
@@ -694,10 +741,10 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     
                     Button(
                         onClick = {
-                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = { showTopToast("R 需要 int 类型") }) ?: return@Button
-                            state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast("G 需要 int 类型") }) ?: return@Button
-                            state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast("B 需要 int 类型") }) ?: return@Button
-                            state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast("size 需要 int 类型") }) ?: return@Button
+                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = { showTopToast(i18nState.getString("r_needs_int")) }) ?: return@Button
+                            state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast(i18nState.getString("g_needs_int")) }) ?: return@Button
+                            state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast(i18nState.getString("b_needs_int")) }) ?: return@Button
+                            state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast(i18nState.getString("size_needs_int")) }) ?: return@Button
                 state.deepSeekApiKeyText = deepSeekApiKeyText
                             state.geminiApiKeyText = geminiApiKeyText
                 state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
@@ -711,10 +758,10 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         } else {
                             throw RuntimeException()
                         }
-                                }, failed = { showTopToast("请输入一个正确的 url") }) ?: return@Button
+                                }, failed = { showTopToast(i18nState.getString("enter_valid_url")) }) ?: return@Button
                 } else ""
 
-                            state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = { showTopToast("maxHistorySizeText 需要 int 类型") }) ?: return@Button
+                            state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = { showTopToast(i18nState.getString("max_history_size_needs_int")) }) ?: return@Button
 
                 state.saveGeneralSettings()
 

@@ -107,6 +107,8 @@
     <!-- Theme Settings -->
     <string name="basic_settings">Basic Settings</string>
     <string name="api_settings">API Settings</string>
+    <string name="theme_settings">Theme Settings</string>
+    <string name="language_settings">Language Settings</string>
     <string name="current_theme">Current Theme</string>
     <string name="select_theme">Select Theme</string>
     <string name="theme_light">Light Theme</string>
@@ -515,5 +517,22 @@
     <!-- API Key prompt messages -->
     <string name="deepseek_api_key_missing">Please configure DeepSeek API Key in general settings first</string>
     <string name="gemini_api_key_missing">Please configure Gemini API Key in general settings first</string>
-    <string name="api_key_required">API Key is required to use this feature</string>
+    <string name="options_settings">Options Settings</string>
+    <string name="init_filter_params_config">Initialize Filter Parameters Config</string>
+    <string name="clear_cache_data">Clear Cache Data</string>
+    <string name="algorithm_service_url">Algorithm Service URL</string>
+    <string name="enter_complete_algorithm_url">Please enter a complete algorithm service URL address</string>
+    <string name="theme_operations">Theme Operations</string>
+    <string name="current_language">Current Language</string>
+    <string name="chinese">Chinese</string>
+    <string name="english">English</string>
+    <string name="language_switch">Language Switch</string>
+    <string name="language_operations">Language Operations</string>
+    <string name="reset_to_chinese">Reset to Chinese</string>
+    <string name="r_needs_int">R needs int type</string>
+    <string name="g_needs_int">G needs int type</string>
+    <string name="b_needs_int">B needs int type</string>
+    <string name="size_needs_int">size needs int type</string>
+    <string name="enter_valid_url">Please enter a valid url</string>
+    <string name="max_history_size_needs_int">maxHistorySizeText needs int type</string>
 </resources>

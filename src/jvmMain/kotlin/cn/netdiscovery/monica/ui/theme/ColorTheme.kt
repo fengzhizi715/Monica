@@ -1,6 +1,8 @@
 package cn.netdiscovery.monica.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import cn.netdiscovery.monica.i18n.LocalizationManager
+import cn.netdiscovery.monica.i18n.Language
 
 /**
  * 颜色主题枚举
@@ -138,7 +140,17 @@ enum class ColorTheme(
     /**
      * 获取主题的显示名称
      */
-    fun getThemeDisplayName(): String = displayName
+    fun getThemeDisplayName(): String {
+        return when (this) {
+            LIGHT -> if (LocalizationManager.currentLanguage == Language.CHINESE) "浅色主题" else "Light Theme"
+            DARK -> if (LocalizationManager.currentLanguage == Language.CHINESE) "深色主题" else "Dark Theme"
+            BLUE -> if (LocalizationManager.currentLanguage == Language.CHINESE) "蓝色主题" else "Blue Theme"
+            GREEN -> if (LocalizationManager.currentLanguage == Language.CHINESE) "绿色主题" else "Green Theme"
+            PURPLE -> if (LocalizationManager.currentLanguage == Language.CHINESE) "紫色主题" else "Purple Theme"
+            ORANGE -> if (LocalizationManager.currentLanguage == Language.CHINESE) "橙色主题" else "Orange Theme"
+            PINK -> if (LocalizationManager.currentLanguage == Language.CHINESE) "粉色主题" else "Pink Theme"
+        }
+    }
 
     /**
      * 获取主题的唯一标识符
