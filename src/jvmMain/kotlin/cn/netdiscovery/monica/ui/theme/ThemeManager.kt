@@ -22,28 +22,34 @@ import org.slf4j.LoggerFactory
 object ThemeManager {
     private val logger: Logger = LoggerFactory.getLogger(ThemeManager::class.java)
     
-    private var _currentTheme by mutableStateOf(ColorTheme.LIGHT)
+    // 移除独立的状态管理，改为从外部获取
+    private var _currentTheme: ColorTheme? = null
     
     /**
-     * 当前主题
+     * 设置当前主题（从ApplicationState调用）
      */
-    val currentTheme: ColorTheme
-        get() = _currentTheme
-    
-    /**
-     * 设置主题
-     */
-    fun setTheme(theme: ColorTheme) {
+    fun setCurrentTheme(theme: ColorTheme) {
         logger.info("切换主题: ${theme.displayName}")
         _currentTheme = theme
     }
     
     /**
-     * 根据主题获取 Material Colors
+     * 获取当前主题
      */
-    fun getMaterialColors(theme: ColorTheme = currentTheme): Colors {
-        return when (theme) {
-            ColorTheme.DARK -> darkColors(
+    fun getCurrentTheme(): ColorTheme {
+        return _currentTheme ?: ColorTheme.LIGHT
+    }
+    
+    /**
+     * 根据主题获取 Material Colors
+     * 根据背景亮度自动选择使用 lightColors 或 darkColors
+     */
+    fun getMaterialColors(theme: ColorTheme = getCurrentTheme()): Colors {
+        // 计算背景色的亮度来判断是否为深色主题
+        val isDarkTheme = isDarkBackground(theme.background)
+        
+        return if (isDarkTheme) {
+            darkColors(
                 primary = theme.primary,
                 primaryVariant = theme.primaryVariant,
                 secondary = theme.secondary,
@@ -57,7 +63,8 @@ object ThemeManager {
                 onSurface = theme.onSurface,
                 onError = theme.onError
             )
-            else -> lightColors(
+        } else {
+            lightColors(
                 primary = theme.primary,
                 primaryVariant = theme.primaryVariant,
                 secondary = theme.secondary,
@@ -72,6 +79,15 @@ object ThemeManager {
                 onError = theme.onError
             )
         }
+    }
+    
+    /**
+     * 判断背景色是否为深色
+     * 使用相对亮度公式：0.299*R + 0.587*G + 0.114*B
+     */
+    private fun isDarkBackground(backgroundColor: Color): Boolean {
+        val luminance = 0.299f * backgroundColor.red + 0.587f * backgroundColor.green + 0.114f * backgroundColor.blue
+        return luminance < 0.5f // 亮度小于0.5认为是深色背景
     }
     
     /**
@@ -98,7 +114,7 @@ object ThemeManager {
      */
     fun resetToDefault() {
         logger.info("重置为默认主题")
-        setTheme(ColorTheme.LIGHT)
+        setCurrentTheme(ColorTheme.LIGHT)
     }
 }
 
@@ -107,7 +123,7 @@ object ThemeManager {
  */
 @Composable
 fun rememberThemeState(): ColorTheme {
-    return ThemeManager.currentTheme
+    return ThemeManager.getCurrentTheme()
 }
 
 /**
@@ -115,7 +131,7 @@ fun rememberThemeState(): ColorTheme {
  */
 @Composable
 fun setTheme(theme: ColorTheme) {
-    ThemeManager.setTheme(theme)
+    ThemeManager.setCurrentTheme(theme)
 }
 
 /**
@@ -123,7 +139,7 @@ fun setTheme(theme: ColorTheme) {
  */
 @Composable
 fun CustomMaterialTheme(
-    theme: ColorTheme = ThemeManager.currentTheme,
+    theme: ColorTheme = ThemeManager.getCurrentTheme(),
     content: @Composable () -> Unit
 ) {
     val colors = ThemeManager.getMaterialColors(theme)

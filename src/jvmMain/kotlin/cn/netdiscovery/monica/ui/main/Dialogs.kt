@@ -515,6 +515,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                                                 ) {
                                                     ColorTheme.values().forEach { theme ->
+                                                        val isSelected = state.getCurrentThemeValue() == theme
                                                         Card(
                                                             modifier = Modifier
                                                                 .width(120.dp)
@@ -522,27 +523,36 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                                 .clickable {
                                                                     state.setTheme(theme)
                                                                 },
-                                                            elevation = if (state.getCurrentThemeValue() == theme) 8.dp else 2.dp,
-                                                            shape = RoundedCornerShape(8.dp)
+                                                            elevation = if (isSelected) 8.dp else 2.dp,
+                                                            shape = RoundedCornerShape(8.dp),
+                                                            backgroundColor = theme.background
                                                         ) {
                                                             Box(
-                                                                modifier = Modifier
-                                                                    .fillMaxSize()
-                                                                    .background(
-                                                                        Brush.verticalGradient(
-                                                                            colors = listOf(
-                                                                                theme.primary,
-                                                                                theme.secondary
-                                                                            )
-                                                                        )
-                                                                    ),
+                                                                modifier = Modifier.fillMaxSize(),
                                                                 contentAlignment = Alignment.Center
                                                             ) {
+                                                                // 选中状态的边框效果
+                                                                if (isSelected) {
+                                                                    Box(
+                                                                        modifier = Modifier
+                                                                            .fillMaxSize()
+                                                                            .background(
+                                                                                Color.Transparent,
+                                                                                RoundedCornerShape(8.dp)
+                                                                            )
+                                                                            .border(
+                                                                                width = 2.dp,
+                                                                                color = theme.primary,
+                                                                                shape = RoundedCornerShape(8.dp)
+                                                                            )
+                                                                    )
+                                                                }
+                                                                
                                                                 Text(
                                                                     text = theme.getThemeDisplayName(),
-                                                                    color = theme.onPrimary,
+                                                                    color = theme.onBackground,
                                                                     fontSize = 12.sp,
-                                                                    fontWeight = FontWeight.Medium
+                                                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
                                                                 )
                                                             }
                                                         }

@@ -97,12 +97,17 @@ class ApplicationState(val scope:CoroutineScope,
     var geminiApiKeyText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.geminiApiKey?:"")
     var algorithmUrlText by mutableStateOf(rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.algorithmUrl?:"")
 
-    // 主题设置
+    // 主题设置 - 作为唯一的状态源
     var currentTheme by mutableStateOf(
         rxCache.get<GeneralSettings>(KEY_GENERAL_SETTINGS)?.data?.themeId?.let { themeId ->
             ThemeManager.getThemeById(themeId) ?: ColorTheme.LIGHT
         } ?: ColorTheme.LIGHT
     )
+    
+    // 初始化时同步到ThemeManager
+    init {
+        ThemeManager.setCurrentTheme(currentTheme)
+    }
 
     fun toOutputBoxScalar() = intArrayOf(outputBoxBText, outputBoxGText, outputBoxRText)
 
@@ -111,11 +116,13 @@ class ApplicationState(val scope:CoroutineScope,
     }
 
     /**
-     * 切换主题
+     * 切换主题 - 确保状态同步
      */
     fun setTheme(theme: ColorTheme) {
         currentTheme = theme
-        ThemeManager.setTheme(theme)
+        ThemeManager.setCurrentTheme(theme)
+        // 立即保存到缓存
+        saveGeneralSettings()
     }
 
     /**
