@@ -28,6 +28,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
 import cn.netdiscovery.monica.ui.main.generalSettings
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog
+import cn.netdiscovery.monica.ui.theme.CustomMaterialTheme
 import cn.netdiscovery.monica.ui.main.showVersionInfo
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
 import cn.netdiscovery.monica.ui.showimage.showImage
@@ -219,7 +220,8 @@ fun main() = application {
                 placement = if(isWindows) WindowPlacement.Maximized else WindowPlacement.Fullscreen
             }
         ) {
-            when(applicationState.currentStatus) {
+            CustomMaterialTheme(theme = applicationState.getCurrentThemeValue()) {
+                when(applicationState.currentStatus) {
                 ZoomPreviewStatus -> {
                     logger.info("enter ShowImgView")
                     showImage(applicationState)
@@ -265,6 +267,7 @@ fun main() = application {
                     cartoon(applicationState)
                 }
                 else -> {}
+            }
             }
         }
     }

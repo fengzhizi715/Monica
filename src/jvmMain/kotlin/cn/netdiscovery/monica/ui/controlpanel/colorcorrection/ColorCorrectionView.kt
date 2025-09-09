@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Card
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Slider
 import androidx.compose.material.SliderDefaults
 import androidx.compose.material.Text
@@ -114,13 +115,13 @@ fun colorCorrection(state: ApplicationState) {
 
             Row(modifier = Modifier.weight(0.6f)
                 .padding(start = 10.dp, end = 10.dp)
-                .background(color = Color.LightGray, shape = RoundedCornerShape(5))) {
+                .background(color = MaterialTheme.colors.surface, shape = RoundedCornerShape(5))) {
                 Column(
                     Modifier.padding(20.dp),
                     verticalArrangement = Arrangement.Center
                 ) {
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("contrast") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("contrast") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -139,13 +140,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.contrast.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("hue") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("hue") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -163,13 +164,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.hue.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("saturation") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("saturation") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -189,13 +190,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.saturation.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("lightness") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("lightness") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -215,13 +216,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.lightness.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("temperature") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("temperature") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -241,13 +242,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.temperature.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("highlight") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("highlight") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -267,13 +268,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.highlight.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("shadow") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("shadow") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -293,13 +294,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.shadow.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("sharpen") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("sharpen") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -318,13 +319,13 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.sharpen.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
 
                     Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("corner") + "：", color = Color.Unspecified)
+                        Text(modifier = Modifier.width(100.dp), text = i18nState.get("corner") + "：", color = MaterialTheme.colors.onSurface)
 
                         Row(verticalAlignment = Alignment.CenterVertically) {
                             Slider(
@@ -343,7 +344,7 @@ fun colorCorrection(state: ApplicationState) {
 
                             Text(
                                 text = viewModel.corner.to2fStr(),
-                                color = Color.Unspecified,
+                                color = MaterialTheme.colors.onSurface,
                                 modifier = Modifier.weight(1f))
                         }
                     }
