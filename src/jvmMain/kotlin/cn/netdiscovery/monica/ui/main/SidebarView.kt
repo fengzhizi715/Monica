@@ -113,7 +113,7 @@ fun SidebarView(
         modifier = modifier
             .width(240.dp)
             .fillMaxHeight(),
-        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 16.dp, bottomStart = 16.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = 8.dp,
         backgroundColor = MaterialTheme.colors.surface
     ) {

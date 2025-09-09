@@ -44,13 +44,11 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
 @Composable
 fun preview(
     state: ApplicationState,
-    modifier: Modifier
 ) {
     val viewModel: PreviewViewModel = koinInject()
 
     Card(
-        modifier = modifier.padding(16.dp),
-        shape = RoundedCornerShape(8.dp),
+        shape = RoundedCornerShape(16.dp),
         elevation = 4.dp,
         onClick = {
             chooseImage(state) { file ->

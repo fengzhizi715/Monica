@@ -76,7 +76,7 @@ fun mainView(
                 }
 
                 // 右侧预览区域
-                preview(state, Modifier.weight(1f))
+                preview(state)
             }
         }
     }
