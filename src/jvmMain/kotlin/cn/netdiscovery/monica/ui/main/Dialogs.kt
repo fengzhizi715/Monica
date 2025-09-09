@@ -177,7 +177,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         selectedTabIndex = selectedTab,
                         modifier = Modifier.fillMaxWidth(),
                         backgroundColor = MaterialTheme.colors.surface,
-                        contentColor = MaterialTheme.colors.primary,
+                        contentColor = MaterialTheme.colors.onSurface,
                         indicator = { tabPositions ->
                             TabRowDefaults.Indicator(
                                 modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTab]),
@@ -195,7 +195,12 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     Text(
                                         text = title,
                                         fontSize = 14.sp,
-                                        fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal
+                                        fontWeight = if (selectedTab == index) FontWeight.Bold else FontWeight.Normal,
+                                        color = if (selectedTab == index) {
+                                            MaterialTheme.colors.primary
+                                        } else {
+                                            MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                                        }
                                     )
                                 }
                             )
@@ -586,7 +591,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = MaterialTheme.colors.secondary
+                                                    backgroundColor = MaterialTheme.colors.primary
                                                 )
                                             ) {
                                                 Text(i18nState.getString("reset_to_default_theme"))
@@ -720,7 +725,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 },
                                                 modifier = Modifier.fillMaxWidth(),
                                                 colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = MaterialTheme.colors.secondary
+                                                    backgroundColor = MaterialTheme.colors.primary
                                                 )
                                             ) {
                                                 Text(i18nState.getString("reset_to_chinese"))
