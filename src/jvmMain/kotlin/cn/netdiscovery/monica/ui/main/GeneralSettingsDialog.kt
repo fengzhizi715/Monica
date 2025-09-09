@@ -520,11 +520,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     state.setTheme(ColorTheme.LIGHT)
                                                 },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = MaterialTheme.colors.primary
-                                                )
+                                                colors = ButtonDefaults.buttonColors(backgroundColor = state.getCurrentThemeValue().primary)
                                             ) {
-                                                Text(i18nState.getString("reset_to_default_theme"))
+                                                Text(i18nState.getString("reset_to_default_theme"), color = Color.White)
                                             }
                                         }
                                     }
@@ -593,7 +591,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     modifier = Modifier.weight(1f),
                                                     colors = ButtonDefaults.buttonColors(
                                                         backgroundColor = if (LocalizationManager.currentLanguage == Language.CHINESE)
-                                                            MaterialTheme.colors.primary
+                                                            state.getCurrentThemeValue().primary
                                                         else
                                                             MaterialTheme.colors.surface
                                                     )
@@ -614,7 +612,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     modifier = Modifier.weight(1f),
                                                     colors = ButtonDefaults.buttonColors(
                                                         backgroundColor = if (LocalizationManager.currentLanguage == Language.ENGLISH)
-                                                            MaterialTheme.colors.primary
+                                                            state.getCurrentThemeValue().primary
                                                         else
                                                             MaterialTheme.colors.surface
                                                     )
@@ -654,11 +652,9 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                     LocalizationManager.setLanguage(Language.CHINESE)
                                                 },
                                                 modifier = Modifier.fillMaxWidth(),
-                                                colors = ButtonDefaults.buttonColors(
-                                                    backgroundColor = MaterialTheme.colors.primary
-                                                )
+                                                colors = ButtonDefaults.buttonColors(backgroundColor = state.getCurrentThemeValue().primary)
                                             ) {
-                                                Text(i18nState.getString("reset_to_chinese"))
+                                                Text(i18nState.getString("reset_to_chinese"), color = Color.White)
                                             }
                                         }
                                     }
@@ -720,20 +716,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                             onClick()
                         },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.primary
-                        )
+                        colors = ButtonDefaults.buttonColors(backgroundColor = state.getCurrentThemeValue().primary)
                     ) {
-                        Text(i18nState.getString("update"))
+                        Text(i18nState.getString("update"), color = Color.White)
                     }
 
                     Button(
                         onClick = { onClick() },
-                        colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.primary
-                        )
+                        colors = ButtonDefaults.buttonColors(backgroundColor = state.getCurrentThemeValue().primary)
                     ) {
-                        Text(i18nState.getString("close"))
+                        Text(i18nState.getString("close"), color = Color.White)
                     }
                 }
             }
