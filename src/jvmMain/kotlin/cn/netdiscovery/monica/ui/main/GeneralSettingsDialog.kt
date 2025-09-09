@@ -107,7 +107,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         text = i18nState.getString("monica_general_settings"),
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colors.onSurface,
+//                        color = MaterialTheme.colors.onSurface,
+                        color = state.getCurrentThemeValue().primary,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
 
@@ -416,7 +417,6 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     ) {
                                         Row(
                                             modifier = Modifier.padding(20.dp),
-//                                            verticalArrangement = Arrangement.spacedBy(16.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("current_theme"),
@@ -553,9 +553,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                         shape = RoundedCornerShape(12.dp),
                                         backgroundColor = MaterialTheme.colors.surface
                                     ) {
-                                        Column(
-                                            modifier = Modifier.padding(20.dp),
-                                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                                        Row (
+                                            modifier = Modifier.padding(20.dp)
                                         ) {
                                             Text(
                                                 text = i18nState.getString("current_language"),
@@ -568,7 +567,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 text = if (LocalizationManager.currentLanguage == Language.CHINESE) i18nState.getString("chinese") else i18nState.getString("english"),
                                                 fontSize = 16.sp,
                                                 fontWeight = FontWeight.Medium,
-                                                color = MaterialTheme.colors.onSurface
+                                                color = MaterialTheme.colors.onSurface,
+                                                modifier = Modifier.padding(start = 20.dp)
                                             )
                                         }
                                     }
