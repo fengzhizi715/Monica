@@ -1,11 +1,13 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorpick
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
@@ -57,7 +59,17 @@ fun colorPick(state: ApplicationState) {
     }
 
     Box(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colors.background,
+                        MaterialTheme.colors.surface
+                    )
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         // 使用统一的图片尺寸计算

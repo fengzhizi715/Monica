@@ -13,7 +13,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.preview.preview
-import cn.netdiscovery.monica.ui.theme.CustomMaterialTheme
 import org.koin.compose.koinInject
 
 /**
@@ -30,54 +29,52 @@ fun mainView(
 
     viewModel.dropFile(state)
 
-    CustomMaterialTheme(theme = state.getCurrentThemeValue()) {
-        Box(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(
-                    brush = Brush.verticalGradient(
-                        colors = listOf(
-                            MaterialTheme.colors.background,
-                            MaterialTheme.colors.surface
-                        )
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colors.background,
+                        MaterialTheme.colors.surface
                     )
                 )
+            )
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(24.dp), // 增加整体边距
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(24.dp) // 增加组件间距
         ) {
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(24.dp), // 增加整体边距
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(24.dp) // 增加组件间距
-            ) {
-                // 左侧菜单栏
-                SidebarView(state = state)
+            // 左侧菜单栏
+            SidebarView(state = state)
 
-                val hasSelectedItem by remember {
-                    derivedStateOf {
-                        state.isGeneralSettings || state.isBasic ||
-                        state.isColorCorrection || state.isFilter || state.isAI
-                    }
+            val hasSelectedItem by remember {
+                derivedStateOf {
+                    state.isGeneralSettings || state.isBasic ||
+                    state.isColorCorrection || state.isFilter || state.isAI
                 }
-
-                // 中间内容面板，根据是否有选中项显示
-                AnimatedVisibility(
-                    visible = hasSelectedItem,
-                    enter = slideInHorizontally(
-                        initialOffsetX = { -it },
-                        animationSpec = tween(300, easing = FastOutSlowInEasing)
-                    ) + fadeIn(animationSpec = tween(300)),
-                    exit = slideOutHorizontally(
-                        targetOffsetX = { -it },
-                        animationSpec = tween(300, easing = FastOutSlowInEasing)
-                    ) + fadeOut(animationSpec = tween(300))
-                ) {
-                    ContentPanel(state = state)
-                }
-
-                // 右侧预览区域
-                preview(state)
             }
+
+            // 中间内容面板，根据是否有选中项显示
+            AnimatedVisibility(
+                visible = hasSelectedItem,
+                enter = slideInHorizontally(
+                    initialOffsetX = { -it },
+                    animationSpec = tween(300, easing = FastOutSlowInEasing)
+                ) + fadeIn(animationSpec = tween(300)),
+                exit = slideOutHorizontally(
+                    targetOffsetX = { -it },
+                    animationSpec = tween(300, easing = FastOutSlowInEasing)
+                ) + fadeOut(animationSpec = tween(300))
+            ) {
+                ContentPanel(state = state)
+            }
+
+            // 右侧预览区域
+            preview(state)
         }
     }
 }

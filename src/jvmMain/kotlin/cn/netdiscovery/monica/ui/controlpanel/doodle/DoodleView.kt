@@ -95,7 +95,17 @@ fun drawImage(
     }
 
     Box(
-        Modifier.fillMaxSize().verticalScroll(rememberScrollState()),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(
+                brush = Brush.verticalGradient(
+                    colors = listOf(
+                        MaterialTheme.colors.background,
+                        MaterialTheme.colors.surface
+                    )
+                )
+            ),
         contentAlignment = Alignment.Center
     ) {
         // 使用统一的图片尺寸计算

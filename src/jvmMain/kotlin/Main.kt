@@ -142,47 +142,51 @@ fun main() = application {
 
             applicationState.window  = window
 
-            mainView(applicationState)
+            CustomMaterialTheme(theme = applicationState.getCurrentThemeValue().also { 
+                logger.info("主窗口使用主题: ${it.name}")
+            }) {
+                mainView(applicationState)
 
-            if (loadingDisplay) {
-                showLoading()
-            }
-
-            if (openURLDialog) {
-                openURLDialog(
-                    onConfirm = {
-                        openURLDialog = false
-
-                        previewViewModel.loadUrl(picUrl, applicationState)
-
-                        picUrl = ""
-                    },
-                    onDismiss = {
-                        openURLDialog = false
-                    })
-            }
-
-            if (showTopToast) {
-                topToast(message = topToastMessage) {
-                    showTopToast = false
+                if (loadingDisplay) {
+                    showLoading()
                 }
-            }
 
-            if (showCenterToast) {
-                centerToast(message = centerToastMessage) {
-                    showCenterToast = false
+                if (openURLDialog) {
+                    openURLDialog(
+                        onConfirm = {
+                            openURLDialog = false
+
+                            previewViewModel.loadUrl(picUrl, applicationState)
+
+                            picUrl = ""
+                        },
+                        onDismiss = {
+                            openURLDialog = false
+                        })
                 }
-            }
 
-            if (showVersion) {
-                showVersionInfo {
-                    showVersion = false
+                if (showTopToast) {
+                    topToast(message = topToastMessage) {
+                        showTopToast = false
+                    }
                 }
-            }
 
-            if (showGeneralSettings) {
-                generalSettings(applicationState) {
-                    showGeneralSettings = false
+                if (showCenterToast) {
+                    centerToast(message = centerToastMessage) {
+                        showCenterToast = false
+                    }
+                }
+
+                if (showVersion) {
+                    showVersionInfo {
+                        showVersion = false
+                    }
+                }
+
+                if (showGeneralSettings) {
+                    generalSettings(applicationState) {
+                        showGeneralSettings = false
+                    }
                 }
             }
         }
@@ -220,7 +224,9 @@ fun main() = application {
                 placement = if(isWindows) WindowPlacement.Maximized else WindowPlacement.Fullscreen
             }
         ) {
-            CustomMaterialTheme(theme = applicationState.getCurrentThemeValue()) {
+            CustomMaterialTheme(theme = applicationState.getCurrentThemeValue().also { 
+                logger.info("预览窗口使用主题: ${it.name}")
+            }) {
                 when(applicationState.currentStatus) {
                 ZoomPreviewStatus -> {
                     logger.info("enter ShowImgView")
