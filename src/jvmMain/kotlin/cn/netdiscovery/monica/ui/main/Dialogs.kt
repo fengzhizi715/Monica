@@ -785,7 +785,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                     Button(
                         onClick = { onClick() },
                         colors = ButtonDefaults.buttonColors(
-                            backgroundColor = MaterialTheme.colors.secondary
+                            backgroundColor = MaterialTheme.colors.primary
                         )
                     ) {
                 Text(i18nState.getString("close"))
