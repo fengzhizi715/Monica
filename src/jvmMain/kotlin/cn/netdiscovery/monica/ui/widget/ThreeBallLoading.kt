@@ -41,7 +41,7 @@ fun showLoading() {
                 .width(loadingWidth)
                 .height(height)
                 .background(
-                    color = MaterialTheme.colors.surface.copy(alpha = 0.9f),
+                    color = Color.Transparent,
                     shape = RoundedCornerShape(16.dp)
                 )
                 .padding(20.dp)
