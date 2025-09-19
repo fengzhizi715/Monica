@@ -83,41 +83,4 @@ class LLMServiceManager {
         
         return result
     }
-    
-    /**
-     * 验证 API 密钥是否有效
-     * 
-     * @param provider LLM 服务提供商
-     * @param apiKey API 密钥
-     * @return 是否有效
-     */
-    fun validateApiKey(provider: LLMProvider, apiKey: String): Boolean {
-        return try {
-            when (provider) {
-                LLMProvider.DEEPSEEK -> validateDeepSeekApiKey(apiKey)
-                LLMProvider.GEMINI -> validateGeminiApiKey(apiKey)
-            }
-        } catch (e: Exception) {
-            logger.error("验证 ${provider.name} API 密钥失败: ${e.message}")
-            false
-        }
-    }
-}
-
-/**
- * 扩展函数：验证 DeepSeek API 密钥
- */
-private fun validateDeepSeekApiKey(apiKey: String): Boolean {
-    // 这里可以实现一个简单的 API 调用来验证密钥
-    // 暂时返回 true，实际项目中可以调用一个简单的 API 端点
-    return apiKey.isNotBlank()
-}
-
-/**
- * 扩展函数：验证 Gemini API 密钥
- */
-private fun validateGeminiApiKey(apiKey: String): Boolean {
-    // 这里可以实现一个简单的 API 调用来验证密钥
-    // 暂时返回 true，实际项目中可以调用一个简单的 API 端点
-    return apiKey.isNotBlank()
 }
