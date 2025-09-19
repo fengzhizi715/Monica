@@ -8,7 +8,6 @@
 * **构建工具**：Gradle / CMake
 
 # ✨ 功能列表
-
 ## 图像处理功能
 * 支持导入：JPG、PNG、WebP、SVG、HDR、HEIC
 * 支持相机 RAW 文件导入：CR2、CR3 等
@@ -39,7 +38,7 @@
 git clone https://github.com/fengzhizi715/Monica.git
 ```
 
-## macOS 安装包
+## 🍎 macOS 安装包
 ### Intel 芯片：
 Monica-x64-1.1.3.dmg
 
@@ -50,13 +49,13 @@ Monica-arm64-1.1.3.dmg
 
 链接: https://pan.baidu.com/s/1vPOKW_QAiT1nRa30SX33Ag?pwd=np4g
 
-## CentOS 安装包
-稍后提供
-
-## Windows 安装包
+## 🖥 Windows 安装包
 Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 
 链接: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
+
+## 🐧 CentOS 安装包
+稍后提供
 
 # 📸 项目截图
 ![](images/screenshot.png)
@@ -69,13 +68,14 @@ Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 
 ![](images/7-2.png)
 
-更多截图可以访问: [详细功能介绍](FUNCTION.md)
 
-也可以访问相关的专栏: https://juejin.cn/column/7396157773312065574
+更多截图 👉[详细功能介绍](FUNCTION.md)
+
+专栏文章 👉 [掘金专栏](https://juejin.cn/column/7396157773312065574)
 
 # 📁 CV 算法 && 深度学习的服务
 
-## CV 算法
+## ⚙️ CV 算法
 
 CV 算法的地址：
 https://github.com/fengzhizi715/MonicaImageProcess
@@ -91,13 +91,13 @@ https://github.com/fengzhizi715/MonicaImageProcess
 | opencv_world481.dll                   |       | Windows 下基于 OpenCV 4.8.1 源码编译的 OpenCV 库         | 使用 Visual Studio 2022 编译     |
 
 
-## 深度学习的服务
+## ☁️深度学习的服务
 
 深度学习的服务部署在云端， Monica 需要在“通用设置”中设置“算法服务的url”才能调用相关的服务。(Monica 通过 http 协议来调用算法服务，实现推理)
 
 深度学习相关服务的源码和模型：https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
-> 我没有在云端部署相关服务，感兴趣可以下载在本地编译和部署
+> 未部署线上服务，感兴趣可自行编译和部署
 
 
 # 💻 项目计划：
