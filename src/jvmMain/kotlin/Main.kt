@@ -124,7 +124,6 @@ fun main() = application {
     )
 
     Thread.setDefaultUncaughtExceptionHandler{ _, throwable ->
-
         logger.error("全局异常捕获", throwable)
     }
 
@@ -228,52 +227,52 @@ fun main() = application {
                 logger.info("预览窗口使用主题: ${it.name}")
             }) {
                 when(applicationState.currentStatus) {
-                ZoomPreviewStatus -> {
-                    logger.info("enter ShowImgView")
-                    showImage(applicationState)
+                    ZoomPreviewStatus -> {
+                        logger.info("enter ShowImgView")
+                        showImage(applicationState)
+                    }
+                    ColorPickStatus -> {
+                        logger.info("enter ColorPickView")
+                        colorPick(applicationState)
+                    }
+                    GenerateGifStatus -> {
+                        logger.info("enter GenerateGifView")
+                        generateGif(applicationState)
+                    }
+                    DoodleStatus -> {
+                        logger.info("enter DoodleView")
+                        drawImage(applicationState)
+                    }
+                    ShapeDrawingStatus -> {
+                        logger.info("enter ShapeDrawingViewRefactored")
+                        shapeDrawing(applicationState)
+                    }
+                    CropSizeStatus -> {
+                        logger.info("enter CropImageView")
+                        cropImage(applicationState)
+                    }
+                    ColorCorrectionStatus -> {
+                        logger.info("enter ColorCorrectionView")
+                        colorCorrection(applicationState)
+                    }
+                    FilterStatus -> {
+                        logger.info("enter FilterView")
+                        filter(applicationState)
+                    }
+                    FaceSwapStatus -> {
+                        logger.info("enter FaceSwapView")
+                        faceSwap(applicationState)
+                    }
+                    OpenCVDebugStatus -> {
+                        logger.info("enter OpenCVDebugView")
+                        experiment(applicationState)
+                    }
+                    CartoonStatus -> {
+                        logger.info("enter CartoonView")
+                        cartoon(applicationState)
+                    }
+                    else -> {}
                 }
-                ColorPickStatus -> {
-                    logger.info("enter ColorPickView")
-                    colorPick(applicationState)
-                }
-                GenerateGifStatus -> {
-                    logger.info("enter GenerateGifView")
-                    generateGif(applicationState)
-                }
-                DoodleStatus -> {
-                    logger.info("enter DoodleView")
-                    drawImage(applicationState)
-                }
-                ShapeDrawingStatus -> {
-                    logger.info("enter ShapeDrawingViewRefactored")
-                    shapeDrawing(applicationState)
-                }
-                CropSizeStatus -> {
-                    logger.info("enter CropImageView")
-                    cropImage(applicationState)
-                }
-                ColorCorrectionStatus -> {
-                    logger.info("enter ColorCorrectionView")
-                    colorCorrection(applicationState)
-                }
-                FilterStatus -> {
-                    logger.info("enter FilterView")
-                    filter(applicationState)
-                }
-                FaceSwapStatus -> {
-                    logger.info("enter FaceSwapView")
-                    faceSwap(applicationState)
-                }
-                OpenCVDebugStatus -> {
-                    logger.info("enter OpenCVDebugView")
-                    experiment(applicationState)
-                }
-                CartoonStatus -> {
-                    logger.info("enter CartoonView")
-                    cartoon(applicationState)
-                }
-                else -> {}
-            }
             }
         }
     }
