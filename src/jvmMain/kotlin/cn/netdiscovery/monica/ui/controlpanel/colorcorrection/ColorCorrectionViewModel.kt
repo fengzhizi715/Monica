@@ -3,6 +3,7 @@ package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.toAwtImage
 import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
@@ -113,6 +114,7 @@ class ColorCorrectionViewModel {
                     // 获取全尺寸的 raw 图像，更新金字塔对象，完成调色返回预览对象
                     val previewImage = ImageProcess.decodeRawAndColorCorrection(filePath, nativePtr, colorCorrectionSettings, cppObjectPtr)
                     if (previewImage!=null) {
+                        state.addQueue(state.currentImage!!)
                         val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
                         state.currentImage = image
                         state.nativeFullImageProcessed = true
@@ -124,6 +126,7 @@ class ColorCorrectionViewModel {
                     // 更新金字塔对象，完成调色返回预览对象
                     val previewImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
                     if (previewImage!=null) {
+                        state.addQueue(state.currentImage!!)
                         val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
                         state.currentImage = image
                         state.togglePreviewWindow(false)
@@ -138,6 +141,7 @@ class ColorCorrectionViewModel {
                 // 更新金字塔对象，完成调色返回预览对象
                 val previewImage = ImageProcess.colorCorrectionWithPyramidImage(nativePtr, colorCorrectionSettings, cppObjectPtr)
                 if (previewImage!=null) {
+                    state.addQueue(state.currentImage!!)
                     val image = BufferedImages.toBufferedImage(previewImage.previewImage, previewImage.width, previewImage.height, BufferedImage.TYPE_INT_ARGB)
                     state.currentImage = image
                     state.togglePreviewWindow(false)

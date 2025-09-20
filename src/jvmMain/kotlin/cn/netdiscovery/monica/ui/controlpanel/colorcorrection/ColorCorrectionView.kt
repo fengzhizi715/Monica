@@ -1,5 +1,6 @@
 package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.IntSize
@@ -108,19 +110,25 @@ fun colorCorrection(state: ApplicationState) {
                 elevation = 4.dp,
                 onClick = {
                 },
-                enabled = true
+                enabled = false
             ) {
-                ClickableImage(
-                    imageBitmap = cachedImage.toComposeImageBitmap(),
-                    originalSize = originalSize?.let { IntSize(it.first, it.second) } ?: IntSize(cachedImage.width, cachedImage.height),
-                    clickPoints = clickPoints,
-                    currentLabel = currentLabel,
-                    onAddClickPoint = { point ->
-                        clickPoints += point
-                    },
+//                ClickableImage(
+//                    imageBitmap = cachedImage.toComposeImageBitmap(),
+//                    originalSize = originalSize?.let { IntSize(it.first, it.second) } ?: IntSize(cachedImage.width, cachedImage.height),
+//                    clickPoints = clickPoints,
+//                    currentLabel = currentLabel,
+//                    onAddClickPoint = { point ->
+//                        clickPoints += point
+//                    },
+//                    modifier = Modifier.fillMaxSize()
+//                )
+
+                Image(
+                    bitmap = cachedImage.toComposeImageBitmap(),
+                    contentDescription = null,
+                    contentScale = ContentScale.Fit,
                     modifier = Modifier.fillMaxSize()
                 )
-
             }
 
             Row(modifier = Modifier.weight(0.6f)
@@ -366,6 +374,7 @@ fun colorCorrection(state: ApplicationState) {
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
                                 viewModel.save(state) {
+                                    state.addQueue(state.currentImage!!)
                                     state.currentImage = cachedImage
                                     state.togglePreviewWindow(false)
                                 }
