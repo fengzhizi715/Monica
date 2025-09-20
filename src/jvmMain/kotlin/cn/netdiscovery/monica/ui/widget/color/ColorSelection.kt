@@ -86,7 +86,7 @@ fun ColorSlider(
     
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
 
-        Text(text = title.substring(0, 1), color = titleColor, fontWeight = FontWeight.Bold)
+        Text(text = title.take(1), color = titleColor, fontWeight = FontWeight.Bold)
         Spacer(modifier = Modifier.width(8.dp))
         Slider(
             modifier = Modifier.weight(1f).focusRequester(focusRequester),
