@@ -8,7 +8,7 @@
 * **构建工具**：Gradle / CMake
 
 # ✨ 功能列表
-## 图像处理功能
+## 📷图像处理功能
 * 支持导入：JPG、PNG、WebP、SVG、HDR、HEIC
 * 支持相机 RAW 文件导入：CR2、CR3 等
 * 支持导出：JPG、PNG、WebP
@@ -23,7 +23,7 @@
 * 多图合成 GIF
 * 快速验证 OpenCV 算法，支持简单算法的调参
 
-## 深度学习增强功能
+##  深度学习增强功能
 * 人脸检测(人脸、性别、年龄)
 * 图像生成素描画
 * 替换人脸
@@ -31,8 +31,8 @@
 
 # 📦 安装与运行
 
-## 运行方式
-可以通过源码进行编译和运行，使用的 IDE:  IntelliJ IDEA、IntelliJ IDEA CE
+## 从源码运行
+使用 IntelliJ IDEA / IntelliJ IDEA CE
 
 ```
 git clone https://github.com/fengzhizi715/Monica.git
