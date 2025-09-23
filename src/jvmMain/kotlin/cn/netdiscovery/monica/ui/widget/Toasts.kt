@@ -39,7 +39,7 @@ fun topToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable Action = {},
+    onDismissCallback: Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -59,7 +59,7 @@ fun centerToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable Action = {},
+    onDismissCallback: Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -79,7 +79,7 @@ fun bottomToast(
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
-    onDismissCallback: @Composable Action = {},
+    onDismissCallback: Action = {},
 ) {
     toast(modifier = modifier,
         message = message,
@@ -100,7 +100,7 @@ private fun toast(
     height: Dp = 100.dp,
     width: Dp = 400.dp,
     alignment: Alignment,
-    onDismissCallback: @Composable Action = {}
+    onDismissCallback: Action = {}
 ) {
     var hasTransitionStarted by remember { mutableStateOf(false) }
     var clipShape by remember { mutableStateOf(CircleShape) }
