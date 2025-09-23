@@ -101,14 +101,15 @@ class ShapeDrawingEventHandler(
         return if (startValidation.isValid && endValidation.isValid) {
             val displayLine = Line(state.currentLineStart, state.currentLineEnd, state.currentShapeProperty)
             val originalLine = coordinateConverter.convertLineToOriginal(displayLine)
-            state.addShape(state.currentLineStart, displayLine, originalLine)
-            state.recordLastDrawnShape(state.currentLineStart, "Line")
+            val lineKey = state.currentLineStart // 保存key，避免在clearCurrentDrawingState后丢失
+            state.addShape(lineKey, displayLine, originalLine)
+            state.recordLastDrawnShape(lineKey, "Line")
             logger.info("添加线段: ${state.currentLineStart} -> ${state.currentLineEnd}")
             
             // 重置线段状态，准备下次绘制
             state.clearCurrentDrawingState()
             
-            Pair(state.currentLineStart, displayLine)
+            Pair(lineKey, displayLine)
         } else {
             logger.warn("线段坐标无效: ${startValidation.message}, ${endValidation.message}")
             null
@@ -137,14 +138,15 @@ class ShapeDrawingEventHandler(
         return if (centerValidation.isValid && state.currentCircleRadius > 0) {
             val displayCircle = Circle(state.currentCircleCenter, state.currentCircleRadius, state.currentShapeProperty)
             val originalCircle = coordinateConverter.convertCircleToOriginal(displayCircle)
-            state.addShape(state.currentCircleCenter, displayCircle, originalCircle)
-            state.recordLastDrawnShape(state.currentCircleCenter, "Circle")
+            val circleKey = state.currentCircleCenter // 保存key，避免在clearCurrentDrawingState后丢失
+            state.addShape(circleKey, displayCircle, originalCircle)
+            state.recordLastDrawnShape(circleKey, "Circle")
             logger.info("添加圆形: 中心=${state.currentCircleCenter}, 半径=${state.currentCircleRadius}")
             
             // 重置圆形状态，准备下次绘制
             state.clearCurrentDrawingState()
             
-            Pair(state.currentCircleCenter, displayCircle)
+            Pair(circleKey, displayCircle)
         } else {
             logger.warn("圆形坐标无效: ${centerValidation.message}")
             null
@@ -175,14 +177,15 @@ class ShapeDrawingEventHandler(
         return if (firstValidation.isValid && secondValidation.isValid && thirdValidation.isValid) {
             val displayTriangle = Triangle(state.currentTriangleFirst, state.currentTriangleSecond, state.currentTriangleThird, state.currentShapeProperty)
             val originalTriangle = coordinateConverter.convertTriangleToOriginal(displayTriangle)
-            state.addShape(state.currentTriangleFirst, displayTriangle, originalTriangle)
-            state.recordLastDrawnShape(state.currentTriangleFirst, "Triangle")
+            val triangleKey = state.currentTriangleFirst // 保存key，避免在clearCurrentDrawingState后丢失
+            state.addShape(triangleKey, displayTriangle, originalTriangle)
+            state.recordLastDrawnShape(triangleKey, "Triangle")
             logger.info("添加三角形: ${state.currentTriangleFirst}, ${state.currentTriangleSecond}, ${state.currentTriangleThird}")
             
             // 重置三角形状态，准备下次绘制
             state.clearCurrentDrawingState()
             
-            Pair(state.currentTriangleFirst, displayTriangle)
+            Pair(triangleKey, displayTriangle)
         } else {
             logger.warn("三角形坐标无效: ${firstValidation.message}, ${secondValidation.message}, ${thirdValidation.message}")
             null
@@ -197,6 +200,8 @@ class ShapeDrawingEventHandler(
                    state.currentTriangleFirst != state.currentPosition) {
             state.updateTriangleState(second = state.currentPosition)
         } else if (state.currentTriangleFirst != Offset.Unspecified && 
+                   state.currentTriangleSecond != Offset.Unspecified &&
+                   state.currentTriangleThird == Offset.Unspecified &&
                    state.currentTriangleSecond != state.currentPosition) {
             state.updateTriangleState(third = state.currentPosition)
         }
@@ -229,14 +234,15 @@ class ShapeDrawingEventHandler(
         return if (tlValidation.isValid && brValidation.isValid) {
             val displayRect = Rectangle(state.currentRectTL, state.currentRectBL, state.currentRectBR, state.currentRectTR, state.currentRectFirst, state.currentShapeProperty)
             val originalRect = coordinateConverter.convertRectangleToOriginal(displayRect)
-            state.addShape(state.currentRectFirst, displayRect, originalRect)
-            state.recordLastDrawnShape(state.currentRectFirst, "Rectangle")
+            val rectKey = state.currentRectFirst // 保存key，避免在clearCurrentDrawingState后丢失
+            state.addShape(rectKey, displayRect, originalRect)
+            state.recordLastDrawnShape(rectKey, "Rectangle")
             logger.info("添加矩形: ${state.currentRectTL} -> ${state.currentRectBR}")
             
             // 重置矩形状态，准备下次绘制
             state.clearCurrentDrawingState()
             
-            Pair(state.currentRectFirst, displayRect)
+            Pair(rectKey, displayRect)
         } else {
             logger.warn("矩形坐标无效: ${tlValidation.message}, ${brValidation.message}")
             null
@@ -311,14 +317,15 @@ class ShapeDrawingEventHandler(
             if (boundaryValidation.isValid) {
                 val displayPolygon = Polygon(state.currentPolygonPoints.toList(), state.currentShapeProperty)
                 val originalPolygon = coordinateConverter.convertPolygonToOriginal(displayPolygon)
-                state.addShape(state.currentPolygonFirst, displayPolygon, originalPolygon)
-                state.recordLastDrawnShape(state.currentPolygonFirst, "Polygon")
+                val polygonKey = state.currentPolygonFirst // 保存key，避免在clearCurrentDrawingState后丢失
+                state.addShape(polygonKey, displayPolygon, originalPolygon)
+                state.recordLastDrawnShape(polygonKey, "Polygon")
                 logger.info("添加多边形: ${state.currentPolygonPoints.size}个顶点")
                 
                 // 重置多边形状态，准备下次绘制
                 state.clearCurrentDrawingState()
                 
-                Pair(state.currentPolygonFirst, displayPolygon)
+                Pair(polygonKey, displayPolygon)
             } else {
                 logger.warn("多边形边界无效: ${boundaryValidation.message}")
                 null
