@@ -8,13 +8,10 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.*
  * 负责显示坐标和原始坐标之间的转换
  * 
  * @author Tony Shen
- * @date 2024/12/19
+ * @date 2025/9/8
  * @version V1.0
  */
-class CoordinateConverter(
-    private val scaleX: Float,
-    private val scaleY: Float
-) {
+class CoordinateConverter(private val scaleX: Float, private val scaleY: Float) {
     
     /**
      * 显示坐标转原始坐标
