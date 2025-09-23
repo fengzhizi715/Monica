@@ -7,15 +7,12 @@ import kotlin.math.min
 import kotlin.math.sqrt
 
 /**
- *
+ * Perlin Noise functions
  * @FileName:
  *          cn.netdiscovery.monica.imageprocess.math.Noise
  * @author: Tony Shen
  * @date: 2025/3/10 11:48
  * @version: V1.0 <描述当前版本功能>
- */
-/**
- * Perlin Noise functions
  */
 class Noise : Function1D, Function2D, Function3D {
 
