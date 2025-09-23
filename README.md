@@ -69,7 +69,7 @@ Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 ![](images/7-2.png)
 
 
-更多截图 👉[详细功能介绍](FUNCTION.md)
+更多截图 👉 [详细功能介绍](FUNCTION.md)
 
 专栏文章 👉 [掘金专栏](https://juejin.cn/column/7396157773312065574)
 
