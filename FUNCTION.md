@@ -78,6 +78,18 @@ Monica 支持调节图像的对比度、色调、饱和度、亮度、色温等�
 保存图像
 ![](images/4-5.png)
 
+Monica 还支持通过 LLM 进行调色，主要是 deepseek、 gemini。用户每次输入一句自然语言指令，比如“肤色偏黄，冷一点”，就可以进行调色。也支持多轮对话和切换不同的大模型。
+
+![](images/4-6.png)
+
+![](images/4-7.png)
+
+![](images/4-8.png)
+
+![](images/4-9.png)
+
+![](images/4-10.png)
+
 ## 2.5 滤镜
 Monica 支持多达 50 多款滤镜，大多数可以自行调整参数。
 ![](images/5-1.png)
