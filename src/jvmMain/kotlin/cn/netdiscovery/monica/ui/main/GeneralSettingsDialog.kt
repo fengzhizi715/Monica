@@ -105,7 +105,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold,
                         color = state.getCurrentThemeValue().primary,
-                        modifier = Modifier.padding(bottom = 16.dp)
+                        modifier = Modifier
                     )
 
                     // 标签页选择器
@@ -260,8 +260,7 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                         backgroundColor = MaterialTheme.colors.surface
                                     ) {
                                         Column(
-                                            modifier = Modifier.padding(20.dp),
-                                            verticalArrangement = Arrangement.spacedBy(16.dp)
+                                            modifier = Modifier.padding(12.dp),
                                         ) {
                                             Text(
                                                 text = i18nState.getString("options_settings"),
