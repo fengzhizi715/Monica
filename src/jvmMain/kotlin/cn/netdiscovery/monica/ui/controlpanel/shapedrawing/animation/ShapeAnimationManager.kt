@@ -131,6 +131,14 @@ class ShapeAnimationManager {
     }
     
     /**
+     * 清除所有动画
+     */
+    fun clearAllAnimations() {
+        animatedShapes = emptyMap()
+        logger.info("清除所有动画")
+    }
+    
+    /**
      * 绘制动画高亮效果
      */
     fun DrawScope.drawAnimationHighlight(

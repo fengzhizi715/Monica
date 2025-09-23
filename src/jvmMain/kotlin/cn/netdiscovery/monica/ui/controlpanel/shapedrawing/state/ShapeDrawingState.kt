@@ -243,6 +243,7 @@ class ShapeDrawingState {
      * 清除所有已完成的形状
      */
     fun clearAllShapes() {
+        // 清理已完成的形状
         displayLines.clear()
         originalLines.clear()
         displayCircles.clear()
@@ -256,6 +257,10 @@ class ShapeDrawingState {
         displayTexts.clear()
         originalTexts.clear()
         
+        // 清理当前绘制状态
+        clearCurrentDrawingState()
+        
+        // 重置最后一个形状的跟踪
         lastDrawnShapeKey = null
         lastDrawnShapeType = null
     }

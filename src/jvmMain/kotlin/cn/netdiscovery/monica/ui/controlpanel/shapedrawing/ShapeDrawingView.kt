@@ -12,6 +12,7 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -199,8 +200,14 @@ fun shapeDrawing(state: ApplicationState) {
                     )
                     
                     // 绘制动画效果
-                    // TODO: 暂时注释掉动画功能，先确保基本功能正常
-                    // this.drawAllAnimations(...)
+                    drawAllAnimations(
+                        animationManager = animationManager,
+                        displayLines = drawingState.displayLines,
+                        displayCircles = drawingState.displayCircles,
+                        displayTriangles = drawingState.displayTriangles,
+                        displayRectangles = drawingState.displayRectangles,
+                        displayPolygons = drawingState.displayPolygons
+                    )
                 }
             }
         }
@@ -222,7 +229,7 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = { showPropertiesDialog = true }
             )
 
-            // 形状选择按钮
+            // 多个形状选择按钮
             ShapeSelectionButtons(drawingState)
 
             // 添加文字
@@ -236,7 +243,10 @@ fun shapeDrawing(state: ApplicationState) {
             toolTipButton(
                 text = i18nState.get("clear"),
                 painter = painterResource("images/doodle/clear.png"),
-                onClick = { drawingState.clearAllShapes() }
+                onClick = { 
+                    drawingState.clearAllShapes()
+                    animationManager.clearAllAnimations()
+                }
             )
 
             // 保存
@@ -267,7 +277,7 @@ fun shapeDrawing(state: ApplicationState) {
                 onNegativeClick = { showColorDialog = false },
                 onPositiveClick = { color: Color ->
                     showColorDialog = false
-                    // 模式一：只更新当前选择的颜色，不影响已绘制的形状
+                    // 只更新当前选择的颜色，不影响已绘制的形状
                     drawingState.updateColor(color)
                     logger.info("颜色已更改: ${color} (仅影响新绘制的形状)")
                 }
@@ -350,6 +360,64 @@ private fun ShapeSelectionButtons(drawingState: ShapeDrawingState) {
                 drawingState.selectShape(shape)
             }
         )
+    }
+}
+
+/**
+ * 绘制所有动画效果
+ */
+private fun DrawScope.drawAllAnimations(
+    animationManager: ShapeAnimationManager,
+    displayLines: Map<Offset, cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Line>,
+    displayCircles: Map<Offset, cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Circle>,
+    displayTriangles: Map<Offset, cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Triangle>,
+    displayRectangles: Map<Offset, cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Rectangle>,
+    displayPolygons: Map<Offset, cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Polygon>
+) {
+    val currentTime = System.currentTimeMillis()
+    
+    animationManager.animatedShapes.forEach { (_, animatedShape) ->
+        val elapsed = currentTime - animatedShape.startTime
+        val progress = (elapsed.toFloat() / animatedShape.duration.toFloat()).coerceIn(0f, 1f)
+        
+        if (progress < 1f) {
+            val easedProgress = animationManager.easeInOutCubic(progress)
+            val scale = animationManager.lerp(animatedShape.startScale, animatedShape.endScale, easedProgress)
+            val alpha = animationManager.lerp(animatedShape.startAlpha, animatedShape.endAlpha, easedProgress)
+            
+            // 简化的动画效果：绘制一个简单的圆形高亮
+            val key = animatedShape.key
+            val shapeType = animatedShape.shapeType
+            val highlightColor = animatedShape.highlightColor
+            
+            // 解析位置信息
+            val parts = key.split("_")
+            if (parts.size >= 3) {
+                val x = parts[1].toFloatOrNull() ?: 0f
+                val y = parts[2].toFloatOrNull() ?: 0f
+                val center = Offset(x, y)
+                
+                // 绘制脉冲效果
+                val pulseAlpha = alpha * (0.5f + 0.5f * kotlin.math.sin((progress * kotlin.math.PI * 4).toDouble()).toFloat())
+                
+                // 绘制多层圆形高亮
+                drawCircle(
+                    color = highlightColor.copy(alpha = pulseAlpha * 0.3f),
+                    radius = 30f * scale,
+                    center = center
+                )
+                drawCircle(
+                    color = Color.White.copy(alpha = pulseAlpha * 0.6f),
+                    radius = 20f * scale,
+                    center = center
+                )
+                drawCircle(
+                    color = highlightColor.copy(alpha = pulseAlpha * 0.8f),
+                    radius = 10f * scale,
+                    center = center
+                )
+            }
+        }
     }
 }
 
