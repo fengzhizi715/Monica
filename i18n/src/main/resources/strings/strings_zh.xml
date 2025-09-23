@@ -531,4 +531,17 @@
     <string name="size_needs_int">size 需要 int 类型</string>
     <string name="enter_valid_url">请输入一个正确的 url</string>
     <string name="max_history_size_needs_int">maxHistorySizeText 需要 int 类型</string>
+    
+    <!-- 窗口标题 -->
+    <string name="window_title_doodle">涂鸦图像</string>
+    <string name="window_title_shape_drawing">形状绘制</string>
+    <string name="window_title_color_pick">图像取色</string>
+    <string name="window_title_generate_gif">生成 gif</string>
+    <string name="window_title_crop_size">图像裁剪</string>
+    <string name="window_title_color_correction">图像调色</string>
+    <string name="window_title_filter">使用滤镜</string>
+    <string name="window_title_opencv_debug">简单 CV 算法的快速验证</string>
+    <string name="window_title_face_swap">人脸替换</string>
+    <string name="window_title_cartoon">图像动漫化</string>
+    <string name="window_title_preview">放大预览</string>
 </resources>

@@ -535,4 +535,17 @@
     <string name="size_needs_int">size needs int type</string>
     <string name="enter_valid_url">Please enter a valid url</string>
     <string name="max_history_size_needs_int">maxHistorySizeText needs int type</string>
+    
+    <!-- Window Titles -->
+    <string name="window_title_doodle">Doodle Image</string>
+    <string name="window_title_shape_drawing">Shape Drawing</string>
+    <string name="window_title_color_pick">Color Picker</string>
+    <string name="window_title_generate_gif">Generate GIF</string>
+    <string name="window_title_crop_size">Image Crop</string>
+    <string name="window_title_color_correction">Color Correction</string>
+    <string name="window_title_filter">Apply Filter</string>
+    <string name="window_title_opencv_debug">OpenCV Debug</string>
+    <string name="window_title_face_swap">Face Swap</string>
+    <string name="window_title_cartoon">Image Cartoonization</string>
+    <string name="window_title_preview">Preview</string>
 </resources>

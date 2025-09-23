@@ -332,15 +332,15 @@ private fun initData(state:ApplicationState) {
 }
 
 private fun getWindowsTitle(state: ApplicationState):String = when(state.currentStatus) {
-    DoodleStatus          -> "涂鸦图像"
-    ShapeDrawingStatus    -> "形状绘制"
-    ColorPickStatus       -> "图像取色"
-    GenerateGifStatus     -> "生成 gif"
-    CropSizeStatus        -> "图像裁剪"
-    ColorCorrectionStatus -> "图像调色"
-    FilterStatus          -> "使用滤镜"
-    OpenCVDebugStatus     -> "简单 CV 算法的快速验证"
-    FaceSwapStatus        -> "人脸替换"
-    CartoonStatus         -> "图像动漫化"
-    else                  -> "放大预览"
+    DoodleStatus          -> LocalizationManager.getString("window_title_doodle")
+    ShapeDrawingStatus    -> LocalizationManager.getString("window_title_shape_drawing")
+    ColorPickStatus       -> LocalizationManager.getString("window_title_color_pick")
+    GenerateGifStatus     -> LocalizationManager.getString("window_title_generate_gif")
+    CropSizeStatus        -> LocalizationManager.getString("window_title_crop_size")
+    ColorCorrectionStatus -> LocalizationManager.getString("window_title_color_correction")
+    FilterStatus          -> LocalizationManager.getString("window_title_filter")
+    OpenCVDebugStatus     -> LocalizationManager.getString("window_title_opencv_debug")
+    FaceSwapStatus        -> LocalizationManager.getString("window_title_face_swap")
+    CartoonStatus         -> LocalizationManager.getString("window_title_cartoon")
+    else                  -> LocalizationManager.getString("window_title_preview")
 }
