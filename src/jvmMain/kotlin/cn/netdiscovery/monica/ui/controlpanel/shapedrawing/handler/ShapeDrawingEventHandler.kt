@@ -8,23 +8,22 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeEnum
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.CoordinateSystem
 import cn.netdiscovery.monica.ui.widget.image.gesture.MotionEvent
+import cn.netdiscovery.monica.utils.logger
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
 /**
  * 形状绘制事件处理器
  * 处理各种形状的绘制逻辑，分离业务逻辑
  * 
  * @author Tony Shen
- * @date 2024/12/19
+ * @date 2025/9/8
  * @version V1.0
  */
 class ShapeDrawingEventHandler(
     private val state: ShapeDrawingState,
     private val coordinateConverter: CoordinateConverter
 ) {
-    
-    private val logger: Logger = LoggerFactory.getLogger(this::class.java)
+    private val logger: Logger = logger<ShapeDrawingEventHandler>()
     
     /**
      * 处理鼠标按下事件
