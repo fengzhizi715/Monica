@@ -67,11 +67,14 @@ Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 
 ![](images/screenshot-en2.png)
 
-浅色主题
+主题切换
+![](images/ui-theme-settings.png)
 
 深色主题
+![](images/ui-theme-dark.png)
 
-多彩主题
+紫色主题
+![](images/ui-theme-purple.png)
 
 ## 📷 经典功能界面
 
