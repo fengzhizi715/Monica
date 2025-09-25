@@ -14,43 +14,28 @@ It supports a wide range of image formats (including camera RAW), integrates bot
 * **Build Tools**: Gradle / CMake
 
 # ✨ Features
-📷 Image Editing
+## 📷 Image Editing
 
-Import: JPG, PNG, WebP, SVG, HDR, HEIC
+* Import: JPG, PNG, WebP, SVG, HDR, HEIC
+* Import camera RAW files: CR2, CR3, etc.
+* Export: JPG, PNG, WebP
+* Zoom and preview
+* Local blur & mosaic
+* Freehand drawing, shapes, and text annotations
+* Color picker
+* Geometric transforms: flip, rotate, scale, shear
+* Cropping with multiple shapes
+* Adjustments: contrast, hue, saturation, brightness, temperature, highlights, shadows
+* 50+ adjustable filters
+* Multi-image → GIF creation
+* Quick validation of OpenCV algorithms with parameter tuning
 
-Import camera RAW files: CR2, CR3, etc.
+## 🤖 AI-powered Enhancements
 
-Export: JPG, PNG, WebP
-
-Zoom and preview
-
-Local blur & mosaic
-
-Freehand drawing, shapes, and text annotations
-
-Color picker
-
-Geometric transforms: flip, rotate, scale, shear
-
-Cropping with multiple shapes
-
-Adjustments: contrast, hue, saturation, brightness, temperature, highlights, shadows
-
-50+ adjustable filters
-
-Multi-image → GIF creation
-
-Quick validation of OpenCV algorithms with parameter tuning
-
-🤖 AI-powered Enhancements
-
-Face detection (face, gender, age)
-
-Sketch generation from photos
-
-Face replacement
-
-Cartoonization with multiple styles
+* Face detection (face, gender, age)
+* Sketch generation from photos
+* Face replacement
+* Cartoonization with multiple styles
 
 # 📦 Installation & Usage
 Run from Source
@@ -143,17 +128,12 @@ No online deployment provided. Feel free to build and run locally.
 
 Upcoming TODO:
 
-Unified error handling
-
-Improved configuration management
-
-Enhanced cropping tools
-
-Face retouching
-
-Image compression
-
-Upgrade Kotlin Compose Desktop & third-party libraries
+* Unified error handling
+* Improved configuration management
+* Enhanced cropping tools
+* Face retouching
+* Image compression
+* Upgrade Kotlin Compose Desktop & third-party libraries
 
 # 🤝 Contributing
 
