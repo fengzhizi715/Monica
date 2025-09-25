@@ -79,30 +79,32 @@ Theme switching:
 ![](images/ui-theme-settings.png)
 
 Dark Theme:
-
+![](images/ui-theme-dark.png)
 
 Purple Theme:
+![](images/ui-theme-purple.png)
+
+## 📷 Classic Features
+
+![](images/screenshot.png)
+
+![](images/screenshot-version.png)
+
+![](images/4-2.png)
+
+![](images/5-2.png)
+
+![](images/7-2.png)
 
 
-📷 Classic Features
+More screenshots 👉 [Feature Overview](FUNCTION.md)
 
-
-
-
-
-
-
-
-
-
-More screenshots 👉 Feature Overview
-
-Articles 👉 Juejin Column
+Articles 👉 [Juejin Column](https://juejin.cn/column/7396157773312065574)
 
 # 📁 CV & AI Services
-⚙️ CV Algorithms
+## ⚙️ CV Algorithms
 
-Code repo 👉 https://github.com/fengzhizi715/MonicaImageProcess
+Code repo: https://github.com/fengzhizi715/MonicaImageProcess
 
 Currently, prebuilt algorithm libraries are available for macOS and Windows. Kotlin calls them via JNI.
 
