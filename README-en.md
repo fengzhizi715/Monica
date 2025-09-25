@@ -34,43 +34,49 @@ It supports a wide range of image formats (including camera RAW), integrates bot
 * Cartoonization with multiple styles
 
 # 📦 Installation & Usage
-Run from Source
+## Run from Source
 
 Use IntelliJ IDEA / IntelliJ IDEA CE
 
+```
 git clone https://github.com/fengzhizi715/Monica.git
+```
 
-🍎 macOS Packages
+## 🍎 macOS Packages
 
-Intel Chip:
+### Intel Chip:
 Monica-x64-1.1.3.dmg
-Download Link
 
-Apple Silicon (M Series):
+Download Link: https://pan.baidu.com/s/1_vSjT4NBLJpxzzJ-kfrNmQ?pwd=hyaa
+
+### Apple Silicon (M Series):
 Monica-arm64-1.1.3.dmg
-Download Link
 
-🖥 Windows Package
+Download Link: https://pan.baidu.com/s/1vPOKW_QAiT1nRa30SX33Ag?pwd=np4g
+
+## 🖥 Windows Package
 
 Monica-1.0.9.exe (latest version will be provided later, no Windows machine available now)
-Download Link
 
-🐧 CentOS Package
+Download Link: https://pan.baidu.com/s/1jL0bL17Omxtc2rqOBn9yWg?pwd=5dii
+
+## 🐧 CentOS Package
 
 Coming soon
 
 # 📸 Screenshots
-✨ New UI Preview
+## ✨ New UI Preview
 
-Support for English UI + Multiple Themes
+Support for **English UI + Multiple Themes**
 
 English UI examples:
 
+![](images/screenshot-en1.png)
 
-
+![](images/screenshot-en2.png)
 
 Theme switching:
-
+![](images/ui-theme-settings.png)
 
 Dark Theme:
 
