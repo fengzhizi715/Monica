@@ -133,17 +133,13 @@ Source code & models 👉 https://github.com/fengzhizi715/MonicaImageProcessHttp
 
 No online deployment provided. Feel free to build and run locally.
 
-💻 Roadmap
+# 💻 Roadmap
 
-Multi-format import/export
-
-Core image editing features
-
-AI module integration
-
-Plugin system support
-
-More AI features (face retouching, background removal, style transfer, etc.)
+* - [x] Multi-format import/export
+* - [x] Core image editing features
+* - [x] AI module integration
+* - [ ] Plugin system support
+* - [ ] More AI features (face retouching, background removal, style transfer, etc.)
 
 Upcoming TODO:
 
@@ -159,22 +155,24 @@ Image compression
 
 Upgrade Kotlin Compose Desktop & third-party libraries
 
-🤝 Contributing
+# 🤝 Contributing
 
 Contributions of all kinds are welcome: new features, bug fixes, docs, or feedback.
 
-📄 License
+# 📄 License
 
 Apache License 2.0
 
-📝 Changelog
+# 📝 Changelog
 
-See CHANGELOG
+See [CHANGELOG](CHANGELOG.md)
 
-📬 Contact
+# 📬 Contact
 
 WeChat: fengzhizi715
 
 Email: fengzhizi715@126.com
 
-📈 Star History
+# 📈 Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=fengzhizi715/Monica&type=Date)](https://star-history.com/#fengzhizi715/Monica&Date)
