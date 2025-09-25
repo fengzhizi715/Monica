@@ -4,13 +4,9 @@ It supports a wide range of image formats (including camera RAW), integrates bot
 # 🧪 Tech Stack
 
 * **UI Framework**: Kotlin Compose Multiplatform (Desktop)
-
 * **Image Processing**: OpenCV
-
 * **Deep Learning Inference**: ONNX Runtime
-
 * **Backend Languages**: Kotlin / C++
-
 * **Build Tools**: Gradle / CMake
 
 # ✨ Features
