@@ -45,14 +45,14 @@ git clone https://github.com/fengzhizi715/Monica.git
 ## 🍎 macOS Packages
 
 ### Intel Chip:
-Monica-x64-1.1.3.dmg
+Monica-x64-1.1.4.dmg
 
-Download Link: https://pan.baidu.com/s/1_vSjT4NBLJpxzzJ-kfrNmQ?pwd=hyaa
+Download Link: https://pan.baidu.com/s/1ZS2e8krIh_kGUUEogMknrg?pwd=eyx7
 
 ### Apple Silicon (M Series):
-Monica-arm64-1.1.3.dmg
+Monica-arm64-1.1.4.dmg
 
-Download Link: https://pan.baidu.com/s/1vPOKW_QAiT1nRa30SX33Ag?pwd=np4g
+Download Link: https://pan.baidu.com/s/1JJwT_UNFrQa-tUsAYywqkA?pwd=mngu
 
 ## 🖥 Windows Package
 
