@@ -96,7 +96,6 @@ Purple Theme:
 
 ![](images/7-2.png)
 
-
 More screenshots 👉 [Feature Overview](FUNCTION.md)
 
 Articles 👉 [Juejin Column](https://juejin.cn/column/7396157773312065574)
@@ -108,19 +107,21 @@ Code repo: https://github.com/fengzhizi715/MonicaImageProcess
 
 Currently, prebuilt algorithm libraries are available for macOS and Windows. Kotlin calls them via JNI.
 
-Library Name	Version	Description	Notes
-libMonicaImageProcess.dylib	0.2.3	Prebuilt for macOS	Built with CLion
-libopencv_world.4.10.0.dylib	–	OpenCV 4.10.0 prebuilt for macOS	Built with CMake
-MonicaImageProcess.dll	0.2.1	Prebuilt for Windows, depends on opencv_world481.dll	Built with Visual Studio 2022
-opencv_world481.dll	–	OpenCV 4.8.1 prebuilt for Windows	Built with Visual Studio 2022
-☁️ Deep Learning Services
+|Library Name	                        | Version | 	Description	  | Notes                           |
+|---------------------------------------|-------|---------------------|---------------------------------|
+|libMonicaImageProcess.dylib	|0.2.3	|Prebuilt for macOS	| Built with CLion |
+|libopencv_world.4.10.0.dylib	|–	|OpenCV 4.10.0 prebuilt for macOS	|Built with CMake |
+|MonicaImageProcess.dll	        | 0.2.1	|Prebuilt for Windows, depends on opencv_world481.dll|	Built with Visual Studio 2022 |
+|opencv_world481.dll	         | –	|OpenCV 4.8.1 prebuilt for Windows	| Built with Visual Studio 2022 |
+
+## ☁️ Deep Learning Services
 
 Monica communicates with deep learning inference services via HTTP.
-You need to set the Algorithm Service URL in General Settings.
+You need to set the `Algorithm Service URL` in **General Settings**.
 
 Source code & models 👉 https://github.com/fengzhizi715/MonicaImageProcessHttpServer
 
-No online deployment provided. Feel free to build and run locally.
+> No online deployment provided. Feel free to build and run locally.
 
 # 💻 Roadmap
 
