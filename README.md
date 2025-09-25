@@ -58,6 +58,13 @@ Monica-1.0.9.exe (最近没有 windows 电脑，稍后提供最新的版本)
 稍后提供
 
 # 📸 项目截图
+
+## ✨ UI 新版预览图
+支持 **英文版 UI + 多主题颜色切换**
+
+
+## 📷 经典功能界面
+
 ![](images/screenshot.png)
 
 ![](images/screenshot-version.png)
