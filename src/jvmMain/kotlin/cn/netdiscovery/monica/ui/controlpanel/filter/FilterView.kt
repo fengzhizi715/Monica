@@ -283,7 +283,7 @@ private fun generateFilterParams(selectedIndex:Int) {
                     modifier = Modifier.padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
-                    basicTextFieldWithTitle(titleText = paramName, text) { str ->
+                    basicTextFieldWithTitle(titleText = paramName, text, Modifier.padding(top = 5.dp)) { str ->
                         text = str
                         filterTempMap[Pair(paramName, type)] = text
                     }
