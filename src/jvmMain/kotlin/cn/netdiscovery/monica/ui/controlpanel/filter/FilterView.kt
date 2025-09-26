@@ -148,7 +148,7 @@ fun filter(state: ApplicationState) {
                             )
 
                             Text(
-                                text = filterMaps[label]?:"", 
+                                text = filterMaps[label]?.split("-")?.first()?:"",
                                 fontSize = 14.sp,
                                 color = if (isSelected) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
                                 modifier = Modifier.align(Alignment.CenterHorizontally),

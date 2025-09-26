@@ -1,14 +1,14 @@
 [
   {
     "name": "AverageFilter",
-    "desc": "使用均值滤波的滤镜",
-    "remark": null,
+    "desc": "均值模糊滤镜 - 通过平均邻域像素值实现平滑效果，有效减少图像噪声",
+    "remark": "适用于图像降噪和预处理，效果温和自然",
     "params": []
   },
   {
     "name": "BilateralFilter",
-    "desc": "使用双边滤波的滤镜",
-    "remark": null,
+    "desc": "双边滤波滤镜 - 在保持边缘清晰的同时平滑图像，智能降噪不损失细节",
+    "remark": "ds: 空间距离参数，rs: 颜色相似度参数。值越大效果越强",
     "params": [
       { "key": "ds", "type": "Double", "value": 1.0 },
       { "key": "rs", "type": "Double", "value": 1.0 }
@@ -16,16 +16,16 @@
   },
   {
     "name": "BlockFilter",
-    "desc": "像素化效果的滤镜",
-    "remark": null,
+    "desc": "像素化滤镜 - 将图像分割成规则方块，创造复古像素艺术效果",
+    "remark": "blockSize: 方块大小，值越大像素化效果越明显",
     "params": [
       { "key": "blockSize", "type": "Int", "value": 2 }
     ]
   },
   {
     "name": "BoxBlurFilter",
-    "desc": "使用Box blur算法的滤镜",
-    "remark": null,
+    "desc": "盒式模糊滤镜 - 使用矩形核进行快速模糊处理，适合大面积平滑",
+    "remark": "hRadius: 水平模糊半径，vRadius: 垂直模糊半径，iterations: 迭代次数",
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
       { "key": "vRadius", "type": "Int", "value": 5 },
@@ -34,36 +34,36 @@
   },
   {
     "name": "BumpFilter",
-    "desc": "边缘浮雕效果的滤镜",
-    "remark": null,
+    "desc": "凹凸浮雕滤镜 - 通过边缘检测创造立体凹凸效果，增强纹理质感",
+    "remark": "适合为平面图像添加立体感和深度",
     "params": []
   },
   {
     "name": "CarveFilter",
-    "desc": "雕刻效果的滤镜",
-    "remark": null,
+    "desc": "雕刻滤镜 - 模拟雕刻工艺效果，创造凹陷的立体视觉",
+    "remark": "与浮雕效果相反，产生向内凹陷的视觉效果",
     "params": []
   },
   {
     "name": "ColorFilter",
-    "desc": "色彩效果的滤镜",
-    "remark": "ColorFilter 支持选择0-11，共12种风格。\n0:AUTUMN,1:BONE,2:COOL,3:HOT,4:HSV,5:JET,6:OCEAN\n7:PINK,8:RAINBOW,9:SPRING,10:SUMMER,11:WINTER",
+    "desc": "色彩映射滤镜 - 应用预定义色彩方案，快速改变图像整体色调",
+    "remark": "支持12种经典色彩风格：0:秋色,1:骨骼,2:冷色,3:暖色,4:HSV,5:喷射,6:海洋,7:粉色,8:彩虹,9:春天,10:夏天,11:冬天",
     "params": [
       { "key": "style", "type": "Int", "value": 0 }
     ]
   },
   {
     "name": "ColorHalftoneFilter",
-    "desc": "模拟彩色半色调印刷中的点状图案的滤镜",
-    "remark": null,
+    "desc": "彩色半调滤镜 - 模拟传统印刷网点效果，创造复古印刷风格",
+    "remark": "dotRadius: 网点半径，控制半调效果的精细程度",
     "params": [
       { "key": "dotRadius", "type": "Float", "value":2.0 }
     ]
   },
   {
     "name": "ConBriFilter",
-    "desc": "调整对比度、亮度的滤镜",
-    "remark": null,
+    "desc": "对比度亮度调节滤镜 - 精确控制图像明暗对比，提升视觉效果",
+    "remark": "brightness: 亮度调节(1.0为原始亮度)，contrast: 对比度调节(1.0为原始对比度)",
     "params": [
       { "key": "brightness", "type": "Float", "value": 1.0 },
       { "key": "contrast", "type": "Float", "value": 1.5 }
@@ -71,8 +71,8 @@
   },
   {
     "name": "CrystallizeFilter",
-    "desc": "彩色玻璃效果的滤镜",
-    "remark": "gridType 支持选择0-4，共5种风格。\n0:RANDOM,1:SQUARE,2:HEXAGONAL,3:OCTAGONAL,\n4:TRIANGULAR",
+    "desc": "水晶化滤镜 - 将图像分解为不规则水晶块，创造抽象艺术效果",
+    "remark": "支持5种网格类型：0:随机,1:方形,2:六边形,3:八边形,4:三角形。scale控制水晶块大小",
     "params": [
       { "key": "edgeThickness", "type": "Float", "value": 0.4 },
       { "key": "scale", "type": "Float", "value": 16 },
@@ -82,8 +82,8 @@
   },
   {
     "name": "CropFilter",
-    "desc": "具有裁剪效果的滤镜",
-    "remark": null,
+    "desc": "裁剪滤镜 - 提取图像指定区域，用于局部处理或构图调整",
+    "remark": "x,y: 起始坐标，w,h: 裁剪区域宽高",
     "params": [
       { "key": "x", "type": "Int", "value": 0 },
       { "key": "y", "type": "Int", "value": 0 },
@@ -93,46 +93,46 @@
   },
   {
     "name": "DiffuseFilter",
-    "desc": "漫反射滤镜",
-    "remark": null,
+    "desc": "扩散滤镜 - 模拟光线散射效果，创造柔和朦胧的视觉氛围",
+    "remark": "scale: 扩散强度，值越大效果越明显",
     "params": [
       { "key": "scale", "type": "Float", "value": 4.0 }
     ]
   },
   {
     "name": "EmbossFilter",
-    "desc": "浮雕效果的滤镜",
-    "remark": null,
+    "desc": "浮雕滤镜 - 通过边缘高光创造立体浮雕效果，增强图像层次感",
+    "remark": "colorConstant: 浮雕强度，控制立体效果的明显程度",
     "params": [
       { "key": "colorConstant", "type": "Int", "value": 100 }
     ]
   },
   {
     "name": "EqualizeFilter",
-    "desc": "采用直方图均衡化实现图像增强的滤镜",
-    "remark": null,
+    "desc": "直方图均衡化滤镜 - 自动调整图像亮度分布，改善整体视觉效果",
+    "remark": "适用于曝光不足或对比度较低的图像，能显著提升图像质量",
     "params": []
   },
   {
     "name": "ExposureFilter",
-    "desc": "修改曝光的滤镜",
-    "remark": "exposure > 0",
+    "desc": "曝光调节滤镜 - 模拟相机曝光控制，调整图像整体明暗",
+    "remark": "exposure > 0，值越大图像越亮，适合修正曝光问题",
     "params": [
       { "key": "exposure", "type": "Float", "value": 1 }
     ]
   },
   {
     "name": "FastBlur2D",
-    "desc": "具有快速模糊效果的滤镜",
-    "remark": null,
+    "desc": "快速二维模糊滤镜 - 高效的模糊算法，适合实时处理",
+    "remark": "ksize: 模糊核大小，值越大模糊效果越强",
     "params": [
       { "key": "ksize", "type": "Int", "value": 5 }
     ]
   },
   {
     "name": "GainFilter",
-    "desc": "修改增益、偏置的滤镜",
-    "remark": "gain 取值范围在0-1之间，bias 取值范围在0-1之间",
+    "desc": "增益偏置滤镜 - 精确控制图像亮度和对比度，专业级调色工具",
+    "remark": "gain: 增益系数(0-1)，bias: 偏置值(0-1)，用于精细的亮度调节",
     "params": [
       { "key": "gain", "type": "Float", "value": 0.5 },
       { "key": "bias", "type": "Float", "value": 0.5 }
@@ -140,52 +140,52 @@
   },
   {
     "name": "GammaFilter",
-    "desc": "Gamma校正的滤镜",
-    "remark": null,
+    "desc": "伽马校正滤镜 - 调整图像中间调亮度，改善显示效果",
+    "remark": "gamma < 1图像变亮，gamma > 1图像变暗，常用于显示设备校正",
     "params": [
       { "key": "gamma", "type": "Double", "value": 0.5 }
     ]
   },
   {
     "name": "GaussianFilter",
-    "desc": "高斯滤镜",
-    "remark": null,
+    "desc": "高斯模糊滤镜 - 经典的高斯分布模糊，效果自然平滑",
+    "remark": "radius: 模糊半径，基于高斯分布的最优模糊算法",
     "params": [
       { "key": "radius", "type": "Float", "value": 5.0 }
     ]
   },
   {
     "name": "GaussianNoiseFilter",
-    "desc": "随机噪声滤镜",
-    "remark": null,
+    "desc": "高斯噪声滤镜 - 添加随机噪声，模拟胶片颗粒或数字噪点",
+    "remark": "sigma: 噪声强度，用于创造复古胶片效果或艺术化处理",
     "params": [
       { "key": "sigma", "type": "Int", "value": 25 }
     ]
   },
   {
     "name": "GradientFilter",
-    "desc": "Sobel 梯度滤镜",
-    "remark": null,
+    "desc": "梯度滤镜 - 使用Sobel算子检测边缘，突出图像轮廓",
+    "remark": "常用于边缘检测和图像分析，创造素描般的线条效果",
     "params": []
   },
   {
     "name": "GrayFilter",
-    "desc": "灰度效果的滤镜",
-    "remark": null,
+    "desc": "灰度滤镜 - 将彩色图像转换为灰度，保留亮度信息",
+    "remark": "经典的黑白转换，适合创造怀旧或艺术效果",
     "params": []
   },
   {
     "name": "HighPassFilter",
-    "desc": "可产生发光效果的高斯滤镜",
-    "remark": null,
+    "desc": "高通滤波滤镜 - 突出图像高频细节，创造发光边缘效果",
+    "remark": "radius: 滤波半径，用于增强图像细节和创造特殊视觉效果",
     "params": [
       { "key": "radius", "type": "Float", "value": 10.0 }
     ]
   },
   {
     "name": "HSBAdjustFilter",
-    "desc": "调节 HSB 的滤镜",
-    "remark": null,
+    "desc": "HSB色彩调节滤镜 - 分别调节色相、饱和度、亮度",
+    "remark": "hFactor: 色相调节，sFactor: 饱和度调节，bFactor: 亮度调节",
     "params": [
       { "key": "hFactor", "type": "Float", "value": 0.0 },
       { "key": "sFactor", "type": "Float", "value": 0.0 },
@@ -194,20 +194,20 @@
   },
   {
     "name": "InvertFilter",
-    "desc": "反转图像中的所有像素的滤镜",
-    "remark": null,
+    "desc": "反色滤镜 - 反转图像所有颜色，创造负片效果",
+    "remark": "经典的反色处理，常用于创造戏剧性视觉效果",
     "params": []
   },
   {
     "name": "LaplaceSharpenFilter",
-    "desc": "Laplace锐化效果的滤镜",
-    "remark": null,
+    "desc": "拉普拉斯锐化滤镜 - 使用拉普拉斯算子增强图像边缘和细节",
+    "remark": "专业的锐化算法，能有效提升图像清晰度",
     "params": []
   },
   {
     "name": "LensBlurFilter",
-    "desc": "虚化镜头效果的滤镜",
-    "remark": null,
+    "desc": "镜头模糊滤镜 - 模拟真实镜头景深效果，创造专业摄影质感",
+    "remark": "radius: 模糊半径，bloom: 光晕强度，sides: 光圈边数(模拟不同镜头)",
     "params": [
       { "key": "radius", "type": "Float", "value": 10.0 },
       { "key": "bloom", "type": "Float", "value": 2.0 },
@@ -218,8 +218,8 @@
   },
   {
     "name": "MarbleFilter",
-    "desc": "大理石花纹效果滤镜",
-    "remark": null,
+    "desc": "大理石纹理滤镜 - 模拟天然大理石纹理，创造优雅的材质效果",
+    "remark": "xScale/yScale: 纹理缩放，turbulence: 湍流强度，控制纹理复杂度",
     "params": [
       { "key": "xScale", "type": "Float", "value": 4.0 },
       { "key": "yScale", "type": "Float", "value": 4.0 },
@@ -228,20 +228,20 @@
   },
   {
     "name": "MaximumFilter",
-    "desc": "将每个像素用自身及8邻域中的最大值替换的滤镜",
-    "remark": null,
+    "desc": "最大值滤波滤镜 - 用邻域最大值替换像素，创造膨胀效果",
+    "remark": "形态学处理，用于图像分析和特殊效果处理",
     "params": []
   },
   {
     "name": "MinimumFilter",
-    "desc": "对每个像素用自身及8邻域中的最小值替换的滤镜",
-    "remark": null,
+    "desc": "最小值滤波滤镜 - 用邻域最小值替换像素，创造腐蚀效果",
+    "remark": "形态学处理，与最大值滤波配合使用",
     "params": []
   },
   {
     "name": "MirrorFilter",
-    "desc": "镜像滤镜",
-    "remark": null,
+    "desc": "镜像滤镜 - 创建图像镜像效果，适合对称构图",
+    "remark": "opacity: 镜像透明度，centreY: 镜像中心，gap: 镜像间隙",
     "params": [
       { "key": "opacity", "type": "Float", "value": 1.0 },
       { "key": "centreY", "type": "Float", "value": 0.5 },
@@ -250,16 +250,16 @@
   },
   {
     "name": "MosaicFilter",
-    "desc": "具有马赛克效果的滤镜",
-    "remark": null,
+    "desc": "马赛克滤镜 - 将图像分割为规则色块，创造抽象艺术效果",
+    "remark": "r: 马赛克块大小，值越大马赛克效果越明显",
     "params": [
       { "key": "r", "type": "Int", "value": 3 }
     ]
   },
   {
     "name": "MotionFilter",
-    "desc": "移动模糊效果的滤镜",
-    "remark": null,
+    "desc": "运动模糊滤镜 - 模拟物体运动轨迹，创造动态视觉效果",
+    "remark": "angle: 运动方向，distance: 模糊距离，zoom: 缩放效果",
     "params": [
       { "key": "angle", "type": "Float", "value": 0.0 },
       { "key": "distance", "type": "Float", "value": 0.0 },
@@ -268,16 +268,16 @@
   },
   {
     "name": "NatureFilter",
-    "desc": "自然风格的滤镜",
-    "remark": "NatureFilter 支持选择1-8，共8种风格。\n1:ATMOSPHERE STYLE,2:BURN STYLE,3:FOG STYLE,\n4:FREEZE STYLE,5:LAVA STYLE,6:METAL STYLE,\n7:OCEAN STYLE,8:WATER STYLE",
+    "desc": "自然风格滤镜 - 模拟自然现象的色彩效果，创造独特的艺术风格",
+    "remark": "支持8种自然风格：1:大气,2:燃烧,3:雾霾,4:冰冻,5:熔岩,6:金属,7:海洋,8:水流",
     "params": [
       { "key": "style", "type": "Int", "value": 1 }
     ]
   },
   {
     "name": "OffsetFilter",
-    "desc": "偏移滤镜",
-    "remark": null,
+    "desc": "偏移滤镜 - 移动图像位置，用于特殊构图或效果组合",
+    "remark": "xOffset: 水平偏移，yOffset: 垂直偏移，支持负值",
     "params": [
       { "key": "xOffset", "type": "Int", "value": 0 },
       { "key": "yOffset", "type": "Int", "value": 0 }
@@ -285,8 +285,8 @@
   },
   {
     "name": "OilPaintFilter",
-    "desc": "油画风格的滤镜",
-    "remark": null,
+    "desc": "油画滤镜 - 模拟油画笔触效果，创造艺术绘画质感",
+    "remark": "intensity: 油画强度，ksize: 笔触大小，控制油画效果的细腻程度",
     "params": [
       { "key": "intensity", "type": "Int", "value": 40 },
       { "key": "ksize", "type": "Int", "value": 10 }
@@ -294,8 +294,8 @@
   },
   {
     "name": "PointillizeFilter",
-    "desc": "绘制彩色斑点效果的滤镜",
-    "remark": "gridType 支持选择0-4，共5种风格。\n0:RANDOM,1:SQUARE,2:HEXAGONAL,3:OCTAGONAL,\n4:TRIANGULAR",
+    "desc": "点彩滤镜 - 将图像转换为彩色点阵，模拟点彩画派艺术风格",
+    "remark": "支持5种点阵类型：0:随机,1:方形,2:六边形,3:八边形,4:三角形。scale控制点的大小",
     "params": [
       { "key": "edgeThickness", "type": "Float", "value": 0.4 },
       { "key": "fuzziness", "type": "Float", "value": 0.1 },
@@ -306,16 +306,16 @@
   },
   {
     "name": "PosterizeFilter",
-    "desc": "色调分离的滤镜",
-    "remark": null,
+    "desc": "色调分离滤镜 - 减少颜色层次，创造海报化的艺术效果",
+    "remark": "numLevels: 颜色层次数，值越小效果越明显，创造强烈的视觉冲击",
     "params": [
       { "key": "numLevels", "type": "Int", "value": 6 }
     ]
   },
   {
     "name": "RippleFilter",
-    "desc": "波纹滤镜",
-    "remark": "waveType 支持选择 0-3，共4种风格。\n0:SINE,1:SAWTOOTH,2:TRIANGLE,3:NOISE",
+    "desc": "波纹滤镜 - 创造水面波纹效果，模拟液体表面的波动",
+    "remark": "支持4种波形：0:正弦波,1:锯齿波,2:三角波,3:噪声波。xAmplitude/yAmplitude控制波纹幅度",
     "params": [
       { "key": "xAmplitude", "type": "Float", "value": 5.0 },
       { "key": "yAmplitude", "type": "Float", "value": 0.0 },
@@ -326,20 +326,20 @@
   },
   {
     "name": "SepiaToneFilter",
-    "desc": "怀旧/老照片风格的滤镜",
-    "remark": null,
+    "desc": "棕褐色滤镜 - 创造怀旧老照片效果，营造复古氛围",
+    "remark": "经典的复古色调，常用于创造历史感和怀旧情绪",
     "params": []
   },
   {
     "name": "SharpenFilter",
-    "desc": "具有简单锐化效果的滤镜",
-    "remark": null,
+    "desc": "锐化滤镜 - 增强图像边缘和细节，提升图像清晰度",
+    "remark": "基础的锐化处理，适用于轻微模糊的图像",
     "params": []
   },
   {
     "name": "SmearFilter",
-    "desc": "绘画效果的滤镜",
-    "remark": "shape 支持选择 0-3，共4种风格。\n0:CROSSES,1:LINES,2:CIRCLES,3:SQUARES",
+    "desc": "涂抹滤镜 - 模拟绘画涂抹效果，创造艺术化的笔触质感",
+    "remark": "支持4种涂抹形状：0:十字,1:线条,2:圆形,3:方形。density控制涂抹密度",
     "params": [
       { "key": "angle", "type": "Float", "value": 0.0 },
       { "key": "density", "type": "Float", "value": 0.5 },
@@ -350,30 +350,30 @@
   },
   {
     "name": "SolarizeFilter",
-    "desc": "图像曝光过度的滤镜",
-    "remark": null,
+    "desc": "日晒滤镜 - 模拟过度曝光效果，创造高对比度的艺术效果",
+    "remark": "经典的摄影特效，创造戏剧性的视觉冲击",
     "params": []
   },
   {
     "name": "SpotlightFilter",
-    "desc": "光源退化效果的滤镜",
-    "remark": null,
+    "desc": "聚光灯滤镜 - 模拟聚光灯照射效果，创造局部高亮",
+    "remark": "factor: 聚光强度，用于突出图像特定区域",
     "params": [
       { "key": "factor", "type": "Int", "value": 1 }
     ]
   },
   {
     "name": "StrokeAreaFilter",
-    "desc": "铅笔画效果的滤镜",
-    "remark": null,
+    "desc": "描边滤镜 - 提取图像边缘轮廓，创造铅笔画效果",
+    "remark": "ksize: 描边粗细，控制线条的粗细程度",
     "params": [
       { "key": "ksize", "type": "Double", "value": 10.0 }
     ]
   },
   {
     "name": "SwimFilter",
-    "desc": "在水下效果的滤镜",
-    "remark": "amount: 效果的数量",
+    "desc": "水下滤镜 - 模拟水下视觉效果，创造扭曲的液体环境",
+    "remark": "scale: 扭曲强度，amount: 效果强度，turbulence: 湍流程度",
     "params": [
       { "key": "scale", "type": "Float", "value": 32.0 },
       { "key": "stretch", "type": "Float", "value": 1.0 },
@@ -385,8 +385,8 @@
   },
   {
     "name": "USMFilter",
-    "desc": "USM 锐化效果的滤镜",
-    "remark": null,
+    "desc": "USM锐化滤镜 - 专业级锐化算法，在保持自然度的同时增强细节",
+    "remark": "radius: 锐化半径，amount: 锐化强度，threshold: 锐化阈值。专业摄影师常用",
     "params": [
       { "key": "radius", "type": "Float", "value": 2.0 },
       { "key": "amount", "type": "Float", "value": 0.5 },
@@ -395,8 +395,8 @@
   },
   {
     "name": "VariableBlurFilter",
-    "desc": "使用可变模糊半径模糊图像的滤镜",
-    "remark": null,
+    "desc": "可变模糊滤镜 - 使用不同模糊半径，创造渐变模糊效果",
+    "remark": "hRadius: 水平模糊半径，vRadius: 垂直模糊半径，iterations: 迭代次数",
     "params": [
       { "key": "hRadius", "type": "Int", "value": 5 },
       { "key": "vRadius", "type": "Int", "value": 5 },
@@ -405,8 +405,8 @@
   },
   {
     "name": "VignetteFilter",
-    "desc": "边缘逐渐变淡效果的滤镜",
-    "remark": null,
+    "desc": "暗角滤镜 - 创造边缘渐暗效果，突出中心主体，增强视觉焦点",
+    "remark": "fade: 暗角强度，vignetteWidth: 暗角宽度，经典的照片后期处理效果",
     "params": [
       { "key": "fade", "type": "Int", "value": 35 },
       { "key": "vignetteWidth", "type": "Int", "value": 50 }
@@ -414,8 +414,8 @@
   },
   {
     "name": "WaterFilter",
-    "desc": "水波纹效果的过滤器",
-    "remark": null,
+    "desc": "水波纹滤镜 - 创造逼真的水面波纹效果，模拟液体波动",
+    "remark": "wavelength: 波长，amplitude: 振幅，centreX/centreY: 波纹中心，radius: 影响半径",
     "params": [
       { "key": "wavelength", "type": "Float", "value": 16.0 },
       { "key": "amplitude", "type": "Float", "value": 10.0 },
@@ -427,8 +427,8 @@
   },
   {
     "name": "WhiteImageFilter",
-    "desc": "增白亮度的滤镜",
-    "remark": null,
+    "desc": "增白滤镜 - 提升图像整体亮度，创造清新明亮的视觉效果",
+    "remark": "beta: 增白系数，值越大图像越亮，适合修正曝光不足",
     "params": [
       { "key": "beta", "type": "Double", "value": 1.1 }
     ]
