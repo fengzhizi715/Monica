@@ -194,6 +194,7 @@ fun filter(state: ApplicationState) {
                             .padding(10.dp),
                         horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
                     ) {
+                        // 预览效果
                         toolTipButton(text = i18nState.getString("preview_effect"),
                             enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
                             painter = painterResource("images/filters/preview.png"),
@@ -201,6 +202,7 @@ fun filter(state: ApplicationState) {
                                 viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
                             })
 
+                        // 上一步
                         toolTipButton(text = i18nState.getString("previous_step"),
                             painter = painterResource("images/doodle/previous_step.png"),
                             onClick = {
@@ -209,6 +211,7 @@ fun filter(state: ApplicationState) {
                                 }
                             })
 
+                        // 取消滤镜操作
                         toolTipButton(text = i18nState.getString("cancel_filter_operation"),
                             painter = painterResource("images/filters/cancel.png"),
                             onClick = {
@@ -216,12 +219,14 @@ fun filter(state: ApplicationState) {
                                 loadingDisplay = false
                             })
 
+                        // 保存
                         toolTipButton(text = i18nState.getString("save"),
                             painter = painterResource("images/doodle/save.png"),
                             onClick = {
                                 state.closePreviewWindow()
                             })
 
+                        // 删除原图
                         toolTipButton(text = i18nState.getString("delete_original_image"),
                             painter = painterResource("images/preview/delete.png"),
                             onClick = {
