@@ -127,28 +127,34 @@ private fun toast(
         label = "Slide parameter in DP",
     )
 
-    if (!animationStarted) {
-        LaunchedEffect(Unit) {
-            slideDownAnimation = false
+    LaunchedEffect(message) {
+        // 重置状态
+        hasTransitionStarted = false
+        clipShape = CircleShape
+        slideDownAnimation = true
+        animationStarted = false
+        showMessage = false
+        dismissCallback = false
+        
+        slideDownAnimation = false
 
-            // Delay for 0.2 seconds before transitioning to rectangle
-            delay(200)
-            hasTransitionStarted = true
-            clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
-            showMessage = true
+        // Delay for 0.2 seconds before transitioning to rectangle
+        delay(200)
+        hasTransitionStarted = true
+        clipShape = RoundedCornerShape(12.dp, 12.dp, 12.dp, 12.dp)
+        showMessage = true
 
-            // Delay for 2.5 seconds before reverting to circle
-            delay(2500)
-            hasTransitionStarted = false
-            showMessage = false
+        // Delay for 2.5 seconds before reverting to circle
+        delay(2500)
+        hasTransitionStarted = false
+        showMessage = false
 
-            // Delay for 0.2 seconds before sliding up
-            delay(200)
-            clipShape = CircleShape
-            slideDownAnimation = true
-            animationStarted = true
-            dismissCallback = true
-        }
+        // Delay for 0.2 seconds before sliding up
+        delay(200)
+        clipShape = CircleShape
+        slideDownAnimation = true
+        animationStarted = true
+        dismissCallback = true
     }
 
     Box(
