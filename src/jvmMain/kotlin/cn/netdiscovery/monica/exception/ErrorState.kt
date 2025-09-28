@@ -42,6 +42,7 @@ class ErrorState {
 
     fun clearToast() {
         _toastMessage.value = null
+        _topToastMessage.value = null
     }
 
     fun clearDialog() {
