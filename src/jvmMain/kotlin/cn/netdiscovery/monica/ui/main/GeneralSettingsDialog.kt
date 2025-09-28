@@ -38,6 +38,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.exception.ErrorSeverity
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.showError
 import cn.netdiscovery.monica.i18n.Language
 import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.rxcache.clearData
@@ -680,7 +683,13 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                     Button(
                         onClick = {
-                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = { showTopToast(i18nState.getString("r_needs_int")) }) ?: return@Button
+                            println("DEBUG: Update button clicked")
+                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = {
+                                showError(type = ErrorType.VALIDATION_ERROR,
+                                    severity = ErrorSeverity.LOW,
+                                    message = i18nState.getString("r_needs_int"),
+                                    userMessage = i18nState.getString("r_needs_int"))
+                            }) ?: return@Button
                             state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast(i18nState.getString("g_needs_int")) }) ?: return@Button
                             state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast(i18nState.getString("b_needs_int")) }) ?: return@Button
                             state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast(i18nState.getString("size_needs_int")) }) ?: return@Button
