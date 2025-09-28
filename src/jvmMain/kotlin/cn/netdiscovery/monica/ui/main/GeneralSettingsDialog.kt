@@ -73,7 +73,6 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var deepSeekApiKeyText by remember { mutableStateOf(state.deepSeekApiKeyText) }
     var geminiApiKeyText by remember { mutableStateOf(state.geminiApiKeyText) }
     var algorithmUrlText by remember { mutableStateOf(state.algorithmUrlText) }
-//    var status by remember { mutableStateOf(-1) }
     var isInitFilterParams by mutableStateOf(false)
     var isClearCacheData by mutableStateOf(false)
     var selectedTab by remember { mutableStateOf(0) }
