@@ -6,6 +6,7 @@ import androidx.compose.material.TextButton
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import cn.netdiscovery.monica.ui.widget.centerToast
+import cn.netdiscovery.monica.ui.widget.topToast
 
 /**
  * 错误处理Compose组件
@@ -34,23 +35,35 @@ fun ErrorHandler(
     
     // 设置全局错误管理器
     LaunchedEffect(errorManager) {
-        GlobalErrorManager.setInstance(errorManager)
+        GlobalErrorManager.setInstance(errorManager, errorState)
     }
     
     // 监听 Toast 消息
     val toastMessage by errorState.toastMessage.collectAsState()
-    LaunchedEffect(toastMessage) {
-        if (toastMessage != null) {
-            // 使用 rememberCoroutineScope 在 Composable 上下文中调用
-            errorState.clearToast()
-        }
-    }
-    
     // 显示 Toast
     if (toastMessage != null) {
-        centerToast(modifier = Modifier, message = toastMessage!!)
+        centerToast(
+            modifier = Modifier, 
+            message = toastMessage!!,
+            onDismissCallback = {
+                errorState.clearToast()
+            }
+        )
     }
-    
+
+    // 监听 Top Toast 消息
+    val topToastMessage by errorState.topToastMessage.collectAsState()
+    // 显示 Top Toast
+    if (topToastMessage != null) {
+        topToast(
+            modifier = Modifier,
+            message = topToastMessage!!,
+            onDismissCallback = {
+                errorState.clearToast()
+            }
+        )
+    }
+
     // 监听对话框状态
     val dialogState by errorState.dialogState.collectAsState()
     dialogState?.let { state ->

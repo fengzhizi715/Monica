@@ -73,9 +73,8 @@ fun main() = application {
         trayState
     )
     
-    // 全局错误处理 - 只需要在应用启动时调用一次
+    // 全局错误处理状态
     val errorState = remember { ErrorState() }
-    ErrorHandler(errorState)
 
     PageLifecycle(
         onInit = {
@@ -152,6 +151,9 @@ fun main() = application {
                 logger.info("主窗口使用主题: ${it.name}")
             }) {
                 mainView(applicationState)
+                
+                // 全局错误处理 - 在 mainView 之后，确保在最顶层
+                ErrorHandler(errorState)
 
                 if (loadingDisplay) {
                     showLoading()

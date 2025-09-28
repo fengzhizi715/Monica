@@ -14,12 +14,16 @@ import cn.netdiscovery.monica.utils.logger
 // 全局错误管理器实例
 object GlobalErrorManager {
     private var _instance: ErrorManager? = null
+    private var _errorState: ErrorState? = null
 
-    fun setInstance(errorManager: ErrorManager) {
+    fun setInstance(errorManager: ErrorManager, errorState: ErrorState) {
         _instance = errorManager
+        _errorState = errorState
     }
 
     fun getInstance(): ErrorManager? = _instance
+    
+    fun getErrorState(): ErrorState? = _errorState
 }
 
 class ErrorManager {
