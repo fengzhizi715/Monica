@@ -1,5 +1,6 @@
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -35,6 +36,8 @@ import cn.netdiscovery.monica.ui.showimage.showImage
 import cn.netdiscovery.monica.ui.widget.PageLifecycle
 import cn.netdiscovery.monica.ui.widget.centerToast
 import cn.netdiscovery.monica.ui.widget.showLoading
+import cn.netdiscovery.monica.exception.ErrorHandler
+import cn.netdiscovery.monica.exception.ErrorState
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
@@ -69,6 +72,10 @@ fun main() = application {
         rememberCoroutineScope(),
         trayState
     )
+    
+    // 全局错误处理 - 只需要在应用启动时调用一次
+    val errorState = remember { ErrorState() }
+    ErrorHandler(errorState)
 
     PageLifecycle(
         onInit = {

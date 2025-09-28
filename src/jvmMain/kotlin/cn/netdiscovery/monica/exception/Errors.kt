@@ -41,13 +41,5 @@ enum class ErrorHandlingStrategy {
 // 统一错误结果
 sealed class Result<T> {
     data class Success<T>(val data: T) : Result<T>()
-    data class Error<T>(
-        val type: ErrorType,
-        val severity: ErrorSeverity,
-        val message: String,
-        val userMessage: String,
-        val cause: Throwable? = null,
-        val retryable: Boolean = false,
-        val context: Map<String, Any> = emptyMap()
-    ) : Result<T>()
+    data class Error<T>(val error: AppError) : Result<T>()
 }
