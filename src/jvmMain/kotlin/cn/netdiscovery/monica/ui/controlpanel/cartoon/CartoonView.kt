@@ -23,7 +23,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.widget.*

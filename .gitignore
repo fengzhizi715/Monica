@@ -3,6 +3,12 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
+bin/
+config/bin/
+domain/bin/
+i18n/bin/
+imageprocess/bin/
+opencv/bin/
 
 ### IntelliJ IDEA ###
 .idea/
