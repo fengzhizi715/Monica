@@ -55,7 +55,7 @@ class LLMServiceManager {
      * @return 更新后的颜色校正设置
      * @throws MonicaException 当调用失败时抛出异常
      */
-    suspend fun applyInstructionWithLLM(
+    fun applyInstructionWithLLM(
         provider: LLMProvider,
         session: DialogSession,
         instruction: String,

@@ -28,7 +28,7 @@ private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass
  * 每次根据当前参数和新指令拼 prompt， 支持多轮对话
  */
 @Throws(MonicaException::class)
-suspend fun applyInstructionWithLLM(
+fun applyInstructionWithLLM(
     session: DialogSession,
     instruction: String,
     apiKey: String
