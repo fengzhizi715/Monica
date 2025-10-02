@@ -37,7 +37,7 @@ enum class SidebarItem(
 ) {
     BASIC_FUNCTIONS(
         titleKey = "basic_functions",
-        iconPath = "images/controlpanel/settings.png",
+        iconPath = "images/sidebar/basic_functions.png",
         isEnabled = { state -> state.isBasic },
         onClick = { state ->
             state.isBasic = !state.isBasic
@@ -50,7 +50,7 @@ enum class SidebarItem(
     ),
     COLOR_CORRECTION(
         titleKey = "image_color_correction",
-        iconPath = "images/controlpanel/settings.png",
+        iconPath = "images/sidebar/image_color_correction.png",
         isEnabled = { state -> state.isColorCorrection },
         onClick = { state ->
             state.togglePreviewWindowAndUpdateStatus(ColorCorrectionStatus)
@@ -63,7 +63,7 @@ enum class SidebarItem(
     ),
     FILTER(
         titleKey = "filter_effects",
-        iconPath = "images/controlpanel/settings.png",
+        iconPath = "images/sidebar/filter_effects.png",
         isEnabled = { state -> state.isFilter },
         onClick = { state ->
             state.togglePreviewWindowAndUpdateStatus(FilterStatus)
@@ -76,7 +76,7 @@ enum class SidebarItem(
     ),
     AI_LAB(
         titleKey = "ai_laboratory",
-        iconPath = "images/controlpanel/settings.png",
+        iconPath = "images/sidebar/ai_laboratory.png",
         isEnabled = { state -> state.isAI },
         onClick = { state ->
             state.isAI = !state.isAI
@@ -89,7 +89,7 @@ enum class SidebarItem(
     ),
     GENERAL_SETTINGS(
         titleKey = "general_settings",
-        iconPath = "images/controlpanel/settings.png",
+        iconPath = "images/sidebar/settings.png",
         isEnabled = { state -> state.isGeneralSettings },
         onClick = { state ->
             showGeneralSettings = true
