@@ -3,11 +3,9 @@ package cn.netdiscovery.monica.ui.controlpanel.colorcorrection
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.graphics.toAwtImage
 import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
-import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
 import cn.netdiscovery.monica.imageprocess.BufferedImages

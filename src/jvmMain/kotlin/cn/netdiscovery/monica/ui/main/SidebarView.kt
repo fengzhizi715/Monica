@@ -35,19 +35,6 @@ enum class SidebarItem(
     val isEnabled: (ApplicationState) -> Boolean,
     val onClick: (ApplicationState) -> Unit
 ) {
-    GENERAL_SETTINGS(
-        titleKey = "general_settings",
-        iconPath = "images/controlpanel/settings.png",
-        isEnabled = { state -> state.isGeneralSettings },
-        onClick = { state ->
-            showGeneralSettings = true
-
-            state.isBasic = false
-            state.isColorCorrection = false
-            state.isFilter = false
-            state.isAI = false
-        }
-    ),
     BASIC_FUNCTIONS(
         titleKey = "basic_functions",
         iconPath = "images/controlpanel/settings.png",
@@ -98,6 +85,19 @@ enum class SidebarItem(
             state.isGeneralSettings = false
             state.isColorCorrection = false
             state.isFilter = false
+        }
+    ),
+    GENERAL_SETTINGS(
+        titleKey = "general_settings",
+        iconPath = "images/controlpanel/settings.png",
+        isEnabled = { state -> state.isGeneralSettings },
+        onClick = { state ->
+            showGeneralSettings = true
+
+            state.isBasic = false
+            state.isColorCorrection = false
+            state.isFilter = false
+            state.isAI = false
         }
     )
 }
