@@ -110,32 +110,37 @@ private fun previewImage(state: ApplicationState, viewModel: PreviewViewModel) {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-                            toolTipButton(text = i18nState.getString("restore_original"),
+            // 恢复最初
+            toolTipButton(text = i18nState.getString("restore_original"),
                 painter = painterResource("images/preview/initial_picture.png"),
                 iconModifier = Modifier.size(30.dp),
                 onClick = {
                     viewModel.recoverImage(state)
                 })
 
-                            toolTipButton(text = i18nState.getString("previous_step"),
+            // 上一步
+            toolTipButton(text = i18nState.getString("previous_step"),
                 painter = painterResource("images/preview/reduction.png"),
                 onClick = {
                     viewModel.getLastImage(state)
                 })
 
-                            toolTipButton(text = i18nState.getString("enlarge_preview"),
+            // 放大预览
+            toolTipButton(text = i18nState.getString("enlarge_preview"),
                 painter = painterResource("images/preview/zoom.png"),
                 onClick = {
                     state.togglePreviewWindowAndUpdateStatus(ZoomPreviewStatus)
                 })
 
-                            toolTipButton(text = i18nState.getString("save"),
+            // 保存
+            toolTipButton(text = i18nState.getString("save"),
                 painter = painterResource("images/preview/save.png"),
                 onClick = {
                     viewModel.saveImage(state)
                 })
 
-                            toolTipButton(text = i18nState.getString("delete"),
+            // 删除
+            toolTipButton(text = i18nState.getString("delete"),
                 painter = painterResource("images/preview/delete.png"),
                 onClick = {
                     viewModel.clearImage(state)
