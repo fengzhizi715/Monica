@@ -62,9 +62,6 @@ fun colorCorrection(state: ApplicationState) {
     val enableSlider = !loadingDisplay
 
     val session = remember { DialogSession(systemPromptForColorCorrection, colorCorrectionSettings) }
-
-    val clickPoints = remember { mutableStateListOf<ClickPoint>() }
-    var currentLabel by remember { mutableStateOf(1) }
     
     // 使用统一的图片尺寸计算
     val (imageWidth, imageHeight) = ImageSizeCalculator.calculateImageSize(state)
@@ -112,17 +109,6 @@ fun colorCorrection(state: ApplicationState) {
                 },
                 enabled = false
             ) {
-//                ClickableImage(
-//                    imageBitmap = cachedImage.toComposeImageBitmap(),
-//                    originalSize = originalSize?.let { IntSize(it.first, it.second) } ?: IntSize(cachedImage.width, cachedImage.height),
-//                    clickPoints = clickPoints,
-//                    currentLabel = currentLabel,
-//                    onAddClickPoint = { point ->
-//                        clickPoints += point
-//                    },
-//                    modifier = Modifier.fillMaxSize()
-//                )
-
                 Image(
                     bitmap = cachedImage.toComposeImageBitmap(),
                     contentDescription = null,
