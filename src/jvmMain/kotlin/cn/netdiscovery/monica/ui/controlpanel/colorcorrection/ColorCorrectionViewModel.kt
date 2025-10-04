@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
 import cn.netdiscovery.monica.imageprocess.BufferedImages
@@ -147,6 +148,17 @@ class ColorCorrectionViewModel {
             }
         } else {
             action.invoke()
+        }
+    }
+
+    fun undo(block: (ColorCorrectionSettings)-> Unit ) {
+
+        val pair = manager.undo()
+
+        if (pair!=null) {
+            val lastSettings = pair.first.toSettings()
+            updateParams(lastSettings)
+            block.invoke(lastSettings)
         }
     }
 

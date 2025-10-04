@@ -14,14 +14,15 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
+import cn.netdiscovery.monica.history.EditHistoryCenter
+import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.llm.DialogSession
 import cn.netdiscovery.monica.llm.systemPromptForColorCorrection
 import cn.netdiscovery.monica.state.ApplicationState
@@ -31,6 +32,7 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import cn.netdiscovery.monica.utils.extensions.to2fStr
 import cn.netdiscovery.monica.i18n.getCurrentStringResource
+import com.safframework.rxcache.utils.GsonUtils
 import loadingDisplay
 import org.koin.compose.koinInject
 import org.slf4j.Logger
@@ -355,6 +357,7 @@ fun colorCorrection(state: ApplicationState) {
 
                     // 底部菜单
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally).padding(top = 10.dp)) {
+                        // 保存
                         toolTipButton(text = i18nState.get("save"),
                             painter = painterResource("images/doodle/save.png"),
                             iconModifier = Modifier.size(36.dp),
@@ -366,11 +369,31 @@ fun colorCorrection(state: ApplicationState) {
                                 }
                             })
 
+                        // 自然语言图像调色
                         toolTipButton(text = i18nState.get("natural_language_color_correction"),
                             painter = painterResource("images/colorcorrection/chatbot.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
                                 showLLMDialog = true
+                            })
+
+                        // 上一步
+                        toolTipButton(text = i18nState.get("previous_step"),
+                            painter = painterResource("images/doodle/previous_step.png"),
+                            iconModifier = Modifier.size(36.dp),
+                            onClick = {
+                                viewModel.undo { lastSettings->
+                                    val lastStatus = colorCorrectionSettings.status
+                                    colorCorrectionSettings = lastSettings.copy(status = lastStatus)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
+                                }
+                            })
+
+                        // 撤回
+                        toolTipButton(text = i18nState.get("revoke"),
+                            painter = painterResource("images/doodle/revoke.png"),
+                            onClick = {
+
                             })
                     }
                 }
