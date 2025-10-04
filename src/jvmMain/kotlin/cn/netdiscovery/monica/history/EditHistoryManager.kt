@@ -77,26 +77,19 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         }
     }
 
-    /**
-     * 撤销
-     */
-    fun undo(currentState: T, currentEntry: HistoryEntry): Pair<T, HistoryEntry>? {
-        if (canUndo) {
+    fun undo(): Pair<T, HistoryEntry>? {
+        if (undoStack.size > 1) { // 保留至少一个初始状态
             val last = undoStack.removeLast()
-            redoStack.addLast(currentState to currentEntry)
-            return last
+            redoStack.addLast(last)
+            return undoStack.last() // 返回撤销后的新当前状态
         }
         return null
     }
 
-
-    /**
-     * 重做
-     */
-    fun redo(currentState: T, currentEntry: HistoryEntry): Pair<T, HistoryEntry>? {
+    fun redo(): Pair<T, HistoryEntry>? {
         if (canRedo) {
             val next = redoStack.removeLast()
-            undoStack.addLast(currentState to currentEntry)
+            undoStack.addLast(next)
             return next
         }
         return null
