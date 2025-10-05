@@ -382,7 +382,7 @@ fun colorCorrection(state: ApplicationState) {
                             painter = painterResource("images/doodle/previous_step.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                viewModel.undo { lastSettings->
+                                viewModel.previousState { lastSettings->
                                     val lastStatus = colorCorrectionSettings.status
                                     colorCorrectionSettings = lastSettings.copy(status = lastStatus)
                                     viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
@@ -393,7 +393,11 @@ fun colorCorrection(state: ApplicationState) {
                         toolTipButton(text = i18nState.get("revoke"),
                             painter = painterResource("images/doodle/revoke.png"),
                             onClick = {
-
+                                viewModel.undo { lastSettings->
+                                    val lastStatus = colorCorrectionSettings.status
+                                    colorCorrectionSettings = lastSettings.copy(status = lastStatus)
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
+                                }
                             })
                     }
                 }

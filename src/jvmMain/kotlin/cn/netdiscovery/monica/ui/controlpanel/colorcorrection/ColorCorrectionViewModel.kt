@@ -151,8 +151,17 @@ class ColorCorrectionViewModel {
         }
     }
 
-    fun undo(block: (ColorCorrectionSettings)-> Unit ) {
+    fun previousState(block: (ColorCorrectionSettings)-> Unit ) {
+        val pair = manager.previousState()
 
+        if (pair!=null) {
+            val lastSettings = pair.first.toSettings()
+            updateParams(lastSettings)
+            block.invoke(lastSettings)
+        }
+    }
+
+    fun undo(block: (ColorCorrectionSettings)-> Unit ) {
         val pair = manager.undo()
 
         if (pair!=null) {
