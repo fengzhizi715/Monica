@@ -101,17 +101,6 @@ class EditHistoryManager<T>(private val maxHistorySize: Int = 20,
         return null
     }
 
-//    /**
-//     * 上一步
-//     */
-//    fun previousState(): Pair<T, HistoryEntry>? {
-//        return if (undoStack.size > 1) {
-//            undoStack.elementAtOrNull(undoStack.size - 2)
-//        } else {
-//            null
-//        }
-//    }
-
     fun peekUndoEntry(): HistoryEntry? = undoStack.lastOrNull()?.second
     fun peekRedoEntry(): HistoryEntry? = redoStack.lastOrNull()?.second
 }

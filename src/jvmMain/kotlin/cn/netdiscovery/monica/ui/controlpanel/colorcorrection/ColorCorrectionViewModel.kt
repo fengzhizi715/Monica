@@ -6,10 +6,8 @@ import androidx.compose.runtime.setValue
 import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
-import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
-import cn.netdiscovery.monica.history.modules.colorcorrection.recordLog
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.manager.OpenCVManager
@@ -67,12 +65,13 @@ class ColorCorrectionViewModel {
      * @param state   当前应用的 state
      * @param image   需要调色的图像
      * @param colorCorrectionSettings 图像调色所需要的参数
+     * @param isPush  是否需要记录一次新的编辑操作。默认为 true，如果使用了 undo()、redo() 操作就为 false
      * @param success 成功后的回调
      */
     fun colorCorrection(state: ApplicationState,
                         image: BufferedImage,
                         colorCorrectionSettings: ColorCorrectionSettings,
-                        isRecord: Boolean = true,
+                        isPush: Boolean = true,
                         success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
@@ -87,11 +86,7 @@ class ColorCorrectionViewModel {
 
             OpenCVManager.invokeCV(image,
                 action  = { byteArray ->
-                    if (isRecord) {
-                        manager.recordColorCorrection(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
-                    } else {
-                        manager.recordLog(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
-                    }
+                    manager.recordColorCorrection(operation = "colorCorrection", isPush = isPush, colorCorrectionSettings = colorCorrectionSettings)
 
                     ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
                 },
