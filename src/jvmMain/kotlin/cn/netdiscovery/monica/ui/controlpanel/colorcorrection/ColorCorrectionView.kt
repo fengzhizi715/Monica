@@ -23,6 +23,7 @@ import cn.netdiscovery.monica.config.MODULE_COLOR
 import cn.netdiscovery.monica.domain.ColorCorrectionSettings
 import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
+import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
 import cn.netdiscovery.monica.llm.DialogSession
 import cn.netdiscovery.monica.llm.systemPromptForColorCorrection
 import cn.netdiscovery.monica.state.ApplicationState
@@ -32,6 +33,10 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import cn.netdiscovery.monica.utils.extensions.to2fStr
 import cn.netdiscovery.monica.i18n.getCurrentStringResource
+import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
+import cn.netdiscovery.monica.manager.OpenCVManager
+import cn.netdiscovery.monica.opencv.ImageProcess
+import cn.netdiscovery.monica.utils.extensions.launchWithSuspendLoading
 import com.safframework.rxcache.utils.GsonUtils
 import loadingDisplay
 import org.koin.compose.koinInject
@@ -382,10 +387,11 @@ fun colorCorrection(state: ApplicationState) {
                             painter = painterResource("images/doodle/previous_step.png"),
                             iconModifier = Modifier.size(36.dp),
                             onClick = {
-                                viewModel.previousState { lastSettings->
+                                viewModel.undo { lastSettings->
+                                    logger.info("lastSettings = ${lastSettings}")
                                     val lastStatus = colorCorrectionSettings.status
                                     colorCorrectionSettings = lastSettings.copy(status = lastStatus)
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings,false)  { image-> cachedImage = image }
                                 }
                             })
 
@@ -393,10 +399,10 @@ fun colorCorrection(state: ApplicationState) {
                         toolTipButton(text = i18nState.get("revoke"),
                             painter = painterResource("images/doodle/revoke.png"),
                             onClick = {
-                                viewModel.undo { lastSettings->
+                                viewModel.redo { lastSettings->
                                     val lastStatus = colorCorrectionSettings.status
                                     colorCorrectionSettings = lastSettings.copy(status = lastStatus)
-                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings)  { image-> cachedImage = image }
+                                    viewModel.colorCorrection(state, cachedImage, colorCorrectionSettings, false)  { image-> cachedImage = image }
                                 }
                             })
                     }

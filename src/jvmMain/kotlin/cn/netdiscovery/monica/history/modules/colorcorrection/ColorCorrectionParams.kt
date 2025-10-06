@@ -85,3 +85,14 @@ fun <T> EditHistoryManager<T>.recordColorCorrection(
     push(params as T, entry)
     logOnly(entry)
 }
+
+fun <T> EditHistoryManager<T>.recordLog(
+    module: String = MODULE_COLOR,
+    operation: String,
+    description: String = "",
+    colorCorrectionSettings: ColorCorrectionSettings
+) {
+    val params = ColorCorrectionParams.fromSettings(colorCorrectionSettings)
+    val entry = HistoryEntry(module = module, operation = operation, parameters = params.toMap(), description = description)
+    logOnly(entry)
+}

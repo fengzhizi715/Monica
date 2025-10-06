@@ -9,6 +9,7 @@ import cn.netdiscovery.monica.history.EditHistoryCenter
 import cn.netdiscovery.monica.history.HistoryEntry
 import cn.netdiscovery.monica.history.modules.colorcorrection.ColorCorrectionParams
 import cn.netdiscovery.monica.history.modules.colorcorrection.recordColorCorrection
+import cn.netdiscovery.monica.history.modules.colorcorrection.recordLog
 import cn.netdiscovery.monica.imageprocess.BufferedImages
 import cn.netdiscovery.monica.imageprocess.utils.extension.image2ByteArray
 import cn.netdiscovery.monica.manager.OpenCVManager
@@ -71,6 +72,7 @@ class ColorCorrectionViewModel {
     fun colorCorrection(state: ApplicationState,
                         image: BufferedImage,
                         colorCorrectionSettings: ColorCorrectionSettings,
+                        isRecord: Boolean = true,
                         success: CVSuccess) {
 
         logger.info("colorCorrectionSettings = ${GsonUtils.toJson(colorCorrectionSettings)}")
@@ -85,7 +87,11 @@ class ColorCorrectionViewModel {
 
             OpenCVManager.invokeCV(image,
                 action  = { byteArray ->
-                    manager.recordColorCorrection(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
+                    if (isRecord) {
+                        manager.recordColorCorrection(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
+                    } else {
+                        manager.recordLog(operation = "colorCorrection", colorCorrectionSettings = colorCorrectionSettings)
+                    }
 
                     ImageProcess.colorCorrection(byteArray, colorCorrectionSettings, cppObjectPtr)
                 },
@@ -151,8 +157,8 @@ class ColorCorrectionViewModel {
         }
     }
 
-    fun previousState(block: (ColorCorrectionSettings)-> Unit ) {
-        val pair = manager.previousState()
+    fun undo(block: (ColorCorrectionSettings)-> Unit) {
+        val pair = manager.undo()
 
         if (pair!=null) {
             val lastSettings = pair.first.toSettings()
@@ -161,8 +167,8 @@ class ColorCorrectionViewModel {
         }
     }
 
-    fun undo(block: (ColorCorrectionSettings)-> Unit ) {
-        val pair = manager.undo()
+    fun redo(block: (ColorCorrectionSettings)-> Unit) {
+        val pair = manager.redo()
 
         if (pair!=null) {
             val lastSettings = pair.first.toSettings()
