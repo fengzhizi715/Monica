@@ -12,6 +12,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.appVersion
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.state.ColorCorrectionStatus
 import cn.netdiscovery.monica.state.FilterStatus
@@ -121,23 +122,49 @@ fun SidebarView(
             modifier = Modifier
                 .fillMaxHeight()
                 .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // 标题
-            Text(
-                text = i18nState.getString("app_name"),
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colors.primary,
-                modifier = Modifier.padding(bottom = 16.dp)
-            )
-            
-            // 菜单项目
-            SidebarItem.entries.forEach { item ->
-                SidebarMenuItem(
-                    item = item,
-                    state = state,
-                    i18nState = i18nState
+            Column(
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                // 标题
+                Text(
+                    text = i18nState.getString("app_name"),
+                    fontSize = 20.sp,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colors.primary,
+                    modifier = Modifier.padding(bottom = 16.dp)
+                )
+                
+                // 菜单项目
+                SidebarItem.entries.forEach { item ->
+                    SidebarMenuItem(
+                        item = item,
+                        state = state,
+                        i18nState = i18nState
+                    )
+                }
+            }
+
+            // 底部版本信息
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                Text(
+                    text = "版本信息",
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.6f),
+                    fontWeight = FontWeight.Medium
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    text = appVersion,
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colors.primary,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
