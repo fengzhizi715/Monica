@@ -683,14 +683,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                     Button(
                         onClick = {
-                            println("DEBUG: Update button clicked")
-                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = {
-                                showError(type = ErrorType.VALIDATION_ERROR,
-                                    severity = ErrorSeverity.LOW,
-                                    message = i18nState.getString("r_needs_int"),
-                                    userMessage = i18nState.getString("r_needs_int"))
-                            }) ?: return@Button
-                            state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = { showTopToast(i18nState.getString("g_needs_int")) }) ?: return@Button
+                            state.outputBoxRText = getValidateField(block = { rText.toInt() },
+                                failed = {
+                                    val errorMsg = i18nState.getString("r_needs_int")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                                }) ?: return@Button
+                            state.outputBoxGText = getValidateField(block = { gText.toInt() },
+                                failed = {
+                                    val errorMsg = i18nState.getString("g_needs_int")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                                }) ?: return@Button
                             state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast(i18nState.getString("b_needs_int")) }) ?: return@Button
                             state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast(i18nState.getString("size_needs_int")) }) ?: return@Button
                             state.deepSeekApiKeyText = deepSeekApiKeyText
