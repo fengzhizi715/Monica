@@ -161,7 +161,7 @@ fun filter(state: ApplicationState) {
             }
         }
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(500.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
+        rightSideMenuBar(modifier = Modifier.width(400.dp).height(550.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
 
             Box(modifier = Modifier.fillMaxSize()) {
                 // 主要内容区域 - 可滚动
@@ -184,7 +184,7 @@ fun filter(state: ApplicationState) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(80.dp)
+                        .height(70.dp)
                         .align(Alignment.BottomCenter),
                     contentAlignment = Alignment.Center
                 ) {
@@ -300,7 +300,7 @@ private fun generateFilterRemark(selectedIndex:Int, i18nState: cn.netdiscovery.m
 
     if (!remark.isNullOrEmpty()) {
         Card(
-            modifier = Modifier.padding(top = 10.dp, start = 10.dp),
+            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, start = 10.dp),
             shape = RoundedCornerShape(5.dp),
             elevation = 4.dp,
             backgroundColor = Color.LightGray
