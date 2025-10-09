@@ -683,18 +683,22 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
 
                     Button(
                         onClick = {
-                            state.outputBoxRText = getValidateField(block = { rText.toInt() },
-                                failed = {
+                            state.outputBoxRText = getValidateField(block = { rText.toInt() }, failed = {
                                     val errorMsg = i18nState.getString("r_needs_int")
                                     showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
                                 }) ?: return@Button
-                            state.outputBoxGText = getValidateField(block = { gText.toInt() },
-                                failed = {
+                            state.outputBoxGText = getValidateField(block = { gText.toInt() }, failed = {
                                     val errorMsg = i18nState.getString("g_needs_int")
                                     showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
                                 }) ?: return@Button
-                            state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = { showTopToast(i18nState.getString("b_needs_int")) }) ?: return@Button
-                            state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = { showTopToast(i18nState.getString("size_needs_int")) }) ?: return@Button
+                            state.outputBoxBText = getValidateField(block = { bText.toInt() }, failed = {
+                                val errorMsg = i18nState.getString("b_needs_int")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                            }) ?: return@Button
+                            state.sizeText = getValidateField(block = { sizeText.toInt() }, failed = {
+                                val errorMsg = i18nState.getString("size_needs_int")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                            }) ?: return@Button
                             state.deepSeekApiKeyText = deepSeekApiKeyText
                             state.geminiApiKeyText = geminiApiKeyText
                             state.algorithmUrlText = if (algorithmUrlText.isNotEmpty()) {
