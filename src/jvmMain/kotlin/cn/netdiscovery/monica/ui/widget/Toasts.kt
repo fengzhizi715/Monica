@@ -95,7 +95,7 @@ fun bottomToast(
 private fun toast(
     modifier: Modifier = Modifier,
     message: String = "An unexpected error occurred. Please try again later",
-    textColor: Color = Color.Gray,
+    textColor: Color = Color.Black,
     fontSize: TextUnit = 16.sp,
     height: Dp = 100.dp,
     width: Dp = 400.dp,
@@ -168,7 +168,7 @@ private fun toast(
                 .size(boxWidth, boxHeight)
                 .offset(y = slideY)
                 .clip(clipShape)
-                .background(MaterialTheme.colors.primary)
+                .background(MaterialTheme.colors.primary.copy(0.7f))
                 .align(alignment = alignment),
             contentAlignment = Alignment.Center,
         ) {
