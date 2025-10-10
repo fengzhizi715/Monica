@@ -712,10 +712,16 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                     } else {
                                         throw RuntimeException()
                                     }
-                                }, failed = { showTopToast(i18nState.getString("enter_valid_url")) }) ?: return@Button
+                                }, failed = {
+                                    val errorMsg = i18nState.getString("enter_valid_url")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                                }) ?: return@Button
                             } else ""
 
-                            state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = { showTopToast(i18nState.getString("max_history_size_needs_int")) }) ?: return@Button
+                            state.maxHistorySizeText = getValidateField(block = { maxHistorySizeText.toInt() }, failed = {
+                                val errorMsg = i18nState.getString("max_history_size_needs_int")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.LOW, errorMsg, errorMsg)
+                            }) ?: return@Button
 
                             state.saveGeneralSettings()
 
