@@ -18,6 +18,9 @@ import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.EdgeDetectionViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -187,34 +190,45 @@ fun binaryImage(state: ApplicationState, title: String) {
                         if (CVState.isThreshType && CVState.isThreshSegment) {
 
                             if (typeSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_threshold_type"))
+                                val errorMsg = i18nState.getString("please_select_threshold_type")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
                             if (thresholdSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_global_threshold_segmentation"))
+                                val errorMsg = i18nState.getString("please_select_global_threshold_segmentation")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
                             viewModel.threshold(state, typeSelectedOption, thresholdSelectedOption)
                         } else if (CVState.isThreshType && CVState.isAdaptiveThresh) {
                             if (typeSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_threshold_type"))
+                                val errorMsg = i18nState.getString("please_select_threshold_type")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
                             if (adaptiveMethodSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_adaptive_threshold_algorithm"))
+                                val errorMsg = i18nState.getString("please_select_adaptive_threshold_algorithm")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
-                            val blockSize = getValidateField(block = { blockSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("block_size_needs_int")) })?: return@experimentViewClick
+                            val blockSize = getValidateField(block = { blockSizeText.toInt() } , failed = { 
+                                val errorMsg = i18nState.getString("block_size_needs_int")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                            })?: return@experimentViewClick
 
-                            val c = getValidateField(block = { cText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("c_needs_int")) })?: return@experimentViewClick
+                            val c = getValidateField(block = { cText.toInt() } , failed = { 
+                                val errorMsg = i18nState.getString("c_needs_int")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                            })?: return@experimentViewClick
 
                             viewModel.adaptiveThreshold(state, adaptiveMethodSelectedOption, typeSelectedOption, blockSize, c)
                         } else {
-                            experimentViewVerifyToast(i18nState.getString("please_select_threshold_type_and_segmentation"))
+                            val errorMsg = i18nState.getString("please_select_threshold_type_and_segmentation")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                         }
                     }
                 }
@@ -244,9 +258,18 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold1_needs_double")) })?: return@experimentViewClick
-                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold2_needs_double")) })?: return@experimentViewClick
-                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("aperture_size_needs_int")) })?: return@experimentViewClick
+                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("threshold1_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val threshold2 = getValidateField(block = { threshold2Text.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("threshold2_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val apertureSize = getValidateField(block = { apertureSizeText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("aperture_size_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
 
                         edgeDetectionViewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
@@ -291,13 +314,31 @@ fun binaryImage(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type!! in 1..9) {
-                        val hmin = getValidateField(block = { hminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("hmin_needs_int")) })?: return@experimentViewClick
-                        val smin = getValidateField(block = { sminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("smin_needs_int")) })?: return@experimentViewClick
-                        val vmin = getValidateField(block = { vminText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("vmin_needs_int")) })?: return@experimentViewClick
+                        val hmin = getValidateField(block = { hminText.toInt() }, failed = {
+                            val errorMsg = i18nState.getString("hmin_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val smin = getValidateField(block = { sminText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("smin_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val vmin = getValidateField(block = { vminText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("vmin_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
 
-                        val hmax = getValidateField(block = { hmaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("hmax_needs_int")) })?: return@experimentViewClick
-                        val smax = getValidateField(block = { smaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("smax_needs_int")) })?: return@experimentViewClick
-                        val vmax = getValidateField(block = { vmaxText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("vmax_needs_int")) })?: return@experimentViewClick
+                        val hmax = getValidateField(block = { hmaxText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("hmax_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val smax = getValidateField(block = { smaxText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("smax_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
+                        val vmax = getValidateField(block = { vmaxText.toInt() } , failed = { 
+                            val errorMsg = i18nState.getString("vmax_needs_int")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        })?: return@experimentViewClick
 
                         viewModel.inRange(state, hmin, smin, vmin, hmax, smax, vmax)
                     }

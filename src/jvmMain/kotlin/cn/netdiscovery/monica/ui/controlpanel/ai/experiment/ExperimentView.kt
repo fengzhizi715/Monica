@@ -23,6 +23,8 @@ import cn.netdiscovery.monica.utils.getBufferedImage
 import loadingDisplay
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.i18n.LocalizationManager
+import cn.netdiscovery.monica.exception.ErrorHandler
+import cn.netdiscovery.monica.exception.ErrorState
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -35,9 +37,6 @@ import org.slf4j.LoggerFactory
  * @version: V1.0 <描述当前版本功能>
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
-
-private var showVerifyToast by mutableStateOf(false)
-private var verifyToastMessage by mutableStateOf("")
 
 /**
  * Screens
@@ -136,6 +135,9 @@ fun customNavigationHost(
 @Composable
 fun experiment(state: ApplicationState) {
     val i18nState = rememberI18nState()
+    
+    // 页面级别的错误处理状态
+    val errorState = remember { ErrorState() }
 
     val screens = Screen.entries
     val navController by rememberNavController(Screen.Home.name)
@@ -267,21 +269,25 @@ fun experiment(state: ApplicationState) {
         if (loadingDisplay) {
             showLoading()
         }
-
-        if (showVerifyToast) {
-            centerToast(message = verifyToastMessage) {
-                showVerifyToast = false
-            }
-        }
+        
+        // 页面级别的错误处理 - 在最后渲染，确保在最顶层
+        ErrorHandler(errorState)
     }
 }
 
 /**
  * experiment 模块下，通用的显示验证相关的 toast
+ * @deprecated 请使用统一的错误处理机制 showError()
  */
+@Deprecated("请使用 showError() 替代", ReplaceWith("showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, message, message)"))
 fun experimentViewVerifyToast(message: String) {
-    verifyToastMessage = message
-    showVerifyToast = true
+    // 为了兼容性，仍然保留此函数，但使用统一的错误处理机制
+    cn.netdiscovery.monica.exception.showError(
+        type = cn.netdiscovery.monica.exception.ErrorType.VALIDATION_ERROR,
+        severity = cn.netdiscovery.monica.exception.ErrorSeverity.MEDIUM,
+        message = message,
+        userMessage = message
+    )
 }
 
 @Composable
@@ -293,7 +299,13 @@ fun experimentViewClick(
     
     return rememberThrottledClick(filter = {
         if (state.currentImage == null) {
-            experimentViewVerifyToast(i18nState.getString("please_select_image_first"))
+            val errorMsg = i18nState.getString("please_select_image_first")
+            cn.netdiscovery.monica.exception.showError(
+                type = cn.netdiscovery.monica.exception.ErrorType.VALIDATION_ERROR,
+                severity = cn.netdiscovery.monica.exception.ErrorSeverity.MEDIUM,
+                message = errorMsg,
+                userMessage = errorMsg
+            )
             false
         } else {
             true
