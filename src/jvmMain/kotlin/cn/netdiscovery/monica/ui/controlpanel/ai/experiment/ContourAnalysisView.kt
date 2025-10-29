@@ -15,6 +15,9 @@ import cn.netdiscovery.monica.domain.ContourFilterSettings
 import cn.netdiscovery.monica.ui.controlpanel.ai.experiment.viewmodel.ContourAnalysisViewModel
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -101,8 +104,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourPerimeter) {
                         minPerimeterText = str
 
-                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("perimeter_min_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.minPerimeter = getValidateField(block = { minPerimeterText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("perimeter_min_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
 
@@ -110,8 +115,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourPerimeter) {
                         maxPerimeterText = str
 
-                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("perimeter_max_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.maxPerimeter = getValidateField(block = { maxPerimeterText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("perimeter_max_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -129,8 +136,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourArea) {
                         minAreaText = str
 
-                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("area_min_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.minArea = getValidateField(block = { minAreaText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("area_min_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
 
@@ -138,8 +147,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourArea) {
                         maxAreaText = str
 
-                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("area_max_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.maxArea = getValidateField(block = { maxAreaText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("area_max_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -157,8 +168,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourRoundness) {
                         minRoundnessText = str
 
-                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("roundness_min_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.minRoundness = getValidateField(block = { minRoundnessText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("roundness_min_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
 
@@ -166,8 +179,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourRoundness) {
                         maxRoundnessText = str
 
-                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("roundness_max_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.maxRoundness = getValidateField(block = { maxRoundnessText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("roundness_max_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -185,8 +200,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourAspectRatio) {
                         minAspectRatioText = str
 
-                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("aspect_ratio_min_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.minAspectRatio = getValidateField(block = { minAspectRatioText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("aspect_ratio_min_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
 
@@ -194,8 +211,10 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                     if (CVState.isContourAspectRatio) {
                         maxAspectRatioText = str
 
-                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("aspect_ratio_max_needs_double")) })
-                            ?: return@basicTextFieldWithTitle
+                        contourFilterSettings.maxAspectRatio = getValidateField(block = { maxAspectRatioText.toDouble() } , failed = { 
+                            val errorMsg = i18nState.getString("aspect_ratio_max_needs_double")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                        }) ?: return@basicTextFieldWithTitle
                     }
                 }
             }
@@ -234,35 +253,40 @@ fun contourAnalysis(state: ApplicationState, title: String) {
                 if(state.currentImage?.type == BufferedImage.TYPE_BYTE_BINARY) {
                     if (CVState.isContourPerimeter) {
                         if (contourFilterSettings.minPerimeter == 0.0 && contourFilterSettings.maxPerimeter == 0.0) {
-                            experimentViewVerifyToast(i18nState.getString("perimeter_at_least_one_value"))
+                            val errorMsg = i18nState.getString("perimeter_at_least_one_value")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourArea) {
                         if (contourFilterSettings.minArea == 0.0 && contourFilterSettings.maxArea == 0.0) {
-                            experimentViewVerifyToast(i18nState.getString("area_at_least_one_value"))
+                            val errorMsg = i18nState.getString("area_at_least_one_value")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourRoundness) {
                         if (contourFilterSettings.minRoundness == 0.0 && contourFilterSettings.maxRoundness == 0.0) {
-                            experimentViewVerifyToast(i18nState.getString("roundness_at_least_one_value"))
+                            val errorMsg = i18nState.getString("roundness_at_least_one_value")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                             return@experimentViewClick
                         }
                     }
 
                     if (CVState.isContourAspectRatio) {
                         if (contourFilterSettings.minAspectRatio == 0.0 && contourFilterSettings.maxAspectRatio == 0.0) {
-                            experimentViewVerifyToast(i18nState.getString("aspect_ratio_at_least_one_value"))
+                            val errorMsg = i18nState.getString("aspect_ratio_at_least_one_value")
+                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                             return@experimentViewClick
                         }
                     }
 
                     viewModel.contourAnalysis(state, contourFilterSettings, contourDisplaySettings)
                 } else {
-                    experimentViewVerifyToast(i18nState.getString("please_binarize_image_first_for_contour"))
+                    val errorMsg = i18nState.getString("please_binarize_image_first_for_contour")
+                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                 }
             }
         ) {

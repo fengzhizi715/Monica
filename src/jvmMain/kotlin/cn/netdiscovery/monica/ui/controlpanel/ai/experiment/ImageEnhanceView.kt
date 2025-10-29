@@ -18,6 +18,9 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -84,8 +87,14 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val clipLimit = getValidateField(block = { clipLimitText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("clip_limit_needs_double")) }) ?: return@experimentViewClick
-                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("size_needs_int_for_enhance")) }) ?: return@experimentViewClick
+                    val clipLimit = getValidateField(block = { clipLimitText.toDouble() } , failed = { 
+                        val errorMsg = i18nState.getString("clip_limit_needs_double")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
+                    val size = getValidateField(block = { sizeText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("size_needs_int_for_enhance")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                     viewModel.clahe(state, clipLimit, size)
                 }
             ) {
@@ -106,7 +115,10 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val gamma = getValidateField(block = { gammaText.toFloat() } , failed = { experimentViewVerifyToast(i18nState.getString("gamma_needs_float")) }) ?: return@experimentViewClick
+                    val gamma = getValidateField(block = { gammaText.toFloat() } , failed = { 
+                        val errorMsg = i18nState.getString("gamma_needs_float")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                     viewModel.gammaCorrection(state, gamma)
                 }
             ) {
@@ -149,9 +161,18 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val radius = getValidateField(block = { radiusText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("radius_needs_int")) }) ?: return@experimentViewClick
-                    val threshold = getValidateField(block = { thresholdText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("threshold_needs_int")) }) ?: return@experimentViewClick
-                    val amount = getValidateField(block = { amountText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("amount_needs_int")) }) ?: return@experimentViewClick
+                    val radius = getValidateField(block = { radiusText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("radius_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
+                    val threshold = getValidateField(block = { thresholdText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("threshold_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
+                    val amount = getValidateField(block = { amountText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("amount_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                     viewModel.unsharpMask(state, radius, threshold, amount)
                 }
             ) {
@@ -176,8 +197,14 @@ fun imageEnhance(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val ratio = getValidateField(block = { ratioText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ratio_needs_int")) }) ?: return@experimentViewClick
-                    val radius = getValidateField(block = { aceRadiusText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("radius_needs_int")) }) ?: return@experimentViewClick
+                    val ratio = getValidateField(block = { ratioText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("ratio_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
+                    val radius = getValidateField(block = { aceRadiusText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("radius_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                     viewModel.ace(state, ratio, radius)
                 }
             ) {

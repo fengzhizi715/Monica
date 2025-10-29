@@ -18,6 +18,9 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -136,14 +139,21 @@ fun morphologicalOperations(state: ApplicationState, title: String) {
             onClick = experimentViewClick(state) {
 
                 if(state.currentImage?.type == BufferedImage.TYPE_BYTE_BINARY) {
-                    val width = getValidateField(block = { widthText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("width_needs_int_for_morph")) }) ?: return@experimentViewClick
-                    val height = getValidateField(block = { heightText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("height_needs_int_for_morph")) }) ?: return@experimentViewClick
+                    val width = getValidateField(block = { widthText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("width_needs_int_for_morph")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
+                    val height = getValidateField(block = { heightText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("height_needs_int_for_morph")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
 
                     morphologicalOperationSettings = morphologicalOperationSettings.copy(width = width, height = height)
 
                     viewModel.morphologyEx(state, morphologicalOperationSettings)
                 } else {
-                    experimentViewVerifyToast(i18nState.getString("please_binarize_image_first"))
+                    val errorMsg = i18nState.getString("please_binarize_image_first")
+                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                 }
             }
         ) {

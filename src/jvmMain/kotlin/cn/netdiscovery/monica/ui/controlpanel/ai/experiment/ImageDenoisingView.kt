@@ -18,6 +18,9 @@ import cn.netdiscovery.monica.ui.widget.basicTextFieldWithTitle
 import cn.netdiscovery.monica.ui.widget.subTitleWithDivider
 import cn.netdiscovery.monica.ui.widget.title
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -75,9 +78,18 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                                val ksize = getValidateField(block = { gaussianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ksize_needs_int")) }) ?: return@experimentViewClick
-            val sigmaX = getValidateField(block = { sigmaXText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_x_needs_double")) }) ?: return@experimentViewClick
-            val sigmaY = getValidateField(block = { sigmaYText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_y_needs_double")) }) ?: return@experimentViewClick
+                                val ksize = getValidateField(block = { gaussianBlurKSizeText.toInt() } , failed = { 
+                                    val errorMsg = i18nState.getString("ksize_needs_int")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                }) ?: return@experimentViewClick
+            val sigmaX = getValidateField(block = { sigmaXText.toDouble() } , failed = { 
+                val errorMsg = i18nState.getString("sigma_x_needs_double")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@experimentViewClick
+            val sigmaY = getValidateField(block = { sigmaYText.toDouble() } , failed = { 
+                val errorMsg = i18nState.getString("sigma_y_needs_double")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@experimentViewClick
                     viewModel.gaussianBlur(state, ksize, sigmaX, sigmaY)
                 }
             ) {
@@ -98,7 +110,10 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                    val ksize = getValidateField(block = { medianBlurKSizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("ksize_needs_int")) }) ?: return@experimentViewClick
+                    val ksize = getValidateField(block = { medianBlurKSizeText.toInt() } , failed = { 
+                        val errorMsg = i18nState.getString("ksize_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                     viewModel.medianBlur(state, ksize)
                 }
             ) {
@@ -127,9 +142,18 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                                val d = getValidateField(block = { dText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("d_needs_int")) }) ?: return@experimentViewClick
-            val sigmaColor = getValidateField(block = { sigmaColorText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_color_needs_double")) }) ?: return@experimentViewClick
-            val sigmaSpace = getValidateField(block = { sigmaSpaceText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma_space_needs_double")) }) ?: return@experimentViewClick
+                                val d = getValidateField(block = { dText.toInt() } , failed = { 
+                                    val errorMsg = i18nState.getString("d_needs_int")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                }) ?: return@experimentViewClick
+            val sigmaColor = getValidateField(block = { sigmaColorText.toDouble() } , failed = { 
+                val errorMsg = i18nState.getString("sigma_color_needs_double")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@experimentViewClick
+            val sigmaSpace = getValidateField(block = { sigmaSpaceText.toDouble() } , failed = { 
+                val errorMsg = i18nState.getString("sigma_space_needs_double")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@experimentViewClick
                     viewModel.bilateralFilter(state, d, sigmaColor, sigmaSpace)
                 }
             ) {
@@ -154,8 +178,14 @@ fun imageDenoising(state: ApplicationState, title: String) {
                 modifier = Modifier.align(Alignment.End),
                 onClick = experimentViewClick(state) {
 
-                                val sp = getValidateField(block = { spText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sp_needs_double")) }) ?: return@experimentViewClick
-            val sr = getValidateField(block = { srText.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sr_needs_double")) }) ?: return@experimentViewClick
+                                val sp = getValidateField(block = { spText.toDouble() } , failed = { 
+                                    val errorMsg = i18nState.getString("sp_needs_double")
+                                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                }) ?: return@experimentViewClick
+            val sr = getValidateField(block = { srText.toDouble() } , failed = { 
+                val errorMsg = i18nState.getString("sr_needs_double")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@experimentViewClick
                     viewModel.pyrMeanShiftFiltering(state, sp, sr)
                 }
             ) {

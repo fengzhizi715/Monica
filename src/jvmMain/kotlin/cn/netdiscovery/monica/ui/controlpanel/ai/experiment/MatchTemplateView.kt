@@ -26,6 +26,9 @@ import cn.netdiscovery.monica.ui.widget.toolTipButton
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -207,39 +210,67 @@ fun matchTemplate(state: ApplicationState, title: String) {
             onClick = experimentViewClick(state) {
 
                 if (CVState.templateImage == null) {
-                    experimentViewVerifyToast(i18nState.getString("please_import_template_first"))
+                    val errorMsg = i18nState.getString("please_import_template_first")
+                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                     return@experimentViewClick
                 }
 
                 val angleStart = getValidateField(block = { angleStartText.toInt() } ,
                     condition = { it in 0..360 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("angle_start_needs_int")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("angle_start_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val angleEnd = getValidateField(block = { angleEndText.toInt() } ,
                     condition = { it in 0..360 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("angle_end_needs_int")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("angle_end_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val angleStep = getValidateField(block = { angleStepText.toInt() } ,
                     condition = { it > 0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("angle_step_needs_int")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("angle_step_needs_int")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
 
                 val scaleStart = getValidateField(block = { scaleStartText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("scale_start_needs_double")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("scale_start_needs_double")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val scaleEnd = getValidateField(block = { scaleEndText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("scale_end_needs_double")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("scale_end_needs_double")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val scaleStep = getValidateField(block = { scaleStepText.toDouble() } ,
                     condition = { it > 0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("scale_step_needs_double")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("scale_step_needs_double")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
 
                 val matchTemplateThreshold = getValidateField(block = { matchTemplateThresholdText.toDouble() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("match_template_threshold_needs_double")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("match_template_threshold_needs_double")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val scoreThreshold = getValidateField(block = { scoreThresholdText.toFloat() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("score_threshold_needs_float")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("score_threshold_needs_float")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
                 val nmsThreshold = getValidateField(block = { nmsThresholdText.toFloat() } ,
                     condition = { it in 0.0..1.0 },
-                    failed = { experimentViewVerifyToast(i18nState.getString("nms_threshold_needs_float")) }) ?: return@experimentViewClick
+                    failed = { 
+                        val errorMsg = i18nState.getString("nms_threshold_needs_float")
+                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                    }) ?: return@experimentViewClick
 
                 matchTemplateSettings = matchTemplateSettings.copy(angleStart = angleStart, angleEnd = angleEnd, angleStep = angleStep,
                     scaleStart = scaleStart, scaleEnd = scaleEnd, scaleStep = scaleStep,

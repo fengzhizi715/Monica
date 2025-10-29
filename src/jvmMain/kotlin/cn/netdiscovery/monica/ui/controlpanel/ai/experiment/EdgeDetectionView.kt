@@ -16,6 +16,9 @@ import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.ui.widget.*
 import cn.netdiscovery.monica.utils.getValidateField
+import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.ErrorSeverity
 import org.koin.compose.koinInject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -102,7 +105,8 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     Button(
                         onClick = experimentViewClick(state) {
                             if (firstDerivativeOperatorSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_first_derivative_operator"))
+                                val errorMsg = i18nState.getString("please_select_first_derivative_operator")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
@@ -152,7 +156,8 @@ fun edgeDetection(state: ApplicationState, title: String) {
                     Button(
                         onClick = experimentViewClick(state) {
                             if (secondDerivativeOperatorSelectedOption == "Null") {
-                                experimentViewVerifyToast(i18nState.getString("please_select_second_derivative_operator"))
+                                val errorMsg = i18nState.getString("please_select_second_derivative_operator")
+                                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
                                 return@experimentViewClick
                             }
 
@@ -160,9 +165,18 @@ fun edgeDetection(state: ApplicationState, title: String) {
                                 secondDerivativeOperatorTags[0] -> viewModel.laplace(state)
                                 secondDerivativeOperatorTags[1] -> viewModel.log(state)
                                 secondDerivativeOperatorTags[2] -> {
-                                    val sigma1 = getValidateField(block = { sigma1Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma1_needs_double")) }) ?: return@experimentViewClick
-                                    val sigma2 = getValidateField(block = { sigma2Text.toDouble() } , failed = { experimentViewVerifyToast(i18nState.getString("sigma2_needs_double")) }) ?: return@experimentViewClick
-                                    val size = getValidateField(block = { sizeText.toInt() } , failed = { experimentViewVerifyToast(i18nState.getString("size_needs_int")) }) ?: return@experimentViewClick
+                                    val sigma1 = getValidateField(block = { sigma1Text.toDouble() } , failed = { 
+                                        val errorMsg = i18nState.getString("sigma1_needs_double")
+                                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                    }) ?: return@experimentViewClick
+                                    val sigma2 = getValidateField(block = { sigma2Text.toDouble() } , failed = { 
+                                        val errorMsg = i18nState.getString("sigma2_needs_double")
+                                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                    }) ?: return@experimentViewClick
+                                    val size = getValidateField(block = { sizeText.toInt() } , failed = { 
+                                        val errorMsg = i18nState.getString("size_needs_int")
+                                        showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                    }) ?: return@experimentViewClick
                                     viewModel.dog(state, sigma1, sigma2, size)
                                 }
                                 else         -> {}
@@ -229,9 +243,18 @@ fun edgeDetection(state: ApplicationState, title: String) {
                 modifier = Modifier.padding(top = 10.dp).align(Alignment.End),
                 onClick = experimentViewClick(state) {
                     if(state.currentImage?.type != BufferedImage.TYPE_BYTE_BINARY) {
-                                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() }, failed = { experimentViewVerifyToast(i18nState.getString("threshold1_needs_double")) }) ?: return@experimentViewClick
-                val threshold2 = getValidateField(block = { threshold2Text.toDouble() }, failed = { experimentViewVerifyToast(i18nState.getString("threshold2_needs_double")) }) ?: return@experimentViewClick
-                val apertureSize = getValidateField(block = { apertureSizeText.toInt() }, failed = { experimentViewVerifyToast(i18nState.getString("aperture_size_needs_int")) }) ?: return@experimentViewClick
+                                        val threshold1 = getValidateField(block = { threshold1Text.toDouble() }, failed = { 
+                                            val errorMsg = i18nState.getString("threshold1_needs_double")
+                                            showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                                        }) ?: return@experimentViewClick
+                val threshold2 = getValidateField(block = { threshold2Text.toDouble() }, failed = { 
+                    val errorMsg = i18nState.getString("threshold2_needs_double")
+                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                }) ?: return@experimentViewClick
+                val apertureSize = getValidateField(block = { apertureSizeText.toInt() }, failed = { 
+                    val errorMsg = i18nState.getString("aperture_size_needs_int")
+                    showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+                }) ?: return@experimentViewClick
 
                         viewModel.canny(state, threshold1, threshold2, apertureSize)
                     }
