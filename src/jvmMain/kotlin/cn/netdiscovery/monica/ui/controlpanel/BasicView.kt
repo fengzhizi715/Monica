@@ -183,7 +183,7 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
                 val errorMsg = i18nState.getString("height_needs_int")
                 showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
             }) ?: return@confirmButton
-            
+
             viewModel.resize(width, height, state)
         }
     }
@@ -219,8 +219,15 @@ private fun generateShearingParams(state: ApplicationState, viewModel: PreviewVi
     ) {
         confirmButton(state.isBasic) {
 
-            val x = getValidateField(block = { xText.toFloat() } , failed = { showCenterToast(i18nState.getString("x_direction_needs_float")) }) ?: return@confirmButton
-            val y = getValidateField(block = { yText.toFloat() } , failed = { showCenterToast(i18nState.getString("y_direction_needs_float")) }) ?: return@confirmButton
+            val x = getValidateField(block = { xText.toFloat() } , failed = {
+                val errorMsg = i18nState.getString("x_direction_needs_float")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@confirmButton
+            val y = getValidateField(block = { yText.toFloat() } , failed = {
+
+                val errorMsg = i18nState.getString("y_direction_needs_float")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@confirmButton
             viewModel.shearing(x, y, state)
         }
     }
