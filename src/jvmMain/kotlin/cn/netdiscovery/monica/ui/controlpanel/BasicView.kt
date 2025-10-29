@@ -6,6 +6,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.exception.ErrorSeverity
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.showError
 import cn.netdiscovery.monica.ui.i18n.rememberI18nState
 import cn.netdiscovery.monica.state.*
 import cn.netdiscovery.monica.ui.preview.PreviewViewModel
@@ -171,8 +174,16 @@ private fun generateResizeParams(state: ApplicationState, viewModel: PreviewView
     ) {
         confirmButton(state.isBasic) {
 
-            val width = getValidateField(block = { widthText.toInt() } , failed = { showCenterToast(i18nState.getString("width_needs_int")) }) ?: return@confirmButton
-            val height = getValidateField(block = { heightText.toInt() } , failed = { showCenterToast(i18nState.getString("height_needs_int")) }) ?: return@confirmButton
+            val width = getValidateField(block = { widthText.toInt() } , failed = {
+                val errorMsg = i18nState.getString("width_needs_int")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@confirmButton
+
+            val height = getValidateField(block = { heightText.toInt() } , failed = {
+                val errorMsg = i18nState.getString("height_needs_int")
+                showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, errorMsg, errorMsg)
+            }) ?: return@confirmButton
+            
             viewModel.resize(width, height, state)
         }
     }
