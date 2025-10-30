@@ -70,7 +70,7 @@ class AIViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
-                
+
                 showError(ErrorType.AI_SERVICE_ERROR, ErrorSeverity.MEDIUM, "算法服务异常", "算法服务异常")
             })
         }
