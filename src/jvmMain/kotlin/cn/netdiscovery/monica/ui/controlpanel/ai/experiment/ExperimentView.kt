@@ -275,21 +275,6 @@ fun experiment(state: ApplicationState) {
     }
 }
 
-/**
- * experiment 模块下，通用的显示验证相关的 toast
- * @deprecated 请使用统一的错误处理机制 showError()
- */
-@Deprecated("请使用 showError() 替代", ReplaceWith("showError(ErrorType.VALIDATION_ERROR, ErrorSeverity.MEDIUM, message, message)"))
-fun experimentViewVerifyToast(message: String) {
-    // 为了兼容性，仍然保留此函数，但使用统一的错误处理机制
-    cn.netdiscovery.monica.exception.showError(
-        type = cn.netdiscovery.monica.exception.ErrorType.VALIDATION_ERROR,
-        severity = cn.netdiscovery.monica.exception.ErrorSeverity.MEDIUM,
-        message = message,
-        userMessage = message
-    )
-}
-
 @Composable
 fun experimentViewClick(
     state: ApplicationState,
