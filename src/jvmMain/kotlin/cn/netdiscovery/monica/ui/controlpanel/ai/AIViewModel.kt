@@ -1,5 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.ai
 
+import cn.netdiscovery.monica.exception.ErrorSeverity
+import cn.netdiscovery.monica.exception.ErrorType
+import cn.netdiscovery.monica.exception.safeExecuteIO
+import cn.netdiscovery.monica.exception.showError
 import cn.netdiscovery.monica.http.createRequest
 import cn.netdiscovery.monica.http.createRequestBody
 import cn.netdiscovery.monica.state.ApplicationState
@@ -41,7 +45,8 @@ class AIViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
-                showCenterToast("算法服务异常")
+
+                showError(ErrorType.AI_SERVICE_ERROR, ErrorSeverity.MEDIUM, "算法服务异常", "算法服务异常")
             })
         }
     }
@@ -65,7 +70,8 @@ class AIViewModel {
                 state.currentImage = it
             }, failure = {
                 logger.error(it.message)
-                showCenterToast("算法服务异常")
+                
+                showError(ErrorType.AI_SERVICE_ERROR, ErrorSeverity.MEDIUM, "算法服务异常", "算法服务异常")
             })
         }
     }
