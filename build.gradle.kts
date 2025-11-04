@@ -84,6 +84,9 @@ kotlin {
 
                 // generate gif
                 implementation ("com.madgag:animated-gif-lib:1.4")
+
+                // sqlite
+                implementation("org.xerial:sqlite-jdbc:3.50.3.0")
             }
         }
         val jvmTest by getting
