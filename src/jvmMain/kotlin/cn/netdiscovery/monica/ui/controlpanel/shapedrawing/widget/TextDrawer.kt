@@ -40,21 +40,25 @@ object TextDrawer: cn.netdiscovery.monica.ui.controlpanel.shapedrawing.geometry.
             val drawX = pos.x - textWidth / 2
             
             // 计算文本基线位置
-            // pos.y 是控件的中心位置，我们希望文字显示在这个位置
+            // pos.y 是文本的中心位置，我们希望文字垂直居中显示
             // 由于Skia的drawTextLine中Y坐标是基线位置，我们需要计算正确的基线
             val fontHeight = if (index % 2 == 0) fontSize else (fontSize - 10)
             
-            // 文字应该显示在控件中心，所以：
-            // 1. 文字的上边缘应该在 pos.y - fontHeight/2
-            // 2. 文字的基线应该在 pos.y - fontHeight/2 + fontHeight * 0.7 (约70%的字体高度)
-            val drawY = pos.y - fontHeight / 2 + fontHeight * 0.7f
+            // 文字应该垂直居中显示在 pos.y 位置
+            // 对于大多数字体，基线大约在字体高度的 70-80% 位置
+            // 要让文本中心在 pos.y，基线应该在 pos.y + (fontHeight * 0.3) 左右
+            // 但考虑到不同字体的差异，使用更精确的计算：
+            // 文本中心 = 基线 - fontHeight * 0.7
+            // 所以：基线 = 文本中心 + fontHeight * 0.7 = pos.y + fontHeight * 0.7
+            // 但这样会让文本偏下，应该使用：基线 = pos.y + fontHeight * 0.3
+            val drawY = pos.y + fontHeight * 0.3f
             
             println("绘制文本: '$str' 在 ($drawX, $drawY)")
             println("  - 原始位置: $pos")
             println("  - 文字宽度: $textWidth")
             println("  - 字体高度: $fontHeight")
             println("  - X居中计算: pos.x(${pos.x}) - textWidth/2(${textWidth/2}) = $drawX")
-            println("  - Y基线计算: pos.y(${pos.y}) - fontHeight/2(${fontHeight/2}) + fontHeight*0.7(${fontHeight*0.7f}) = $drawY")
+            println("  - Y基线计算: pos.y(${pos.y}) + fontHeight*0.3(${fontHeight*0.3f}) = $drawY")
             
             canvas.nativeCanvas.drawTextLine(line, drawX, drawY, paint)
             current += line.width

@@ -240,6 +240,55 @@ fun shapeDrawing(state: ApplicationState) {
                         modifier = canvasModifier
                     )
                 }
+                
+                // 将 TextInputDialog 放在画布所在的 Box 中，使其相对于画布居中
+                if (showDraggableTextField) {
+                    // 计算画布的实际显示尺寸（像素），应该等于 bitmapWidth 和 bitmapHeight
+                    val canvasDisplayWidthPx = bitmapWidth.toFloat()
+                    val canvasDisplayHeightPx = bitmapHeight.toFloat()
+                    
+                    TextInputDialog(
+                        modifier = Modifier.width(250.dp).height(130.dp),
+                        canvasWidthPx = canvasDisplayWidthPx,
+                        canvasHeightPx = canvasDisplayHeightPx,
+                        density = density,
+                        currentText = drawingState.currentText,
+                        currentShapeProperty = drawingState.currentShapeProperty,
+                        onTextChanged = { drawingState.updateTextState(it) },
+                        onDragged = { offset ->
+                            // offset 是相对于画布中心的偏移（像素）
+                            // 由于画布显示尺寸等于图像显示尺寸，offset 可以直接使用
+                            val textPosition = CoordinateSystem.calculateTextPosition(
+                                dragOffset = offset,
+                                imageWidth = bitmapWidth,
+                                imageHeight = bitmapHeight,
+                                density = density,
+                                textFieldWidth = 250f,
+                                textFieldHeight = 130f,
+                                fontSize = drawingState.currentShapeProperty.fontSize
+                            )
+
+                            val textValidation = CoordinateSystem.validateOffset(textPosition, bitmapWidth, bitmapHeight)
+                            if (textValidation.isValid) {
+                                val displayText = cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Text(
+                                    textPosition,
+                                    drawingState.currentText,
+                                    drawingState.currentShapeProperty
+                                )
+                                val originalText = coordinateConverter.convertTextToOriginal(displayText)
+                                drawingState.addShape(textPosition, displayText, originalText)
+                                drawingState.recordLastDrawnShape(textPosition, "Text")
+                                logger.info("添加文字: '${drawingState.currentText}' 在位置 $textPosition")
+
+                                syncShapeLayer()
+                                drawingState.updateTextState("")
+                            } else {
+                                logger.warn("文本位置无效: ${textValidation.message}")
+                            }
+                            showDraggableTextField = false
+                        }
+                    )
+                }
             }
         }
 
@@ -310,47 +359,6 @@ fun shapeDrawing(state: ApplicationState) {
             )
         }
 
-        if (showDraggableTextField) {
-            TextInputDialog(
-                modifier = Modifier.width(250.dp).height(130.dp),
-                bitmapWidth = bitmapWidth,
-                bitmapHeight = bitmapHeight,
-                density = density,
-                currentText = drawingState.currentText,
-                currentShapeProperty = drawingState.currentShapeProperty,
-                onTextChanged = { drawingState.updateTextState(it) },
-                onDragged = { offset ->
-                    val textPosition = CoordinateSystem.calculateTextPosition(
-                        dragOffset = offset,
-                        imageWidth = bitmapWidth,
-                        imageHeight = bitmapHeight,
-                        density = density,
-                        textFieldWidth = 250f,
-                        textFieldHeight = 130f,
-                        fontSize = drawingState.currentShapeProperty.fontSize
-                    )
-
-                    val textValidation = CoordinateSystem.validateOffset(textPosition, bitmapWidth, bitmapHeight)
-                    if (textValidation.isValid) {
-                        val displayText = cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape.Text(
-                            textPosition,
-                            drawingState.currentText,
-                            drawingState.currentShapeProperty
-                        )
-                        val originalText = coordinateConverter.convertTextToOriginal(displayText)
-                        drawingState.addShape(textPosition, displayText, originalText)
-                        drawingState.recordLastDrawnShape(textPosition, "Text")
-                        logger.info("添加文字: '${drawingState.currentText}' 在位置 $textPosition")
-
-                        syncShapeLayer()
-                        drawingState.updateTextState("")
-                    } else {
-                        logger.warn("文本位置无效: ${textValidation.message}")
-                    }
-                    showDraggableTextField = false
-                }
-            )
-        }
 
         if (showPropertiesDialog) {
             ShapeDrawingPropertiesMenuDialog(drawingState.currentShapeProperty) { updatedProperties ->
@@ -397,8 +405,8 @@ private fun ShapeSelectionButtons(drawingState: ShapeDrawingState) {
 @Composable
 private fun TextInputDialog(
     modifier: Modifier,
-    bitmapWidth: Int,
-    bitmapHeight: Int,
+    canvasWidthPx: Float,
+    canvasHeightPx: Float,
     density: androidx.compose.ui.unit.Density,
     currentText: String,
     currentShapeProperty: ShapeProperties,
@@ -407,8 +415,8 @@ private fun TextInputDialog(
 ) {
     draggableTextField(
         modifier = modifier,
-        bitmapWidth = bitmapWidth,
-        bitmapHeight = bitmapHeight,
+        canvasWidthPx = canvasWidthPx,
+        canvasHeightPx = canvasHeightPx,
         density = density,
         text = currentText,
         onTextChanged = onTextChanged,

@@ -34,17 +34,23 @@ import kotlin.math.roundToInt
 fun draggableTextField(
     modifier: Modifier = Modifier,
     text: String,
-    bitmapWidth: Int,
-    bitmapHeight: Int,
+    canvasWidthPx: Float,
+    canvasHeightPx: Float,
     density: Density,
     onTextChanged: (String) -> Unit,
     onDragged: (Offset) -> Unit
 ) {
     var offset by remember { mutableStateOf(Offset.Zero) }
-    val halfWidth = bitmapWidth/2
-    val halfHeight = bitmapHeight/2
-    val halfTextFieldWidth = 125/density.density
-    val halfTextFieldHeight = 65/density.density
+    
+    // 计算画布中心（相对于屏幕中心）
+    val halfCanvasWidthPx = canvasWidthPx / 2f
+    val halfCanvasHeightPx = canvasHeightPx / 2f
+    
+    // 文本输入框的尺寸（像素）
+    val textFieldWidthPx = with(density) { 250.dp.toPx() }
+    val textFieldHeightPx = with(density) { 130.dp.toPx() }
+    val halfTextFieldWidthPx = textFieldWidthPx / 2f
+    val halfTextFieldHeightPx = textFieldHeightPx / 2f
 
     Box(
         modifier = modifier
@@ -52,7 +58,10 @@ fun draggableTextField(
             .pointerInput(Unit) {
                 detectDragGestures { change ->
                     offset += change
-                    if (abs(offset.x) > halfWidth - halfTextFieldWidth || abs(offset.y) > halfHeight - halfTextFieldHeight) {
+                    // 限制拖拽范围在画布区域内
+                    // offset 是相对于屏幕中心的偏移，需要确保文本输入框不超出画布边界
+                    if (abs(offset.x) > halfCanvasWidthPx - halfTextFieldWidthPx || 
+                        abs(offset.y) > halfCanvasHeightPx - halfTextFieldHeightPx) {
                         offset -= change
                         return@detectDragGestures
                     }
