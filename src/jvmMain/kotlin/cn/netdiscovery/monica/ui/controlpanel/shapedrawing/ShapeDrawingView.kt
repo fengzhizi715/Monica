@@ -180,10 +180,21 @@ fun shapeDrawing(state: ApplicationState) {
                         .background(Color.White)
                         .dragMotionEvent(
                             onDragStart = { pointerInputChange ->
+                                // 检查形状层是否锁定
+                                if (!editorController.canDrawOnActiveShapeLayer()) {
+                                    state.showTray("形状层已锁定，无法绘制", "提示")
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
                                 eventHandler.handleMouseDown(pointerInputChange.position)
                                 pointerInputChange.consume()
                             },
                             onDrag = { pointerInputChange ->
+                                // 检查形状层是否锁定
+                                if (!editorController.canDrawOnActiveShapeLayer()) {
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
                                 val currentShapes = eventHandler.handleMouseMove(pointerInputChange.position)
                                 currentShapes.forEach { (key, shape) ->
                                     when (shape) {
@@ -199,6 +210,11 @@ fun shapeDrawing(state: ApplicationState) {
                                 pointerInputChange.consume()
                             },
                             onDragEnd = { pointerInputChange ->
+                                // 检查形状层是否锁定
+                                if (!editorController.canDrawOnActiveShapeLayer()) {
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
                                 val result = eventHandler.handleMouseUp(pointerInputChange.position, bitmapWidth, bitmapHeight)
                                 result?.let { (key, shape) ->
                                     val shapeType = when (shape) {

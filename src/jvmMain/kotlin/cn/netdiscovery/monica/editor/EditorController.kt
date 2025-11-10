@@ -113,8 +113,28 @@ class EditorController(
         return newLayer
     }
 
+    /**
+     * 检查是否可以在当前激活的形状层上绘制
+     * 返回 true 表示可以绘制，false 表示图层锁定或不是形状层
+     * 注意：此方法会先确保存在一个激活的形状层，然后再检查锁定状态
+     */
+    fun canDrawOnActiveShapeLayer(): Boolean {
+        // 先确保有一个激活的形状层
+        val shapeLayer = try {
+            ensureActiveShapeLayer()
+        } catch (e: Exception) {
+            return false
+        }
+        // 检查是否锁定
+        return !shapeLayer.locked
+    }
+
     fun addShapeToActiveLayer(key: Offset, displayShape: Shape, originalShape: Shape) {
         val shapeLayer = ensureActiveShapeLayer()
+        // 如果形状层已锁定，不允许添加形状
+        if (shapeLayer.locked) {
+            return
+        }
         shapeLayer.addShape(key, displayShape, originalShape)
     }
 
@@ -133,6 +153,10 @@ class EditorController(
         originalTexts: SnapshotStateMap<Offset, Shape.Text>
     ) {
         val shapeLayer = ensureActiveShapeLayer()
+        // 如果形状层已锁定，不允许替换形状
+        if (shapeLayer.locked) {
+            return
+        }
         shapeLayer.replaceAll(
             displayLines,
             originalLines,
