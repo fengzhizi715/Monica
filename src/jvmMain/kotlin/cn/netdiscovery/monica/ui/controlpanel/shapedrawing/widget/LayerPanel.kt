@@ -1,5 +1,6 @@
-package cn.netdiscovery.monica.ui.layer
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,9 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Checkbox
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
@@ -22,8 +22,6 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
-import androidx.compose.material.TextButton
-import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Edit
@@ -42,18 +40,18 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.editor.EditorController
 import cn.netdiscovery.monica.editor.layer.LayerType
+import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
-import cn.netdiscovery.monica.state.ApplicationState
-import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.util.UUID
+import kotlin.collections.asReversed
 
 @Composable
 fun LayerPanel(
     editorController: EditorController,
     state: ApplicationState,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier.Companion
 ) {
     val layers by editorController.layerManager.layers.collectAsState()
     val activeLayer by editorController.layerManager.activeLayer.collectAsState()
@@ -71,14 +69,14 @@ fun LayerPanel(
         Text(
             text = "图层",
             style = MaterialTheme.typography.h6,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.Companion.padding(bottom = 4.dp)
         )
 
         val shapeLayerCount = layers.count { it.type == LayerType.SHAPE }
         val canAddShapeLayer = editorController.canAddShapeLayer()
 
         Row(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.Companion.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             OutlinedButton(
@@ -88,7 +86,7 @@ fun LayerPanel(
                         state.showTray("最多只能创建 1 个形状层", "提示")
                     }
                 },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.Companion.weight(1f),
                 enabled = canAddShapeLayer,
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = MaterialTheme.colors.primary
@@ -97,9 +95,9 @@ fun LayerPanel(
                 Icon(
                     Icons.Default.Add,
                     contentDescription = null,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.Companion.size(14.dp)
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.Companion.width(4.dp))
                 Text(
                     if (canAddShapeLayer) "形状层" else "已达上限",
                     style = MaterialTheme.typography.caption
@@ -122,7 +120,7 @@ fun LayerPanel(
                         }
                     }
                 },
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.Companion.weight(1f),
                 colors = ButtonDefaults.outlinedButtonColors(
                     contentColor = MaterialTheme.colors.primary
                 )
@@ -130,14 +128,14 @@ fun LayerPanel(
                 Icon(
                     Icons.Default.Add,
                     contentDescription = null,
-                    modifier = Modifier.size(14.dp)
+                    modifier = Modifier.Companion.size(14.dp)
                 )
-                Spacer(modifier = Modifier.width(4.dp))
+                Spacer(modifier = Modifier.Companion.width(4.dp))
                 Text("图像层", style = MaterialTheme.typography.caption)
             }
         }
 
-        Spacer(modifier = Modifier.height(4.dp))
+        Spacer(modifier = Modifier.Companion.height(4.dp))
 
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
             displayLayers.forEach { layer ->
@@ -163,15 +161,15 @@ fun LayerPanel(
                         width = if (isActive) 2.dp else 1.dp,
                         color = borderColor
                     ),
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.Companion.fillMaxWidth()
                 ) {
                     Column(
-                        modifier = Modifier
+                        modifier = Modifier.Companion
                             .clickable { editorController.setActiveLayer(layer.id) }
                             .padding(10.dp)
                     ) {
                         Row(
-                            verticalAlignment = Alignment.CenterVertically,
+                            verticalAlignment = Alignment.Companion.CenterVertically,
                             horizontalArrangement = Arrangement.spacedBy(10.dp)
                         ) {
                             // 可见性复选框
@@ -180,24 +178,24 @@ fun LayerPanel(
                                 onCheckedChange = { checked ->
                                     editorController.layerManager.setLayerVisibility(layer.id, checked)
                                 },
-                                modifier = Modifier.size(20.dp)
+                                modifier = Modifier.Companion.size(20.dp)
                             )
 
                             // 图层类型图标
                             Box(
-                                modifier = Modifier.size(32.dp),
-                                contentAlignment = Alignment.Center
+                                modifier = Modifier.Companion.size(32.dp),
+                                contentAlignment = Alignment.Companion.Center
                             ) {
                                 Surface(
-                                    shape = RoundedCornerShape(6.dp),
+                                    shape = androidx.compose.foundation.shape.RoundedCornerShape(6.dp),
                                     color = if (isActive) {
                                         MaterialTheme.colors.primary.copy(alpha = 0.1f)
                                     } else {
                                         MaterialTheme.colors.onSurface.copy(alpha = 0.05f)
                                     },
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.Companion.size(32.dp)
                                 ) {
-                                    Box(contentAlignment = Alignment.Center) {
+                                    Box(contentAlignment = Alignment.Companion.Center) {
                                         Text(
                                             text = if (layer.type == LayerType.IMAGE) "图" else "形",
                                             style = MaterialTheme.typography.caption.copy(
@@ -206,7 +204,7 @@ fun LayerPanel(
                                                 } else {
                                                     MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                                                 },
-                                                fontWeight = FontWeight.Bold
+                                                fontWeight = FontWeight.Companion.Bold
                                             )
                                         )
                                     }
@@ -215,7 +213,7 @@ fun LayerPanel(
 
                             // 图层信息
                             Column(
-                                modifier = Modifier.weight(1f),
+                                modifier = Modifier.Companion.weight(1f),
                                 verticalArrangement = Arrangement.spacedBy(2.dp)
                             ) {
                                 if (editingLayerId == layer.id) {
@@ -223,7 +221,7 @@ fun LayerPanel(
                                         value = editingName,
                                         onValueChange = { editingName = it },
                                         singleLine = true,
-                                        modifier = Modifier.fillMaxWidth(),
+                                        modifier = Modifier.Companion.fillMaxWidth(),
                                         textStyle = MaterialTheme.typography.body2
                                     )
                                 } else {
@@ -235,14 +233,14 @@ fun LayerPanel(
                                             } else {
                                                 MaterialTheme.colors.onSurface
                                             },
-                                            fontWeight = if (isActive) FontWeight.SemiBold else FontWeight.Normal
+                                            fontWeight = if (isActive) FontWeight.Companion.SemiBold else FontWeight.Companion.Normal
                                         ),
                                         maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis
+                                        overflow = TextOverflow.Companion.Ellipsis
                                     )
                                 }
                                 Row(
-                                    verticalAlignment = Alignment.CenterVertically,
+                                    verticalAlignment = Alignment.Companion.CenterVertically,
                                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                                 ) {
                                     Text(
@@ -256,7 +254,7 @@ fun LayerPanel(
                                             text = "• 当前绘制",
                                             style = MaterialTheme.typography.caption.copy(
                                                 color = MaterialTheme.colors.primary,
-                                                fontWeight = FontWeight.Bold
+                                                fontWeight = FontWeight.Companion.Bold
                                             )
                                         )
                                     }
@@ -267,17 +265,19 @@ fun LayerPanel(
                         // 操作按钮区域
                         if (editingLayerId == layer.id) {
                             Row(
-                                modifier = Modifier
+                                modifier = Modifier.Companion
                                     .fillMaxWidth()
                                     .padding(top = 8.dp),
                                 horizontalArrangement = Arrangement.spacedBy(6.dp)
                             ) {
                                 OutlinedButton(
                                     onClick = {
-                                        editorController.layerManager.renameLayer(layer.id, editingName.trim().ifEmpty { layer.name })
+                                        editorController.layerManager.renameLayer(
+                                            layer.id,
+                                            editingName.trim().ifEmpty { layer.name })
                                         editingLayerId = null
                                     },
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.Companion.weight(1f),
                                     colors = ButtonDefaults.outlinedButtonColors(
                                         contentColor = MaterialTheme.colors.primary
                                     )
@@ -286,7 +286,7 @@ fun LayerPanel(
                                 }
                                 OutlinedButton(
                                     onClick = { editingLayerId = null },
-                                    modifier = Modifier.weight(1f),
+                                    modifier = Modifier.Companion.weight(1f),
                                     colors = ButtonDefaults.outlinedButtonColors(
                                         contentColor = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                                     )
@@ -296,7 +296,7 @@ fun LayerPanel(
                             }
                         } else {
                             Row(
-                                modifier = Modifier
+                                modifier = Modifier.Companion
                                     .fillMaxWidth()
                                     .padding(top = 8.dp),
                                 horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -305,12 +305,12 @@ fun LayerPanel(
                                     onClick = {
                                         editorController.layerManager.setLayerLocked(layer.id, !layer.locked)
                                     },
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.Companion.size(32.dp)
                                 ) {
                                     Icon(
                                         Icons.Default.Lock,
                                         contentDescription = if (layer.locked) "解锁" else "锁定",
-                                        modifier = Modifier.size(16.dp),
+                                        modifier = Modifier.Companion.size(16.dp),
                                         tint = if (layer.locked) {
                                             MaterialTheme.colors.error
                                         } else {
@@ -323,19 +323,19 @@ fun LayerPanel(
                                         editingLayerId = layer.id
                                         editingName = layer.name
                                     },
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.Companion.size(32.dp)
                                 ) {
                                     Icon(
                                         Icons.Default.Edit,
                                         contentDescription = "重命名",
-                                        modifier = Modifier.size(16.dp),
+                                        modifier = Modifier.Companion.size(16.dp),
                                         tint = MaterialTheme.colors.onSurface.copy(alpha = 0.6f)
                                     )
                                 }
                                 IconButton(
                                     onClick = { editorController.layerManager.moveLayerUp(layer.id) },
                                     enabled = upEnabled,
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.Companion.size(32.dp)
                                 ) {
                                     Text(
                                         "↑",
@@ -350,7 +350,7 @@ fun LayerPanel(
                                 IconButton(
                                     onClick = { editorController.layerManager.moveLayerDown(layer.id) },
                                     enabled = downEnabled,
-                                    modifier = Modifier.size(32.dp)
+                                    modifier = Modifier.Companion.size(32.dp)
                                 ) {
                                     Text(
                                         "↓",
@@ -375,4 +375,3 @@ private fun LayerType.toDisplayName(): String = when (this) {
     LayerType.IMAGE -> "图像层"
     LayerType.SHAPE -> "形状层"
 }
-

@@ -30,7 +30,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingSta
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.draggableTextField
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeDrawingPropertiesMenuDialog
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.canvas.CanvasView
-import cn.netdiscovery.monica.ui.layer.LayerPanel
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.LayerPanel
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
