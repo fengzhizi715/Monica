@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.*
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -58,6 +59,9 @@ fun shapeDrawing(state: ApplicationState) {
 
     val drawingState = remember { ShapeDrawingState() }
     val animationManager = remember { ShapeAnimationManager() }
+    
+    // 观察激活图层状态
+    val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
     val coordinateConverter = remember {
         val originalSize = ImageSizeCalculator.getImagePixelSize(state)
@@ -172,6 +176,10 @@ fun shapeDrawing(state: ApplicationState) {
                     horizontalAlignment = Alignment.CenterHorizontally,
                     verticalArrangement = Arrangement.Center
                 ) {
+                    // 图像层拖动状态
+                    var imageLayerDragStart by remember { mutableStateOf<Offset?>(null) }
+                    var imageLayerStartTranslation by remember { mutableStateOf<Offset>(Offset.Zero) }
+                    
                     val canvasModifier = Modifier
                         .width(width)
                         .height(height)
@@ -180,7 +188,17 @@ fun shapeDrawing(state: ApplicationState) {
                         .background(Color.White)
                         .dragMotionEvent(
                             onDragStart = { pointerInputChange ->
-                                // 检查形状层是否锁定
+                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                
+                                // 如果激活图层是图像层且未锁定，则直接拖动图像层
+                                if (activeImageLayer != null && !activeImageLayer.locked) {
+                                    imageLayerDragStart = pointerInputChange.position
+                                    imageLayerStartTranslation = activeImageLayer.transform.translation
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+                                
+                                // 如果激活图层是形状层，检查是否锁定
                                 if (!editorController.canDrawOnActiveShapeLayer()) {
                                     state.showTray("形状层已锁定，无法绘制", "提示")
                                     pointerInputChange.consume()
@@ -190,7 +208,18 @@ fun shapeDrawing(state: ApplicationState) {
                                 pointerInputChange.consume()
                             },
                             onDrag = { pointerInputChange ->
-                                // 检查形状层是否锁定
+                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                
+                                // 如果正在拖动图像层
+                                if (activeImageLayer != null && imageLayerDragStart != null && !activeImageLayer.locked) {
+                                    val dragOffset = pointerInputChange.position - imageLayerDragStart!!
+                                    val newTranslation = imageLayerStartTranslation + dragOffset
+                                    editorController.updateImageLayerPosition(activeImageLayer.id, newTranslation)
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+                                
+                                // 否则，处理形状绘制（仅在形状层激活时）
                                 if (!editorController.canDrawOnActiveShapeLayer()) {
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
@@ -210,7 +239,16 @@ fun shapeDrawing(state: ApplicationState) {
                                 pointerInputChange.consume()
                             },
                             onDragEnd = { pointerInputChange ->
-                                // 检查形状层是否锁定
+                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                
+                                // 如果正在拖动图像层，结束拖动
+                                if (activeImageLayer != null && imageLayerDragStart != null) {
+                                    imageLayerDragStart = null
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+                                
+                                // 否则，处理形状绘制结束
                                 if (!editorController.canDrawOnActiveShapeLayer()) {
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
@@ -293,7 +331,7 @@ fun shapeDrawing(state: ApplicationState) {
         }
 
         rightSideMenuBar(modifier = Modifier.align(Alignment.CenterEnd)) {
-
+            
             toolTipButton(
                 text = i18nState.get("select_color"),
                 painter = painterResource("images/doodle/color.png"),

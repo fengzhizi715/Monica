@@ -188,6 +188,27 @@ class EditorController(
         backgroundColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Transparent,
         layers: List<Layer> = layerManager.layers.value
     ) = exportManager.flattenToBufferedImage(width, height, density, backgroundColor, layers)
+
+    /**
+     * 更新图像层的位置（拖动）
+     */
+    fun updateImageLayerPosition(layerId: UUID, translation: Offset) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            val currentTransform = it.transform
+            it.updateTransform(
+                currentTransform.copy(translation = translation)
+            )
+        }
+    }
+
+    /**
+     * 获取当前激活的图像层
+     */
+    fun getActiveImageLayer(): ImageLayer? {
+        val active = layerManager.activeLayer.value
+        return active as? ImageLayer
+    }
 }
 
 enum class EditorTool {

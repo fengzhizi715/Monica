@@ -89,7 +89,11 @@ kotlin {
                 implementation("org.xerial:sqlite-jdbc:3.50.3.0")
             }
         }
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
     }
 }
 

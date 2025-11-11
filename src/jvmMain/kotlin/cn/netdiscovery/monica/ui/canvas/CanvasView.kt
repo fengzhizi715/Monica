@@ -2,6 +2,8 @@ package cn.netdiscovery.monica.ui.canvas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
@@ -19,8 +21,12 @@ fun CanvasView(
     modifier: Modifier = Modifier,
     overlay: DrawScope.() -> Unit = {}
 ) {
+    // 观察图层列表变化，触发重组和重绘
+    val layers by editorController.layerManager.layers.collectAsState()
+    
     Canvas(modifier = modifier) {
-        editorController.layerRenderer.drawAll(this)
+        // 使用当前观察到的图层列表进行绘制
+        editorController.layerRenderer.drawAll(this, layers)
         drawAllAnimations(
             animationManager = animationManager,
             displayLines = drawingState.displayLines,
