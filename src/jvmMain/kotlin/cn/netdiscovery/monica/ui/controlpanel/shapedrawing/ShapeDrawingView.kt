@@ -366,15 +366,22 @@ fun shapeDrawing(state: ApplicationState) {
                 text = i18nState.get("save"),
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    val pixelSize = ImageSizeCalculator.getImagePixelSize(state)
+                    // 使用显示尺寸而不是原始像素尺寸，确保导出和显示一致
+                    // 注意：Canvas 有 padding(8.dp)，所以实际绘制区域需要减去 padding
+                    val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
                     val current = state.currentImage
-                    if (pixelSize == null || current == null) {
+                    if (displaySize == null || current == null) {
                         logger.warn("当前无法导出：缺少有效图像")
                         return@toolTipButton
                     }
+                    // 计算减去 padding 后的实际绘制区域尺寸（Canvas 内部 drawScope.size）
+                    val paddingPx = with(density) { (8.dp * 2).toPx() } // 左右各 8.dp，上下各 8.dp
+                    val actualCanvasWidth = (displaySize.first - paddingPx).toInt().coerceAtLeast(1)
+                    val actualCanvasHeight = (displaySize.second - paddingPx).toInt().coerceAtLeast(1)
+                    
                     val flattened = editorController.exportBufferedImage(
-                        width = pixelSize.first,
-                        height = pixelSize.second,
+                        width = actualCanvasWidth,
+                        height = actualCanvasHeight,
                         density = density
                     )
                     state.addQueue(current)
