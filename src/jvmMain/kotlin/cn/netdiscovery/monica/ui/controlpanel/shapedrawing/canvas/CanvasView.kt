@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.canvas
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.canvas
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -12,18 +12,20 @@ import cn.netdiscovery.monica.editor.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
+import kotlin.math.PI
+import kotlin.math.sin
 
 @Composable
 fun CanvasView(
     editorController: EditorController,
     drawingState: ShapeDrawingState,
     animationManager: ShapeAnimationManager,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier.Companion,
     overlay: DrawScope.() -> Unit = {}
 ) {
     // 观察图层列表变化，触发重组和重绘
     val layers by editorController.layerManager.layers.collectAsState()
-    
+
     Canvas(modifier = modifier) {
         // 使用当前观察到的图层列表进行绘制
         editorController.layerRenderer.drawAll(this, layers)
@@ -67,7 +69,7 @@ private fun DrawScope.drawAllAnimations(
                 val y = parts[2].toFloatOrNull() ?: 0f
                 val center = Offset(x, y)
 
-                val pulseAlpha = alpha * (0.5f + 0.5f * kotlin.math.sin((progress * kotlin.math.PI * 4).toDouble()).toFloat())
+                val pulseAlpha = alpha * (0.5f + 0.5f * sin((progress * PI * 4).toDouble()).toFloat())
 
                 drawCircle(
                     color = highlightColor.copy(alpha = pulseAlpha * 0.3f),
@@ -75,7 +77,7 @@ private fun DrawScope.drawAllAnimations(
                     center = center
                 )
                 drawCircle(
-                    color = Color.White.copy(alpha = pulseAlpha * 0.6f),
+                    color = Color.Companion.White.copy(alpha = pulseAlpha * 0.6f),
                     radius = 20f * scale,
                     center = center
                 )
@@ -88,5 +90,3 @@ private fun DrawScope.drawAllAnimations(
         }
     }
 }
-
-

@@ -29,7 +29,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.draggableTextField
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeDrawingPropertiesMenuDialog
-import cn.netdiscovery.monica.ui.canvas.CanvasView
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.canvas.CanvasView
 import cn.netdiscovery.monica.ui.layer.LayerPanel
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
@@ -239,7 +239,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 pointerInputChange.consume()
                             },
                             onDragEnd = { pointerInputChange ->
-                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                val activeImageLayer = activeLayer as? ImageLayer
                                 
                                 // 如果正在拖动图像层，结束拖动
                                 if (activeImageLayer != null && imageLayerDragStart != null) {
@@ -432,10 +432,6 @@ private fun ShapeSelectionButtons(drawingState: ShapeDrawingState) {
         )
     }
 }
-
-/**
- * 绘制所有动画效果
- */
 
 /**
  * 文字输入对话框组件
