@@ -63,7 +63,7 @@ fun shapeDrawing(state: ApplicationState) {
     // 观察激活图层状态
     val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
-    val coordinateConverter = remember {
+    val coordinateConverter = remember(state.currentImage, density.density) {
         val originalSize = ImageSizeCalculator.getImagePixelSize(state)
         val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
         val scaleX = if (originalSize != null && displaySize != null) {
@@ -86,8 +86,6 @@ fun shapeDrawing(state: ApplicationState) {
         return
     }
 
-    val backgroundLayer = remember { mutableStateOf<ImageLayer?>(null) }
-
     fun syncShapeLayer() {
         editorController.replaceShapesInActiveLayer(
             drawingState.displayLines,
@@ -106,11 +104,16 @@ fun shapeDrawing(state: ApplicationState) {
     }
 
     LaunchedEffect(imageBitmap) {
-        val layer = backgroundLayer.value
-        if (layer == null) {
-            backgroundLayer.value = editorController.createImageLayer("背景图层", imageBitmap, index = 0)
+        // 从 LayerManager 中查找背景层，而不是使用本地状态，确保状态同步
+        val existingBackgroundLayer = editorController.layerManager.layers.value
+            .firstOrNull { it.name == "背景图层" && it is ImageLayer } as? ImageLayer
+        
+        if (existingBackgroundLayer == null) {
+            // 如果不存在，创建新的背景层
+            editorController.createImageLayer("背景图层", imageBitmap, index = 0)
         } else {
-            layer.updateImage(imageBitmap)
+            // 如果已存在，更新图像
+            existingBackgroundLayer.updateImage(imageBitmap)
         }
     }
 

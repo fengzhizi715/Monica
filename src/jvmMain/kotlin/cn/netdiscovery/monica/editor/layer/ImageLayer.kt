@@ -41,6 +41,11 @@ class ImageLayer(
         val canvasWidth = drawScope.size.width
         val canvasHeight = drawScope.size.height
         
+        // 安全检查：防止除零错误
+        if (bitmap.width <= 0 || bitmap.height <= 0 || canvasWidth <= 0 || canvasHeight <= 0) {
+            return
+        }
+        
         // 判断是否为背景图层（通过图层名称判断，更可靠）
         val isBackgroundLayer = name == "背景图层"
         
