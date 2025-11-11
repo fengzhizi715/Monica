@@ -17,15 +17,14 @@
 | 图像层 | `editor/layer/ImageLayer.kt` | 保存背景位图及平移、缩放、旋转等变换信息。支持自动适应画布并居中显示。 |
 | 形状层 | `editor/layer/ShapeLayer.kt` | 承载形状绘制数据（线段、矩形、多边形、文本等）。当前限制最多创建 1 个形状层。 |
 | 渲染器 | `editor/layer/LayerRenderer.kt` | 顺序遍历图层并绘制到 Compose `DrawScope`，支持透明度合成。 |
-| 导出管理 | `export/ExportManager.kt` | 调用渲染器输出 `ImageBitmap` 或 `BufferedImage`，确保导出尺寸与显示一致。 |
-| 控制器 | `editor/EditorController.kt` | 整合管理器、渲染器、导出流程，并暴露工具切换、图层同步接口。限制形状层数量为 1。 |
+| 控制器 | `editor/EditorController.kt` | 整合管理器、渲染器、导出流程，并暴露工具切换、图层同步接口。限制形状层数量为 1。导出逻辑内联在控制器中，提供 `exportImageBitmap()` 和 `exportBufferedImage()` 方法。 |
 
 ## 工作流
 
 ```
 用户交互 → EditorController → LayerManager → LayerRenderer → Canvas
                                  ↓
-                           ExportManager
+                          导出方法（内联在 EditorController 中）
 ```
 
 1. UI 侧（例如形状绘制视图）通过 `EditorController` 获取或创建图层。
@@ -83,7 +82,7 @@
 | 测试文件 | 覆盖点 |
 | --- | --- |
 | `src/jvmTest/.../LayerManagerTest.kt` | 图层添加、激活同步、排序、清空等行为。 |
-| `src/jvmTest/.../ExportManagerTest.kt` | 图像层合成正确性。 |
+| `src/jvmTest/.../EditorControllerExportTest.kt` | 图像层合成正确性（导出功能测试）。 |
 
 > 当前测试依赖 `kotlin("test")`，位于 `build.gradle.kts` 的 `jvmTest` SourceSet 中。
 
