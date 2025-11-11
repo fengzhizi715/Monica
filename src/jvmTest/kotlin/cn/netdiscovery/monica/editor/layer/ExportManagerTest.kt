@@ -8,27 +8,23 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Density
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ExportManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class ExportManagerTest {
+class EditorControllerExportTest {
 
     @Test
-    fun `flattenToBitmap composes image layers`() {
-        val layerManager = LayerManager()
-        val layerRenderer = LayerRenderer(layerManager)
-        val exportManager = ExportManager(layerManager, layerRenderer)
+    fun `exportImageBitmap composes image layers`() {
+        val editorController = EditorController()
 
         val redBitmap = createSolidBitmap(Color.Red, 8, 8)
         val imageLayer = ImageLayer(name = "背景图层", image = redBitmap)
 
-        layerManager.addLayer(imageLayer)
+        editorController.addLayer(imageLayer)
 
-        val result = exportManager.flattenToBitmap(
+        val result = editorController.exportImageBitmap(
             width = 8,
             height = 8,
             density = Density(1f)

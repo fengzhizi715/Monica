@@ -12,12 +12,12 @@
 
 | 模块 | 关键文件 | 功能 |
 | --- | --- | --- |
-| 图层抽象 | `editor/layer/Layer.kt` | 统一的图层基类，封装名称、可见性、透明度、锁定状态等属性。 |
-| 图层管理 | `editor/layer/LayerManager.kt` | 负责图层增删改查、排序、激活状态同步，提供监听机制。使用 `StateFlow` 实现响应式更新。 |
-| 图像层 | `editor/layer/ImageLayer.kt` | 保存背景位图及平移、缩放、旋转等变换信息。支持自动适应画布并居中显示。 |
-| 形状层 | `editor/layer/ShapeLayer.kt` | 承载形状绘制数据（线段、矩形、多边形、文本等）。当前限制最多创建 1 个形状层。 |
-| 渲染器 | `editor/layer/LayerRenderer.kt` | 顺序遍历图层并绘制到 Compose `DrawScope`，支持透明度合成。 |
-| 控制器 | `editor/EditorController.kt` | 整合管理器、渲染器、导出流程，并暴露工具切换、图层同步接口。限制形状层数量为 1。导出逻辑内联在控制器中，提供 `exportImageBitmap()` 和 `exportBufferedImage()` 方法。 |
+| 图层抽象 | `ui/controlpanel/shapedrawing/layer/Layer.kt` | 统一的图层基类，封装名称、可见性、透明度、锁定状态等属性。 |
+| 图层管理 | `ui/controlpanel/shapedrawing/layer/LayerManager.kt` | 负责图层增删改查、排序、激活状态同步，提供监听机制。使用 `StateFlow` 实现响应式更新。 |
+| 图像层 | `ui/controlpanel/shapedrawing/layer/ImageLayer.kt` | 保存背景位图及平移、缩放、旋转等变换信息。支持自动适应画布并居中显示。 |
+| 形状层 | `ui/controlpanel/shapedrawing/layer/ShapeLayer.kt` | 承载形状绘制数据（线段、矩形、多边形、文本等）。当前限制最多创建 1 个形状层。 |
+| 渲染器 | `ui/controlpanel/shapedrawing/layer/LayerRenderer.kt` | 顺序遍历图层并绘制到 Compose `DrawScope`，支持透明度合成。 |
+| 控制器 | `ui/controlpanel/shapedrawing/EditorController.kt` | 整合管理器、渲染器、导出流程，并暴露工具切换、图层同步接口。限制形状层数量为 1。导出逻辑内联在控制器中，提供 `exportImageBitmap()` 和 `exportBufferedImage()` 方法。 |
 
 ## 工作流
 
@@ -27,14 +27,14 @@
                           导出方法（内联在 EditorController 中）
 ```
 
-1. UI 侧（例如形状绘制视图）通过 `EditorController` 获取或创建图层。
+1. UI 侧（例如 `ShapeDrawingView`）通过 `EditorController` 获取或创建图层。
 2. 用户绘制的形状实时写入当前激活的 `ShapeLayer`。
-3. `CanvasView` 调用 `LayerRenderer.drawAll()` 依次绘制每个图层，并根据透明度应用 `saveLayer`。
+3. `CanvasView`（`ui/controlpanel/shapedrawing/widget/CanvasView.kt`）调用 `LayerRenderer.drawAll()` 依次绘制每个图层，并根据透明度应用 `saveLayer`。
 4. 导出功能复用渲染器，将所有图层合成为位图或 AWT 图像。
 
 ## UI 面板
 
-文件：`ui/layer/LayerPanel.kt`
+文件：`ui/controlpanel/shapedrawing/widget/LayerPanel.kt`
 
 - 左侧卡片式列表展示所有图层（顶部为最新图层）。
 - 支持：
@@ -49,10 +49,10 @@
 
 ## 关键交互
 
-- **初始化背景层**：`ShapeDrawingView` 在载入图像时，通过 `LaunchedEffect(imageBitmap)` 从 `LayerManager` 中查找名为"背景图层"的图层，如果不存在则创建，如果存在则更新图像。确保状态同步，避免使用本地状态变量。
+- **初始化背景层**：`ShapeDrawingView`（`ui/controlpanel/shapedrawing/ShapeDrawingView.kt`）在载入图像时，通过 `LaunchedEffect(imageBitmap)` 从 `LayerManager` 中查找名为"背景图层"的图层，如果不存在则创建，如果存在则更新图像。确保状态同步，避免使用本地状态变量。
 - **形状写入**：每次拖动事件结束后，调用 `EditorController.replaceShapesInActiveLayer` 更新层数据。如果形状层已锁定，则禁止写入。在 `onDrag` 和 `onDragEnd` 中都会调用 `syncShapeLayer()` 同步形状数据。
 - **图像层拖动**：当激活图层为图像层且未锁定时，可以直接拖动图像层调整位置。拖动时更新 `LayerTransform.translation`，该变换会在自动适应和居中之后应用。
-- **导出**：点击保存按钮时，使用 `EditorController.exportBufferedImage` 获取合成结果。导出时使用显示尺寸（`ImageSizeCalculator.getImageDisplayPixelSize`），并考虑 Canvas padding（8.dp），确保导出结果与显示效果一致。
+- **导出**：点击保存按钮时，使用 `EditorController.exportBufferedImage` 获取合成结果。导出时使用显示尺寸（`ImageSizeCalculator.getImageDisplayPixelSize`，位于 `ui/widget/image/ImageSizeCalculator.kt`），并考虑 Canvas padding（8.dp），确保导出结果与显示效果一致。
 
 ## 设计决策
 
@@ -67,8 +67,8 @@
   - 用户添加的图像层：先应用自动适应和居中，再应用用户定义的变换。这样可以确保图像层在自动适应后，用户还可以进一步调整位置、旋转和缩放。
 
 ### 坐标系统
-- **统一坐标**：使用显示尺寸（`ImageSizeCalculator.getImageDisplayPixelSize`）作为坐标基准，确保绘制、显示和导出的一致性。导出时也会使用相同的显示尺寸，并减去 Canvas padding（8.dp × 2 = 16.dp），确保导出结果与显示效果完全一致。
-- **坐标转换器**：`CoordinateConverter` 通过 `remember(state.currentImage, density.density)` 创建，当图像或密度变化时会自动重新计算转换比例，确保坐标转换的准确性。
+- **统一坐标**：使用显示尺寸（`ImageSizeCalculator.getImageDisplayPixelSize`，位于 `ui/widget/image/ImageSizeCalculator.kt`）作为坐标基准，确保绘制、显示和导出的一致性。导出时也会使用相同的显示尺寸，并减去 Canvas padding（8.dp × 2 = 16.dp），确保导出结果与显示效果完全一致。
+- **坐标转换器**：`CoordinateConverter`（`ui/controlpanel/shapedrawing/coordinate/CoordinateConverter.kt`）通过 `remember(state.currentImage, density.density)` 创建，当图像或密度变化时会自动重新计算转换比例，确保坐标转换的准确性。
 
 ### 安全保护
 - **除零保护**：`ImageLayer.render()` 中在计算缩放比例前检查 `bitmap.width`、`bitmap.height`、`canvasWidth`、`canvasHeight` 是否大于 0，如果任一值为 0 或负数则直接返回，防止除零错误。
@@ -81,8 +81,8 @@
 
 | 测试文件 | 覆盖点 |
 | --- | --- |
-| `src/jvmTest/.../LayerManagerTest.kt` | 图层添加、激活同步、排序、清空等行为。 |
-| `src/jvmTest/.../EditorControllerExportTest.kt` | 图像层合成正确性（导出功能测试）。 |
+| `src/jvmTest/kotlin/cn/netdiscovery/monica/editor/layer/LayerManagerTest.kt` | 图层添加、激活同步、排序、清空等行为。 |
+| `src/jvmTest/kotlin/cn/netdiscovery/monica/editor/layer/ExportManagerTest.kt` | 图像层合成正确性（导出功能测试，类名为 `EditorControllerExportTest`）。 |
 
 > 当前测试依赖 `kotlin("test")`，位于 `build.gradle.kts` 的 `jvmTest` SourceSet 中。
 
