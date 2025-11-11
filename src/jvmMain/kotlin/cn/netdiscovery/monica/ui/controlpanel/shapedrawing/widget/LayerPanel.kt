@@ -1,7 +1,9 @@
 package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -22,8 +24,11 @@ import androidx.compose.material.OutlinedButton
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.TextButton
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.runtime.Composable
@@ -34,9 +39,13 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.zIndex
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
@@ -53,11 +62,15 @@ fun LayerPanel(
     state: ApplicationState,
     modifier: Modifier = Modifier.Companion
 ) {
+    val density = LocalDensity.current
     val layers by editorController.layerManager.layers.collectAsState()
     val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
     var editingLayerId by remember { mutableStateOf<UUID?>(null) }
     var editingName by remember { mutableStateOf("") }
+    var deleteConfirmLayerId by remember { mutableStateOf<UUID?>(null) }
+    var draggedLayerId by remember { mutableStateOf<UUID?>(null) }
+    var dragOffset by remember { mutableStateOf(0f) }
 
     val displayLayers = remember(layers) { layers.asReversed() }
     val logger = remember { LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass) }
@@ -138,30 +151,69 @@ fun LayerPanel(
         Spacer(modifier = Modifier.Companion.height(4.dp))
 
         Column(verticalArrangement = Arrangement.spacedBy(6.dp)) {
-            displayLayers.forEach { layer ->
+            displayLayers.forEachIndexed { displayIndex, layer ->
                 val actualIndex = layers.indexOfFirst { it.id == layer.id }
                 val isActive = activeLayer?.id == layer.id
+                val isDragging = draggedLayerId == layer.id
                 val upEnabled = actualIndex < layers.lastIndex
                 val downEnabled = actualIndex > 0
-                val cardColor = if (isActive) {
-                    MaterialTheme.colors.primary.copy(alpha = 0.08f)
-                } else {
-                    MaterialTheme.colors.surface
+                val cardColor = when {
+                    isDragging -> MaterialTheme.colors.primary.copy(alpha = 0.15f)
+                    isActive -> MaterialTheme.colors.primary.copy(alpha = 0.08f)
+                    else -> MaterialTheme.colors.surface
                 }
-                val borderColor = if (isActive) {
-                    MaterialTheme.colors.primary.copy(alpha = 0.4f)
-                } else {
-                    MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
+                val borderColor = when {
+                    isDragging -> MaterialTheme.colors.primary.copy(alpha = 0.6f)
+                    isActive -> MaterialTheme.colors.primary.copy(alpha = 0.4f)
+                    else -> MaterialTheme.colors.onSurface.copy(alpha = 0.08f)
                 }
 
                 Surface(
                     shape = RoundedCornerShape(10.dp),
                     color = cardColor,
                     border = BorderStroke(
-                        width = if (isActive) 2.dp else 1.dp,
+                        width = if (isDragging || isActive) 2.dp else 1.dp,
                         color = borderColor
                     ),
-                    modifier = Modifier.Companion.fillMaxWidth()
+                    elevation = if (isDragging) 8.dp else 0.dp,
+                    modifier = Modifier.Companion
+                        .fillMaxWidth()
+                        .zIndex(if (isDragging) 1f else 0f)
+                        .pointerInput(layer.id, layers.size, density.density) {
+                            val itemHeightPx = with(density) { 80.dp.toPx() }
+                            val threshold = itemHeightPx * 0.5f
+                            
+                            detectDragGestures(
+                                onDragStart = {
+                                    draggedLayerId = layer.id
+                                    dragOffset = 0f
+                                },
+                                onDrag = { change, dragAmount ->
+                                    dragOffset += dragAmount.y
+                                    
+                                    // 重新计算当前索引（因为 layers 可能已更新）
+                                    val currentLayers = editorController.layerManager.layers.value
+                                    val currentIndex = currentLayers.indexOfFirst { it.id == layer.id }
+                                    
+                                    // 注意：displayLayers 是反转的，所以向下拖拽（dragOffset > 0）应该向上移动（index 增加）
+                                    if (dragOffset > threshold && currentIndex < currentLayers.lastIndex) {
+                                        // 向下拖拽，在列表中向上移动（index 增加）
+                                        val targetIndex = currentIndex + 1
+                                        editorController.layerManager.moveLayerTo(layer.id, targetIndex)
+                                        dragOffset = 0f
+                                    } else if (dragOffset < -threshold && currentIndex > 0) {
+                                        // 向上拖拽，在列表中向下移动（index 减少）
+                                        val targetIndex = currentIndex - 1
+                                        editorController.layerManager.moveLayerTo(layer.id, targetIndex)
+                                        dragOffset = 0f
+                                    }
+                                },
+                                onDragEnd = {
+                                    draggedLayerId = null
+                                    dragOffset = 0f
+                                }
+                            )
+                        }
                 ) {
                     Column(
                         modifier = Modifier.Companion
@@ -362,11 +414,61 @@ fun LayerPanel(
                                         }
                                     )
                                 }
+                                IconButton(
+                                    onClick = {
+                                        if (layer.name == "背景图层") {
+                                            state.showTray("无法删除背景图层", "提示")
+                                        } else {
+                                            deleteConfirmLayerId = layer.id
+                                        }
+                                    },
+                                    modifier = Modifier.Companion.size(32.dp)
+                                ) {
+                                    Icon(
+                                        Icons.Default.Delete,
+                                        contentDescription = "删除",
+                                        modifier = Modifier.Companion.size(16.dp),
+                                        tint = MaterialTheme.colors.error.copy(alpha = 0.7f)
+                                    )
+                                }
                             }
                         }
                     }
                 }
             }
+        }
+    }
+
+    // 删除确认对话框
+    deleteConfirmLayerId?.let { layerId ->
+        val layerToDelete = layers.firstOrNull { it.id == layerId }
+        if (layerToDelete != null) {
+            AlertDialog(
+                onDismissRequest = { deleteConfirmLayerId = null },
+                title = {
+                    Text("确认删除")
+                },
+                text = {
+                    Text("确定要删除图层 \"${layerToDelete.name}\" 吗？此操作无法撤销。")
+                },
+                confirmButton = {
+                    TextButton(
+                        onClick = {
+                            editorController.removeLayer(layerId)
+                            deleteConfirmLayerId = null
+                        }
+                    ) {
+                        Text("删除", color = MaterialTheme.colors.error)
+                    }
+                },
+                dismissButton = {
+                    TextButton(
+                        onClick = { deleteConfirmLayerId = null }
+                    ) {
+                        Text("取消")
+                    }
+                }
+            )
         }
     }
 }
