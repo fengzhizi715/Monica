@@ -18,9 +18,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.MaterialTheme
 import cn.netdiscovery.monica.state.ApplicationState
-import cn.netdiscovery.monica.editor.EditorController
-import cn.netdiscovery.monica.editor.EditorTool
-import cn.netdiscovery.monica.editor.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.coordinate.CoordinateConverter
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.handler.ShapeDrawingEventHandler
@@ -29,7 +27,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.ShapeProperties
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.draggableTextField
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeDrawingPropertiesMenuDialog
-import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.canvas.CanvasView
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.CanvasView
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.LayerPanel
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
@@ -191,7 +189,7 @@ fun shapeDrawing(state: ApplicationState) {
                         .background(Color.White)
                         .dragMotionEvent(
                             onDragStart = { pointerInputChange ->
-                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                val activeImageLayer = activeLayer as? ImageLayer
                                 
                                 // 如果激活图层是图像层且未锁定，则直接拖动图像层
                                 if (activeImageLayer != null && !activeImageLayer.locked) {
@@ -211,7 +209,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 pointerInputChange.consume()
                             },
                             onDrag = { pointerInputChange ->
-                                val activeImageLayer = activeLayer as? cn.netdiscovery.monica.editor.layer.ImageLayer
+                                val activeImageLayer = activeLayer as? ImageLayer
                                 
                                 // 如果正在拖动图像层
                                 if (activeImageLayer != null && imageLayerDragStart != null && !activeImageLayer.locked) {

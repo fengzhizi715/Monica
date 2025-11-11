@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.editor.layer
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer
 
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.getValue

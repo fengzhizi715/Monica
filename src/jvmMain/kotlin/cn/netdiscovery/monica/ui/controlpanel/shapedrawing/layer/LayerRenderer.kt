@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.editor.layer
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer
 
 import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.DrawScope

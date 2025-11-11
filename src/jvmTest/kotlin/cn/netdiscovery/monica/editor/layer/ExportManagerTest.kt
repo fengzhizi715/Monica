@@ -8,7 +8,10 @@ import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.unit.Density
-import cn.netdiscovery.monica.export.ExportManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ExportManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

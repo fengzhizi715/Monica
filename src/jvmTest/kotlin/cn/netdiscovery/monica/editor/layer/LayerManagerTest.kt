@@ -1,5 +1,8 @@
 package cn.netdiscovery.monica.editor.layer
 
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNull

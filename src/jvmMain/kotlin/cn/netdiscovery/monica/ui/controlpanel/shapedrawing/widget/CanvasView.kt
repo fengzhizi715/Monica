@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.canvas
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import cn.netdiscovery.monica.editor.EditorController
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState

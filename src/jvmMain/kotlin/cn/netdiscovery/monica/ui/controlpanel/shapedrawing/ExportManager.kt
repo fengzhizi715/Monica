@@ -1,4 +1,4 @@
-package cn.netdiscovery.monica.export
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing
 
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
@@ -6,13 +6,14 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Canvas
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Paint
 import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
-import cn.netdiscovery.monica.editor.layer.Layer
-import cn.netdiscovery.monica.editor.layer.LayerManager
-import cn.netdiscovery.monica.editor.layer.LayerRenderer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
 import java.awt.image.BufferedImage
 
 /**
@@ -24,7 +25,7 @@ class ExportManager(
 ) {
 
     /**
-     * 将当前所有图层合成为 [ImageBitmap]。
+     * 将当前所有图层合成为 [androidx.compose.ui.graphics.ImageBitmap]。
      *
      * @param width 导出宽度（像素）
      * @param height 导出高度（像素）
@@ -36,7 +37,7 @@ class ExportManager(
         width: Int,
         height: Int,
         density: Density,
-        backgroundColor: Color = Color.Transparent,
+        backgroundColor: Color = Color.Companion.Transparent,
         layers: List<Layer> = layerManager.layers.value
     ): ImageBitmap {
         val bitmap = ImageBitmap(width, height)
@@ -51,8 +52,8 @@ class ExportManager(
             size = size
         ) {
             if (backgroundColor.alpha > 0f) {
-                val rect = Rect(Offset.Zero, size)
-                val paint = androidx.compose.ui.graphics.Paint().apply {
+                val rect = Rect(Offset.Companion.Zero, size)
+                val paint = Paint().apply {
                     color = backgroundColor
                 }
                 drawContext.canvas.drawRect(rect, paint)
@@ -64,17 +65,16 @@ class ExportManager(
     }
 
     /**
-     * 将当前所有图层合成为 [BufferedImage]。
+     * 将当前所有图层合成为 [java.awt.image.BufferedImage]。
      */
     fun flattenToBufferedImage(
         width: Int,
         height: Int,
         density: Density,
-        backgroundColor: Color = Color.Transparent,
+        backgroundColor: Color = Color.Companion.Transparent,
         layers: List<Layer> = layerManager.layers.value
     ): BufferedImage {
         val bitmap = flattenToBitmap(width, height, density, backgroundColor, layers)
         return bitmap.toAwtImage()
     }
 }
-

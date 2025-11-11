@@ -1,15 +1,18 @@
-package cn.netdiscovery.monica.editor
+package cn.netdiscovery.monica.ui.controlpanel.shapedrawing
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.geometry.Offset
-import cn.netdiscovery.monica.editor.layer.ImageLayer
-import cn.netdiscovery.monica.editor.layer.Layer
-import cn.netdiscovery.monica.editor.layer.LayerManager
-import cn.netdiscovery.monica.editor.layer.LayerRenderer
-import cn.netdiscovery.monica.editor.layer.LayerType
-import cn.netdiscovery.monica.editor.layer.ShapeLayer
-import cn.netdiscovery.monica.export.ExportManager
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.unit.Density
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.ExportManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import java.util.UUID
 
@@ -45,7 +48,7 @@ class EditorController(
 
     fun createImageLayer(
         name: String,
-        image: androidx.compose.ui.graphics.ImageBitmap?,
+        image: ImageBitmap?,
         index: Int? = null
     ): ImageLayer {
         val layer = ImageLayer(name = name, image = image)
@@ -59,26 +62,26 @@ class EditorController(
      */
     fun addShapeLayer(name: String = "形状图层"): ShapeLayer? {
         val existingShapeLayers = layerManager.layers.value.filter { it.type == LayerType.SHAPE }
-        
+
         if (existingShapeLayers.size >= MAX_SHAPE_LAYERS) {
             // 如果已达上限，返回现有的第一个形状层并激活它
             val existing = existingShapeLayers.firstOrNull() as? ShapeLayer
             existing?.let { layerManager.setActiveLayer(it.id) }
             return existing
         }
-        
+
         val layer = ShapeLayer(name)
         layerManager.addLayer(layer)
         return layer
     }
-    
+
     /**
      * 获取当前形状层数量
      */
     fun getShapeLayerCount(): Int {
         return layerManager.layers.value.count { it.type == LayerType.SHAPE }
     }
-    
+
     /**
      * 检查是否可以添加更多形状层
      */
@@ -176,16 +179,16 @@ class EditorController(
     fun exportImageBitmap(
         width: Int,
         height: Int,
-        density: androidx.compose.ui.unit.Density,
-        backgroundColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Transparent,
+        density: Density,
+        backgroundColor: Color = Color.Transparent,
         layers: List<Layer> = layerManager.layers.value
     ) = exportManager.flattenToBitmap(width, height, density, backgroundColor, layers)
 
     fun exportBufferedImage(
         width: Int,
         height: Int,
-        density: androidx.compose.ui.unit.Density,
-        backgroundColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Transparent,
+        density: Density,
+        backgroundColor: Color = Color.Transparent,
         layers: List<Layer> = layerManager.layers.value
     ) = exportManager.flattenToBufferedImage(width, height, density, backgroundColor, layers)
 
@@ -217,4 +220,3 @@ enum class EditorTool {
     IMAGE,
     MOVE
 }
-

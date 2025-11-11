@@ -38,8 +38,8 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import cn.netdiscovery.monica.editor.EditorController
-import cn.netdiscovery.monica.editor.layer.LayerType
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
