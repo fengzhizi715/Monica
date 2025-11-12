@@ -10,6 +10,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
 import kotlin.math.PI
@@ -21,10 +22,12 @@ fun CanvasView(
     drawingState: ShapeDrawingState,
     animationManager: ShapeAnimationManager,
     modifier: Modifier = Modifier.Companion,
-    overlay: DrawScope.() -> Unit = {}
+    overlay: DrawScope.() -> Unit = {},
+    showImageLayerControls: Boolean = true
 ) {
     // 观察图层列表变化，触发重组和重绘
     val layers by editorController.layerManager.layers.collectAsState()
+    val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
     Canvas(modifier = modifier) {
         // 使用当前观察到的图层列表进行绘制
@@ -37,6 +40,20 @@ fun CanvasView(
             displayRectangles = drawingState.displayRectangles,
             displayPolygons = drawingState.displayPolygons
         )
+        
+        // 绘制激活图像层的控制点
+        if (showImageLayerControls) {
+            val activeImageLayer = activeLayer as? ImageLayer
+            if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                ImageLayerControlRenderer.drawControls(
+                    drawScope = this,
+                    layer = activeImageLayer,
+                    canvasWidth = size.width,
+                    canvasHeight = size.height
+                )
+            }
+        }
+        
         overlay()
     }
 }

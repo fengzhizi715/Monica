@@ -13,6 +13,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.pointer.PointerButton
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -29,7 +31,11 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.draggableTextF
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeDrawingPropertiesMenuDialog
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.CanvasView
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.LayerPanel
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ControlPoint
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ControlPointType
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ImageLayerControlRenderer
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
+import cn.netdiscovery.monica.ui.widget.image.gesture.detectTransformGestures
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
 import cn.netdiscovery.monica.ui.widget.rightSideMenuBar
 import cn.netdiscovery.monica.ui.widget.toolTipButton
@@ -37,6 +43,7 @@ import cn.netdiscovery.monica.ui.widget.image.ImageSizeCalculator
 import cn.netdiscovery.monica.i18n.getCurrentStringResource
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+import kotlin.math.atan2
 
 /**
  * 重构后的形状绘制视图
@@ -181,15 +188,76 @@ fun shapeDrawing(state: ApplicationState) {
                     var imageLayerDragStart by remember { mutableStateOf<Offset?>(null) }
                     var imageLayerStartTranslation by remember { mutableStateOf<Offset>(Offset.Zero) }
                     
+                    // 控制点交互状态
+                    var activeControlPoint by remember { mutableStateOf<ControlPoint?>(null) }
+                    var controlPointDragStart by remember { mutableStateOf<Offset?>(null) }
+                    var initialTransform by remember { mutableStateOf<cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerTransform?>(null) }
+                    
                     val canvasModifier = Modifier
                         .width(width)
                         .height(height)
                         .padding(8.dp)
                         .shadow(1.dp)
                         .background(Color.White)
+                        // 右键旋转（暂时移除滚轮缩放，后续可以添加）
+                        .pointerInput(activeLayer?.id, bitmapWidth, bitmapHeight, width, height) {
+                            val activeImageLayer = activeLayer as? ImageLayer
+                            val canvasWidth = with(density) { width.toPx() }
+                            val canvasHeight = with(density) { height.toPx() }
+                            if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                                detectTransformGestures(
+                                    panZoomLock = true, // 锁定平移和缩放，只允许旋转
+                                    onGesture = { centroid, pan, zoom, rotation, mainPointer, _ ->
+                                        // 检查是否是右键（secondary button）
+                                        // 注意：PointerButton 在某些 Compose 版本中可能不可用，暂时允许所有旋转操作
+                                        // TODO: 添加右键检测逻辑
+                                        val currentTransform = activeImageLayer.transform
+                                        val newRotation = currentTransform.rotation + rotation
+                                        
+                                        // 计算中心点作为 pivot
+                                        val center = ImageLayerControlRenderer.calculateImageCenter(
+                                            activeImageLayer,
+                                            canvasWidth,
+                                            canvasHeight
+                                        ) ?: return@detectTransformGestures
+                                        
+                                        // 将画布坐标转换为图像坐标
+                                        val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                        
+                                        editorController.updateImageLayerRotation(
+                                            activeImageLayer.id,
+                                            newRotation,
+                                            imageCenter
+                                        )
+                                        mainPointer.consume()
+                                    }
+                                )
+                            }
+                        }
                         .dragMotionEvent(
                             onDragStart = { pointerInputChange ->
                                 val activeImageLayer = activeLayer as? ImageLayer
+                                
+                                // 检查是否点击在控制点上
+                                if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                                    val canvasWidth = with(density) { width.toPx() }
+                                    val canvasHeight = with(density) { height.toPx() }
+                                    val hitControlPoint = ImageLayerControlRenderer.hitTestControlPoint(
+                                        pointerInputChange.position,
+                                        activeImageLayer,
+                                        canvasWidth,
+                                        canvasHeight
+                                    )
+                                    
+                                    if (hitControlPoint != null) {
+                                        // 开始拖动控制点
+                                        activeControlPoint = hitControlPoint
+                                        controlPointDragStart = pointerInputChange.position
+                                        initialTransform = activeImageLayer.transform.copy()
+                                        pointerInputChange.consume()
+                                        return@dragMotionEvent
+                                    }
+                                }
                                 
                                 // 如果激活图层是图像层且未锁定，则直接拖动图像层
                                 if (activeImageLayer != null && !activeImageLayer.locked) {
@@ -210,6 +278,79 @@ fun shapeDrawing(state: ApplicationState) {
                             },
                             onDrag = { pointerInputChange ->
                                 val activeImageLayer = activeLayer as? ImageLayer
+                                
+                                // 如果正在拖动控制点
+                                if (activeImageLayer != null && activeControlPoint != null && controlPointDragStart != null && initialTransform != null) {
+                                    val currentPos = pointerInputChange.position
+                                    val startPos = controlPointDragStart!!
+                                    val controlPoint = activeControlPoint!!
+                                    
+                                    when (controlPoint.type) {
+                                        ControlPointType.ROTATION_HANDLE -> {
+                                            // 拖动旋转手柄进行旋转
+                                            val canvasWidth = with(density) { width.toPx() }
+                                            val canvasHeight = with(density) { height.toPx() }
+                                            val center = ImageLayerControlRenderer.calculateImageCenter(
+                                                activeImageLayer,
+                                                canvasWidth,
+                                                canvasHeight
+                                            ) ?: return@dragMotionEvent
+                                            
+                                            val startAngle = atan2(
+                                                startPos.y - center.y,
+                                                startPos.x - center.x
+                                            )
+                                            val currentAngle = atan2(
+                                                currentPos.y - center.y,
+                                                currentPos.x - center.x
+                                            )
+                                            val rotationDelta = Math.toDegrees((currentAngle - startAngle).toDouble()).toFloat()
+                                            
+                                            val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                            val newRotation = initialTransform!!.rotation + rotationDelta
+                                            
+                                            editorController.updateImageLayerRotation(
+                                                activeImageLayer.id,
+                                                newRotation,
+                                                imageCenter
+                                            )
+                                        }
+                                        ControlPointType.CORNER_TOP_LEFT,
+                                        ControlPointType.CORNER_TOP_RIGHT,
+                                        ControlPointType.CORNER_BOTTOM_LEFT,
+                                        ControlPointType.CORNER_BOTTOM_RIGHT -> {
+                                            // 拖动角点进行缩放
+                                            val canvasWidth = with(density) { width.toPx() }
+                                            val canvasHeight = with(density) { height.toPx() }
+                                            val center = ImageLayerControlRenderer.calculateImageCenter(
+                                                activeImageLayer,
+                                                canvasWidth,
+                                                canvasHeight
+                                            ) ?: return@dragMotionEvent
+                                            
+                                            val startDistance = (startPos - center).getDistance()
+                                            val currentDistance = (currentPos - center).getDistance()
+                                            
+                                            if (startDistance > 0f) {
+                                                val scaleFactor = currentDistance / startDistance
+                                                val newScaleX = (initialTransform!!.scaleX * scaleFactor).coerceIn(0.1f, 10f)
+                                                val newScaleY = (initialTransform!!.scaleY * scaleFactor).coerceIn(0.1f, 10f)
+                                                
+                                                val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                                
+                                                editorController.updateImageLayerScale(
+                                                    activeImageLayer.id,
+                                                    newScaleX,
+                                                    newScaleY,
+                                                    imageCenter
+                                                )
+                                            }
+                                        }
+                                    }
+                                    
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
                                 
                                 // 如果正在拖动图像层
                                 if (activeImageLayer != null && imageLayerDragStart != null && !activeImageLayer.locked) {
@@ -241,6 +382,15 @@ fun shapeDrawing(state: ApplicationState) {
                             },
                             onDragEnd = { pointerInputChange ->
                                 val activeImageLayer = activeLayer as? ImageLayer
+                                
+                                // 如果正在拖动控制点，结束拖动
+                                if (activeImageLayer != null && activeControlPoint != null) {
+                                    activeControlPoint = null
+                                    controlPointDragStart = null
+                                    initialTransform = null
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
                                 
                                 // 如果正在拖动图像层，结束拖动
                                 if (activeImageLayer != null && imageLayerDragStart != null) {

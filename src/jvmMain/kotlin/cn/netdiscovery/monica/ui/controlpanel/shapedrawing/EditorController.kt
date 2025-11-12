@@ -17,6 +17,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerTransform
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
@@ -252,6 +253,42 @@ class EditorController(
             it.updateTransform(
                 currentTransform.copy(translation = translation)
             )
+        }
+    }
+
+    /**
+     * 更新图像层的旋转角度
+     */
+    fun updateImageLayerRotation(layerId: UUID, rotation: Float, pivot: Offset) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            val currentTransform = it.transform
+            it.updateTransform(
+                currentTransform.copy(rotation = rotation, pivot = pivot)
+            )
+        }
+    }
+
+    /**
+     * 更新图像层的缩放比例
+     */
+    fun updateImageLayerScale(layerId: UUID, scaleX: Float, scaleY: Float, pivot: Offset) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            val currentTransform = it.transform
+            it.updateTransform(
+                currentTransform.copy(scaleX = scaleX, scaleY = scaleY, pivot = pivot)
+            )
+        }
+    }
+
+    /**
+     * 更新图像层的完整变换
+     */
+    fun updateImageLayerTransform(layerId: UUID, transform: LayerTransform) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            it.updateTransform(transform)
         }
     }
 
