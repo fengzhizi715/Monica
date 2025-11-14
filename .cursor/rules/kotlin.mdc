@@ -1,0 +1,118 @@
+---
+description: Kotlin 开发约定和最佳实践
+globs: **/*.kt
+alwaysApply: false
+---
+
+## Kotlin 开发规范
+
+### 基本原则
+
+- 优先使用类型推断，必要时显式声明类型提高可读性
+- 避免使用 `Any`，创建具体的类型定义
+- 优先使用 `val` 而非 `var`，保持不可变性
+- 使用 Kotlin 的空安全特性，避免显式 null 检查
+- 避免魔法数字，定义有意义的常量
+
+### 命名规范
+
+- **类和接口**：PascalCase (`UserRepository`, `PaymentService`)
+- **函数和变量**：camelCase (`getUserById`, `isValid`)
+- **常量和枚举值**：UPPER_SNAKE_CASE (`MAX_RETRY_COUNT`, `DEFAULT_TIMEOUT`)
+- **包名**：全小写，使用点分隔 (`com.example.userservice`)
+- **文件名**：PascalCase，与主要类名一致
+- **布尔变量**：使用 `is`、`has`、`can`、`should` 前缀 (`isLoading`, `hasPermission`, `canDelete`)
+- 使用完整单词而非缩写，确保拼写正确
+  - 标准缩写除外：API、URL、HTTP、JSON 等
+  - 常见缩写：id、ctx、req、res
+
+### 函数设计
+
+- 编写简短且单一目的的函数（建议 ≤20 行）
+- 使用表达式函数简化单行返回：`fun square(x: Int) = x * x`
+- 函数名以动词开头，体现其行为
+- 优先使用高阶函数和扩展函数
+- 使用命名参数提高可读性：`createUser(name = "John", age = 25)`
+- 合理使用默认参数值，减少函数重载
+- 通过早期返回和提取工具函数避免深层嵌套
+- 使用单一抽象级别原则
+
+### 类和数据结构
+
+- **数据类**：用于纯数据承载，自动生成 `equals`、`hashCode`、`toString`
+- **密封类**：用于有限状态表示，替代枚举的复杂场景
+- **密封接口**：Kotlin 1.5+ 用于更灵活的类型层次
+- **对象类**：用于单例模式和工具类
+- **内联类**：用于类型安全的原始类型包装
+- 优先使用组合而非继承
+- 遵循 SOLID 原则
+- 保持类的职责单一，避免过大的类（建议 ≤200 行，≤10 个公共方法）
+- 不要滥用原始类型，将相关数据封装在复合类型中
+
+### 空安全和错误处理
+
+- 使用 `?.` 安全调用操作符
+- 使用 `?:` Elvis 操作符提供默认值
+- 使用 `!!` 操作符需要有充分理由并添加注释
+- 优先使用 `Result` 类型处理可能失败的操作
+- 对于异常情况使用具体的异常类型而非通用异常
+- 避免在函数中进行数据验证，使用具有内部验证的类型
+
+### 协程和异步编程
+
+- 使用 `suspend` 函数处理异步操作
+- 在合适的作用域中启动协程 (`viewModelScope`, `lifecycleScope`, `runBlocking`)
+- 使用 `Flow` 处理数据流，`StateFlow`/`SharedFlow` 处理状态
+- 避免 `GlobalScope`，始终使用结构化并发
+- 合理使用协程上下文和调度器
+- 使用 `async`/`await` 进行并发操作
+- 正确处理协程取消和异常
+
+### 集合和函数式编程
+
+- 优先使用不可变集合 (`listOf`, `setOf`, `mapOf`)
+- 使用函数式操作：`map`、`filter`、`reduce`、`fold`
+- 合理使用序列 (`Sequence`) 处理大数据集或链式操作
+- 使用作用域函数：`let`、`run`、`with`、`apply`、`also`
+- 使用 `takeIf`、`takeUnless` 进行条件处理
+- 对简单 lambda 使用 `it` 参数，复杂情况使用命名参数
+
+### 泛型和类型系统
+
+- 合理使用泛型约束和变型（`in`、`out`）
+- 使用 `reified` 参数访问泛型类型信息
+- 利用类型别名提高代码可读性：`typealias UserId = String`
+- 使用内联函数优化高阶函数性能
+
+### 可见性和封装
+
+- 使用最小必要的可见性修饰符
+- 优先使用 `internal` 而非 `public` 用于模块内部 API
+- 使用 `private` 限制类内部实现细节
+- 合理使用 `protected` 用于继承场景
+
+### 测试规范
+
+- 测试方法使用描述性命名：`should_return_user_when_valid_id_provided`
+- 遵循 Arrange-Act-Assert 模式
+- 清楚命名测试变量：`given...`、`when...`、`then...` 或 `input...`、`expected...`、`actual...`
+- 为每个公共函数编写单元测试
+- 使用测试替身（Mock、Stub）模拟依赖
+- 为每个模块编写集成测试
+- 遵循 Given-When-Then 约定编写行为测试
+
+### 代码组织和架构
+
+- 按功能而非类型组织包结构
+- 将相关的类放在同一文件中（如密封类的子类）
+- 合理使用扩展函数增强现有类型
+- 声明接口定义契约，面向接口编程
+- 使用依赖注入提高代码可测试性
+- 遵循领域驱动设计原则
+
+### 性能和资源管理
+
+- 使用 `inline` 关键字优化高阶函数
+- 合理使用 `lazy` 延迟初始化
+- 注意避免内存泄漏，特别是在协程和回调中
+- 使用 `use` 函数自动管理资源
