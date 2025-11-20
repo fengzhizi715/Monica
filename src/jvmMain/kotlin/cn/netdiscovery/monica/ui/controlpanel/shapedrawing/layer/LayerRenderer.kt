@@ -49,8 +49,10 @@ class LayerRenderer(
 
     /**
      * 绘制单个图层
+     * 
+     * 注意：此方法应该是 internal 或 public，以便在 Compose 层面使用
      */
-    private fun drawLayer(drawScope: DrawScope, layer: Layer) {
+    fun drawLayer(drawScope: DrawScope, layer: Layer) {
         drawScope.drawIntoCanvas { canvas ->
             val bounds = Rect(Offset.Zero, drawScope.size)
             opacityPaint.alpha = layer.opacity.coerceIn(0f, 1f)

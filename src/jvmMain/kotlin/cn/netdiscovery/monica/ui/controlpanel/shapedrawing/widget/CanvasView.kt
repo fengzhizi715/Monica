@@ -1,11 +1,15 @@
 package cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawWithCache
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -13,6 +17,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.state.ShapeDrawingState
 import kotlin.math.PI
@@ -31,33 +37,58 @@ fun CanvasView(
     val layers by editorController.layerManager.layers.collectAsState()
     val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
-    Canvas(modifier = modifier) {
-        // 使用当前观察到的图层列表进行绘制
-        // LayerRenderer 会根据图层的 version 进行优化渲染
-        editorController.layerRenderer.drawAll(this, layers)
-        drawAllAnimations(
-            animationManager = animationManager,
-            displayLines = drawingState.displayLines,
-            displayCircles = drawingState.displayCircles,
-            displayTriangles = drawingState.displayTriangles,
-            displayRectangles = drawingState.displayRectangles,
-            displayPolygons = drawingState.displayPolygons
-        )
-        
-        // 绘制激活图像层的控制点
-        if (showImageLayerControls) {
-            val activeImageLayer = activeLayer as? ImageLayer
-            if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
-                ImageLayerControlRenderer.drawControls(
-                    drawScope = this,
-                    layer = activeImageLayer,
-                    canvasWidth = size.width,
-                    canvasHeight = size.height
+    Box(modifier = modifier) {
+        // 为每个图层创建独立的缓存层
+        // 使用 key() 确保只有版本变化的图层才重组
+        layers.forEach { layer ->
+            if (!layer.visible || layer.opacity <= 0f) return@forEach
+            
+            key(layer.id, layer.version) {
+                // 使用 drawWithCache 缓存图层绘制内容
+                Canvas(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .drawWithCache {
+                            // 缓存图层绘制内容
+                            // 注意：layer 在 lambda 中被捕获，但由于使用了 key()，只有版本变化时才会重新创建
+                            onDrawBehind {
+                                // 绘制单个图层
+                                editorController.layerRenderer.drawLayer(this, layer)
+                            }
+                        },
+                    onDraw = {
+                        // 空的绘制函数，实际绘制在 drawWithCache 的 onDrawBehind 中
+                    }
                 )
             }
         }
         
-        overlay()
+        // 绘制动画和覆盖层（这些不需要缓存，因为它们是动态的）
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawAllAnimations(
+                animationManager = animationManager,
+                displayLines = drawingState.displayLines,
+                displayCircles = drawingState.displayCircles,
+                displayTriangles = drawingState.displayTriangles,
+                displayRectangles = drawingState.displayRectangles,
+                displayPolygons = drawingState.displayPolygons
+            )
+            
+            // 绘制激活图像层的控制点
+            if (showImageLayerControls) {
+                val activeImageLayer = activeLayer as? ImageLayer
+                if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                    ImageLayerControlRenderer.drawControls(
+                        drawScope = this,
+                        layer = activeImageLayer,
+                        canvasWidth = size.width,
+                        canvasHeight = size.height
+                    )
+                }
+            }
+            
+            overlay()
+        }
     }
 }
 
