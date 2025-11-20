@@ -4,8 +4,10 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
@@ -31,6 +33,7 @@ fun CanvasView(
 
     Canvas(modifier = modifier) {
         // 使用当前观察到的图层列表进行绘制
+        // LayerRenderer 会根据图层的 version 进行优化渲染
         editorController.layerRenderer.drawAll(this, layers)
         drawAllAnimations(
             animationManager = animationManager,

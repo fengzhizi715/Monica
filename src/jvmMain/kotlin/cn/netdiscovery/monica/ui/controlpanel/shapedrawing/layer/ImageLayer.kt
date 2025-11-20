@@ -28,11 +28,17 @@ class ImageLayer(
         private set
 
     fun updateImage(newImage: ImageBitmap?) {
-        image = newImage
+        if (image != newImage) {
+            image = newImage
+            markDirty()
+        }
     }
 
     fun updateTransform(newTransform: LayerTransform) {
-        transform = newTransform
+        if (transform != newTransform) {
+            transform = newTransform
+            markDirty()
+        }
     }
 
     override fun render(drawScope: DrawScope) {

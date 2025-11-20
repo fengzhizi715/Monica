@@ -50,11 +50,30 @@ abstract class Layer(
         private set
 
     /**
+     * 图层版本号，用于标记图层变化，优化渲染缓存
+     * 当图层属性变化时，版本号递增，触发缓存失效
+     * 
+     * 注意：使用普通变量而非 State，避免在 Compose 中读取时触发不必要的重组
+     * 版本号主要用于标记变化，不直接参与 Compose 状态管理
+     */
+    private var _version = 0L
+    val version: Long get() = _version
+
+    /**
+     * 标记图层为脏状态，递增版本号
+     * 子类在属性变化时应调用此方法
+     */
+    protected fun markDirty() {
+        _version++
+    }
+
+    /**
      * 重命名当前图层。
      */
     fun rename(newName: String) {
         if (name != newName) {
             name = newName
+            markDirty()
         }
     }
 
@@ -62,21 +81,31 @@ abstract class Layer(
      * 切换图层可见性。
      */
     fun setVisibility(isVisible: Boolean) {
-        visible = isVisible
+        if (visible != isVisible) {
+            visible = isVisible
+            markDirty()
+        }
     }
 
     /**
      * 更新透明度，范围自动限制在 0f..1f。
      */
     fun updateOpacity(alpha: Float) {
-        opacity = alpha.coerceIn(0f, 1f)
+        val newOpacity = alpha.coerceIn(0f, 1f)
+        if (opacity != newOpacity) {
+            opacity = newOpacity
+            markDirty()
+        }
     }
 
     /**
      * 切换锁定状态。
      */
     fun updateLocked(isLocked: Boolean) {
-        locked = isLocked
+        if (locked != isLocked) {
+            locked = isLocked
+            markDirty()
+        }
     }
 
     /**

@@ -195,6 +195,8 @@ class ShapeLayer(
         this.displayTexts.putAll(displayTexts)
         this.originalTexts.clear()
         this.originalTexts.putAll(originalTexts)
+        
+        markDirty()
     }
 
     data class ShapeLayerSnapshot(
