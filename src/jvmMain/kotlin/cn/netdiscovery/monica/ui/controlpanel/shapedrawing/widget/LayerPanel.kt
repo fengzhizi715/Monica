@@ -416,7 +416,7 @@ fun LayerPanel(
                                 }
                                 IconButton(
                                     onClick = {
-                                        if (layer.name == "背景图层") {
+                                        if (editorController.isBackgroundLayer(layer)) {
                                             state.showTray("无法删除背景图层", "提示")
                                         } else {
                                             deleteConfirmLayerId = layer.id

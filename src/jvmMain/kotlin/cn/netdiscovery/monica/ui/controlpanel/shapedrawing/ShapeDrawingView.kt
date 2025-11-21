@@ -109,17 +109,8 @@ fun shapeDrawing(state: ApplicationState) {
     }
 
     LaunchedEffect(imageBitmap) {
-        // 从 LayerManager 中查找背景层，而不是使用本地状态，确保状态同步
-        val existingBackgroundLayer = editorController.layerManager.layers.value
-            .firstOrNull { it.name == "背景图层" && it is ImageLayer } as? ImageLayer
-        
-        if (existingBackgroundLayer == null) {
-            // 如果不存在，创建新的背景层
-            editorController.createImageLayer("背景图层", imageBitmap, index = 0)
-        } else {
-            // 如果已存在，更新图像
-            existingBackgroundLayer.updateImage(imageBitmap)
-        }
+        // 使用 EditorController 的统一方法管理背景层
+        editorController.updateBackgroundLayer(imageBitmap)
     }
 
     LaunchedEffect(Unit) {
@@ -204,7 +195,8 @@ fun shapeDrawing(state: ApplicationState) {
                             val activeImageLayer = activeLayer as? ImageLayer
                             val canvasWidth = with(density) { width.toPx() }
                             val canvasHeight = with(density) { height.toPx() }
-                            if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                            if (activeImageLayer != null && !activeImageLayer.locked && 
+                                !editorController.isBackgroundLayer(activeImageLayer)) {
                                 detectTransformGestures(
                                     panZoomLock = true, // 锁定平移和缩放，只允许旋转
                                     onGesture = { centroid, pan, zoom, rotation, mainPointer, _ ->
@@ -221,8 +213,14 @@ fun shapeDrawing(state: ApplicationState) {
                                             canvasHeight
                                         ) ?: return@detectTransformGestures
                                         
-                                        // 将画布坐标转换为图像坐标
-                                        val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                        // pivot 应该在图像原始坐标系中，相对于图像中心
+                                        // 图像中心在原始坐标系中是 (width/2, height/2)
+                                        val imageBitmap = activeImageLayer.image
+                                        val imageCenter = if (imageBitmap != null) {
+                                            Offset(imageBitmap.width / 2f, imageBitmap.height / 2f)
+                                        } else {
+                                            Offset.Zero
+                                        }
                                         
                                         editorController.updateImageLayerRotation(
                                             activeImageLayer.id,
@@ -239,7 +237,8 @@ fun shapeDrawing(state: ApplicationState) {
                                 val activeImageLayer = activeLayer as? ImageLayer
                                 
                                 // 检查是否点击在控制点上
-                                if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                                if (activeImageLayer != null && !activeImageLayer.locked && 
+                                    !editorController.isBackgroundLayer(activeImageLayer)) {
                                     val canvasWidth = with(density) { width.toPx() }
                                     val canvasHeight = with(density) { height.toPx() }
                                     val hitControlPoint = ImageLayerControlRenderer.hitTestControlPoint(
@@ -306,7 +305,14 @@ fun shapeDrawing(state: ApplicationState) {
                                             )
                                             val rotationDelta = Math.toDegrees((currentAngle - startAngle).toDouble()).toFloat()
                                             
-                                            val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                            // pivot 应该在图像原始坐标系中，相对于图像中心
+                                            // 图像中心在原始坐标系中是 (width/2, height/2)
+                                            val imageBitmap = activeImageLayer.image
+                                            val imageCenter = if (imageBitmap != null) {
+                                                Offset(imageBitmap.width / 2f, imageBitmap.height / 2f)
+                                            } else {
+                                                Offset.Zero
+                                            }
                                             val newRotation = initialTransform!!.rotation + rotationDelta
                                             
                                             editorController.updateImageLayerRotation(
@@ -336,7 +342,14 @@ fun shapeDrawing(state: ApplicationState) {
                                                 val newScaleX = (initialTransform!!.scaleX * scaleFactor).coerceIn(0.1f, 10f)
                                                 val newScaleY = (initialTransform!!.scaleY * scaleFactor).coerceIn(0.1f, 10f)
                                                 
-                                                val imageCenter = Offset(bitmapWidth / 2f, bitmapHeight / 2f)
+                                                // pivot 应该在图像原始坐标系中，相对于图像中心
+                                                // 图像中心在原始坐标系中是 (width/2, height/2)
+                                                val imageBitmap = activeImageLayer.image
+                                                val imageCenter = if (imageBitmap != null) {
+                                                    Offset(imageBitmap.width / 2f, imageBitmap.height / 2f)
+                                                } else {
+                                                    Offset.Zero
+                                                }
                                                 
                                                 editorController.updateImageLayerScale(
                                                     activeImageLayer.id,
@@ -346,6 +359,17 @@ fun shapeDrawing(state: ApplicationState) {
                                                 )
                                             }
                                         }
+                                        // 裁剪控制点暂时不处理，后续可以添加
+                                        ControlPointType.CROP_TOP_LEFT,
+                                        ControlPointType.CROP_TOP_RIGHT,
+                                        ControlPointType.CROP_BOTTOM_LEFT,
+                                        ControlPointType.CROP_BOTTOM_RIGHT,
+                                        ControlPointType.CROP_TOP,
+                                        ControlPointType.CROP_BOTTOM,
+                                        ControlPointType.CROP_LEFT,
+                                        ControlPointType.CROP_RIGHT -> {
+                                            // TODO: 实现裁剪控制点的拖动逻辑
+                                        }
                                     }
                                     
                                     pointerInputChange.consume()
@@ -354,9 +378,15 @@ fun shapeDrawing(state: ApplicationState) {
                                 
                                 // 如果正在拖动图像层
                                 if (activeImageLayer != null && imageLayerDragStart != null && !activeImageLayer.locked) {
-                                    val dragOffset = pointerInputChange.position - imageLayerDragStart!!
-                                    val newTranslation = imageLayerStartTranslation + dragOffset
-                                    editorController.updateImageLayerPosition(activeImageLayer.id, newTranslation)
+                                    val canvasWidth = with(density) { width.toPx() }
+                                    val canvasHeight = with(density) { height.toPx() }
+                                    // 使用新的方法，传入画布坐标和尺寸
+                                    editorController.updateImageLayerPosition(
+                                        activeImageLayer.id,
+                                        pointerInputChange.position,
+                                        canvasWidth,
+                                        canvasHeight
+                                    )
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
                                 }

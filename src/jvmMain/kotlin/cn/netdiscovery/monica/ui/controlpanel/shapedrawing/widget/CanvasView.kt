@@ -77,7 +77,8 @@ fun CanvasView(
             // 绘制激活图像层的控制点
             if (showImageLayerControls) {
                 val activeImageLayer = activeLayer as? ImageLayer
-                if (activeImageLayer != null && !activeImageLayer.locked && activeImageLayer.name != "背景图层") {
+                if (activeImageLayer != null && !activeImageLayer.locked && 
+                    !editorController.isBackgroundLayer(activeImageLayer)) {
                     ImageLayerControlRenderer.drawControls(
                         drawScope = this,
                         layer = activeImageLayer,

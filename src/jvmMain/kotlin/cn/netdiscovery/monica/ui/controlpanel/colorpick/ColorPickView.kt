@@ -43,10 +43,10 @@ fun colorPick(state: ApplicationState) {
 
     // 安全获取图片，避免空指针异常
     val image = state.currentImage?.toComposeImageBitmap()
-    
+
     // 如果图片为空，显示提示信息
     if (image == null) {
-        Box(
+    Box(
             Modifier.fillMaxSize(),
             contentAlignment = Alignment.Center
         ) {

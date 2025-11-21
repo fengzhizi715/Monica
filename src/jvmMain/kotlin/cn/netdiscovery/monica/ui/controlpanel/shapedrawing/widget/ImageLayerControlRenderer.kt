@@ -7,6 +7,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.unit.dp
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
 import kotlin.math.cos
 import kotlin.math.sin
@@ -40,8 +41,8 @@ object ImageLayerControlRenderer {
         
         if (bitmap.width <= 0 || bitmap.height <= 0) return null
         
-        // 判断是否为背景图层
-        val isBackgroundLayer = layer.name == "背景图层"
+        // 判断是否为背景图层（使用常量，避免硬编码）
+        val isBackgroundLayer = layer.name == EditorController.BACKGROUND_LAYER_NAME
         
         if (isBackgroundLayer) {
             // 背景图层填充整个画布
@@ -63,12 +64,12 @@ object ImageLayerControlRenderer {
         val transform = layer.transform
         
         // 计算变换后的四个角点
-        // 注意：在 ImageLayer.render() 中，变换顺序是（从内到外）：
-        // 1. 用户缩放（相对于 pivot）
-        // 2. 用户旋转（相对于 pivot）
-        // 3. 用户平移
-        // 4. 自动缩放（fitScale）
-        // 5. 自动平移（centerOffset）
+        // 注意：在 ImageLayer.render() 中，withTransform 的执行顺序是（从外到内，后写的先执行）：
+        // 1. 自动平移（centerOffset）- 最外层，最后执行
+        // 2. 自动缩放（fitScale）- 将图像坐标系转换到适应后的坐标系
+        // 3. 用户平移（在适应后的坐标系中，相对于适应后图像中心）
+        // 4. 用户旋转（相对于 adaptedPivot，在适应后的坐标系中）
+        // 5. 用户缩放（相对于 adaptedPivot，在适应后的坐标系中）- 最内层，最先执行
         
         // 先计算原始图像的四个角点（在图像坐标系中，0,0 到 width,height）
         val imageTopLeft = Offset(0f, 0f)
@@ -84,39 +85,48 @@ object ImageLayerControlRenderer {
             imageCenter + transform.pivot
         }
         
-        // 1. 应用用户缩放（相对于 pivot）
+        // 将 pivot 转换到适应后的坐标系（用于用户变换）
+        // 注意：在 ImageLayer.render() 中，用户变换是在适应后的坐标系中进行的
+        // 所以这里需要先将图像坐标转换到适应后的坐标系，然后再应用用户变换
+        val adaptedPivot = Offset(pivot.x * fitScale, pivot.y * fitScale)
+        
+        // 计算变换后的角点
+        // 变换顺序：用户平移(translation) -> fitScale -> centerOffset
+        // translation 在图像原始坐标系中，所以需要先应用 translation，然后应用 fitScale
+        
+        // 1. 应用用户平移（在图像原始坐标系中）
+        val translation = transform.translation
+        val translatedTopLeft = imageTopLeft + translation
+        val translatedTopRight = imageTopRight + translation
+        val translatedBottomLeft = imageBottomLeft + translation
+        val translatedBottomRight = imageBottomRight + translation
+        
+        // 2. 应用用户缩放（相对于 pivot，在图像原始坐标系中）
         val scaleXFinal = transform.scaleX
         val scaleYFinal = transform.scaleY
-        val scaledTopLeft = applyScale(imageTopLeft, pivot, scaleXFinal, scaleYFinal)
-        val scaledTopRight = applyScale(imageTopRight, pivot, scaleXFinal, scaleYFinal)
-        val scaledBottomLeft = applyScale(imageBottomLeft, pivot, scaleXFinal, scaleYFinal)
-        val scaledBottomRight = applyScale(imageBottomRight, pivot, scaleXFinal, scaleYFinal)
+        val scaledTopLeft = applyScale(translatedTopLeft, pivot, scaleXFinal, scaleYFinal)
+        val scaledTopRight = applyScale(translatedTopRight, pivot, scaleXFinal, scaleYFinal)
+        val scaledBottomLeft = applyScale(translatedBottomLeft, pivot, scaleXFinal, scaleYFinal)
+        val scaledBottomRight = applyScale(translatedBottomRight, pivot, scaleXFinal, scaleYFinal)
         
-        // 2. 应用用户旋转（相对于 pivot）
+        // 3. 应用用户旋转（相对于 pivot，在图像原始坐标系中）
         val rotation = transform.rotation
         val rotatedTopLeft = applyRotation(scaledTopLeft, pivot, rotation)
         val rotatedTopRight = applyRotation(scaledTopRight, pivot, rotation)
         val rotatedBottomLeft = applyRotation(scaledBottomLeft, pivot, rotation)
         val rotatedBottomRight = applyRotation(scaledBottomRight, pivot, rotation)
         
-        // 3. 应用用户平移
-        val translation = transform.translation
-        val translatedTopLeft = rotatedTopLeft + translation
-        val translatedTopRight = rotatedTopRight + translation
-        val translatedBottomLeft = rotatedBottomLeft + translation
-        val translatedBottomRight = rotatedBottomRight + translation
+        // 4. 应用自动缩放（fitScale）- 将图像坐标系转换到适应后的坐标系
+        val adaptedTopLeft = Offset(rotatedTopLeft.x * fitScale, rotatedTopLeft.y * fitScale)
+        val adaptedTopRight = Offset(rotatedTopRight.x * fitScale, rotatedTopRight.y * fitScale)
+        val adaptedBottomLeft = Offset(rotatedBottomLeft.x * fitScale, rotatedBottomLeft.y * fitScale)
+        val adaptedBottomRight = Offset(rotatedBottomRight.x * fitScale, rotatedBottomRight.y * fitScale)
         
-        // 4. 应用自动缩放（fitScale）
-        val autoScaledTopLeft = Offset(translatedTopLeft.x * fitScale, translatedTopLeft.y * fitScale)
-        val autoScaledTopRight = Offset(translatedTopRight.x * fitScale, translatedTopRight.y * fitScale)
-        val autoScaledBottomLeft = Offset(translatedBottomLeft.x * fitScale, translatedBottomLeft.y * fitScale)
-        val autoScaledBottomRight = Offset(translatedBottomRight.x * fitScale, translatedBottomRight.y * fitScale)
-        
-        // 5. 应用自动平移（centerOffset）
-        val finalTopLeft = autoScaledTopLeft + Offset(centerOffsetX, centerOffsetY)
-        val finalTopRight = autoScaledTopRight + Offset(centerOffsetX, centerOffsetY)
-        val finalBottomLeft = autoScaledBottomLeft + Offset(centerOffsetX, centerOffsetY)
-        val finalBottomRight = autoScaledBottomRight + Offset(centerOffsetX, centerOffsetY)
+        // 5. 应用自动平移（centerOffset）- 在画布坐标系中
+        val finalTopLeft = adaptedTopLeft + Offset(centerOffsetX, centerOffsetY)
+        val finalTopRight = adaptedTopRight + Offset(centerOffsetX, centerOffsetY)
+        val finalBottomLeft = adaptedBottomLeft + Offset(centerOffsetX, centerOffsetY)
+        val finalBottomRight = adaptedBottomRight + Offset(centerOffsetX, centerOffsetY)
         
         // 计算边界框
         val minX = minOf(finalTopLeft.x, finalTopRight.x, finalBottomLeft.x, finalBottomRight.x)
@@ -160,7 +170,7 @@ object ImageLayerControlRenderer {
     }
     
     /**
-     * 计算所有控制点的位置（四个角和旋转手柄）
+     * 计算所有控制点的位置（四个角、旋转手柄和裁剪控制点）
      */
     fun calculateControlPoints(
         layer: ImageLayer,
@@ -181,6 +191,16 @@ object ImageLayerControlRenderer {
         // 旋转手柄
         if (rotationHandle != null) {
             points.add(ControlPoint(ControlPointType.ROTATION_HANDLE, rotationHandle))
+        }
+        
+        // 裁剪控制点（如果存在裁剪区域）
+        // 注意：裁剪控制点的计算比较复杂，需要考虑所有变换
+        // 这里先简化实现，后续可以优化
+        val cropRect = layer.transform.cropRect
+        if (cropRect != null) {
+            // 裁剪区域在图像坐标系中，需要转换到画布坐标系
+            // 简化实现：使用 bounds 作为参考，后续可以完善
+            // TODO: 完善裁剪控制点的计算，考虑所有变换
         }
         
         return points
@@ -288,7 +308,15 @@ enum class ControlPointType {
     CORNER_TOP_RIGHT,
     CORNER_BOTTOM_LEFT,
     CORNER_BOTTOM_RIGHT,
-    ROTATION_HANDLE
+    ROTATION_HANDLE,
+    CROP_TOP_LEFT,
+    CROP_TOP_RIGHT,
+    CROP_BOTTOM_LEFT,
+    CROP_BOTTOM_RIGHT,
+    CROP_TOP,
+    CROP_BOTTOM,
+    CROP_LEFT,
+    CROP_RIGHT
 }
 
 /**

@@ -23,6 +23,8 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import java.awt.image.BufferedImage
 import java.util.UUID
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * EditorController 负责协调 LayerManager、LayerRenderer 以及导出逻辑，
@@ -31,6 +33,12 @@ import java.util.UUID
 class EditorController(
     val layerManager: LayerManager = LayerManager()
 ) {
+    
+    private val logger: Logger = LoggerFactory.getLogger(EditorController::class.java)
+    
+    // 缓存背景层引用，避免每次查找都遍历列表
+    private var cachedBackgroundLayer: ImageLayer? = null
+    private var cachedBackgroundLayerId: UUID? = null
 
     companion object {
         /**
@@ -38,6 +46,11 @@ class EditorController(
          * 方案一（简化设计）：限制为1个形状层，保留多个图像层
          */
         private const val MAX_SHAPE_LAYERS = 1
+        
+        /**
+         * 背景图层名称常量，统一管理，避免硬编码
+         */
+        const val BACKGROUND_LAYER_NAME = "背景图层"
     }
 
     val layerRenderer = LayerRenderer(layerManager)
@@ -97,6 +110,11 @@ class EditorController(
     }
 
     fun removeLayer(id: UUID) {
+        if (isBackgroundLayer(id)) {
+            // 背景层不应该被删除，记录警告但不执行删除
+            logger.warn("尝试删除背景层，操作被阻止")
+            return
+        }
         layerManager.removeLayer(id)
     }
 
@@ -246,6 +264,61 @@ class EditorController(
     /**
      * 更新图像层的位置（拖动）
      */
+    /**
+     * 更新图像层的位置
+     * @param layerId 图层ID
+     * @param canvasPosition 画布坐标位置（用户拖动的目标位置）
+     * @param canvasWidth 画布宽度
+     * @param canvasHeight 画布高度
+     */
+    fun updateImageLayerPosition(layerId: UUID, canvasPosition: Offset, canvasWidth: Float, canvasHeight: Float) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            val bitmap = it.image ?: return
+            
+            // 计算适应和居中后的尺寸
+            val scaleX = canvasWidth / bitmap.width
+            val scaleY = canvasHeight / bitmap.height
+            val fitScale = minOf(scaleX, scaleY).coerceAtMost(1f)
+            
+            val scaledWidth = bitmap.width * fitScale
+            val scaledHeight = bitmap.height * fitScale
+            
+            val centerOffsetX = (canvasWidth - scaledWidth) / 2f
+            val centerOffsetY = (canvasHeight - scaledHeight) / 2f
+            
+            // 适应后图像的中心点（在画布坐标系中，不考虑用户平移）
+            val adaptedImageCenter = Offset(
+                centerOffsetX + scaledWidth / 2f,
+                centerOffsetY + scaledHeight / 2f
+            )
+            
+            // 计算画布坐标中的偏移（用户想要移动到的位置相对于适应后图像中心的偏移）
+            val canvasOffset = canvasPosition - adaptedImageCenter
+            
+            // 将画布坐标的偏移转换为图像原始坐标系中的偏移
+            // 因为在 withTransform 中，translation 是在 fitScale 之前应用的
+            // 所以 translation 应该在图像原始坐标系中
+            // 变换顺序：用户平移(translation) -> fitScale -> centerOffset
+            // 因此：canvasOffset = translation * fitScale
+            // 所以：translation = canvasOffset / fitScale
+            val translation = Offset(
+                canvasOffset.x / fitScale,
+                canvasOffset.y / fitScale
+            )
+            
+            val currentTransform = it.transform
+            it.updateTransform(
+                currentTransform.copy(translation = translation)
+            )
+        }
+    }
+    
+    /**
+     * 更新图像层的位置（使用相对偏移）
+     * @param layerId 图层ID
+     * @param translation 相对于适应后图像中心的偏移（在适应后的坐标系中）
+     */
     fun updateImageLayerPosition(layerId: UUID, translation: Offset) {
         val layer = layerManager.getLayerById(layerId) as? ImageLayer
         layer?.let {
@@ -291,6 +364,21 @@ class EditorController(
             it.updateTransform(transform)
         }
     }
+    
+    /**
+     * 更新图像层的裁剪区域
+     * @param layerId 图层ID
+     * @param cropRect 裁剪区域（在图像坐标系中，null表示取消裁剪）
+     */
+    fun updateImageLayerCrop(layerId: UUID, cropRect: Rect?) {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer
+        layer?.let {
+            val currentTransform = it.transform
+            it.updateTransform(
+                currentTransform.copy(cropRect = cropRect)
+            )
+        }
+    }
 
     /**
      * 获取当前激活的图像层
@@ -298,6 +386,138 @@ class EditorController(
     fun getActiveImageLayer(): ImageLayer? {
         val active = layerManager.activeLayer.value
         return active as? ImageLayer
+    }
+    
+    // ==================== 背景层管理方法 ====================
+    
+    /**
+     * 检查指定图层是否为背景层
+     */
+    fun isBackgroundLayer(layer: Layer): Boolean {
+        return layer.name == BACKGROUND_LAYER_NAME && layer is ImageLayer
+    }
+    
+    /**
+     * 检查指定图层是否为背景层（通过 ID）
+     */
+    fun isBackgroundLayer(layerId: UUID): Boolean {
+        val layer = layerManager.getLayerById(layerId)
+        return layer != null && isBackgroundLayer(layer)
+    }
+    
+    /**
+     * 清除背景层缓存（当图层被删除或修改时调用）
+     */
+    private fun clearBackgroundLayerCache() {
+        cachedBackgroundLayer = null
+        cachedBackgroundLayerId = null
+    }
+    
+    /**
+     * 验证并更新背景层缓存
+     * 在获取背景层时自动调用，确保缓存有效性
+     */
+    private fun validateBackgroundLayerCache(): ImageLayer? {
+        val currentId = cachedBackgroundLayerId
+        if (currentId != null) {
+            val currentLayer = layerManager.getLayerById(currentId)
+            if (currentLayer is ImageLayer && isBackgroundLayer(currentLayer)) {
+                return currentLayer
+            } else {
+                // 缓存失效，清除
+                clearBackgroundLayerCache()
+            }
+        }
+        return null
+    }
+    
+    /**
+     * 获取背景层，如果不存在则返回 null
+     * 使用缓存机制优化性能，自动验证缓存有效性
+     */
+    fun getBackgroundLayer(): ImageLayer? {
+        // 先验证缓存是否有效
+        val cached = validateBackgroundLayerCache()
+        if (cached != null) {
+            return cached
+        }
+        
+        // 缓存失效或不存在，重新查找
+        val found = layerManager.layers.value
+            .firstOrNull { isBackgroundLayer(it) } as? ImageLayer
+        
+        cachedBackgroundLayer = found
+        cachedBackgroundLayerId = found?.id
+        return found
+    }
+    
+    /**
+     * 获取或创建背景层
+     * 如果不存在则创建新的背景层并添加到索引 0
+     */
+    fun getOrCreateBackgroundLayer(image: ImageBitmap): ImageLayer {
+        val existing = getBackgroundLayer()
+        if (existing != null) {
+            return existing
+        }
+        
+        val newLayer = ImageLayer(BACKGROUND_LAYER_NAME, image)
+        layerManager.addLayer(newLayer, index = 0)
+        cachedBackgroundLayer = newLayer
+        cachedBackgroundLayerId = newLayer.id
+        return newLayer
+    }
+    
+    /**
+     * 更新背景层图像
+     * 如果背景层不存在，则创建新的
+     */
+    fun updateBackgroundLayer(image: ImageBitmap) {
+        val layer = getOrCreateBackgroundLayer(image)
+        layer.updateImage(image)
+    }
+    
+    /**
+     * 检查是否存在背景层
+     */
+    fun hasBackgroundLayer(): Boolean {
+        return getBackgroundLayer() != null
+    }
+    
+    /**
+     * 移除背景层（谨慎使用，通常不应该删除背景层）
+     * 此方法主要用于清理或重置场景
+     */
+    fun removeBackgroundLayer(): Boolean {
+        val backgroundLayer = getBackgroundLayer() ?: return false
+        val removed = layerManager.removeLayer(backgroundLayer.id)
+        if (removed != null) {
+            clearBackgroundLayerCache()
+            return true
+        }
+        return false
+    }
+    
+    /**
+     * 将图层上移一层（防止移动背景层）
+     */
+    fun moveLayerUp(layerId: UUID): Boolean {
+        if (isBackgroundLayer(layerId)) {
+            logger.warn("尝试移动背景层，操作被阻止")
+            return false
+        }
+        return layerManager.moveLayerUp(layerId)
+    }
+    
+    /**
+     * 将图层下移一层（防止移动背景层）
+     */
+    fun moveLayerDown(layerId: UUID): Boolean {
+        if (isBackgroundLayer(layerId)) {
+            logger.warn("尝试移动背景层，操作被阻止")
+            return false
+        }
+        return layerManager.moveLayerDown(layerId)
     }
 }
 
