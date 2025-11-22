@@ -28,5 +28,12 @@ out/
 .idea
 .kotlin
 
+# cache
 rxcache/
+
+# log
 log/
+
+# spec
+.cursor/
+.specify
