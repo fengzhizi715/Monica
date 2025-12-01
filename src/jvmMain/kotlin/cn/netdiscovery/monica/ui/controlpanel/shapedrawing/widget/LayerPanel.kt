@@ -124,11 +124,10 @@ fun LayerPanel(
                             var bufferedImage = getBufferedImage(file, state)
                             
                             // 如果添加的图像超过背景图，自动缩放
-                            val backgroundLayer = editorController.getBackgroundLayer()
-                            if (backgroundLayer != null && backgroundLayer.image != null) {
-                                val bgImage = backgroundLayer.image!!
-                                val bgWidth = bgImage.width
-                                val bgHeight = bgImage.height
+                            val bgSize = editorController.getBackgroundSize()
+                            if (bgSize != null) {
+                                val bgWidth = bgSize.first.toInt()
+                                val bgHeight = bgSize.second.toInt()
                                 
                                 // 如果图像超过背景层大小，缩放到不超过背景层
                                 if (bufferedImage.width > bgWidth || bufferedImage.height > bgHeight) {

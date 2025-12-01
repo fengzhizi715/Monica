@@ -20,6 +20,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerTransform
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.SpecialLayerHelper
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import java.awt.image.BufferedImage
 import java.util.UUID
@@ -36,9 +37,8 @@ class EditorController(
     
     private val logger: Logger = LoggerFactory.getLogger(EditorController::class.java)
     
-    // 缓存背景层引用，避免每次查找都遍历列表
-    private var cachedBackgroundLayer: ImageLayer? = null
-    private var cachedBackgroundLayerId: UUID? = null
+    // 使用 SpecialLayerHelper 来管理背景层，集中处理背景层相关逻辑
+    private val specialLayerHelper = SpecialLayerHelper(layerManager, BACKGROUND_LAYER_NAME)
 
     companion object {
         /**
@@ -406,49 +406,10 @@ class EditorController(
     }
     
     /**
-     * 清除背景层缓存（当图层被删除或修改时调用）
-     */
-    private fun clearBackgroundLayerCache() {
-        cachedBackgroundLayer = null
-        cachedBackgroundLayerId = null
-    }
-    
-    /**
-     * 验证并更新背景层缓存
-     * 在获取背景层时自动调用，确保缓存有效性
-     */
-    private fun validateBackgroundLayerCache(): ImageLayer? {
-        val currentId = cachedBackgroundLayerId
-        if (currentId != null) {
-            val currentLayer = layerManager.getLayerById(currentId)
-            if (currentLayer is ImageLayer && isBackgroundLayer(currentLayer)) {
-                return currentLayer
-            } else {
-                // 缓存失效，清除
-                clearBackgroundLayerCache()
-            }
-        }
-        return null
-    }
-    
-    /**
      * 获取背景层，如果不存在则返回 null
-     * 使用缓存机制优化性能，自动验证缓存有效性
      */
     fun getBackgroundLayer(): ImageLayer? {
-        // 先验证缓存是否有效
-        val cached = validateBackgroundLayerCache()
-        if (cached != null) {
-            return cached
-        }
-        
-        // 缓存失效或不存在，重新查找
-        val found = layerManager.layers.value
-            .firstOrNull { isBackgroundLayer(it) } as? ImageLayer
-        
-        cachedBackgroundLayer = found
-        cachedBackgroundLayerId = found?.id
-        return found
+        return specialLayerHelper.getBackgroundLayer()
     }
     
     /**
@@ -456,16 +417,7 @@ class EditorController(
      * 如果不存在则创建新的背景层并添加到索引 0
      */
     fun getOrCreateBackgroundLayer(image: ImageBitmap): ImageLayer {
-        val existing = getBackgroundLayer()
-        if (existing != null) {
-            return existing
-        }
-        
-        val newLayer = ImageLayer(BACKGROUND_LAYER_NAME, image)
-        layerManager.addLayer(newLayer, index = 0)
-        cachedBackgroundLayer = newLayer
-        cachedBackgroundLayerId = newLayer.id
-        return newLayer
+        return specialLayerHelper.getOrCreateBackgroundLayer(image)
     }
     
     /**
@@ -473,15 +425,14 @@ class EditorController(
      * 如果背景层不存在，则创建新的
      */
     fun updateBackgroundLayer(image: ImageBitmap) {
-        val layer = getOrCreateBackgroundLayer(image)
-        layer.updateImage(image)
+        specialLayerHelper.updateBackgroundLayer(image)
     }
     
     /**
      * 检查是否存在背景层
      */
     fun hasBackgroundLayer(): Boolean {
-        return getBackgroundLayer() != null
+        return specialLayerHelper.hasBackgroundLayer()
     }
     
     /**
@@ -489,13 +440,14 @@ class EditorController(
      * 此方法主要用于清理或重置场景
      */
     fun removeBackgroundLayer(): Boolean {
-        val backgroundLayer = getBackgroundLayer() ?: return false
-        val removed = layerManager.removeLayer(backgroundLayer.id)
-        if (removed != null) {
-            clearBackgroundLayerCache()
-            return true
-        }
-        return false
+        return specialLayerHelper.removeBackgroundLayer()
+    }
+    
+    /**
+     * 获取背景层的尺寸（如果存在）
+     */
+    fun getBackgroundSize(): Pair<Float, Float>? {
+        return specialLayerHelper.getBackgroundSize()
     }
     
     /**

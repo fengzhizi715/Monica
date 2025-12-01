@@ -132,67 +132,28 @@ class LayerManager {
     /**
      * 重命名图层。
      */
-    fun renameLayer(layerId: UUID, newName: String): Boolean {
-        var renamed = false
-        lock.withLock {
-            val layer = _layers.value.firstOrNull { it.id == layerId }
-            if (layer != null && layer.name != newName) {
-                layer.rename(newName)
-                renamed = true
-            }
-        }
-        if (renamed) notifyLayerObservers()
-        return renamed
-    }
+    fun renameLayer(layerId: UUID, newName: String): Boolean =
+        updateLayer(layerId, { it.name != newName }) { it.rename(newName) }
 
     /**
      * 更新图层可见性。
      */
-    fun setLayerVisibility(layerId: UUID, visible: Boolean): Boolean {
-        var updated = false
-        lock.withLock {
-            val layer = _layers.value.firstOrNull { it.id == layerId }
-            if (layer != null && layer.visible != visible) {
-                layer.setVisibility(visible)
-                updated = true
-            }
-        }
-        if (updated) notifyLayerObservers()
-        return updated
-    }
+    fun setLayerVisibility(layerId: UUID, visible: Boolean): Boolean =
+        updateLayer(layerId, { it.visible != visible }) { it.setVisibility(visible) }
 
     /**
      * 更新图层透明度。
      */
     fun setLayerOpacity(layerId: UUID, opacity: Float): Boolean {
-        var updated = false
-        lock.withLock {
-            val layer = _layers.value.firstOrNull { it.id == layerId }
-            val targetOpacity = opacity.coerceIn(0f, 1f)
-            if (layer != null && layer.opacity != targetOpacity) {
-                layer.updateOpacity(targetOpacity)
-                updated = true
-            }
-        }
-        if (updated) notifyLayerObservers()
-        return updated
+        val targetOpacity = opacity.coerceIn(0f, 1f)
+        return updateLayer(layerId, { it.opacity != targetOpacity }) { it.updateOpacity(targetOpacity) }
     }
 
     /**
      * 更新图层锁定状态。
      */
-    fun setLayerLocked(layerId: UUID, locked: Boolean): Boolean {
-        var updated = false
-        lock.withLock {
-            val layer = _layers.value.firstOrNull { it.id == layerId }
-            if (layer != null && layer.locked != locked) {
-                layer.updateLocked(locked)
-                updated = true
-            }
-        }
-        if (updated) notifyLayerObservers()
-        return updated
-    }
+    fun setLayerLocked(layerId: UUID, locked: Boolean): Boolean =
+        updateLayer(layerId, { it.locked != locked }) { it.updateLocked(locked) }
 
     /**
      * 根据 ID 获取图层。
@@ -241,6 +202,29 @@ class LayerManager {
         return { activeLayerObservers.remove(observer) }
     }
 
+    /**
+     * 通用的图层属性更新方法，提取了重复的模式
+     * @param layerId 图层ID
+     * @param shouldUpdate 判断是否需要更新的谓词
+     * @param update 执行更新的操作
+     */
+    private fun updateLayer(
+        layerId: UUID,
+        shouldUpdate: (Layer) -> Boolean,
+        update: (Layer) -> Unit
+    ): Boolean {
+        var updated = false
+        lock.withLock {
+            val layer = _layers.value.firstOrNull { it.id == layerId }
+            if (layer != null && shouldUpdate(layer)) {
+                update(layer)
+                updated = true
+            }
+        }
+        if (updated) notifyLayerObservers()
+        return updated
+    }
+
     private fun moveByOffset(layerId: UUID, offset: Int): Boolean {
         var moved = false
         lock.withLock {
@@ -281,4 +265,3 @@ fun interface LayerListObserver {
 fun interface ActiveLayerObserver {
     fun onActiveLayerChanged(activeLayer: Layer?)
 }
-
