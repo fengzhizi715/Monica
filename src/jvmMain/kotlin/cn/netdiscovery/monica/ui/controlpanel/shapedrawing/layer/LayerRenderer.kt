@@ -59,7 +59,20 @@ class LayerRenderer(
             canvas.saveLayer(bounds, opacityPaint)
             try {
                 when (layer) {
-                    is ImageLayer -> layer.render(drawScope)
+                    is ImageLayer -> {
+                        // 获取背景图尺寸（如果存在）
+                        val backgroundLayer = layerManager.layers.value
+                            .firstOrNull { 
+                                it.name == cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController.BACKGROUND_LAYER_NAME 
+                                && it is ImageLayer 
+                            } as? ImageLayer
+                        
+                        val backgroundSize = backgroundLayer?.image?.let { 
+                            Pair(it.width.toFloat(), it.height.toFloat()) 
+                        }
+                        
+                        layer.render(drawScope, backgroundSize)
+                    }
                     is ShapeLayer -> drawShapeLayer(drawScope, layer)
                     else -> layer.render(drawScope)
                 }

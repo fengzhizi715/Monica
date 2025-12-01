@@ -46,6 +46,15 @@ class ImageLayer(
     }
 
     override fun render(drawScope: DrawScope) {
+        render(drawScope, backgroundSize = null)
+    }
+    
+    /**
+     * 渲染图像层
+     * @param drawScope 绘制作用域
+     * @param backgroundSize 背景图的实际尺寸（宽、高），如果提供则基于背景图尺寸计算 fitScale，否则基于画布尺寸
+     */
+    fun render(drawScope: DrawScope, backgroundSize: Pair<Float, Float>?) {
         val bitmap = image ?: return
 
         // 获取画布尺寸
@@ -68,11 +77,31 @@ class ImageLayer(
                 alpha = opacity
             )
         } else {
-            // 用户添加的图像层：适应画布并居中显示
-            // 计算图像缩放比例，保持宽高比，适应画布（不放大，只缩小）
-            val scaleX = canvasWidth / bitmap.width
-            val scaleY = canvasHeight / bitmap.height
-            val fitScale = minOf(scaleX, scaleY).coerceAtMost(1f)
+            // 用户添加的图像层：适应背景图或画布并居中显示
+            // 计算图像缩放比例，保持宽高比，适应背景图或画布（不放大，只缩小）
+            // 如果提供了背景层尺寸，需要考虑背景层在画布上的显示比例
+            val fitScale = if (backgroundSize != null) {
+                val referenceWidth = backgroundSize.first
+                val referenceHeight = backgroundSize.second
+                
+                // 计算背景层在画布上的缩放比例（背景层被拉伸到画布尺寸）
+                val backgroundScaleX = canvasWidth / referenceWidth
+                val backgroundScaleY = canvasHeight / referenceHeight
+                
+                // 计算基于背景层原始尺寸的缩放比例，确保图像尺寸不超过背景层尺寸
+                val referenceScaleX = referenceWidth / bitmap.width
+                val referenceScaleY = referenceHeight / bitmap.height
+                val referenceFitScale = minOf(referenceScaleX, referenceScaleY).coerceAtMost(1f)
+                
+                // 图像层在背景层原始坐标系中的缩放比例
+                // 然后需要乘以背景层在画布上的缩放比例，得到在画布坐标系中的缩放比例
+                referenceFitScale * minOf(backgroundScaleX, backgroundScaleY)
+            } else {
+                // 没有背景层时，基于画布尺寸
+                val canvasScaleX = canvasWidth / bitmap.width
+                val canvasScaleY = canvasHeight / bitmap.height
+                minOf(canvasScaleX, canvasScaleY).coerceAtMost(1f)
+            }
             
             // 计算缩放后的图像尺寸
             val scaledWidth = bitmap.width * fitScale
@@ -118,8 +147,11 @@ class ImageLayer(
                 scale(fitScale, fitScale)
                 
                 // 3. 用户平移（在图像原始坐标系中，相对于图像中心）
+                // 由于 translation 是相对于图像中心的偏移，需要先平移到图像中心，应用偏移，再平移回去
                 if (translation != Offset.Zero) {
+                    translate(imageCenter.x, imageCenter.y)
                     translate(translation.x, translation.y)
+                    translate(-imageCenter.x, -imageCenter.y)
                 }
                 
                 // 4. 用户旋转（相对于 pivot，在图像原始坐标系中）

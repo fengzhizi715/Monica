@@ -35,7 +35,8 @@ object ImageLayerControlRenderer {
     fun calculateImageBounds(
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ): Rect? {
         val bitmap = layer.image ?: return null
         
@@ -50,9 +51,29 @@ object ImageLayerControlRenderer {
         }
         
         // 计算适应和居中后的尺寸（与 ImageLayer.render() 逻辑一致）
-        val scaleX = canvasWidth / bitmap.width
-        val scaleY = canvasHeight / bitmap.height
-        val fitScale = minOf(scaleX, scaleY).coerceAtMost(1f)
+        // 如果提供了背景层尺寸，需要考虑背景层在画布上的显示比例
+        val fitScale = if (backgroundSize != null) {
+            val referenceWidth = backgroundSize.first
+            val referenceHeight = backgroundSize.second
+            
+            // 计算背景层在画布上的缩放比例（背景层被拉伸到画布尺寸）
+            val backgroundScaleX = canvasWidth / referenceWidth
+            val backgroundScaleY = canvasHeight / referenceHeight
+            
+            // 计算基于背景层原始尺寸的缩放比例，确保图像尺寸不超过背景层尺寸
+            val referenceScaleX = referenceWidth / bitmap.width
+            val referenceScaleY = referenceHeight / bitmap.height
+            val referenceFitScale = minOf(referenceScaleX, referenceScaleY).coerceAtMost(1f)
+            
+            // 图像层在背景层原始坐标系中的缩放比例
+            // 然后需要乘以背景层在画布上的缩放比例，得到在画布坐标系中的缩放比例
+            referenceFitScale * minOf(backgroundScaleX, backgroundScaleY)
+        } else {
+            // 没有背景层时，基于画布尺寸
+            val canvasScaleX = canvasWidth / bitmap.width
+            val canvasScaleY = canvasHeight / bitmap.height
+            minOf(canvasScaleX, canvasScaleY).coerceAtMost(1f)
+        }
         
         val scaledWidth = bitmap.width * fitScale
         val scaledHeight = bitmap.height * fitScale
@@ -146,9 +167,10 @@ object ImageLayerControlRenderer {
     fun calculateImageCenter(
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ): Offset? {
-        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight) ?: return null
+        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return null
         return Offset(bounds.center.x, bounds.center.y)
     }
     
@@ -158,10 +180,11 @@ object ImageLayerControlRenderer {
     fun calculateRotationHandlePosition(
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ): Offset? {
-        val center = calculateImageCenter(layer, canvasWidth, canvasHeight) ?: return null
-        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight) ?: return null
+        val center = calculateImageCenter(layer, canvasWidth, canvasHeight, backgroundSize) ?: return null
+        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return null
         
         // 旋转手柄在图像上方中心
         val handleOffset = Offset(0f, -bounds.height / 2f - ROTATION_HANDLE_LENGTH)
@@ -175,10 +198,11 @@ object ImageLayerControlRenderer {
     fun calculateControlPoints(
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ): List<ControlPoint> {
-        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight) ?: return emptyList()
-        val rotationHandle = calculateRotationHandlePosition(layer, canvasWidth, canvasHeight)
+        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
+        val rotationHandle = calculateRotationHandlePosition(layer, canvasWidth, canvasHeight, backgroundSize)
         
         val points = mutableListOf<ControlPoint>()
         
@@ -213,10 +237,11 @@ object ImageLayerControlRenderer {
         drawScope: DrawScope,
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ) {
-        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight) ?: return
-        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight)
+        val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return
+        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
         
         // 绘制边界框
         drawScope.drawRect(
@@ -250,7 +275,7 @@ object ImageLayerControlRenderer {
         
         // 绘制旋转手柄连线
         val rotationHandle = controlPoints.find { it.type == ControlPointType.ROTATION_HANDLE }
-        val center = calculateImageCenter(layer, canvasWidth, canvasHeight)
+        val center = calculateImageCenter(layer, canvasWidth, canvasHeight, backgroundSize)
         if (rotationHandle != null && center != null) {
             drawScope.drawLine(
                 color = ROTATION_HANDLE_COLOR.copy(alpha = 0.5f),
@@ -268,9 +293,10 @@ object ImageLayerControlRenderer {
         point: Offset,
         layer: ImageLayer,
         canvasWidth: Float,
-        canvasHeight: Float
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
     ): ControlPoint? {
-        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight)
+        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
         val hitRadius = CONTROL_POINT_SIZE * 2f
         
         return controlPoints.firstOrNull { controlPoint ->

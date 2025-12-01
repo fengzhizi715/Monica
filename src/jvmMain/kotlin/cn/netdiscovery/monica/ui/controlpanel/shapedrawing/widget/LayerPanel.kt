@@ -121,7 +121,35 @@ fun LayerPanel(
                 onClick = {
                     chooseImage(state) { file ->
                         try {
-                            val bufferedImage = getBufferedImage(file, state)
+                            var bufferedImage = getBufferedImage(file, state)
+                            
+                            // 如果添加的图像超过背景图，自动缩放
+                            val backgroundLayer = editorController.getBackgroundLayer()
+                            if (backgroundLayer != null && backgroundLayer.image != null) {
+                                val bgImage = backgroundLayer.image!!
+                                val bgWidth = bgImage.width
+                                val bgHeight = bgImage.height
+                                
+                                // 如果图像超过背景层大小，缩放到不超过背景层
+                                if (bufferedImage.width > bgWidth || bufferedImage.height > bgHeight) {
+                                    val scaleX = bgWidth.toFloat() / bufferedImage.width
+                                    val scaleY = bgHeight.toFloat() / bufferedImage.height
+                                    val scale = minOf(scaleX, scaleY)
+                                    
+                                    val newWidth = (bufferedImage.width * scale).toInt()
+                                    val newHeight = (bufferedImage.height * scale).toInt()
+                                    
+                                    val scaledImage = java.awt.Image.SCALE_SMOOTH
+                                    val resizedBufImage = bufferedImage.getScaledInstance(newWidth, newHeight, scaledImage)
+                                    bufferedImage = java.awt.image.BufferedImage(newWidth, newHeight, java.awt.image.BufferedImage.TYPE_INT_RGB)
+                                    val g2d = bufferedImage.createGraphics()
+                                    g2d.drawImage(resizedBufImage, 0, 0, null)
+                                    g2d.dispose()
+                                    
+                                    logger.info("自动缩放图像: ${bufferedImage.width}x${bufferedImage.height} (原始: ${getBufferedImage(file, state).width}x${getBufferedImage(file, state).height})")
+                                }
+                            }
+                            
                             val imageBitmap = bufferedImage.toComposeImageBitmap()
                             val imageLayerCount = layers.count { it.type == LayerType.IMAGE } + 1
                             val layerName = "图像图层 $imageLayerCount"

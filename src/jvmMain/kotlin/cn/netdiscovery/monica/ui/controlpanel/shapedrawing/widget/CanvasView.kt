@@ -79,11 +79,18 @@ fun CanvasView(
                 val activeImageLayer = activeLayer as? ImageLayer
                 if (activeImageLayer != null && !activeImageLayer.locked && 
                     !editorController.isBackgroundLayer(activeImageLayer)) {
+                    // 获取背景图尺寸（如果存在）
+                    val backgroundLayer = editorController.getBackgroundLayer()
+                    val backgroundSize = backgroundLayer?.image?.let { 
+                        Pair(it.width.toFloat(), it.height.toFloat()) 
+                    }
+                    
                     ImageLayerControlRenderer.drawControls(
                         drawScope = this,
                         layer = activeImageLayer,
                         canvasWidth = size.width,
-                        canvasHeight = size.height
+                        canvasHeight = size.height,
+                        backgroundSize = backgroundSize
                     )
                 }
             }
