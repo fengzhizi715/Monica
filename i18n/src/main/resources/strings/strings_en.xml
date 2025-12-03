@@ -7,6 +7,8 @@
     <string name="open_local_image">Open Local Image</string>
     <string name="load_network_image">Load Network Image</string>
     <string name="save_image">Save Image</string>
+    <string name="screenshot_full_screen">Screenshot (Full Screen)</string>
+    <string name="screenshot_area">Screenshot (Area Selection)</string>
     <string name="exit">Exit</string>
     
     <!-- Control panel -->

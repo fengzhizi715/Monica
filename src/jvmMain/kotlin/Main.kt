@@ -41,6 +41,9 @@ import cn.netdiscovery.monica.exception.ErrorState
 import cn.netdiscovery.monica.ui.widget.topToast
 import cn.netdiscovery.monica.utils.chooseImage
 import cn.netdiscovery.monica.utils.getBufferedImage
+import cn.netdiscovery.monica.utils.captureFullScreen
+import cn.netdiscovery.monica.utils.loadScreenshotToState
+import cn.netdiscovery.monica.ui.screenshot.showSwingScreenshotAreaSelector
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -60,6 +63,7 @@ private var topToastMessage by mutableStateOf("")
 private var showCenterToast by mutableStateOf(false)
 private var centerToastMessage by mutableStateOf("")
 var showGeneralSettings by mutableStateOf(false)
+var showScreenshotAreaSelector by mutableStateOf(false)
 
 lateinit var mAppKoin: Koin
 
@@ -120,6 +124,42 @@ fun main() = application {
                     openURLDialog = true
                 },
             )
+            Separator()
+            Item(
+                text = LocalizationManager.getString("screenshot_full_screen"),
+                onClick = {
+                    // 全屏截图：先隐藏主窗口，延迟截图，再恢复主窗口
+                    applicationState.window.isVisible = false
+                    Thread {
+                        try {
+                            Thread.sleep(200) // 等待窗口隐藏动画完成
+                            val screenshot = captureFullScreen()
+                            Thread.sleep(100)
+                            // 在 AWT Event Dispatch Thread 中恢复窗口可见性
+                            java.awt.EventQueue.invokeLater {
+                                applicationState.window.isVisible = true
+                                if (screenshot != null) {
+                                    loadScreenshotToState(applicationState, screenshot)
+                                }
+                            }
+                        } catch (e: Exception) {
+                            logger.error("全屏截图失败", e)
+                            // 确保窗口在错误时也能恢复
+                            java.awt.EventQueue.invokeLater {
+                                applicationState.window.isVisible = true
+                            }
+                        }
+                    }.start()
+                },
+            )
+            Item(
+                text = LocalizationManager.getString("screenshot_area"),
+                onClick = {
+                    // 区域选择：显示简化对话框，用户点击截图
+                    showScreenshotAreaSelector = true
+                },
+            )
+            Separator()
             Item(
                 text = LocalizationManager.getString("save_image"),
                 onClick = {
@@ -284,6 +324,16 @@ fun main() = application {
                 }
             }
         }
+    }
+
+    if (showScreenshotAreaSelector) {
+        // 使用 Swing 实现的区域选择器（在 macOS 上更可靠）
+        showSwingScreenshotAreaSelector(
+            state = applicationState,
+            onDismiss = {
+                showScreenshotAreaSelector = false
+            }
+        )
     }
 }
 
