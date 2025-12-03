@@ -60,8 +60,6 @@ var picUrl by mutableStateOf("")
 var showVersion by mutableStateOf(false)
 private var showTopToast by mutableStateOf(false)
 private var topToastMessage by mutableStateOf("")
-private var showCenterToast by mutableStateOf(false)
-private var centerToastMessage by mutableStateOf("")
 var showGeneralSettings by mutableStateOf(false)
 var showScreenshotAreaSelector by mutableStateOf(false)
 
@@ -219,12 +217,6 @@ fun main() = application {
                     }
                 }
 
-                if (showCenterToast) {
-                    centerToast(message = centerToastMessage) {
-                        showCenterToast = false
-                    }
-                }
-
                 if (showVersion) {
                     showVersionInfo {
                         showVersion = false
@@ -340,11 +332,6 @@ fun main() = application {
 fun showTopToast(message:String) {
     topToastMessage = message
     showTopToast = true
-}
-
-fun showCenterToast(message: String) {
-    centerToastMessage = message
-    showCenterToast = true
 }
 
 /**
