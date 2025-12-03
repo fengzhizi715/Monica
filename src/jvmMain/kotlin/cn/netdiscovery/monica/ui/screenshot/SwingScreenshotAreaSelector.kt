@@ -134,8 +134,7 @@ private class ScreenshotAreaFrame(
         
         // 获取屏幕尺寸
         val screenSize = Toolkit.getDefaultToolkit().screenSize
-        val graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment()
-            .defaultScreenDevice.defaultConfiguration
+        val graphicsConfig = GraphicsEnvironment.getLocalGraphicsEnvironment().defaultScreenDevice.defaultConfiguration
         
         // 设置窗口大小和位置
         bounds = graphicsConfig.bounds
@@ -246,4 +245,3 @@ private class ScreenshotAreaFrame(
         logger.info("Swing 区域选择窗口已显示，大小: ${bounds.width}x${bounds.height}")
     }
 }
-
