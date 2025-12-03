@@ -44,6 +44,8 @@ import cn.netdiscovery.monica.utils.getBufferedImage
 import cn.netdiscovery.monica.utils.captureFullScreen
 import cn.netdiscovery.monica.utils.loadScreenshotToState
 import cn.netdiscovery.monica.ui.screenshot.showSwingScreenshotAreaSelector
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import org.koin.compose.KoinApplication
 import org.koin.compose.koinInject
 import org.koin.core.Koin
@@ -128,11 +130,12 @@ fun main() = application {
                 onClick = {
                     // 全屏截图：先隐藏主窗口，延迟截图，再恢复主窗口
                     applicationState.window.isVisible = false
-                    Thread {
+
+                    applicationState.scope.launch {
                         try {
-                            Thread.sleep(200) // 等待窗口隐藏动画完成
+                            delay(200) // 等待窗口隐藏动画完成
                             val screenshot = captureFullScreen()
-                            Thread.sleep(100)
+                            delay(100)
                             // 在 AWT Event Dispatch Thread 中恢复窗口可见性
                             java.awt.EventQueue.invokeLater {
                                 applicationState.window.isVisible = true
@@ -147,7 +150,7 @@ fun main() = application {
                                 applicationState.window.isVisible = true
                             }
                         }
-                    }.start()
+                    }
                 },
             )
             Item(
