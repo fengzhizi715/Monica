@@ -38,9 +38,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import cn.netdiscovery.monica.config.STATUS_HTTP_SERVER_FAILED
+import cn.netdiscovery.monica.config.STATUS_HTTP_SERVER_OK
 import cn.netdiscovery.monica.exception.ErrorSeverity
 import cn.netdiscovery.monica.exception.ErrorType
 import cn.netdiscovery.monica.exception.showError
+import cn.netdiscovery.monica.http.healthCheck
 import cn.netdiscovery.monica.i18n.Language
 import cn.netdiscovery.monica.i18n.LocalizationManager
 import cn.netdiscovery.monica.rxcache.clearData
@@ -53,7 +56,6 @@ import cn.netdiscovery.monica.ui.widget.desktopLazyRow
 import cn.netdiscovery.monica.utils.Action
 import cn.netdiscovery.monica.utils.extensions.isValidUrl
 import cn.netdiscovery.monica.utils.getValidateField
-import showTopToast
 
 /**
  *
@@ -79,6 +81,8 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
     var isInitFilterParams by mutableStateOf(false)
     var isClearCacheData by mutableStateOf(false)
     var selectedTab by remember { mutableStateOf(0) }
+
+    var isServerOK by mutableStateOf(-1)
 
     val tabTitles = listOf(
         i18nState.getString("basic_settings"),
@@ -384,11 +388,51 @@ fun generalSettings(state: ApplicationState, onClick: Action) {
                                                 modifier = Modifier.fillMaxWidth()
                                             )
 
-                                            Text(
-                                                text = i18nState.getString("enter_complete_algorithm_url"),
-                                                fontSize = 12.sp,
-                                                color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
-                                            )
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Text(
+                                                    text = i18nState.getString("enter_complete_algorithm_url"),
+                                                    fontSize = 12.sp,
+                                                    color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f)
+                                                )
+
+                                                Button(
+                                                    onClick = {
+                                                        val status = try {
+                                                            val baseUrl = algorithmUrlText
+                                                            if (healthCheck(baseUrl)) {
+                                                                STATUS_HTTP_SERVER_OK
+                                                            } else {
+                                                                STATUS_HTTP_SERVER_FAILED
+                                                            }
+                                                        } catch (e:Exception) {
+                                                            STATUS_HTTP_SERVER_FAILED
+                                                        }
+
+                                                        isServerOK = if (status == STATUS_HTTP_SERVER_OK) {
+                                                            1
+                                                        } else {
+                                                            0
+                                                        }
+                                                    },
+                                                    enabled = algorithmUrlText.isNotEmpty(),
+                                                    modifier = Modifier.padding(start = 10.dp),
+                                                    colors = ButtonDefaults.buttonColors(backgroundColor = state.getCurrentThemeValue().primary)
+                                                ) {
+                                                    Text(i18nState.getString("is_the_algorithm_service_available"), color = Color.White)
+                                                }
+
+                                                if (isServerOK == 1) {
+                                                    Text(i18nState.getString("algorithm_service_available"),
+                                                        modifier = Modifier.padding(start = 10.dp),
+                                                        fontSize = 12.sp,
+                                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f))
+                                                } else if (isServerOK == 0) {
+                                                    Text(i18nState.getString("algorithm_service_unavailable"),
+                                                        modifier = Modifier.padding(start = 10.dp),
+                                                        fontSize = 12.sp,
+                                                        color = MaterialTheme.colors.onSurface.copy(alpha = 0.7f))
+                                                }
+                                            }
                                         }
                                     }
                                 }
