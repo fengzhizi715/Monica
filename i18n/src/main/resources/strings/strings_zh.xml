@@ -520,6 +520,9 @@
     <string name="clear_cache_data">清除缓存数据</string>
     <string name="algorithm_service_url">算法服务URL</string>
     <string name="enter_complete_algorithm_url">请输入完整的算法服务URL地址</string>
+    <string name="is_the_algorithm_service_available">算法服务是否可用</string>
+    <string name="algorithm_service_available">算法服务可用</string>
+    <string name="algorithm_service_unavailable">算法服务不可用</string>
     <string name="theme_operations">主题操作</string>
     <string name="current_language">当前语言</string>
     <string name="chinese">中文</string>

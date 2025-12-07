@@ -524,6 +524,9 @@
     <string name="clear_cache_data">Clear Cache Data</string>
     <string name="algorithm_service_url">Algorithm Service URL</string>
     <string name="enter_complete_algorithm_url">Please enter a complete algorithm service URL address</string>
+    <string name="is_the_algorithm_service_available">Is the algorithm service available</string>
+    <string name="algorithm_service_available">algorithm service available</string>
+    <string name="algorithm_service_unavailable">algorithm service unavailable</string>
     <string name="theme_operations">Theme Operations</string>
     <string name="current_language">Current Language</string>
     <string name="chinese">Chinese</string>
