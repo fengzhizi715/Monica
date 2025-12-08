@@ -321,6 +321,29 @@
     <string name="image_scale">图像 缩放</string>
     <string name="image_shear">图像错切</string>
     <string name="image_crop">图像裁剪</string>
+    <string name="image_compression">图像压缩</string>
+    <string name="original">原始</string>
+    <string name="compressed">压缩后</string>
+    <string name="input_selection">输入选择</string>
+    <string name="single_image">单张图片</string>
+    <string name="batch_folder">文件夹(批量)</string>
+    
+    <!-- 图像压缩相关 -->
+    <string name="compression_mode">压缩模式</string>
+    <string name="compression_algorithm">压缩算法</string>
+    <string name="quality_setting">质量设置（视觉无损）</string>
+    <string name="quality_description">值越高，压缩率越低，文件越大；值越低，压缩率越高，但可能失去细节</string>
+    <string name="compression_level">压缩级别</string>
+    <string name="compression_level_description">级别越高，压缩率越高，但处理时间越长；级别越低，处理速度越快</string>
+    <string name="compress_image">压缩图片</string>
+    <string name="select_input_folder">选择输入文件夹</string>
+    <string name="select_output_folder">选择输出文件夹</string>
+    <string name="start_batch_compression">开始批量压缩</string>
+    <string name="compression_result">压缩结果</string>
+    <string name="original_size">原始大小</string>
+    <string name="compressed_size">压缩后大小</string>
+    <string name="compression_ratio">压缩率</string>
+    <string name="selected">已选择</string>
     
     <!-- Anime styles -->
     <string name="miyazaki_style">宫崎骏风格</string>
@@ -548,5 +571,6 @@
     <string name="window_title_opencv_debug">简单 CV 算法的快速验证</string>
     <string name="window_title_face_swap">人脸替换</string>
     <string name="window_title_cartoon">图像动漫化</string>
+    <string name="window_title_compression">图像压缩</string>
     <string name="window_title_preview">放大预览</string>
 </resources>

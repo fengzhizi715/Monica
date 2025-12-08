@@ -26,6 +26,7 @@ import cn.netdiscovery.monica.ui.controlpanel.doodle.drawImage
 import cn.netdiscovery.monica.ui.controlpanel.filter.filter
 import cn.netdiscovery.monica.ui.controlpanel.generategif.generateGif
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.shapeDrawing
+import cn.netdiscovery.monica.ui.controlpanel.compression.compressionView
 import cn.netdiscovery.monica.ui.main.generalSettings
 import cn.netdiscovery.monica.ui.main.mainView
 import cn.netdiscovery.monica.ui.main.openURLDialog
@@ -239,6 +240,7 @@ fun main() = application {
 
         if (applicationState.currentImage == null &&
             (applicationState.currentStatus != GenerateGifStatus
+                    && applicationState.currentStatus != CompressionStatus
                     && applicationState.currentStatus != FilterStatus
                     && applicationState.currentStatus != FaceSwapStatus
                     && applicationState.currentStatus != OpenCVDebugStatus
@@ -314,6 +316,10 @@ fun main() = application {
                     CartoonStatus -> {
                         logger.info("enter CartoonView")
                         cartoon(applicationState)
+                    }
+                    CompressionStatus -> {
+                        logger.info("enter CompressionView")
+                        compressionView(applicationState)
                     }
                     else -> {}
                 }
@@ -391,5 +397,6 @@ private fun getWindowsTitle(state: ApplicationState):String = when(state.current
     OpenCVDebugStatus     -> LocalizationManager.getString("window_title_opencv_debug")
     FaceSwapStatus        -> LocalizationManager.getString("window_title_face_swap")
     CartoonStatus         -> LocalizationManager.getString("window_title_cartoon")
+    CompressionStatus     -> LocalizationManager.getString("window_title_compression")
     else                  -> LocalizationManager.getString("window_title_preview")
 }

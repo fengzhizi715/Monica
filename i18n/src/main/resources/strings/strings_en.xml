@@ -32,7 +32,30 @@
     <string name="shape_drawing">Shape Drawing</string>
     <string name="color_picker">Color Picker</string>
     <string name="crop_image">Crop Image</string>
+    <string name="image_compression">Image Compression</string>
+    <string name="original">Original</string>
+    <string name="compressed">Compressed</string>
+    <string name="input_selection">Input Selection</string>
+    <string name="single_image">Single Image</string>
+    <string name="batch_folder">Folder (Batch)</string>
     <string name="generate_gif">Generate GIF</string>
+    
+    <!-- Image Compression Related -->
+    <string name="compression_mode">Compression Mode</string>
+    <string name="compression_algorithm">Compression Algorithm</string>
+    <string name="quality_setting">Quality Setting (Visually Lossless)</string>
+    <string name="quality_description">Higher values result in lower compression rates and larger files; lower values result in higher compression rates but may lose details</string>
+    <string name="compression_level">Compression Level</string>
+    <string name="compression_level_description">Higher levels result in higher compression rates but longer processing times; lower levels are faster to process</string>
+    <string name="compress_image">Compress Image</string>
+    <string name="select_input_folder">Select Input Folder</string>
+    <string name="select_output_folder">Select Output Folder</string>
+    <string name="start_batch_compression">Start Batch Compression</string>
+    <string name="compression_result">Compression Result</string>
+    <string name="original_size">Original Size</string>
+    <string name="compressed_size">Compressed Size</string>
+    <string name="compression_ratio">Compression Ratio</string>
+    <string name="selected">Selected</string>
     
     <!-- Shape drawing -->
     <string name="select_color">Select Color</string>
@@ -552,5 +575,6 @@
     <string name="window_title_opencv_debug">OpenCV Debug</string>
     <string name="window_title_face_swap">Face Swap</string>
     <string name="window_title_cartoon">Image Cartoonization</string>
+    <string name="window_title_compression">Image Compression</string>
     <string name="window_title_preview">Preview</string>
 </resources>
