@@ -196,7 +196,7 @@ private fun OriginalImageTab(
     onImageSelected: (File) -> Unit,
     isCompressing: Boolean
 ) {
-    val imageToShow = viewModel.selectedImage ?: state.currentImage
+    val imageToShow = viewModel.selectedImage
     if (imageToShow != null) {
         Image(
             painter = imageToShow.toPainter(),
