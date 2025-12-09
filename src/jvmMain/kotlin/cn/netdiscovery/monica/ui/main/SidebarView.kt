@@ -42,6 +42,10 @@ enum class SidebarItem(
         isEnabled = { state -> state.isBasic },
         onClick = { state ->
             state.isBasic = !state.isBasic
+            // 切换基础功能时，如果关闭则同时关闭压缩子模块
+            if (!state.isBasic) {
+                state.isCompression = false
+            }
 
             state.isGeneralSettings = false
             state.isColorCorrection = false
@@ -58,6 +62,7 @@ enum class SidebarItem(
 
             state.isGeneralSettings = false
             state.isBasic = false
+            state.isCompression = false
             state.isFilter = false
             state.isAI = false
         }
@@ -70,6 +75,7 @@ enum class SidebarItem(
             state.togglePreviewWindowAndUpdateStatus(FilterStatus)
 
             state.isBasic = false
+            state.isCompression = false
             state.isGeneralSettings = false
             state.isColorCorrection = false
             state.isAI = false
@@ -83,6 +89,7 @@ enum class SidebarItem(
             state.isAI = !state.isAI
 
             state.isBasic = false
+            state.isCompression = false
             state.isGeneralSettings = false
             state.isColorCorrection = false
             state.isFilter = false
@@ -96,6 +103,7 @@ enum class SidebarItem(
             showGeneralSettings = true
 
             state.isBasic = false
+            state.isCompression = false
             state.isColorCorrection = false
             state.isFilter = false
             state.isAI = false

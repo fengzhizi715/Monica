@@ -22,7 +22,7 @@ import javax.swing.SwingUtilities
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
 /**
- * 显示 Swing 区域选择截图窗口Ø
+ * 显示 Swing 区域选择截图窗口
  */
 fun showSwingScreenshotAreaSelector(
     state: ApplicationState,
