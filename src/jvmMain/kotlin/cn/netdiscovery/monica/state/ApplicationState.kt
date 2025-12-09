@@ -40,17 +40,18 @@ const val RotateStatus: Int = 9
 const val ResizeStatus: Int = 10
 const val ShearingStatus: Int = 11
 const val CropSizeStatus: Int = 12
+const val CompressionStatus: Int = 13
+
+const val ColorCorrectionStatus: Int = 14
+const val FilterStatus: Int = 15
 
 
-const val ColorCorrectionStatus: Int = 13
-const val FilterStatus: Int = 14
+const val OpenCVDebugStatus: Int = 16
+const val FaceDetectStatus: Int = 17
+const val SketchDrawingStatus: Int = 18
+const val FaceSwapStatus: Int = 19
+const val CartoonStatus: Int = 20
 
-
-const val OpenCVDebugStatus: Int = 15
-const val FaceDetectStatus: Int = 16
-const val SketchDrawingStatus: Int = 17
-const val FaceSwapStatus: Int = 18
-const val CartoonStatus: Int = 19
 
 
 @Composable
@@ -81,6 +82,7 @@ class ApplicationState(val scope:CoroutineScope,
     var isColorCorrection by mutableStateOf(false)
     var isFilter by mutableStateOf(false)
     var isAI by mutableStateOf(false)
+    var isCompression by mutableStateOf(false)
 
     var isShowPreviewWindow by mutableStateOf(false)
 

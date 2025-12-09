@@ -132,6 +132,14 @@ fun basicView(state: ApplicationState) {
             onClick = {
                 state.togglePreviewWindowAndUpdateStatus(CropSizeStatus)
             })
+
+        // 图像压缩
+        toolTipButton(text = i18nState.getString("image_compression"),
+            painter = painterResource("images/controlpanel/compress.png"),
+            enable = { state.isBasic },
+            onClick = {
+                state.togglePreviewWindowAndUpdateStatus(CompressionStatus)
+            })
     }
 
     Column {
