@@ -45,32 +45,32 @@ fun FilterTopAppBar(
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF222222)
                 )
-                
-                // 菜单项（简化版，仅显示文本）
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
-                ) {
-                    Text(
-                        text = "File",
-                        fontSize = 14.sp,
-                        color = Color(0xFF222222)
-                    )
-                    Text(
-                        text = "Edit",
-                        fontSize = 14.sp,
-                        color = Color(0xFF222222)
-                    )
-                    Text(
-                        text = "View",
-                        fontSize = 14.sp,
-                        color = Color(0xFF222222)
-                    )
-                    Text(
-                        text = "Help",
-                        fontSize = 14.sp,
-                        color = Color(0xFF222222)
-                    )
-                }
+//
+//                // 菜单项（简化版，仅显示文本）
+//                Row(
+//                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+//                ) {
+//                    Text(
+//                        text = "File",
+//                        fontSize = 14.sp,
+//                        color = Color(0xFF222222)
+//                    )
+//                    Text(
+//                        text = "Edit",
+//                        fontSize = 14.sp,
+//                        color = Color(0xFF222222)
+//                    )
+//                    Text(
+//                        text = "View",
+//                        fontSize = 14.sp,
+//                        color = Color(0xFF222222)
+//                    )
+//                    Text(
+//                        text = "Help",
+//                        fontSize = 14.sp,
+//                        color = Color(0xFF222222)
+//                    )
+//                }
             }
             
             // 右侧按钮
@@ -113,7 +113,3 @@ fun FilterTopAppBar(
         }
     }
 }
-
-
-
-

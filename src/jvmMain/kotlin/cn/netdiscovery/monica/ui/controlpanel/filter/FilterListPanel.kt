@@ -153,7 +153,7 @@ private fun FilterListItem(
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp),
+                .padding(4.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
@@ -193,7 +193,7 @@ private fun FilterListItem(
                 } else {
                     Text(
                         text = noImageText,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         color = Color(0xFF999999)
                     )
                 }
@@ -227,7 +227,3 @@ private fun FilterListItem(
         }
     }
 }
-
-
-
-

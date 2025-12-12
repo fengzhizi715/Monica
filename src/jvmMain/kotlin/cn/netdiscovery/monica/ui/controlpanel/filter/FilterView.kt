@@ -115,7 +115,7 @@ fun filter(state: ApplicationState) {
         ) {
             // Left Sidebar - Filter List
             FilterListPanel(
-                modifier = Modifier.width(240.dp),
+                modifier = Modifier.width(280.dp),
                 searchQuery = searchQuery,
                 onSearchQueryChange = { searchQuery = it },
                 selectedIndex = selectedIndexState.value,
