@@ -11,7 +11,6 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toPainter
 import androidx.compose.ui.layout.ContentScale
@@ -40,23 +39,46 @@ import java.util.*
 import kotlin.collections.HashMap
 
 /**
- *
- * @FileName:
- *          cn.netdiscovery.monica.ui.controlpanel.filter.FilterView
+ * 重构后的滤镜模块 UI
+ * 
  * @author: Tony Shen
- * @date: 2025/3/6 15:34
- * @version: V1.0 <描述当前版本功能>
+ * @date: 2025/12/07
+ * @version: V2.0
  */
 private val logger: Logger = LoggerFactory.getLogger(object : Any() {}.javaClass.enclosingClass)
 
-var filterSelectedIndex = mutableStateOf(-1)
-val filterTempMap: HashMap<Pair<String, String>, String> = hashMapOf() // 存放当前滤镜的参数信息
-
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun filter(state: ApplicationState) {
     val i18nState = rememberI18nState()
     val viewModel: FilterViewModel = koinInject()
+
+    // Toast 状态
+    var showToast by remember { mutableStateOf(false) }
+    var toastMessage by remember { mutableStateOf("") }
+
+    // 搜索状态
+    var searchQuery by remember { mutableStateOf("") }
+
+    // 预览图像状态（用于实时预览）
+    var previewImage by remember { mutableStateOf<java.awt.image.BufferedImage?>(null) }
+    var isDirty by remember { mutableStateOf(false) } // 是否有未应用的更改
+    var paramVersion by remember { mutableStateOf(0) } // 用于强制刷新参数控件状态
+    var appliedParamSnapshot by remember { mutableStateOf<Map<Pair<String, String>, String>>(emptyMap()) } // 上次 Apply 的参数快照
+    val selectedIndexState = remember { mutableStateOf(-1) }
+    val paramMap = remember { androidx.compose.runtime.mutableStateMapOf<Pair<String, String>, String>() } // 当前参数（UI 状态源）
+    // “拖动即提交”模式下：以进入滤镜模块时的图像作为基线，避免参数调整叠加计算
+    val baseImageSnapshot = remember { mutableStateOf<java.awt.image.BufferedImage?>(null) }
+
+    // 打开滤镜模块时，锁定一次基线（仅首次）；后续如用户重新加载图片，会在 onImageClick 中更新
+    LaunchedEffect(Unit) {
+        if (baseImageSnapshot.value == null) {
+            // 基线要以“进入滤镜模块前的效果”为准，所以优先 currentImage
+            baseImageSnapshot.value = state.currentImage ?: state.rawImage
+        }
+    }
+
+    // 缩放状态
+    var zoomLevel by remember { mutableStateOf(1.0f) }
 
     PageLifecycle(
         onInit = {
@@ -68,247 +90,135 @@ fun filter(state: ApplicationState) {
         }
     )
 
-    Box(
+    Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                brush = Brush.verticalGradient(
-                    colors = listOf(
-                        MaterialTheme.colors.background,
-                        MaterialTheme.colors.surface
-                    )
-                )
-            ),
-        contentAlignment = Alignment.Center
+            .background(Color(0xFFF5F5F5))
     ) {
+        // Top App Bar
+        FilterTopAppBar(
+            onSave = {
+                state.closePreviewWindow()
+            },
+            onExport = {
+                // TODO: 实现导出功能
+            },
+            i18nState = i18nState
+        )
 
-        Row (
-            modifier = Modifier.fillMaxSize().padding(bottom = 180.dp, end = 400.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Center
+        // Main Content Area
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(1f),
+            horizontalArrangement = Arrangement.spacedBy(0.dp)
         ) {
-            Card(
-                modifier = Modifier.fillMaxSize().padding(10.dp),
-                shape = RoundedCornerShape(8.dp),
-                elevation = 4.dp,
-                onClick = {
-                    chooseImage(state) { file ->
-                        state.rawImage = getBufferedImage(file, state)
-                        state.currentImage = state.rawImage
-                        state.rawImageFile = file
+            // Left Sidebar - Filter List
+            FilterListPanel(
+                modifier = Modifier.width(240.dp),
+                searchQuery = searchQuery,
+                onSearchQueryChange = { searchQuery = it },
+                selectedIndex = selectedIndexState.value,
+                onFilterSelected = { index ->
+                    selectedIndexState.value = index
+                    isDirty = false
+                    previewImage = null
+                    // 重置参数为默认值
+                    paramMap.clear()
+                    val filterName = filterNames[index]
+                    paramMap.putAll(buildDefaultParamMap(filterName))
+                    // 切换滤镜时：默认参数也作为“已应用”的基线（直到用户 Apply）
+                    appliedParamSnapshot = HashMap(paramMap)
+                    paramVersion++
+                    // 选择滤镜：直接提交应用（拖动即提交语义）
+                    val base = baseImageSnapshot.value ?: state.currentImage ?: state.rawImage
+                    if (base != null) {
+                        viewModel.applyFilter(
+                            state = state,
+                            index = index,
+                            paramMap = HashMap(paramMap),
+                            sourceImage = base,
+                            pushHistory = true
+                        )
                     }
                 },
-                enabled = state.currentImage == null
-            ) {
-                if (state.currentImage == null) {
-                    Text(
-                        modifier = Modifier.fillMaxSize().wrapContentSize(Alignment.Center),
-                        text = i18nState.getString("click_to_select_image"),
-                        textAlign = TextAlign.Center,
-                        fontSize = 24.sp
-                    )
-                } else {
-                    Image(
-                        painter = state.currentImage!!.toPainter(),
-                        contentDescription = null,
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                    )
-                }
-            }
-        }
+                state = state,
+                i18nState = i18nState
+            )
 
-        Column(modifier = Modifier.padding(start = 20.dp, bottom = 20.dp, top = 160.dp).align(Alignment.BottomStart)) {
-            subTitle(text = i18nState.getString("select_filter"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
-
-            desktopLazyRow(modifier = Modifier.fillMaxWidth().padding(top = 10.dp).height(120.dp)) {
-                filterNames.forEachIndexed{ index, label ->
-                    val isSelected = filterSelectedIndex.value == index
-                    
-                    Card(
-                        elevation = if (isSelected) 8.dp else 4.dp,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(start = 5.dp)
-                            .clickable{
-                                filterSelectedIndex.value = index
-                            },
-                        backgroundColor = if (isSelected) MaterialTheme.colors.primary.copy(alpha = 0.1f) else MaterialTheme.colors.surface
-                    ) {
-                        Column(
-                            modifier = Modifier.padding(12.dp),
-                            verticalArrangement = Arrangement.Center
-                        ) {
-                            Text(
-                                text = label, 
-                                fontSize = 18.sp,
-                                color = if (isSelected) MaterialTheme.colors.primary else MaterialTheme.colors.onSurface,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                modifier = Modifier.padding(bottom = 4.dp)
-                            )
-
-                            Text(
-                                text = filterMaps[label]?.split("-")?.first()?:"",
-                                fontSize = 14.sp,
-                                color = if (isSelected) MaterialTheme.colors.primaryVariant else MaterialTheme.colors.onSurface.copy(alpha = 0.7f),
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
-                                maxLines = 2,
-                                overflow = androidx.compose.ui.text.style.TextOverflow.Ellipsis
-                            )
+            // Center - Image Preview Area
+            FilterPreviewArea(
+                modifier = Modifier.weight(1f),
+                state = state,
+                previewImage = previewImage,
+                zoomLevel = zoomLevel,
+                onZoomChange = { zoomLevel = it },
+                onImageClick = {
+                    if (state.currentImage == null) {
+                        chooseImage(state) { file ->
+                            state.rawImage = getBufferedImage(file, state)
+                            state.currentImage = state.rawImage
+                            state.rawImageFile = file
+                            baseImageSnapshot.value = state.currentImage
+                            previewImage = null
+                            isDirty = false
                         }
                     }
-                }
-            }
-        }
+                },
+                i18nState = i18nState
+            )
 
-        rightSideMenuBar(modifier = Modifier.width(400.dp).height(550.dp).align(Alignment.CenterEnd), backgroundColor = Color.White, percent = 3) {
-
-            Box(modifier = Modifier.fillMaxSize()) {
-                // 主要内容区域 - 可滚动
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(bottom = 80.dp) // 为底部按钮预留空间
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    if (filterSelectedIndex.value>=0) {
-                        subTitle(text = i18nState.getString("filter_name", filterNames[filterSelectedIndex.value]), modifier = Modifier.padding(start =10.dp, bottom = 10.dp), fontWeight = FontWeight.Bold)
-                        generateFilterParams(filterSelectedIndex.value)
-                        generateFilterRemark(filterSelectedIndex.value, i18nState)
-                    } else {
-                        subTitle(text = i18nState.getString("select_filter_first"), modifier = Modifier.padding(start = 10.dp), fontWeight = FontWeight.Bold)
-                    }
-                }
-
-                // 底部按钮区域 - 固定在底部
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(70.dp)
-                        .align(Alignment.BottomCenter),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(10.dp),
-                        horizontalArrangement = Arrangement.SpaceEvenly // 按钮水平分布
-                    ) {
-                        // 预览效果
-                        toolTipButton(text = i18nState.getString("preview_effect"),
-                            enable = { state.currentImage != null && filterSelectedIndex.value >= 0 },
-                            painter = painterResource("images/filters/preview.png"),
-                            onClick = {
-                                viewModel.applyFilter(state, filterSelectedIndex.value, filterTempMap)
-                            })
-
-                        // 上一步
-                        toolTipButton(text = i18nState.getString("previous_step"),
-                            painter = painterResource("images/doodle/previous_step.png"),
-                            onClick = {
-                                state.getLastImage()?.let {
-                                    state.currentImage = it
-                                }
-                            })
-
-                        // 取消滤镜操作
-                        toolTipButton(text = i18nState.getString("cancel_filter_operation"),
-                            painter = painterResource("images/filters/cancel.png"),
-                            onClick = {
-                                viewModel.job?.cancel()
-                                loadingDisplay = false
-                            })
-
-                        // 保存
-                        toolTipButton(text = i18nState.getString("save"),
-                            painter = painterResource("images/doodle/save.png"),
-                            onClick = {
-                                state.closePreviewWindow()
-                            })
-
-                        // 删除原图
-                        toolTipButton(text = i18nState.getString("delete_original_image"),
-                            painter = painterResource("images/preview/delete.png"),
-                            onClick = {
-                                state.clearImage()
-                            })
-                    }
-                }
-            }
-        }
-
-        if (loadingDisplay) {
-            showLoading()
+            // Right Sidebar - Adjustment Panel
+            FilterAdjustmentPanel(
+                modifier = Modifier.width(300.dp),
+                selectedIndex = selectedIndexState.value,
+                state = state,
+                baseImage = baseImageSnapshot.value,
+                viewModel = viewModel,
+                previewImage = previewImage,
+                onPreviewImageChange = { previewImage = it },
+                isDirty = isDirty,
+                onDirtyChange = { isDirty = it },
+                paramVersion = paramVersion,
+                onParamVersionChange = { paramVersion = it },
+                appliedParamSnapshot = appliedParamSnapshot,
+                onAppliedParamSnapshotChange = { appliedParamSnapshot = it },
+                paramMap = paramMap,
+                onClearFilter = {
+                    val base = baseImageSnapshot.value ?: return@FilterAdjustmentPanel
+                    val before = state.currentImage ?: base
+                    // 回到进入滤镜模块前的效果，并记录一次历史便于撤销
+                    state.currentImage = base
+                    state.addQueue(before)
+                    // 清理 UI 状态：取消选中滤镜，避免“选中但未应用”的错觉
+                    selectedIndexState.value = -1
+                    paramMap.clear()
+                    appliedParamSnapshot = emptyMap()
+                    previewImage = null
+                    isDirty = false
+                    paramVersion++
+                },
+                onShowToast = { message ->
+                    toastMessage = message
+                    showToast = true
+                },
+                i18nState = i18nState
+            )
         }
     }
-}
 
-/**
- * 根据不同的滤镜，生成不同的参数
- */
-@Composable
-private fun generateFilterParams(selectedIndex:Int) {
-
-    filterTempMap.clear()
-
-    val filterName = filterNames[selectedIndex]
-    val params: List<Param>? = getFilterParam(filterName)
-
-    if (params != null) {
-        Collections.sort(params) { o1, o2 -> collator.compare(o1.key, o2.key) }
-
-        params.forEach {
-
-            val paramName = it.key
-            val type = it.type
-            var text by remember(filterName, paramName) {
-
-                if (type == "Int") {
-                    mutableStateOf((it.value.toString().safelyConvertToInt()?:0).toString())
-                } else {
-                    mutableStateOf(it.value.toString())
-                }
-            }
-
-            filterTempMap[Pair(paramName, type)] = text
-
-            Card(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 8.dp),
-                elevation = 2.dp,
-                backgroundColor = MaterialTheme.colors.surface
-            ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    basicTextFieldWithTitle(titleText = paramName, text, Modifier.padding(top = 5.dp)) { str ->
-                        text = str
-                        filterTempMap[Pair(paramName, type)] = text
-                    }
-                }
-            }
-        }
+    // Loading Indicator
+    if (loadingDisplay) {
+        showLoading()
     }
-}
 
-@Composable
-private fun generateFilterRemark(selectedIndex:Int, i18nState: cn.netdiscovery.monica.ui.i18n.I18nState) {
-    val filterName = filterNames[selectedIndex]
-    val remark = getFilterRemark(filterName)
-
-    if (!remark.isNullOrEmpty()) {
-        Card(
-            modifier = Modifier.fillMaxWidth().padding(top = 10.dp, start = 10.dp),
-            shape = RoundedCornerShape(5.dp),
-            elevation = 4.dp,
-            backgroundColor = Color.LightGray
+    // Toast Message
+    if (showToast) {
+        centerToast(
+            modifier = Modifier,
+            message = toastMessage
         ) {
-            Column {
-                Text(text = i18nState.getString("remark"), modifier = Modifier.padding(top = 5.dp, start = 10.dp))
-                Text(remark, color = Color.Black, fontSize = 12.sp , modifier = Modifier.padding(10.dp))
-            }
+            showToast = false
         }
     }
 }

@@ -229,6 +229,23 @@
     <string name="select_filter">Please select a filter</string>
     <string name="filter_name">%s Filter</string>
     <string name="select_filter_first">Please select a filter first</string>
+    <string name="image_editor_filter_module">Image Editor: Filter Module</string>
+    <string name="export">Export</string>
+    <string name="adjustments">Adjustments</string>
+    <string name="reset_filter">Reset Filter</string>
+    <string name="apply">Apply</string>
+    <string name="failed_to_apply_filter">Failed to apply filter</string>
+    <string name="filter_applied">Filter applied</string>
+    <string name="no_image">No image</string>
+    <string name="no_filters_found">No filters found</string>
+    <string name="param_summary">Parameter Summary</string>
+    <string name="param_summary_default">Using default parameters</string>
+    <string name="param_summary_changed_count">%d adjusted</string>
+    <string name="param_summary_reset_hint">Tip: click "Reset Filter" at the bottom to restore default parameters</string>
+    <string name="clear_filter">Clear Filter</string>
+    <string name="notes">Notes:</string>
+    <string name="search">Search</string>
+    <string name="fit">Fit</string>
     
     <!-- Anime style -->
     <string name="select_anime_style">Please select an anime style</string>
