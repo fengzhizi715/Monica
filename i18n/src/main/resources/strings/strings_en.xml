@@ -243,6 +243,28 @@
     <string name="param_summary_changed_count">%d adjusted</string>
     <string name="param_summary_reset_hint">Tip: click "Reset Filter" at the bottom to restore default parameters</string>
     <string name="clear_filter">Clear Filter</string>
+    <!-- ColorFilter style options -->
+    <string name="color_filter_style_0">Autumn</string>
+    <string name="color_filter_style_1">Bone</string>
+    <string name="color_filter_style_2">Cool</string>
+    <string name="color_filter_style_3">Warm</string>
+    <string name="color_filter_style_4">HSV</string>
+    <string name="color_filter_style_5">Jet</string>
+    <string name="color_filter_style_6">Ocean</string>
+    <string name="color_filter_style_7">Pink</string>
+    <string name="color_filter_style_8">Rainbow</string>
+    <string name="color_filter_style_9">Spring</string>
+    <string name="color_filter_style_10">Summer</string>
+    <string name="color_filter_style_11">Winter</string>
+    <!-- NatureFilter style options -->
+    <string name="nature_filter_style_1">Atmosphere</string>
+    <string name="nature_filter_style_2">Burning</string>
+    <string name="nature_filter_style_3">Haze</string>
+    <string name="nature_filter_style_4">Frozen</string>
+    <string name="nature_filter_style_5">Lava</string>
+    <string name="nature_filter_style_6">Metal</string>
+    <string name="nature_filter_style_7">Ocean</string>
+    <string name="nature_filter_style_8">Flowing Water</string>
     <string name="notes">Notes:</string>
     <string name="search">Search</string>
     <string name="fit">Fit</string>

@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowDown
@@ -224,6 +225,9 @@ private fun FilterParamSummarySection(
     i18nState: I18nState
 ) {
     val defaultMap = remember(filterName) { buildDefaultParamMap(filterName) }
+    val paramByKey = remember(filterName) {
+        getFilterParam(filterName).orEmpty().associateBy { it.key }
+    }
     val changedEntries = remember(filterName, defaultMap, paramMap) {
         paramMap.entries
             .filter { (k, v) -> defaultMap[k] != v }
@@ -272,7 +276,22 @@ private fun FilterParamSummarySection(
                 val previewItems = changedEntries.take(3)
                 previewItems.forEach { entry ->
                     val key = entry.key.first
-                    val value = entry.value
+                    val rawValue = entry.value
+                    val value = run {
+                        val param = paramByKey[key]
+                        if (param != null) {
+                            val meta = FilterParamMetaRegistry.resolve(filterName = filterName, param = param)
+                            val intVal = rawValue.safelyConvertToInt()
+                            val option = intVal?.let { v -> meta.enumOptions?.firstOrNull { it.value == v } }
+                            if (option != null) {
+                                "${i18nState.getString(option.labelKey)} ($rawValue)"
+                            } else {
+                                rawValue
+                            }
+                        } else {
+                            rawValue
+                        }
+                    }
                     Text(
                         text = "$key: $value",
                         fontSize = 12.sp,
@@ -399,6 +418,7 @@ private fun FilterParamSlider(
     val maxValue = meta.max
     val step = meta.step
     val decimals = meta.decimals
+    val enumOptions = meta.enumOptions
 
     fun triggerPreviewNow() {
         if (state.currentImage != null) {
@@ -464,58 +484,74 @@ private fun FilterParamSlider(
                     fontWeight = FontWeight.Bold,
                     color = Color(0xFF222222)
                 )
-                // 数字输入框
-                OutlinedTextField(
-                    value = draftText,
-                    onValueChange = { newValue ->
-                        draftText = newValue
-
-                        // 仅当输入可解析时才更新参数与触发预览；否则等待失焦回退
-                        val ok = when (paramType) {
-                            "Int" -> newValue.safelyConvertToInt() != null
-                            "Float" -> newValue.toFloatOrNull() != null
-                            "Double" -> newValue.toDoubleOrNull() != null
-                            else -> true
-                        }
-
-                        if (ok) {
+                if (paramType == "Int" && !enumOptions.isNullOrEmpty()) {
+                    EnumParamDropdown(
+                        valueText = draftText,
+                        options = enumOptions,
+                        onSelect = { newInt ->
+                            val newValue = newInt.toString()
+                            draftText = newValue
                             lastValidText = newValue
                             paramMap[Pair(paramKey, paramType)] = newValue
                             onDirtyChange(true)
-                            // 输入过程中仍做预览（防止每个字符都提交）
-                            if (state.currentImage != null) {
-                                viewModel.applyFilterPreview(
-                                    state = state,
-                                    index = selectedIndex,
-                                    paramMap = HashMap(paramMap),
-                                    debounceMs = 200,
-                                    onSuccess = { image -> onPreviewImageChange(image) },
-                                    onError = { }
-                                )
-                            }
-                        }
-                    },
-                    modifier = Modifier
-                        .width(80.dp)
-                        .onFocusChanged { hasFocus = it.isFocused },
-                    singleLine = true,
-                    keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
-                    keyboardActions = KeyboardActions(
-                        onDone = {
-                            focusManager.clearFocus()
-                            // Done：直接提交
                             commitNow()
-                        }
-                    ),
-                    colors = TextFieldDefaults.outlinedTextFieldColors(
-                        focusedBorderColor = Color(0xFF007AFF),
-                        unfocusedBorderColor = Color(0xFFE0E0E0)
+                        },
+                        i18nState = i18nState
                     )
-                )
+                } else {
+                    // 数字输入框
+                    OutlinedTextField(
+                        value = draftText,
+                        onValueChange = { newValue ->
+                            draftText = newValue
+
+                            // 仅当输入可解析时才更新参数与触发预览；否则等待失焦回退
+                            val ok = when (paramType) {
+                                "Int" -> newValue.safelyConvertToInt() != null
+                                "Float" -> newValue.toFloatOrNull() != null
+                                "Double" -> newValue.toDoubleOrNull() != null
+                                else -> true
+                            }
+
+                            if (ok) {
+                                lastValidText = newValue
+                                paramMap[Pair(paramKey, paramType)] = newValue
+                                onDirtyChange(true)
+                                // 输入过程中仍做预览（防止每个字符都提交）
+                                if (state.currentImage != null) {
+                                    viewModel.applyFilterPreview(
+                                        state = state,
+                                        index = selectedIndex,
+                                        paramMap = HashMap(paramMap),
+                                        debounceMs = 200,
+                                        onSuccess = { image -> onPreviewImageChange(image) },
+                                        onError = { }
+                                    )
+                                }
+                            }
+                        },
+                        modifier = Modifier
+                            .width(140.dp)
+                            .onFocusChanged { hasFocus = it.isFocused },
+                        singleLine = true,
+                        keyboardOptions = KeyboardOptions.Default.copy(imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(
+                            onDone = {
+                                focusManager.clearFocus()
+                                // Done：直接提交
+                                commitNow()
+                            }
+                        ),
+                        colors = TextFieldDefaults.outlinedTextFieldColors(
+                            focusedBorderColor = Color(0xFF007AFF),
+                            unfocusedBorderColor = Color(0xFFE0E0E0)
+                        )
+                    )
+                }
             }
             
             // 滑块（仅对数值类型显示）
-            if (paramType in listOf("Int", "Float", "Double")) {
+            if (paramType in listOf("Int", "Float", "Double") && (enumOptions.isNullOrEmpty() || paramType != "Int")) {
                 Slider(
                     value = numericValue.coerceIn(minValue, maxValue),
                     onValueChange = { newValue ->
@@ -567,6 +603,59 @@ private fun FilterParamSlider(
                         // 理论上不会发生（lastValidText 会同步），兜底：失焦提交一次
                         commitNow()
                     }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun EnumParamDropdown(
+    valueText: String,
+    options: List<FilterEnumOption>,
+    onSelect: (Int) -> Unit,
+    i18nState: I18nState
+) {
+    var expanded by remember { mutableStateOf(false) }
+    val currentInt = valueText.safelyConvertToInt()
+    val currentLabel = currentInt?.let { v ->
+        options.firstOrNull { it.value == v }?.let { opt -> i18nState.getString(opt.labelKey) }
+    } ?: valueText
+
+    Box(modifier = Modifier.width(140.dp)) {
+        OutlinedTextField(
+            value = if (currentInt != null) "$currentLabel ($currentInt)" else currentLabel,
+            onValueChange = {},
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth(),
+            trailingIcon = {
+                IconButton(onClick = { expanded = true }) {
+                    Icon(Icons.Default.ArrowDropDown, contentDescription = null)
+                }
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color(0xFF007AFF),
+                unfocusedBorderColor = Color(0xFFE0E0E0)
+            )
+        )
+
+        // 透明点击层：避免 TextField 在 Desktop 上吞掉点击事件导致无法展开
+        Box(
+            modifier = Modifier
+                .matchParentSize()
+                .clickable { expanded = true }
+        )
+
+        DropdownMenu(
+            expanded = expanded,
+            onDismissRequest = { expanded = false }
+        ) {
+            options.forEach { opt ->
+                DropdownMenuItem(onClick = {
+                    expanded = false
+                    onSelect(opt.value)
+                }) {
+                    Text("${i18nState.getString(opt.labelKey)} (${opt.value})")
                 }
             }
         }

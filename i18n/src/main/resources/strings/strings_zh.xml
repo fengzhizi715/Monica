@@ -246,6 +246,28 @@
     <string name="param_summary_changed_count">已调整 %d 项</string>
     <string name="param_summary_reset_hint">提示：可在底部点击“重置滤镜”恢复默认参数</string>
     <string name="clear_filter">清除滤镜</string>
+    <!-- ColorFilter style options -->
+    <string name="color_filter_style_0">秋色</string>
+    <string name="color_filter_style_1">骨骼</string>
+    <string name="color_filter_style_2">冷色</string>
+    <string name="color_filter_style_3">暖色</string>
+    <string name="color_filter_style_4">HSV</string>
+    <string name="color_filter_style_5">喷射</string>
+    <string name="color_filter_style_6">海洋</string>
+    <string name="color_filter_style_7">粉色</string>
+    <string name="color_filter_style_8">彩虹</string>
+    <string name="color_filter_style_9">春天</string>
+    <string name="color_filter_style_10">夏天</string>
+    <string name="color_filter_style_11">冬天</string>
+    <!-- NatureFilter style options -->
+    <string name="nature_filter_style_1">大气</string>
+    <string name="nature_filter_style_2">燃烧</string>
+    <string name="nature_filter_style_3">雾霾</string>
+    <string name="nature_filter_style_4">冰冻</string>
+    <string name="nature_filter_style_5">熔岩</string>
+    <string name="nature_filter_style_6">金属</string>
+    <string name="nature_filter_style_7">海洋</string>
+    <string name="nature_filter_style_8">水流</string>
     <string name="notes">备注：</string>
     <string name="search">搜索</string>
     <string name="fit">适应</string>
