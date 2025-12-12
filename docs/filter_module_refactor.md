@@ -137,4 +137,52 @@
 - **日志与可观测性**：当前仍存在少量 `logger.info(...)`（如 FilterView 生命周期/FilterViewModel applyFilter）。建议后续统一降噪或增加 debug 开关。
 - **可访问性**：个别 `contentDescription` 仍为英文（如 Zoom In），可按 i18n 统一。
 
+---
+
+## 未来优化方向（路线图建议）
+
+### P0（高收益 / 低风险，建议优先）
+
+- **提交任务的并发与取消策略**  
+  - 当前“松手即提交”在用户频繁操作时可能产生提交排队；建议在提交前取消上一次未完成的提交任务，仅保留最后一次松手的提交（类似“last-write-wins”）。
+  - 预览任务与提交任务建议分别管理，避免互相 cancel 造成 UI 抖动。
+
+- **预览缓存进一步完善**
+  - 目前缓存 key 基于 `identityHashCode(baseImage)`；若后续引入“滤镜叠加链”，可扩展为 `baseImageFingerprint + chainHash + paramsHash`（或至少在 sourceImageOverride 场景下保证 cacheKey 取对）。
+  - 可增加简单命中率统计（默认关闭），便于性能回归。
+
+- **枚举型参数的系统化支持**
+  - 已对 `ColorFilter.style`、`NatureFilter.style` 做了下拉选择；建议把更多类似参数（如 `gridType`、`waveType` 等）统一纳入 `FilterParamMetaRegistry` 的 `enumOptions`。
+  - 枚举项建议改为外部配置（json），降低 Kotlin 侧维护成本。
+
+### P1（高收益 / 中等工程量）
+
+- **非破坏式滤镜栈（专业编辑器体验）**
+  - 当前“方式1”支持滤镜叠加，但本质是“破坏式”写回 `currentImage`；建议升级为滤镜栈（A→B→C）：
+    - UI：支持新增/删除/排序/启用/禁用滤镜条目；
+    - 计算：以基线图为输入重算整条链（可配合分段缓存）；
+    - 历史：一次“应用/确认”生成一个历史节点，或者按滤镜条目粒度记录。
+  - 优点：可编辑、可回溯、符合 PS/Lightroom 预期；缺点：需要明确栈的存储与性能策略。
+
+- **参数元数据完全配置化**
+  - 将 `FilterParamMeta`（min/max/step/decimals/enumOptions）迁移到 `resources/common/filterParamMeta.json`（或扩展现有 `filterConfig.json`），Kotlin 只保留类型默认兜底与少量安全约束（例如 step>0）。
+  - 这样可以由产品/算法侧直接调整范围与枚举定义，不需要改代码。
+
+- **提交与撤销语义更精确**
+  - 当前每次松手都会 push 历史；可考虑“合并提交窗口”（例如 500ms 内多次提交合并为一次历史），减少 undo 栈污染。
+  - 也可增加“预览模式”开关：只预览不入历史，用户确认后再统一落盘。
+
+### P2（体验增强 / 可持续维护）
+
+- **导出能力落地（与滤镜结果一致）**
+  - Export 需要明确导出的是：当前画布效果（含叠加）还是仅某个滤镜结果。
+  - 建议支持：导出当前效果 / 导出原图 / 导出带滤镜栈元数据（用于二次编辑）。
+
+- **测试与回归保障**
+  - 为关键交互补充自动化验证：列表筛选点击不乱、BlockFilter step 不为 0、枚举下拉可用、缓存命中不串图、清除滤镜恢复正确。
+
+- **可访问性与键盘操作**
+  - 下拉/按钮/缩放控件补齐 i18n 的 `contentDescription`；
+  - 为参数控件支持键盘上下调整与快捷键（更像桌面编辑器）。
+
 
