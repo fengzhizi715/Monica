@@ -84,14 +84,6 @@ object FilterParamMetaRegistry {
         )
     )
 
-    private val keyOverrides: Map<String, FilterParamMeta> = mapOf(
-        // 常见参数的通用覆盖（作为兜底）
-        "brightness" to FilterParamMeta(min = 0f, max = 2f, step = 0.01f, decimals = 2),
-        "contrast" to FilterParamMeta(min = 0f, max = 3f, step = 0.01f, decimals = 2),
-        "hue" to FilterParamMeta(min = 0f, max = 360f, step = 1f, decimals = 0),
-        "saturation" to FilterParamMeta(min = 0f, max = 2f, step = 0.01f, decimals = 2)
-    )
-
     /**
      * 基于参数名/类型给出一个“默认但可维护”的范围配置。
      * 后续如需更精细（按 filterName+paramKey），可以在这里加覆盖表。
@@ -101,9 +93,6 @@ object FilterParamMetaRegistry {
 
         // 1) filterName + paramKey 精确覆盖
         filterKeyOverrides[filterName]?.get(paramKey)?.let { return it }
-
-        // 2) paramKey 通用覆盖（精确匹配，避免 contains 误伤）
-        keyOverrides[paramKey]?.let { return it }
 
         // 类型默认
         return when (param.type) {

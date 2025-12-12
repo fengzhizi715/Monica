@@ -139,7 +139,7 @@ class FilterViewModel {
             val list = mutableListOf<Param>()
             paramMap.forEach { (t, u) ->
                 val value = when(t.second) {
-                    "Int"    -> u.safelyConvertToInt()?:0
+                    "Int"    -> clampIntParam(t.first, u.safelyConvertToInt() ?: 0)
                     "Float"  -> u.toFloat()
                     "Double" -> u.toDouble()
                     else     -> u
@@ -177,6 +177,7 @@ class FilterViewModel {
         state: ApplicationState,
         index: Int,
         paramMap: Map<Pair<String, String>, String>,
+        sourceImageOverride: BufferedImage? = null,
         debounceMs: Long = 0,
         onSuccess: (java.awt.image.BufferedImage) -> Unit,
         onError: (Throwable) -> Unit
@@ -189,8 +190,8 @@ class FilterViewModel {
                 if (debounceMs > 0) {
                     delay(debounceMs)
                 }
-                // 使用原始图像进行预览，如果没有原始图像则使用当前图像
-                val sourceImage = state.rawImage ?: state.currentImage
+                // 预览基线：优先用外部传入（用于“滤镜叠加但单滤镜内不叠加”），否则用 currentImage
+                val sourceImage = sourceImageOverride ?: state.currentImage ?: state.rawImage
                 if (sourceImage == null) {
                     return@launch
                 }

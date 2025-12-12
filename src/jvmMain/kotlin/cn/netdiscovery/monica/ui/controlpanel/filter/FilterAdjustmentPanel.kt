@@ -46,7 +46,7 @@ fun FilterAdjustmentPanel(
     modifier: Modifier = Modifier,
     selectedIndex: Int,
     state: ApplicationState,
-    baseImage: BufferedImage?,
+    filterBaseImage: BufferedImage?,
     viewModel: FilterViewModel,
     previewImage: BufferedImage?,
     onPreviewImageChange: (BufferedImage?) -> Unit,
@@ -120,7 +120,7 @@ fun FilterAdjustmentPanel(
                                 filterName = filterName,
                                 selectedIndex = selectedIndex,
                                 state = state,
-                                baseImage = baseImage,
+                                filterBaseImage = filterBaseImage,
                                 viewModel = viewModel,
                                 onPreviewImageChange = onPreviewImageChange,
                                 onDirtyChange = onDirtyChange,
@@ -157,7 +157,7 @@ fun FilterAdjustmentPanel(
                         .fillMaxWidth()
                         .padding(20.dp),
                     state = state,
-                    baseImage = baseImage,
+                    filterBaseImage = filterBaseImage,
                     viewModel = viewModel,
                     selectedIndex = selectedIndex,
                     previewImage = previewImage,
@@ -326,7 +326,7 @@ private fun FilterParamsSection(
     filterName: String,
     selectedIndex: Int,
     state: ApplicationState,
-    baseImage: BufferedImage?,
+    filterBaseImage: BufferedImage?,
     viewModel: FilterViewModel,
     onPreviewImageChange: (BufferedImage?) -> Unit,
     onDirtyChange: (Boolean) -> Unit,
@@ -348,7 +348,7 @@ private fun FilterParamsSection(
                 filterName = filterName,
                 selectedIndex = selectedIndex,
                 state = state,
-                baseImage = baseImage,
+                filterBaseImage = filterBaseImage,
                 viewModel = viewModel,
                 onPreviewImageChange = onPreviewImageChange,
                 onDirtyChange = onDirtyChange,
@@ -370,7 +370,7 @@ private fun FilterParamSlider(
     filterName: String,
     selectedIndex: Int,
     state: ApplicationState,
-    baseImage: BufferedImage?,
+    filterBaseImage: BufferedImage?,
     viewModel: FilterViewModel,
     onPreviewImageChange: (BufferedImage?) -> Unit,
     onDirtyChange: (Boolean) -> Unit,
@@ -426,6 +426,7 @@ private fun FilterParamSlider(
                 state = state,
                 index = selectedIndex,
                 paramMap = HashMap(paramMap),
+                sourceImageOverride = filterBaseImage,
                 debounceMs = 0,
                 onSuccess = { image -> onPreviewImageChange(image) },
                 onError = { }
@@ -434,7 +435,7 @@ private fun FilterParamSlider(
     }
 
     fun commitNow() {
-        val base = baseImage ?: state.currentImage ?: state.rawImage
+        val base = filterBaseImage ?: state.currentImage ?: state.rawImage
         if (base == null) return
         viewModel.applyFilter(
             state = state,
@@ -523,6 +524,7 @@ private fun FilterParamSlider(
                                         state = state,
                                         index = selectedIndex,
                                         paramMap = HashMap(paramMap),
+                                    sourceImageOverride = filterBaseImage,
                                         debounceMs = 200,
                                         onSuccess = { image -> onPreviewImageChange(image) },
                                         onError = { }
@@ -707,7 +709,7 @@ private fun FilterNotesSection(
 private fun FilterActionButtons(
     modifier: Modifier = Modifier,
     state: ApplicationState,
-    baseImage: BufferedImage?,
+    filterBaseImage: BufferedImage?,
     viewModel: FilterViewModel,
     selectedIndex: Int,
     previewImage: BufferedImage?,
@@ -743,7 +745,7 @@ private fun FilterActionButtons(
                     paramMap.clear()
                     paramMap.putAll(defaultMap)
                     // 拖动即提交：Reset 也直接提交
-                    val base = baseImage ?: state.currentImage ?: state.rawImage
+                    val base = filterBaseImage ?: state.currentImage ?: state.rawImage
                     if (base != null) {
                         viewModel.applyFilter(
                             state = state,

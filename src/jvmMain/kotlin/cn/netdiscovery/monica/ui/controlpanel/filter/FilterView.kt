@@ -66,8 +66,10 @@ fun filter(state: ApplicationState) {
     var appliedParamSnapshot by remember { mutableStateOf<Map<Pair<String, String>, String>>(emptyMap()) } // 上次 Apply 的参数快照
     val selectedIndexState = remember { mutableStateOf(-1) }
     val paramMap = remember { androidx.compose.runtime.mutableStateMapOf<Pair<String, String>, String>() } // 当前参数（UI 状态源）
-    // “拖动即提交”模式下：以进入滤镜模块时的图像作为基线，避免参数调整叠加计算
+    // 进入滤镜模块前的基线图：用于“清除滤镜”恢复原效果
     val baseImageSnapshot = remember { mutableStateOf<java.awt.image.BufferedImage?>(null) }
+    // 当前选中滤镜的基线图：用于“同一滤镜内调参不叠加”，但允许滤镜之间叠加
+    val currentFilterBaseImageSnapshot = remember { mutableStateOf<java.awt.image.BufferedImage?>(null) }
 
     // 打开滤镜模块时，锁定一次基线（仅首次）；后续如用户重新加载图片，会在 onImageClick 中更新
     LaunchedEffect(Unit) {
@@ -130,9 +132,10 @@ fun filter(state: ApplicationState) {
                     // 切换滤镜时：默认参数也作为“已应用”的基线（直到用户 Apply）
                     appliedParamSnapshot = HashMap(paramMap)
                     paramVersion++
-                    // 选择滤镜：直接提交应用（拖动即提交语义）
-                    val base = baseImageSnapshot.value ?: state.currentImage ?: state.rawImage
+                    // 方式1：滤镜之间叠加 —— 新滤镜基于当前画布图像继续算
+                    val base = state.currentImage ?: state.rawImage
                     if (base != null) {
+                        currentFilterBaseImageSnapshot.value = base
                         viewModel.applyFilter(
                             state = state,
                             index = index,
@@ -160,6 +163,7 @@ fun filter(state: ApplicationState) {
                             state.currentImage = state.rawImage
                             state.rawImageFile = file
                             baseImageSnapshot.value = state.currentImage
+                            currentFilterBaseImageSnapshot.value = state.currentImage
                             previewImage = null
                             isDirty = false
                         }
@@ -173,7 +177,7 @@ fun filter(state: ApplicationState) {
                 modifier = Modifier.width(300.dp),
                 selectedIndex = selectedIndexState.value,
                 state = state,
-                baseImage = baseImageSnapshot.value,
+                filterBaseImage = currentFilterBaseImageSnapshot.value,
                 viewModel = viewModel,
                 previewImage = previewImage,
                 onPreviewImageChange = { previewImage = it },
@@ -194,6 +198,7 @@ fun filter(state: ApplicationState) {
                     selectedIndexState.value = -1
                     paramMap.clear()
                     appliedParamSnapshot = emptyMap()
+                    currentFilterBaseImageSnapshot.value = null
                     previewImage = null
                     isDirty = false
                     paramVersion++
