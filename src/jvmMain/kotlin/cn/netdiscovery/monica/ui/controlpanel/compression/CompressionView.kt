@@ -37,7 +37,6 @@ fun compressionView(state: ApplicationState) {
     
     var compressionMode by remember { mutableStateOf(CompressionMode.SINGLE) }
     var selectedOutputDir by remember { mutableStateOf<File?>(null) }
-    var selectedTabIndex by remember { mutableStateOf(0) } // 0: 原始, 1: 压缩后
     
     // Toast 状态（提升到顶层，使 toast 在整个页面居中）
     var showToast by remember { mutableStateOf(false) }
@@ -55,7 +54,7 @@ fun compressionView(state: ApplicationState) {
     // 显示 Toast（在整个页面居中）
     if (showToast) {
         cn.netdiscovery.monica.ui.widget.centerToast(
-            modifier = Modifier,
+            modifier = Modifier.fillMaxSize(),
             message = toastMessage
         ) {
             showToast = false
@@ -95,9 +94,11 @@ fun compressionView(state: ApplicationState) {
                 .fillMaxHeight(),
             state = state,
             viewModel = viewModel,
-            selectedTabIndex = selectedTabIndex,
-            onTabSelected = { selectedTabIndex = it },
             compressionMode = compressionMode,
+            onShowToast = { message ->
+                toastMessage = message
+                showToast = true
+            },
             i18nState = i18nState
         )
     }

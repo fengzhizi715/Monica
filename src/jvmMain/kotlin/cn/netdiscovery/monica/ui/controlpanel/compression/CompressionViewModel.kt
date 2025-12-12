@@ -10,6 +10,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.io.File
@@ -25,6 +26,16 @@ import javax.imageio.ImageIO
 private val logger: Logger = LoggerFactory.getLogger(CompressionViewModel::class.java)
 
 class CompressionViewModel {
+
+    companion object {
+        private val DEFAULT_ALGORITHM: CompressionAlgorithm = CompressionAlgorithm.JPEG_QUALITY
+        private const val DEFAULT_QUALITY: Float = 0.8f
+        private const val DEFAULT_COMPRESSION_LEVEL: Int = 6
+    }
+
+    private suspend fun ui(block: () -> Unit) {
+        withContext(Dispatchers.Main) { block() }
+    }
     
     // 压缩算法选择
     var selectedAlgorithm by mutableStateOf(CompressionAlgorithm.JPEG_QUALITY)
@@ -57,9 +68,23 @@ class CompressionViewModel {
     
     // 压缩后的图片
     var compressedImage by mutableStateOf<java.awt.image.BufferedImage?>(null)
+
+    // 单张图模式：复用预览阶段的压缩结果，避免“预览压一次，保存再压一次”导致 JPG 不稳定
+    private var lastCompressedData: ByteArray? = null
+    private var lastCompressedUsedFallback: Boolean = false
+    private var lastCompressedParams: CompressionParams? = null
     
     // WebP 降级提示
     var webpFallbackWarning by mutableStateOf<String?>(null)
+
+    // 压缩后文件变大提示（例如 JPG 重新编码质量更高时）
+    var sizeChangeWarning by mutableStateOf<String?>(null)
+
+    // Undo：保存“应用到编辑器”前的快照（允许为 null，兼容编辑器未加载图片）
+    private var hasAppliedSnapshot: Boolean = false
+    private var lastAppliedPrevCurrent: java.awt.image.BufferedImage? = null
+    private var lastAppliedPrevRaw: java.awt.image.BufferedImage? = null
+    private var lastAppliedPrevFile: File? = null
     
     // 批量压缩时的文件数
     var totalFiles by mutableStateOf(0)
@@ -91,20 +116,22 @@ class CompressionViewModel {
         compressionJob = scope.launch(Dispatchers.Default) {
             try {
                 val image = selectedImage ?: run {
-                    compressionMessage = getString("error_please_select_image")
+                    ui { compressionMessage = getString("error_please_select_image") }
                     return@launch
                 }
                 
-                // 更新状态
-                isCompressing = true
-                compressionMessage = getString("compressing_image")
-                compressionProgress = 0.3f
+                // 更新状态（UI 线程）
+                ui {
+                    isCompressing = true
+                    compressionMessage = getString("compressing_image")
+                    compressionProgress = 0.3f
+                }
                 
                 val params = getCurrentParams()
                 // 使用原始文件的实际大小
-                originalSize = selectedImageFileSize
+                ui { originalSize = selectedImageFileSize }
                 
-                compressionProgress = 0.6f
+                ui { compressionProgress = 0.6f }
                 
                 // 检查 WebP 支持
                 if ((params.algorithm == CompressionAlgorithm.WEBP_LOSSY || 
@@ -113,14 +140,14 @@ class CompressionViewModel {
                     val fallbackFormat = ImageCompressionUtils.getWebPFallbackFormat(
                         params.algorithm == CompressionAlgorithm.WEBP_LOSSY
                     )
-                    webpFallbackWarning = getString("webp_not_supported").format(fallbackFormat)
+                    ui { webpFallbackWarning = getString("webp_not_supported").format(fallbackFormat) }
                 } else {
                     // 检查格式转换警告（JPG 转 PNG 等）
                     val formatWarningKey = ImageCompressionUtils.checkFormatConversionWarning(
                         selectedImageFile,
                         params.algorithm
                     )
-                    webpFallbackWarning = formatWarningKey?.let { getString(it) }
+                    ui { webpFallbackWarning = formatWarningKey?.let { getString(it) } }
                 }
                 
                 // 压缩到内存
@@ -128,39 +155,56 @@ class CompressionViewModel {
                 
                 if (compressedBytes != null) {
                     val (compressedData, usedFallback) = compressedBytes
-                    compressedSize = compressedData.size.toLong()
-                    compressionRatio = ImageCompressionUtils.calculateCompressionRatio(originalSize, compressedSize)
+                    lastCompressedData = compressedData
+                    lastCompressedUsedFallback = usedFallback
+                    lastCompressedParams = params
+                    val localCompressedSize = compressedData.size.toLong()
                     
                     // 如果使用了降级处理，更新警告信息
                     if (usedFallback && webpFallbackWarning == null) {
                         val fallbackFormat = ImageCompressionUtils.getWebPFallbackFormat(
                             params.algorithm == CompressionAlgorithm.WEBP_LOSSY
                         )
-                        webpFallbackWarning = getString("webp_encode_failed").format(fallbackFormat)
+                        ui { webpFallbackWarning = getString("webp_encode_failed").format(fallbackFormat) }
                     }
                     
                     // 从压缩后的字节数组加载图片
                     val compressedImageData = javax.imageio.ImageIO.read(java.io.ByteArrayInputStream(compressedData))
-                    if (compressedImageData != null) {
-                        compressedImage = compressedImageData
+                    ui {
+                        compressedSize = localCompressedSize
+                        compressionRatio = ImageCompressionUtils.calculateCompressionRatio(originalSize, compressedSize)
+                        sizeChangeWarning = if (originalSize > 0 && compressedSize >= originalSize) {
+                            getString("compressed_file_larger_warning")
+                        } else {
+                            null
+                        }
+                        if (compressedImageData != null) {
+                            compressedImage = compressedImageData
+                        }
+                        compressionMessage = getString("compression_success")
+                        compressionProgress = 1f
+                        showResult = true
                     }
-                    
-                    compressionMessage = getString("compression_success")
-                    compressionProgress = 1f
-                    showResult = true
                 } else {
-                    compressionMessage = getString("compression_failed")
-                    compressionProgress = 0f
+                    ui {
+                        compressionMessage = getString("compression_failed")
+                        compressionProgress = 0f
+                    }
                 }
-                isCompressing = false
+                ui { isCompressing = false }
             } catch (e: Exception) {
                 logger.error("Single image compression error", e)
-                compressionMessage = getString("compression_error").format(e.message ?: "")
-                compressionProgress = 0f
-                isCompressing = false
+                ui {
+                    compressionMessage = getString("compression_error").format(e.message ?: "")
+                    compressionProgress = 0f
+                    isCompressing = false
+                    sizeChangeWarning = null
+                }
             }
         }
-        compressionJob = null
+        compressionJob?.invokeOnCompletion {
+            compressionJob = null
+        }
     }
     
     /**
@@ -177,9 +221,11 @@ class CompressionViewModel {
         compressionJob?.cancel()
         compressionJob = scope.launch(Dispatchers.Default) {
             try {
-                isCompressing = true
-                compressionMessage = getString("preparing_batch_compression")
-                compressionProgress = 0f
+                ui {
+                    isCompressing = true
+                    compressionMessage = getString("preparing_batch_compression")
+                    compressionProgress = 0f
+                }
                 
                 val params = getCurrentParams()
                 val imageExtensions = setOf("jpg", "jpeg", "png", "bmp", "gif", "tiff")
@@ -192,12 +238,16 @@ class CompressionViewModel {
                     }
                 }
                 
-                totalFiles = fileCount
-                processedFiles = 0
+                ui {
+                    totalFiles = fileCount
+                    processedFiles = 0
+                }
                 
                 if (totalFiles == 0) {
-                    compressionMessage = getString("no_images_in_folder")
-                    isCompressing = false
+                    ui {
+                        compressionMessage = getString("no_images_in_folder")
+                        isCompressing = false
+                    }
                     return@launch
                 }
                 
@@ -212,7 +262,7 @@ class CompressionViewModel {
                 sourceDir.walk().forEach { file ->
                     // 检查是否已取消
                     if (!isActive) {
-                        compressionMessage = getString("compression_cancelled")
+                        ui { compressionMessage = getString("compression_cancelled") }
                         return@forEach
                     }
                     
@@ -221,9 +271,11 @@ class CompressionViewModel {
                     }
                     
                     try {
-                        processedFiles++
-                        compressionMessage = getString("compressing_file").format(file.name, processedFiles, totalFiles)
-                        compressionProgress = processedFiles.toFloat() / totalFiles
+                        ui {
+                            processedFiles++
+                            compressionMessage = getString("compressing_file").format(file.name, processedFiles, totalFiles)
+                            compressionProgress = processedFiles.toFloat() / totalFiles
+                        }
                         
                         // 读取图片（处理完立即释放）
                         val image = ImageIO.read(file) ?: run {
@@ -242,7 +294,7 @@ class CompressionViewModel {
                         image.flush()
                         
                         if (result != null) {
-                            val (savedSize, _) = result
+                            val savedSize = result.sizeBytes
                             totalOriginalSize += fileOriginalSize
                             totalCompressedSize += savedSize
                         }
@@ -252,17 +304,27 @@ class CompressionViewModel {
                     }
                 }
                 
-                originalSize = totalOriginalSize
-                compressedSize = totalCompressedSize
-                compressionRatio = ImageCompressionUtils.calculateCompressionRatio(totalOriginalSize, totalCompressedSize)
-                compressionMessage = getString("batch_compression_completed").format(processedFiles, totalFiles)
-                showResult = true
+                ui {
+                    originalSize = totalOriginalSize
+                    compressedSize = totalCompressedSize
+                    compressionRatio = ImageCompressionUtils.calculateCompressionRatio(totalOriginalSize, totalCompressedSize)
+                    sizeChangeWarning = if (totalOriginalSize > 0 && totalCompressedSize >= totalOriginalSize) {
+                        getString("compressed_file_larger_warning")
+                    } else {
+                        null
+                    }
+                    compressionMessage = getString("batch_compression_completed").format(processedFiles, totalFiles)
+                    showResult = true
+                }
                 
             } catch (e: Exception) {
                 logger.error("Batch compression error", e)
-                compressionMessage = getString("batch_compression_error").format(e.message ?: "")
+                ui {
+                    compressionMessage = getString("batch_compression_error").format(e.message ?: "")
+                    sizeChangeWarning = null
+                }
             } finally {
-                isCompressing = false
+                ui { isCompressing = false }
                 compressionJob = null
             }
         }
@@ -282,6 +344,11 @@ class CompressionViewModel {
      * 重置压缩结果（切换模式时调用）
      */
     fun resetResult() {
+        // 取消正在进行的任务（静默）
+        compressionJob?.cancel()
+        compressionJob = null
+        isCompressing = false
+
         showResult = false
         // 注意：不清空 originalSize，因为单张图模式下它应该保留原始文件大小
         // 批量模式下 originalSize 会在 compressBatch 中重新计算
@@ -293,6 +360,37 @@ class CompressionViewModel {
         compressionMessage = ""
         compressedImage = null
         webpFallbackWarning = null
+        sizeChangeWarning = null
+        lastCompressedData = null
+        lastCompressedUsedFallback = false
+        lastCompressedParams = null
+    }
+
+    /**
+     * Reset 语义：重置参数 + 清掉压缩结果
+     */
+    fun resetAll() {
+        selectedAlgorithm = DEFAULT_ALGORITHM
+        quality = DEFAULT_QUALITY
+        compressionLevel = DEFAULT_COMPRESSION_LEVEL
+        resetResult()
+    }
+
+    fun isAtDefaultParams(): Boolean {
+        return selectedAlgorithm == DEFAULT_ALGORITHM &&
+            kotlin.math.abs(quality - DEFAULT_QUALITY) < 0.0001f &&
+            compressionLevel == DEFAULT_COMPRESSION_LEVEL
+    }
+
+    fun saveLastCompressedToFile(outputFile: File): ImageCompressionUtils.SaveResult? {
+        val data = lastCompressedData ?: return null
+        val params = lastCompressedParams ?: return null
+        return ImageCompressionUtils.saveCompressedData(
+            outputFile = outputFile,
+            params = params,
+            compressedData = data,
+            usedFallback = lastCompressedUsedFallback
+        )
     }
     
     /**
@@ -300,11 +398,31 @@ class CompressionViewModel {
      */
     fun applyCompressedImage(state: ApplicationState) {
         val image = compressedImage ?: return
+
+        // 保存 Apply 前快照：用于压缩模块 Undo（不依赖全局队列）
+        hasAppliedSnapshot = true
+        lastAppliedPrevCurrent = state.currentImage
+        lastAppliedPrevRaw = state.rawImage
+        lastAppliedPrevFile = state.rawImageFile
         
         // 同时更新 rawImage 和 currentImage，保持与其他地方的一致性
         state.rawImage = image
         state.currentImage = image
         // 压缩后的图片没有原始文件，设置为 null
         state.rawImageFile = null
+    }
+
+    fun undoApplied(state: ApplicationState): Boolean {
+        if (!hasAppliedSnapshot) return false
+
+        state.rawImage = lastAppliedPrevRaw
+        state.currentImage = lastAppliedPrevCurrent
+        state.rawImageFile = lastAppliedPrevFile
+
+        hasAppliedSnapshot = false
+        lastAppliedPrevCurrent = null
+        lastAppliedPrevRaw = null
+        lastAppliedPrevFile = null
+        return true
     }
 }

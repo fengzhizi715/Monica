@@ -25,6 +25,11 @@
     <string name="update">更新</string>
     <string name="close">关闭</string>
     <string name="cancel">取消</string>
+    <string name="undo">撤销</string>
+    <string name="undo_not_available">没有可撤销的操作</string>
+    <string name="undo_success">已撤销</string>
+    <string name="undo_and_reset_success">已撤销并重置</string>
+    <string name="reset_done">已重置</string>
     
     <!-- 基础功能 -->
     <string name="image_blur">图像模糊</string>
@@ -382,6 +387,8 @@
     <string name="original_size">原始大小</string>
     <string name="compressed_size">压缩后大小</string>
     <string name="compression_ratio">压缩率</string>
+    <string name="size_increase">变大</string>
+    <string name="compressed_file_larger_warning">提示：压缩后文件反而更大。建议降低质量或更换算法（例如 JPG 用 JPEG 质量压缩；截图/透明图用 PNG 优化）。</string>
     <string name="selected">已选择</string>
     <string name="error_please_select_image">错误：请先选择图片</string>
     <string name="compressing_image">正在压缩图片...</string>
@@ -406,6 +413,8 @@
     <string name="please_compress_first">请先执行压缩</string>
     <string name="start_compression">开始压缩</string>
     <string name="please_select_image_in_preview">请先在右侧预览区选择图片</string>
+    <string name="batch_mode_no_preview">批量模式不支持预览对比，请查看进度与统计结果</string>
+    <string name="reset">重置</string>
     <string name="applied_to_editor">已应用到编辑器</string>
     <string name="apply_to_editor">应用到编辑器</string>
     <string name="save_success">保存成功：%s</string>

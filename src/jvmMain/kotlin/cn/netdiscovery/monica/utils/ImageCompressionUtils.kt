@@ -267,19 +267,55 @@ object ImageCompressionUtils {
      * @param originalFile 原始文件（可选，用于格式检测）
      * @return Pair<压缩后的文件大小（字节）, 是否使用了降级处理>，失败返回 null
      */
+    data class SaveResult(
+        val outputFile: File,
+        val sizeBytes: Long,
+        val usedFallback: Boolean
+    )
+
+    private fun resolveActualExtension(params: CompressionParams, usedFallback: Boolean): String {
+        return when (params.algorithm) {
+            CompressionAlgorithm.WEBP_LOSSY ->
+                if (usedFallback) "jpg" else "webp"
+            CompressionAlgorithm.WEBP_LOSSLESS ->
+                if (usedFallback) "png" else "webp"
+            else -> params.algorithm.format
+        }
+    }
+
+    fun saveCompressedData(
+        outputFile: File,
+        params: CompressionParams,
+        compressedData: ByteArray,
+        usedFallback: Boolean
+    ): SaveResult {
+        val ext = resolveActualExtension(params, usedFallback)
+        val baseName = outputFile.nameWithoutExtension.ifBlank { "compressed" }
+        val finalFile = File(outputFile.parentFile ?: File("."), "$baseName.$ext")
+        finalFile.writeBytes(compressedData)
+        return SaveResult(
+            outputFile = finalFile,
+            sizeBytes = compressedData.size.toLong(),
+            usedFallback = usedFallback
+        )
+    }
+
     fun compressAndSaveImage(
         image: BufferedImage,
         outputFile: File,
         params: CompressionParams,
         originalFile: File? = null
-    ): Pair<Long, Boolean>? {
+    ): SaveResult? {
         return try {
             val result = compressImage(image, params) ?: return null
             val (compressedData, usedFallback) = result
-            
-            outputFile.writeBytes(compressedData)
-            
-            Pair(compressedData.size.toLong(), usedFallback)
+
+            saveCompressedData(
+                outputFile = outputFile,
+                params = params,
+                compressedData = compressedData,
+                usedFallback = usedFallback
+            )
         } catch (e: Exception) {
             logger.error("Failed to save compressed image", e)
             null
@@ -323,7 +359,7 @@ object ImageCompressionUtils {
         outputFile: File,
         params: CompressionParams
     ): Long {
-        return compressAndSaveImage(image, outputFile, params)?.first ?: -1
+        return compressAndSaveImage(image, outputFile, params)?.sizeBytes ?: -1
     }
     
     /**

@@ -69,6 +69,8 @@ kotlin {
 
                 // coroutines utils
                 implementation ("com.github.fengzhizi715.Kotlin-Coroutines-Utils:common:${rootProject.extra["coroutines.utils"]}")
+                // 为 Desktop/Swing 提供 Dispatchers.Main（绑定到 EDT）
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-swing:${rootProject.extra["kotlinx.coroutines.core.version"]}")
 
                 // log config
                 implementation("ch.qos.logback:logback-classic:${rootProject.extra["logback"]}")

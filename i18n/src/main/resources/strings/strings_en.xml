@@ -55,6 +55,8 @@
     <string name="original_size">Original Size</string>
     <string name="compressed_size">Compressed Size</string>
     <string name="compression_ratio">Compression Ratio</string>
+    <string name="size_increase">Increase</string>
+    <string name="compressed_file_larger_warning">Tip: The compressed file is larger than the original. Try lowering quality or choosing another algorithm (e.g., JPEG Quality for photos; PNG Optimization for screenshots/transparency).</string>
     <string name="selected">Selected</string>
     <string name="error_please_select_image">Error: Please select an image first</string>
     <string name="compressing_image">Compressing image...</string>
@@ -79,6 +81,8 @@
     <string name="please_compress_first">Please compress first</string>
     <string name="start_compression">Start Compression</string>
     <string name="please_select_image_in_preview">Please select an image in the preview area first</string>
+    <string name="batch_mode_no_preview">Batch mode does not support preview comparison. Please check progress and summary.</string>
+    <string name="reset">Reset</string>
     <string name="applied_to_editor">Applied to editor</string>
     <string name="apply_to_editor">Apply to Editor</string>
     <string name="save_success">Save successful: %s</string>
@@ -90,6 +94,11 @@
     <string name="batch_compression_warning">Batch Compression Warning</string>
     <string name="output_folder_has_files">Output folder already contains %d files. Batch compression may overwrite files with the same name. Continue?</string>
     <string name="cancel">Cancel</string>
+    <string name="undo">Undo</string>
+    <string name="undo_not_available">Nothing to undo</string>
+    <string name="undo_success">Undone</string>
+    <string name="undo_and_reset_success">Undone and reset</string>
+    <string name="reset_done">Reset</string>
     <string name="format_conversion_warning_jpg_to_png">Note: Converting JPG to PNG may result in a larger file size, as PNG is a lossless format</string>
     <string name="format_conversion_warning_jpg_to_webp_lossless">Note: Converting JPG to WebP Lossless may result in a larger file size</string>
     

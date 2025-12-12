@@ -108,6 +108,17 @@ fun CompressionInputSection(
                     fontWeight = FontWeight.Bold
                 )
             }
+
+            // Reset：重置参数 + 清掉压缩结果（恢复到原图预览）
+            OutlinedButton(
+                onClick = { viewModel.resetAll() },
+                enabled = !viewModel.isCompressing && (!viewModel.isAtDefaultParams() || viewModel.showResult),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(40.dp)
+            ) {
+                Text(i18nState.getString("reset"))
+            }
         } else {
             Button(
                 onClick = {
