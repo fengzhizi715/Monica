@@ -19,6 +19,10 @@ class CoordinateConverter(private val scaleX: Float, private val scaleY: Float) 
     fun displayToOriginal(displayOffset: Offset): Offset {
         return Offset(displayOffset.x * scaleX, displayOffset.y * scaleY)
     }
+
+    fun displayDeltaToOriginal(displayOffset: Offset): Offset {
+        return Offset(displayOffset.x * scaleX, displayOffset.y * scaleY)
+    }
     
     /**
      * 转换线段坐标

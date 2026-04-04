@@ -14,7 +14,15 @@ import java.util.UUID
  */
 enum class LayerType {
     IMAGE,
-    SHAPE
+    SHAPE,
+    ADJUSTMENT
+}
+
+enum class LayerBlendMode {
+    NORMAL,
+    MULTIPLY,
+    SCREEN,
+    OVERLAY
 }
 
 /**
@@ -34,7 +42,9 @@ abstract class Layer(
     name: String,
     visible: Boolean = true,
     opacity: Float = 1f,
-    locked: Boolean = false
+    locked: Boolean = false,
+    blendMode: LayerBlendMode = LayerBlendMode.NORMAL,
+    groupId: UUID? = null
 ) {
 
     var name by mutableStateOf(name)
@@ -47,6 +57,12 @@ abstract class Layer(
         private set
 
     var locked by mutableStateOf(locked)
+        private set
+
+    var blendMode by mutableStateOf(blendMode)
+        private set
+
+    var groupId by mutableStateOf(groupId)
         private set
 
     /**
@@ -108,6 +124,20 @@ abstract class Layer(
         }
     }
 
+    fun updateBlendMode(newBlendMode: LayerBlendMode) {
+        if (blendMode != newBlendMode) {
+            blendMode = newBlendMode
+            markDirty()
+        }
+    }
+
+    fun updateGroupId(newGroupId: UUID?) {
+        if (groupId != newGroupId) {
+            groupId = newGroupId
+            markDirty()
+        }
+    }
+
     /**
      * 当图层被加入 LayerManager 时回调。
      */
@@ -125,4 +155,3 @@ abstract class Layer(
      */
     open fun render(drawScope: DrawScope) = Unit
 }
-

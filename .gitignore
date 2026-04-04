@@ -37,3 +37,4 @@ log/
 # spec
 .cursor/
 .specify
+.qoder/

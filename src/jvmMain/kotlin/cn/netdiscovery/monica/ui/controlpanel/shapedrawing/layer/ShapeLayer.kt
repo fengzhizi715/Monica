@@ -5,6 +5,7 @@ import androidx.compose.runtime.snapshots.SnapshotStateMap
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
+import java.util.UUID
 
 /**
  * 形状图层，负责维护各种几何形状的数据集合。
@@ -12,10 +13,22 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
  * 渲染逻辑会在后续的 LayerRenderer 中统一处理，此处只负责数据管理。
  */
 class ShapeLayer(
-    name: String
+    name: String,
+    visible: Boolean = true,
+    opacity: Float = 1f,
+    locked: Boolean = false,
+    blendMode: LayerBlendMode = LayerBlendMode.NORMAL,
+    groupId: UUID? = null,
+    id: UUID = UUID.randomUUID()
 ) : Layer(
     type = LayerType.SHAPE,
-    name = name
+    id = id,
+    name = name,
+    visible = visible,
+    opacity = opacity,
+    locked = locked,
+    blendMode = blendMode,
+    groupId = groupId
 ) {
 
     val displayLines: SnapshotStateMap<Offset, Shape.Line> = mutableStateMapOf()
@@ -214,6 +227,3 @@ class ShapeLayer(
         val originalTexts: Map<Offset, Shape.Text>
     )
 }
-
-
-

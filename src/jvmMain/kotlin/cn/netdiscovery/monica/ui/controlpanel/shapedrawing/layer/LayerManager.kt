@@ -155,6 +155,12 @@ class LayerManager {
     fun setLayerLocked(layerId: UUID, locked: Boolean): Boolean =
         updateLayer(layerId, { it.locked != locked }) { it.updateLocked(locked) }
 
+    fun setLayerBlendMode(layerId: UUID, blendMode: LayerBlendMode): Boolean =
+        updateLayer(layerId, { it.blendMode != blendMode }) { it.updateBlendMode(blendMode) }
+
+    fun setLayerGroup(layerId: UUID, groupId: UUID?): Boolean =
+        updateLayer(layerId, { it.groupId != groupId }) { it.updateGroupId(groupId) }
+
     /**
      * 根据 ID 获取图层。
      */

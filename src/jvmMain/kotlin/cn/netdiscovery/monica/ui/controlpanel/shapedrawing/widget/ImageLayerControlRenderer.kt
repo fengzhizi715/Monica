@@ -28,6 +28,7 @@ object ImageLayerControlRenderer {
     private val ROTATION_HANDLE_COLOR = Color(0xFF4CAF50)
     // 边界框颜色
     private val BOUNDARY_COLOR = Color(0xFF2196F3)
+    private val CROP_BOUNDARY_COLOR = Color(0xFFFF9800)
     
     /**
      * 计算图像层的边界框（考虑变换后的位置）
@@ -199,8 +200,13 @@ object ImageLayerControlRenderer {
         layer: ImageLayer,
         canvasWidth: Float,
         canvasHeight: Float,
-        backgroundSize: Pair<Float, Float>? = null
+        backgroundSize: Pair<Float, Float>? = null,
+        cropMode: Boolean = false
     ): List<ControlPoint> {
+        if (cropMode) {
+            return calculateCropControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
+        }
+
         val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
         val rotationHandle = calculateRotationHandlePosition(layer, canvasWidth, canvasHeight, backgroundSize)
         
@@ -229,6 +235,86 @@ object ImageLayerControlRenderer {
         
         return points
     }
+
+    fun initializeCropRect(layer: ImageLayer) {
+        val bitmap = layer.image ?: return
+        if (layer.transform.cropRect == null) {
+            layer.updateTransform(
+                layer.transform.copy(
+                    cropRect = Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+                )
+            )
+        }
+    }
+
+    fun updateCropRectFromControlPoint(
+        layer: ImageLayer,
+        controlPointType: ControlPointType,
+        canvasPoint: Offset,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ): Rect? {
+        val bitmap = layer.image ?: return null
+        val current = layer.transform.cropRect ?: Rect(0f, 0f, bitmap.width.toFloat(), bitmap.height.toFloat())
+        val imagePoint = mapCanvasPointToImage(layer, canvasPoint, canvasWidth, canvasHeight, backgroundSize) ?: return current
+        val clamped = Offset(
+            x = imagePoint.x.coerceIn(0f, bitmap.width.toFloat()),
+            y = imagePoint.y.coerceIn(0f, bitmap.height.toFloat())
+        )
+        val minSize = 8f
+
+        var left = current.left
+        var top = current.top
+        var right = current.right
+        var bottom = current.bottom
+
+        when (controlPointType) {
+            ControlPointType.CROP_TOP_LEFT -> {
+                left = clamped.x.coerceAtMost(right - minSize)
+                top = clamped.y.coerceAtMost(bottom - minSize)
+            }
+            ControlPointType.CROP_TOP_RIGHT -> {
+                right = clamped.x.coerceAtLeast(left + minSize)
+                top = clamped.y.coerceAtMost(bottom - minSize)
+            }
+            ControlPointType.CROP_BOTTOM_LEFT -> {
+                left = clamped.x.coerceAtMost(right - minSize)
+                bottom = clamped.y.coerceAtLeast(top + minSize)
+            }
+            ControlPointType.CROP_BOTTOM_RIGHT -> {
+                right = clamped.x.coerceAtLeast(left + minSize)
+                bottom = clamped.y.coerceAtLeast(top + minSize)
+            }
+            ControlPointType.CROP_TOP -> {
+                top = clamped.y.coerceAtMost(bottom - minSize)
+            }
+            ControlPointType.CROP_BOTTOM -> {
+                bottom = clamped.y.coerceAtLeast(top + minSize)
+            }
+            ControlPointType.CROP_LEFT -> {
+                left = clamped.x.coerceAtMost(right - minSize)
+            }
+            ControlPointType.CROP_RIGHT -> {
+                right = clamped.x.coerceAtLeast(left + minSize)
+            }
+            else -> return current
+        }
+
+        return Rect(left, top, right, bottom)
+    }
+
+    fun isCropControlPoint(type: ControlPointType): Boolean = when (type) {
+        ControlPointType.CROP_TOP_LEFT,
+        ControlPointType.CROP_TOP_RIGHT,
+        ControlPointType.CROP_BOTTOM_LEFT,
+        ControlPointType.CROP_BOTTOM_RIGHT,
+        ControlPointType.CROP_TOP,
+        ControlPointType.CROP_BOTTOM,
+        ControlPointType.CROP_LEFT,
+        ControlPointType.CROP_RIGHT -> true
+        else -> false
+    }
     
     /**
      * 绘制图像层的控制点和边界框
@@ -238,10 +324,16 @@ object ImageLayerControlRenderer {
         layer: ImageLayer,
         canvasWidth: Float,
         canvasHeight: Float,
-        backgroundSize: Pair<Float, Float>? = null
+        backgroundSize: Pair<Float, Float>? = null,
+        cropMode: Boolean = false
     ) {
+        if (cropMode) {
+            drawCropControls(drawScope, layer, canvasWidth, canvasHeight, backgroundSize)
+            return
+        }
+
         val bounds = calculateImageBounds(layer, canvasWidth, canvasHeight, backgroundSize) ?: return
-        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
+        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize, cropMode = false)
         
         // 绘制边界框
         drawScope.drawRect(
@@ -294,9 +386,10 @@ object ImageLayerControlRenderer {
         layer: ImageLayer,
         canvasWidth: Float,
         canvasHeight: Float,
-        backgroundSize: Pair<Float, Float>? = null
+        backgroundSize: Pair<Float, Float>? = null,
+        cropMode: Boolean = false
     ): ControlPoint? {
-        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
+        val controlPoints = calculateControlPoints(layer, canvasWidth, canvasHeight, backgroundSize, cropMode)
         val hitRadius = CONTROL_POINT_SIZE * 2f
         
         return controlPoints.firstOrNull { controlPoint ->
@@ -323,6 +416,163 @@ object ImageLayerControlRenderer {
             translated.x * sin + translated.y * cos
         )
         return rotated + pivot
+    }
+
+    private fun calculateCropControlPoints(
+        layer: ImageLayer,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ): List<ControlPoint> {
+        initializeCropRect(layer)
+        val cropRect = layer.transform.cropRect ?: return emptyList()
+        val topLeft = mapImagePointToCanvas(layer, cropRect.topLeft, canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
+        val topRight = mapImagePointToCanvas(layer, Offset(cropRect.right, cropRect.top), canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
+        val bottomLeft = mapImagePointToCanvas(layer, Offset(cropRect.left, cropRect.bottom), canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
+        val bottomRight = mapImagePointToCanvas(layer, cropRect.bottomRight, canvasWidth, canvasHeight, backgroundSize) ?: return emptyList()
+
+        return listOf(
+            ControlPoint(ControlPointType.CROP_TOP_LEFT, topLeft),
+            ControlPoint(ControlPointType.CROP_TOP_RIGHT, topRight),
+            ControlPoint(ControlPointType.CROP_BOTTOM_LEFT, bottomLeft),
+            ControlPoint(ControlPointType.CROP_BOTTOM_RIGHT, bottomRight),
+            ControlPoint(ControlPointType.CROP_TOP, Offset((topLeft.x + topRight.x) / 2f, (topLeft.y + topRight.y) / 2f)),
+            ControlPoint(ControlPointType.CROP_BOTTOM, Offset((bottomLeft.x + bottomRight.x) / 2f, (bottomLeft.y + bottomRight.y) / 2f)),
+            ControlPoint(ControlPointType.CROP_LEFT, Offset((topLeft.x + bottomLeft.x) / 2f, (topLeft.y + bottomLeft.y) / 2f)),
+            ControlPoint(ControlPointType.CROP_RIGHT, Offset((topRight.x + bottomRight.x) / 2f, (topRight.y + bottomRight.y) / 2f))
+        )
+    }
+
+    private fun drawCropControls(
+        drawScope: DrawScope,
+        layer: ImageLayer,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ) {
+        val controlPoints = calculateCropControlPoints(layer, canvasWidth, canvasHeight, backgroundSize)
+        if (controlPoints.isEmpty()) return
+
+        val topLeft = controlPoints.first { it.type == ControlPointType.CROP_TOP_LEFT }.position
+        val topRight = controlPoints.first { it.type == ControlPointType.CROP_TOP_RIGHT }.position
+        val bottomLeft = controlPoints.first { it.type == ControlPointType.CROP_BOTTOM_LEFT }.position
+        val bottomRight = controlPoints.first { it.type == ControlPointType.CROP_BOTTOM_RIGHT }.position
+
+        drawScope.drawLine(CROP_BOUNDARY_COLOR, topLeft, topRight, 1.5f)
+        drawScope.drawLine(CROP_BOUNDARY_COLOR, topRight, bottomRight, 1.5f)
+        drawScope.drawLine(CROP_BOUNDARY_COLOR, bottomRight, bottomLeft, 1.5f)
+        drawScope.drawLine(CROP_BOUNDARY_COLOR, bottomLeft, topLeft, 1.5f)
+
+        controlPoints.forEach { point ->
+            drawScope.drawCircle(
+                color = CROP_BOUNDARY_COLOR,
+                radius = CONTROL_POINT_SIZE,
+                center = point.position
+            )
+            drawScope.drawCircle(
+                color = Color.White,
+                radius = CONTROL_POINT_SIZE + 1f,
+                style = Stroke(width = 1f),
+                center = point.position
+            )
+        }
+    }
+
+    private fun mapImagePointToCanvas(
+        layer: ImageLayer,
+        imagePoint: Offset,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ): Offset? {
+        val bitmap = layer.image ?: return null
+        if (bitmap.width <= 0 || bitmap.height <= 0 || canvasWidth <= 0 || canvasHeight <= 0) return null
+
+        val fitScale = calculateFitScale(layer, canvasWidth, canvasHeight, backgroundSize)
+        val scaledWidth = bitmap.width * fitScale
+        val scaledHeight = bitmap.height * fitScale
+        val centerOffsetX = (canvasWidth - scaledWidth) / 2f
+        val centerOffsetY = (canvasHeight - scaledHeight) / 2f
+        val imageCenter = Offset(bitmap.width / 2f, bitmap.height / 2f)
+        val pivot = if (layer.transform.pivot == Offset.Zero) imageCenter else imageCenter + layer.transform.pivot
+
+        val translated = if (layer.transform.translation != Offset.Zero) {
+            val delta = layer.transform.translation
+            imagePoint + delta
+        } else {
+            imagePoint
+        }
+
+        val scaled = applyScale(translated, pivot, layer.transform.scaleX, layer.transform.scaleY)
+        val rotated = applyRotation(scaled, pivot, layer.transform.rotation)
+        return Offset(
+            x = rotated.x * fitScale + centerOffsetX,
+            y = rotated.y * fitScale + centerOffsetY
+        )
+    }
+
+    private fun mapCanvasPointToImage(
+        layer: ImageLayer,
+        canvasPoint: Offset,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ): Offset? {
+        val bitmap = layer.image ?: return null
+        if (bitmap.width <= 0 || bitmap.height <= 0 || canvasWidth <= 0 || canvasHeight <= 0) return null
+
+        val fitScale = calculateFitScale(layer, canvasWidth, canvasHeight, backgroundSize)
+        val scaledWidth = bitmap.width * fitScale
+        val scaledHeight = bitmap.height * fitScale
+        val centerOffsetX = (canvasWidth - scaledWidth) / 2f
+        val centerOffsetY = (canvasHeight - scaledHeight) / 2f
+        val imageCenter = Offset(bitmap.width / 2f, bitmap.height / 2f)
+        val pivot = if (layer.transform.pivot == Offset.Zero) imageCenter else imageCenter + layer.transform.pivot
+
+        val uncentered = Offset(
+            x = (canvasPoint.x - centerOffsetX) / fitScale,
+            y = (canvasPoint.y - centerOffsetY) / fitScale
+        )
+
+        val unrotated = applyRotation(uncentered, pivot, -layer.transform.rotation)
+        val unscaled = applyScale(
+            point = unrotated,
+            pivot = pivot,
+            scaleX = if (layer.transform.scaleX == 0f) 1f else 1f / layer.transform.scaleX,
+            scaleY = if (layer.transform.scaleY == 0f) 1f else 1f / layer.transform.scaleY
+        )
+
+        return if (layer.transform.translation != Offset.Zero) {
+            unscaled - layer.transform.translation
+        } else {
+            unscaled
+        }
+    }
+
+    private fun calculateFitScale(
+        layer: ImageLayer,
+        canvasWidth: Float,
+        canvasHeight: Float,
+        backgroundSize: Pair<Float, Float>? = null
+    ): Float {
+        val bitmap = layer.image ?: return 1f
+        val isBackgroundLayer = layer.name == EditorController.BACKGROUND_LAYER_NAME
+        if (isBackgroundLayer) return 1f
+
+        return if (backgroundSize != null) {
+            val referenceWidth = backgroundSize.first
+            val referenceHeight = backgroundSize.second
+            val backgroundScaleX = canvasWidth / referenceWidth
+            val backgroundScaleY = canvasHeight / referenceHeight
+            val referenceScaleX = referenceWidth / bitmap.width
+            val referenceScaleY = referenceHeight / bitmap.height
+            val referenceFitScale = minOf(referenceScaleX, referenceScaleY).coerceAtMost(1f)
+            referenceFitScale * minOf(backgroundScaleX, backgroundScaleY)
+        } else {
+            val canvasScaleX = canvasWidth / bitmap.width
+            val canvasScaleY = canvasHeight / bitmap.height
+            minOf(canvasScaleX, canvasScaleY).coerceAtMost(1f)
+        }
     }
 }
 
@@ -352,4 +602,3 @@ data class ControlPoint(
     val type: ControlPointType,
     val position: Offset
 )
-

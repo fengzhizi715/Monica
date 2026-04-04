@@ -16,6 +16,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.AdjustmentLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
@@ -31,17 +32,20 @@ fun CanvasView(
     animationManager: ShapeAnimationManager,
     modifier: Modifier = Modifier.Companion,
     overlay: DrawScope.() -> Unit = {},
-    showImageLayerControls: Boolean = true
+    showImageLayerControls: Boolean = true,
+    cropMode: Boolean = false
 ) {
     // 观察图层列表变化，触发重组和重绘
     val layers by editorController.layerManager.layers.collectAsState()
     val activeLayer by editorController.layerManager.activeLayer.collectAsState()
 
     Box(modifier = modifier) {
+        val renderableLayers = remember(layers) {
+            layers.filter { it.visible && it.opacity > 0f && it !is AdjustmentLayer }
+        }
         // 为每个图层创建独立的缓存层
         // 使用 key() 确保只有版本变化的图层才重组
-        layers.forEach { layer ->
-            if (!layer.visible || layer.opacity <= 0f) return@forEach
+        renderableLayers.forEach { layer ->
             
             key(layer.id, layer.version) {
                 // 使用 drawWithCache 缓存图层绘制内容
@@ -87,7 +91,8 @@ fun CanvasView(
                         layer = activeImageLayer,
                         canvasWidth = size.width,
                         canvasHeight = size.height,
-                        backgroundSize = backgroundSize
+                        backgroundSize = backgroundSize,
+                        cropMode = cropMode
                     )
                 }
             }

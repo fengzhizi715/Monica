@@ -6,12 +6,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.drawscope.withTransform
 import androidx.compose.ui.unit.IntSize
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
+import java.util.UUID
 
 /**
  * 图像图层，负责持有位图及其变换信息。
@@ -19,10 +20,22 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.EditorController
 class ImageLayer(
     name: String,
     image: ImageBitmap? = null,
-    transform: LayerTransform = LayerTransform()
+    transform: LayerTransform = LayerTransform(),
+    visible: Boolean = true,
+    opacity: Float = 1f,
+    locked: Boolean = false,
+    blendMode: LayerBlendMode = LayerBlendMode.NORMAL,
+    groupId: UUID? = null,
+    id: UUID = UUID.randomUUID()
 ) : Layer(
     type = LayerType.IMAGE,
-    name = name
+    id = id,
+    name = name,
+    visible = visible,
+    opacity = opacity,
+    locked = locked,
+    blendMode = blendMode,
+    groupId = groupId
 ) {
 
     var image by mutableStateOf(image)
@@ -73,8 +86,7 @@ class ImageLayer(
             // 背景图层：填充整个画布绘制区域，不保持宽高比（与涂鸦模块一致）
             drawScope.drawImage(
                 bitmap,
-                dstSize = IntSize(canvasWidth.toInt(), canvasHeight.toInt()),
-                alpha = opacity
+                dstSize = IntSize(canvasWidth.toInt(), canvasHeight.toInt())
             )
         } else {
             // 用户添加的图像层：适应背景图或画布并居中显示
@@ -170,20 +182,46 @@ class ImageLayer(
             }) {
                 // 应用裁剪区域（如果存在）
                 val cropRect = transform.cropRect
-                if (cropRect != null) {
-                    // 裁剪区域是在图像坐标系中定义的
-                    // 由于 withTransform 已经应用了 fitScale，裁剪区域也在当前坐标系中
-                    // 使用 clipPath 来裁剪
-                    val clipPath = Path().apply {
-                        addRect(cropRect)
+                val mask = transform.mask
+                drawWithClip(drawScope, bitmap, cropRect, mask)
+            }
+        }
+    }
+
+    private fun drawWithClip(
+        drawScope: DrawScope,
+        bitmap: ImageBitmap,
+        cropRect: Rect?,
+        mask: ImageLayerMask?
+    ) {
+        when {
+            cropRect != null && mask != null -> {
+                val cropPath = Path().apply { addRect(cropRect) }
+                drawScope.clipPath(cropPath) {
+                    clipPath(mask.toPath()) {
+                        drawImage(bitmap)
                     }
-                    drawScope.clipPath(clipPath) {
-                        drawScope.drawImage(bitmap, alpha = opacity)
-                    }
-                } else {
-                    drawScope.drawImage(bitmap, alpha = opacity)
                 }
             }
+            cropRect != null -> {
+                val cropPath = Path().apply { addRect(cropRect) }
+                drawScope.clipPath(cropPath) {
+                    drawImage(bitmap)
+                }
+            }
+            mask != null -> {
+                drawScope.clipPath(mask.toPath()) {
+                    drawImage(bitmap)
+                }
+            }
+            else -> drawScope.drawImage(bitmap)
+        }
+    }
+
+    private fun ImageLayerMask.toPath(): Path = Path().apply {
+        when (shape) {
+            ImageLayerMaskShape.RECTANGLE -> addRect(rect)
+            ImageLayerMaskShape.ELLIPSE -> addOval(rect)
         }
     }
 }
@@ -204,6 +242,6 @@ data class LayerTransform(
     val scaleY: Float = 1f,
     val rotation: Float = 0f,
     val pivot: Offset = Offset.Zero,
-    val cropRect: Rect? = null
+    val cropRect: Rect? = null,
+    val mask: ImageLayerMask? = null
 )
-

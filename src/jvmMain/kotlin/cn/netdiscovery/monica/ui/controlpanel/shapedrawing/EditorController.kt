@@ -13,17 +13,27 @@ import androidx.compose.ui.graphics.drawscope.CanvasDrawScope
 import androidx.compose.ui.graphics.toAwtImage
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.AdjustmentLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayerMask
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayerMaskShape
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.Layer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerAdjustment
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerGroup
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerRenderer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerTransform
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerType
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerBlendMode
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer.ShapeLayerSnapshot
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.SpecialLayerHelper
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.model.Shape
 import java.awt.image.BufferedImage
 import java.util.UUID
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -39,6 +49,16 @@ class EditorController(
     
     // 使用 SpecialLayerHelper 来管理背景层，集中处理背景层相关逻辑
     private val specialLayerHelper = SpecialLayerHelper(layerManager, BACKGROUND_LAYER_NAME)
+    private val undoStack = mutableListOf<EditorSnapshot>()
+    private val redoStack = mutableListOf<EditorSnapshot>()
+    private val _selectedLayerIds = MutableStateFlow<Set<UUID>>(emptySet())
+    val selectedLayerIds: StateFlow<Set<UUID>> = _selectedLayerIds.asStateFlow()
+    private val _layerGroups = MutableStateFlow<List<LayerGroup>>(emptyList())
+    val layerGroups: StateFlow<List<LayerGroup>> = _layerGroups.asStateFlow()
+
+    init {
+        saveHistoryPoint()
+    }
 
     companion object {
         /**
@@ -62,8 +82,50 @@ class EditorController(
         _currentTool.value = tool
     }
 
+    fun saveHistoryPoint() {
+        val snapshot = captureSnapshot()
+        if (undoStack.lastOrNull() == snapshot) return
+        undoStack.add(snapshot)
+        if (undoStack.size > 100) {
+            undoStack.removeAt(0)
+        }
+        redoStack.clear()
+    }
+
+    fun canUndo(): Boolean = undoStack.size > 1
+
+    fun canRedo(): Boolean = redoStack.isNotEmpty()
+
+    fun undo(): Boolean {
+        if (!canUndo()) return false
+        val current = undoStack.removeLast()
+        redoStack.add(current)
+        restoreSnapshot(undoStack.last())
+        return true
+    }
+
+    fun redo(): Boolean {
+        val snapshot = redoStack.removeLastOrNull() ?: return false
+        restoreSnapshot(snapshot)
+        undoStack.add(snapshot)
+        return true
+    }
+
     fun addLayer(layer: Layer, index: Int? = null) {
-        layerManager.addLayer(layer, index)
+        if (isBackgroundLayer(layer)) {
+            val existingBackground = getBackgroundLayer()
+            when {
+                existingBackground == null -> layerManager.addLayer(layer, index = 0)
+                existingBackground.id == layer.id -> layerManager.moveLayerTo(layer.id, 0)
+                layer is ImageLayer -> existingBackground.updateImage(layer.image)
+            }
+            saveHistoryPoint()
+            return
+        }
+
+        val insertIndex = normalizeNonBackgroundInsertIndex(index)
+        layerManager.addLayer(layer, insertIndex)
+        saveHistoryPoint()
     }
 
     fun createImageLayer(
@@ -71,8 +133,13 @@ class EditorController(
         image: ImageBitmap?,
         index: Int? = null
     ): ImageLayer {
+        if (name == BACKGROUND_LAYER_NAME && image != null) {
+            return getOrCreateBackgroundLayer(image).also { updateBackgroundLayer(image) }
+        }
+
         val layer = ImageLayer(name = name, image = image)
-        layerManager.addLayer(layer, index)
+        layerManager.addLayer(layer, normalizeNonBackgroundInsertIndex(index))
+        saveHistoryPoint()
         return layer
     }
 
@@ -115,15 +182,204 @@ class EditorController(
             logger.warn("尝试删除背景层，操作被阻止")
             return
         }
-        layerManager.removeLayer(id)
+        if (layerManager.removeLayer(id) != null) {
+            _selectedLayerIds.value = _selectedLayerIds.value - id
+            pruneEmptyGroups()
+            saveHistoryPoint()
+        }
+    }
+
+    fun renameLayer(id: UUID, newName: String): Boolean {
+        if (isBackgroundLayer(id)) {
+            logger.warn("尝试重命名背景层，操作被阻止")
+            return false
+        }
+        if (newName == BACKGROUND_LAYER_NAME) {
+            logger.warn("尝试将普通图层重命名为背景图层，操作被阻止")
+            return false
+        }
+        val updated = layerManager.renameLayer(id, newName)
+        if (updated) saveHistoryPoint()
+        return updated
+    }
+
+    fun setLayerVisibility(id: UUID, visible: Boolean): Boolean {
+        val updated = layerManager.setLayerVisibility(id, visible)
+        if (updated) saveHistoryPoint()
+        return updated
+    }
+
+    fun setLayerLocked(id: UUID, locked: Boolean): Boolean {
+        val updated = layerManager.setLayerLocked(id, locked)
+        if (updated) saveHistoryPoint()
+        return updated
+    }
+
+    fun setLayerOpacity(id: UUID, opacity: Float): Boolean {
+        val updated = layerManager.setLayerOpacity(id, opacity)
+        if (updated) saveHistoryPoint()
+        return updated
+    }
+
+    fun setLayerBlendMode(id: UUID, blendMode: LayerBlendMode): Boolean {
+        val updated = layerManager.setLayerBlendMode(id, blendMode)
+        if (updated) saveHistoryPoint()
+        return updated
     }
 
     fun clearLayers() {
         layerManager.clear()
+        clearLayerSelection()
+        _layerGroups.value = emptyList()
+        saveHistoryPoint()
     }
 
     fun setActiveLayer(id: UUID?) {
         layerManager.setActiveLayer(id)
+    }
+
+    fun toggleLayerSelection(id: UUID) {
+        _selectedLayerIds.value = _selectedLayerIds.value.toMutableSet().apply {
+            if (!add(id)) remove(id)
+        }
+    }
+
+    fun clearLayerSelection() {
+        _selectedLayerIds.value = emptySet()
+    }
+
+    fun selectAllEditableLayers() {
+        _selectedLayerIds.value = layerManager.layers.value
+            .filterNot(::isBackgroundLayer)
+            .mapTo(linkedSetOf()) { it.id }
+    }
+
+    fun isLayerSelected(id: UUID): Boolean = id in _selectedLayerIds.value
+
+    fun getSelectedLayers(): List<Layer> {
+        val selected = _selectedLayerIds.value
+        return layerManager.layers.value.filter { it.id in selected }
+    }
+
+    fun deleteSelectedLayers(): Boolean {
+        val selectedIds = _selectedLayerIds.value.filterNot(::isBackgroundLayer)
+        if (selectedIds.isEmpty()) return false
+        var removed = false
+        selectedIds.forEach { id ->
+            removed = layerManager.removeLayer(id) != null || removed
+        }
+        if (removed) {
+            clearLayerSelection()
+            saveHistoryPoint()
+        }
+        return removed
+    }
+
+    fun setSelectedLayersVisibility(visible: Boolean): Boolean =
+        updateSelectedLayers { setLayerVisibility(it.id, visible) }
+
+    fun setSelectedLayersLocked(locked: Boolean): Boolean =
+        updateSelectedLayers { setLayerLocked(it.id, locked) }
+
+    fun createAdjustmentLayer(
+        name: String = "调整层",
+        targetLayerIds: Set<UUID> = deriveAdjustmentTargets()
+    ): AdjustmentLayer {
+        val layer = AdjustmentLayer(name = name, targetLayerIds = targetLayerIds)
+        layerManager.addLayer(layer, normalizeNonBackgroundInsertIndex(null))
+        saveHistoryPoint()
+        return layer
+    }
+
+    fun updateAdjustmentLayer(layerId: UUID, adjustment: LayerAdjustment): Boolean {
+        val layer = layerManager.getLayerById(layerId) as? AdjustmentLayer ?: return false
+        layer.updateAdjustment(adjustment)
+        saveHistoryPoint()
+        return true
+    }
+
+    fun updateAdjustmentLayerTargets(layerId: UUID, targetLayerIds: Set<UUID>): Boolean {
+        val layer = layerManager.getLayerById(layerId) as? AdjustmentLayer ?: return false
+        layer.updateTargets(targetLayerIds.filterNot(::isBackgroundLayer).toSet())
+        saveHistoryPoint()
+        return true
+    }
+
+    fun createGroupFromSelection(name: String = nextGroupName()): LayerGroup? {
+        val selectedLayers = getSelectedLayers()
+        if (selectedLayers.size < 2) return null
+
+        val group = LayerGroup(name = name)
+        _layerGroups.value = _layerGroups.value + group
+        selectedLayers.forEach { layerManager.setLayerGroup(it.id, group.id) }
+        moveGroupMembersTogether(group.id)
+        saveHistoryPoint()
+        return group
+    }
+
+    fun ungroup(groupId: UUID): Boolean {
+        val members = getGroupLayers(groupId)
+        if (members.isEmpty()) return false
+        members.forEach { layerManager.setLayerGroup(it.id, null) }
+        _layerGroups.value = _layerGroups.value.filterNot { it.id == groupId }
+        saveHistoryPoint()
+        return true
+    }
+
+    fun renameGroup(groupId: UUID, name: String): Boolean {
+        val current = _layerGroups.value.firstOrNull { it.id == groupId } ?: return false
+        if (current.name == name) return false
+        _layerGroups.value = _layerGroups.value.map { if (it.id == groupId) it.copy(name = name) else it }
+        saveHistoryPoint()
+        return true
+    }
+
+    fun getGroup(groupId: UUID?): LayerGroup? {
+        if (groupId == null) return null
+        return _layerGroups.value.firstOrNull { it.id == groupId }
+    }
+
+    fun getGroupLayers(groupId: UUID): List<Layer> =
+        layerManager.layers.value.filter { it.groupId == groupId }
+
+    fun setGroupVisibility(groupId: UUID, visible: Boolean): Boolean =
+        updateLayersWithoutHistory(getGroupLayers(groupId)) {
+            layerManager.setLayerVisibility(it.id, visible)
+        }.also { if (it) saveHistoryPoint() }
+
+    fun setGroupLocked(groupId: UUID, locked: Boolean): Boolean =
+        updateLayersWithoutHistory(getGroupLayers(groupId)) {
+            layerManager.setLayerLocked(it.id, locked)
+        }.also { if (it) saveHistoryPoint() }
+
+    fun moveGroupUp(groupId: UUID): Boolean = moveGroup(groupId, up = true)
+
+    fun moveGroupDown(groupId: UUID): Boolean = moveGroup(groupId, up = false)
+
+    fun setImageLayerMask(layerId: UUID, mask: ImageLayerMask?, recordHistory: Boolean = true): Boolean {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer ?: return false
+        layer.updateTransform(layer.transform.copy(mask = mask))
+        if (recordHistory) saveHistoryPoint()
+        return true
+    }
+
+    fun createCenteredMask(layerId: UUID, shape: ImageLayerMaskShape): Boolean {
+        val layer = layerManager.getLayerById(layerId) as? ImageLayer ?: return false
+        val bitmap = layer.image ?: return false
+        val insetX = bitmap.width * 0.1f
+        val insetY = bitmap.height * 0.1f
+        return setImageLayerMask(
+            layerId,
+            ImageLayerMask(
+                rect = Rect(
+                    left = insetX,
+                    top = insetY,
+                    right = bitmap.width.toFloat() - insetX,
+                    bottom = bitmap.height.toFloat() - insetY
+                ),
+                shape = shape
+            )
+        )
     }
 
     fun ensureActiveShapeLayer(): ShapeLayer {
@@ -215,12 +471,18 @@ class EditorController(
         height: Int,
         density: Density,
         backgroundColor: Color = Color.Transparent,
-        layers: List<Layer> = layerManager.layers.value
+        layers: List<Layer> = layerManager.layers.value,
+        useOriginalShapeCoordinates: Boolean = false
     ): ImageBitmap {
         val bitmap = ImageBitmap(width, height)
         val canvas = Canvas(bitmap)
         val drawScope = CanvasDrawScope()
         val size = Size(width.toFloat(), height.toFloat())
+        val exportLayers = if (useOriginalShapeCoordinates) {
+            layers.map(::cloneLayerWithOriginalShapes)
+        } else {
+            layers
+        }
 
         drawScope.draw(
             density = density,
@@ -235,7 +497,7 @@ class EditorController(
                 }
                 drawContext.canvas.drawRect(rect, paint)
             }
-            layerRenderer.drawAll(this, layers)
+            layerRenderer.drawAll(this, exportLayers)
         }
 
         return bitmap
@@ -255,9 +517,17 @@ class EditorController(
         height: Int,
         density: Density,
         backgroundColor: Color = Color.Transparent,
-        layers: List<Layer> = layerManager.layers.value
+        layers: List<Layer> = layerManager.layers.value,
+        useOriginalShapeCoordinates: Boolean = false
     ): BufferedImage {
-        val bitmap = exportImageBitmap(width, height, density, backgroundColor, layers)
+        val bitmap = exportImageBitmap(
+            width = width,
+            height = height,
+            density = density,
+            backgroundColor = backgroundColor,
+            layers = layers,
+            useOriginalShapeCoordinates = useOriginalShapeCoordinates
+        )
         return bitmap.toAwtImage()
     }
 
@@ -370,13 +640,16 @@ class EditorController(
      * @param layerId 图层ID
      * @param cropRect 裁剪区域（在图像坐标系中，null表示取消裁剪）
      */
-    fun updateImageLayerCrop(layerId: UUID, cropRect: Rect?) {
+    fun updateImageLayerCrop(layerId: UUID, cropRect: Rect?, recordHistory: Boolean = true) {
         val layer = layerManager.getLayerById(layerId) as? ImageLayer
         layer?.let {
             val currentTransform = it.transform
             it.updateTransform(
                 currentTransform.copy(cropRect = cropRect)
             )
+            if (recordHistory) {
+                saveHistoryPoint()
+            }
         }
     }
 
@@ -426,6 +699,7 @@ class EditorController(
      */
     fun updateBackgroundLayer(image: ImageBitmap) {
         specialLayerHelper.updateBackgroundLayer(image)
+        saveHistoryPoint()
     }
     
     /**
@@ -440,7 +714,9 @@ class EditorController(
      * 此方法主要用于清理或重置场景
      */
     fun removeBackgroundLayer(): Boolean {
-        return specialLayerHelper.removeBackgroundLayer()
+        val removed = specialLayerHelper.removeBackgroundLayer()
+        if (removed) saveHistoryPoint()
+        return removed
     }
     
     /**
@@ -454,22 +730,288 @@ class EditorController(
      * 将图层上移一层（防止移动背景层）
      */
     fun moveLayerUp(layerId: UUID): Boolean {
-        if (isBackgroundLayer(layerId)) {
-            logger.warn("尝试移动背景层，操作被阻止")
-            return false
-        }
-        return layerManager.moveLayerUp(layerId)
+        val currentIndex = layerManager.layers.value.indexOfFirst { it.id == layerId }
+        if (currentIndex == -1) return false
+        return moveLayerTo(layerId, currentIndex + 1)
     }
     
     /**
      * 将图层下移一层（防止移动背景层）
      */
     fun moveLayerDown(layerId: UUID): Boolean {
+        val currentIndex = layerManager.layers.value.indexOfFirst { it.id == layerId }
+        if (currentIndex == -1) return false
+        return moveLayerTo(layerId, currentIndex - 1)
+    }
+
+    fun moveLayerTo(layerId: UUID, index: Int): Boolean {
         if (isBackgroundLayer(layerId)) {
             logger.warn("尝试移动背景层，操作被阻止")
             return false
         }
-        return layerManager.moveLayerDown(layerId)
+
+        val currentLayers = layerManager.layers.value
+        val currentIndex = currentLayers.indexOfFirst { it.id == layerId }
+        if (currentIndex == -1) return false
+
+        val minAllowedIndex = if (hasBackgroundLayer()) 1 else 0
+        val targetIndex = index.coerceIn(minAllowedIndex, currentLayers.lastIndex.coerceAtLeast(minAllowedIndex))
+        val moved = layerManager.moveLayerTo(layerId, targetIndex)
+        if (moved) saveHistoryPoint()
+        return moved
+    }
+
+    private fun normalizeNonBackgroundInsertIndex(index: Int?): Int? {
+        val backgroundOffset = if (hasBackgroundLayer()) 1 else 0
+        return index?.coerceAtLeast(backgroundOffset)
+    }
+
+    private inline fun updateSelectedLayers(action: (Layer) -> Boolean): Boolean {
+        val selectedLayers = getSelectedLayers().filterNot(::isBackgroundLayer)
+        if (selectedLayers.isEmpty()) return false
+        val changed = updateLayersWithoutHistory(selectedLayers, action)
+        if (changed) saveHistoryPoint()
+        return changed
+    }
+
+    private inline fun updateLayersWithoutHistory(
+        layers: List<Layer>,
+        action: (Layer) -> Boolean
+    ): Boolean {
+        var changed = false
+        layers.forEach { layer ->
+            changed = action(layer) || changed
+        }
+        return changed
+    }
+
+    private fun deriveAdjustmentTargets(): Set<UUID> {
+        val selectedTargets = getSelectedLayers()
+            .filter { it.type != LayerType.ADJUSTMENT }
+            .map { it.id }
+            .toSet()
+        if (selectedTargets.isNotEmpty()) return selectedTargets
+
+        val activeTarget = layerManager.activeLayer.value
+            ?.takeIf { it.type != LayerType.ADJUSTMENT && !isBackgroundLayer(it) }
+            ?.id
+        return activeTarget?.let(::setOf) ?: emptySet()
+    }
+
+    private fun moveGroupMembersTogether(groupId: UUID) {
+        val currentLayers = layerManager.layers.value
+        val memberIds = currentLayers.filter { it.groupId == groupId }.map { it.id }.toSet()
+        if (memberIds.size < 2) return
+        val insertAfter = currentLayers.indexOfLast { it.id in memberIds }
+        val memberLayers = currentLayers.filter { it.id in memberIds }
+        val remaining = currentLayers.filterNot { it.id in memberIds }.toMutableList()
+        val normalizedInsertIndex = (insertAfter - memberLayers.size + 1).coerceIn(0, remaining.size)
+        remaining.addAll(normalizedInsertIndex, memberLayers)
+        layerManager.replaceLayers(remaining, layerManager.activeLayer.value?.id)
+    }
+
+    private fun moveGroup(groupId: UUID, up: Boolean): Boolean {
+        val currentLayers = layerManager.layers.value
+        val memberIds = currentLayers.filter { it.groupId == groupId }.map { it.id }.toSet()
+        if (memberIds.isEmpty()) return false
+
+        val memberLayers = currentLayers.filter { it.id in memberIds }
+        val remaining = currentLayers.filterNot { it.id in memberIds }.toMutableList()
+        val firstIndex = currentLayers.indexOfFirst { it.id in memberIds }
+        val lastIndex = currentLayers.indexOfLast { it.id in memberIds }
+
+        val insertIndex = if (up) {
+            val nextNonMember = currentLayers.drop(lastIndex + 1).indexOfFirst { it.id !in memberIds }
+            if (nextNonMember == -1) return false
+            val absolute = lastIndex + 1 + nextNonMember
+            remaining.indexOfFirst { it.id == currentLayers[absolute].id } + 1
+        } else {
+            val previousNonMember = currentLayers.take(firstIndex).indexOfLast { it.id !in memberIds }
+            if (previousNonMember == -1) return false
+            remaining.indexOfFirst { it.id == currentLayers[previousNonMember].id }
+        }
+
+        remaining.addAll(insertIndex.coerceIn(0, remaining.size), memberLayers)
+        layerManager.replaceLayers(remaining, layerManager.activeLayer.value?.id)
+        saveHistoryPoint()
+        return true
+    }
+
+    private fun pruneEmptyGroups() {
+        val currentGroupIds = layerManager.layers.value.mapNotNull { it.groupId }.toSet()
+        if (_layerGroups.value.any { it.id !in currentGroupIds }) {
+            _layerGroups.value = _layerGroups.value.filter { it.id in currentGroupIds }
+        }
+    }
+
+    private fun nextGroupName(): String = "图层组 ${_layerGroups.value.size + 1}"
+
+    private fun captureSnapshot(): EditorSnapshot {
+        return EditorSnapshot(
+            layers = layerManager.layers.value.map(::captureLayerSnapshot),
+            groups = _layerGroups.value,
+            activeLayerId = layerManager.activeLayer.value?.id
+        )
+    }
+
+    private fun cloneLayerWithOriginalShapes(layer: Layer): Layer = when (layer) {
+        is ShapeLayer -> ShapeLayer(
+            name = layer.name,
+            blendMode = layer.blendMode,
+            groupId = layer.groupId,
+            id = layer.id,
+            visible = layer.visible,
+            opacity = layer.opacity,
+            locked = layer.locked
+        ).apply {
+            replaceAll(
+                displayLines = layer.originalLines.toMap(),
+                originalLines = layer.originalLines.toMap(),
+                displayCircles = layer.originalCircles.toMap(),
+                originalCircles = layer.originalCircles.toMap(),
+                displayTriangles = layer.originalTriangles.toMap(),
+                originalTriangles = layer.originalTriangles.toMap(),
+                displayRectangles = layer.originalRectangles.toMap(),
+                originalRectangles = layer.originalRectangles.toMap(),
+                displayPolygons = layer.originalPolygons.toMap(),
+                originalPolygons = layer.originalPolygons.toMap(),
+                displayTexts = layer.originalTexts.toMap(),
+                originalTexts = layer.originalTexts.toMap()
+            )
+        }
+        else -> layer
+    }
+
+    private fun captureLayerSnapshot(layer: Layer): LayerSnapshot = when (layer) {
+        is ImageLayer -> LayerSnapshot.Image(
+            id = layer.id,
+            name = layer.name,
+            visible = layer.visible,
+            opacity = layer.opacity,
+            locked = layer.locked,
+            blendMode = layer.blendMode,
+            groupId = layer.groupId,
+            image = layer.image,
+            transform = layer.transform
+        )
+        is ShapeLayer -> LayerSnapshot.Shape(
+            id = layer.id,
+            name = layer.name,
+            visible = layer.visible,
+            opacity = layer.opacity,
+            locked = layer.locked,
+            blendMode = layer.blendMode,
+            groupId = layer.groupId,
+            snapshot = layer.snapshot()
+        )
+        is AdjustmentLayer -> LayerSnapshot.Adjustment(
+            id = layer.id,
+            name = layer.name,
+            visible = layer.visible,
+            opacity = layer.opacity,
+            locked = layer.locked,
+            blendMode = layer.blendMode,
+            groupId = layer.groupId,
+            adjustment = layer.adjustment,
+            targetLayerIds = layer.targetLayerIds
+        )
+        else -> error("Unsupported layer type: ${layer::class.qualifiedName}")
+    }
+
+    private fun restoreSnapshot(snapshot: EditorSnapshot) {
+        val restoredLayers = snapshot.layers.map { saved ->
+            when (saved) {
+                is LayerSnapshot.Image -> ImageLayer(
+                    id = saved.id,
+                    name = saved.name,
+                    image = saved.image,
+                    transform = saved.transform,
+                    visible = saved.visible,
+                    opacity = saved.opacity,
+                    locked = saved.locked
+                    ,
+                    blendMode = saved.blendMode,
+                    groupId = saved.groupId
+                )
+                is LayerSnapshot.Shape -> ShapeLayer(
+                    name = saved.name,
+                    id = saved.id,
+                    visible = saved.visible,
+                    opacity = saved.opacity,
+                    locked = saved.locked,
+                    blendMode = saved.blendMode,
+                    groupId = saved.groupId
+                ).apply {
+                    restore(saved.snapshot)
+                }
+                is LayerSnapshot.Adjustment -> AdjustmentLayer(
+                    name = saved.name,
+                    id = saved.id,
+                    visible = saved.visible,
+                    opacity = saved.opacity,
+                    locked = saved.locked,
+                    blendMode = saved.blendMode,
+                    groupId = saved.groupId,
+                    adjustment = saved.adjustment,
+                    targetLayerIds = saved.targetLayerIds
+                )
+            }
+        }
+        _layerGroups.value = snapshot.groups
+        clearLayerSelection()
+        layerManager.replaceLayers(restoredLayers, snapshot.activeLayerId)
+        pruneEmptyGroups()
+    }
+
+    private data class EditorSnapshot(
+        val layers: List<LayerSnapshot>,
+        val groups: List<LayerGroup>,
+        val activeLayerId: UUID?
+    )
+
+    private sealed interface LayerSnapshot {
+        val id: UUID
+        val name: String
+        val visible: Boolean
+        val opacity: Float
+        val locked: Boolean
+        val blendMode: LayerBlendMode
+        val groupId: UUID?
+
+        data class Image(
+            override val id: UUID,
+            override val name: String,
+            override val visible: Boolean,
+            override val opacity: Float,
+            override val locked: Boolean,
+            override val blendMode: LayerBlendMode,
+            override val groupId: UUID?,
+            val image: ImageBitmap?,
+            val transform: LayerTransform
+        ) : LayerSnapshot
+
+        data class Shape(
+            override val id: UUID,
+            override val name: String,
+            override val visible: Boolean,
+            override val opacity: Float,
+            override val locked: Boolean,
+            override val blendMode: LayerBlendMode,
+            override val groupId: UUID?,
+            val snapshot: ShapeLayerSnapshot
+        ) : LayerSnapshot
+
+        data class Adjustment(
+            override val id: UUID,
+            override val name: String,
+            override val visible: Boolean,
+            override val opacity: Float,
+            override val locked: Boolean,
+            override val blendMode: LayerBlendMode,
+            override val groupId: UUID?,
+            val adjustment: LayerAdjustment,
+            val targetLayerIds: Set<UUID>
+        ) : LayerSnapshot
     }
 }
 

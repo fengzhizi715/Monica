@@ -1,6 +1,7 @@
 package cn.netdiscovery.monica.ui.controlpanel.shapedrawing
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.focusable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -9,18 +10,32 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toComposeImageBitmap
+import androidx.compose.ui.input.key.Key
+import androidx.compose.ui.input.key.KeyEvent
+import androidx.compose.ui.input.key.KeyEventType
+import androidx.compose.ui.input.key.isCtrlPressed
+import androidx.compose.ui.input.key.isMetaPressed
+import androidx.compose.ui.input.key.isShiftPressed
+import androidx.compose.ui.input.key.key
+import androidx.compose.ui.input.key.onPreviewKeyEvent
+import androidx.compose.ui.input.key.type
 import androidx.compose.ui.input.pointer.PointerButton
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.material.MaterialTheme
+import androidx.compose.material.AlertDialog
+import androidx.compose.material.TextButton
 import cn.netdiscovery.monica.state.ApplicationState
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ImageLayer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.ShapeLayer
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.animation.ShapeAnimationManager
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.coordinate.CoordinateConverter
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.handler.ShapeDrawingEventHandler
@@ -34,6 +49,7 @@ import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.LayerPanel
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ControlPoint
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ControlPointType
 import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ImageLayerControlRenderer
+import cn.netdiscovery.monica.ui.controlpanel.shapedrawing.widget.ShapeInteractionHelper
 import cn.netdiscovery.monica.ui.widget.color.ColorSelectionDialog
 import cn.netdiscovery.monica.ui.widget.image.gesture.detectTransformGestures
 import cn.netdiscovery.monica.ui.widget.image.gesture.dragMotionEvent
@@ -61,6 +77,7 @@ fun shapeDrawing(state: ApplicationState) {
     val density = LocalDensity.current
     val i18nState = getCurrentStringResource()
     val editorController = remember { EditorController() }
+    val focusRequester = remember { FocusRequester() }
 
     val drawingState = remember { ShapeDrawingState() }
     val animationManager = remember { ShapeAnimationManager() }
@@ -85,6 +102,8 @@ fun shapeDrawing(state: ApplicationState) {
     var showColorDialog by remember { mutableStateOf(false) }
     var showPropertiesDialog by remember { mutableStateOf(false) }
     var showDraggableTextField by remember { mutableStateOf(false) }
+    var showSaveDialog by remember { mutableStateOf(false) }
+    var cropMode by remember { mutableStateOf(false) }
 
     val imageBitmap = state.currentImage?.toComposeImageBitmap() ?: run {
         logger.error("当前图像为空，无法进行绘制")
@@ -108,6 +127,134 @@ fun shapeDrawing(state: ApplicationState) {
         )
     }
 
+    fun restoreDrawingStateFromLayers() {
+        val shapeLayer = editorController.layerManager.layers.value.firstOrNull { it is ShapeLayer } as? ShapeLayer
+        if (shapeLayer != null) {
+            drawingState.replaceAllShapes(
+                displayLines = shapeLayer.displayLines,
+                originalLines = shapeLayer.originalLines,
+                displayCircles = shapeLayer.displayCircles,
+                originalCircles = shapeLayer.originalCircles,
+                displayTriangles = shapeLayer.displayTriangles,
+                originalTriangles = shapeLayer.originalTriangles,
+                displayRectangles = shapeLayer.displayRectangles,
+                originalRectangles = shapeLayer.originalRectangles,
+                displayPolygons = shapeLayer.displayPolygons,
+                originalPolygons = shapeLayer.originalPolygons,
+                displayTexts = shapeLayer.displayTexts,
+                originalTexts = shapeLayer.originalTexts
+            )
+        } else {
+            drawingState.clearAllShapes()
+        }
+        animationManager.clearAllAnimations()
+    }
+
+    fun performUndo() {
+        cropMode = false
+        if (editorController.undo()) {
+            restoreDrawingStateFromLayers()
+        } else {
+            state.showTray("没有可撤销的操作", "提示")
+        }
+    }
+
+    fun performRedo() {
+        cropMode = false
+        if (editorController.redo()) {
+            restoreDrawingStateFromLayers()
+        } else {
+            state.showTray("没有可重做的操作", "提示")
+        }
+    }
+
+    fun deleteActiveLayer() {
+        if (editorController.selectedLayerIds.value.isNotEmpty()) {
+            if (!editorController.deleteSelectedLayers()) {
+                state.showTray("当前没有可删除的选中图层", "提示")
+            }
+            return
+        }
+        val layer = activeLayer ?: return
+        if (editorController.isBackgroundLayer(layer)) {
+            state.showTray("无法删除背景图层", "提示")
+            return
+        }
+        cropMode = false
+        editorController.removeLayer(layer.id)
+    }
+
+    fun toggleActiveLayerLock() {
+        val layer = activeLayer ?: return
+        if (editorController.isBackgroundLayer(layer)) {
+            state.showTray("背景图层不支持锁定切换", "提示")
+            return
+        }
+        editorController.setLayerLocked(layer.id, !layer.locked)
+    }
+
+    fun moveActiveLayer(offset: Int) {
+        val layer = activeLayer ?: return
+        cropMode = false
+        if (offset > 0) {
+            editorController.moveLayerUp(layer.id)
+        } else {
+            editorController.moveLayerDown(layer.id)
+        }
+    }
+
+    fun handleShortcut(event: KeyEvent): Boolean {
+        if (event.type != KeyEventType.KeyDown) return false
+
+        val commandPressed = event.isMetaPressed || event.isCtrlPressed
+
+        return when {
+            commandPressed && event.key == Key.Z && event.isShiftPressed -> {
+                performRedo()
+                true
+            }
+            commandPressed && event.key == Key.Z -> {
+                performUndo()
+                true
+            }
+            commandPressed && event.key == Key.Y -> {
+                performRedo()
+                true
+            }
+            commandPressed && event.key == Key.L -> {
+                toggleActiveLayerLock()
+                true
+            }
+            commandPressed && event.key == Key.A -> {
+                editorController.selectAllEditableLayers()
+                true
+            }
+            commandPressed && event.key == Key.Escape -> {
+                editorController.clearLayerSelection()
+                true
+            }
+            commandPressed && event.key == Key.G -> {
+                if (editorController.createGroupFromSelection() == null) {
+                    state.showTray("请先至少选中 2 个图层", "提示")
+                }
+                true
+            }
+            commandPressed && event.isShiftPressed && event.key == Key.DirectionUp -> {
+                moveActiveLayer(1)
+                true
+            }
+            commandPressed && event.isShiftPressed && event.key == Key.DirectionDown -> {
+                moveActiveLayer(-1)
+                true
+            }
+            event.key == Key.Delete || event.key == Key.Backspace -> {
+                deleteActiveLayer()
+                true
+            }
+            else -> false
+        }
+    }
+
     LaunchedEffect(imageBitmap) {
         // 使用 EditorController 的统一方法管理背景层
         editorController.updateBackgroundLayer(imageBitmap)
@@ -117,6 +264,8 @@ fun shapeDrawing(state: ApplicationState) {
         editorController.ensureActiveShapeLayer()
         editorController.selectTool(EditorTool.SHAPE)
         syncShapeLayer()
+        editorController.saveHistoryPoint()
+        focusRequester.requestFocus()
     }
 
     val (width, height) = ImageSizeCalculator.calculateImageSize(state)
@@ -142,6 +291,9 @@ fun shapeDrawing(state: ApplicationState) {
     Box(
         modifier = Modifier
             .fillMaxSize()
+            .focusRequester(focusRequester)
+            .focusable()
+            .onPreviewKeyEvent(::handleShortcut)
             .background(
                 brush = Brush.verticalGradient(
                     colors = listOf(
@@ -183,6 +335,7 @@ fun shapeDrawing(state: ApplicationState) {
                     var activeControlPoint by remember { mutableStateOf<ControlPoint?>(null) }
                     var controlPointDragStart by remember { mutableStateOf<Offset?>(null) }
                     var initialTransform by remember { mutableStateOf<cn.netdiscovery.monica.ui.controlpanel.shapedrawing.layer.LayerTransform?>(null) }
+                    var shapeDragLastPosition by remember { mutableStateOf<Offset?>(null) }
                     
                     val canvasModifier = Modifier
                         .width(width)
@@ -196,7 +349,8 @@ fun shapeDrawing(state: ApplicationState) {
                             val canvasWidth = with(density) { width.toPx() }
                             val canvasHeight = with(density) { height.toPx() }
                             if (activeImageLayer != null && !activeImageLayer.locked && 
-                                !editorController.isBackgroundLayer(activeImageLayer)) {
+                                !editorController.isBackgroundLayer(activeImageLayer) &&
+                                !cropMode) {
                                 detectTransformGestures(
                                     panZoomLock = true, // 锁定平移和缩放，只允许旋转
                                     onGesture = { centroid, pan, zoom, rotation, mainPointer, _ ->
@@ -245,10 +399,14 @@ fun shapeDrawing(state: ApplicationState) {
                                         pointerInputChange.position,
                                         activeImageLayer,
                                         canvasWidth,
-                                        canvasHeight
+                                        canvasHeight,
+                                        cropMode = cropMode
                                     )
                                     
                                     if (hitControlPoint != null) {
+                                        if (cropMode && !ImageLayerControlRenderer.isCropControlPoint(hitControlPoint.type)) {
+                                            return@dragMotionEvent
+                                        }
                                         // 开始拖动控制点
                                         activeControlPoint = hitControlPoint
                                         controlPointDragStart = pointerInputChange.position
@@ -259,7 +417,7 @@ fun shapeDrawing(state: ApplicationState) {
                                 }
                                 
                                 // 如果激活图层是图像层且未锁定，则直接拖动图像层
-                                if (activeImageLayer != null && !activeImageLayer.locked) {
+                                if (activeImageLayer != null && !activeImageLayer.locked && !cropMode) {
                                     imageLayerDragStart = pointerInputChange.position
                                     imageLayerStartTranslation = activeImageLayer.transform.translation
                                     pointerInputChange.consume()
@@ -272,6 +430,14 @@ fun shapeDrawing(state: ApplicationState) {
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
                                 }
+                                val hitShape = ShapeInteractionHelper.findShapeAt(drawingState, pointerInputChange.position)
+                                if (hitShape != null) {
+                                    drawingState.selectExistingShape(hitShape.key, hitShape.type)
+                                    shapeDragLastPosition = pointerInputChange.position
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+                                drawingState.clearSelectedShape()
                                 eventHandler.handleMouseDown(pointerInputChange.position)
                                 pointerInputChange.consume()
                             },
@@ -368,7 +534,24 @@ fun shapeDrawing(state: ApplicationState) {
                                         ControlPointType.CROP_BOTTOM,
                                         ControlPointType.CROP_LEFT,
                                         ControlPointType.CROP_RIGHT -> {
-                                            // TODO: 实现裁剪控制点的拖动逻辑
+                                            val canvasWidth = with(density) { width.toPx() }
+                                            val canvasHeight = with(density) { height.toPx() }
+                                            val backgroundSize = editorController.getBackgroundSize()
+                                            val updatedCropRect = ImageLayerControlRenderer.updateCropRectFromControlPoint(
+                                                layer = activeImageLayer,
+                                                controlPointType = controlPoint.type,
+                                                canvasPoint = currentPos,
+                                                canvasWidth = canvasWidth,
+                                                canvasHeight = canvasHeight,
+                                                backgroundSize = backgroundSize
+                                            )
+                                            if (updatedCropRect != null) {
+                                                editorController.updateImageLayerCrop(
+                                                    activeImageLayer.id,
+                                                    updatedCropRect,
+                                                    recordHistory = false
+                                                )
+                                            }
                                         }
                                     }
                                     
@@ -387,6 +570,18 @@ fun shapeDrawing(state: ApplicationState) {
                                         canvasWidth,
                                         canvasHeight
                                     )
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+
+                                if (shapeDragLastPosition != null) {
+                                    val previousPosition = shapeDragLastPosition ?: pointerInputChange.position
+                                    val displayDelta = pointerInputChange.position - previousPosition
+                                    val originalDelta = coordinateConverter.displayDeltaToOriginal(displayDelta)
+                                    if (drawingState.moveSelectedShape(displayDelta, originalDelta)) {
+                                        syncShapeLayer()
+                                    }
+                                    shapeDragLastPosition = pointerInputChange.position
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
                                 }
@@ -418,6 +613,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     activeControlPoint = null
                                     controlPointDragStart = null
                                     initialTransform = null
+                                    editorController.saveHistoryPoint()
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
                                 }
@@ -425,6 +621,15 @@ fun shapeDrawing(state: ApplicationState) {
                                 // 如果正在拖动图像层，结束拖动
                                 if (activeImageLayer != null && imageLayerDragStart != null) {
                                     imageLayerDragStart = null
+                                    editorController.saveHistoryPoint()
+                                    pointerInputChange.consume()
+                                    return@dragMotionEvent
+                                }
+
+                                if (shapeDragLastPosition != null) {
+                                    shapeDragLastPosition = null
+                                    syncShapeLayer()
+                                    editorController.saveHistoryPoint()
                                     pointerInputChange.consume()
                                     return@dragMotionEvent
                                 }
@@ -448,6 +653,7 @@ fun shapeDrawing(state: ApplicationState) {
                                     animationManager.addAnimatedShape(shapeType, key)
                                 }
                                 syncShapeLayer()
+                                editorController.saveHistoryPoint()
                                 pointerInputChange.consume()
                             }
                         )
@@ -456,7 +662,11 @@ fun shapeDrawing(state: ApplicationState) {
                         editorController = editorController,
                         drawingState = drawingState,
                         animationManager = animationManager,
-                        modifier = canvasModifier
+                        modifier = canvasModifier,
+                        cropMode = cropMode,
+                        overlay = {
+                            ShapeInteractionHelper.drawSelection(this, drawingState)
+                        }
                     )
                 }
                 
@@ -525,6 +735,25 @@ fun shapeDrawing(state: ApplicationState) {
                 onClick = { showPropertiesDialog = true }
             )
 
+            toolTipButton(
+                text = if (cropMode) "退出裁剪" else "裁剪图层",
+                painter = painterResource("images/controlpanel/crop.png"),
+                onClick = {
+                    val activeImageLayer = activeLayer as? ImageLayer
+                    if (activeImageLayer == null || editorController.isBackgroundLayer(activeImageLayer)) {
+                        state.showTray("请先选中一个可编辑的图像层", "提示")
+                        return@toolTipButton
+                    }
+                    if (cropMode) {
+                        cropMode = false
+                        editorController.saveHistoryPoint()
+                    } else {
+                        ImageLayerControlRenderer.initializeCropRect(activeImageLayer)
+                        cropMode = true
+                    }
+                }
+            )
+
             ShapeSelectionButtons(drawingState)
 
             toolTipButton(
@@ -534,12 +763,26 @@ fun shapeDrawing(state: ApplicationState) {
             )
 
             toolTipButton(
+                text = "撤销",
+                painter = painterResource("images/doodle/previous_step.png"),
+                onClick = ::performUndo
+            )
+
+            toolTipButton(
+                text = "重做",
+                painter = painterResource("images/doodle/revoke.png"),
+                onClick = ::performRedo
+            )
+
+            toolTipButton(
                 text = i18nState.get("clear"),
                 painter = painterResource("images/doodle/clear.png"),
                 onClick = {
+                    cropMode = false
                     drawingState.clearAllShapes()
                     animationManager.clearAllAnimations()
                     syncShapeLayer()
+                    editorController.saveHistoryPoint()
                 }
             )
 
@@ -547,27 +790,7 @@ fun shapeDrawing(state: ApplicationState) {
                 text = i18nState.get("save"),
                 painter = painterResource("images/doodle/save.png"),
                 onClick = {
-                    // 使用显示尺寸而不是原始像素尺寸，确保导出和显示一致
-                    // 注意：Canvas 有 padding(8.dp)，所以实际绘制区域需要减去 padding
-                    val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
-                    val current = state.currentImage
-                    if (displaySize == null || current == null) {
-                        logger.warn("当前无法导出：缺少有效图像")
-                        return@toolTipButton
-                    }
-                    // 计算减去 padding 后的实际绘制区域尺寸（Canvas 内部 drawScope.size）
-                    val paddingPx = with(density) { (8.dp * 2).toPx() } // 左右各 8.dp，上下各 8.dp
-                    val actualCanvasWidth = (displaySize.first - paddingPx).toInt().coerceAtLeast(1)
-                    val actualCanvasHeight = (displaySize.second - paddingPx).toInt().coerceAtLeast(1)
-                    
-                    val flattened = editorController.exportBufferedImage(
-                        width = actualCanvasWidth,
-                        height = actualCanvasHeight,
-                        density = density
-                    )
-                    state.addQueue(current)
-                    state.currentImage = flattened
-                    state.closePreviewWindow()
+                    showSaveDialog = true
                 }
             )
         }
@@ -592,6 +815,73 @@ fun shapeDrawing(state: ApplicationState) {
                 logger.info("属性已更新: fontSize=${updatedProperties.fontSize}, alpha=${updatedProperties.alpha} (仅影响新绘制的形状)")
                 showPropertiesDialog = false
             }
+        }
+
+        if (showSaveDialog) {
+            AlertDialog(
+                onDismissRequest = { showSaveDialog = false },
+                title = { androidx.compose.material.Text("导出方式") },
+                text = {
+                    androidx.compose.material.Text("选择导出当前显示尺寸，或导出原始图片分辨率。原始分辨率导出会优先使用形状的原始坐标。")
+                },
+                confirmButton = {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        TextButton(
+                            onClick = {
+                                val displaySize = ImageSizeCalculator.getImageDisplayPixelSize(state, density.density)
+                                val current = state.currentImage
+                                if (displaySize != null && current != null) {
+                                    cropMode = false
+                                    val paddingPx = with(density) { (8.dp * 2).toPx() }
+                                    val actualCanvasWidth = (displaySize.first - paddingPx).toInt().coerceAtLeast(1)
+                                    val actualCanvasHeight = (displaySize.second - paddingPx).toInt().coerceAtLeast(1)
+                                    val flattened = editorController.exportBufferedImage(
+                                        width = actualCanvasWidth,
+                                        height = actualCanvasHeight,
+                                        density = density
+                                    )
+                                    state.addQueue(current)
+                                    state.currentImage = flattened
+                                    state.closePreviewWindow()
+                                } else {
+                                    logger.warn("当前无法导出显示尺寸：缺少有效图像")
+                                }
+                                showSaveDialog = false
+                            }
+                        ) {
+                            androidx.compose.material.Text("显示尺寸")
+                        }
+                        TextButton(
+                            onClick = {
+                                val pixelSize = ImageSizeCalculator.getImagePixelSize(state)
+                                val current = state.currentImage
+                                if (pixelSize != null && current != null) {
+                                    cropMode = false
+                                    val flattened = editorController.exportBufferedImage(
+                                        width = pixelSize.first,
+                                        height = pixelSize.second,
+                                        density = density,
+                                        useOriginalShapeCoordinates = true
+                                    )
+                                    state.addQueue(current)
+                                    state.currentImage = flattened
+                                    state.closePreviewWindow()
+                                } else {
+                                    logger.warn("当前无法导出原始尺寸：缺少有效图像")
+                                }
+                                showSaveDialog = false
+                            }
+                        ) {
+                            androidx.compose.material.Text("原始尺寸")
+                        }
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showSaveDialog = false }) {
+                        androidx.compose.material.Text("取消")
+                    }
+                }
+            )
         }
     }
 }

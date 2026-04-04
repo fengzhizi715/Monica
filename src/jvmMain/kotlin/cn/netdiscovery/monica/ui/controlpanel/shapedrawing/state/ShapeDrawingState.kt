@@ -99,6 +99,10 @@ class ShapeDrawingState {
         private set
     var lastDrawnShapeType by mutableStateOf<String?>(null)
         private set
+    var selectedShapeKey by mutableStateOf<Offset?>(null)
+        private set
+    var selectedShapeType by mutableStateOf<String?>(null)
+        private set
     
     /**
      * 设置当前形状类型
@@ -200,6 +204,18 @@ class ShapeDrawingState {
     fun recordLastDrawnShape(key: Offset, type: String) {
         lastDrawnShapeKey = key
         lastDrawnShapeType = type
+        selectedShapeKey = key
+        selectedShapeType = type
+    }
+
+    fun selectExistingShape(key: Offset, type: String) {
+        selectedShapeKey = key
+        selectedShapeType = type
+    }
+
+    fun clearSelectedShape() {
+        selectedShapeKey = null
+        selectedShapeType = null
     }
     
     /**
@@ -231,10 +247,6 @@ class ShapeDrawingState {
         
         currentText = ""
         
-        // 重置最后一个形状的跟踪
-        lastDrawnShapeKey = null
-        lastDrawnShapeType = null
-        
         // 保持颜色设置
         currentShapeProperty = currentShapeProperty.copy(color = currentColor)
     }
@@ -263,6 +275,7 @@ class ShapeDrawingState {
         // 重置最后一个形状的跟踪
         lastDrawnShapeKey = null
         lastDrawnShapeType = null
+        clearSelectedShape()
     }
     
     /**
@@ -295,5 +308,172 @@ class ShapeDrawingState {
                 originalTexts[key] = originalShape as Text
             }
         }
+    }
+
+    fun replaceAllShapes(
+        displayLines: Map<Offset, Line>,
+        originalLines: Map<Offset, Line>,
+        displayCircles: Map<Offset, Circle>,
+        originalCircles: Map<Offset, Circle>,
+        displayTriangles: Map<Offset, Triangle>,
+        originalTriangles: Map<Offset, Triangle>,
+        displayRectangles: Map<Offset, Rectangle>,
+        originalRectangles: Map<Offset, Rectangle>,
+        displayPolygons: Map<Offset, Polygon>,
+        originalPolygons: Map<Offset, Polygon>,
+        displayTexts: Map<Offset, Text>,
+        originalTexts: Map<Offset, Text>
+    ) {
+        this.displayLines.clear()
+        this.displayLines.putAll(displayLines)
+        this.originalLines.clear()
+        this.originalLines.putAll(originalLines)
+
+        this.displayCircles.clear()
+        this.displayCircles.putAll(displayCircles)
+        this.originalCircles.clear()
+        this.originalCircles.putAll(originalCircles)
+
+        this.displayTriangles.clear()
+        this.displayTriangles.putAll(displayTriangles)
+        this.originalTriangles.clear()
+        this.originalTriangles.putAll(originalTriangles)
+
+        this.displayRectangles.clear()
+        this.displayRectangles.putAll(displayRectangles)
+        this.originalRectangles.clear()
+        this.originalRectangles.putAll(originalRectangles)
+
+        this.displayPolygons.clear()
+        this.displayPolygons.putAll(displayPolygons)
+        this.originalPolygons.clear()
+        this.originalPolygons.putAll(originalPolygons)
+
+        this.displayTexts.clear()
+        this.displayTexts.putAll(displayTexts)
+        this.originalTexts.clear()
+        this.originalTexts.putAll(originalTexts)
+
+        clearCurrentDrawingState()
+        clearSelectedShape()
+    }
+
+    fun moveSelectedShape(displayDelta: Offset, originalDelta: Offset): Boolean {
+        val key = selectedShapeKey ?: return false
+        val type = selectedShapeType ?: return false
+
+        return when (type) {
+            "Line" -> moveLine(key, displayDelta, originalDelta)
+            "Circle" -> moveCircle(key, displayDelta, originalDelta)
+            "Triangle" -> moveTriangle(key, displayDelta, originalDelta)
+            "Rectangle" -> moveRectangle(key, displayDelta, originalDelta)
+            "Polygon" -> movePolygon(key, displayDelta, originalDelta)
+            "Text" -> moveText(key, displayDelta, originalDelta)
+            else -> false
+        }
+    }
+
+    private fun moveLine(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayLines.remove(key) ?: return false
+        val original = originalLines.remove(key) ?: return false
+        val movedDisplay = display.copy(from = display.from + displayDelta, to = display.to + displayDelta)
+        val movedOriginal = original.copy(from = original.from + originalDelta, to = original.to + originalDelta)
+        val newKey = movedDisplay.from
+        displayLines[newKey] = movedDisplay
+        originalLines[newKey] = movedOriginal
+        selectExistingShape(newKey, "Line")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Line"
+        return true
+    }
+
+    private fun moveCircle(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayCircles.remove(key) ?: return false
+        val original = originalCircles.remove(key) ?: return false
+        val movedDisplay = display.copy(center = display.center + displayDelta)
+        val movedOriginal = original.copy(center = original.center + originalDelta)
+        val newKey = movedDisplay.center
+        displayCircles[newKey] = movedDisplay
+        originalCircles[newKey] = movedOriginal
+        selectExistingShape(newKey, "Circle")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Circle"
+        return true
+    }
+
+    private fun moveTriangle(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayTriangles.remove(key) ?: return false
+        val original = originalTriangles.remove(key) ?: return false
+        val movedDisplay = display.copy(
+            first = display.first + displayDelta,
+            second = display.second?.plus(displayDelta),
+            third = display.third?.plus(displayDelta)
+        )
+        val movedOriginal = original.copy(
+            first = original.first + originalDelta,
+            second = original.second?.plus(originalDelta),
+            third = original.third?.plus(originalDelta)
+        )
+        val newKey = movedDisplay.first
+        displayTriangles[newKey] = movedDisplay
+        originalTriangles[newKey] = movedOriginal
+        selectExistingShape(newKey, "Triangle")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Triangle"
+        return true
+    }
+
+    private fun moveRectangle(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayRectangles.remove(key) ?: return false
+        val original = originalRectangles.remove(key) ?: return false
+        val movedDisplay = display.copy(
+            tl = display.tl + displayDelta,
+            bl = display.bl + displayDelta,
+            br = display.br + displayDelta,
+            tr = display.tr + displayDelta,
+            rectFirst = display.rectFirst + displayDelta
+        )
+        val movedOriginal = original.copy(
+            tl = original.tl + originalDelta,
+            bl = original.bl + originalDelta,
+            br = original.br + originalDelta,
+            tr = original.tr + originalDelta,
+            rectFirst = original.rectFirst + originalDelta
+        )
+        val newKey = movedDisplay.rectFirst
+        displayRectangles[newKey] = movedDisplay
+        originalRectangles[newKey] = movedOriginal
+        selectExistingShape(newKey, "Rectangle")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Rectangle"
+        return true
+    }
+
+    private fun movePolygon(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayPolygons.remove(key) ?: return false
+        val original = originalPolygons.remove(key) ?: return false
+        val movedDisplay = display.copy(points = display.points.map { it + displayDelta })
+        val movedOriginal = original.copy(points = original.points.map { it + originalDelta })
+        val newKey = movedDisplay.points.firstOrNull() ?: return false
+        displayPolygons[newKey] = movedDisplay
+        originalPolygons[newKey] = movedOriginal
+        selectExistingShape(newKey, "Polygon")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Polygon"
+        return true
+    }
+
+    private fun moveText(key: Offset, displayDelta: Offset, originalDelta: Offset): Boolean {
+        val display = displayTexts.remove(key) ?: return false
+        val original = originalTexts.remove(key) ?: return false
+        val movedDisplay = display.copy(point = display.point + displayDelta)
+        val movedOriginal = original.copy(point = original.point + originalDelta)
+        val newKey = movedDisplay.point
+        displayTexts[newKey] = movedDisplay
+        originalTexts[newKey] = movedOriginal
+        selectExistingShape(newKey, "Text")
+        lastDrawnShapeKey = newKey
+        lastDrawnShapeType = "Text"
+        return true
     }
 }
